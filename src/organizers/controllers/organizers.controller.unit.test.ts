@@ -1,0 +1,190 @@
+import express from 'express';
+import { mock, instance, when, verify, anything, capture } from 'ts-mockito';
+import { OrganizersService } from '../services/organizers.service';
+import { DateUtil } from '../../utils/DateUtil';
+import { OrganizersController } from './organizers.controller';
+
+beforeEach(() => {
+	jest.clearAllMocks();
+});
+
+let dummyOrganizers = [
+	{ _id: "1", name: "Organizer 1" },
+	{ _id: "2", name: "Organizer 2" },
+	{ _id: "3", name: "Organizer 3" },
+]
+
+let newOrganizer = { name: "Name", description: "Beschreibung" };
+
+describe('listOrganizers is being tested', () => {
+	test('organizers available organizers as a document with code 200', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
+
+		await controller.listOrganizers(req, res);
+
+		verify(firstMockedResponse.status(200)).called();
+	});
+
+	test('organizers response is well structured', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
+
+		await controller.listOrganizers(req, res);
+
+		expectResponseSendIsEqual(secondMockedResponse, {
+			organizers: [
+				{ _id: '1', name: 'Organizer 1' },
+				{ _id: '2', name: 'Organizer 2' },
+				{ _id: '3', name: 'Organizer 3' }
+			]
+		});
+
+	})
+});
+
+describe('getOrganizerById is being tested', () => {
+	test('organizer available organizers as a document with code 200', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, { "id": "1" });
+
+		await controller.getOrganizerById(req, res);
+
+		verify(firstMockedResponse.status(200)).called();
+	});
+
+	test('organizer response is well structured', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, { "id": "1" });
+
+		await controller.getOrganizerById(req, res);
+
+		expectResponseSendIsEqual(secondMockedResponse, {
+			organizer:
+				{ _id: '1', name: 'Organizer 1' }
+		});
+	})
+});
+
+describe('createOrganizer is being tested', () => {
+	test('if an organizer is successfully created, status 201 is returned', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newOrganizer);
+
+		await controller.createOrganizer(req, res);
+
+		verify(firstMockedResponse.status(201)).called();
+	});
+
+	test('if an organizer is successfully created, a new ID is returned', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newOrganizer);
+
+		await controller.createOrganizer(req, res);
+
+		expectResponseSendIsEqual(secondMockedResponse, { "id": "NewId" });
+	});
+
+	test('if an organizer is successfully created, created and updated time is set', async () => {
+		let controller = generateMockController();
+		let body = { created: undefined, updated: undefined}; 
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, body);
+
+		await controller.createOrganizer(req, res);
+
+		expect(body.created).toBe("NOW");
+		expect(body.updated).toBe("NOW");
+	});
+});
+
+describe('patch is being tested', () => {
+	test('if an organizer is successfully patched, status 204 is returned', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer);
+
+		await controller.patch(req, res);
+
+		verify(firstMockedResponse.status(204)).called();
+	});
+
+
+	test('if an organizer is successfully patched, updated time is set', async () => {
+		let controller = generateMockController();
+		let body = { created: "CREATE_TIME", updated: undefined}; 
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, body);
+
+		await controller.patch(req, res);
+
+		expect(body.created).toBe("CREATE_TIME");
+		expect(body.updated).toBe("NOW");
+	});
+});
+
+describe('put is being tested', () => {
+	test('if an organizer is successfully put, status 204 is returned', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer);
+
+		await controller.put(req, res);
+
+		verify(firstMockedResponse.status(204)).called();
+	});
+
+
+	test('if an organizer is successfully put, updated time is set', async () => {
+		let controller = generateMockController();
+		let body = { created: "CREATE_TIME", updated: undefined}; 
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, body);
+
+		await controller.put(req, res);
+
+		expect(body.created).toBe("CREATE_TIME");
+		expect(body.updated).toBe("NOW");
+	});
+});
+
+describe('removeOrganizer is being tested', () => {
+	test('if an organizer is successfully removed, status 204 is returned', async () => {
+		let controller = generateMockController();
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer);
+
+		await controller.removeOrganizer(req, res);
+
+		verify(firstMockedResponse.status(204)).called();
+	});
+
+});
+
+
+
+function expectResponseSendIsEqual(secondMockedResponse: express.Response, expected: object) {
+	const [firstArg] = capture(secondMockedResponse.send).last();
+	expect(firstArg).toEqual(expected);
+}
+
+function generateMockRequestResponse(status: number, body: object = {}) {
+	let mockedRequest: express.Request = mock<express.Request>();
+	when(mockedRequest.body).thenReturn(body);
+	let req: express.Request = instance(mockedRequest);
+	let firstMockedResponse: express.Response = mock();
+	let secondMockedResponse: express.Response = mock();
+	when(firstMockedResponse.status(status)).thenReturn(instance(secondMockedResponse));
+	let res: express.Response = instance(firstMockedResponse);
+	return { req, res, firstMockedResponse: firstMockedResponse, secondMockedResponse: secondMockedResponse };
+}
+
+function generateMockController(limit: number = 100, page: number = 0) {
+	let mockedOrganizersService: OrganizersService = mock(OrganizersService);
+	when(mockedOrganizersService.list(limit, page)).thenReturn(Promise.resolve(dummyOrganizers));
+	when(mockedOrganizersService.readById("1")).thenReturn(Promise.resolve(dummyOrganizers[0]));
+	when(mockedOrganizersService.readById("2")).thenReturn(Promise.resolve(dummyOrganizers[1]));
+	when(mockedOrganizersService.readById("3")).thenReturn(Promise.resolve(dummyOrganizers[2]));
+	when(mockedOrganizersService.create(anything())).thenReturn(Promise.resolve("NewId"));
+	let service: OrganizersService = instance(mockedOrganizersService);
+	let mockedDateUtil: DateUtil = mock(DateUtil);
+	when(mockedDateUtil.now()).thenReturn("NOW");
+	let dateUtil: DateUtil = instance(mockedDateUtil);
+	let controller = new OrganizersController(service, dateUtil);
+	return controller;
+}
+

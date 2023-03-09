@@ -1,0 +1,354 @@
+openapi: '3.0.2'
+info:
+  title: API Kulturdaten.Berlin 
+  version: '1.0.0'
+servers:
+  - url: http://localhost:3000/v1/
+paths:
+  /auth:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+  /auth/refresh-token:
+    post:
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+
+  /organizers:
+    get:
+      tags:
+        - Organizers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organizers: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/Organizer'
+    post:
+      tags:
+        - Organizers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizer'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+
+  /organizers/{organizerId}:
+    parameters:
+      - in: path
+        name: organizerId 
+        required: true
+        schema:
+          type: string
+        description: The organizer ID
+    get:
+      tags:
+        - Organizers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organizer: 
+                    $ref: '#/components/schemas/Organizer'
+    put:
+      tags:
+        - Organizers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutOrganizer'
+      responses:
+        '204':
+          description: OK  
+    patch:
+      tags:
+        - Organizers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOrganizer'
+      responses:
+        '204':
+          description: OK  
+    delete:
+      tags:
+        - Organizers
+      responses:
+        '204':
+          description: OK  
+
+  /users:
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+
+  /users/{userId}:
+    parameters:
+      - in: path
+        name: userId 
+        required: true
+        schema:
+          type: string
+        description: The user ID
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutUser'
+      responses:
+        '204':
+          description: OK  
+    patch:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchUser'
+      responses:
+        '204':
+          description: OK  
+    delete:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: OK  
+
+components:
+  securitySchemes:
+    bearerAuth:           
+      type: http
+      scheme: bearer
+      bearerFormat: JWT   
+
+  schemas:
+    Auth:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+    
+    Login:
+      type: object
+      properties:
+        password: 
+          type: string
+        email:
+          type: string
+ 
+    Organizer:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time   
+      required:
+        - _id
+        - name 
+
+    CreateOrganizer:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string  
+      required:
+        - name 
+
+    PutOrganizer:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string 
+
+    PatchOrganizer:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string  
+
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        email:
+          type: string
+        password:
+          type: string  
+        firstName:
+          type: string  
+        lastName:
+          type: string  
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time    
+
+    CreateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string  
+        firstName:
+          type: string  
+        lastName:
+          type: string  
+      required:
+        - email
+        - password 
+
+    PutUser:
+      type: object
+      properties:
+        email:
+          type: string 
+          format: email
+        firstName:
+          type: string  
+        lastName:
+          type: string  
+        permissionFlags: 
+          type: number
+
+    PatchUser:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string  
+        lastName:
+          type: string  
+        permissionFlags: 
+          type: number
