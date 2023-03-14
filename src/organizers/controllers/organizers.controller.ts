@@ -21,7 +21,8 @@ export class OrganizersController {
 
 	async getOrganizerById(req: express.Request, res: express.Response) {
 		const organizer = await this.organizersService.readById(req.body.id);
-		res.status(200).send({ "organizer":organizer});
+		if(organizer) res.status(200).send({ "organizer":organizer});
+		else res.status(404).send();
 	}
 
 	async createOrganizer(req: express.Request, res: express.Response) {
