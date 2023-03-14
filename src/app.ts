@@ -28,8 +28,9 @@ const documentationMessage = `You can find the api documentation at ${ip.address
 initDependencyInjection();
 initLogger(app);
 
-registerOpenApi(app, openAPISpec);
 registerMiddleware(app);
+
+registerOpenApi(app, openAPISpec);
 registerStatusChecks(app, port);
 registerErrorHandler(app);
 
