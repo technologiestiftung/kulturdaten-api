@@ -11,7 +11,7 @@ import { initDependencyInjection } from './app/app.dependency.injection';
 import { registerOpenApi } from './app/app.openapi';
 import { initLogger } from './app/app.logger';
 import { registerMiddleware } from './app/app.middleware';
-import { registerHealthCheck } from './app/app.health';
+import { registerStatusChecks } from './app/app.health';
 import { registerErrorHandler } from './app/app.errorhandler';
 import { registerRoutes } from './app/app.routes';
 
@@ -30,7 +30,7 @@ initLogger(app);
 
 registerOpenApi(app, openAPISpec);
 registerMiddleware(app);
-registerHealthCheck(app, port);
+registerStatusChecks(app, port);
 registerErrorHandler(app);
 
 registerRoutes(app);
