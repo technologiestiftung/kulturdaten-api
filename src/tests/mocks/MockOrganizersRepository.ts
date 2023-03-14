@@ -7,7 +7,12 @@ import { faker } from '@faker-js/faker';
 
 export class MockOrganizersRepository implements OrganizersRepository {
 
-	constructor(public dummyOrganizers: Organizer[]){};
+
+	constructor(public dummyOrganizers: Organizer[] = []){};
+
+	reset() {
+		this.dummyOrganizers = [];
+	}
 
 	async addOrganizer(organizerFields: CreateOrganizerDto): Promise<string> {
 		let newOrganizer:Organizer = {
@@ -27,10 +32,22 @@ export class MockOrganizersRepository implements OrganizersRepository {
 		} else return Promise.resolve(null);
 	}
 	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto | PutOrganizerDto): Promise<string> {
-		throw new Error("Method not implemented.");
+		if(organizerFields){
+			const index = this.dummyOrganizers.findIndex(({ _id }) => _id === organizerId);
+			let updatedOrganizer:Organizer = {
+				...organizerFields
+			} 
+			updatedOrganizer._id = organizerId;
+			if (index !== -1) {
+				this.dummyOrganizers[index] = updatedOrganizer;
+			}
+		}
+		return `${organizerId} updated`; 
 	}
 	async removeOrganizerById(organizerId: string): Promise<string> {
-		throw new Error("Method not implemented.");
+		const index = this.dummyOrganizers.findIndex(({ _id }) => _id === organizerId);
+		delete this.dummyOrganizers[index];
+		return `${organizerId} removed`;
 	}
 
 }
@@ -43,4 +60,19 @@ export function dummyOrganizer(): Organizer{
 		created: faker.datatype.datetime().toDateString(),
 		updated: faker.datatype.datetime().toDateString(),
 	}
+}
+
+export function dummyCreateDto(): CreateOrganizerDto {
+	return {
+		name: faker.company.name(),
+		description: faker.company.catchPhrase()
+	}
+}
+
+export function dummyOrganizers(number: number): Organizer[] {
+	let organizers:Organizer[] = [];
+	for (let index = 0; index < number; index++) {
+		organizers.push(dummyOrganizer());
+	}
+	return organizers;
 }
