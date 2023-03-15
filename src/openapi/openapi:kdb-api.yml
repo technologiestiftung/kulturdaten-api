@@ -77,6 +77,13 @@ paths:
                 properties:
                   id: 
                     type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
 
   /organizers/{organizerId}:
     parameters:
@@ -379,3 +386,20 @@ components:
                 type: string
               healthy:
                 type: boolean
+
+    ValidationError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              location: 
+                type: string
+              msg:
+                type: string
+              param:
+                type: string
+              value:
+                type: string

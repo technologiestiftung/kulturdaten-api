@@ -46,7 +46,7 @@ describe('listOrganizers is being tested', () => {
 describe('getOrganizerById is being tested', () => {
 	test('organizer available organizers as a document with code 200', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, { "id": "1" });
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, {}, { "organizerId": "1" });
 
 		await controller.getOrganizerById(req, res);
 
@@ -55,7 +55,7 @@ describe('getOrganizerById is being tested', () => {
 
 	test('organizer response is well structured', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, { "id": "1" });
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{},  { "organizerId": "1" });
 
 		await controller.getOrganizerById(req, res);
 
@@ -162,9 +162,10 @@ function expectResponseSendIsEqual(secondMockedResponse: express.Response, expec
 	expect(firstArg).toEqual(expected);
 }
 
-function generateMockRequestResponse(status: number, body: object = {}) {
+function generateMockRequestResponse(status: number, body: Record<string, any> = {}, params: Record<string, any> = {}) {
 	let mockedRequest: express.Request = mock<express.Request>();
 	when(mockedRequest.body).thenReturn(body);
+	when(mockedRequest.params).thenReturn(params);
 	let req: express.Request = instance(mockedRequest);
 	let firstMockedResponse: express.Response = mock();
 	let secondMockedResponse: express.Response = mock();

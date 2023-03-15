@@ -1,7 +1,6 @@
 import express from 'express';
 import { OrganizersService } from '../services/organizers.service';
 import { DateUtil }  from '../../utils/DateUtil';
-
 import debug from 'debug';
 import { Service } from 'typedi';
 
@@ -20,7 +19,8 @@ export class OrganizersController {
 	}
 
 	async getOrganizerById(req: express.Request, res: express.Response) {
-		const organizer = await this.organizersService.readById(req.body.id);
+		const { organizerId } = req.params;
+		const organizer = await this.organizersService.readById(organizerId);
 		if(organizer) res.status(200).send({ "organizer":organizer});
 		else res.status(404).send();
 	}
@@ -34,19 +34,22 @@ export class OrganizersController {
 	}
 
 	async patch(req: express.Request, res: express.Response) {
+		const { organizerId } = req.params;
 		req.body.updated = this.dateUtil.now();
-		log(await this.organizersService.patchById(req.body.id, req.body));
+		log(await this.organizersService.patchById(organizerId, req.body));
 		res.status(204).send();
 	}
 
 	async put(req: express.Request, res: express.Response) {
+		const { organizerId } = req.params;
 		req.body.updated = this.dateUtil.now();
-		log(await this.organizersService.putById(req.body.id, req.body));
+		log(await this.organizersService.putById(organizerId, req.body));
 		res.status(204).send();
 	}
 
 	async removeOrganizer(req: express.Request, res: express.Response) {
-		log(await this.organizersService.deleteById(req.body.id));
+		const { organizerId } = req.params;
+		log(await this.organizersService.deleteById(organizerId));
 		res.status(204).send();
 	}
 

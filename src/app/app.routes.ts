@@ -7,7 +7,7 @@ import { AuthRoutes } from '../auth/auth.routes.config';
 
 export function registerRoutes(app: express.Application, preRoute: string = ''){
 	registerUserRoutes(app,preRoute);
-	registerOrganizersRoutes(app,preRoute);
+	// registerOrganizersRoutes(app,preRoute);
 	registerAuthRoutes(app,preRoute);
 }
 

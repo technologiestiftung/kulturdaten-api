@@ -14,6 +14,8 @@ import { registerMiddleware } from './app/app.middleware';
 import { registerStatusChecks } from './app/app.health';
 import { registerErrorHandler } from './app/app.errorhandler';
 import { registerRoutes } from './app/app.routes';
+import { OrganizersRoutes } from './routes/organizers.routes';
+import Container from 'typedi';
 
 // TODO: Refactor young padawan!
 
@@ -33,6 +35,10 @@ registerMiddleware(app);
 registerOpenApi(app, openAPISpec);
 registerStatusChecks(app, port);
 registerErrorHandler(app);
+
+const organizersRoute = Container.get(OrganizersRoutes);
+
+app.use('/v1/organizers', organizersRoute.getRouter());
 
 registerRoutes(app);
 
