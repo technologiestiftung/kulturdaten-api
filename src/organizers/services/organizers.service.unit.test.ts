@@ -147,41 +147,16 @@ describe('patchById is being testes', () => {
 	test('if organizer patched returns updated message', async () => {
 		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
 		when(mockedRepo.updateOrganizerById("ID", anything())).thenReturn(
-			Promise.resolve('ID updated')
+			Promise.resolve({name: "neuer Name", description: "alte Beschreibung"})
 		);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
 
-		let message: String | null = await  service.patchById("ID", {name: "neuer Name"});;
+		let updatedOrganizer = await  service.patchById("ID", {name: "neuer Name"});;
 
-		expect(message).toBe('ID updated');
+		expect(updatedOrganizer).toEqual({name: "neuer Name", description: "alte Beschreibung"});
 	});
 	
 });
 
-describe('putById is being testes', () => {
-	test('putById use updateOrganizerById', async () => {
-		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
-		let repo: OrganizersRepository = instance(mockedRepo);
-		let service: OrganizersService = new OrganizersService(repo);
-
-		service.putById("ID", {name: "neuer Name", id: "ID", description: "neue Description"});
-
-		verify(mockedRepo.updateOrganizerById("ID", anything())).called();
-	});
-
-	test('if organizer patched returns updated message', async () => {
-		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
-		when(mockedRepo.updateOrganizerById("ID", anything())).thenReturn(
-			Promise.resolve('ID updated')
-		);
-		let repo: OrganizersRepository = instance(mockedRepo);
-		let service: OrganizersService = new OrganizersService(repo);
-
-		let message: String | null = await  service.putById("ID", {name: "neuer Name", id: "ID", description: "neue Description"});;
-
-		expect(message).toBe('ID updated');
-	});
-	
-});
 

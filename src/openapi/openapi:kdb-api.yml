@@ -106,17 +106,12 @@ paths:
                 properties:
                   organizer: 
                     $ref: '#/components/schemas/Organizer'
-    put:
-      tags:
-        - Organizers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PutOrganizer'
-      responses:
-        '204':
-          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Organizers
@@ -403,3 +398,12 @@ components:
                 type: string
               value:
                 type: string
+
+    NotFoundError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            msg:
+            type: string

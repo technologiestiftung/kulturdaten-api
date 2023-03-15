@@ -14,7 +14,7 @@ import { registerMiddleware } from './app/app.middleware';
 import { registerStatusChecks } from './app/app.health';
 import { registerErrorHandler } from './app/app.errorhandler';
 import { registerRoutes } from './app/app.routes';
-import { OrganizersRoutes } from './routes/organizers.routes';
+import { OrganizersRoutes } from './organizers/organizers.routes';
 import Container from 'typedi';
 
 // TODO: Refactor young padawan!

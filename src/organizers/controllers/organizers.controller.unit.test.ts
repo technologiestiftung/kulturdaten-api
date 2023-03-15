@@ -1,5 +1,5 @@
 import express from 'express';
-import { mock, instance, when, verify, anything, capture } from 'ts-mockito';
+import { mock, instance, when, verify, anything, capture, anyString } from 'ts-mockito';
 import { OrganizersService } from '../services/organizers.service';
 import { DateUtil } from '../../utils/DateUtil';
 import { OrganizersController } from './organizers.controller';
@@ -14,7 +14,7 @@ let dummyOrganizers = [
 	{ _id: "3", name: "Organizer 3" },
 ]
 
-let newOrganizer = { name: "Name", description: "Beschreibung" };
+let newOrganizer = { name: "Name", description: "Beschreibung", created: "", updated: "" };
 
 describe('listOrganizers is being tested', () => {
 	test('organizers available organizers as a document with code 200', async () => {
@@ -100,7 +100,7 @@ describe('createOrganizer is being tested', () => {
 describe('patch is being tested', () => {
 	test('if an organizer is successfully patched, status 204 is returned', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer);
+		let { req, res, firstMockedResponse } = generateMockRequestResponse(204, newOrganizer, { organizerId: 'existID'} );
 
 		await controller.patch(req, res);
 
@@ -111,7 +111,7 @@ describe('patch is being tested', () => {
 	test('if an organizer is successfully patched, updated time is set', async () => {
 		let controller = generateMockController();
 		let body = { created: "CREATE_TIME", updated: undefined}; 
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, body);
+		let { req, res, } = generateMockRequestResponse(204, body, { organizerId: 'existID'});
 
 		await controller.patch(req, res);
 
@@ -120,28 +120,6 @@ describe('patch is being tested', () => {
 	});
 });
 
-describe('put is being tested', () => {
-	test('if an organizer is successfully put, status 204 is returned', async () => {
-		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer);
-
-		await controller.put(req, res);
-
-		verify(firstMockedResponse.status(204)).called();
-	});
-
-
-	test('if an organizer is successfully put, updated time is set', async () => {
-		let controller = generateMockController();
-		let body = { created: "CREATE_TIME", updated: undefined}; 
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, body);
-
-		await controller.put(req, res);
-
-		expect(body.created).toBe("CREATE_TIME");
-		expect(body.updated).toBe("NOW");
-	});
-});
 
 describe('removeOrganizer is being tested', () => {
 	test('if an organizer is successfully removed, status 204 is returned', async () => {
@@ -181,6 +159,7 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	when(mockedOrganizersService.readById("2")).thenReturn(Promise.resolve(dummyOrganizers[1]));
 	when(mockedOrganizersService.readById("3")).thenReturn(Promise.resolve(dummyOrganizers[2]));
 	when(mockedOrganizersService.create(anything())).thenReturn(Promise.resolve("NewId"));
+	when(mockedOrganizersService.patchById(anyString(),anything())).thenReturn(Promise.resolve(dummyOrganizers[0]));
 	let service: OrganizersService = instance(mockedOrganizersService);
 	let mockedDateUtil: DateUtil = mock(DateUtil);
 	when(mockedDateUtil.now()).thenReturn("NOW");

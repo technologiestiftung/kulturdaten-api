@@ -1,7 +1,6 @@
 import { OrganizersRepository } from '../repositories/organizers.repository';
 import { CRUD } from '../../common/interfaces/crud.interface';
 import { CreateOrganizerDto } from '../dtos/create.organizer.dto';
-import { PutOrganizerDto } from '../dtos/put.organizer.dto';
 import { PatchOrganizerDto } from '../dtos/patch.organizer.dto';
 import { Inject, Service } from 'typedi';
 
@@ -30,8 +29,5 @@ export class OrganizersService implements CRUD {
 		return this.organizersRepository.updateOrganizerById(id, resource);
 	}
 
-	async putById(id: string, resource: PutOrganizerDto) {
-		return this.organizersRepository.updateOrganizerById(id, resource);
-	}
 
 }

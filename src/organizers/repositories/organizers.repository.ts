@@ -1,5 +1,4 @@
 import { CreateOrganizerDto } from '../dtos/create.organizer.dto';
-import { PutOrganizerDto } from '../dtos/put.organizer.dto';
 import { PatchOrganizerDto } from '../dtos/patch.organizer.dto';
 
 import { MongooseService } from '../../common/services/mongoose.service';
@@ -18,7 +17,7 @@ export interface OrganizersRepository {
 
 	getOrganizerById(organizerId: string) : Promise<Organizer | null>;
 
-	updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto | PutOrganizerDto): Promise<string>;
+	updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto ): Promise<Organizer | null>;
 
 	removeOrganizerById(organizerId: string) : Promise<string>;
 }
@@ -50,15 +49,13 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 
 	async updateOrganizerById(
 		organizerId: string,
-		organizerFields: PatchOrganizerDto | PutOrganizerDto
-	) : Promise<string>{
-		await this.OrganizerModel.findOneAndUpdate(
+		organizerFields: PatchOrganizerDto 
+	)  : Promise<Organizer | null> {
+		return await this.OrganizerModel.findOneAndUpdate(
 			{ _id: organizerId },
 			{ $set: organizerFields },
 			{ new: true }
 		).exec();
-
-		return `${organizerId} updated`;
 	}
 
 	async removeOrganizerById(organizerId: string) : Promise<string>{

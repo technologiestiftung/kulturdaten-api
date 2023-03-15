@@ -1,3 +1,4 @@
-import { PutOrganizerDto } from "./put.organizer.dto";
-
-export interface PatchOrganizerDto extends Partial<PutOrganizerDto> {}
+export interface PatchOrganizerDto {
+	name?: string;
+	description?: string;
+}

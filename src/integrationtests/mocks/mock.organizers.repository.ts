@@ -1,9 +1,10 @@
 import { CreateOrganizerDto } from "../../organizers/dtos/create.organizer.dto";
 import { PatchOrganizerDto } from "../../organizers/dtos/patch.organizer.dto";
-import { PutOrganizerDto } from "../../organizers/dtos/put.organizer.dto";
 import { Organizer } from "../../organizers/repositories/organizer";
 import { OrganizersRepository } from "../../organizers/repositories/organizers.repository";
 import { faker } from '@faker-js/faker';
+
+
 
 export class MockOrganizersRepository implements OrganizersRepository {
 
@@ -16,6 +17,12 @@ export class MockOrganizersRepository implements OrganizersRepository {
 
 	public fillWithDummyOrganizers(number: number){
 		this.dummyOrganizers = dummyOrganizers(number);
+	}
+
+	public addDummyOrganizer(){
+		const d = dummyOrganizer();
+		this.dummyOrganizers.push(d);
+		return d._id;
 	}
 
 	async addOrganizer(organizerFields: CreateOrganizerDto): Promise<string> {
@@ -35,18 +42,22 @@ export class MockOrganizersRepository implements OrganizersRepository {
 			return Promise.resolve(organizer);
 		} else return Promise.resolve(null);
 	}
-	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto | PutOrganizerDto): Promise<string> {
+	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto ): Promise<Organizer | null> {
 		if(organizerFields){
 			const index = this.dummyOrganizers.findIndex(({ _id }) => _id === organizerId);
+			
 			let updatedOrganizer:Organizer = {
 				...organizerFields
 			} 
 			updatedOrganizer._id = organizerId;
 			if (index !== -1) {
 				this.dummyOrganizers[index] = updatedOrganizer;
+				return updatedOrganizer;
+			} else {
+				return null;
 			}
 		}
-		return `${organizerId} updated`; 
+		return null; 
 	}
 	async removeOrganizerById(organizerId: string): Promise<string> {
 		const index = this.dummyOrganizers.findIndex(({ _id }) => _id === organizerId);
@@ -55,6 +66,7 @@ export class MockOrganizersRepository implements OrganizersRepository {
 	}
 
 }
+
 
 export function dummyOrganizer(): Organizer{
 	return {
@@ -80,3 +92,4 @@ export function dummyOrganizers(number: number): Organizer[] {
 	}
 	return organizers;
 }
+

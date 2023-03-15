@@ -2,8 +2,8 @@ import debug from 'debug';
 import express, { Router } from 'express';
 import { check, validationResult } from 'express-validator';
 import { Service } from 'typedi';
-import { OrganizersController } from '../organizers/controllers/organizers.controller';
-import { OrganizersMiddleware } from '../organizers/middleware/organizers.middleware';
+import { OrganizersController } from './controllers/organizers.controller';
+import { OrganizersMiddleware } from './middleware/organizers.middleware';
 
 
 const log: debug.IDebugger = debug('app:organizers-routes');
@@ -39,26 +39,13 @@ export class OrganizersRoutes {
 					}
 					
 					this.organizersController.createOrganizer(req, res);
-				})
+				});
+
+		router
 			.get(
 				'/:organizerId',
-				[
-					check('organizerId', 'Id of organizer is required').notEmpty()
-				],
 				(req: express.Request, res: express.Response) => {
-					const errors = validationResult(req);
-					if (!errors.isEmpty()) {
-						return res.status(400).json({
-							errors: errors.array()
-						});
-					}
-					
 					this.organizersController.getOrganizerById(req, res);
-				})
-			.put(
-				'/:organizerId',
-				(req, res) => {
-					this.organizersController.put(req, res);
 				})
 			.patch(
 				'/:organizerId',
