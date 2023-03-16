@@ -21,7 +21,7 @@ export interface UsersRepository {
 
 	updateUserById(userId: string,userFields: PatchUserDto | PutUserDto) : Promise<string>;
 
-	removeUserById(userId: string) : Promise<string>;
+	removeUserById(userId: string) : Promise<boolean>;
 
 	getUserByEmail(email: string) : Promise<User | null>;
 
@@ -72,9 +72,9 @@ export class MongoDBUsersRepository {
 		return `${userId} updated`;
 	}
 
-	async removeUserById(userId: string): Promise<string> {
-		this.UserModel.deleteOne({ _id: userId });
-		return `${userId} removed`;
+	async removeUserById(userId: string): Promise<boolean> {
+		let result = await this.UserModel.deleteOne({ _id: userId });
+		return result.deletedCount > 0;
 	}
 
 	async getUserByEmail(email: string) : Promise<User | null>  {

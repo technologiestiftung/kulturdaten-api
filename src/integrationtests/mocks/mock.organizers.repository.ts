@@ -37,10 +37,15 @@ export class MockOrganizersRepository implements OrganizersRepository {
 		return Promise.resolve(this.dummyOrganizers);
 	}
 	async getOrganizerById(organizerId: string): Promise<Organizer | null> {
-		let organizer = this.dummyOrganizers.find(({ _id }) => _id === organizerId)
-		if(organizer){
-			return Promise.resolve(organizer);
-		} else return Promise.resolve(null);
+		try {
+			let organizer: Organizer | undefined = this.dummyOrganizers.find(({ _id }) => _id === organizerId)
+			if(organizer){
+				return Promise.resolve(organizer);
+			} else return Promise.resolve(null);
+		} catch (error) {
+			return Promise.resolve(null);
+		}
+	
 	}
 	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto ): Promise<Organizer | null> {
 		if(organizerFields){
@@ -59,10 +64,13 @@ export class MockOrganizersRepository implements OrganizersRepository {
 		}
 		return null; 
 	}
-	async removeOrganizerById(organizerId: string): Promise<string> {
+	async removeOrganizerById(organizerId: string): Promise<boolean> {
 		const index = this.dummyOrganizers.findIndex(({ _id }) => _id === organizerId);
-		delete this.dummyOrganizers[index];
-		return `${organizerId} removed`;
+		if(index >= 0){
+			delete this.dummyOrganizers[index];
+			return true;
+		}
+		return false;
 	}
 
 }

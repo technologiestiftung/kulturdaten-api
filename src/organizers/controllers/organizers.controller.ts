@@ -34,8 +34,6 @@ export class OrganizersController {
 	}
 
 	async patch(req: express.Request, res: express.Response) {
-		console.log(req.params);
-		
 		const { organizerId } = req.params;
 		req.body.updated = this.dateUtil.now();
 		const organizer = await this.organizersService.patchById(organizerId, req.body);
@@ -46,8 +44,13 @@ export class OrganizersController {
 
 	async removeOrganizer(req: express.Request, res: express.Response) {
 		const { organizerId } = req.params;
-		await this.organizersService.deleteById(organizerId);
-		res.status(204).send();
+		if(await this.organizersService.deleteById(organizerId))
+		{
+			res.status(204).send();
+		}
+		else {
+			res.status(404).send({error: true,msg: 'Organizer not found'});
+		} 
 	}
 
 }

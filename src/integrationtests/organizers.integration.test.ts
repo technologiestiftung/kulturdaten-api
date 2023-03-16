@@ -122,5 +122,26 @@ describe('Exploring existing organizers', () => {
 		expect(statusCode).toBe(204);
 	});
 
+
+	it('DELETE /v1/organizers/:organizerId - failure when organizer is not found', async () => {
+		const { body, statusCode } = await request(app).delete('/v1/organizers/wrongID');
+		expect(statusCode).toBe(404);
+
+		expect(body).toEqual({
+			error: true,
+			msg: 'Organizer not found'
+		});
+	});
+
+	it('DELETE /v1/organizers/:organizerId -  success - organizer is updated and code 204', async () => {
+		const existOrganizerId:string = organizersRepository.addDummyOrganizer() || '';
+
+		const { statusCode } = await request(app).delete(`/v1/organizers/${existOrganizerId}`);
+
+		const existOrganizer = await organizersRepository.getOrganizerById("86576");
+		expect(existOrganizer).toBeNull();
+		expect(statusCode).toBe(204);
+	});
+
 });
 

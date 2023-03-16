@@ -19,7 +19,7 @@ export interface OrganizersRepository {
 
 	updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto ): Promise<Organizer | null>;
 
-	removeOrganizerById(organizerId: string) : Promise<string>;
+	removeOrganizerById(organizerId: string) :  Promise<boolean>;
 }
 
 @Service()
@@ -58,8 +58,8 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 		).exec();
 	}
 
-	async removeOrganizerById(organizerId: string) : Promise<string>{
-		this.OrganizerModel.deleteOne({ _id: organizerId }).exec();
-		return `${organizerId} removed`;
+	async removeOrganizerById(organizerId: string) : Promise<boolean> {
+		let count = await this.OrganizerModel.deleteOne({ _id: organizerId }).exec();
+		return count.deletedCount > 0;
 	}
 }

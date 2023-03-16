@@ -56,14 +56,14 @@ describe('deleteById is being tested', () => {
 	test('if target removed returns removed message', async () => {
 		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
 		when(mockedRepo.removeUserById("ID")).thenReturn(
-			Promise.resolve('ID removed')
+			Promise.resolve(true)
 		);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
 
-		let message: String | null = await service.deleteById("ID");
+		let deleted: boolean = await service.deleteById("ID");
 
-		expect(message).toBe('ID removed');
+		expect(deleted).toBe(true);
 	});
 });
 

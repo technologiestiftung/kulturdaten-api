@@ -124,7 +124,7 @@ describe('patch is being tested', () => {
 describe('removeOrganizer is being tested', () => {
 	test('if an organizer is successfully removed, status 204 is returned', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer);
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer, { organizerId: '1'});
 
 		await controller.removeOrganizer(req, res);
 
@@ -160,6 +160,7 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	when(mockedOrganizersService.readById("3")).thenReturn(Promise.resolve(dummyOrganizers[2]));
 	when(mockedOrganizersService.create(anything())).thenReturn(Promise.resolve("NewId"));
 	when(mockedOrganizersService.patchById(anyString(),anything())).thenReturn(Promise.resolve(dummyOrganizers[0]));
+	when(mockedOrganizersService.deleteById("1")).thenReturn(Promise.resolve(true));
 	let service: OrganizersService = instance(mockedOrganizersService);
 	let mockedDateUtil: DateUtil = mock(DateUtil);
 	when(mockedDateUtil.now()).thenReturn("NOW");
