@@ -19,7 +19,7 @@ export interface UsersRepository {
 
 	getUserById(userId: string) : Promise<User | null>;
 
-	updateUserById(userId: string,userFields: PatchUserDto | PutUserDto) : Promise<string>;
+	updateUserById(userId: string,userFields: PatchUserDto | PutUserDto) : Promise<User | null>;
 
 	removeUserById(userId: string) : Promise<boolean>;
 
@@ -62,14 +62,12 @@ export class MongoDBUsersRepository {
 	async updateUserById(
 		userId: string,
 		userFields: PatchUserDto | PutUserDto
-	) : Promise<string>{
-		await this.UserModel.findOneAndUpdate(
+	) : Promise<User | null>{
+		return await this.UserModel.findOneAndUpdate(
 			{ _id: userId },
 			{ $set: userFields },
 			{ new: true }
 		).exec();
-
-		return `${userId} updated`;
 	}
 
 	async removeUserById(userId: string): Promise<boolean> {

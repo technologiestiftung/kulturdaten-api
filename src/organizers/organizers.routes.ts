@@ -3,7 +3,6 @@ import express, { Router } from 'express';
 import { check, validationResult } from 'express-validator';
 import { Service } from 'typedi';
 import { OrganizersController } from './controllers/organizers.controller';
-import { OrganizersMiddleware } from './middleware/organizers.middleware';
 
 
 const log: debug.IDebugger = debug('app:organizers-routes');
@@ -12,8 +11,7 @@ const log: debug.IDebugger = debug('app:organizers-routes');
 export class OrganizersRoutes {
 
 	constructor(
-		public organizersController: OrganizersController,
-		public organizersMiddleware: OrganizersMiddleware) { }
+		public organizersController: OrganizersController) { }
 
 	public getRouter(): Router {
 		let router = express.Router();

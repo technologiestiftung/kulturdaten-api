@@ -21,8 +21,12 @@ export class OrganizersController {
 	async getOrganizerById(req: express.Request, res: express.Response) {
 		const { organizerId } = req.params;
 		const organizer = await this.organizersService.readById(organizerId);
-		if (organizer) res.status(200).send({ "organizer": organizer });
-		else res.status(404).send({error: true,msg: 'Organizer not found'});
+		if (organizer){
+			res.status(200).send({ "organizer": organizer });
+		} 
+		else {
+			res.status(404).send({error: {msg: 'Organizer not found'}});
+		} 
 	}
 
 	async createOrganizer(req: express.Request, res: express.Response) {
@@ -37,8 +41,12 @@ export class OrganizersController {
 		const { organizerId } = req.params;
 		req.body.updated = this.dateUtil.now();
 		const organizer = await this.organizersService.patchById(organizerId, req.body);
-		if(organizer) res.status(204).send();
-		else res.status(404).send({error: true,msg: 'Organizer not found'});
+		if(organizer){
+			res.status(204).send();
+		} 
+		else {
+			res.status(404).send({error: {msg: 'Organizer not found'}});
+		}
 	}
 
 
@@ -49,7 +57,7 @@ export class OrganizersController {
 			res.status(204).send();
 		}
 		else {
-			res.status(404).send({error: true,msg: 'Organizer not found'});
+			res.status(404).send({error: {msg: 'Organizer not found'}});
 		} 
 	}
 

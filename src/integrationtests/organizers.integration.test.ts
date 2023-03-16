@@ -1,7 +1,6 @@
 import express from "express";
 import request from "supertest";
 import { OrganizersController } from "../organizers/controllers/organizers.controller";
-import { OrganizersMiddleware } from "../organizers/middleware/organizers.middleware";
 import { OrganizersService } from "../organizers/services/organizers.service";
 import { OrganizersRoutes } from "../organizers/organizers.routes";
 import { DateUtil } from "../utils/DateUtil";
@@ -14,8 +13,7 @@ const organizersRepository = new MockOrganizersRepository();
 organizersRepository.fillWithDummyOrganizers(5);
 const organizersService = new OrganizersService(organizersRepository);
 const organizersController = new OrganizersController(organizersService, new DateUtil());
-const organizersMiddleware = new OrganizersMiddleware();
-const organizersRoutes = new OrganizersRoutes(organizersController, organizersMiddleware);
+const organizersRoutes = new OrganizersRoutes(organizersController);
 
 app.use('/v1/organizers', organizersRoutes.getRouter());
 

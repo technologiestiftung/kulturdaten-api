@@ -123,12 +123,24 @@ paths:
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Organizers
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
 
   /users:
     get:
@@ -190,19 +202,12 @@ paths:
                 properties:
                   user:
                     $ref: '#/components/schemas/User'
-    put:
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PutUser'
-      responses:
-        '204':
-          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Users
@@ -216,6 +221,12 @@ paths:
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Users
@@ -224,6 +235,12 @@ paths:
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
 
   /health:
     get:
@@ -342,19 +359,6 @@ components:
         - email
         - password 
 
-    PutUser:
-      type: object
-      properties:
-        email:
-          type: string 
-          format: email
-        firstName:
-          type: string  
-        lastName:
-          type: string  
-        permissionFlags: 
-          type: number
-
     PatchUser:
       type: object
       properties:
@@ -406,4 +410,4 @@ components:
           type: object
           properties:
             msg:
-            type: string
+              type: string

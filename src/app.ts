@@ -16,6 +16,7 @@ import { registerErrorHandler } from './app/app.errorhandler';
 import { registerRoutes } from './app/app.routes';
 import { OrganizersRoutes } from './organizers/organizers.routes';
 import Container from 'typedi';
+import { UsersRoutes } from './users/users.routes';
 
 // TODO: Refactor young padawan!
 
@@ -37,8 +38,10 @@ registerStatusChecks(app, port);
 registerErrorHandler(app);
 
 const organizersRoute = Container.get(OrganizersRoutes);
-
 app.use('/v1/organizers', organizersRoute.getRouter());
+
+const usersRoute = Container.get(UsersRoutes);
+app.use('/v1/users', usersRoute.getRouter());
 
 registerRoutes(app);
 
