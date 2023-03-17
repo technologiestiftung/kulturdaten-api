@@ -23,7 +23,7 @@ export class UsersController {
 		const { userId } = req.params;
 		const user = await this.usersService.readById(userId);
 		if(user){
-			res.status(200).send({" user": user });
+			res.status(200).send({"user": user });
 		} else {
 			res.status(404).send({error: {msg: 'User not found'}});
 		}

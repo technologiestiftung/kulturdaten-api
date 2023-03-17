@@ -75,8 +75,9 @@ describe('Exploring existing organizers', () => {
 		expect(statusCode).toBe(404);
 
 		expect(body).toEqual({
-			error: true,
-			msg: 'Organizer not found'
+			error: {
+				msg: 'Organizer not found'
+			}
 		});
 	});
 
@@ -103,8 +104,9 @@ describe('Exploring existing organizers', () => {
 		expect(statusCode).toBe(404);
 
 		expect(body).toEqual({
-			error: true,
-			msg: 'Organizer not found'
+			error: {
+				msg: 'Organizer not found'
+			}
 		});
 	});
 
@@ -126,8 +128,9 @@ describe('Exploring existing organizers', () => {
 		expect(statusCode).toBe(404);
 
 		expect(body).toEqual({
-			error: true,
-			msg: 'Organizer not found'
+			error: {
+				msg: 'Organizer not found'
+			}
 		});
 	});
 

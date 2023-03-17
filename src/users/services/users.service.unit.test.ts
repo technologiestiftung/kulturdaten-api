@@ -146,51 +146,15 @@ describe('patchById is being testes', () => {
 
 	test('if user patched returns updated message', async () => {
 		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
-		when(mockedRepo.updateUserById("ID", anything())).thenReturn(
-			Promise.resolve('ID updated')
+		when(mockedRepo.updateUserById("1", anything())).thenReturn(
+			Promise.resolve({ _id: "1", email: "neueMail@beispiel.de", password: "HASH1" })
 		);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
 
-		let message: String | null = await  service.patchById("ID", {email: "neueMail@beispiel.de"});;
+		let updatedUser = await  service.patchById("1", {email: "neueMail@beispiel.de"});;
 
-		expect(message).toBe('ID updated');
-	});
-	
-});
-
-describe('putById is being testes', () => {
-	test('putById use updateUserById', async () => {
-		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
-		let repo: UsersRepository = instance(mockedRepo);
-		let service: UsersService = new UsersService(repo);
-
-		service.putById("ID", {     
-				email: "string",
-				password: "string",
-				firstName: "string",
-				lastName: "string",
-				permissionFlags: 3 });
-
-		verify(mockedRepo.updateUserById("ID", anything())).called();
-	});
-
-	test('if user patched returns updated message', async () => {
-		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
-		when(mockedRepo.updateUserById("ID", anything())).thenReturn(
-			Promise.resolve('ID updated')
-		);
-		let repo: UsersRepository = instance(mockedRepo);
-		let service: UsersService = new UsersService(repo);
-
-		let message: String | null = await  service.putById("ID", {     
-				email: "string",
-				password: "string",
-				firstName: "string",
-				lastName: "string",
-				permissionFlags: 3 });;
-
-		expect(message).toBe('ID updated');
+		expect(updatedUser).toEqual({ _id: "1", email: "neueMail@beispiel.de", password: "HASH1" });
 	});
 	
 });

@@ -26,5 +26,4 @@ export class AuthMiddleware {
 		}
 		res.status(400).send({ error: 'Invalid email and/or password' });
 	}
-
 }

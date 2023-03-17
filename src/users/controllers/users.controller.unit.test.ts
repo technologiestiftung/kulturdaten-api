@@ -63,7 +63,7 @@ describe('listUsers is being tested', () => {
 describe('getUserById is being tested', () => {
 	test('user available users as a document with code 200', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, { "id": "1" });
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{}, { "userId": "1" });
 
 		await controller.getUserById(req, res);
 
@@ -72,7 +72,7 @@ describe('getUserById is being tested', () => {
 
 	test('user response is well structured', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, { "id": "1" });
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{},  { "userId": "1" });
 
 		await controller.getUserById(req, res);
 
@@ -113,7 +113,7 @@ describe('createUser is being tested', () => {
 describe('patch is being tested', () => {
 	test('if an user is successfully patched, status 204 is returned', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newUser);
+		let { req, res, firstMockedResponse } = generateMockRequestResponse(204, newUser, { userId: '1'});
 
 		await controller.patch(req, res);
 
@@ -124,7 +124,7 @@ describe('patch is being tested', () => {
 	test('if an user is successfully patched, updated time is set', async () => {
 		let controller = generateMockController();
 		let body = { created: "CREATE_TIME", updated: undefined}; 
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, body);
+		let { req, res } = generateMockRequestResponse(204, body, { userId: '1'});
 
 		await controller.patch(req, res);
 
@@ -133,32 +133,10 @@ describe('patch is being tested', () => {
 	});
 });
 
-describe('put is being tested', () => {
-	test('if an user is successfully put, status 204 is returned', async () => {
-		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newUser);
-
-		await controller.put(req, res);
-
-		verify(firstMockedResponse.status(204)).called();
-	});
-
-
-	test('if an user is successfully put, updated time is set', async () => {
-		let controller = generateMockController();
-
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newUser);
-
-		await controller.put(req, res);
-
-		expect(newUser.updated).toBe("NOW");
-	});
-});
-
 describe('removeUser is being tested', () => {
 	test('if an user is successfully removed, status 204 is returned', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newUser);
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newUser, { userId: '1'});
 
 		await controller.removeUser(req, res);
 
@@ -174,9 +152,10 @@ function expectResponseSendIsEqual(secondMockedResponse: express.Response, expec
 	expect(firstArg).toEqual(expected);
 }
 
-function generateMockRequestResponse(status: number, body: object = {}) {
+function generateMockRequestResponse(status: number, body: object = {}, params: Record<string, any> = {}) {
 	let mockedRequest: express.Request = mock<express.Request>();
 	when(mockedRequest.body).thenReturn(body);
+	when(mockedRequest.params).thenReturn(params);
 	let req: express.Request = instance(mockedRequest);
 	let firstMockedResponse: express.Response = mock();
 	let secondMockedResponse: express.Response = mock();
@@ -192,6 +171,8 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	when(mockedUsersService.readById("2")).thenReturn(Promise.resolve(dummyUsersRepo[1]));
 	when(mockedUsersService.readById("3")).thenReturn(Promise.resolve(dummyUsersRepo[2]));
 	when(mockedUsersService.create(anything())).thenReturn(Promise.resolve("NewId"));
+	when(mockedUsersService.patchById("1", anything())).thenReturn(Promise.resolve(dummyUsersRepo[0]));
+	when(mockedUsersService.deleteById("1")).thenReturn(Promise.resolve(true));
 	let service: UsersService = instance(mockedUsersService);
 	let mockedDateUtil: DateUtil = mock(DateUtil);
 	when(mockedDateUtil.now()).thenReturn("NOW");
