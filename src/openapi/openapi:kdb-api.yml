@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://localhost:3000/v1/
 paths:
-  /auth:
+  /auth/token:
     post:
       tags:
         - Auth
@@ -15,33 +15,13 @@ paths:
             schema:
               $ref: '#/components/schemas/Login'
       responses:
-        '201':
-          description: CREATED
+        '200':
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Auth'
-  /auth/refresh-token:
-    post:
-      tags:
-        - Auth
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                refreshToken:
-                  type: string
-      responses:
-        '201':
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Auth'
+          
 
   /organizers:
     get:
@@ -267,7 +247,7 @@ components:
       properties:
         accessToken:
           type: string
-        refreshToken:
+        expiresIn:
           type: string
     
     Login:

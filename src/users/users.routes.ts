@@ -1,8 +1,8 @@
 import debug from 'debug';
 import express, { Router } from 'express';
 import { check, validationResult } from 'express-validator';
+import passport from 'passport';
 import { Service } from 'typedi';
-import { JwtMiddleware } from '../auth/middleware/jwt.middleware';
 import { CommonPermissionMiddleware } from '../common/middleware/common.permission.middleware';
 import { PermissionFlag } from '../common/middleware/common.permissionflag.enum';
 import { UsersController } from './controllers/users.controller';
@@ -16,7 +16,6 @@ export class UsersRoutes {
 
 	constructor(
 		public usersController: UsersController, 
-		public jwtMiddleware: JwtMiddleware,
 		public usersMiddleware: UsersMiddleware,
 		public permissionMiddleware: CommonPermissionMiddleware) { }
 
@@ -26,7 +25,7 @@ export class UsersRoutes {
 		router
 			.get(
 				'/',
-				(req, res, next) => this.jwtMiddleware.validJWTNeeded(req,res,next),
+				passport.authenticate('bearerJWT', { session: false }),
 				(req, res, next) => this.permissionMiddleware.permissionFlagRequired(req, res, next,
 					PermissionFlag.ADMIN_PERMISSION
 				),
@@ -58,19 +57,19 @@ export class UsersRoutes {
 		router
 			.all('',
 				(req: express.Request, res: express.Response, next: express.NextFunction) => 
-						this.jwtMiddleware.validJWTNeeded(req,res,next),
-				(req: express.Request, res: express.Response, next: express.NextFunction) => 
 						this.permissionMiddleware.onlySameUserOrAdminCanDoThisAction(req,res,next),
 				(req: express.Request, res: express.Response, next: express.NextFunction) => 
 						this.usersMiddleware.validateUserExists(req,res,next),
 			)
 			.get(
 				'/:userId',
+				passport.authenticate('bearerJWT', { session: false }),
 				(req: express.Request, res: express.Response) => {
 					this.usersController.getUserById(req, res);
 				})
 			.delete(
 				'/:userId',
+				passport.authenticate('bearerJWT', { session: false }),
 				(req, res) => {
 					this.usersController.removeUser(req, res);
 				});
@@ -83,6 +82,7 @@ export class UsersRoutes {
 			)
 			.patch(
 				'/:userId',
+				passport.authenticate('bearerJWT', { session: false }),
 				(req, res) => {
 					this.usersController.patch(req, res);
 				});

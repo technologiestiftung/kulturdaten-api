@@ -1,6 +1,5 @@
 import express from "express";
 import request from "supertest";
-import { JwtMiddleware } from "../auth/middleware/jwt.middleware";
 import { CommonPermissionMiddleware } from "../common/middleware/common.permission.middleware";
 import { UsersController } from "../users/controllers/users.controller";
 import { UsersMiddleware } from "../users/middleware/users.middleware";
@@ -19,11 +18,10 @@ const usersRepository = new MockUsersRepository();
 const userSerivce = new UsersService(usersRepository);
 const dateUtil = new DateUtil();
 const userController = new UsersController(userSerivce,dateUtil);
-const jwtMiddleware = new JwtMiddleware(userSerivce);
 const usersMiddleware = new UsersMiddleware(userSerivce);
 const permissionMiddleware = new CommonPermissionMiddleware();
 const userRoutes = 
-	new UsersRoutes(userController,jwtMiddleware,usersMiddleware,permissionMiddleware);
+	new UsersRoutes(userController,usersMiddleware,permissionMiddleware);
 
 
 app.use('/v1/users', userRoutes.getRouter());

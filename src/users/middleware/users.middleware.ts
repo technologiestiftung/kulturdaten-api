@@ -3,7 +3,7 @@ import debug from 'debug';
 import { UsersService } from '../services/users.service';
 import { Service } from 'typedi';
 
-const log: debug.IDebugger = debug('app:users-controller');
+const log: debug.IDebugger = debug('app:users-middleware');
 
 
 @Service()
