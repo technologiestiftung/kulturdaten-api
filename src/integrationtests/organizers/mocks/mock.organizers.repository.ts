@@ -1,7 +1,7 @@
-import { CreateOrganizerDto } from "../../organizers/dtos/create.organizer.dto";
-import { PatchOrganizerDto } from "../../organizers/dtos/patch.organizer.dto";
-import { Organizer } from "../../organizers/repositories/organizer";
-import { OrganizersRepository } from "../../organizers/repositories/organizers.repository";
+import { CreateOrganizerDto } from "../../../organizers/dtos/create.organizer.dto";
+import { PatchOrganizerDto } from "../../../organizers/dtos/patch.organizer.dto";
+import { Organizer } from "../../../organizers/repositories/organizer";
+import { OrganizersRepository } from "../../../organizers/repositories/organizers.repository";
 import { faker } from '@faker-js/faker';
 
 

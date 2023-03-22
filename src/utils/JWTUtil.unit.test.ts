@@ -8,7 +8,6 @@ describe('JWTUtil is being tested', () => {
 		const util = new JWTUtil();
 		const token = util.createAuthToken("ID","1","geheim");
 		const payload = jwt.verify(token, "geheim");
-		console.log("Payload " + JSON.stringify(payload));
 		
 	});
 });

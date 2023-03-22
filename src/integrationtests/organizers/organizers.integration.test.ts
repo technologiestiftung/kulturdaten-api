@@ -1,9 +1,9 @@
 import express from "express";
 import request from "supertest";
-import { OrganizersController } from "../organizers/controllers/organizers.controller";
-import { OrganizersService } from "../organizers/services/organizers.service";
-import { OrganizersRoutes } from "../organizers/organizers.routes";
-import { DateUtil } from "../utils/DateUtil";
+import { OrganizersController } from "../../organizers/controllers/organizers.controller";
+import { OrganizersService } from "../../organizers/services/organizers.service";
+import { OrganizersRoutes } from "../../organizers/organizers.routes";
+import { DateUtil } from "../../utils/DateUtil";
 import { MockOrganizersRepository } from "./mocks/mock.organizers.repository";
 
 const app = express();

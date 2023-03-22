@@ -82,7 +82,7 @@ class KulturdatenBerlinApp {
 
 	private initAuthStrategies() {
 		passport.use('password', AuthPassword.getStrategy(Container.get(UsersService)));
-		passport.use('bearerJWT', AuthBearerJWT.getStrategy());
+		passport.use('authenticated-user', AuthBearerJWT.getStrategy());
 	}
 
 	private registerDefaultMiddleware() {

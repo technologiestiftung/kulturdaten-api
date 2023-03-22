@@ -15,8 +15,7 @@ export class CommonPermissionMiddleware {
 		next: express.NextFunction, 
 		requiredPermissionFlag: PermissionFlag) {
 			try {
-				let u: User = req.user as User;
-				console.log(u);
+				const u: User = req.user as User;
 				if (u.permissionFlags ? u.permissionFlags & requiredPermissionFlag : false) {
 					next();
 				} else {
@@ -32,10 +31,11 @@ export class CommonPermissionMiddleware {
 		res: express.Response,
 		next: express.NextFunction
 	) {
+		const u: User = req.user as User;
 		if (
 			req.params &&
 			req.params.userId &&
-			req.params.userId === res.locals.jwt.userId
+			req.params.userId === u._id
 		) {
 			return next();
 		} else {

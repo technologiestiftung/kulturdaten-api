@@ -1,7 +1,6 @@
 import debug from 'debug';
 import express, { Router } from 'express';
-import { check, validationResult } from 'express-validator';
-import passport from 'passport';
+import { body,  matchedData,  param,  validationResult } from 'express-validator';
 import { Service } from 'typedi';
 import { OrganizersController } from './controllers/organizers.controller';
 
@@ -26,10 +25,10 @@ export class OrganizersRoutes {
 			.post(
 				'/',
 				[
-					check('name', 'Organizer name is required').notEmpty()
+					body('name', 'Organizer name is required').notEmpty()
 				],
 				(req: express.Request, res: express.Response) => {
-
+					// TODO: middleware for validation-error
 					const errors = validationResult(req);
 					if (!errors.isEmpty()) {
 						return res.status(400).json({
@@ -43,8 +42,18 @@ export class OrganizersRoutes {
 		router
 			.get(
 				'/:organizerId',
+				[
+					param('organizerId', 'Organizer ID is required').notEmpty()
+				],
 				(req: express.Request, res: express.Response) => {
-					this.organizersController.getOrganizerById(req, res);
+					const errors = validationResult(req);
+					if (!errors.isEmpty()) {
+						return res.status(400).json({
+							errors: errors.array()
+						});
+					}
+					const data: Record<string, any> = matchedData(req);
+					this.organizersController.getOrganizerById(req, res, data);
 				})
 			.patch(
 				'/:organizerId',

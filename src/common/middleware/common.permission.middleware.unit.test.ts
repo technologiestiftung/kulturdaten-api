@@ -3,6 +3,7 @@ import {expect, jest, test} from '@jest/globals';
 import { mock, instance, when, verify, anything, capture } from 'ts-mockito';
 import { CommonPermissionMiddleware } from './common.permission.middleware';
 import { PermissionFlag } from './common.permissionflag.enum';
+import { User } from '../../users/repositories/user';
 
 beforeEach(() => {
 	jest.clearAllMocks();
@@ -101,17 +102,15 @@ describe('onlySameUserOrAdminCanDoThisAction is being tested', () => {
 });
 
 
-function generateMocks( flags:number = 0, userIdParams:string = "", userIdLocals:string = "" ) {
-    const locals = { jwt: {permissionFlags : flags, userId : userIdLocals} }
+function generateMocks( flags:number = 0, userIdParams:string = "", userIdLocals:string = "1" ) {
+    const user = {permissionFlags : flags, _id : userIdLocals} as User;
     const params = { userId: userIdParams};
 
     let mockedRequest: express.Request = mock<express.Request>();
+    when(mockedRequest.user).thenReturn(user)
     when(mockedRequest.params).thenReturn(params);
     let req: express.Request = instance(mockedRequest);
     let mockedResponse: express.Response = mock<express.Response>();
-    if(flags){
-        when(mockedResponse.locals).thenReturn(locals);
-    }
     let res: express.Response = instance(mockedResponse);
     let mockedNext = jest.fn();
     return { req, res, mockedNext, mockedResponse,  mockedRequest};

@@ -3,6 +3,7 @@ import { OrganizersService } from '../services/organizers.service';
 import { DateUtil } from '../../utils/DateUtil';
 import debug from 'debug';
 import { Service } from 'typedi';
+import { matchedData } from 'express-validator';
 
 const log: debug.IDebugger = debug('app:organizers-controller');
 
@@ -18,9 +19,9 @@ export class OrganizersController {
 		res = res.status(200).send({ "organizers": organizers });
 	}
 
-	async getOrganizerById(req: express.Request, res: express.Response) {
-		const { organizerId } = req.params;
-		const organizer = await this.organizersService.readById(organizerId);
+	async getOrganizerById(req: express.Request, res: express.Response,data: Record<string, any>) {
+
+		const organizer = await this.organizersService.readById(data.organizerId);
 		if (organizer){
 			res.status(200).send({ "organizer": organizer });
 		} 

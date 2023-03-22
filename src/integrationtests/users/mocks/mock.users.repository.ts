@@ -1,41 +1,44 @@
-import { CreateUserDto } from "../../users/dtos/create.user.dto";
-import { PatchUserDto } from "../../users/dtos/patch.user.dto";
-import { User } from "../../users/repositories/user";
-import { UsersRepository } from "../../users/repositories/users.repository";
+import { CreateUserDto } from "../../../users/dtos/create.user.dto";
+import { PatchUserDto } from "../../../users/dtos/patch.user.dto";
+import { User } from "../../../users/repositories/user";
+import { UsersRepository } from "../../../users/repositories/users.repository";
 import { faker } from '@faker-js/faker';
-import { PermissionFlag } from "../../common/middleware/common.permissionflag.enum";
+import { PermissionFlag } from "../../../common/middleware/common.permissionflag.enum";
 
 
 
 export class MockUsersRepository implements UsersRepository {
 
 
-	constructor(public dummyUsers: User[] = []){}getUserByEmail(email: string): Promise<{ _id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
+	constructor(public dummyUsers: User[] = []) { } 
+	
+	
+	getUserByEmail(email: string): Promise<{ _id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
 		throw new Error("Method not implemented.");
 	}
-getUserByEmailWithPassword(email: string): Promise<{ _id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
+	getUserByEmailWithPassword(email: string): Promise<{ _id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
 		throw new Error("Method not implemented.");
 	}
-;
+	;
 
 	reset() {
 		this.dummyUsers = [];
 	}
 
-	public fillWithDummyUsers(number: number){
+	public fillWithDummyUsers(number: number) {
 		this.dummyUsers = dummyUsers(number);
 	}
 
-	public addDummyUser(){
+	public addDummyUser() {
 		const d = dummyUser();
 		this.dummyUsers.push(d);
 		return d._id;
 	}
 
 	async addUser(userFields: CreateUserDto): Promise<string> {
-		let newUser:User = {
+		let newUser: User = {
 			...userFields
-		} 
+		}
 		newUser._id = `IDfor${userFields.email}`;
 		this.dummyUsers.push(newUser);
 		return Promise.resolve(newUser._id);
@@ -46,21 +49,21 @@ getUserByEmailWithPassword(email: string): Promise<{ _id?: string | undefined; e
 	async getUserById(userId: string): Promise<User | null> {
 		try {
 			let user: User | undefined = this.dummyUsers.find(({ _id }) => _id === userId)
-			if(user){
+			if (user) {
 				return Promise.resolve(user);
 			} else return Promise.resolve(null);
 		} catch (error) {
 			return Promise.resolve(null);
 		}
-	
+
 	}
-	async updateUserById(userId: string, userFields: PatchUserDto ): Promise<User | null> {
-		if(userFields){
+	async updateUserById(userId: string, userFields: PatchUserDto): Promise<User | null> {
+		if (userFields) {
 			const index = this.dummyUsers.findIndex(({ _id }) => _id === userId);
-			
-			let updatedUser:User = {
+
+			let updatedUser: User = {
 				...userFields
-			} 
+			}
 			updatedUser._id = userId;
 			if (index !== -1) {
 				this.dummyUsers[index] = updatedUser;
@@ -69,11 +72,11 @@ getUserByEmailWithPassword(email: string): Promise<{ _id?: string | undefined; e
 				return null;
 			}
 		}
-		return null; 
+		return null;
 	}
 	async removeUserById(userId: string): Promise<boolean> {
 		const index = this.dummyUsers.findIndex(({ _id }) => _id === userId);
-		if(index >= 0){
+		if (index >= 0) {
 			delete this.dummyUsers[index];
 			return true;
 		}
@@ -83,7 +86,7 @@ getUserByEmailWithPassword(email: string): Promise<{ _id?: string | undefined; e
 }
 
 
-export function dummyUser(permissionFlag:PermissionFlag = PermissionFlag.REGISTERED_USER): User{
+export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGISTERED_USER): User {
 	return {
 		_id: faker.database.mongodbObjectId(),
 		email: faker.internet.email(),
@@ -106,7 +109,7 @@ export function dummyCreateDto(): CreateUserDto {
 }
 
 export function dummyUsers(number: number): User[] {
-	let users:User[] = [];
+	let users: User[] = [];
 	for (let index = 0; index < number; index++) {
 		users.push(dummyUser());
 	}

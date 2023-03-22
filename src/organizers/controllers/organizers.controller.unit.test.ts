@@ -46,18 +46,20 @@ describe('listOrganizers is being tested', () => {
 describe('getOrganizerById is being tested', () => {
 	test('organizer available organizers as a document with code 200', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200, {}, { "organizerId": "1" });
+		let { req, res, firstMockedResponse } = generateMockRequestResponse(200);
+		const data: Record<string, any> = { "organizerId": "1" }
 
-		await controller.getOrganizerById(req, res);
+		await controller.getOrganizerById(req, res,data);
 
 		verify(firstMockedResponse.status(200)).called();
 	});
 
 	test('organizer response is well structured', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{},  { "organizerId": "1" });
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
+		const data: Record<string, any> = { "organizerId": "1" }
 
-		await controller.getOrganizerById(req, res);
+		await controller.getOrganizerById(req, res, data);
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizer:

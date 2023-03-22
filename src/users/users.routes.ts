@@ -1,6 +1,6 @@
 import debug from 'debug';
 import express, { Router } from 'express';
-import { check, validationResult } from 'express-validator';
+import { body, check, validationResult } from 'express-validator';
 import passport from 'passport';
 import { Service } from 'typedi';
 import { CommonPermissionMiddleware } from '../common/middleware/common.permission.middleware';
@@ -25,7 +25,7 @@ export class UsersRoutes {
 		router
 			.get(
 				'/',
-				passport.authenticate('bearerJWT', { session: false }),
+				passport.authenticate('authenticated-user', { session: false }),
 				(req, res, next) => this.permissionMiddleware.permissionFlagRequired(req, res, next,
 					PermissionFlag.ADMIN_PERMISSION
 				),
@@ -35,8 +35,8 @@ export class UsersRoutes {
 			.post(
 				'/',
 				[
-					check('email', 'Email is required').notEmpty(),
-					check('password', 'Email is required').notEmpty()
+					body('email', 'Email is required').isEmail(),
+					body('password', 'Password is required').notEmpty()
 				],
 				(req: express.Request, res: express.Response, next: express.NextFunction) => 
 						this.usersMiddleware.validateRequiredUserBodyFields(req,res,next), 
@@ -63,13 +63,13 @@ export class UsersRoutes {
 			)
 			.get(
 				'/:userId',
-				passport.authenticate('bearerJWT', { session: false }),
+				passport.authenticate('authenticated-user', { session: false }),
 				(req: express.Request, res: express.Response) => {
 					this.usersController.getUserById(req, res);
 				})
 			.delete(
 				'/:userId',
-				passport.authenticate('bearerJWT', { session: false }),
+				passport.authenticate('authenticated-user', { session: false }),
 				(req, res) => {
 					this.usersController.removeUser(req, res);
 				});
@@ -82,7 +82,7 @@ export class UsersRoutes {
 			)
 			.patch(
 				'/:userId',
-				passport.authenticate('bearerJWT', { session: false }),
+				passport.authenticate('authenticated-user', { session: false }),
 				(req, res) => {
 					this.usersController.patch(req, res);
 				});
