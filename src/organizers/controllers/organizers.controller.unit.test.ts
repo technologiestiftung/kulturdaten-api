@@ -9,9 +9,9 @@ beforeEach(() => {
 });
 
 let dummyOrganizers = [
-	{ _id: "1", name: "Organizer 1" },
-	{ _id: "2", name: "Organizer 2" },
-	{ _id: "3", name: "Organizer 3" },
+	{ id: "1", name: "Organizer 1" },
+	{ id: "2", name: "Organizer 2" },
+	{ id: "3", name: "Organizer 3" },
 ]
 
 let newOrganizer = { name: "Name", description: "Beschreibung", created: "", updated: "" };
@@ -34,9 +34,9 @@ describe('listOrganizers is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizers: [
-				{ _id: '1', name: 'Organizer 1' },
-				{ _id: '2', name: 'Organizer 2' },
-				{ _id: '3', name: 'Organizer 3' }
+				{ id: '1', name: 'Organizer 1' },
+				{ id: '2', name: 'Organizer 2' },
+				{ id: '3', name: 'Organizer 3' }
 			]
 		});
 
@@ -63,7 +63,7 @@ describe('getOrganizerById is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizer:
-				{ _id: '1', name: 'Organizer 1' }
+				{ id: '1', name: 'Organizer 1' }
 		});
 	})
 });

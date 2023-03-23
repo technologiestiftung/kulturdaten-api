@@ -34,7 +34,7 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 			...organizerFields
 		});
 		await organizer.save();
-		return organizer._id;
+		return organizer.id;
 	}
 
 	async getOrganizers(limit = 25, page = 0) : Promise<Organizer[] | null> {
@@ -44,7 +44,7 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 	}
 
 	async getOrganizerById(organizerId: string) : Promise<Organizer | null> {
-		return await this.OrganizerModel.findOne({ _id: organizerId });
+		return await this.OrganizerModel.findOne({ id: organizerId });
 	}
 
 	async updateOrganizerById(
@@ -52,14 +52,14 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 		organizerFields: PatchOrganizerDto 
 	)  : Promise<Organizer | null> {
 		return await this.OrganizerModel.findOneAndUpdate(
-			{ _id: organizerId },
+			{ id: organizerId },
 			{ $set: organizerFields },
 			{ new: true }
 		).exec();
 	}
 
 	async removeOrganizerById(organizerId: string) : Promise<boolean> {
-		let count = await this.OrganizerModel.deleteOne({ _id: organizerId }).exec();
+		let count = await this.OrganizerModel.deleteOne({ id: organizerId }).exec();
 		return count.deletedCount > 0;
 	}
 }

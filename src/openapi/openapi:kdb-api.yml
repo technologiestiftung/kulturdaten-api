@@ -136,7 +136,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  events: 
+                  users: 
                     type: array
                     items:    
                       $ref: '#/components/schemas/User'
@@ -158,6 +158,12 @@ paths:
                 properties:
                   id: 
                     type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
 
   /users/{userId}:
     parameters:
@@ -261,7 +267,7 @@ components:
     Organizer:
       type: object
       properties:
-        _id:
+        id:
           type: string
         name:
           type: string
@@ -274,7 +280,7 @@ components:
           type: string
           format: date-time   
       required:
-        - _id
+        - id
         - name 
 
     CreateOrganizer:
@@ -306,7 +312,7 @@ components:
     User:
       type: object
       properties:
-        _id:
+        id:
           type: string
         email:
           type: string

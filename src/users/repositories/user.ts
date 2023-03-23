@@ -3,7 +3,7 @@ import mongooseAsyncNanoid from 'mongoose-async-nanoid';
 
 
 export const userSchema = new Schema({
-	_id: { type: String },
+	id: { type: String },
 	email: { type: String },
 	password: { type: String, select: false },
 	firstName: { type: String },

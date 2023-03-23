@@ -10,9 +10,9 @@ beforeEach(() => {
 });
 
 let dummyUsers = [
-	{ _id: "1", email: "mail1@test.de", password: "HASH1" },
-	{ _id: "2", email: "mail2@test.de", password: "HASH2" },
-	{ _id: "3", email: "mail3@test.de", password: "HASH3" },
+	{ id: "1", email: "mail1@test.de", password: "HASH1" },
+	{ id: "2", email: "mail2@test.de", password: "HASH2" },
+	{ id: "3", email: "mail3@test.de", password: "HASH3" },
 ]
 
 describe('create user is being tested', () => {
@@ -147,14 +147,14 @@ describe('patchById is being testes', () => {
 	test('if user patched returns updated message', async () => {
 		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
 		when(mockedRepo.updateUserById("1", anything())).thenReturn(
-			Promise.resolve({ _id: "1", email: "neueMail@beispiel.de", password: "HASH1" })
+			Promise.resolve({ id: "1", email: "neueMail@beispiel.de", password: "HASH1" })
 		);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
 
 		let updatedUser = await  service.patchById("1", {email: "neueMail@beispiel.de"});;
 
-		expect(updatedUser).toEqual({ _id: "1", email: "neueMail@beispiel.de", password: "HASH1" });
+		expect(updatedUser).toEqual({ id: "1", email: "neueMail@beispiel.de", password: "HASH1" });
 	});
 	
 });

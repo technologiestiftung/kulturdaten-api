@@ -103,7 +103,7 @@ describe('onlySameUserOrAdminCanDoThisAction is being tested', () => {
 
 
 function generateMocks( flags:number = 0, userIdParams:string = "", userIdLocals:string = "1" ) {
-    const user = {permissionFlags : flags, _id : userIdLocals} as User;
+    const user = {permissionFlags : flags, id : userIdLocals} as User;
     const params = { userId: userIdParams};
 
     let mockedRequest: express.Request = mock<express.Request>();

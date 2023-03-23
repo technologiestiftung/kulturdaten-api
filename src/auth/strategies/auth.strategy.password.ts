@@ -22,7 +22,7 @@ export class AuthPassword {
 					const passwordHash = user.password;
 					if (await argon2.verify(passwordHash, password)) {
 						return done(null, {
-							id: user._id,
+							id: user.id,
 							email: user.email,
 							permissionFlags: user.permissionFlags
 						});

@@ -35,7 +35,7 @@ export class CommonPermissionMiddleware {
 		if (
 			req.params &&
 			req.params.userId &&
-			req.params.userId === u._id
+			req.params.userId === u.id
 		) {
 			return next();
 		} else {

@@ -13,10 +13,17 @@ export class MockUsersRepository implements UsersRepository {
 	constructor(public dummyUsers: User[] = []) { } 
 	
 	
-	getUserByEmail(email: string): Promise<{ _id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
-		throw new Error("Method not implemented.");
+	getUserByEmail(userEmail: string): Promise<{ id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
+		try {
+			let user: User | undefined = this.dummyUsers.find(({ email }) => email === userEmail)
+			if (user) {
+				return Promise.resolve(user);
+			} else return Promise.resolve(null);
+		} catch (error) {
+			return Promise.resolve(null);
+		}
 	}
-	getUserByEmailWithPassword(email: string): Promise<{ _id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
+	getUserByEmailWithPassword(email: string): Promise<{ id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
 		throw new Error("Method not implemented.");
 	}
 	;
@@ -32,23 +39,23 @@ export class MockUsersRepository implements UsersRepository {
 	public addDummyUser() {
 		const d = dummyUser();
 		this.dummyUsers.push(d);
-		return d._id;
+		return d.id;
 	}
 
 	async addUser(userFields: CreateUserDto): Promise<string> {
 		let newUser: User = {
 			...userFields
 		}
-		newUser._id = `IDfor${userFields.email}`;
+		newUser.id = `IDfor${userFields.email}`;
 		this.dummyUsers.push(newUser);
-		return Promise.resolve(newUser._id);
+		return Promise.resolve(newUser.id);
 	}
 	async getUsers(limit: number, page: number): Promise<User[] | null> {
 		return Promise.resolve(this.dummyUsers);
 	}
 	async getUserById(userId: string): Promise<User | null> {
 		try {
-			let user: User | undefined = this.dummyUsers.find(({ _id }) => _id === userId)
+			let user: User | undefined = this.dummyUsers.find(({ id }) => id === userId)
 			if (user) {
 				return Promise.resolve(user);
 			} else return Promise.resolve(null);
@@ -59,12 +66,12 @@ export class MockUsersRepository implements UsersRepository {
 	}
 	async updateUserById(userId: string, userFields: PatchUserDto): Promise<User | null> {
 		if (userFields) {
-			const index = this.dummyUsers.findIndex(({ _id }) => _id === userId);
+			const index = this.dummyUsers.findIndex(({ id }) => id === userId);
 
 			let updatedUser: User = {
 				...userFields
 			}
-			updatedUser._id = userId;
+			updatedUser.id = userId;
 			if (index !== -1) {
 				this.dummyUsers[index] = updatedUser;
 				return updatedUser;
@@ -75,7 +82,7 @@ export class MockUsersRepository implements UsersRepository {
 		return null;
 	}
 	async removeUserById(userId: string): Promise<boolean> {
-		const index = this.dummyUsers.findIndex(({ _id }) => _id === userId);
+		const index = this.dummyUsers.findIndex(({ id }) => id === userId);
 		if (index >= 0) {
 			delete this.dummyUsers[index];
 			return true;
@@ -88,7 +95,7 @@ export class MockUsersRepository implements UsersRepository {
 
 export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGISTERED_USER): User {
 	return {
-		_id: faker.database.mongodbObjectId(),
+		id: faker.database.mongodbObjectId(),
 		email: faker.internet.email(),
 		password: faker.internet.password(),
 		firstName: faker.name.firstName(),

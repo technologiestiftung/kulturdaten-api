@@ -10,9 +10,9 @@ beforeEach(() => {
 });
 
 let dummyOrganizers = [
-	{ _id: "1", name: "Organizer 1" },
-	{ _id: "2", name: "Organizer 2" },
-	{ _id: "3", name: "Organizer 3" },
+	{ id: "1", name: "Organizer 1" },
+	{ id: "2", name: "Organizer 2" },
+	{ id: "3", name: "Organizer 3" },
 ]
 
 describe('create organizer is being tested', () => {

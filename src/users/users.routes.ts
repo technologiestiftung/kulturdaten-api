@@ -1,18 +1,23 @@
 import debug from 'debug';
 import express, { Router } from 'express';
-import { body, check, validationResult } from 'express-validator';
+import { body, check, param, validationResult } from 'express-validator';
 import passport from 'passport';
 import { Service } from 'typedi';
+import { permit } from '../auth/middleware/auth.middleware';
 import { CommonPermissionMiddleware } from '../common/middleware/common.permission.middleware';
-import { PermissionFlag } from '../common/middleware/common.permissionflag.enum';
+import { validation } from '../common/middleware/common.validation.middleware';
 import { UsersController } from './controllers/users.controller';
-import { UsersMiddleware } from './middleware/users.middleware';
+import { checkUsers, UsersMiddleware } from './middleware/users.middleware';
 
 
 const log: debug.IDebugger = debug('app:users-routes');
 
 @Service()
 export class UsersRoutes {
+
+	// TODO: Refactor auth-middleware
+	//	- more middleware for 'same user or admin' etc
+	//  - refactor use of middleware and 
 
 	constructor(
 		public usersController: UsersController, 
@@ -26,44 +31,31 @@ export class UsersRoutes {
 			.get(
 				'/',
 				passport.authenticate('authenticated-user', { session: false }),
-				(req, res, next) => this.permissionMiddleware.permissionFlagRequired(req, res, next,
-					PermissionFlag.ADMIN_PERMISSION
-				),
-				(req, res) => {
+				permit.authorizesAsAdmin(),
+				(req: express.Request, res: express.Response) => {
 					this.usersController.listUsers(req, res);
 				})
 			.post(
 				'/',
 				[
 					body('email', 'Email is required').isEmail(),
+					body('email').custom(value => checkUsers.eMailIsNotExist(value)),
 					body('password', 'Password is required').notEmpty()
-				],
-				(req: express.Request, res: express.Response, next: express.NextFunction) => 
-						this.usersMiddleware.validateRequiredUserBodyFields(req,res,next), 
-				(req: express.Request, res: express.Response, next: express.NextFunction) => 
-						this.usersMiddleware.validateSameEmailDoesntExist(req,res,next), 
+				], 
+				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-
-					const errors = validationResult(req);
-					if (!errors.isEmpty()) {
-						return res.status(400).json({
-							errors: errors.array()
-						});
-					}
-					
 					this.usersController.createUser(req, res);
 				});
 
 		router
-			.all('',
-				(req: express.Request, res: express.Response, next: express.NextFunction) => 
-						this.permissionMiddleware.onlySameUserOrAdminCanDoThisAction(req,res,next),
-				(req: express.Request, res: express.Response, next: express.NextFunction) => 
-						this.usersMiddleware.validateUserExists(req,res,next),
-			)
 			.get(
 				'/:userId',
+				[
+					param('userId', 'User ID is required').notEmpty()
+				],
+				validation.checkErrors(),
 				passport.authenticate('authenticated-user', { session: false }),
+				permit.authorizesAsAdminOrSameUser(),
 				(req: express.Request, res: express.Response) => {
 					this.usersController.getUserById(req, res);
 				})

@@ -26,7 +26,7 @@ describe('Exploring existing organizers', () => {
 		expect(body.organizers).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({
-					_id: expect.any(String),
+					id: expect.any(String),
 					name: expect.any(String),
 					description: expect.any(String),
 					created: expect.any(String),
@@ -89,7 +89,7 @@ describe('Exploring existing organizers', () => {
 		expect(statusCode).toBe(200);
 
 		expect(body.organizer).toEqual(expect.objectContaining({
-			_id: existOrganizerId,
+			id: existOrganizerId,
 			name: expect.any(String),
 			description: expect.any(String),
 			created: expect.any(String),

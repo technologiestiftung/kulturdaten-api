@@ -42,10 +42,10 @@ class KulturdatenBerlinApp {
 		this.initDependencyInjection();
 		this.initLogger();
 		this.initAuthStrategies();
-		this.registerDefaultMiddleware();
-		this.registerErrorHandler();
+ 		this.registerDefaultMiddleware();
 		this.registerOpenApi();
 		this.registerStatusChecks();
+		this.registerErrorHandler();
 	}
 
 	public registerRoutes() {

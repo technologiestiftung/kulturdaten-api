@@ -45,11 +45,11 @@ export class MongoDBUsersRepository {
 			permissionFlags: PermissionFlag.REGISTERED_USER,
 		});
 		await user.save();
-		return user._id;
+		return user.id;
 	}
 
 	async getUserById(userId: string) : Promise<User | null>  {
-		return this.UserModel.findOne({ _id: userId });
+		return this.UserModel.findOne({ id: userId });
 	}
 
 	async getUsers(limit = 25, page = 0) : Promise<User[] | null> {
@@ -64,14 +64,14 @@ export class MongoDBUsersRepository {
 		userFields: PatchUserDto | PutUserDto
 	) : Promise<User | null>{
 		return await this.UserModel.findOneAndUpdate(
-			{ _id: userId },
+			{ id: userId },
 			{ $set: userFields },
 			{ new: true }
 		).exec();
 	}
 
 	async removeUserById(userId: string): Promise<boolean> {
-		let result = await this.UserModel.deleteOne({ _id: userId });
+		let result = await this.UserModel.deleteOne({ id: userId });
 		return result.deletedCount > 0;
 	}
 
@@ -80,6 +80,6 @@ export class MongoDBUsersRepository {
 	}
 
 	async getUserByEmailWithPassword(email: string) : Promise<User | null>  {
-		return this.UserModel.findOne({ email: email }).select('_id email permissionFlags +password');
+		return this.UserModel.findOne({ email: email }).select('id email permissionFlags +password');
 	}
 }
