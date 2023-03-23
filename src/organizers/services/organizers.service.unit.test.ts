@@ -147,14 +147,14 @@ describe('patchById is being testes', () => {
 	test('if organizer patched returns updated message', async () => {
 		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
 		when(mockedRepo.updateOrganizerById("ID", anything())).thenReturn(
-			Promise.resolve({name: "neuer Name", description: "alte Beschreibung"})
+			Promise.resolve({id: "id",name: "neuer Name", description: "alte Beschreibung"})
 		);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
 
 		let updatedOrganizer = await  service.patchById("ID", {name: "neuer Name"});;
 
-		expect(updatedOrganizer).toEqual({name: "neuer Name", description: "alte Beschreibung"});
+		expect(updatedOrganizer).toEqual({id: "id",name: "neuer Name", description: "alte Beschreibung"});
 	});
 	
 });

@@ -13,7 +13,7 @@ export class MockUsersRepository implements UsersRepository {
 	constructor(public dummyUsers: User[] = []) { } 
 	
 	
-	getUserByEmail(userEmail: string): Promise<{ id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
+	getUserByEmail(userEmail: string): Promise<User | null> {
 		try {
 			let user: User | undefined = this.dummyUsers.find(({ email }) => email === userEmail)
 			if (user) {
@@ -23,7 +23,7 @@ export class MockUsersRepository implements UsersRepository {
 			return Promise.resolve(null);
 		}
 	}
-	getUserByEmailWithPassword(email: string): Promise<{ id?: string | undefined; email?: string | undefined; password?: string | undefined; firstName?: string | undefined; lastName?: string | undefined; created?: string | undefined; updated?: string | undefined; permissionFlags?: number | undefined; } | null> {
+	getUserByEmailWithPassword(email: string): Promise<User | null> {
 		throw new Error("Method not implemented.");
 	}
 	;
@@ -44,7 +44,9 @@ export class MockUsersRepository implements UsersRepository {
 
 	async addUser(userFields: CreateUserDto): Promise<string> {
 		let newUser: User = {
-			...userFields
+			id: `IDfor${userFields.email}`,
+			...userFields,
+			permissionFlags: userFields.permissionFlags ?? 1
 		}
 		newUser.id = `IDfor${userFields.email}`;
 		this.dummyUsers.push(newUser);
@@ -67,14 +69,14 @@ export class MockUsersRepository implements UsersRepository {
 	async updateUserById(userId: string, userFields: PatchUserDto): Promise<User | null> {
 		if (userFields) {
 			const index = this.dummyUsers.findIndex(({ id }) => id === userId);
-
-			let updatedUser: User = {
-				...userFields
-			}
-			updatedUser.id = userId;
+		
 			if (index !== -1) {
-				this.dummyUsers[index] = updatedUser;
-				return updatedUser;
+				if(userFields.email) this.dummyUsers[index].email = userFields.email;
+				if(userFields.firstName) this.dummyUsers[index].firstName = userFields.firstName;
+				if(userFields.lastName) this.dummyUsers[index].lastName = userFields.lastName;
+				if(userFields.password) this.dummyUsers[index].password = userFields.password;
+				if(userFields.permissionFlags) this.dummyUsers[index].permissionFlags = userFields.permissionFlags;
+				return this.dummyUsers[index];
 			} else {
 				return null;
 			}

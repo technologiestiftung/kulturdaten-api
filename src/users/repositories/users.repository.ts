@@ -8,7 +8,7 @@ import { PermissionFlag } from '../../common/middleware/common.permissionflag.en
 import { Service } from 'typedi';
 import { User, userSchema } from './user';
 
-const log: debug.IDebugger = debug('app:in-memory-users-dao');
+const log: debug.IDebugger = debug('app:users-repository');
 
 
 export interface UsersRepository {
@@ -49,7 +49,7 @@ export class MongoDBUsersRepository {
 	}
 
 	async getUserById(userId: string) : Promise<User | null>  {
-		return this.UserModel.findOne({ id: userId });
+		return this.UserModel.findById(userId);
 	}
 
 	async getUsers(limit = 25, page = 0) : Promise<User[] | null> {
@@ -63,16 +63,17 @@ export class MongoDBUsersRepository {
 		userId: string,
 		userFields: PatchUserDto | PutUserDto
 	) : Promise<User | null>{
-		return await this.UserModel.findOneAndUpdate(
-			{ id: userId },
+		return await this.UserModel.findByIdAndUpdate(
+			userId,
 			{ $set: userFields },
 			{ new: true }
 		).exec();
 	}
 
 	async removeUserById(userId: string): Promise<boolean> {
-		let result = await this.UserModel.deleteOne({ id: userId });
-		return result.deletedCount > 0;
+		let user = await this.UserModel.findByIdAndDelete(userId).exec();
+		if(user) return true;
+		else return false;
 	}
 
 	async getUserByEmail(email: string) : Promise<User | null>  {

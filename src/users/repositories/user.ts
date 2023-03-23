@@ -1,9 +1,20 @@
-import { Schema, InferSchemaType } from 'mongoose';
+import { Schema } from 'mongoose';
 import mongooseAsyncNanoid from 'mongoose-async-nanoid';
 
 
-export const userSchema = new Schema({
-	id: { type: String },
+export interface User {
+	id: string,
+	email: string,
+	password?: string,
+	firstName?: string,
+	lastName?: string,
+	created?: string,
+	updated?: string,
+	permissionFlags?: number
+}
+
+
+export const userSchema = new Schema<User>({
 	email: { type: String },
 	password: { type: String, select: false },
 	firstName: { type: String },
@@ -11,9 +22,19 @@ export const userSchema = new Schema({
 	created: { type: String },
 	updated: { type: String },
 	permissionFlags: { type: Number },
-}, { id: false }).plugin(mongooseAsyncNanoid, {
+}).plugin(mongooseAsyncNanoid, {
 	length: 12,
 	charset: process.env.ID_CHARSET,
 });
 
-export type User = InferSchemaType<typeof userSchema>;
+userSchema.set('toJSON', {
+	virtuals: true,
+	versionKey:false,
+	transform: function (doc, ret) {   delete ret._id  }
+  });
+
+  userSchema.set('toObject', {
+	virtuals: true,
+	versionKey:false,
+	transform: function (doc, ret) {   delete ret._id  }
+  });

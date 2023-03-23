@@ -1,9 +1,16 @@
-import { Schema, InferSchemaType } from 'mongoose';
+import { Schema } from 'mongoose';
 import mongooseAsyncNanoid from 'mongoose-async-nanoid';
 
 
-export const organizerSchema = new Schema({
-	id: {type: String},
+export interface Organizer {
+	id: string,
+	name: string,
+	description?: string,
+	created?: string,
+	updated?: string,
+}
+
+export const organizerSchema = new Schema<Organizer>({
 	name: {type: String},
 	description: {type: String},
 	created: {type: String},
@@ -13,5 +20,14 @@ export const organizerSchema = new Schema({
 	charset: process.env.ID_CHARSET,
 });
 
-export type Organizer = InferSchemaType<typeof organizerSchema>;
+organizerSchema.set('toJSON', {
+	virtuals: true,
+	versionKey:false,
+	transform: function (doc, ret) {   delete ret._id  }
+  });
 
+  organizerSchema.set('toObject', {
+	virtuals: true,
+	versionKey:false,
+	transform: function (doc, ret) {   delete ret._id  }
+  });

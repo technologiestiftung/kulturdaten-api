@@ -27,9 +27,9 @@ export class MockOrganizersRepository implements OrganizersRepository {
 
 	async addOrganizer(organizerFields: CreateOrganizerDto): Promise<string> {
 		let newOrganizer:Organizer = {
+			id: `IDfor${organizerFields.name}`,
 			...organizerFields
 		} 
-		newOrganizer.id = `IDfor${organizerFields.name}`;
 		this.dummyOrganizers.push(newOrganizer);
 		return Promise.resolve(newOrganizer.id);
 	}
@@ -50,14 +50,11 @@ export class MockOrganizersRepository implements OrganizersRepository {
 	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto ): Promise<Organizer | null> {
 		if(organizerFields){
 			const index = this.dummyOrganizers.findIndex(({ id }) => id === organizerId);
-			
-			let updatedOrganizer:Organizer = {
-				...organizerFields
-			} 
-			updatedOrganizer.id = organizerId;
+		
 			if (index !== -1) {
-				this.dummyOrganizers[index] = updatedOrganizer;
-				return updatedOrganizer;
+				if(organizerFields.name) this.dummyOrganizers[index].name = organizerFields.name;
+				if(organizerFields.description) this.dummyOrganizers[index].description = organizerFields.description;
+				return this.dummyOrganizers[index];
 			} else {
 				return null;
 			}

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express from "express";
 import request from "supertest";
 import { CommonPermissionMiddleware } from "../../common/middleware/common.permission.middleware";
@@ -11,6 +12,7 @@ import { mockTokenForExistUser } from "../utils/mock.auth.strategy"
 import { mock, instance, when, verify, anything, deepEqual, capture } from 'ts-mockito';
 import { PermissionFlag } from "../../common/middleware/common.permissionflag.enum";
 import passport from "passport";
+import Container from 'typedi';
 
 
 const app = express();
@@ -28,6 +30,14 @@ const userRoutes =
 	new UsersRoutes(userController, usersMiddleware, permissionMiddleware);
 
 app.use('/v1/users', userRoutes.getRouter());
+
+beforeAll(() => {
+	Container.set('UsersRepository', usersRepository);
+})
+
+afterAll(() => {
+	Container.reset();
+})
 
 afterEach(() => {
 	passport.unuse('authenticated-user');

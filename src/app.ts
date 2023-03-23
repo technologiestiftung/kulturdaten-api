@@ -43,7 +43,7 @@ class KulturdatenBerlinApp {
 		this.initLogger();
 		this.initAuthStrategies();
  		this.registerDefaultMiddleware();
-		this.registerOpenApi();
+		// this.registerOpenApi();
 		this.registerStatusChecks();
 		this.registerErrorHandler();
 	}
