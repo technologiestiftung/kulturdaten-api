@@ -8,8 +8,8 @@ export interface User {
 	password?: string,
 	firstName?: string,
 	lastName?: string,
-	created?: string,
-	updated?: string,
+	createdAt?: string,
+	updatedAt?: string,
 	permissionFlags?: number
 }
 
@@ -19,22 +19,20 @@ export const userSchema = new Schema<User>({
 	password: { type: String, select: false },
 	firstName: { type: String },
 	lastName: { type: String },
-	created: { type: String },
-	updated: { type: String },
 	permissionFlags: { type: Number },
+}, {
+	timestamps: true,
+	toJSON: {
+		virtuals: true,
+		versionKey: false,
+		transform: function (doc, ret) { delete ret._id }
+	}, toObject: {
+		virtuals: true,
+		versionKey: false,
+		transform: function (doc, ret) { delete ret._id }
+	}
 }).plugin(mongooseAsyncNanoid, {
 	length: 12,
 	charset: process.env.ID_CHARSET,
 });
 
-userSchema.set('toJSON', {
-	virtuals: true,
-	versionKey:false,
-	transform: function (doc, ret) {   delete ret._id  }
-  });
-
-  userSchema.set('toObject', {
-	virtuals: true,
-	versionKey:false,
-	transform: function (doc, ret) {   delete ret._id  }
-  });

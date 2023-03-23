@@ -35,7 +35,7 @@ let dummyUsersRepo = [
         permissionFlags: 8192}
 ]
 
-let newUser = { email: "neu@mail.de",password: "geheimNEU", created: undefined, updated: undefined };
+let newUser = { email: "neu@mail.de",password: "geheimNEU", createdAt: undefined, updatedAt: undefined };
 
 describe('listUsers is being tested', () => {
 	test('users available users as a document with code 200', async () => {
@@ -98,16 +98,6 @@ describe('createUser is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, { "id": "NewId" });
 	});
-
-	test('if an user is successfully created, created and updated time is set', async () => {
-		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newUser);
-
-		await controller.createUser(req, res);
-
-		expect(newUser.created).toBe("NOW");
-		expect(newUser.updated).toBe("NOW");
-	});
 });
 
 describe('patch is being tested', () => {
@@ -120,17 +110,6 @@ describe('patch is being tested', () => {
 		verify(firstMockedResponse.status(204)).called();
 	});
 
-
-	test('if an user is successfully patched, updated time is set', async () => {
-		let controller = generateMockController();
-		let body = { created: "CREATE_TIME", updated: undefined}; 
-		let { req, res } = generateMockRequestResponse(204, body, { userId: '1'});
-
-		await controller.patch(req, res);
-
-		expect(body.created).toBe("CREATE_TIME");
-		expect(body.updated).toBe("NOW");
-	});
 });
 
 describe('removeUser is being tested', () => {

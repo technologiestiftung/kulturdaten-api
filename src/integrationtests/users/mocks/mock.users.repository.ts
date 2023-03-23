@@ -3,7 +3,7 @@ import { PatchUserDto } from "../../../users/dtos/patch.user.dto";
 import { User } from "../../../users/repositories/user";
 import { UsersRepository } from "../../../users/repositories/users.repository";
 import { faker } from '@faker-js/faker';
-import { PermissionFlag } from "../../../common/middleware/common.permissionflag.enum";
+import { PermissionFlag } from "../../../auth/middleware/auth.permissionflag.enum";
 
 
 
@@ -102,8 +102,8 @@ export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGIST
 		password: faker.internet.password(),
 		firstName: faker.name.firstName(),
 		lastName: faker.name.lastName(),
-		created: faker.datatype.datetime().toDateString(),
-		updated: faker.datatype.datetime().toDateString(),
+		createdAt: faker.datatype.datetime().toDateString(),
+		updatedAt: faker.datatype.datetime().toDateString(),
 		permissionFlags: permissionFlag
 	}
 }

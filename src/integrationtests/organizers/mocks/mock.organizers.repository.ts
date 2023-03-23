@@ -78,8 +78,8 @@ export function dummyOrganizer(): Organizer{
 		id: faker.database.mongodbObjectId(),
 		name: faker.company.name(),
 		description: faker.company.catchPhrase(),
-		created: faker.datatype.datetime().toDateString(),
-		updated: faker.datatype.datetime().toDateString(),
+		createdAt: faker.datatype.datetime().toDateString(),
+		updatedAt: faker.datatype.datetime().toDateString(),
 	}
 }
 

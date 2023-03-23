@@ -34,7 +34,7 @@
 		"express-winston": "^4.2.0",
 		"ip": "^2.0.0",
 		"jsonwebtoken": "^9.0.0",
-		"mongoose": "^6.9.2",
+		"mongoose": "^7.0.2",
 		"mongoose-async-nanoid": "^1.0.1",
 		"passport": "^0.6.0",
 		"passport-http-bearer": "^1.0.1",

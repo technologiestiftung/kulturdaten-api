@@ -29,8 +29,8 @@ describe('Exploring existing organizers', () => {
 					id: expect.any(String),
 					name: expect.any(String),
 					description: expect.any(String),
-					created: expect.any(String),
-					updated: expect.any(String),
+					createdAt: expect.any(String),
+					updatedAt: expect.any(String),
 				})
 			])
 		);
@@ -92,8 +92,8 @@ describe('Exploring existing organizers', () => {
 			id: existOrganizerId,
 			name: expect.any(String),
 			description: expect.any(String),
-			created: expect.any(String),
-			updated: expect.any(String),
+			createdAt: expect.any(String),
+			updatedAt: expect.any(String),
 		}));
 	});
 

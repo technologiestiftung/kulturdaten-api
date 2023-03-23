@@ -273,10 +273,10 @@ components:
           type: string
         description:
           type: string
-        created:
+        createdAt:
           type: string
           format: date-time
-        updated:
+        updatedAt:
           type: string
           format: date-time   
       required:
@@ -322,10 +322,10 @@ components:
           type: string  
         lastName:
           type: string  
-        created:
+        createdAt:
           type: string
           format: date-time
-        updated:
+        updatedAt:
           type: string
           format: date-time    
 

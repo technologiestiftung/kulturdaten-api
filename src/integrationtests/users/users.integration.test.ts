@@ -1,16 +1,13 @@
 import 'reflect-metadata';
 import express from "express";
 import request from "supertest";
-import { CommonPermissionMiddleware } from "../../common/middleware/common.permission.middleware";
 import { UsersController } from "../../users/controllers/users.controller";
-import { UsersMiddleware } from "../../users/middleware/users.middleware";
 import { UsersService } from "../../users/services/users.service";
 import { UsersRoutes } from "../../users/users.routes";
 import { DateUtil } from "../../utils/DateUtil";
 import { MockUsersRepository } from "./mocks/mock.users.repository";
 import { mockTokenForExistUser } from "../utils/mock.auth.strategy"
-import { mock, instance, when, verify, anything, deepEqual, capture } from 'ts-mockito';
-import { PermissionFlag } from "../../common/middleware/common.permissionflag.enum";
+import { PermissionFlag } from "../../auth/middleware/auth.permissionflag.enum";
 import passport from "passport";
 import Container from 'typedi';
 
@@ -24,10 +21,8 @@ const usersRepository = new MockUsersRepository();
 const userSerivce = new UsersService(usersRepository);
 const dateUtil = new DateUtil();
 const userController = new UsersController(userSerivce, dateUtil);
-const usersMiddleware = new UsersMiddleware(userSerivce);
-const permissionMiddleware = new CommonPermissionMiddleware();
 const userRoutes =
-	new UsersRoutes(userController, usersMiddleware, permissionMiddleware);
+	new UsersRoutes(userController);
 
 app.use('/v1/users', userRoutes.getRouter());
 
@@ -59,8 +54,8 @@ describe('Exploring existing users', () => {
 					firstName: expect.any(String),
 					lastName:  expect.any(String),
 					email: expect.any(String),
-					created: expect.any(String),
-					updated: expect.any(String),
+					createdAt: expect.any(String),
+					updatedAt: expect.any(String),
 				})
 			])
 		);

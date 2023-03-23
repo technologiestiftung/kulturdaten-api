@@ -1,13 +1,12 @@
 import debug from 'debug';
 import express, { Router } from 'express';
-import { body, check, param, validationResult } from 'express-validator';
+import { body, param } from 'express-validator';
 import passport from 'passport';
 import { Service } from 'typedi';
 import { permit } from '../auth/middleware/auth.middleware';
-import { CommonPermissionMiddleware } from '../common/middleware/common.permission.middleware';
 import { validation } from '../common/middleware/common.validation.middleware';
 import { UsersController } from './controllers/users.controller';
-import { checkUsers, UsersMiddleware } from './middleware/users.middleware';
+import { checkUsers } from './middleware/users.middleware';
 
 
 const log: debug.IDebugger = debug('app:users-routes');
@@ -20,9 +19,7 @@ export class UsersRoutes {
 	//  - refactor use of middleware and 
 
 	constructor(
-		public usersController: UsersController, 
-		public usersMiddleware: UsersMiddleware,
-		public permissionMiddleware: CommonPermissionMiddleware) { }
+		public usersController: UsersController) { }
 
 	public getRouter(): Router {
 		let router = express.Router();
@@ -40,8 +37,9 @@ export class UsersRoutes {
 				[
 					body('email', 'Email is required').isEmail(),
 					body('email').custom(value => checkUsers.eMailIsNotExist(value)),
-					body('password', 'Password is required').notEmpty()
-				], 
+					// TODO: strong password? -> usability vs. security
+					body('password', 'Password is required').isLength({ min: 5 })
+				],
 				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
 					this.usersController.createUser(req, res);
@@ -51,7 +49,7 @@ export class UsersRoutes {
 			.get(
 				'/:userId',
 				[
-					param('userId', 'User ID is required').notEmpty()
+					param('userId', 'User ID is required').isString().notEmpty()
 				],
 				validation.checkErrors(),
 				passport.authenticate('authenticated-user', { session: false }),
@@ -61,21 +59,31 @@ export class UsersRoutes {
 				})
 			.delete(
 				'/:userId',
+				[
+					param('userId', 'User ID is required').isString().notEmpty()
+				],
+				validation.checkErrors(),
 				passport.authenticate('authenticated-user', { session: false }),
-				(req, res) => {
+				permit.authorizesAsAdminOrSameUser(),
+				(req: express.Request, res: express.Response) => {
 					this.usersController.removeUser(req, res);
-				});
-
-		router
-			.all('',
-			(req: express.Request, res: express.Response, next: express.NextFunction) => this.permissionMiddleware.onlySameUserOrAdminCanDoThisAction(req,res,next),
-			(req: express.Request, res: express.Response, next: express.NextFunction) => this.usersMiddleware.userCantChangePermission(req,res,next),
-			(req: express.Request, res: express.Response, next: express.NextFunction) => this.usersMiddleware.validateSameEmailDoesntExist(req,res,next),
-			)
+				})
 			.patch(
 				'/:userId',
+				[
+					param('userId', 'User ID is required').isString().notEmpty(),
+					body('email').isEmail().optional(),
+					// TODO: strong password? -> usability vs. security
+					body('password', 'Password is required').isLength({ min: 5 }).optional(),
+					body('firstName').isString().optional(),
+					body('lastName').isString().optional(),
+					body('permissionFlags').isNumeric().optional(),
+				],
+				validation.checkErrors(),
 				passport.authenticate('authenticated-user', { session: false }),
-				(req, res) => {
+				permit.authorizesAsAdminOrSameUser(),
+				permit.adminCanChancePermissions(),
+				(req: express.Request, res: express.Response) => {
 					this.usersController.patch(req, res);
 				});
 

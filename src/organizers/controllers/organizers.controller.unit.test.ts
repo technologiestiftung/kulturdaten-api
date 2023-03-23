@@ -14,7 +14,7 @@ let dummyOrganizers = [
 	{ id: "3", name: "Organizer 3" },
 ]
 
-let newOrganizer = { name: "Name", description: "Beschreibung", created: "", updated: "" };
+let newOrganizer = { name: "Name", description: "Beschreibung", createdAt: "", updatedAt: "" };
 
 describe('listOrganizers is being tested', () => {
 	test('organizers available organizers as a document with code 200', async () => {
@@ -87,16 +87,6 @@ describe('createOrganizer is being tested', () => {
 		expectResponseSendIsEqual(secondMockedResponse, { "id": "NewId" });
 	});
 
-	test('if an organizer is successfully created, created and updated time is set', async () => {
-		let controller = generateMockController();
-		let body = { created: undefined, updated: undefined}; 
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, body);
-
-		await controller.createOrganizer(req, res);
-
-		expect(body.created).toBe("NOW");
-		expect(body.updated).toBe("NOW");
-	});
 });
 
 describe('patch is being tested', () => {
@@ -110,16 +100,6 @@ describe('patch is being tested', () => {
 	});
 
 
-	test('if an organizer is successfully patched, updated time is set', async () => {
-		let controller = generateMockController();
-		let body = { created: "CREATE_TIME", updated: undefined}; 
-		let { req, res, } = generateMockRequestResponse(204, body, { organizerId: 'existID'});
-
-		await controller.patch(req, res);
-
-		expect(body.created).toBe("CREATE_TIME");
-		expect(body.updated).toBe("NOW");
-	});
 });
 
 
