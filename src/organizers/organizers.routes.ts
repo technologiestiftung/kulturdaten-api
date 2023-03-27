@@ -3,6 +3,8 @@ import express, { Router } from 'express';
 import { body,  matchedData,  param,  validationResult } from 'express-validator';
 import { Service } from 'typedi';
 import { OrganizersController } from './controllers/organizers.controller';
+import { validation } from '../common/middleware/common.validation.middleware';
+import { CreateOrganizerDto } from './dtos/create.organizer.dto';
 
 
 const log: debug.IDebugger = debug('app:organizers-routes');
@@ -25,17 +27,11 @@ export class OrganizersRoutes {
 			.post(
 				'/',
 				[
-					body('name', 'Organizer name is required').notEmpty()
+					body('name', 'Organizer name is required').isString(),
+					body('description').isString().optional()
 				],
+				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					// TODO: middleware for validation-error
-					const errors = validationResult(req);
-					if (!errors.isEmpty()) {
-						return res.status(400).json({
-							errors: errors.array()
-						});
-					}
-					
 					this.organizersController.createOrganizer(req, res);
 				});
 
@@ -45,24 +41,28 @@ export class OrganizersRoutes {
 				[
 					param('organizerId', 'Organizer ID is required').notEmpty()
 				],
+				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					const errors = validationResult(req);
-					if (!errors.isEmpty()) {
-						return res.status(400).json({
-							errors: errors.array()
-						});
-					}
-					const data: Record<string, any> = matchedData(req);
-					this.organizersController.getOrganizerById(req, res, data);
+					this.organizersController.getOrganizerById(req, res);
 				})
 			.patch(
 				'/:organizerId',
-				(req, res) => {
+				[
+					param('organizerId', 'Organizer ID is required').notEmpty(),
+					body('name').isString().optional(),
+					body('description').isString().optional(),
+				],
+				validation.checkErrors(),
+				(req: express.Request, res: express.Response) => {
 					this.organizersController.patch(req, res);
 				})
 			.delete(
 				'/:organizerId',
-				(req, res) => {
+				[
+					param('organizerId', 'Organizer ID is required').notEmpty()
+				],
+				validation.checkErrors(),
+				(req: express.Request, res: express.Response) => {
 					this.organizersController.removeOrganizer(req, res);
 				});
 

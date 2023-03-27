@@ -39,7 +39,7 @@ export class permit {
 		this.authorizesAs(PermissionFlag.ADMIN_PERMISSION)(req, res, next);
 	}
 
-	static adminCanChancePermissions = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	static onlyAdminCanChancePermissions = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		if (this.isUserAdmin(req)) {
 			next();
 		} else {

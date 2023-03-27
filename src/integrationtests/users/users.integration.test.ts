@@ -4,7 +4,6 @@ import request from "supertest";
 import { UsersController } from "../../users/controllers/users.controller";
 import { UsersService } from "../../users/services/users.service";
 import { UsersRoutes } from "../../users/users.routes";
-import { DateUtil } from "../../utils/DateUtil";
 import { MockUsersRepository } from "./mocks/mock.users.repository";
 import { mockTokenForExistUser } from "../utils/mock.auth.strategy"
 import { PermissionFlag } from "../../auth/middleware/auth.permissionflag.enum";
@@ -19,8 +18,7 @@ process.env.JWT_SECRET = 'geheim';
 
 const usersRepository = new MockUsersRepository();
 const userSerivce = new UsersService(usersRepository);
-const dateUtil = new DateUtil();
-const userController = new UsersController(userSerivce, dateUtil);
+const userController = new UsersController(userSerivce);
 const userRoutes =
 	new UsersRoutes(userController);
 

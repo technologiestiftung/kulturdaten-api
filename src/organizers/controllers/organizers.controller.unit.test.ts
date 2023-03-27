@@ -1,7 +1,6 @@
 import express from 'express';
 import { mock, instance, when, verify, anything, capture, anyString } from 'ts-mockito';
 import { OrganizersService } from '../services/organizers.service';
-import { DateUtil } from '../../utils/DateUtil';
 import { OrganizersController } from './organizers.controller';
 
 beforeEach(() => {
@@ -144,10 +143,7 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	when(mockedOrganizersService.patchById(anyString(),anything())).thenReturn(Promise.resolve(dummyOrganizers[0]));
 	when(mockedOrganizersService.deleteById("1")).thenReturn(Promise.resolve(true));
 	let service: OrganizersService = instance(mockedOrganizersService);
-	let mockedDateUtil: DateUtil = mock(DateUtil);
-	when(mockedDateUtil.now()).thenReturn("NOW");
-	let dateUtil: DateUtil = instance(mockedDateUtil);
-	let controller = new OrganizersController(service, dateUtil);
+	let controller = new OrganizersController(service);
 	return controller;
 }
 

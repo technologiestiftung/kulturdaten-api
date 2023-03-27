@@ -1,7 +1,6 @@
 import express from 'express';
 import { mock, instance, when, verify, anything, capture } from 'ts-mockito';
 import { UsersService } from '../services/users.service';
-import { DateUtil } from '../../utils/DateUtil';
 import { UsersController } from './users.controller';
 
 beforeEach(() => {
@@ -153,10 +152,7 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	when(mockedUsersService.patchById("1", anything())).thenReturn(Promise.resolve(dummyUsersRepo[0]));
 	when(mockedUsersService.deleteById("1")).thenReturn(Promise.resolve(true));
 	let service: UsersService = instance(mockedUsersService);
-	let mockedDateUtil: DateUtil = mock(DateUtil);
-	when(mockedDateUtil.now()).thenReturn("NOW");
-	let dateUtil: DateUtil = instance(mockedDateUtil);
-	let controller = new UsersController(service, dateUtil);
+	let controller = new UsersController(service);
 	return controller;
 }
 

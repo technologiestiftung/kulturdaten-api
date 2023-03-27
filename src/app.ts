@@ -26,6 +26,7 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import { HealthRoutes } from './health/health.routes';
 import { AuthRoutes } from './auth/auth.routes';
 
+// TODO: swagger-autogen for swagger doc
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -43,7 +44,7 @@ class KulturdatenBerlinApp {
 		this.initLogger();
 		this.initAuthStrategies();
  		this.registerDefaultMiddleware();
-		// this.registerOpenApi();
+		this.registerOpenApi();
 		this.registerStatusChecks();
 		this.registerErrorHandler();
 	}
@@ -107,6 +108,7 @@ class KulturdatenBerlinApp {
 			apiSpec: this.openAPISpec,
 			validateRequests: true,
 			validateResponses: true,
+			
 		}));
 	}
 

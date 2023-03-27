@@ -1,5 +1,6 @@
 import { Schema } from 'mongoose';
 import mongooseAsyncNanoid from 'mongoose-async-nanoid';
+import { log } from 'winston';
 
 
 export interface Organizer {
@@ -18,11 +19,17 @@ export const organizerSchema = new Schema<Organizer>({
 	toJSON: {
 		virtuals: true,
 		versionKey: false,
-		transform: function (doc, ret) { delete ret._id }
+		transform: function (doc, ret) { 
+			delete ret._id;	
+			return ret;
+		}
 	}, toObject: {
 		virtuals: true,
 		versionKey: false,
-		transform: function (doc, ret) { delete ret._id }
+		transform: function (doc, ret) { 
+			delete ret._id;
+			return ret;
+		}
 	}
 }).plugin(mongooseAsyncNanoid, {
 	length: 12,

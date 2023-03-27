@@ -14,10 +14,6 @@ const log: debug.IDebugger = debug('app:users-routes');
 @Service()
 export class UsersRoutes {
 
-	// TODO: Refactor auth-middleware
-	//	- more middleware for 'same user or admin' etc
-	//  - refactor use of middleware and 
-
 	constructor(
 		public usersController: UsersController) { }
 
@@ -82,12 +78,10 @@ export class UsersRoutes {
 				validation.checkErrors(),
 				passport.authenticate('authenticated-user', { session: false }),
 				permit.authorizesAsAdminOrSameUser(),
-				permit.adminCanChancePermissions(),
+				permit.onlyAdminCanChancePermissions(),
 				(req: express.Request, res: express.Response) => {
 					this.usersController.patch(req, res);
 				});
-
-
 		return router;
 	}
 }
