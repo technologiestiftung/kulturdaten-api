@@ -5,7 +5,8 @@ info:
 servers:
   - url: http://localhost:3000/v1/
 paths:
-  /auth:
+
+  /auth/token:
     post:
       tags:
         - Auth
@@ -15,33 +16,18 @@ paths:
             schema:
               $ref: '#/components/schemas/Login'
       responses:
-        '201':
-          description: CREATED
+        '200':
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Auth'
-  /auth/refresh-token:
-    post:
-      tags:
-        - Auth
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                refreshToken:
-                  type: string
-      responses:
-        '201':
-          description: CREATED
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Auth'
+                $ref: '#/components/schemas/ValidationError'         
 
   /organizers:
     get:
@@ -77,6 +63,13 @@ paths:
                 properties:
                   id: 
                     type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
 
   /organizers/{organizerId}:
     parameters:
@@ -99,17 +92,12 @@ paths:
                 properties:
                   organizer: 
                     $ref: '#/components/schemas/Organizer'
-    put:
-      tags:
-        - Organizers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PutOrganizer'
-      responses:
-        '204':
-          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Organizers
@@ -121,12 +109,24 @@ paths:
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Organizers
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
 
   /users:
     get:
@@ -142,7 +142,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  events: 
+                  users: 
                     type: array
                     items:    
                       $ref: '#/components/schemas/User'
@@ -164,6 +164,12 @@ paths:
                 properties:
                   id: 
                     type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
 
   /users/{userId}:
     parameters:
@@ -188,19 +194,12 @@ paths:
                 properties:
                   user:
                     $ref: '#/components/schemas/User'
-    put:
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PutUser'
-      responses:
-        '204':
-          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Users
@@ -214,6 +213,12 @@ paths:
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Users
@@ -222,11 +227,19 @@ paths:
       responses:
         '204':
           description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+
+
 
   /health:
     get:
       tags:
-        - Organizational
+        - Server
       responses:
         '200':
           description: OK
@@ -248,7 +261,7 @@ components:
       properties:
         accessToken:
           type: string
-        refreshToken:
+        expiresIn:
           type: string
     
     Login:
@@ -262,20 +275,19 @@ components:
     Organizer:
       type: object
       properties:
-        _id:
+        id:
           type: string
         name:
           type: string
         description:
           type: string
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time   
+          nullable: true
+        createdAt:
+          type: object
+        updatedAt:
+          type: object 
       required:
-        - _id
+        - id
         - name 
 
     CreateOrganizer:
@@ -307,7 +319,7 @@ components:
     User:
       type: object
       properties:
-        _id:
+        id:
           type: string
         email:
           type: string
@@ -317,10 +329,10 @@ components:
           type: string  
         lastName:
           type: string  
-        created:
+        createdAt:
           type: string
           format: date-time
-        updated:
+        updatedAt:
           type: string
           format: date-time    
 
@@ -339,19 +351,6 @@ components:
       required:
         - email
         - password 
-
-    PutUser:
-      type: object
-      properties:
-        email:
-          type: string 
-          format: email
-        firstName:
-          type: string  
-        lastName:
-          type: string  
-        permissionFlags: 
-          type: number
 
     PatchUser:
       type: object
@@ -379,3 +378,29 @@ components:
                 type: string
               healthy:
                 type: boolean
+
+    ValidationError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              location: 
+                type: string
+              msg:
+                type: string
+              param:
+                type: string
+              value:
+                type: string
+
+    NotFoundError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            msg:
+              type: string

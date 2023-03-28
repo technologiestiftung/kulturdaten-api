@@ -1,5 +1,4 @@
 import { CreateOrganizerDto } from '../dtos/create.organizer.dto';
-import { PutOrganizerDto } from '../dtos/put.organizer.dto';
 import { PatchOrganizerDto } from '../dtos/patch.organizer.dto';
 
 import { MongooseService } from '../../common/services/mongoose.service';
@@ -8,7 +7,7 @@ import debug from 'debug';
 import { Service } from 'typedi';
 import { Organizer, organizerSchema } from './organizer';
 
-const log: debug.IDebugger = debug('app:in-memory-organizers-dao');
+const log: debug.IDebugger = debug('app:organizers-repository');
 
 export interface OrganizersRepository {
 
@@ -18,15 +17,15 @@ export interface OrganizersRepository {
 
 	getOrganizerById(organizerId: string) : Promise<Organizer | null>;
 
-	updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto | PutOrganizerDto): Promise<string>;
+	updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto ): Promise<Organizer | null>;
 
-	removeOrganizerById(organizerId: string) : Promise<string>;
+	removeOrganizerById(organizerId: string) :  Promise<boolean>;
 }
 
 @Service()
 export class MongoDBOrganizersRepository implements OrganizersRepository {
 
-	OrganizerModel = this.mongooseService.getMongoose().model('Organizers', organizerSchema);
+	OrganizerModel = this.mongooseService.getMongoose().model<Organizer>('Organizers', organizerSchema);
 
 	constructor(public mongooseService: MongooseService){}
 
@@ -35,7 +34,7 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 			...organizerFields
 		});
 		await organizer.save();
-		return organizer._id;
+		return organizer.id;
 	}
 
 	async getOrganizers(limit = 25, page = 0) : Promise<Organizer[] | null> {
@@ -45,24 +44,23 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 	}
 
 	async getOrganizerById(organizerId: string) : Promise<Organizer | null> {
-		return await this.OrganizerModel.findOne({ _id: organizerId });
+		return await this.OrganizerModel.findById(organizerId);
 	}
 
 	async updateOrganizerById(
 		organizerId: string,
-		organizerFields: PatchOrganizerDto | PutOrganizerDto
-	) : Promise<string>{
-		await this.OrganizerModel.findOneAndUpdate(
-			{ _id: organizerId },
+		organizerFields: PatchOrganizerDto 
+	)  : Promise<Organizer | null> {
+		return await this.OrganizerModel.findByIdAndUpdate(
+			organizerId,
 			{ $set: organizerFields },
 			{ new: true }
 		).exec();
-
-		return `${organizerId} updated`;
 	}
 
-	async removeOrganizerById(organizerId: string) : Promise<string>{
-		this.OrganizerModel.deleteOne({ _id: organizerId }).exec();
-		return `${organizerId} removed`;
+	async removeOrganizerById(organizerId: string) : Promise<boolean> {
+		let organizer = await this.OrganizerModel.findByIdAndDelete(organizerId).exec();
+		if(organizer) return true;
+		else return false;
 	}
 }

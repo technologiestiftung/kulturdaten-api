@@ -1,9 +1,9 @@
 import express from 'express';
 import { OrganizersService } from '../services/organizers.service';
-import { DateUtil }  from '../../utils/DateUtil';
-
 import debug from 'debug';
 import { Service } from 'typedi';
+import { buildCreateOrganizerDto } from '../dtos/create.organizer.dto';
+import { buildPatchOrganizerDto } from '../dtos/patch.organizer.dto';
 
 const log: debug.IDebugger = debug('app:organizers-controller');
 
@@ -11,43 +11,57 @@ const log: debug.IDebugger = debug('app:organizers-controller');
 export class OrganizersController {
 
 	constructor(
-		public organizersService: OrganizersService, public dateUtil: DateUtil){}
+		public organizersService: OrganizersService) { }
 
 	async listOrganizers(req: express.Request, res: express.Response) {
 		const organizers = await this.organizersService.list(100, 0);
+
+		res = res.status(200).send({ "organizers": organizers });
+	}
+
+	async getOrganizerById(req: express.Request, res: express.Response, data: Record<string, any>) {
 		
-		res = res.status(200).send({ "organizers":organizers});
+		const organizer = await this.organizersService.readById(data.organizerId);
+		if (organizer){
+			res.status(200).send({ "organizer": organizer });
+		} 
+		else {
+			res.status(404).send({error: {msg: 'Organizer not found'}});
+		} 
 	}
 
-	async getOrganizerById(req: express.Request, res: express.Response) {
-		const organizer = await this.organizersService.readById(req.body.id);
-		if(organizer) res.status(200).send({ "organizer":organizer});
-		else res.status(404).send();
-	}
-
-	async createOrganizer(req: express.Request, res: express.Response) {
-		const nowAsString = this.dateUtil.now();
-		req.body.created = nowAsString;
-		req.body.updated = nowAsString;
-		const organizerId = await this.organizersService.create(req.body);
+	async createOrganizer(req: express.Request, res: express.Response, data: Record<string, any>) {
+		const createOrganizerDto = buildCreateOrganizerDto(data);
+		const organizerId = await this.organizersService.create(createOrganizerDto);
 		res.status(201).send({ id: organizerId });
 	}
 
-	async patch(req: express.Request, res: express.Response) {
-		req.body.updated = this.dateUtil.now();
-		log(await this.organizersService.patchById(req.body.id, req.body));
-		res.status(204).send();
+	async patch(req: express.Request, res: express.Response, data: Record<string, any>) {
+	
+		
+		const organizerId = data.organizerId;
+		const patchOrganizerDto = buildPatchOrganizerDto(data);
+		console.log("ID " + organizerId + " BODY " + JSON.stringify(req.body) + " data " + JSON.stringify(data) + " Dto " + JSON.stringify(patchOrganizerDto));
+		
+		const organizer = await this.organizersService.patchById(organizerId, patchOrganizerDto);
+		if(organizer){
+			res.status(204).send();
+		} 
+		else {
+			res.status(404).send({error: {msg: 'Organizer not found'}});
+		}
 	}
 
-	async put(req: express.Request, res: express.Response) {
-		req.body.updated = this.dateUtil.now();
-		log(await this.organizersService.putById(req.body.id, req.body));
-		res.status(204).send();
-	}
 
-	async removeOrganizer(req: express.Request, res: express.Response) {
-		log(await this.organizersService.deleteById(req.body.id));
-		res.status(204).send();
+	async removeOrganizer(req: express.Request, res: express.Response, data: Record<string, any>) {
+		const  organizerId  = data.organizerId;
+		if(await this.organizersService.deleteById(organizerId))
+		{
+			res.status(204).send();
+		}
+		else {
+			res.status(404).send({error: {msg: 'Organizer not found'}});
+		} 
 	}
 
 }

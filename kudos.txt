@@ -1,3 +1,0 @@
-Thanks to Marcos Henrique da Silva for his clean way of structuring nodejs applications, which I was happy to adopt. (https://it.linkedin.com/in/marcos-silva-6277b266)
-
-Thanks to the contributors of the projects that are used. Good job!

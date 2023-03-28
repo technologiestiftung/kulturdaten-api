@@ -4,28 +4,28 @@ import { PutUserDto } from '../dtos/put.user.dto';
 import { MongooseService } from '../../common/services/mongoose.service';
 
 import debug from 'debug';
-import { PermissionFlag } from '../../common/middleware/common.permissionflag.enum';
+import { PermissionFlag } from '../../auth/middleware/auth.permissionflag.enum';
 import { Service } from 'typedi';
 import { User, userSchema } from './user';
 
-const log: debug.IDebugger = debug('app:in-memory-users-dao');
+const log: debug.IDebugger = debug('app:users-repository');
 
 
 export interface UsersRepository {
 
 	addUser(userFields: CreateUserDto): Promise<string>;
 
-	getUsers(limit: number, page: number) : Promise<User[] | null>;
+	getUsers(limit: number, page: number): Promise<User[] | null>;
 
-	getUserById(userId: string) : Promise<User | null>;
+	getUserById(userId: string): Promise<User | null>;
 
-	updateUserById(userId: string,userFields: PatchUserDto | PutUserDto) : Promise<string>;
+	updateUserById(userId: string, userFields: PatchUserDto | PutUserDto): Promise<User | null>;
 
-	removeUserById(userId: string) : Promise<string>;
+	removeUserById(userId: string): Promise<boolean>;
 
-	getUserByEmail(email: string) : Promise<User | null>;
+	getUserByEmail(email: string): Promise<User | null>;
 
-	getUserByEmailWithPassword(email: string) : Promise<User | null>;
+	getUserByEmailWithPassword(email: string): Promise<User | null>;
 }
 
 
@@ -35,9 +35,9 @@ export class MongoDBUsersRepository {
 
 	UserModel = this.mongooseService.getMongoose().model('Users', userSchema);
 
-	constructor(public mongooseService: MongooseService){
+	constructor(public mongooseService: MongooseService) {
 	}
-  
+
 
 	async addUser(userFields: CreateUserDto): Promise<string> {
 		const user = new this.UserModel({
@@ -45,14 +45,14 @@ export class MongoDBUsersRepository {
 			permissionFlags: PermissionFlag.REGISTERED_USER,
 		});
 		await user.save();
-		return user._id;
+		return user.id;
 	}
 
-	async getUserById(userId: string) : Promise<User | null>  {
-		return this.UserModel.findOne({ _id: userId });
+	async getUserById(userId: string): Promise<User | null> {
+		return this.UserModel.findById(userId);
 	}
 
-	async getUsers(limit = 25, page = 0) : Promise<User[] | null> {
+	async getUsers(limit = 25, page = 0): Promise<User[] | null> {
 		return this.UserModel.find()
 			.limit(limit)
 			.skip(limit * page)
@@ -62,26 +62,25 @@ export class MongoDBUsersRepository {
 	async updateUserById(
 		userId: string,
 		userFields: PatchUserDto | PutUserDto
-	) : Promise<string>{
-		await this.UserModel.findOneAndUpdate(
-			{ _id: userId },
+	): Promise<User | null> {
+		return await this.UserModel.findByIdAndUpdate(
+			userId,
 			{ $set: userFields },
 			{ new: true }
 		).exec();
-
-		return `${userId} updated`;
 	}
 
-	async removeUserById(userId: string): Promise<string> {
-		this.UserModel.deleteOne({ _id: userId });
-		return `${userId} removed`;
+	async removeUserById(userId: string): Promise<boolean> {
+		let user = await this.UserModel.findByIdAndDelete(userId).exec();
+		if (user) return true;
+		else return false;
 	}
 
-	async getUserByEmail(email: string) : Promise<User | null>  {
+	async getUserByEmail(email: string): Promise<User | null> {
 		return this.UserModel.findOne({ email: email });
 	}
 
-	async getUserByEmailWithPassword(email: string) : Promise<User | null>  {
-		return this.UserModel.findOne({ email: email }).select('_id email permissionFlags +password');
+	async getUserByEmailWithPassword(email: string): Promise<User | null> {
+		return this.UserModel.findOne({ email: email }).select('id email permissionFlags +password');
 	}
 }

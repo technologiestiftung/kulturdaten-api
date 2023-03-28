@@ -1,30 +1,66 @@
+import { PermissionFlag } from "./auth.permissionflag.enum"
 import express from 'express';
-import debug from 'debug';
-import { UsersService } from '../../users/services/users.service';
-import * as argon2 from 'argon2';
-import { Service } from 'typedi';
+import { User } from "../../users/repositories/user";
+import { matchedData } from "express-validator";
 
-const log: debug.IDebugger = debug('app:auth-middleware');
 
-@Service()
-export class AuthMiddleware {
+export class permit {
 
-	constructor(public usersService: UsersService){}
 
-	async verifyUserPassword(req: express.Request,res: express.Response,next: express.NextFunction) {
-		const user: any = await this.usersService.getUserByEmailWithPassword(req.body.email);
-		if (user) {
-			const passwordHash = user.password;
-			if (await argon2.verify(passwordHash, req.body.password)) {
-				req.body = {
-					userId: user._id,
-					email: user.email,
-					permissionFlags: user.permissionFlags,
-				};
-				return next(); 
+	static authorizesAsAdminOrSameUser = () =>
+		 (req: express.Request, res: express.Response, next: express.NextFunction) => {
+			const data: Record<string, any> = matchedData(req);
+			if (!req.user || !data.userId) {
+				res.status(403).send();
+			}
+			const u: User = req.user as User;
+
+			if (u.id === data.userId) {
+				next();
+			} else {
+				this.authorizesAsAdmin()(req, res, next);
 			}
 		}
-		res.status(400).send({ error: 'Invalid email and/or password' });
+
+	static authorizesAs = (requiredPermission: PermissionFlag) =>
+		(req: express.Request, res: express.Response, next: express.NextFunction) => {
+			if (!req.user) {
+				res.status(403).send();
+			}
+			const u: User = req.user as User;
+			if (u.permissionFlags ? u.permissionFlags & requiredPermission : false) {
+				next();
+			} else {
+				res.status(403).send();
+			}
+		}
+
+	static authorizesAsAdmin = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+		this.authorizesAs(PermissionFlag.ADMIN_PERMISSION)(req, res, next);
 	}
 
+	static onlyAdminCanChancePermissions = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+		if (this.isUserAdmin(req)) {
+			next();
+		} else {
+			delete req.body.permissionFlags;
+			next();
+		}
+	}
+
+	static isUserAdmin(req: express.Request){
+		if(!req.user) return false;
+		const u: User = req.user as User;
+		if (u.permissionFlags ? u.permissionFlags & PermissionFlag.ADMIN_PERMISSION : false) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+
 }
+
+
+
