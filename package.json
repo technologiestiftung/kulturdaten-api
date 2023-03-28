@@ -9,7 +9,8 @@
 		"debug": "export DEBUG=* && npm run dev",
 		"test": "jest --testPathPattern='test' --detectOpenHandles",
 		"unit-test": "jest --testPathPattern='unit.test' --detectOpenHandles",
-		"integration-test": "jest --testPathPattern='int.test' --detectOpenHandles"
+		"integration-test": "jest --testPathPattern='int.test' --detectOpenHandles",
+		"json-schema-to-typescript": "tsc && node ./dist/codegeneration/generator.json.schema.to.interface.js"
 	},
 	"keywords": [
 		"kdb",
@@ -33,6 +34,7 @@
 		"express-validator": "^6.15.0",
 		"express-winston": "^4.2.0",
 		"ip": "^2.0.0",
+		"json-schema-to-typescript": "^12.0.0",
 		"jsonwebtoken": "^9.0.0",
 		"mongoose": "^7.0.2",
 		"mongoose-async-nanoid": "^1.0.1",

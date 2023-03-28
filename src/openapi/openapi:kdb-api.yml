@@ -44,7 +44,7 @@ paths:
                   organizers: 
                     type: array
                     items:    
-                      $ref: '#/components/schemas/Organizer'
+                      $ref: '../organizers/organizer.json'
     post:
       tags:
         - Organizers
@@ -91,7 +91,7 @@ paths:
                 type: object
                 properties:
                   organizer: 
-                    $ref: '#/components/schemas/Organizer'
+                    $ref: '../organizers/organizer.json'
         '404':
           description: Bad Request
           content:
@@ -271,24 +271,6 @@ components:
           type: string
         email:
           type: string
- 
-    Organizer:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-          nullable: true
-        createdAt:
-          type: object
-        updatedAt:
-          type: object 
-      required:
-        - id
-        - name 
 
     CreateOrganizer:
       type: object
