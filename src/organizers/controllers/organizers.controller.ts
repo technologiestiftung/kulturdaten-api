@@ -2,10 +2,8 @@ import express from 'express';
 import { OrganizersService } from '../services/organizers.service';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { matchedData } from 'express-validator';
-import { buildCreateOrganizerDto, CreateOrganizerDto } from '../dtos/create.organizer.dto';
+import { buildCreateOrganizerDto } from '../dtos/create.organizer.dto';
 import { buildPatchOrganizerDto } from '../dtos/patch.organizer.dto';
-import { Organizer } from '../repositories/organizer';
 
 const log: debug.IDebugger = debug('app:organizers-controller');
 
@@ -21,8 +19,8 @@ export class OrganizersController {
 		res = res.status(200).send({ "organizers": organizers });
 	}
 
-	async getOrganizerById(req: express.Request, res: express.Response) {
-		const data: Record<string, any> = matchedData(req);
+	async getOrganizerById(req: express.Request, res: express.Response, data: Record<string, any>) {
+		
 		const organizer = await this.organizersService.readById(data.organizerId);
 		if (organizer){
 			res.status(200).send({ "organizer": organizer });
@@ -32,16 +30,14 @@ export class OrganizersController {
 		} 
 	}
 
-	async createOrganizer(req: express.Request, res: express.Response) {
-		const data: Record<string, any> = matchedData(req);
+	async createOrganizer(req: express.Request, res: express.Response, data: Record<string, any>) {
 		const createOrganizerDto = buildCreateOrganizerDto(data);
 		const organizerId = await this.organizersService.create(createOrganizerDto);
 		res.status(201).send({ id: organizerId });
 	}
 
-	async patch(req: express.Request, res: express.Response) {
-		
-		const data: Record<string, any> = matchedData(req);
+	async patch(req: express.Request, res: express.Response, data: Record<string, any>) {
+	
 		
 		const organizerId = data.organizerId;
 		const patchOrganizerDto = buildPatchOrganizerDto(data);
@@ -57,8 +53,8 @@ export class OrganizersController {
 	}
 
 
-	async removeOrganizer(req: express.Request, res: express.Response) {
-		const { organizerId } = req.params;
+	async removeOrganizer(req: express.Request, res: express.Response, data: Record<string, any>) {
+		const  organizerId  = data.organizerId;
 		if(await this.organizersService.deleteById(organizerId))
 		{
 			res.status(204).send();

@@ -27,12 +27,13 @@ export class OrganizersRoutes {
 			.post(
 				'/',
 				[
-					body('name', 'Organizer name is required').isString(),
+					body('name', 'Organizer name is required').isString().notEmpty(),
 					body('description').isString().optional()
 				],
 				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					this.organizersController.createOrganizer(req, res);
+					const data: Record<string, any> = matchedData(req);
+					this.organizersController.createOrganizer(req, res, data);
 				});
 
 		router
@@ -43,7 +44,8 @@ export class OrganizersRoutes {
 				],
 				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					this.organizersController.getOrganizerById(req, res);
+					const data: Record<string, any> = matchedData(req);
+					this.organizersController.getOrganizerById(req, res, data);
 				})
 			.patch(
 				'/:organizerId',
@@ -54,7 +56,8 @@ export class OrganizersRoutes {
 				],
 				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					this.organizersController.patch(req, res);
+					const data: Record<string, any> = matchedData(req);
+					this.organizersController.patch(req, res, data);
 				})
 			.delete(
 				'/:organizerId',
@@ -63,7 +66,8 @@ export class OrganizersRoutes {
 				],
 				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					this.organizersController.removeOrganizer(req, res);
+					const data: Record<string, any> = matchedData(req);
+					this.organizersController.removeOrganizer(req, res, data);
 				});
 
 

@@ -3,6 +3,7 @@ import { mock, instance, when, verify, anything, capture, anyString } from 'ts-m
 import { OrganizersService } from '../services/organizers.service';
 import { OrganizersController } from './organizers.controller';
 
+
 beforeEach(() => {
 	jest.clearAllMocks();
 });
@@ -45,17 +46,16 @@ describe('listOrganizers is being tested', () => {
 describe('getOrganizerById is being tested', () => {
 	test('organizer available organizers as a document with code 200', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse } = generateMockRequestResponse(200);
-		const data: Record<string, any> = { "organizerId": "1" }
+		let { req, res, firstMockedResponse } = generateMockRequestResponse(200, {});
 
-		await controller.getOrganizerById(req, res,data);
+		await controller.getOrganizerById(req, res, { "organizerId": "1" });
 
 		verify(firstMockedResponse.status(200)).called();
 	});
 
 	test('organizer response is well structured', async () => {
 		let controller = generateMockController();
-		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
+		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{},{ "organizerId": "1" });
 		const data: Record<string, any> = { "organizerId": "1" }
 
 		await controller.getOrganizerById(req, res, data);
@@ -72,7 +72,7 @@ describe('createOrganizer is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newOrganizer);
 
-		await controller.createOrganizer(req, res);
+		await controller.createOrganizer(req, res,{ "organizerId": "1" });
 
 		verify(firstMockedResponse.status(201)).called();
 	});
@@ -81,7 +81,7 @@ describe('createOrganizer is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newOrganizer);
 
-		await controller.createOrganizer(req, res);
+		await controller.createOrganizer(req, res, newOrganizer);
 
 		expectResponseSendIsEqual(secondMockedResponse, { "id": "NewId" });
 	});
@@ -92,8 +92,10 @@ describe('patch is being tested', () => {
 	test('if an organizer is successfully patched, status 204 is returned', async () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse } = generateMockRequestResponse(204, newOrganizer, { organizerId: 'existID'} );
+		const data: Record<string, any> = newOrganizer;
+		data.organizerId = 'existID';
 
-		await controller.patch(req, res);
+		await controller.patch(req, res, data);
 
 		verify(firstMockedResponse.status(204)).called();
 	});
@@ -106,8 +108,10 @@ describe('removeOrganizer is being tested', () => {
 	test('if an organizer is successfully removed, status 204 is returned', async () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer, { organizerId: '1'});
+		const data: Record<string, any> = newOrganizer;
+		data.organizerId = '1';
 
-		await controller.removeOrganizer(req, res);
+		await controller.removeOrganizer(req, res, data);
 
 		verify(firstMockedResponse.status(204)).called();
 	});
