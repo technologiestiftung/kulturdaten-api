@@ -17,7 +17,7 @@ import { UsersService } from './users/services/users.service';
 import passport from 'passport';
 import { AuthBearerJWT } from './auth/strategies/auth.strategy.bearerjwt';
 import { MongooseService } from "./common/services/mongoose.service";
-import { MongoDBOrganizersRepository } from "./organizers/repositories/organizers.repository";
+import { MongoDBOrganizersRepository } from "./organizers/repositories/organizers.repository.mongoose";
 import { MongoDBUsersRepository } from "./users/repositories/users.repository";
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';

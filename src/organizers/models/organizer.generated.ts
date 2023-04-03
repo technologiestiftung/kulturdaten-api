@@ -14,5 +14,4 @@ export interface Organizer {
   description?: string;
   createdAt?: string;
   updatedAt?: string;
-  [k: string]: unknown;
 }

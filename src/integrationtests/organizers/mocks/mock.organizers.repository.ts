@@ -1,8 +1,8 @@
 import { CreateOrganizer } from "../../../organizers/dtos/create.organizer.dto.generated";
-import { PatchOrganizerDto } from "../../../organizers/dtos/patch.organizer.dto";
-import { Organizer } from "../../../organizers/repositories/organizer";
 import { OrganizersRepository } from "../../../organizers/repositories/organizers.repository";
 import { faker } from '@faker-js/faker';
+import { Organizer } from "../../../organizers/models/organizer.generated";
+import { PatchOrganizer } from "../../../organizers/dtos/patch.organizer.dto.generated";
 
 
 
@@ -47,7 +47,7 @@ export class MockOrganizersRepository implements OrganizersRepository {
 		}
 	
 	}
-	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizerDto ): Promise<Organizer | null> {
+	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizer ): Promise<Organizer | null> {
 		if(organizerFields){
 			const index = this.dummyOrganizers.findIndex(({ id }) => id === organizerId);
 		

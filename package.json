@@ -12,6 +12,7 @@
 		"integration-test": "jest --testPathPattern='integration.test' --detectOpenHandles",
 		"schema-to-interface": "tsc && node ./dist/schemas/generator.schema.to.interface.js",
 		"merge-openapi": "swagger-merger -i ./src/schemas/kulturdaten.berlin.openapi.base.yml -o ./src/schemas/kulturdaten.berlin.openapi.generated.yml",
+		"generate": "npm run merge-openapi && npm run schema-to-interface",
 		"prepare-build": "tsc && npm run schema-to-interface && npm run merge-openapi && npm run test"
 	},
 	"keywords": [
@@ -38,6 +39,7 @@
 		"ip": "^2.0.0",
 		"json-schema-to-typescript": "^12.0.0",
 		"jsonwebtoken": "^9.0.0",
+		"mongodb": "^5.1.0",
 		"mongoose": "^7.0.2",
 		"mongoose-async-nanoid": "^1.0.1",
 		"passport": "^0.6.0",

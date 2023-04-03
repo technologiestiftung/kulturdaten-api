@@ -13,7 +13,5 @@ export interface Health {
   dependencies?: {
     name?: string;
     healthy?: boolean;
-    [k: string]: unknown;
   }[];
-  [k: string]: unknown;
 }

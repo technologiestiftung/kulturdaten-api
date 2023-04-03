@@ -31,26 +31,6 @@ paths:
                     type: string
                   expiresIn:
                     type: string
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        location:
-                          type: string
-                        msg:
-                          type: string
-                        param:
-                          type: string
-                        value:
-                          type: string
   /organizers:
     get:
       tags:
@@ -107,26 +87,6 @@ paths:
                 properties:
                   id:
                     type: string
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        location:
-                          type: string
-                        msg:
-                          type: string
-                        param:
-                          type: string
-                        value:
-                          type: string
   /organizers/{organizerId}:
     parameters:
       - in: path
@@ -287,26 +247,6 @@ paths:
                 properties:
                   id:
                     type: string
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        location:
-                          type: string
-                        msg:
-                          type: string
-                        param:
-                          type: string
-                        value:
-                          type: string
   /users/{userId}:
     parameters:
       - in: path

@@ -11,5 +11,4 @@
 export interface Auth {
   accessToken?: string;
   expiresIn?: string;
-  [k: string]: unknown;
 }

@@ -16,5 +16,4 @@ export interface User {
   lastName?: string;
   createdAt?: string;
   updatedAt?: string;
-  [k: string]: unknown;
 }

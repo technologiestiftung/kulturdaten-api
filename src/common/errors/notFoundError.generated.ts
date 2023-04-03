@@ -11,7 +11,5 @@
 export interface NotFoundError {
   error?: {
     msg?: string;
-    [k: string]: unknown;
   };
-  [k: string]: unknown;
 }

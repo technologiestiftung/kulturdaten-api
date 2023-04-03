@@ -17,7 +17,6 @@ async function generate() {
 	generateInterface('health/health', 'health/dtos');
 
 	generateInterface('errors/notFoundError', 'common/errors/notFoundError');
-	generateInterface('errors/validationError', 'common/errors/validationError');
 
 	
 }
@@ -35,7 +34,9 @@ async function generateInterface(schemaFile: string, targetFile: string) {
 		 * 
 		 * and run "npm run schema-to-interface" to regenerate this file.
 		 */
-		`
+		`,
+		additionalProperties: false
+
 		}
 	};
 	const schemaPath = `./src/schemas/${schemaFile}.json`;

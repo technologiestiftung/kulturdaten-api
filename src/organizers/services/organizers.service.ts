@@ -1,8 +1,8 @@
 import { OrganizersRepository } from '../repositories/organizers.repository';
 import { CRUD } from '../../common/interfaces/crud.interface';
 import { CreateOrganizer } from '../dtos/create.organizer.dto.generated';
-import { PatchOrganizerDto } from '../dtos/patch.organizer.dto';
 import { Inject, Service } from 'typedi';
+import { PatchOrganizer } from '../dtos/patch.organizer.dto.generated';
 
 @Service()
 export class OrganizersService implements CRUD {
@@ -25,7 +25,7 @@ export class OrganizersService implements CRUD {
 		return this.organizersRepository.getOrganizerById(id);
 	}
 
-	async patchById(id: string, resource: PatchOrganizerDto) {
+	async patchById(id: string, resource: PatchOrganizer) {
 		return this.organizersRepository.updateOrganizerById(id, resource);
 	}
 

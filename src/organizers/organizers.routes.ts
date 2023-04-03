@@ -1,10 +1,9 @@
 import debug from 'debug';
 import express, { Router } from 'express';
-import { body,  matchedData,  param,  validationResult } from 'express-validator';
 import { Service } from 'typedi';
 import { OrganizersController } from './controllers/organizers.controller';
-import { validation } from '../common/middleware/common.validation.middleware';
 import { CreateOrganizer } from './dtos/create.organizer.dto.generated';
+import { PatchOrganizer } from './dtos/patch.organizer.dto.generated';
 
 
 const log: debug.IDebugger = debug('app:organizers-routes');
@@ -21,53 +20,35 @@ export class OrganizersRoutes {
 		router
 			.get(
 				'/',
-				(req, res) => {
-					this.organizersController.listOrganizers(req, res);
+				(req: express.Request, res: express.Response) => {
+					this.organizersController.listOrganizers(res);
 				})
 			.post(
 				'/',
-				[
-					body('name', 'Organizer name is required').isString().notEmpty(),
-					body('description').isString().optional()
-				],
-				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					const data: Record<string, any> = matchedData(req);
-					this.organizersController.createOrganizer(req, res, data);
+					const createOrganizer = req.body as CreateOrganizer;
+					this.organizersController.createOrganizer(res, createOrganizer);
 				});
 
 		router
 			.get(
 				'/:organizerId',
-				[
-					param('organizerId', 'Organizer ID is required').notEmpty()
-				],
-				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					const data: Record<string, any> = matchedData(req);
-					this.organizersController.getOrganizerById(req, res, data);
+					const organizerId = req.params.organizerId;
+					this.organizersController.getOrganizerById(res, organizerId);
 				})
 			.patch(
 				'/:organizerId',
-				[
-					param('organizerId', 'Organizer ID is required').notEmpty(),
-					body('name').isString().optional(),
-					body('description').isString().optional(),
-				],
-				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					const data: Record<string, any> = matchedData(req);
-					this.organizersController.patch(req, res, data);
+					const organizerId = req.params.organizerId;
+					const patchOrganizer = req.body as PatchOrganizer;
+					this.organizersController.patch(res, organizerId, patchOrganizer);
 				})
 			.delete(
 				'/:organizerId',
-				[
-					param('organizerId', 'Organizer ID is required').notEmpty()
-				],
-				validation.checkErrors(),
 				(req: express.Request, res: express.Response) => {
-					const data: Record<string, any> = matchedData(req);
-					this.organizersController.removeOrganizer(req, res, data);
+					const organizerId = req.params.organizerId;
+					this.organizersController.removeOrganizer(res, organizerId);
 				});
 
 

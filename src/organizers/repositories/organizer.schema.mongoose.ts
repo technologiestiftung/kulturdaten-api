@@ -1,15 +1,7 @@
 import { Schema } from 'mongoose';
 import mongooseAsyncNanoid from 'mongoose-async-nanoid';
 import { log } from 'winston';
-
-
-export interface Organizer {
-	id: string,
-	name: string,
-	description?: string,
-	createdAt?: string,
-	updatedAt?: string,
-}
+import { Organizer } from '../models/organizer.generated';
 
 export const organizerSchema = new Schema<Organizer>({
 	name: { type: String },

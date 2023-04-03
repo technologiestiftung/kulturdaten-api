@@ -13,5 +13,4 @@ export interface CreateUser {
   password: string;
   firstName?: string;
   lastName?: string;
-  [k: string]: unknown;
 }

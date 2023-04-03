@@ -21,13 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: auth/auth.json
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: errors/validationError.json         
+                $ref: auth/auth.json      
 
   /organizers:
     get:
@@ -64,12 +58,6 @@ paths:
                 properties:
                   id: 
                     type: string
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: errors/validationError.json
 
 
   /organizers/{organizerId}:
@@ -165,12 +153,6 @@ paths:
                 properties:
                   id: 
                     type: string
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: errors/validationError.json
 
   /users/{userId}:
     parameters:

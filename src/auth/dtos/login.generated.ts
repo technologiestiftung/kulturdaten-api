@@ -11,5 +11,4 @@
 export interface Login {
   password?: string;
   email?: string;
-  [k: string]: unknown;
 }

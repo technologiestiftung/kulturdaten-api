@@ -13,5 +13,4 @@ export interface PatchUser {
   firstName?: string;
   lastName?: string;
   permissionFlags?: number;
-  [k: string]: unknown;
 }

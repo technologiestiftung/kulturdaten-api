@@ -11,5 +11,4 @@
 export interface CreateOrganizer {
   name: string;
   description?: string;
-  [k: string]: unknown;
 }
