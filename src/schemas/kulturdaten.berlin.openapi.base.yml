@@ -27,7 +27,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'         
+                $ref: errors/validationError.json         
 
   /organizers:
     get:
@@ -69,7 +69,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                $ref: errors/validationError.json
 
 
   /organizers/{organizerId}:
@@ -98,7 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/notFountError.json
+                $ref: errors/notFoundError.json
     patch:
       tags:
         - Organizers
@@ -106,7 +106,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchOrganizer'
+              $ref: organizers/patchOrganizer.json
       responses:
         '204':
           description: OK  
@@ -115,7 +115,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/notFountError.json
+                $ref: errors/notFoundError.json
     delete:
       tags:
         - Organizers
@@ -127,7 +127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/notFountError.json
+                $ref: errors/notFoundError.json
 
   /users:
     get:
@@ -146,7 +146,7 @@ paths:
                   users: 
                     type: array
                     items:    
-                      $ref: '#/components/schemas/User'
+                      $ref: users/user.json
     post:
       tags:
         - Users
@@ -154,7 +154,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUser'
+              $ref: users/createUser.json
       responses:
         '201':
           description: OK
@@ -170,7 +170,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                $ref: errors/validationError.json
 
   /users/{userId}:
     parameters:
@@ -194,13 +194,13 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: '#/components/schemas/User'
+                    $ref: users/user.json
         '404':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: errors/notFountError.json
+                $ref: errors/notFoundError.json
     patch:
       tags:
         - Users
@@ -210,7 +210,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchUser'
+              $ref: users/patchUser.json
       responses:
         '204':
           description: OK  
@@ -219,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/notFountError.json
+                $ref: errors/notFoundError.json
     delete:
       tags:
         - Users
@@ -233,7 +233,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/notFountError.json
+                $ref: errors/notFoundError.json
 
 
 
@@ -247,7 +247,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Health'
+                $ref: health/health.json
 
 components:
   securitySchemes:
@@ -255,103 +255,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT   
-
-  schemas:
-
-    
-
-    PutOrganizer:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string 
-
-    PatchOrganizer:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string  
-
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-        password:
-          type: string  
-        firstName:
-          type: string  
-        lastName:
-          type: string  
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time    
-
-    CreateUser:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string  
-        firstName:
-          type: string  
-        lastName:
-          type: string  
-      required:
-        - email
-        - password 
-
-    PatchUser:
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string  
-        lastName:
-          type: string  
-        permissionFlags: 
-          type: number
-
-    Health:
-      type: object
-      properties:
-        healthy:
-          type: boolean
-        dependencies:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              healthy:
-                type: boolean
-
-    ValidationError:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              location: 
-                type: string
-              msg:
-                type: string
-              param:
-                type: string
-              value:
-                type: string

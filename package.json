@@ -11,8 +11,8 @@
 		"unit-test": "jest --testPathPattern='unit.test' --detectOpenHandles",
 		"integration-test": "jest --testPathPattern='integration.test' --detectOpenHandles",
 		"schema-to-interface": "tsc && node ./dist/schemas/generator.schema.to.interface.js",
-		"merge-openapi": "swagger-merger -i ./src/openapi/kulturdaten.berlin.openapi.base.yml -o ./src/openapi/generated/kulturdaten.berlin.openapi.yml",
-		"prepare-build": "tsc && npm run schema-to-typescript && npm run merge-openapi && npm run test"
+		"merge-openapi": "swagger-merger -i ./src/schemas/kulturdaten.berlin.openapi.base.yml -o ./src/schemas/kulturdaten.berlin.openapi.generated.yml",
+		"prepare-build": "tsc && npm run schema-to-interface && npm run merge-openapi && npm run test"
 	},
 	"keywords": [
 		"kdb",

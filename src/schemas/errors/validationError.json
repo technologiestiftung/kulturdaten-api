@@ -1,0 +1,25 @@
+{
+	"type": "object",
+	"properties": {
+	  "errors": {
+		"type": "array",
+		"items": {
+		  "type": "object",
+		  "properties": {
+			"location": {
+			  "type": "string"
+			},
+			"msg": {
+			  "type": "string"
+			},
+			"param": {
+			  "type": "string"
+			},
+			"value": {
+			  "type": "string"
+			}
+		  }
+		}
+	  }
+	}
+  }

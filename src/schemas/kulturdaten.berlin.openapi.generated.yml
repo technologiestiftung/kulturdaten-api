@@ -13,20 +13,44 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Login'
+              type: object
+              properties:
+                password:
+                  type: string
+                email:
+                  type: string
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Auth'
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  expiresIn:
+                    type: string
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        location:
+                          type: string
+                        msg:
+                          type: string
+                        param:
+                          type: string
+                        value:
+                          type: string
   /organizers:
     get:
       tags:
@@ -65,7 +89,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrganizer'
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
       responses:
         '201':
           description: OK
@@ -81,7 +112,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        location:
+                          type: string
+                        msg:
+                          type: string
+                        param:
+                          type: string
+                        value:
+                          type: string
   /organizers/{organizerId}:
     parameters:
       - in: path
@@ -137,7 +182,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchOrganizer'
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
       responses:
         '204':
           description: OK
@@ -188,7 +238,24 @@ paths:
                   users:
                     type: array
                     items:
-                      $ref: '#/components/schemas/User'
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        email:
+                          type: string
+                        password:
+                          type: string
+                        firstName:
+                          type: string
+                        lastName:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
     post:
       tags:
         - Users
@@ -196,7 +263,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUser'
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+              required:
+                - email
+                - password
       responses:
         '201':
           description: OK
@@ -212,7 +292,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        location:
+                          type: string
+                        msg:
+                          type: string
+                        param:
+                          type: string
+                        value:
+                          type: string
   /users/{userId}:
     parameters:
       - in: path
@@ -235,7 +329,24 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: '#/components/schemas/User'
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
         '404':
           description: Bad Request
           content:
@@ -257,7 +368,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchUser'
+              type: object
+              properties:
+                email:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                permissionFlags:
+                  type: number
       responses:
         '204':
           description: OK
@@ -303,123 +423,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Health'
+                type: object
+                properties:
+                  healthy:
+                    type: boolean
+                  dependencies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        healthy:
+                          type: boolean
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-  schemas:
-    Auth:
-      type: object
-      properties:
-        accessToken:
-          type: string
-        expiresIn:
-          type: string
-    Login:
-      type: object
-      properties:
-        password:
-          type: string
-        email:
-          type: string
-    CreateOrganizer:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-      required:
-        - name
-    PutOrganizer:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-    PatchOrganizer:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-    CreateUser:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-      required:
-        - email
-        - password
-    PatchUser:
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        permissionFlags:
-          type: number
-    Health:
-      type: object
-      properties:
-        healthy:
-          type: boolean
-        dependencies:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              healthy:
-                type: boolean
-    ValidationError:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              location:
-                type: string
-              msg:
-                type: string
-              param:
-                type: string
-              value:
-                type: string

@@ -33,7 +33,7 @@ class KulturdatenBerlinApp {
 	constructor(public app: express.Application) { }
 
 	public port = process.env.APP_PORT || '5000';
-	public openAPISpec: string = 'src/schemas/generatedOpenApi/kulturdaten.berlin.openapi.yml';
+	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
 	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/v1/docs/`
 
