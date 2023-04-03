@@ -21,6 +21,8 @@ export const organizerSchema = new Schema<Organizer>({
 		versionKey: false,
 		transform: function (doc, ret) { 
 			delete ret._id;	
+			ret.createdAt = "asdf";
+			ret.updatedAt = "asdf";
 			return ret;
 		}
 	}, toObject: {
@@ -28,6 +30,8 @@ export const organizerSchema = new Schema<Organizer>({
 		versionKey: false,
 		transform: function (doc, ret) { 
 			delete ret._id;
+		ret.createdAt = "asdf";
+			ret.updatedAt = "asdf";
 			return ret;
 		}
 	}

@@ -2,7 +2,7 @@ import { MongoDBOrganizersRepository, OrganizersRepository } from "../repositori
 import { OrganizersService } from "./organizers.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
 import { Organizer } from "../repositories/organizer";
-import { CreateOrganizerDto } from "../dtos/create.organizer.dto";
+import { CreateOrganizer } from "../dtos/create.organizer.dto.generated";
 
 
 beforeEach(() => {
@@ -20,7 +20,7 @@ describe('create organizer is being tested', () => {
 		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
-		let org: CreateOrganizerDto = { name: "New Organizer" };
+		let org: CreateOrganizer = { name: "New Organizer" };
 
 		service.create(org);
 
@@ -34,7 +34,7 @@ describe('create organizer is being tested', () => {
 		);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
-		let org: CreateOrganizerDto = { name: "New Organizer" };
+		let org: CreateOrganizer = { name: "New Organizer" };
 
 		let orgId: String | null = await service.create(org);
 

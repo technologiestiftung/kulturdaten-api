@@ -1,11 +1,10 @@
-openapi: '3.0.2'
+openapi: 3.0.2
 info:
-  title: API Kulturdaten.Berlin 
-  version: '1.0.0'
+  title: API Kulturdaten.Berlin
+  version: 1.0.0
 servers:
   - url: http://localhost:3000/v1/
 paths:
-
   /auth/token:
     post:
       tags:
@@ -27,8 +26,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'         
-
+                $ref: '#/components/schemas/ValidationError'
   /organizers:
     get:
       tags:
@@ -41,10 +39,25 @@ paths:
               schema:
                 type: object
                 properties:
-                  organizers: 
+                  organizers:
                     type: array
-                    items:    
-                      $ref: '../organizers/organizer.json'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        description:
+                          type: string
+                          nullable: true
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                        - id
+                        - name
     post:
       tags:
         - Organizers
@@ -61,7 +74,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  id: 
+                  id:
                     type: string
         '400':
           description: Bad Request
@@ -69,12 +82,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
-
-
   /organizers/{organizerId}:
     parameters:
       - in: path
-        name: organizerId 
+        name: organizerId
         required: true
         schema:
           type: string
@@ -90,14 +101,35 @@ paths:
               schema:
                 type: object
                 properties:
-                  organizer: 
-                    $ref: '../organizers/organizer.json'
+                  organizer:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                        nullable: true
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                    required:
+                      - id
+                      - name
         '404':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
     patch:
       tags:
         - Organizers
@@ -108,26 +140,37 @@ paths:
               $ref: '#/components/schemas/PatchOrganizer'
       responses:
         '204':
-          description: OK  
+          description: OK
         '404':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
     delete:
       tags:
         - Organizers
       responses:
         '204':
-          description: OK  
+          description: OK
         '404':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
-
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
   /users:
     get:
       tags:
@@ -142,9 +185,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  users: 
+                  users:
                     type: array
-                    items:    
+                    items:
                       $ref: '#/components/schemas/User'
     post:
       tags:
@@ -162,7 +205,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  id: 
+                  id:
                     type: string
         '400':
           description: Bad Request
@@ -170,11 +213,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
-
   /users/{userId}:
     parameters:
       - in: path
-        name: userId 
+        name: userId
         required: true
         schema:
           type: string
@@ -199,7 +241,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
     patch:
       tags:
         - Users
@@ -212,13 +260,19 @@ paths:
               $ref: '#/components/schemas/PatchUser'
       responses:
         '204':
-          description: OK  
+          description: OK
         '404':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
     delete:
       tags:
         - Users
@@ -226,16 +280,19 @@ paths:
         - bearerAuth: []
       responses:
         '204':
-          description: OK  
+          description: OK
         '404':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
-
-
-
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
   /health:
     get:
       tags:
@@ -247,14 +304,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Health'
-
 components:
   securitySchemes:
-    bearerAuth:           
+    bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT   
-
+      bearerFormat: JWT
   schemas:
     Auth:
       type: object
@@ -263,41 +318,36 @@ components:
           type: string
         expiresIn:
           type: string
-    
     Login:
       type: object
       properties:
-        password: 
+        password:
           type: string
         email:
           type: string
-
     CreateOrganizer:
       type: object
       properties:
         name:
           type: string
         description:
-          type: string  
+          type: string
       required:
-        - name 
-
+        - name
     PutOrganizer:
       type: object
       properties:
         name:
           type: string
         description:
-          type: string 
-
+          type: string
     PatchOrganizer:
       type: object
       properties:
         name:
           type: string
         description:
-          type: string  
-
+          type: string
     User:
       type: object
       properties:
@@ -306,18 +356,17 @@ components:
         email:
           type: string
         password:
-          type: string  
+          type: string
         firstName:
-          type: string  
+          type: string
         lastName:
-          type: string  
+          type: string
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
-          format: date-time    
-
+          format: date-time
     CreateUser:
       type: object
       properties:
@@ -325,27 +374,25 @@ components:
           type: string
           format: email
         password:
-          type: string  
+          type: string
         firstName:
-          type: string  
+          type: string
         lastName:
-          type: string  
+          type: string
       required:
         - email
-        - password 
-
+        - password
     PatchUser:
       type: object
       properties:
         email:
           type: string
         firstName:
-          type: string  
+          type: string
         lastName:
-          type: string  
-        permissionFlags: 
+          type: string
+        permissionFlags:
           type: number
-
     Health:
       type: object
       properties:
@@ -360,7 +407,6 @@ components:
                 type: string
               healthy:
                 type: boolean
-
     ValidationError:
       type: object
       properties:
@@ -369,7 +415,7 @@ components:
           items:
             type: object
             properties:
-              location: 
+              location:
                 type: string
               msg:
                 type: string
@@ -377,12 +423,3 @@ components:
                 type: string
               value:
                 type: string
-
-    NotFoundError:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            msg:
-              type: string

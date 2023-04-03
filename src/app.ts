@@ -26,8 +26,6 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import { HealthRoutes } from './health/health.routes';
 import { AuthRoutes } from './auth/auth.routes';
 
-// TODO: swagger-autogen for swagger doc
-
 const log: debug.IDebugger = debug('app:main');
 
 class KulturdatenBerlinApp {
@@ -35,7 +33,7 @@ class KulturdatenBerlinApp {
 	constructor(public app: express.Application) { }
 
 	public port = process.env.APP_PORT || '5000';
-	public openAPISpec: string = 'src/openapi/openapi:kdb-api.yml';
+	public openAPISpec: string = 'src/schemas/generatedOpenApi/kulturdaten.berlin.openapi.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
 	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/v1/docs/`
 

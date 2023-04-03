@@ -2,7 +2,7 @@ import express from 'express';
 import { OrganizersService } from '../services/organizers.service';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { buildCreateOrganizerDto } from '../dtos/create.organizer.dto';
+import { buildCreateOrganizer } from '../dtos/create.organizer.dto';
 import { buildPatchOrganizerDto } from '../dtos/patch.organizer.dto';
 
 const log: debug.IDebugger = debug('app:organizers-controller');
@@ -31,8 +31,8 @@ export class OrganizersController {
 	}
 
 	async createOrganizer(req: express.Request, res: express.Response, data: Record<string, any>) {
-		const createOrganizerDto = buildCreateOrganizerDto(data);
-		const organizerId = await this.organizersService.create(createOrganizerDto);
+		const CreateOrganizer = buildCreateOrganizer(data);
+		const organizerId = await this.organizersService.create(CreateOrganizer);
 		res.status(201).send({ id: organizerId });
 	}
 
@@ -41,7 +41,6 @@ export class OrganizersController {
 		
 		const organizerId = data.organizerId;
 		const patchOrganizerDto = buildPatchOrganizerDto(data);
-		console.log("ID " + organizerId + " BODY " + JSON.stringify(req.body) + " data " + JSON.stringify(data) + " Dto " + JSON.stringify(patchOrganizerDto));
 		
 		const organizer = await this.organizersService.patchById(organizerId, patchOrganizerDto);
 		if(organizer){

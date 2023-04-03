@@ -1,4 +1,4 @@
-import { CreateOrganizerDto } from '../dtos/create.organizer.dto';
+import { CreateOrganizer } from '../dtos/create.organizer.dto.generated';
 import { PatchOrganizerDto } from '../dtos/patch.organizer.dto';
 
 import { MongooseService } from '../../common/services/mongoose.service';
@@ -11,7 +11,7 @@ const log: debug.IDebugger = debug('app:organizers-repository');
 
 export interface OrganizersRepository {
 
-	addOrganizer(organizerFields: CreateOrganizerDto): Promise<string>;
+	addOrganizer(organizerFields: CreateOrganizer): Promise<string>;
 
 	getOrganizers(limit:number, page:number) : Promise<Organizer[] | null>;
 
@@ -29,7 +29,7 @@ export class MongoDBOrganizersRepository implements OrganizersRepository {
 
 	constructor(public mongooseService: MongooseService){}
 
-	async addOrganizer(organizerFields: CreateOrganizerDto): Promise<string> {
+	async addOrganizer(organizerFields: CreateOrganizer): Promise<string> {
 		const organizer = new this.OrganizerModel({
 			...organizerFields
 		});

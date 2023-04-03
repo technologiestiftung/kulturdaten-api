@@ -4,7 +4,7 @@ import { body,  matchedData,  param,  validationResult } from 'express-validator
 import { Service } from 'typedi';
 import { OrganizersController } from './controllers/organizers.controller';
 import { validation } from '../common/middleware/common.validation.middleware';
-import { CreateOrganizerDto } from './dtos/create.organizer.dto';
+import { CreateOrganizer } from './dtos/create.organizer.dto.generated';
 
 
 const log: debug.IDebugger = debug('app:organizers-routes');

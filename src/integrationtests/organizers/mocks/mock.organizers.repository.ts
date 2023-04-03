@@ -1,4 +1,4 @@
-import { CreateOrganizerDto } from "../../../organizers/dtos/create.organizer.dto";
+import { CreateOrganizer } from "../../../organizers/dtos/create.organizer.dto.generated";
 import { PatchOrganizerDto } from "../../../organizers/dtos/patch.organizer.dto";
 import { Organizer } from "../../../organizers/repositories/organizer";
 import { OrganizersRepository } from "../../../organizers/repositories/organizers.repository";
@@ -25,7 +25,7 @@ export class MockOrganizersRepository implements OrganizersRepository {
 		return d.id;
 	}
 
-	async addOrganizer(organizerFields: CreateOrganizerDto): Promise<string> {
+	async addOrganizer(organizerFields: CreateOrganizer): Promise<string> {
 		let newOrganizer:Organizer = {
 			id: `IDfor${organizerFields.name}`,
 			...organizerFields
@@ -83,7 +83,7 @@ export function dummyOrganizer(): Organizer{
 	}
 }
 
-export function dummyCreateDto(): CreateOrganizerDto {
+export function dummyCreateDto(): CreateOrganizer {
 	return {
 		name: faker.company.name(),
 		description: faker.company.catchPhrase()

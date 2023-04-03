@@ -1,6 +1,6 @@
 import { OrganizersRepository } from '../repositories/organizers.repository';
 import { CRUD } from '../../common/interfaces/crud.interface';
-import { CreateOrganizerDto } from '../dtos/create.organizer.dto';
+import { CreateOrganizer } from '../dtos/create.organizer.dto.generated';
 import { PatchOrganizerDto } from '../dtos/patch.organizer.dto';
 import { Inject, Service } from 'typedi';
 
@@ -9,7 +9,7 @@ export class OrganizersService implements CRUD {
 
 	constructor(@Inject('OrganizersRepository') public organizersRepository: OrganizersRepository){}
 
-	async create(resource: CreateOrganizerDto) {
+	async create(resource: CreateOrganizer) {
 		return this.organizersRepository.addOrganizer(resource);
 	}
 

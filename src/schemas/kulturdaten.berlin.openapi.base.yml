@@ -1,0 +1,357 @@
+openapi: '3.0.2'
+info:
+  title: API Kulturdaten.Berlin 
+  version: '1.0.0'
+servers:
+  - url: http://localhost:3000/v1/
+paths:
+
+  /auth/token:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: auth/login.json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: auth/auth.json
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'         
+
+  /organizers:
+    get:
+      tags:
+        - Organizers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organizers: 
+                    type: array
+                    items:    
+                      $ref: organizers/organizer.json
+  
+    post:
+      tags:
+        - Organizers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: organizers/createOrganizer.json
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+
+  /organizers/{organizerId}:
+    parameters:
+      - in: path
+        name: organizerId 
+        required: true
+        schema:
+          type: string
+        description: The organizer ID
+    get:
+      tags:
+        - Organizers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organizer: 
+                    $ref: organizers/organizer.json
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: errors/notFountError.json
+    patch:
+      tags:
+        - Organizers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOrganizer'
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: errors/notFountError.json
+    delete:
+      tags:
+        - Organizers
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: errors/notFountError.json
+
+  /users:
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /users/{userId}:
+    parameters:
+      - in: path
+        name: userId 
+        required: true
+        schema:
+          type: string
+        description: The user ID
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: errors/notFountError.json
+    patch:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchUser'
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: errors/notFountError.json
+    delete:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: errors/notFountError.json
+
+
+
+  /health:
+    get:
+      tags:
+        - Server
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+
+components:
+  securitySchemes:
+    bearerAuth:           
+      type: http
+      scheme: bearer
+      bearerFormat: JWT   
+
+  schemas:
+
+    
+
+    PutOrganizer:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string 
+
+    PatchOrganizer:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string  
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        password:
+          type: string  
+        firstName:
+          type: string  
+        lastName:
+          type: string  
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time    
+
+    CreateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string  
+        firstName:
+          type: string  
+        lastName:
+          type: string  
+      required:
+        - email
+        - password 
+
+    PatchUser:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string  
+        lastName:
+          type: string  
+        permissionFlags: 
+          type: number
+
+    Health:
+      type: object
+      properties:
+        healthy:
+          type: boolean
+        dependencies:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              healthy:
+                type: boolean
+
+    ValidationError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              location: 
+                type: string
+              msg:
+                type: string
+              param:
+                type: string
+              value:
+                type: string
