@@ -234,6 +234,7 @@ paths:
                 email:
                   type: string
                   format: email
+                  minLength: 1
                 password:
                   type: string
                   format: password
@@ -255,6 +256,18 @@ paths:
                 properties:
                   identifier:
                     type: string
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      msg:
+                        type: string
   /users/{identifier}:
     parameters:
       - in: path
@@ -326,10 +339,13 @@ paths:
               properties:
                 email:
                   type: string
+                  minLength: 1
                 firstName:
                   type: string
+                  minLength: 1
                 lastName:
                   type: string
+                  minLength: 1
                 permissionFlags:
                   type: number
       responses:

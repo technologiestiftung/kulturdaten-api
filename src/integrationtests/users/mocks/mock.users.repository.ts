@@ -4,6 +4,7 @@ import { PermissionFlag } from "../../../auth/middleware/auth.permissionflag.enu
 import { User } from "../../../users/models/user.generated";
 import { CreateUser } from "../../../users/dtos/create.user.dto.generated";
 import { PatchUser } from "../../../users/dtos/patch.user.dto.generated";
+import { remove } from "winston";
 
 
 
@@ -47,7 +48,8 @@ export class MockUsersRepository implements UsersRepository {
 			identifier: `IDfor${userFields.email}`,
 			...userFields,
 			permissionFlags:  1
-		}
+		};
+		delete newUser.password;
 		newUser.identifier = `IDfor${userFields.email}`;
 		this.dummyUsers.push(newUser);
 		return Promise.resolve(newUser.identifier);
@@ -98,7 +100,6 @@ export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGIST
 	return {
 		identifier: faker.database.mongodbObjectId(),
 		email: faker.internet.email(),
-		password: faker.internet.password(),
 		firstName: faker.name.firstName(),
 		lastName: faker.name.lastName(),
 		createdAt: faker.datatype.datetime().toDateString(),

@@ -3,7 +3,8 @@
 	"properties": {
 	  "email": {
 		"type": "string",
-		"format": "email"
+		"format": "email",
+		"minLength": 1
 	  },
 	  "password": {
 		"type": "string",

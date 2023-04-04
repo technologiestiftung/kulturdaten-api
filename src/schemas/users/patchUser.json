@@ -2,13 +2,16 @@
 	"type": "object",
 	"properties": {
 	  "email": {
-		"type": "string"
+		"type": "string",
+		"minLength": 1
 	  },
 	  "firstName": {
-		"type": "string"
+		"type": "string",
+		"minLength": 1
 	  },
 	  "lastName": {
-		"type": "string"
+		"type": "string",
+		"minLength": 1
 	  },
 	  "permissionFlags": {
 		"type": "number"

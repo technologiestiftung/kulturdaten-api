@@ -153,6 +153,12 @@ paths:
                 properties:
                   identifier: 
                     type: string
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: errors/emailAlreadyInUseError.json
 
   /users/{identifier}:
     parameters:

@@ -1,10 +1,8 @@
 import debug from 'debug';
 import express, { Router } from 'express';
-import { body, param } from 'express-validator';
 import passport from 'passport';
 import { Service } from 'typedi';
 import { permit } from '../auth/middleware/auth.middleware';
-import { validation } from '../common/middleware/common.validation.middleware';
 import { UsersController } from './controllers/users.controller';
 import { checkUsers } from './middleware/users.middleware';
 import { CreateUser } from './dtos/create.user.dto.generated';
@@ -28,10 +26,11 @@ export class UsersRoutes {
 				passport.authenticate('authenticated-user', { session: false }),
 				permit.authorizesAsAdmin(),
 				(req: express.Request, res: express.Response) => {
-					this.usersController.listUsers(req, res);
+					this.usersController.listUsers(res);
 				})
 			.post(
 				'/',
+				checkUsers.eMailIsNotExist(),
 				(req: express.Request, res: express.Response) => {
 					const createUser = req.body as CreateUser;
 					this.usersController.createUser(res, createUser);

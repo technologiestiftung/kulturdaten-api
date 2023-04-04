@@ -9,9 +9,9 @@ beforeEach(() => {
 });
 
 let dummyOrganizers = [
-	{ id: "1", name: "Organizer 1" },
-	{ id: "2", name: "Organizer 2" },
-	{ id: "3", name: "Organizer 3" },
+	{ identifier: "1", name: "Organizer 1" },
+	{ identifier: "2", name: "Organizer 2" },
+	{ identifier: "3", name: "Organizer 3" },
 ]
 
 let newOrganizer = { name: "Name", description: "Beschreibung", createdAt: "", updatedAt: "" };
@@ -34,9 +34,9 @@ describe('listOrganizers is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizers: [
-				{ id: '1', name: 'Organizer 1' },
-				{ id: '2', name: 'Organizer 2' },
-				{ id: '3', name: 'Organizer 3' }
+				{ identifier: '1', name: 'Organizer 1' },
+				{ identifier: '2', name: 'Organizer 2' },
+				{ identifier: '3', name: 'Organizer 3' }
 			]
 		});
 
@@ -62,7 +62,7 @@ describe('getOrganizerById is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizer:
-				{ id: '1', name: 'Organizer 1' }
+				{ identifier: '1', name: 'Organizer 1' }
 		});
 	})
 });
@@ -83,7 +83,7 @@ describe('createOrganizer is being tested', () => {
 
 		await controller.createOrganizer( res, newOrganizer);
 
-		expectResponseSendIsEqual(secondMockedResponse, { "id": "NewId" });
+		expectResponseSendIsEqual(secondMockedResponse, { "identifier": "NewId" });
 	});
 
 });
@@ -143,7 +143,7 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	when(mockedOrganizersService.readById("2")).thenReturn(Promise.resolve(dummyOrganizers[1]));
 	when(mockedOrganizersService.readById("3")).thenReturn(Promise.resolve(dummyOrganizers[2]));
 	when(mockedOrganizersService.create(anything())).thenReturn(Promise.resolve("NewId"));
-	when(mockedOrganizersService.patchById(anyString(),anything())).thenReturn(Promise.resolve(dummyOrganizers[0]));
+	when(mockedOrganizersService.patchById(anyString(),anything())).thenReturn(Promise.resolve(true));
 	when(mockedOrganizersService.deleteById("1")).thenReturn(Promise.resolve(true));
 	let service: OrganizersService = instance(mockedOrganizersService);
 	let controller = new OrganizersController(service);

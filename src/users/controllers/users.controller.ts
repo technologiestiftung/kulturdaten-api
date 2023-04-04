@@ -5,6 +5,7 @@ import debug from 'debug';
 import { Service } from 'typedi';
 import { CreateUser } from '../dtos/create.user.dto.generated';
 import { PatchUser } from '../dtos/patch.user.dto.generated';
+import { NotFoundError } from '../../common/errors/notFoundError.generated';
 
 const log: debug.IDebugger = debug('app:users-controller');
 
@@ -14,7 +15,7 @@ export class UsersController {
 	constructor(
 		public usersService: UsersService){}
 
-	async listUsers(req: express.Request, res: express.Response) {
+	async listUsers(res: express.Response) {
 		const users = await this.usersService.list(100, 0);
 
 		res.status(200).send({ "users": users });
@@ -25,7 +26,7 @@ export class UsersController {
 		if(user){
 			res.status(200).send({"user": user });
 		} else {
-			res.status(404).send({error: {msg: 'User not found'}});
+			res.status(404).send({error: {msg: 'User not found'}} as NotFoundError);
 		}
 	}
 
@@ -40,7 +41,7 @@ export class UsersController {
 		if(user){
 			res.status(204).send();
 		} else {
-			res.status(404).send({error: {msg: 'User not found'}});
+			res.status(404).send({error: {msg: 'User not found'}} as NotFoundError);
 		}
 	}
 
@@ -50,7 +51,7 @@ export class UsersController {
 			res.status(204).send();
 		}
 		else {
-			res.status(404).send({error: {msg: 'User not found'}});
+			res.status(404).send({error: {msg: 'User not found'}} as NotFoundError);
 		} 
 	}
 }

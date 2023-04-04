@@ -1,18 +1,18 @@
 import { UsersRepository } from "../repositories/users.repository";
 import { UsersService } from "./users.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
-import { CreateUserDto } from "../dtos/create.user.dto";
 import { MongoDBUsersRepository } from "../repositories/users.repository.mobgodb"
 import { User } from "../models/user.generated";
+import { CreateUser } from "../dtos/create.user.dto.generated";
 
 beforeEach(() => {
 	jest.clearAllMocks();
 });
 
 let dummyUsers = [
-	{ id: "1", email: "mail1@test.de", password: "HASH1" },
-	{ id: "2", email: "mail2@test.de", password: "HASH2" },
-	{ id: "3", email: "mail3@test.de", password: "HASH3" },
+	{ identifier: "1", email: "mail1@test.de", permissionFlags: 1 },
+	{ identifier: "2", email: "mail2@test.de", permissionFlags: 1 },
+	{ identifier: "3", email: "mail3@test.de", permissionFlags: 1 },
 ]
 
 describe('create user is being tested', () => {
@@ -20,7 +20,7 @@ describe('create user is being tested', () => {
 		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
-		let org: CreateUserDto = { email: "mail-new@test.de", password: "HASH-NEW" };
+		let org: CreateUser = { email: "mail-new@test.de", password: "HASH-NEW" };
 
 		service.create(org);
 
@@ -34,7 +34,7 @@ describe('create user is being tested', () => {
 		);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
-		let org: CreateUserDto = { email: "mail-new@test.de", password: "HASH-NEW" };
+		let org: CreateUser = { email: "mail-new@test.de", password: "HASH-NEW" };
 
 		let orgId: String | null = await service.create(org);
 
@@ -113,12 +113,12 @@ describe('readById is being tested', () => {
 
 		service.readById("ID");
 
-		verify(mockedRepo.getUserById("ID")).called();
+		verify(mockedRepo.getUserByIdentifier("ID")).called();
 	});
 
 	test('if user exist it will be returned', async () => {
 		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
-		when(mockedRepo.getUserById("1")).thenReturn(
+		when(mockedRepo.getUserByIdentifier("1")).thenReturn(
 			Promise.resolve(dummyUsers[0])
 		);
 		let repo: UsersRepository = instance(mockedRepo);
@@ -147,14 +147,14 @@ describe('patchById is being testes', () => {
 	test('if user patched returns updated message', async () => {
 		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
 		when(mockedRepo.updateUserById("1", anything())).thenReturn(
-			Promise.resolve({ id: "1", email: "neueMail@beispiel.de", password: "HASH1" })
+			Promise.resolve(true)
 		);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
 
 		let updatedUser = await  service.patchById("1", {email: "neueMail@beispiel.de"});;
 
-		expect(updatedUser).toEqual({ id: "1", email: "neueMail@beispiel.de", password: "HASH1" });
+		expect(updatedUser).toBe(true);
 	});
 	
 });
