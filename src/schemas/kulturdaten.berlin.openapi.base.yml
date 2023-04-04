@@ -82,7 +82,7 @@ paths:
                   organizer: 
                     $ref: organizers/organizer.json
         '404':
-          description: Bad Request
+          description: Not Found
           content:
             application/json:
               schema:
@@ -99,7 +99,7 @@ paths:
         '204':
           description: OK  
         '404':
-          description: Bad Request
+          description: Not Found
           content:
             application/json:
               schema:
@@ -111,7 +111,7 @@ paths:
         '204':
           description: OK  
         '404':
-          description: Bad Request
+          description: Not Found
           content:
             application/json:
               schema:
@@ -184,7 +184,7 @@ paths:
                   user:
                     $ref: users/user.json
         '404':
-          description: Bad Request
+          description: Not Found
           content:
             application/json:
               schema:
@@ -203,7 +203,7 @@ paths:
         '204':
           description: OK  
         '404':
-          description: Bad Request
+          description: Not Found
           content:
             application/json:
               schema:
@@ -217,7 +217,7 @@ paths:
         '204':
           description: OK  
         '404':
-          description: Bad Request
+          description: Not Found
           content:
             application/json:
               schema:
