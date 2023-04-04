@@ -8,25 +8,25 @@ beforeEach(() => {
 });
 
 let dummyUsersRepo = [
-    {	id: "1",
+    {	identifier: "1",
         email: "1@mail.de",
         password: "geheim1",
         firstName: "Nutzer",
         lastName: "Datenschauer",
         permissionFlags: 1},
-        {	id: "2",
+        {	identifier: "2",
         email: "2@mail.de",
         password: "geheim2",
         firstName: "Nutzer",
         lastName: "Eventschreiber",
         permissionFlags: 127},
-        {	id: "3",
+        {	identifier: "3",
         email: "3@mail.de",
         password: "geheim3",
         firstName: "Nutzer",
         lastName: "Organizer Admin",
         permissionFlags: 511}, 
-        {	id: "4",
+        {	identifier: "4",
         email: "4@mail.de",
         password: "geheim4",
         firstName: "Nutzer",
@@ -41,7 +41,7 @@ describe('listUsers is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
 
-		await controller.listUsers(req, res);
+		await controller.listUsers(res);
 
 		verify(firstMockedResponse.status(200)).called();
 	});
@@ -50,7 +50,7 @@ describe('listUsers is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
 
-		await controller.listUsers(req, res);
+		await controller.listUsers(res);
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			users: dummyUsersRepo
@@ -64,7 +64,7 @@ describe('getUserById is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{}, { "userId": "1" });
 
-		await controller.getUserById(req, res);
+		await controller.getUserById(res, "1");
 
 		verify(firstMockedResponse.status(200)).called();
 	});
@@ -73,7 +73,7 @@ describe('getUserById is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{},  { "userId": "1" });
 
-		await controller.getUserById(req, res);
+		await controller.getUserById(res, "1");
 
 		expectResponseSendIsEqual(secondMockedResponse, {"user": dummyUsersRepo[0]});
 	})
@@ -84,7 +84,7 @@ describe('createUser is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newUser);
 
-		await controller.createUser(req, res);
+		await controller.createUser(res, newUser);
 
 		verify(firstMockedResponse.status(201)).called();
 	});
@@ -93,9 +93,9 @@ describe('createUser is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newUser);
 
-		await controller.createUser(req, res);
+		await controller.createUser(res, newUser);
 
-		expectResponseSendIsEqual(secondMockedResponse, { "id": "NewId" });
+		expectResponseSendIsEqual(secondMockedResponse, { "identifier": "NewId" });
 	});
 });
 
@@ -104,7 +104,7 @@ describe('patch is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse } = generateMockRequestResponse(204, newUser, { userId: '1'});
 
-		await controller.patch(req, res);
+		await controller.patch(res, "1", newUser);
 
 		verify(firstMockedResponse.status(204)).called();
 	});
@@ -116,7 +116,7 @@ describe('removeUser is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newUser, { userId: '1'});
 
-		await controller.removeUser(req, res);
+		await controller.removeUser(res, "1");
 
 		verify(firstMockedResponse.status(204)).called();
 	});
@@ -149,7 +149,7 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	when(mockedUsersService.readById("2")).thenReturn(Promise.resolve(dummyUsersRepo[1]));
 	when(mockedUsersService.readById("3")).thenReturn(Promise.resolve(dummyUsersRepo[2]));
 	when(mockedUsersService.create(anything())).thenReturn(Promise.resolve("NewId"));
-	when(mockedUsersService.patchById("1", anything())).thenReturn(Promise.resolve(dummyUsersRepo[0]));
+	when(mockedUsersService.patchById("1", anything())).thenReturn(Promise.resolve(true));
 	when(mockedUsersService.deleteById("1")).thenReturn(Promise.resolve(true));
 	let service: UsersService = instance(mockedUsersService);
 	let controller = new UsersController(service);

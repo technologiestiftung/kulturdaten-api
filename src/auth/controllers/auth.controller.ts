@@ -13,7 +13,7 @@ let authTokenExpiresIn = process.env.AUTH_TOKEN_EXPIRES_IN || '1m' ;
 @Service()
 export class AuthController {
 
-	async createAuthToken(req: express.Request, res: express.Response) {
+	async createAuthToken(req: express.Request, res: express.Response) {	
 		if (req.user) {
 			const token = jwt.sign(req.user, jwtSecret, {
 				expiresIn: authTokenExpiresIn,

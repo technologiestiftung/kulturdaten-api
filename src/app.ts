@@ -16,17 +16,15 @@ import { AuthPassword } from './auth/strategies/auth.strategy.password';
 import { UsersService } from './users/services/users.service';
 import passport from 'passport';
 import { AuthBearerJWT } from './auth/strategies/auth.strategy.bearerjwt';
-import { MongooseService } from "./common/services/mongoose.service";
-import { MongoDBOrganizersRepository } from "./organizers/repositories/organizers.repository";
-import { MongoDBUsersRepository } from "./users/repositories/users.repository";
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { HealthRoutes } from './health/health.routes';
 import { AuthRoutes } from './auth/auth.routes';
-
-// TODO: swagger-autogen for swagger doc
+import { MongoDBConnector } from './common/services/mongodb.service';
+import { MongoDBOrganizersRepository } from './organizers/repositories/organizers.repository.mobgodb';
+import { MongoDBUsersRepository } from './users/repositories/users.repository.mobgodb';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -35,11 +33,12 @@ class KulturdatenBerlinApp {
 	constructor(public app: express.Application) { }
 
 	public port = process.env.APP_PORT || '5000';
-	public openAPISpec: string = 'src/openapi/openapi:kdb-api.yml';
+	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
 	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/v1/docs/`
 
 	public ini() {
+		this.initDatabase();
 		this.initDependencyInjection();
 		this.initLogger();
 		this.initAuthStrategies();
@@ -63,11 +62,15 @@ class KulturdatenBerlinApp {
 		});
 	}
 
+	private initDatabase(){
+		Container.get(MongoDBConnector).initIndices();
+	}
+
 	private initDependencyInjection() {
 		// TODO: make Dependency Injection visible
-		Container.get(MongooseService).connectWithRetry();
-		Container.set('OrganizersRepository', new MongoDBOrganizersRepository(Container.get(MongooseService)));
-		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get(MongooseService)));
+		Container.set('OrganizersRepository', new MongoDBOrganizersRepository(Container.get(MongoDBConnector)));
+		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get(MongoDBConnector)));
+
 	}
 
 	private initLogger() {
@@ -108,7 +111,6 @@ class KulturdatenBerlinApp {
 			apiSpec: this.openAPISpec,
 			validateRequests: true,
 			validateResponses: true,
-			
 		}));
 	}
 
@@ -146,3 +148,6 @@ const kulturdatenBerlin = new KulturdatenBerlinApp(app);
 kulturdatenBerlin.ini();
 kulturdatenBerlin.registerRoutes();
 kulturdatenBerlin.start();
+
+
+  

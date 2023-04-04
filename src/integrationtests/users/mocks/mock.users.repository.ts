@@ -1,9 +1,10 @@
-import { CreateUserDto } from "../../../users/dtos/create.user.dto";
-import { PatchUserDto } from "../../../users/dtos/patch.user.dto";
-import { User } from "../../../users/repositories/user";
 import { UsersRepository } from "../../../users/repositories/users.repository";
 import { faker } from '@faker-js/faker';
 import { PermissionFlag } from "../../../auth/middleware/auth.permissionflag.enum";
+import { User } from "../../../users/models/user.generated";
+import { CreateUser } from "../../../users/dtos/create.user.dto.generated";
+import { PatchUser } from "../../../users/dtos/patch.user.dto.generated";
+import { remove } from "winston";
 
 
 
@@ -39,25 +40,26 @@ export class MockUsersRepository implements UsersRepository {
 	public addDummyUser() {
 		const d = dummyUser();
 		this.dummyUsers.push(d);
-		return d.id;
+		return d.identifier;
 	}
 
-	async addUser(userFields: CreateUserDto): Promise<string> {
+	async addUser(userFields: CreateUser): Promise<string> {
 		let newUser: User = {
-			id: `IDfor${userFields.email}`,
+			identifier: `IDfor${userFields.email}`,
 			...userFields,
-			permissionFlags: userFields.permissionFlags ?? 1
-		}
-		newUser.id = `IDfor${userFields.email}`;
+			permissionFlags:  1
+		};
+		delete newUser.password;
+		newUser.identifier = `IDfor${userFields.email}`;
 		this.dummyUsers.push(newUser);
-		return Promise.resolve(newUser.id);
+		return Promise.resolve(newUser.identifier);
 	}
 	async getUsers(limit: number, page: number): Promise<User[] | null> {
 		return Promise.resolve(this.dummyUsers);
 	}
-	async getUserById(userId: string): Promise<User | null> {
+	async getUserByIdentifier(userId: string): Promise<User | null> {
 		try {
-			let user: User | undefined = this.dummyUsers.find(({ id }) => id === userId)
+			let user: User | undefined = this.dummyUsers.find(({ identifier }) => identifier === userId)
 			if (user) {
 				return Promise.resolve(user);
 			} else return Promise.resolve(null);
@@ -66,25 +68,24 @@ export class MockUsersRepository implements UsersRepository {
 		}
 
 	}
-	async updateUserById(userId: string, userFields: PatchUserDto): Promise<User | null> {
+	async updateUserById(userId: string, userFields: PatchUser): Promise<boolean> {
 		if (userFields) {
-			const index = this.dummyUsers.findIndex(({ id }) => id === userId);
+			const index = this.dummyUsers.findIndex(({ identifier }) => identifier === userId);
 		
 			if (index !== -1) {
 				if(userFields.email) this.dummyUsers[index].email = userFields.email;
 				if(userFields.firstName) this.dummyUsers[index].firstName = userFields.firstName;
 				if(userFields.lastName) this.dummyUsers[index].lastName = userFields.lastName;
-				if(userFields.password) this.dummyUsers[index].password = userFields.password;
 				if(userFields.permissionFlags) this.dummyUsers[index].permissionFlags = userFields.permissionFlags;
-				return this.dummyUsers[index];
+				return Promise.resolve(true);
 			} else {
-				return null;
+				return Promise.resolve(false);
 			}
 		}
-		return null;
+		return Promise.resolve(false);
 	}
 	async removeUserById(userId: string): Promise<boolean> {
-		const index = this.dummyUsers.findIndex(({ id }) => id === userId);
+		const index = this.dummyUsers.findIndex(({ identifier }) => identifier === userId);
 		if (index >= 0) {
 			delete this.dummyUsers[index];
 			return true;
@@ -97,9 +98,8 @@ export class MockUsersRepository implements UsersRepository {
 
 export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGISTERED_USER): User {
 	return {
-		id: faker.database.mongodbObjectId(),
+		identifier: faker.database.mongodbObjectId(),
 		email: faker.internet.email(),
-		password: faker.internet.password(),
 		firstName: faker.name.firstName(),
 		lastName: faker.name.lastName(),
 		createdAt: faker.datatype.datetime().toDateString(),
@@ -108,7 +108,7 @@ export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGIST
 	}
 }
 
-export function dummyCreateDto(): CreateUserDto {
+export function dummyCreateDto(): CreateUser {
 	return {
 		email: faker.internet.email(),
 		password: faker.internet.password(),

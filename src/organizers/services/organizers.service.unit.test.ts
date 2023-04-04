@@ -1,8 +1,9 @@
-import { MongoDBOrganizersRepository, OrganizersRepository } from "../repositories/organizers.repository";
+import { OrganizersRepository } from "../repositories/organizers.repository";
 import { OrganizersService } from "./organizers.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
-import { Organizer } from "../repositories/organizer";
-import { CreateOrganizerDto } from "../dtos/create.organizer.dto";
+import { CreateOrganizer } from "../dtos/create.organizer.dto.generated";
+import { MongoDBOrganizersRepository } from "../repositories/organizers.repository.mobgodb";
+import { Organizer } from "../models/organizer.generated";
 
 
 beforeEach(() => {
@@ -10,9 +11,9 @@ beforeEach(() => {
 });
 
 let dummyOrganizers = [
-	{ id: "1", name: "Organizer 1" },
-	{ id: "2", name: "Organizer 2" },
-	{ id: "3", name: "Organizer 3" },
+	{ identifier: "1", name: "Organizer 1" },
+	{ identifier: "2", name: "Organizer 2" },
+	{ identifier: "3", name: "Organizer 3" },
 ]
 
 describe('create organizer is being tested', () => {
@@ -20,7 +21,7 @@ describe('create organizer is being tested', () => {
 		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
-		let org: CreateOrganizerDto = { name: "New Organizer" };
+		let org: CreateOrganizer = { name: "New Organizer" };
 
 		service.create(org);
 
@@ -34,7 +35,7 @@ describe('create organizer is being tested', () => {
 		);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
-		let org: CreateOrganizerDto = { name: "New Organizer" };
+		let org: CreateOrganizer = { name: "New Organizer" };
 
 		let orgId: String | null = await service.create(org);
 
@@ -106,19 +107,19 @@ describe('list organizer is being tested', () => {
 });
 
 describe('readById is being tested', () => {
-	test('readById use getOrganizerById', async () => {
+	test('readById use getOrganizerByIdentifier', async () => {
 		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
 
 		service.readById("ID");
 
-		verify(mockedRepo.getOrganizerById("ID")).called();
+		verify(mockedRepo.getOrganizerByIdentifier("ID")).called();
 	});
 
 	test('if organizer exist it will be returned', async () => {
 		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
-		when(mockedRepo.getOrganizerById("1")).thenReturn(
+		when(mockedRepo.getOrganizerByIdentifier("1")).thenReturn(
 			Promise.resolve(dummyOrganizers[0])
 		);
 		let repo: OrganizersRepository = instance(mockedRepo);
@@ -147,14 +148,14 @@ describe('patchById is being testes', () => {
 	test('if organizer patched returns updated message', async () => {
 		let mockedRepo: OrganizersRepository = mock(MongoDBOrganizersRepository);
 		when(mockedRepo.updateOrganizerById("ID", anything())).thenReturn(
-			Promise.resolve({id: "id",name: "neuer Name", description: "alte Beschreibung"})
+			Promise.resolve(true)
 		);
 		let repo: OrganizersRepository = instance(mockedRepo);
 		let service: OrganizersService = new OrganizersService(repo);
 
 		let updatedOrganizer = await  service.patchById("ID", {name: "neuer Name"});;
 
-		expect(updatedOrganizer).toEqual({id: "id",name: "neuer Name", description: "alte Beschreibung"});
+		expect(updatedOrganizer).toBe(true);
 	});
 	
 });

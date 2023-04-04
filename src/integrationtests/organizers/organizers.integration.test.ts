@@ -25,7 +25,7 @@ describe('Exploring existing organizers', () => {
 		expect(body.organizers).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({
-					id: expect.any(String),
+					identifier: expect.any(String),
 					name: expect.any(String),
 					description: expect.any(String),
 					createdAt: expect.any(String),
@@ -36,25 +36,6 @@ describe('Exploring existing organizers', () => {
 	});
 
 
-	it('POST  /v1/organizers - failure on invalid post body', async () => {
-		const { body, statusCode } = await await request(app).post('/v1/organizers').send({
-			name: '',
-			description: 'Beschreibung'
-		});
-
-		expect(statusCode).toBe(400);
-		expect(body).toEqual({
-			errors: [
-				{
-					location: 'body',
-					msg: 'Organizer name is required',
-					param: 'name',
-					value: ''
-				}
-			]
-		});
-	});
-
 	it('POST /v1/organizers - success - get new organizerId', async () => {
 		const { body, statusCode } = await request(app).post('/v1/organizers').send({
 			name: 'Neuer Veranstalter',
@@ -64,7 +45,7 @@ describe('Exploring existing organizers', () => {
 		expect(statusCode).toBe(201);
 
 		expect(body).toEqual(expect.objectContaining({
-			id: expect.any(String),
+			identifier: expect.any(String),
 		}));
 	});
 
@@ -88,7 +69,7 @@ describe('Exploring existing organizers', () => {
 		expect(statusCode).toBe(200);
 
 		expect(body.organizer).toEqual(expect.objectContaining({
-			id: existOrganizerId,
+			identifier: existOrganizerId,
 			name: expect.any(String),
 			description: expect.any(String),
 			createdAt: expect.any(String),
@@ -116,7 +97,7 @@ describe('Exploring existing organizers', () => {
 			name: 'Neuer Name',
 		});
 
-		const existOrganizer = await organizersRepository.getOrganizerById(existOrganizerId);
+		const existOrganizer = await organizersRepository.getOrganizerByIdentifier(existOrganizerId);
 		expect(existOrganizer?.name).toBe('Neuer Name');
 		expect(statusCode).toBe(204);
 	});
@@ -138,7 +119,7 @@ describe('Exploring existing organizers', () => {
 
 		const { statusCode } = await request(app).delete(`/v1/organizers/${existOrganizerId}`);
 
-		const existOrganizer = await organizersRepository.getOrganizerById("86576");
+		const existOrganizer = await organizersRepository.getOrganizerByIdentifier("86576");
 		expect(existOrganizer).toBeNull();
 		expect(statusCode).toBe(204);
 	});

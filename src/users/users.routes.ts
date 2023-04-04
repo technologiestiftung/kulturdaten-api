@@ -1,12 +1,12 @@
 import debug from 'debug';
 import express, { Router } from 'express';
-import { body, param } from 'express-validator';
 import passport from 'passport';
 import { Service } from 'typedi';
 import { permit } from '../auth/middleware/auth.middleware';
-import { validation } from '../common/middleware/common.validation.middleware';
 import { UsersController } from './controllers/users.controller';
 import { checkUsers } from './middleware/users.middleware';
+import { CreateUser } from './dtos/create.user.dto.generated';
+import { PatchUser } from './dtos/patch.user.dto.generated';
 
 
 const log: debug.IDebugger = debug('app:users-routes');
@@ -26,61 +26,42 @@ export class UsersRoutes {
 				passport.authenticate('authenticated-user', { session: false }),
 				permit.authorizesAsAdmin(),
 				(req: express.Request, res: express.Response) => {
-					this.usersController.listUsers(req, res);
+					this.usersController.listUsers(res);
 				})
 			.post(
 				'/',
-				[
-					body('email', 'Email is required').isEmail(),
-					body('email').custom(value => checkUsers.eMailIsNotExist(value)),
-					// TODO: strong password? -> usability vs. security
-					body('password', 'Password is required').isLength({ min: 5 })
-				],
-				validation.checkErrors(),
+				checkUsers.eMailIsNotExist(),
 				(req: express.Request, res: express.Response) => {
-					this.usersController.createUser(req, res);
+					const createUser = req.body as CreateUser;
+					this.usersController.createUser(res, createUser);
 				});
 
 		router
 			.get(
-				'/:userId',
-				[
-					param('userId', 'User ID is required').isString().notEmpty()
-				],
-				validation.checkErrors(),
+				'/:identifier',
 				passport.authenticate('authenticated-user', { session: false }),
 				permit.authorizesAsAdminOrSameUser(),
 				(req: express.Request, res: express.Response) => {
-					this.usersController.getUserById(req, res);
+					const identifier = req.params.identifier;
+					this.usersController.getUserById(res, identifier);
 				})
 			.delete(
-				'/:userId',
-				[
-					param('userId', 'User ID is required').isString().notEmpty()
-				],
-				validation.checkErrors(),
+				'/:identifier',
 				passport.authenticate('authenticated-user', { session: false }),
 				permit.authorizesAsAdminOrSameUser(),
 				(req: express.Request, res: express.Response) => {
-					this.usersController.removeUser(req, res);
+					const identifier = req.params.identifier;
+					this.usersController.removeUser(res, identifier);
 				})
 			.patch(
-				'/:userId',
-				[
-					param('userId', 'User ID is required').isString().notEmpty(),
-					body('email').isEmail().optional(),
-					// TODO: strong password? -> usability vs. security
-					body('password', 'Password is required').isLength({ min: 5 }).optional(),
-					body('firstName').isString().optional(),
-					body('lastName').isString().optional(),
-					body('permissionFlags').isNumeric().optional(),
-				],
-				validation.checkErrors(),
+				'/:identifier',
 				passport.authenticate('authenticated-user', { session: false }),
 				permit.authorizesAsAdminOrSameUser(),
 				permit.onlyAdminCanChancePermissions(),
 				(req: express.Request, res: express.Response) => {
-					this.usersController.patch(req, res);
+					const identifier = req.params.identifier;
+					const patchUser = req.body as PatchUser;
+					this.usersController.patch(res, identifier, patchUser);
 				});
 		return router;
 	}
