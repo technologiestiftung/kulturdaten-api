@@ -32,23 +32,23 @@ export class OrganizersRoutes {
 
 		router
 			.get(
-				'/:organizerId',
+				'/:identifier',
 				(req: express.Request, res: express.Response) => {
-					const organizerId = req.params.organizerId;
-					this.organizersController.getOrganizerById(res, organizerId);
+					const identifier = req.params.identifier;
+					this.organizersController.getOrganizerById(res, identifier);
 				})
 			.patch(
-				'/:organizerId',
+				'/:identifier',
 				(req: express.Request, res: express.Response) => {
-					const organizerId = req.params.organizerId;
+					const identifier = req.params.identifier;
 					const patchOrganizer = req.body as PatchOrganizer;
-					this.organizersController.patch(res, organizerId, patchOrganizer);
+					this.organizersController.patch(res, identifier, patchOrganizer);
 				})
 			.delete(
-				'/:organizerId',
+				'/:identifier',
 				(req: express.Request, res: express.Response) => {
-					const organizerId = req.params.organizerId;
-					this.organizersController.removeOrganizer(res, organizerId);
+					const identifier = req.params.identifier;
+					this.organizersController.removeOrganizer(res, identifier);
 				});
 
 

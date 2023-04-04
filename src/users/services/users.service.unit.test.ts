@@ -1,9 +1,9 @@
-import { MongoDBUsersRepository, UsersRepository } from "../repositories/users.repository";
+import { UsersRepository } from "../repositories/users.repository";
 import { UsersService } from "./users.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
-import { User } from "../repositories/user";
 import { CreateUserDto } from "../dtos/create.user.dto";
-
+import { MongoDBUsersRepository } from "../repositories/users.repository.mobgodb"
+import { User } from "../models/user.generated";
 
 beforeEach(() => {
 	jest.clearAllMocks();

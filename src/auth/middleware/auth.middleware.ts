@@ -1,7 +1,7 @@
 import { PermissionFlag } from "./auth.permissionflag.enum"
 import express from 'express';
-import { User } from "../../users/repositories/user";
 import { matchedData } from "express-validator";
+import { User } from "../../users/models/user.generated";
 
 
 export class permit {
@@ -9,13 +9,13 @@ export class permit {
 
 	static authorizesAsAdminOrSameUser = () =>
 		 (req: express.Request, res: express.Response, next: express.NextFunction) => {
-			const data: Record<string, any> = matchedData(req);
-			if (!req.user || !data.userId) {
+			const identifier = req.params.identifier;
+			if (!req.user || !identifier) {
 				res.status(403).send();
 			}
 			const u: User = req.user as User;
 
-			if (u.id === data.userId) {
+			if (u.identifier === identifier) {
 				next();
 			} else {
 				this.authorizesAsAdmin()(req, res, next);

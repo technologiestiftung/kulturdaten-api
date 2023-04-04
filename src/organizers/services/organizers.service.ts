@@ -22,7 +22,7 @@ export class OrganizersService implements CRUD {
 	}
 
 	async readById(id: string) {
-		return this.organizersRepository.getOrganizerById(id);
+		return this.organizersRepository.getOrganizerByIdentifier(id);
 	}
 
 	async patchById(id: string, resource: PatchOrganizer) {

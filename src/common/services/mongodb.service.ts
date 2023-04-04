@@ -1,35 +1,48 @@
-import { MongoClient } from 'mongodb';
+import { Collection, MongoClient } from 'mongodb';
+import { Service } from 'typedi';
+import { Organizer } from '../../organizers/models/organizer.generated';
+import { User } from '../../users/models/user.generated';
+import debug from 'debug';
 
+const log: debug.IDebugger = debug('app:mongodb-controller');
 
-class MongoDBConnector {
-  private uri: string;
-  private client: MongoClient;
-  
-  constructor(uri: string) {
-    this.uri = uri;
-    this.client = new MongoClient(this.uri);
-  }
-  
-  public connectToMongoDB(): void {
-	const uri = "<connection string uri>";
-	const client = new MongoClient(uri);
-	async function run() {
-	  try {
-		const database = client.db('sample_mflix');
-		const movies = database.collection('movies');
-		// Query for a movie that has the title 'Back to the Future'
-		const query = { title: 'Back to the Future' };
-		const movie = await movies.findOne(query);
-		console.log(movie);
-	  } finally {
-		// Ensures that the client will close when you finish/error
-		await client.close();
-	  }
+@Service()
+export class MongoDBConnector {
+
+	public database;
+
+	constructor() {
+		const path = process.env.MONGO_URI || 'localhost';
+		const port = process.env.MONGO_PORT || 27017;
+
+		const uri = `mongodb://${path}:${port}`;
+		const client = new MongoClient(uri);
+
+		const db = process.env.MONGO_DB || 'api-db';
+		this.database = client.db(db);
+
+		console.log('Connection to MongoDB established.');
+
+		process.on('exit', async function () {
+			console.log('Connection to MongoDB terminated.');
+
+			await client.close();
+		});
 	}
-	run().catch(console.dir);
-  }
-}
 
-// Usage
-const connector = new MongoDBConnector('mongodb://localhost:27017/mydb');
-connector.connectToMongoDB();
+	public async initIndices() {
+
+		await this.organizers().createIndex({ identifier: 1 },{ name: 'id_index' });
+		await this.users().createIndex({ identifier: 1 },{ name: 'id_index' });
+		await this.users().createIndex({ email: 1}, { name: 'email_index' })
+	}
+
+	public organizers(): Collection<Organizer> {
+		return this.database.collection<Organizer>('organizers');
+	}
+
+	public users(): Collection<User> {
+		return this.database.collection<User>('users');
+
+	}
+}

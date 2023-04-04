@@ -1,7 +1,7 @@
 {
 	"type": "object",
 	"properties": {
-		"id": {
+		"identifier": {
 			"type": "string"
 		},
 		"name": {
@@ -19,7 +19,7 @@
 		}
 	},
 	"required": [
-		"id",
+		"identifier",
 		"name"
 	]
 }

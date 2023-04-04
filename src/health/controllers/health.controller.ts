@@ -1,8 +1,6 @@
 import express from 'express';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { MongooseService } from '../../common/services/mongoose.service';
-import { ConnectionStates } from 'mongoose';
 
 const log: debug.IDebugger = debug('app:health-controller');
 
@@ -13,11 +11,10 @@ export class HealthController {
 	public lastCheck = 0;
 	public intervalInMilliseconds:number = 10000;
 
-	constructor(public mongooseService: MongooseService){}
-
+	// TODO: MongoDB testen. 
+	
 	public check() {
 		if(this.isTimeForCheck()){
-			this.repository = this.mongooseService.getMongoose().connection.readyState === ConnectionStates.connected;
 			this.lastCheck = Date.now();
 		}
 		return this.repository;

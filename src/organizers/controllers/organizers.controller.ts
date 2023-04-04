@@ -32,12 +32,11 @@ export class OrganizersController {
 
 	async createOrganizer(res: express.Response, createOrganizer: CreateOrganizer) {
 		const organizerId = await this.organizersService.create(createOrganizer);
-		res.status(201).send({ id: organizerId });
+		res.status(201).send({ identifier: organizerId });
 	}
 
 	async patch(res: express.Response, organizerId: string, patchOrganizer: PatchOrganizer) {
-		const organizer = await this.organizersService.patchById(organizerId, patchOrganizer);
-		if(organizer){
+		if(await this.organizersService.patchById(organizerId, patchOrganizer)){
 			res.status(204).send();
 		} 
 		else {

@@ -22,23 +22,23 @@ export class MockOrganizersRepository implements OrganizersRepository {
 	public addDummyOrganizer(){
 		const d = dummyOrganizer();
 		this.dummyOrganizers.push(d);
-		return d.id;
+		return d.identifier;
 	}
 
 	async addOrganizer(organizerFields: CreateOrganizer): Promise<string> {
 		let newOrganizer:Organizer = {
-			id: `IDfor${organizerFields.name}`,
+			identifier: `IDfor${organizerFields.name}`,
 			...organizerFields
 		} 
 		this.dummyOrganizers.push(newOrganizer);
-		return Promise.resolve(newOrganizer.id);
+		return Promise.resolve(newOrganizer.identifier);
 	}
 	async getOrganizers(limit: number, page: number): Promise<Organizer[] | null> {
 		return Promise.resolve(this.dummyOrganizers);
 	}
-	async getOrganizerById(organizerId: string): Promise<Organizer | null> {
+	async getOrganizerByIdentifier(organizerId: string): Promise<Organizer | null> {
 		try {
-			let organizer: Organizer | undefined = this.dummyOrganizers.find(({ id }) => id === organizerId)
+			let organizer: Organizer | undefined = this.dummyOrganizers.find(({ identifier }) => identifier === organizerId)
 			if(organizer){
 				return Promise.resolve(organizer);
 			} else return Promise.resolve(null);
@@ -47,22 +47,22 @@ export class MockOrganizersRepository implements OrganizersRepository {
 		}
 	
 	}
-	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizer ): Promise<Organizer | null> {
+	async updateOrganizerById(organizerId: string, organizerFields: PatchOrganizer ): Promise<boolean> {
 		if(organizerFields){
-			const index = this.dummyOrganizers.findIndex(({ id }) => id === organizerId);
+			const index = this.dummyOrganizers.findIndex(({ identifier }) => identifier === organizerId);
 		
 			if (index !== -1) {
 				if(organizerFields.name) this.dummyOrganizers[index].name = organizerFields.name;
 				if(organizerFields.description) this.dummyOrganizers[index].description = organizerFields.description;
-				return this.dummyOrganizers[index];
+				return Promise.resolve(true);
 			} else {
-				return null;
+				return Promise.resolve(false);
 			}
 		}
-		return null; 
+		return Promise.resolve(false); 
 	}
 	async removeOrganizerById(organizerId: string): Promise<boolean> {
-		const index = this.dummyOrganizers.findIndex(({ id }) => id === organizerId);
+		const index = this.dummyOrganizers.findIndex(({ identifier }) => identifier === organizerId);
 		if(index >= 0){
 			delete this.dummyOrganizers[index];
 			return true;
@@ -75,7 +75,7 @@ export class MockOrganizersRepository implements OrganizersRepository {
 
 export function dummyOrganizer(): Organizer{
 	return {
-		id: faker.database.mongodbObjectId(),
+		identifier: faker.database.mongodbObjectId(),
 		name: faker.company.name(),
 		description: faker.company.catchPhrase(),
 		createdAt: faker.datatype.datetime().toDateString(),

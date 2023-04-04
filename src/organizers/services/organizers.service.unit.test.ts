@@ -1,8 +1,9 @@
-import { MongoDBOrganizersRepository, OrganizersRepository } from "../repositories/organizers.repository";
+import { OrganizersRepository } from "../repositories/organizers.repository";
 import { OrganizersService } from "./organizers.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
-import { Organizer } from "../repositories/organizer";
 import { CreateOrganizer } from "../dtos/create.organizer.dto.generated";
+import { MongoDBOrganizersRepository } from "../repositories/organizers.repository.mobgodb";
+import { Organizer } from "../models/organizer.generated";
 
 
 beforeEach(() => {

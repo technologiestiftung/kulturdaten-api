@@ -21,7 +21,7 @@ describe('listOrganizers is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
 
-		await controller.listOrganizers(req, res);
+		await controller.listOrganizers(res);
 
 		verify(firstMockedResponse.status(200)).called();
 	});
@@ -30,7 +30,7 @@ describe('listOrganizers is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
 
-		await controller.listOrganizers(req, res);
+		await controller.listOrganizers(res);
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizers: [
@@ -48,7 +48,7 @@ describe('getOrganizerById is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse } = generateMockRequestResponse(200, {});
 
-		await controller.getOrganizerById(req, res, { "organizerId": "1" });
+		await controller.getOrganizerById(res, "1");
 
 		verify(firstMockedResponse.status(200)).called();
 	});
@@ -56,9 +56,9 @@ describe('getOrganizerById is being tested', () => {
 	test('organizer response is well structured', async () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200,{},{ "organizerId": "1" });
-		const data: Record<string, any> = { "organizerId": "1" }
+		
 
-		await controller.getOrganizerById(req, res, data);
+		await controller.getOrganizerById(res, "1");
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizer:
@@ -72,7 +72,7 @@ describe('createOrganizer is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newOrganizer);
 
-		await controller.createOrganizer(req, res,{ "organizerId": "1" });
+		await controller.createOrganizer(res,newOrganizer);
 
 		verify(firstMockedResponse.status(201)).called();
 	});
@@ -81,7 +81,7 @@ describe('createOrganizer is being tested', () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(201, newOrganizer);
 
-		await controller.createOrganizer(req, res, newOrganizer);
+		await controller.createOrganizer( res, newOrganizer);
 
 		expectResponseSendIsEqual(secondMockedResponse, { "id": "NewId" });
 	});
@@ -95,7 +95,7 @@ describe('patch is being tested', () => {
 		const data: Record<string, any> = newOrganizer;
 		data.organizerId = 'existID';
 
-		await controller.patch(req, res, data);
+		await controller.patch(res, 'existID', newOrganizer);
 
 		verify(firstMockedResponse.status(204)).called();
 	});
@@ -108,10 +108,9 @@ describe('removeOrganizer is being tested', () => {
 	test('if an organizer is successfully removed, status 204 is returned', async () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(204, newOrganizer, { organizerId: '1'});
-		const data: Record<string, any> = newOrganizer;
-		data.organizerId = '1';
 
-		await controller.removeOrganizer(req, res, data);
+
+		await controller.removeOrganizer( res, "1");
 
 		verify(firstMockedResponse.status(204)).called();
 	});

@@ -9,13 +9,13 @@ const log: debug.IDebugger = debug('app:organizers-repository');
 
 export interface OrganizersRepository {
 
-	addOrganizer(organizerFields: CreateOrganizer): Promise<string>;
+	addOrganizer(createOrganizer: CreateOrganizer): Promise<string>;
 
 	getOrganizers(limit:number, page:number) : Promise<Organizer[] | null>;
 
-	getOrganizerById(organizerId: string) : Promise<Organizer | null>;
+	getOrganizerByIdentifier(organizerId: string) : Promise<Organizer | null>;
 
-	updateOrganizerById(organizerId: string, organizerFields: PatchOrganizer ): Promise<Organizer | null>;
+	updateOrganizerById(organizerId: string, organizerFields: PatchOrganizer ): Promise<boolean>;
 
 	removeOrganizerById(organizerId: string) :  Promise<boolean>;
 }

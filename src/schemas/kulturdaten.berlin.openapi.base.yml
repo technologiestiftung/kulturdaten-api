@@ -56,14 +56,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  id: 
+                  identifier: 
                     type: string
 
 
-  /organizers/{organizerId}:
+  /organizers/{identifier}:
     parameters:
       - in: path
-        name: organizerId 
+        name: identifier 
         required: true
         schema:
           type: string
@@ -151,13 +151,13 @@ paths:
               schema:
                 type: object
                 properties:
-                  id: 
+                  identifier: 
                     type: string
 
-  /users/{userId}:
+  /users/{identifier}:
     parameters:
       - in: path
-        name: userId 
+        name: identifier 
         required: true
         schema:
           type: string

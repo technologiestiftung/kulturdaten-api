@@ -6,7 +6,9 @@
 		"format": "email"
 	  },
 	  "password": {
-		"type": "string"
+		"type": "string",
+		"format": "password",
+		"minLength": 8
 	  },
 	  "firstName": {
 		"type": "string"

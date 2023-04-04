@@ -9,7 +9,7 @@
  */
 
 export interface Organizer {
-  id: string;
+  identifier: string;
   name: string;
   description?: string;
   createdAt?: string;
