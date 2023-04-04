@@ -31,10 +31,10 @@ paths:
                     type: string
                   expiresIn:
                     type: string
-  /organizers:
+  /organizations:
     get:
       tags:
-        - Organizers
+        - Organizations
       responses:
         '200':
           description: OK
@@ -43,7 +43,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  organizers:
+                  organizations:
                     type: array
                     items:
                       type: object
@@ -64,7 +64,7 @@ paths:
                         - name
     post:
       tags:
-        - Organizers
+        - Organizations
       requestBody:
         content:
           application/json:
@@ -87,17 +87,17 @@ paths:
                 properties:
                   identifier:
                     type: string
-  /organizers/{identifier}:
+  /organizations/{identifier}:
     parameters:
       - in: path
         name: identifier
         required: true
         schema:
           type: string
-        description: The organizer ID
+        description: The organization ID
     get:
       tags:
-        - Organizers
+        - Organizations
       responses:
         '200':
           description: OK
@@ -106,7 +106,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  organizer:
+                  organization:
                     type: object
                     properties:
                       identifier:
@@ -137,7 +137,7 @@ paths:
                         type: string
     patch:
       tags:
-        - Organizers
+        - Organizations
       requestBody:
         content:
           application/json:
@@ -165,7 +165,7 @@ paths:
                         type: string
     delete:
       tags:
-        - Organizers
+        - Organizations
       responses:
         '204':
           description: OK

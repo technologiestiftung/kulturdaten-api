@@ -3,9 +3,9 @@ import { compileFromFile } from 'json-schema-to-typescript'
 
 async function generate() {
 
-	generateInterface('organizers/organizer', 'organizers/models/organizer');
-	generateInterface('organizers/createOrganizer', 'organizers/dtos/create.organizer.dto');
-	generateInterface('organizers/patchOrganizer', 'organizers/dtos/patch.organizer.dto');
+	generateInterface('organizations/organization', 'organizations/models/organization');
+	generateInterface('organizations/createOrganization', 'organizations/dtos/create.organization.dto');
+	generateInterface('organizations/patchOrganization', 'organizations/dtos/patch.organization.dto');
 
 	generateInterface('users/user', 'users/models/user');
 	generateInterface('users/createUser', 'users/dtos/create.user.dto');
@@ -14,7 +14,7 @@ async function generate() {
 	generateInterface('auth/auth', 'auth/dtos/auth');
 	generateInterface('auth/login', 'auth/dtos/login');
 
-	generateInterface('health/health', 'health/dtos');
+	generateInterface('health/health', 'health/dtos/health');
 
 	generateInterface('errors/notFoundError', 'common/errors/notFoundError');
 

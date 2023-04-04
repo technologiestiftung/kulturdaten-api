@@ -23,10 +23,10 @@ paths:
               schema:
                 $ref: auth/auth.json      
 
-  /organizers:
+  /organizations:
     get:
       tags:
-        - Organizers
+        - Organizations
       responses:
         '200':
           description: OK
@@ -35,19 +35,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  organizers: 
+                  organizations: 
                     type: array
                     items:    
-                      $ref: organizers/organizer.json
+                      $ref: organizations/organization.json
   
     post:
       tags:
-        - Organizers
+        - Organizations
       requestBody:
         content:
           application/json:
             schema:
-              $ref: organizers/createOrganizer.json
+              $ref: organizations/createOrganization.json
       responses:
         '201':
           description: OK
@@ -60,17 +60,17 @@ paths:
                     type: string
 
 
-  /organizers/{identifier}:
+  /organizations/{identifier}:
     parameters:
       - in: path
         name: identifier 
         required: true
         schema:
           type: string
-        description: The organizer ID
+        description: The organization ID
     get:
       tags:
-        - Organizers
+        - Organizations
       responses:
         '200':
           description: OK
@@ -79,8 +79,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  organizer: 
-                    $ref: organizers/organizer.json
+                  organization: 
+                    $ref: organizations/organization.json
         '404':
           description: Not Found
           content:
@@ -89,12 +89,12 @@ paths:
                 $ref: errors/notFoundError.json
     patch:
       tags:
-        - Organizers
+        - Organizations
       requestBody:
         content:
           application/json:
             schema:
-              $ref: organizers/patchOrganizer.json
+              $ref: organizations/patchOrganization.json
       responses:
         '204':
           description: OK  
@@ -106,7 +106,7 @@ paths:
                 $ref: errors/notFoundError.json
     delete:
       tags:
-        - Organizers
+        - Organizations
       responses:
         '204':
           description: OK  

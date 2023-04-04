@@ -9,7 +9,7 @@ import debug from 'debug';
 
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
-import { OrganizersRoutes } from './organizers/organizers.routes';
+import { OrganizationsRoutes } from './organizations/organizations.routes';
 import Container from 'typedi';
 import { UsersRoutes } from './users/users.routes';
 import { AuthPassword } from './auth/strategies/auth.strategy.password';
@@ -23,7 +23,7 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import { HealthRoutes } from './health/health.routes';
 import { AuthRoutes } from './auth/auth.routes';
 import { MongoDBConnector } from './common/services/mongodb.service';
-import { MongoDBOrganizersRepository } from './organizers/repositories/organizers.repository.mobgodb';
+import { MongoDBOrganizationsRepository } from './organizations/repositories/organizations.repository.mobgodb';
 import { MongoDBUsersRepository } from './users/repositories/users.repository.mobgodb';
 
 const log: debug.IDebugger = debug('app:main');
@@ -51,7 +51,7 @@ class KulturdatenBerlinApp {
 	public registerRoutes() {
 		this.registerAuthRoutes();
 
-		this.registerOrganizerRoutes();
+		this.registerOrganizationRoutes();
 		this.registerUserRoutes();
 	}
 
@@ -68,7 +68,7 @@ class KulturdatenBerlinApp {
 
 	private initDependencyInjection() {
 		// TODO: make Dependency Injection visible
-		Container.set('OrganizersRepository', new MongoDBOrganizersRepository(Container.get(MongoDBConnector)));
+		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get(MongoDBConnector)));
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get(MongoDBConnector)));
 
 	}
@@ -130,9 +130,9 @@ class KulturdatenBerlinApp {
 		authRoutes.getRouter());
 	}
 
-	private registerOrganizerRoutes() {
-		const organizersRoute = Container.get(OrganizersRoutes);
-		this.app.use('/v1/organizers', organizersRoute.getRouter());
+	private registerOrganizationRoutes() {
+		const organizationsRoute = Container.get(OrganizationsRoutes);
+		this.app.use('/v1/organizations', organizationsRoute.getRouter());
 	}
 
 	private registerUserRoutes() {

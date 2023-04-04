@@ -1,6 +1,6 @@
 import { Collection, MongoClient } from 'mongodb';
 import { Service } from 'typedi';
-import { Organizer } from '../../organizers/models/organizer.generated';
+import { Organization } from '../../organizations/models/organization.generated';
 import { User } from '../../users/models/user.generated';
 import debug from 'debug';
 
@@ -32,13 +32,13 @@ export class MongoDBConnector {
 
 	public async initIndices() {
 
-		await this.organizers().createIndex({ identifier: 1 },{ name: 'id_index' });
+		await this.organizations().createIndex({ identifier: 1 },{ name: 'id_index' });
 		await this.users().createIndex({ identifier: 1 },{ name: 'id_index' });
 		await this.users().createIndex({ email: 1}, { name: 'email_index' })
 	}
 
-	public organizers(): Collection<Organizer> {
-		return this.database.collection<Organizer>('organizers');
+	public organizations(): Collection<Organization> {
+		return this.database.collection<Organization>('organizations');
 	}
 
 	public users(): Collection<User> {
