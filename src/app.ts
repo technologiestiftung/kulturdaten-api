@@ -63,7 +63,7 @@ class KulturdatenBerlinApp {
 	}
 
 	private initDatabase(){
-		Container.get(MongoDBConnector).initIndices();
+		Container.get(MongoDBConnector).init();
 	}
 
 	private initDependencyInjection() {
