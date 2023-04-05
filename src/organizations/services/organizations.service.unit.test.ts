@@ -140,7 +140,7 @@ describe('patchById is being testes', () => {
 		let repo: OrganizationsRepository = instance(mockedRepo);
 		let service: OrganizationsService = new OrganizationsService(repo);
 
-		service.patchById("ID", {name: "neuer Name"});
+		service.patchById("ID", {name: "new Name"});
 
 		verify(mockedRepo.updateOrganizationById("ID", anything())).called();
 	});
@@ -153,7 +153,7 @@ describe('patchById is being testes', () => {
 		let repo: OrganizationsRepository = instance(mockedRepo);
 		let service: OrganizationsService = new OrganizationsService(repo);
 
-		let updatedOrganization = await  service.patchById("ID", {name: "neuer Name"});;
+		let updatedOrganization = await  service.patchById("ID", {name: "new Name"});;
 
 		expect(updatedOrganization).toBe(true);
 	});
