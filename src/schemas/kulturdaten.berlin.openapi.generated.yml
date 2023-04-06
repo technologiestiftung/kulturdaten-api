@@ -412,3 +412,140 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    Login:
+      type: object
+      properties:
+        password:
+          type: string
+        email:
+          type: string
+    Auth:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        expiresIn:
+          type: string
+    Organization:
+      type: object
+      properties:
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - identifier
+        - name
+    CreateOrganization:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+    PatchOrganization:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    User:
+      type: object
+      properties:
+        identifier:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        permissionFlags:
+          type: number
+      required:
+        - identifier
+        - email
+        - permissionFlags
+    CreateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          format: password
+          minLength: 8
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - email
+        - password
+    PatchUser:
+      type: object
+      properties:
+        email:
+          type: string
+          minLength: 1
+        firstName:
+          type: string
+          minLength: 1
+        lastName:
+          type: string
+          minLength: 1
+        permissionFlags:
+          type: number
+    Health:
+      type: object
+      properties:
+        healthy:
+          type: boolean
+        dependencies:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              healthy:
+                type: boolean
+    ResourceNotFoundError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            msg:
+              type: string
+    EmailAlreadyInUseError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            msg:
+              type: string
+    MultipleEvents:
+      $ref: events/MultipleEvents.yml

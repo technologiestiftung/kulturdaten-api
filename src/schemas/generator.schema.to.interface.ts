@@ -1,27 +1,36 @@
 import { writeFileSync } from 'fs'
-import { compileFromFile } from 'json-schema-to-typescript'
+import { compile,  JSONSchema  } from 'json-schema-to-typescript';
+import { readFileSync } from 'fs';
+import * as yaml from 'js-yaml';
 
 async function generate() {
 
-	generateInterface('organizations/organization', 'organizations/models/organization');
-	generateInterface('organizations/createOrganization', 'organizations/dtos/create.organization.dto');
-	generateInterface('organizations/patchOrganization', 'organizations/dtos/patch.organization.dto');
+	generateInterface('Organization','organizations', 'organizations/models/organization');
+	generateInterface('CreateOrganization','organizations', 'organizations/dtos/create.organization.dto');
+	generateInterface('PatchOrganization','organizations', 'organizations/dtos/patch.organization.dto');
 
-	generateInterface('users/user', 'users/models/user');
-	generateInterface('users/createUser', 'users/dtos/create.user.dto');
-	generateInterface('users/patchUser', 'users/dtos/patch.user.dto');
+	generateInterface('User','users', 'users/models/user');
+	generateInterface('CreateUser','users', 'users/dtos/create.user.dto');
+	generateInterface('PatchUser','users', 'users/dtos/patch.user.dto');
 
-	generateInterface('auth/auth', 'auth/dtos/auth');
-	generateInterface('auth/login', 'auth/dtos/login');
+	generateInterface('Event','events', 'events/models/event');
 
-	generateInterface('health/health', 'health/dtos/health');
+	generateInterface('Location','locations', 'locations/models/location');
 
-	generateInterface('errors/notFoundError', 'common/errors/notFoundError');
+	generateInterface('Auth','auth', 'auth/dtos/auth');
+	generateInterface('Login','auth', 'auth/dtos/login');
 
-	
+	generateInterface('Health','health', 'health/dtos/health');
+
+	generateInterface('NotFoundError','errors', 'common/errors/notFoundError');
+
+	generateInterface('Text','common', 'common/interfaces/Text');
+	generateInterface('Description','common', 'common/interfaces/Description');
+
 }
 
-async function generateInterface(schemaFile: string, targetFile: string) {
+
+async function generateInterface(className: string, schemaFile: string, targetFile: string) {
 	
 	const options = (baseFile: string) => {
 		return {
@@ -35,14 +44,17 @@ async function generateInterface(schemaFile: string, targetFile: string) {
 		 * and run "npm run schema-to-interface" to regenerate this file.
 		 */
 		`,
-		additionalProperties: false
-
+		additionalProperties: false,
+		cwd: './src/schemas'
 		}
 	};
-	const schemaPath = `./src/schemas/${schemaFile}.json`;
+	const schemaPath = `./src/schemas/${schemaFile}/${className}.yml`;
+	const schemaYaml = readFileSync(schemaPath, 'utf8');
+	const schemaObject = yaml.load(schemaYaml) as JSONSchema;
+	const targetType = await compile(schemaObject, className, options(schemaPath));
 	const targetPath = `./src/${targetFile}.generated.ts`;
 
-	writeFileSync(targetPath, await compileFromFile(schemaPath, options(schemaPath)))	
+	writeFileSync(targetPath, targetType);
 }
 
 generate();

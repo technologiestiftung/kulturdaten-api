@@ -1,0 +1,51 @@
+type: object
+properties:
+  '@context':
+      type: string
+      enum:
+        - 'kulturdaten.berlin/api/v1/spec'
+  '@type':
+    type: string
+    enum:
+      - 'Event'
+  identifier:
+    type: string
+  title: 
+    $ref: common/Text.yml
+  subTitle:
+    $ref: common/Text.yml
+  description:
+    $ref: common/Description.yml
+  visibility:
+    type: string
+    enum:
+      - published
+      - unpublished
+      - draft
+      - archived
+      - restricted
+  origin:
+    type: string
+  eventStatus:
+    type: string
+    enum:
+      - cancelled
+      - postponed
+      - rescheduled
+      - scheduled
+  eventAttendanceMode:
+    type: string
+    enum:
+      - offline
+      - online
+      - mixed
+  location:
+    $ref: locations/Location.yml
+  images:
+    type: array
+    items: 
+      type: string
+      format: url
+
+
+  
