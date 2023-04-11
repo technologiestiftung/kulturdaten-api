@@ -5,37 +5,37 @@ import * as yaml from 'js-yaml';
 
 async function generate() {
 
-	generateInterface('Organization','organizations', 'organizations/models/organization');
-	generateInterface('CreateOrganization','organizations', 'organizations/dtos/create.organization.dto');
-	generateInterface('PatchOrganization','organizations', 'organizations/dtos/patch.organization.dto');
+	generateInterface('Organization');
+	generateInterface('CreateOrganization');
+	generateInterface('PatchOrganization');
 
-	generateInterface('User','users', 'users/models/user');
-	generateInterface('CreateUser','users', 'users/dtos/create.user.dto');
-	generateInterface('PatchUser','users', 'users/dtos/patch.user.dto');
+	generateInterface('User');
+	generateInterface('CreateUser');
+	generateInterface('PatchUser');
 
-	//generateInterface('Event','events', 'events/models/event');
+	generateInterface('Event');
 
-	generateInterface('Location','locations', 'locations/models/location');
+	generateInterface('Location');
 
-	//generateInterface('ImageObject','media', 'media/models/ImageObject');
+	generateInterface('ImageObject');
 
-	generateInterface('Auth','auth', 'auth/dtos/auth');
-	generateInterface('Login','auth', 'auth/dtos/login');
+	generateInterface('Auth');
+	generateInterface('Login');
 
-	generateInterface('Health','health', 'health/dtos/health');
+	generateInterface('Health');
 
-	generateInterface('NotFoundError','errors', 'common/errors/notFoundError');
+	generateInterface('NotFoundError');
 
-	generateInterface('Text','common', 'common/interfaces/Text');
-	generateInterface('Description','common', 'common/interfaces/Description');
-	generateInterface('Title','common', 'common/interfaces/Title');
-	generateInterface('SubTitle','common', 'common/interfaces/SubTitle');
+	generateInterface('Text');
+	generateInterface('Description');
+	generateInterface('Title');
+	generateInterface('SubTitle');
 
 
 }
 
 
-async function generateInterface(className: string, schemaFile: string, targetFile: string, rootDirectory: string = './src/schemas') {
+async function generateInterface(className: string,  rootDirectory: string = './src/schemas') {
 	
 	const options = (baseFile: string) => {
 		return {
@@ -53,11 +53,11 @@ async function generateInterface(className: string, schemaFile: string, targetFi
 		cwd: rootDirectory
 		}
 	};
-	const schemaPath = `./src/schemas/${schemaFile}/${className}.yml`;
+	const schemaPath = `./src/schemas/${className}.yml`;
 	const schemaYaml = readFileSync(schemaPath, 'utf8');
 	const schemaObject = yaml.load(schemaYaml) as JSONSchema;
 	const targetType = await compile(schemaObject, className, options(schemaPath));
-	const targetPath = `./src/${targetFile}.generated.ts`;
+	const targetPath = `./src/generatedModels/${className}.generated.ts`;
 
 	writeFileSync(targetPath, targetType);
 }

@@ -1,8 +1,9 @@
-import { CreateOrganization } from "../../../organizations/dtos/create.organization.dto.generated";
+
+import { CreateOrganization } from "../../../generatedModels/CreateOrganization.generated";
+import { Organization } from "../../../generatedModels/Organization.generated";
+import { PatchOrganization } from "../../../generatedModels/PatchOrganization.generated";
 import { OrganizationsRepository } from "../../../organizations/repositories/organizations.repository";
 import { faker } from '@faker-js/faker';
-import { Organization } from "../../../organizations/models/organization.generated";
-import { PatchOrganization } from "../../../organizations/dtos/patch.organization.dto.generated";
 
 
 
@@ -77,7 +78,9 @@ export function dummyOrganization(): Organization{
 	return {
 		identifier: faker.database.mongodbObjectId(),
 		name: faker.company.name(),
-		description: faker.company.catchPhrase(),
+		description: {
+			de: faker.company.catchPhrase()
+		},
 		createdAt: faker.datatype.datetime().toDateString(),
 		updatedAt: faker.datatype.datetime().toDateString(),
 	}
@@ -86,7 +89,9 @@ export function dummyOrganization(): Organization{
 export function dummyCreateDto(): CreateOrganization {
 	return {
 		name: faker.company.name(),
-		description: faker.company.catchPhrase()
+		description: {
+			de: faker.company.catchPhrase()
+		}
 	}
 }
 

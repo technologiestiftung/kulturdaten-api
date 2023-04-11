@@ -27,7 +27,6 @@ describe('Exploring existing organizations', () => {
 				expect.objectContaining({
 					identifier: expect.any(String),
 					name: expect.any(String),
-					description: expect.any(String),
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 				})
@@ -71,7 +70,6 @@ describe('Exploring existing organizations', () => {
 		expect(body.organization).toEqual(expect.objectContaining({
 			identifier: existOrganizationId,
 			name: expect.any(String),
-			description: expect.any(String),
 			createdAt: expect.any(String),
 			updatedAt: expect.any(String),
 		}));

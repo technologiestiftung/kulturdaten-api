@@ -81,7 +81,15 @@ paths:
                 name:
                   type: string
                 description:
-                  $ref: common/Description.yml
+                  type: object
+                  properties:
+                    de:
+                      type: string
+                    en:
+                      type: string
+                    de-easy:
+                      type: string
+                  additionalProperties: true
               required:
                 - name
       responses:
@@ -161,7 +169,15 @@ paths:
                 name:
                   type: string
                 description:
-                  $ref: common/Description.yml
+                  type: object
+                  properties:
+                    de:
+                      type: string
+                    en:
+                      type: string
+                    de-easy:
+                      type: string
+                  additionalProperties: true
       responses:
         '204':
           description: OK
@@ -638,7 +654,15 @@ components:
         name:
           type: string
         description:
-          $ref: common/Description.yml
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
       required:
         - name
     PatchOrganization:
@@ -647,7 +671,15 @@ components:
         name:
           type: string
         description:
-          $ref: common/Description.yml
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
     User:
       type: object
       properties:

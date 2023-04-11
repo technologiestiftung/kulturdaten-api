@@ -3,7 +3,6 @@ import express, { Router } from 'express';
 import passport from 'passport';
 import { Service } from 'typedi';
 import { AuthController } from './controllers/auth.controller';
-import { Auth } from './dtos/auth.generated';
 
 
 const log: debug.IDebugger = debug('app:auth-routes');

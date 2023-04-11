@@ -5,8 +5,8 @@ import { Service } from 'typedi';
 import { permit } from '../auth/middleware/auth.middleware';
 import { UsersController } from './controllers/users.controller';
 import { checkUsers } from './middleware/users.middleware';
-import { CreateUser } from './dtos/create.user.dto.generated';
-import { PatchUser } from './dtos/patch.user.dto.generated';
+import { CreateUser } from '../generatedModels/CreateUser.generated';
+import { PatchUser } from '../generatedModels/PatchUser.generated';
 
 
 const log: debug.IDebugger = debug('app:users-routes');

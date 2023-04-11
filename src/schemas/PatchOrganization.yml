@@ -1,0 +1,6 @@
+type: object
+properties:
+  name:
+    type: string
+  description:
+    $ref: Description.yml

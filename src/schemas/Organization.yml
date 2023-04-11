@@ -1,0 +1,15 @@
+type: object
+properties:
+  identifier:
+    type: string
+  name:
+    type: string
+  description:
+    $ref: Description.yml
+  createdAt:
+    type: string
+  updatedAt:
+    type: string
+required:
+  - identifier
+  - name

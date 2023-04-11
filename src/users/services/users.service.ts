@@ -1,8 +1,8 @@
 import { UsersRepository } from '../repositories/users.repository';
 import { CRUD } from '../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
-import { CreateUser } from '../dtos/create.user.dto.generated';
-import { PatchUser } from '../dtos/patch.user.dto.generated';
+import { CreateUser } from '../../generatedModels/CreateUser.generated';
+import { PatchUser } from '../../generatedModels/PatchUser.generated';
 
 @Service()
 export class UsersService implements CRUD {

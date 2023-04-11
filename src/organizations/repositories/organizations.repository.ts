@@ -1,9 +1,8 @@
-import { CreateOrganization } from '../dtos/create.organization.dto.generated';
-
-
 import debug from 'debug';
-import { PatchOrganization } from '../dtos/patch.organization.dto.generated';
-import { Organization } from '../models/organization.generated';
+import { CreateOrganization } from '../../generatedModels/CreateOrganization.generated';
+import { Organization } from '../../generatedModels/Organization.generated';
+import { PatchOrganization } from '../../generatedModels/PatchOrganization.generated';
+
 
 const log: debug.IDebugger = debug('app:organizations-repository');
 

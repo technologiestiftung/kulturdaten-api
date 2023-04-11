@@ -14,7 +14,7 @@ let dummyOrganizations = [
 	{ identifier: "3", name: "Organization 3" },
 ]
 
-let newOrganization = { name: "Name", description: "Beschreibung", createdAt: "", updatedAt: "" };
+let newOrganization = { name: "Name", description: { de: "Beschreibung" }, createdAt: "", updatedAt: "" };
 
 describe('listOrganizations is being tested', () => {
 	test('organizations available organizations as a document with code 200', async () => {
