@@ -6,40 +6,15 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# {repo-template}
+# Kulturdaten.berlin
+**Berlins Kulturdaten – zentral auffindbar, vielfältig vernetzt.**
+<img src="./media/verpackung.png" align="right" width="300">
 
-## TODO (after you generated the repo)
+Was? Wann? Wer? Wo? Mit wem? Wie viele? Für wen? Wie lange? Um im Web gefunden zu werden, müssen Kulturschaffende ihr Programm an vielen Stellen mühsam händisch einpflegen. Mit der Plattform kulturdaten.berlin wollen wir diesen Prozess radikal vereinfachen!
 
-- [ ] Review the content of the README.md and adjust to your liking
-- [ ] Read the README.md till the end and adjust the content licensing,
-      logos, etc (I know you stopped at tbd...)
-- [ ] Adjust the file [.github/CODEOWNERS](./.github/CODEOWNERS)
-- [ ] Adjust the files under [.github/ISSUE_TEMPLATE](./.github/ISSUE_TEMPLATE)
-- [ ] If you use staging and main branches use this template for [.github/renovate.json](./.github/renovate.json)
+Die Kulturdatenbank Berlin bietet eine Schnittstelle um berlins Kulturdaten zentral zu speichern und zu verwalten. Er dient auch dazu, diese Daten verschiedenen Akteuren frei verfügbar zu machen.
 
-```json
-{
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>technologiestiftung/renovate-config"],
-	"baseBranches": ["staging"]
-}
-```
-
-- [ ] Do you want to honor all kinds of contributions? Use [all-contributors](https://allcontributors.org/)
-
-```bash
-npx all-contributors-cli check
-npx all-contributors-cli add ff6347 doc
-```
-
-You can use it on GitHub just by commenting on PRs and issues:
-
-```plain
-@all-contributors please add @ff6347 for infrastructure, tests and code
-```
-
-- [ ] Add your project description
-- [ ] Get fancy shields at https://shields.io
+Die Kulturdatenbank ist ein Projekt der Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), gefördert von der Senatsverwaltung für Kultur und Europa Berlin und durchgeführt von kulturB digital (<https://kultur-b-digital.de>).
 
 ## Prerequisites
 
@@ -90,32 +65,18 @@ Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3
 
 Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
 
+
 ## Credits
 
 <table>
   <tr>
     <td>
-      Made by <a href="https://citylab-berlin.org/de/start/">
-        <br />
-        <br />
-        <img width="200" src="https://citylab-berlin.org/wp-content/uploads/2021/05/citylab-logo.svg" />
-      </a>
-    </td>
-    <td>
-      A project by <a href="https://www.technologiestiftung-berlin.de/">
+      Made by <a href="https://www.technologiestiftung-berlin.de/">
         <br />
         <br />
         <img width="150" src="https://citylab-berlin.org/wp-content/uploads/2021/05/tsb.svg" />
       </a>
     </td>
-    <td>
-      Supported by <a href="https://www.berlin.de/rbmskzl/">
-        <br />
-        <br />
-        <img width="80" src="https://citylab-berlin.org/wp-content/uploads/2021/12/B_RBmin_Skzl_Logo_DE_V_PT_RGB-300x200.png" />
-      </a>
-    </td>
   </tr>
 </table>
 
-## Related Projects

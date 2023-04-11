@@ -1,0 +1,7 @@
+type: object
+properties:
+  error:
+    type: object
+    properties:
+      msg:
+        type: string

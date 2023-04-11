@@ -1,6 +1,7 @@
 import express from 'express';
 import debug from 'debug';
 import { Service } from 'typedi';
+import { MongoDBConnector } from '../../common/services/mongodb.service';
 
 const log: debug.IDebugger = debug('app:health-controller');
 
@@ -11,11 +12,13 @@ export class HealthController {
 	public lastCheck = 0;
 	public intervalInMilliseconds:number = 10000;
 
-	// TODO: MongoDB testen. 
 	
-	public check() {
+	constructor(private repo : MongoDBConnector){}
+
+	public async check() {
 		if(this.isTimeForCheck()){
 			this.lastCheck = Date.now();
+			this.repository = await this.repo.isHealthy();
 		}
 		return this.repository;
 	}
@@ -37,7 +40,7 @@ export class HealthController {
 	}
 
 	async checkHealth(req: express.Request, res: express.Response) {
-		if(this.check()){
+		if(await this.check()){
 			res.status(200).send(this.getStatusDocument());
 		} else {
 			res.status(503).send(this.getStatusDocument());

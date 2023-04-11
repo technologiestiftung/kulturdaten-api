@@ -24,7 +24,7 @@ let dummyUsersRepo = [
         email: "3@mail.de",
         password: "geheim3",
         firstName: "Nutzer",
-        lastName: "Organizer Admin",
+        lastName: "Organization Admin",
         permissionFlags: 511}, 
         {	identifier: "4",
         email: "4@mail.de",

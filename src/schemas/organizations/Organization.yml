@@ -1,0 +1,16 @@
+type: object
+properties:
+  identifier:
+    type: string
+  name:
+    type: string
+  description:
+    type: string
+    nullable: true
+  createdAt:
+    type: string
+  updatedAt:
+    type: string
+required:
+  - identifier
+  - name
