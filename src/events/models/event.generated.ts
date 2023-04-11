@@ -5,24 +5,41 @@
  *
  * =>  @see ./src/schemas/events/Event.yml
  *
- * and run "npm run schema-to-interface" to regenerate this file.
+ * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
-export interface Event {
-  "@context"?: "kulturdaten.berlin/api/v1/spec";
-  "@type"?: "Event";
-  identifier?: string;
-  title?: Text;
-  subTitle?: Text;
-  description?: Description;
-  visibility?: "published" | "unpublished" | "draft" | "archived" | "restricted";
+export type Event = Core & {
+  "@type"?: "Event" | "EventSeries" | "ExhibitionEvent";
   origin?: string;
+  title?: Title;
+  subTitle?: Title;
+  description?: Description;
+  startDate?: string;
+  endDate?: string;
+  doorTime?: string;
+  typicalAgeRange?: string;
+  categories?: string[];
+  keywords?: string[];
+  inLanguages?: string[];
+  isAccessibleForFree?: boolean;
+  sameAs?: string;
+  visibility?: "published" | "unpublished" | "draft" | "archived" | "restricted";
   eventStatus?: "cancelled" | "postponed" | "rescheduled" | "scheduled";
   eventAttendanceMode?: "offline" | "online" | "mixed";
   location?: Location;
+  organizer?: Organization;
   images?: string[];
+  subEvents?: Event[];
+  superEvent?: string;
+};
+
+export interface Core {
+  "@context"?: "kulturdaten.berlin/api/v1/spec";
+  identifier?: string;
+  created?: string;
+  updated?: string;
 }
-export interface Text {
+export interface Title {
   de?: string;
   en?: string;
   "de-easy"?: string;
@@ -38,4 +55,11 @@ export interface Location {
   name?: {
     [k: string]: unknown;
   };
+}
+export interface Organization {
+  identifier: string;
+  name: string;
+  description?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

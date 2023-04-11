@@ -41,7 +41,7 @@ async function generateInterface(className: string, schemaFile: string, targetFi
 		 * 
 		 * =>  @see ${baseFile}
 		 * 
-		 * and run "npm run schema-to-interface" to regenerate this file.
+		 * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
 		 */
 		`,
 		additionalProperties: false,

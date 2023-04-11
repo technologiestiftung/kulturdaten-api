@@ -5,7 +5,7 @@
  *
  * =>  @see ./src/schemas/errors/NotFoundError.yml
  *
- * and run "npm run schema-to-interface" to regenerate this file.
+ * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
 export interface NotFoundError {

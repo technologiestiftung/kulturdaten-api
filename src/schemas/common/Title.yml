@@ -1,0 +1,9 @@
+type: object
+properties:
+  de:
+    type: string
+  en:
+    type: string
+  de-easy:
+    type: string
+additionalProperties: true

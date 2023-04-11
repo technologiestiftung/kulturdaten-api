@@ -1,51 +1,89 @@
-type: object
-properties:
-  '@context':
-      type: string
-      enum:
-        - 'kulturdaten.berlin/api/v1/spec'
-  '@type':
-    type: string
-    enum:
-      - 'Event'
-  identifier:
-    type: string
-  title: 
-    $ref: common/Text.yml
-  subTitle:
-    $ref: common/Text.yml
-  description:
-    $ref: common/Description.yml
-  visibility:
-    type: string
-    enum:
-      - published
-      - unpublished
-      - draft
-      - archived
-      - restricted
-  origin:
-    type: string
-  eventStatus:
-    type: string
-    enum:
-      - cancelled
-      - postponed
-      - rescheduled
-      - scheduled
-  eventAttendanceMode:
-    type: string
-    enum:
-      - offline
-      - online
-      - mixed
-  location:
-    $ref: locations/Location.yml
-  images:
-    type: array
-    items: 
-      type: string
-      format: url
-
-
-  
+allOf: 
+  - $ref: common/Core.yml
+  - type: object
+    properties:
+      '@type':
+        type: string
+        enum:
+          - 'Event'
+          - 'EventSeries'
+          - 'ExhibitionEvent'
+      kind:
+        type: string
+        enum:
+          - 'culture'
+      origin:
+        type: string
+      title: 
+        $ref: common/Title.yml
+      subTitle:
+        $ref: common/Title.yml
+      description:
+        $ref: common/Description.yml
+      shortDescription:
+        $ref: common/Description.yml
+      startDate:
+        type: string
+        format: date-time
+      endDate:
+        type: string
+        format: date-time
+      doorTime:
+        type: string
+        format: date-time
+      typicalAgeRange:
+        type: string
+      categories:
+        type: array
+        items:
+          type: string
+      keywords:
+        type: array
+        items:
+          type: string
+      inLanguages:
+        type: array
+        items:
+          type: string
+      isAccessibleForFree:
+        type: boolean
+      sameAs: 
+        type: string
+        format: uri
+      visibility:
+        type: string
+        enum:
+          - published
+          - unpublished
+          - draft
+          - archived
+          - restricted
+      eventStatus:
+        type: string
+        enum:
+          - cancelled
+          - postponed
+          - rescheduled
+          - scheduled
+      eventAttendanceMode:
+        type: string
+        enum:
+          - offline
+          - online
+          - mixed
+      location:
+        $ref: locations/Location.yml
+      organizer:
+        $ref: organizations/Organization.yml
+      images:
+        type: array
+        items: 
+          type: string
+          format: url
+      subEvents:
+        type: array
+        items:
+          $ref: '#'
+      superEvent:
+        type: string
+        format: identifier
