@@ -106,7 +106,7 @@ class KulturdatenBerlinApp {
 	private registerOpenApi() {
 		const swaggerDocument = YAML.load(this.openAPISpec);
 		this.app.use(`/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-		this.app.use(`/v1/spec`, express.static(this.openAPISpec));
+		this.app.use(`/v1/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
 		this.app.use(OpenApiValidator.middleware({
 			apiSpec: this.openAPISpec,
 			validateRequests: true,

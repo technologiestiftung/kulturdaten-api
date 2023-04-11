@@ -237,6 +237,18 @@ paths:
               schema:
                 $ref: health/Health.yml
 
+  /events:
+    get:
+      tags:
+        - Server
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: events/Event.yml
+
 components:
   securitySchemes:
     bearerAuth:           
@@ -277,6 +289,3 @@ components:
     
     EmailAlreadyInUseError:
       $ref: errors/EmailAlreadyInUseError.yml
-
-    MultipleEvents:
-      $ref: events/MultipleEvents.yml

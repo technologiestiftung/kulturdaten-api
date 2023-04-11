@@ -3,6 +3,6 @@ properties:
   name:
     type: string
   description:
-    type: string
+    $ref: common/Description.yml
 required:
   - name

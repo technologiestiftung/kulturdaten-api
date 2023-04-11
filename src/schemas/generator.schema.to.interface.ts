@@ -13,9 +13,11 @@ async function generate() {
 	generateInterface('CreateUser','users', 'users/dtos/create.user.dto');
 	generateInterface('PatchUser','users', 'users/dtos/patch.user.dto');
 
-	generateInterface('Event','events', 'events/models/event');
+	//generateInterface('Event','events', 'events/models/event');
 
 	generateInterface('Location','locations', 'locations/models/location');
+
+	//generateInterface('ImageObject','media', 'media/models/ImageObject');
 
 	generateInterface('Auth','auth', 'auth/dtos/auth');
 	generateInterface('Login','auth', 'auth/dtos/login');
@@ -26,11 +28,14 @@ async function generate() {
 
 	generateInterface('Text','common', 'common/interfaces/Text');
 	generateInterface('Description','common', 'common/interfaces/Description');
+	generateInterface('Title','common', 'common/interfaces/Title');
+	generateInterface('SubTitle','common', 'common/interfaces/SubTitle');
+
 
 }
 
 
-async function generateInterface(className: string, schemaFile: string, targetFile: string) {
+async function generateInterface(className: string, schemaFile: string, targetFile: string, rootDirectory: string = './src/schemas') {
 	
 	const options = (baseFile: string) => {
 		return {
@@ -45,7 +50,7 @@ async function generateInterface(className: string, schemaFile: string, targetFi
 		 */
 		`,
 		additionalProperties: false,
-		cwd: './src/schemas'
+		cwd: rootDirectory
 		}
 	};
 	const schemaPath = `./src/schemas/${schemaFile}/${className}.yml`;

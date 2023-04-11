@@ -1,0 +1,31 @@
+allOf: 
+  - $ref: common/Core.yml
+  - type: object
+    properties:
+      '@type':
+        type: string
+        enum:
+          - 'ImageObject'
+      contentUrl:
+        type: string
+        format: uri
+      height:
+        type: number
+      width:
+        type: number
+      caption:
+        $ref: common/SubTitle.yml
+      description:
+        $ref: common/Description.yml
+      encodingFormat:
+        type: string
+      sha256:
+        type: string
+      license:
+        type: string
+        format: uri
+      acquireLicensePage:
+        type: string
+        format: uri
+
+  

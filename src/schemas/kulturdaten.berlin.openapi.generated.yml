@@ -53,8 +53,15 @@ paths:
                         name:
                           type: string
                         description:
-                          type: string
-                          nullable: true
+                          type: object
+                          properties:
+                            de:
+                              type: string
+                            en:
+                              type: string
+                            de-easy:
+                              type: string
+                          additionalProperties: true
                         createdAt:
                           type: string
                         updatedAt:
@@ -74,7 +81,7 @@ paths:
                 name:
                   type: string
                 description:
-                  type: string
+                  $ref: common/Description.yml
               required:
                 - name
       responses:
@@ -114,8 +121,15 @@ paths:
                       name:
                         type: string
                       description:
-                        type: string
-                        nullable: true
+                        type: object
+                        properties:
+                          de:
+                            type: string
+                          en:
+                            type: string
+                          de-easy:
+                            type: string
+                        additionalProperties: true
                       createdAt:
                         type: string
                       updatedAt:
@@ -147,7 +161,7 @@ paths:
                 name:
                   type: string
                 description:
-                  type: string
+                  $ref: common/Description.yml
       responses:
         '204':
           description: OK
@@ -406,6 +420,173 @@ paths:
                           type: string
                         healthy:
                           type: boolean
+  /events:
+    get:
+      tags:
+        - Server
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      '@context':
+                        type: string
+                        enum:
+                          - kulturdaten.berlin/api/v1/spec
+                      identifier:
+                        type: string
+                      created:
+                        type: string
+                        format: date-time
+                      updated:
+                        type: string
+                        format: date-time
+                  - type: object
+                    properties:
+                      '@type':
+                        type: string
+                        enum:
+                          - Event
+                          - EventSeries
+                          - ExhibitionEvent
+                      kind:
+                        type: string
+                        enum:
+                          - culture
+                      origin:
+                        type: string
+                      title:
+                        type: object
+                        properties:
+                          de:
+                            type: string
+                          en:
+                            type: string
+                          de-easy:
+                            type: string
+                        additionalProperties: true
+                      subTitle:
+                        type: object
+                        properties:
+                          de:
+                            type: string
+                          en:
+                            type: string
+                          de-easy:
+                            type: string
+                        additionalProperties: true
+                      description:
+                        type: object
+                        properties:
+                          de:
+                            type: string
+                          en:
+                            type: string
+                          de-easy:
+                            type: string
+                        additionalProperties: true
+                      shortDescription:
+                        type: object
+                        properties:
+                          de:
+                            type: string
+                          en:
+                            type: string
+                          de-easy:
+                            type: string
+                        additionalProperties: true
+                      startDate:
+                        type: string
+                        format: date-time
+                      endDate:
+                        type: string
+                        format: date-time
+                      previousStartDate:
+                        type: string
+                        format: date-time
+                      doorTime:
+                        type: string
+                        format: date-time
+                      typicalAgeRange:
+                        type: string
+                      categories:
+                        type: array
+                        items:
+                          type: string
+                      keywords:
+                        type: array
+                        items:
+                          type: string
+                      inLanguages:
+                        type: array
+                        items:
+                          type: string
+                      isAccessibleForFree:
+                        type: boolean
+                      sameAs:
+                        type: string
+                        format: uri
+                      visibility:
+                        type: string
+                        enum:
+                          - published
+                          - unpublished
+                          - draft
+                          - archived
+                          - restricted
+                      eventStatus:
+                        type: string
+                        enum:
+                          - cancelled
+                          - postponed
+                          - rescheduled
+                          - scheduled
+                      eventAttendanceMode:
+                        type: string
+                        enum:
+                          - offline
+                          - online
+                          - mixed
+                      location:
+                        type: object
+                        properties:
+                          name:
+                            type: text
+                      organizer:
+                        type: object
+                        properties:
+                          identifier:
+                            type: string
+                          name:
+                            type: string
+                          description:
+                            type: object
+                            properties:
+                              de:
+                                type: string
+                              en:
+                                type: string
+                              de-easy:
+                                type: string
+                            additionalProperties: true
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                        required:
+                          - identifier
+                          - name
+                      subEvents:
+                        type: array
+                        items:
+                          $ref: '#'
+                      superEvent:
+                        type: string
+                        format: identifier
 components:
   securitySchemes:
     bearerAuth:
@@ -435,8 +616,15 @@ components:
         name:
           type: string
         description:
-          type: string
-          nullable: true
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
         createdAt:
           type: string
         updatedAt:
@@ -450,7 +638,7 @@ components:
         name:
           type: string
         description:
-          type: string
+          $ref: common/Description.yml
       required:
         - name
     PatchOrganization:
@@ -459,7 +647,7 @@ components:
         name:
           type: string
         description:
-          type: string
+          $ref: common/Description.yml
     User:
       type: object
       properties:
@@ -547,5 +735,3 @@ components:
           properties:
             msg:
               type: string
-    MultipleEvents:
-      $ref: events/MultipleEvents.yml

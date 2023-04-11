@@ -10,12 +10,15 @@
 
 export type Event = Core & {
   "@type"?: "Event" | "EventSeries" | "ExhibitionEvent";
+  kind?: "culture";
   origin?: string;
   title?: Title;
-  subTitle?: Title;
+  subTitle?: SubTitle;
   description?: Description;
+  shortDescription?: Description;
   startDate?: string;
   endDate?: string;
+  previousStartDate?: string;
   doorTime?: string;
   typicalAgeRange?: string;
   categories?: string[];
@@ -28,7 +31,6 @@ export type Event = Core & {
   eventAttendanceMode?: "offline" | "online" | "mixed";
   location?: Location;
   organizer?: Organization;
-  images?: string[];
   subEvents?: Event[];
   superEvent?: string;
 };
@@ -40,6 +42,12 @@ export interface Core {
   updated?: string;
 }
 export interface Title {
+  de?: string;
+  en?: string;
+  "de-easy"?: string;
+  [k: string]: unknown;
+}
+export interface SubTitle {
   de?: string;
   en?: string;
   "de-easy"?: string;

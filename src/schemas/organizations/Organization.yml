@@ -5,8 +5,7 @@ properties:
   name:
     type: string
   description:
-    type: string
-    nullable: true
+    $ref: ../common/Description.yml
   createdAt:
     type: string
   updatedAt:

@@ -10,5 +10,11 @@
 
 export interface CreateOrganization {
   name: string;
-  description?: string;
+  description?: Description;
+}
+export interface Description {
+  de?: string;
+  en?: string;
+  "de-easy"?: string;
+  [k: string]: unknown;
 }

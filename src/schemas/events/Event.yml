@@ -1,5 +1,5 @@
 allOf: 
-  - $ref: common/Core.yml
+  - $ref: ../common/Core.yml
   - type: object
     properties:
       '@type':
@@ -15,17 +15,20 @@ allOf:
       origin:
         type: string
       title: 
-        $ref: common/Title.yml
+        $ref: ../common/Title.yml
       subTitle:
-        $ref: common/Title.yml
+        $ref: ../common/Title.yml
       description:
-        $ref: common/Description.yml
+        $ref: ../common/Description.yml
       shortDescription:
-        $ref: common/Description.yml
+        $ref: ../common/Description.yml
       startDate:
         type: string
         format: date-time
       endDate:
+        type: string
+        format: date-time
+      previousStartDate:
         type: string
         format: date-time
       doorTime:
@@ -72,14 +75,9 @@ allOf:
           - online
           - mixed
       location:
-        $ref: locations/Location.yml
+        $ref: ../locations/Location.yml
       organizer:
-        $ref: organizations/Organization.yml
-      images:
-        type: array
-        items: 
-          type: string
-          format: url
+        $ref: ../organizations/Organization.yml
       subEvents:
         type: array
         items:
