@@ -13,24 +13,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                password:
-                  type: string
-                email:
-                  type: string
+              $ref: '#/components/schemas/Login'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  accessToken:
-                    type: string
-                  expiresIn:
-                    type: string
+                $ref: '#/components/schemas/Auth'
   /organizations:
     get:
       tags:
@@ -46,29 +36,7 @@ paths:
                   organizations:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        identifier:
-                          type: string
-                        name:
-                          type: string
-                        description:
-                          type: object
-                          properties:
-                            de:
-                              type: string
-                            en:
-                              type: string
-                            de-easy:
-                              type: string
-                          additionalProperties: true
-                        createdAt:
-                          type: string
-                        updatedAt:
-                          type: string
-                      required:
-                        - identifier
-                        - name
+                      $ref: '#/components/schemas/Organization'
     post:
       tags:
         - Organizations
@@ -76,22 +44,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: object
-                  properties:
-                    de:
-                      type: string
-                    en:
-                      type: string
-                    de-easy:
-                      type: string
-                  additionalProperties: true
-              required:
-                - name
+              $ref: '#/components/schemas/CreateOrganization'
       responses:
         '201':
           description: OK
@@ -122,41 +75,13 @@ paths:
                 type: object
                 properties:
                   organization:
-                    type: object
-                    properties:
-                      identifier:
-                        type: string
-                      name:
-                        type: string
-                      description:
-                        type: object
-                        properties:
-                          de:
-                            type: string
-                          en:
-                            type: string
-                          de-easy:
-                            type: string
-                        additionalProperties: true
-                      createdAt:
-                        type: string
-                      updatedAt:
-                        type: string
-                    required:
-                      - identifier
-                      - name
+                    $ref: '#/components/schemas/Organization'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      msg:
-                        type: string
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Organizations
@@ -164,20 +89,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: object
-                  properties:
-                    de:
-                      type: string
-                    en:
-                      type: string
-                    de-easy:
-                      type: string
-                  additionalProperties: true
+              $ref: '#/components/schemas/PatchOrganization'
       responses:
         '204':
           description: OK
@@ -186,13 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      msg:
-                        type: string
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Organizations
@@ -204,13 +110,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      msg:
-                        type: string
+                $ref: '#/components/schemas/NotFoundError'
   /users:
     get:
       tags:
@@ -228,30 +128,7 @@ paths:
                   users:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        identifier:
-                          type: string
-                        email:
-                          type: string
-                        password:
-                          type: string
-                        firstName:
-                          type: string
-                        lastName:
-                          type: string
-                        createdAt:
-                          type: string
-                          format: date-time
-                        updatedAt:
-                          type: string
-                          format: date-time
-                        permissionFlags:
-                          type: number
-                      required:
-                        - identifier
-                        - email
-                        - permissionFlags
+                      $ref: '#/components/schemas/User'
     post:
       tags:
         - Users
@@ -259,23 +136,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                  minLength: 1
-                password:
-                  type: string
-                  format: password
-                  minLength: 8
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-              required:
-                - email
-                - password
+              $ref: '#/components/schemas/CreateUser'
       responses:
         '201':
           description: OK
@@ -291,13 +152,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      msg:
-                        type: string
+                $ref: '#/components/schemas/EmailAlreadyInUseError'
   /users/{identifier}:
     parameters:
       - in: path
@@ -320,42 +175,13 @@ paths:
                 type: object
                 properties:
                   user:
-                    type: object
-                    properties:
-                      identifier:
-                        type: string
-                      email:
-                        type: string
-                      password:
-                        type: string
-                      firstName:
-                        type: string
-                      lastName:
-                        type: string
-                      createdAt:
-                        type: string
-                        format: date-time
-                      updatedAt:
-                        type: string
-                        format: date-time
-                      permissionFlags:
-                        type: number
-                    required:
-                      - identifier
-                      - email
-                      - permissionFlags
+                    $ref: '#/components/schemas/User'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      msg:
-                        type: string
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Users
@@ -365,19 +191,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  minLength: 1
-                firstName:
-                  type: string
-                  minLength: 1
-                lastName:
-                  type: string
-                  minLength: 1
-                permissionFlags:
-                  type: number
+              $ref: '#/components/schemas/PatchUser'
       responses:
         '204':
           description: OK
@@ -386,13 +200,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      msg:
-                        type: string
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Users
@@ -406,13 +214,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      msg:
-                        type: string
+                $ref: '#/components/schemas/NotFoundError'
   /health:
     get:
       tags:
@@ -423,19 +225,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  healthy:
-                    type: boolean
-                  dependencies:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                        healthy:
-                          type: boolean
+                $ref: '#/components/schemas/Health'
   /events:
     get:
       tags:
@@ -446,163 +236,12 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      '@context':
-                        type: string
-                        enum:
-                          - kulturdaten.berlin/api/v1/spec
-                      identifier:
-                        type: string
-                      created:
-                        type: string
-                        format: date-time
-                      updated:
-                        type: string
-                        format: date-time
-                  - type: object
-                    properties:
-                      '@type':
-                        type: string
-                        enum:
-                          - Event
-                          - EventSeries
-                          - ExhibitionEvent
-                      kind:
-                        type: string
-                        enum:
-                          - culture
-                      origin:
-                        type: string
-                      title:
-                        type: object
-                        properties:
-                          de:
-                            type: string
-                          en:
-                            type: string
-                          de-easy:
-                            type: string
-                        additionalProperties: true
-                      subTitle:
-                        type: object
-                        properties:
-                          de:
-                            type: string
-                          en:
-                            type: string
-                          de-easy:
-                            type: string
-                        additionalProperties: true
-                      description:
-                        type: object
-                        properties:
-                          de:
-                            type: string
-                          en:
-                            type: string
-                          de-easy:
-                            type: string
-                        additionalProperties: true
-                      shortDescription:
-                        type: object
-                        properties:
-                          de:
-                            type: string
-                          en:
-                            type: string
-                          de-easy:
-                            type: string
-                        additionalProperties: true
-                      startDate:
-                        type: string
-                        format: date-time
-                      endDate:
-                        type: string
-                        format: date-time
-                      previousStartDate:
-                        type: string
-                        format: date-time
-                      doorTime:
-                        type: string
-                        format: date-time
-                      typicalAgeRange:
-                        type: string
-                      categories:
-                        type: array
-                        items:
-                          type: string
-                      keywords:
-                        type: array
-                        items:
-                          type: string
-                      inLanguages:
-                        type: array
-                        items:
-                          type: string
-                      isAccessibleForFree:
-                        type: boolean
-                      sameAs:
-                        type: string
-                        format: uri
-                      visibility:
-                        type: string
-                        enum:
-                          - published
-                          - unpublished
-                          - draft
-                          - archived
-                          - restricted
-                      eventStatus:
-                        type: string
-                        enum:
-                          - cancelled
-                          - postponed
-                          - rescheduled
-                          - scheduled
-                      eventAttendanceMode:
-                        type: string
-                        enum:
-                          - offline
-                          - online
-                          - mixed
-                      location:
-                        type: object
-                        properties:
-                          name:
-                            type: text
-                      organizer:
-                        type: object
-                        properties:
-                          identifier:
-                            type: string
-                          name:
-                            type: string
-                          description:
-                            type: object
-                            properties:
-                              de:
-                                type: string
-                              en:
-                                type: string
-                              de-easy:
-                                type: string
-                            additionalProperties: true
-                          createdAt:
-                            type: string
-                          updatedAt:
-                            type: string
-                        required:
-                          - identifier
-                          - name
-                      subEvents:
-                        type: array
-                        items:
-                          $ref: '#'
-                      superEvent:
-                        type: string
-                        format: identifier
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
 components:
   securitySchemes:
     bearerAuth:
@@ -751,7 +390,7 @@ components:
                 type: string
               healthy:
                 type: boolean
-    ResourceNotFoundError:
+    NotFoundError:
       type: object
       properties:
         error:
@@ -767,3 +406,157 @@ components:
           properties:
             msg:
               type: string
+    Event:
+      type: object
+      properties:
+        '@context':
+          type: string
+          enum:
+            - kulturdaten.berlin/api/v1/spec
+        identifier:
+          type: string
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+        '@type':
+          type: string
+          enum:
+            - Event
+            - EventSeries
+            - ExhibitionEvent
+        kind:
+          type: string
+          enum:
+            - culture
+        origin:
+          type: string
+        title:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        subTitle:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        description:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        shortDescription:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        previousStartDate:
+          type: string
+          format: date-time
+        doorTime:
+          type: string
+          format: date-time
+        typicalAgeRange:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        isAccessibleForFree:
+          type: boolean
+        sameAs:
+          type: string
+          format: uri
+        visibility:
+          type: string
+          enum:
+            - published
+            - unpublished
+            - draft
+            - archived
+            - restricted
+        eventStatus:
+          type: string
+          enum:
+            - cancelled
+            - postponed
+            - rescheduled
+            - scheduled
+        eventAttendanceMode:
+          type: string
+          enum:
+            - offline
+            - online
+            - mixed
+        location:
+          type: object
+          properties:
+            name:
+              type: string
+        organizer:
+          type: object
+          properties:
+            identifier:
+              type: string
+            name:
+              type: string
+            description:
+              type: object
+              properties:
+                de:
+                  type: string
+                en:
+                  type: string
+                de-easy:
+                  type: string
+              additionalProperties: true
+            createdAt:
+              type: string
+            updatedAt:
+              type: string
+          required:
+            - identifier
+            - name
+        subEvents:
+          type: array
+          items:
+            $ref: '#'
+        superEvent:
+          type: string

@@ -2,9 +2,9 @@ import { Service } from "typedi";
 import { MongoDBConnector } from "../../common/services/mongodb.service";
 import { UsersRepository } from "./users.repository";
 import { generateID } from "../../utils/IDUtil";
-import { User } from "../../generatedModels/User.generated";
-import { CreateUser } from "../../generatedModels/CreateUser.generated";
-import { PatchUser } from "../../generatedModels/PatchUser.generated";
+import { User } from "../../generated/models/User.generated";
+import { CreateUser } from "../../generated/models/CreateUser.generated";
+import { PatchUser } from "../../generated/models/PatchUser.generated";
 
 
 @Service()

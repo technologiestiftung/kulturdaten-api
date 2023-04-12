@@ -2,9 +2,9 @@ import { Service } from "typedi";
 import { MongoDBConnector } from "../../common/services/mongodb.service";
 import { OrganizationsRepository } from "./organizations.repository";
 import { generateID } from "../../utils/IDUtil";
-import { CreateOrganization } from "../../generatedModels/CreateOrganization.generated";
-import { Organization } from "../../generatedModels/Organization.generated";
-import { PatchOrganization } from "../../generatedModels/PatchOrganization.generated";
+import { CreateOrganization } from "../../generated/models/CreateOrganization.generated";
+import { Organization } from "../../generated/models/Organization.generated";
+import { PatchOrganization } from "../../generated/models/PatchOrganization.generated";
 
 
 @Service()

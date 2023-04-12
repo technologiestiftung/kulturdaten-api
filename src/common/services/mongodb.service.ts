@@ -1,8 +1,8 @@
 import { Collection, MongoClient } from 'mongodb';
 import { Service } from 'typedi';
 import debug from 'debug';
-import { Organization } from '../../generatedModels/Organization.generated';
-import { User } from '../../generatedModels/User.generated';
+import { Organization } from '../../generated/models/Organization.generated';
+import { User } from '../../generated/models/User.generated';
 
 const log: debug.IDebugger = debug('app:mongodb-controller');
 

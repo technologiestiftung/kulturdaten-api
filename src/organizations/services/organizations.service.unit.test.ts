@@ -2,8 +2,8 @@ import { OrganizationsRepository } from "../repositories/organizations.repositor
 import { OrganizationsService } from "./organizations.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
 import { MongoDBOrganizationsRepository } from "../repositories/organizations.repository.mobgodb";
-import { CreateOrganization } from "../../generatedModels/CreateOrganization.generated";
-import { Organization } from "../../generatedModels/Organization.generated";
+import { CreateOrganization } from "../../generated/models/CreateOrganization.generated";
+import { Organization } from "../../generated/models/Organization.generated";
 
 
 beforeEach(() => {

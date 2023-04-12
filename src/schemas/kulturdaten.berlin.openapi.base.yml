@@ -14,14 +14,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: Login.yml
+              $ref: '#/components/schemas/Login'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: Auth.yml      
+                $ref: '#/components/schemas/Auth'      
 
   /organizations:
     get:
@@ -38,7 +38,7 @@ paths:
                   organizations: 
                     type: array
                     items:    
-                      $ref: Organization.yml
+                      $ref: '#/components/schemas/Organization'  
   
     post:
       tags:
@@ -47,7 +47,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: CreateOrganization.yml
+              $ref: '#/components/schemas/CreateOrganization'
       responses:
         '201':
           description: OK
@@ -80,13 +80,13 @@ paths:
                 type: object
                 properties:
                   organization: 
-                    $ref: Organization.yml
+                    $ref: '#/components/schemas/Organization'  
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Organizations
@@ -94,7 +94,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: PatchOrganization.yml
+              $ref: '#/components/schemas/PatchOrganization'
       responses:
         '204':
           description: OK  
@@ -103,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Organizations
@@ -115,7 +115,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
 
   /users:
     get:
@@ -134,7 +134,7 @@ paths:
                   users: 
                     type: array
                     items:    
-                      $ref: User.yml
+                      $ref: '#/components/schemas/User'
     post:
       tags:
         - Users
@@ -142,7 +142,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: CreateUser.yml
+              $ref: '#/components/schemas/CreateUser'
       responses:
         '201':
           description: OK
@@ -158,7 +158,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: EmailAlreadyInUseError.yml
+                $ref: '#/components/schemas/EmailAlreadyInUseError'
 
   /users/{identifier}:
     parameters:
@@ -182,13 +182,13 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: User.yml
+                    $ref: '#/components/schemas/User'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Users
@@ -198,7 +198,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: PatchUser.yml
+              $ref: '#/components/schemas/PatchUser'
       responses:
         '204':
           description: OK  
@@ -207,7 +207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Users
@@ -221,7 +221,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
 
 
 
@@ -235,7 +235,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: Health.yml
+                $ref: '#/components/schemas/Health'
 
   /events:
     get:
@@ -247,7 +247,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: Event.yml
+                type: object
+                properties:
+                  events: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/Event'
 
 components:
   securitySchemes:
@@ -258,34 +263,37 @@ components:
 
   schemas:
     Login:
-      $ref: Login.yml
+      $ref: models/Login.yml
 
     Auth:
-      $ref: Auth.yml 
+      $ref: models/Auth.yml 
     
     Organization:
-      $ref: Organization.yml
+      $ref: models/Organization.yml
 
     CreateOrganization:
-      $ref: CreateOrganization.yml
+      $ref: models/CreateOrganization.yml
 
     PatchOrganization:
-      $ref: PatchOrganization.yml
+      $ref: models/PatchOrganization.yml
 
     User:
-      $ref: User.yml
+      $ref: models/User.yml
     
     CreateUser:
-      $ref: CreateUser.yml
+      $ref: models/CreateUser.yml
     
     PatchUser:
-      $ref: PatchUser.yml
+      $ref: models/PatchUser.yml
 
     Health:
-      $ref: Health.yml
+      $ref: models/Health.yml
 
-    ResourceNotFoundError:
-      $ref: NotFoundError.yml
+    NotFoundError:
+      $ref: models/NotFoundError.yml
     
     EmailAlreadyInUseError:
-      $ref: EmailAlreadyInUseError.yml
+      $ref: models/EmailAlreadyInUseError.yml
+
+    Event:
+       $ref: models/Event.yml

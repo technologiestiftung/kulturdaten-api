@@ -1,7 +1,7 @@
 import debug from 'debug';
-import { CreateOrganization } from '../../generatedModels/CreateOrganization.generated';
-import { Organization } from '../../generatedModels/Organization.generated';
-import { PatchOrganization } from '../../generatedModels/PatchOrganization.generated';
+import { CreateOrganization } from '../../generated/models/CreateOrganization.generated';
+import { Organization } from '../../generated/models/Organization.generated';
+import { PatchOrganization } from '../../generated/models/PatchOrganization.generated';
 
 
 const log: debug.IDebugger = debug('app:organizations-repository');

@@ -1,61 +1,24 @@
-import { writeFileSync, readdir } from 'fs';
+import { writeFileSync } from 'fs';
+import { readdir } from 'fs/promises';
 import { parse } from 'path';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
 import { readFileSync } from 'fs';
 import * as yaml from 'js-yaml';
 
 async function generate() {
+	const directoryPath = './src/schemas/models';
 
-	const directoryPath = './src/schemas/';
-
-	readdir(directoryPath, function (err, files) {
-		if (err) {
-			console.error('Error reading directory: ' + err);
-			return;
-		}
-
-		console.log('Files in directory:');
-		files.forEach(function (file) {
-			const { name } = parse(file);
-			console.log(name);
-		});
+	let	schemaFiles = await readdir(directoryPath);
+	
+	schemaFiles.forEach(async function (file) {
+		const { name } = parse(file);
+		await generateInterface(name);
+		console.log(`Generated interfaces for ${file}`);
 	});
-
-
-	generateInterface('Organization');
-	generateInterface('CreateOrganization');
-	generateInterface('PatchOrganization');
-
-	generateInterface('User');
-	generateInterface('CreateUser');
-	generateInterface('PatchUser');
-
-	generateInterface('Event');
-
-	generateInterface('Location');
-
-	generateInterface('ImageObject');
-
-	generateInterface('Auth');
-	generateInterface('Login');
-
-	generateInterface('Health');
-
-	generateInterface('NotFoundError');
-	generateInterface('Core');
-
-	generateInterface('Text');
-	generateInterface('Description');
-	generateInterface('Title');
-	generateInterface('SubTitle');
 }
 
-
-
-async function generateInterface(className: string, rootDirectory: string = './src/schemas') {
-
+async function generateInterface(className: string, rootDirectory: string = './src/schemas/models') {
 	const options = (baseFile: string, dependencies: string) => {
-
 		return {
 			bannerComment: `/* eslint-disable */
 		/**
@@ -73,20 +36,20 @@ async function generateInterface(className: string, rootDirectory: string = './s
 			declareExternallyReferenced: false,
 		}
 	};
-	const schemaPath = `./src/schemas/${className}.yml`;
+	const schemaPath = `${rootDirectory}/${className}.yml`;
 	const schemaYaml = readFileSync(schemaPath, 'utf8');
-	const schemaObject = yaml.load(schemaYaml) as JSONSchema;
-	const parsedDependencies = parseDependenciesFrom(className);
+	const schemaObject = await yaml.load(schemaYaml) as JSONSchema;
+	const parsedDependencies = await parseDependenciesFrom(className, rootDirectory);
 	const dependencies = generateImportsForDependencies(parsedDependencies);
 	const targetType = await compile(schemaObject, className, options(schemaPath, dependencies));
-	const targetPath = `./src/generatedModels/${className}.generated.ts`;
+	const targetPath = `./src/generated/models/${className}.generated.ts`;
 
 	writeFileSync(targetPath, targetType);
 }
 
 
-function parseDependenciesFrom(file: string): string[] {
-	const schemaPath = `./src/schemas/${file}.yml`;
+async function parseDependenciesFrom(file: string, rootDirectory: string): Promise<string[]> {
+	const schemaPath = `${rootDirectory}/${file}.yml`;
 	const schemaYaml = readFileSync(schemaPath, 'utf8');
 	let regexForDependencies: RegExp = /[A-Za-z]+(?=.yml)/g;
 	const dependencies = new Set(schemaYaml.match(regexForDependencies));

@@ -1,9 +1,9 @@
 import { UsersRepository } from "../../../users/repositories/users.repository";
 import { faker } from '@faker-js/faker';
 import { PermissionFlag } from "../../../auth/middleware/auth.permissionflag.enum";
-import { User } from "../../../generatedModels/User.generated";
-import { CreateUser } from "../../../generatedModels/CreateUser.generated";
-import { PatchUser } from "../../../generatedModels/PatchUser.generated";
+import { User } from "../../../generated/models/User.generated";
+import { CreateUser } from "../../../generated/models/CreateUser.generated";
+import { PatchUser } from "../../../generated/models/PatchUser.generated";
 
 
 

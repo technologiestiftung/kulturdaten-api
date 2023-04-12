@@ -2,8 +2,8 @@ import express from 'express';
 import { OrganizationsService } from '../services/organizations.service';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { CreateOrganization } from '../../generatedModels/CreateOrganization.generated';
-import { PatchOrganization } from '../../generatedModels/PatchOrganization.generated';
+import { CreateOrganization } from '../../generated/models/CreateOrganization.generated';
+import { PatchOrganization } from '../../generated/models/PatchOrganization.generated';
 
 const log: debug.IDebugger = debug('app:organizations-controller');
 

@@ -1,8 +1,8 @@
 import { OrganizationsRepository } from '../repositories/organizations.repository';
 import { CRUD } from '../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
-import { CreateOrganization } from '../../generatedModels/CreateOrganization.generated';
-import { PatchOrganization } from '../../generatedModels/PatchOrganization.generated';
+import { CreateOrganization } from '../../generated/models/CreateOrganization.generated';
+import { PatchOrganization } from '../../generated/models/PatchOrganization.generated';
 
 @Service()
 export class OrganizationsService implements CRUD {

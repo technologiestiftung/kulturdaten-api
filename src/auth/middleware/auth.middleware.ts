@@ -1,4 +1,4 @@
-import { User } from "../../generatedModels/User.generated";
+import { User } from "../../generated/models/User.generated";
 import { PermissionFlag } from "./auth.permissionflag.enum"
 import express from 'express';
 

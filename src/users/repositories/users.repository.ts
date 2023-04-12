@@ -1,7 +1,7 @@
 import debug from 'debug';
-import { CreateUser } from '../../generatedModels/CreateUser.generated';
-import { User } from '../../generatedModels/User.generated';
-import { PatchUser } from '../../generatedModels/PatchUser.generated';
+import { CreateUser } from '../../generated/models/CreateUser.generated';
+import { User } from '../../generated/models/User.generated';
+import { PatchUser } from '../../generated/models/PatchUser.generated';
 
 
 const log: debug.IDebugger = debug('app:users-repository');
