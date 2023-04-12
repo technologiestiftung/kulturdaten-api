@@ -8,13 +8,9 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
+import {Description} from "./Description.generated";
+
 export interface PatchOrganization {
   name?: string;
   description?: Description;
-}
-export interface Description {
-  de?: string;
-  en?: string;
-  "de-easy"?: string;
-  [k: string]: unknown;
 }

@@ -8,6 +8,10 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
+import {Core} from "./Core.generated";
+import {SubTitle} from "./SubTitle.generated";
+import {Description} from "./Description.generated";
+
 export type ImageObject = Core & {
   "@type"?: "ImageObject";
   contentUrl?: string;
@@ -20,22 +24,3 @@ export type ImageObject = Core & {
   license?: string;
   acquireLicensePage?: string;
 };
-
-export interface Core {
-  "@context"?: "kulturdaten.berlin/api/v1/spec";
-  identifier?: string;
-  created?: string;
-  updated?: string;
-}
-export interface SubTitle {
-  de?: string;
-  en?: string;
-  "de-easy"?: string;
-  [k: string]: unknown;
-}
-export interface Description {
-  de?: string;
-  en?: string;
-  "de-easy"?: string;
-  [k: string]: unknown;
-}

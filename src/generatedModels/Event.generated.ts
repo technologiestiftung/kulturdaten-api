@@ -8,6 +8,12 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
+import {Core} from "./Core.generated";
+import {Title} from "./Title.generated";
+import {Description} from "./Description.generated";
+import {Location} from "./Location.generated";
+import {Organization} from "./Organization.generated";
+
 export type Event = Core & {
   "@type"?: "Event" | "EventSeries" | "ExhibitionEvent";
   kind?: "culture";
@@ -34,34 +40,3 @@ export type Event = Core & {
   subEvents?: Event[];
   superEvent?: string;
 };
-
-export interface Core {
-  "@context"?: "kulturdaten.berlin/api/v1/spec";
-  identifier?: string;
-  created?: string;
-  updated?: string;
-}
-export interface Title {
-  de?: string;
-  en?: string;
-  "de-easy"?: string;
-  [k: string]: unknown;
-}
-export interface Description {
-  de?: string;
-  en?: string;
-  "de-easy"?: string;
-  [k: string]: unknown;
-}
-export interface Location {
-  name?: {
-    [k: string]: unknown;
-  };
-}
-export interface Organization {
-  identifier: string;
-  name: string;
-  description?: Description;
-  createdAt?: string;
-  updatedAt?: string;
-}
