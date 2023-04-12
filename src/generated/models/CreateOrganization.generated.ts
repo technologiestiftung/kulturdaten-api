@@ -8,7 +8,23 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
-import {Description} from "./Description.generated";
+import Ajv, {ValidateFunction} from "ajv";
+
+import {Description, schemaForDescription} from "./Description.generated";
+
+export const schemaForCreateOrganization = {
+  type: "object",
+  properties: {name: {type: "string"}, description: {$ref: "Description.yml"}},
+  required: ["name"]
+};
+
+export function validateCreateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
+  const ajv = new Ajv();
+  ajv.addSchema(schemaForDescription, "Description.yml");
+
+  const validate = ajv.compile(schemaForCreateOrganization);
+  return {isValid: validate(o), validate: validate};
+}
 
 export interface CreateOrganization {
   name: string;

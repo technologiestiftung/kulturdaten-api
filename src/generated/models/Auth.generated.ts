@@ -8,6 +8,17 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
+import Ajv, {ValidateFunction} from "ajv";
+
+export const schemaForAuth = {type: "object", properties: {accessToken: {type: "string"}, expiresIn: {type: "string"}}};
+
+export function validateAuth(o: object): {isValid: boolean; validate: ValidateFunction} {
+  const ajv = new Ajv();
+
+  const validate = ajv.compile(schemaForAuth);
+  return {isValid: validate(o), validate: validate};
+}
+
 export interface Auth {
   accessToken?: string;
   expiresIn?: string;

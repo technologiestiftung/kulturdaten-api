@@ -8,6 +8,26 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
+import Ajv, {ValidateFunction} from "ajv";
+
+export const schemaForHealth = {
+  type: "object",
+  properties: {
+    healthy: {type: "boolean"},
+    dependencies: {
+      type: "array",
+      items: {type: "object", properties: {name: {type: "string"}, healthy: {type: "boolean"}}}
+    }
+  }
+};
+
+export function validateHealth(o: object): {isValid: boolean; validate: ValidateFunction} {
+  const ajv = new Ajv();
+
+  const validate = ajv.compile(schemaForHealth);
+  return {isValid: validate(o), validate: validate};
+}
+
 export interface Health {
   healthy?: boolean;
   dependencies?: {

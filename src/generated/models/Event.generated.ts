@@ -8,10 +8,57 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
-import {Title} from "./Title.generated";
-import {Description} from "./Description.generated";
-import {Location} from "./Location.generated";
-import {Organization} from "./Organization.generated";
+import Ajv, {ValidateFunction} from "ajv";
+
+import {Title, schemaForTitle} from "./Title.generated";
+import {Description, schemaForDescription} from "./Description.generated";
+import {Location, schemaForLocation} from "./Location.generated";
+import {Organization, schemaForOrganization} from "./Organization.generated";
+
+export const schemaForEvent = {
+  type: "object",
+  properties: {
+    "@context": {type: "string", enum: ["kulturdaten.berlin/api/v1/spec"]},
+    identifier: {type: "string"},
+    created: {type: "string", format: "date-time"},
+    updated: {type: "string", format: "date-time"},
+    "@type": {type: "string", enum: ["Event", "EventSeries", "ExhibitionEvent"]},
+    kind: {type: "string", enum: ["culture"]},
+    origin: {type: "string"},
+    title: {$ref: "Title.yml"},
+    subTitle: {$ref: "Title.yml"},
+    description: {$ref: "Description.yml"},
+    shortDescription: {$ref: "Description.yml"},
+    startDate: {type: "string", format: "date-time"},
+    endDate: {type: "string", format: "date-time"},
+    previousStartDate: {type: "string", format: "date-time"},
+    doorTime: {type: "string", format: "date-time"},
+    typicalAgeRange: {type: "string"},
+    categories: {type: "array", items: {type: "string"}},
+    keywords: {type: "array", items: {type: "string"}},
+    inLanguages: {type: "array", items: {type: "string"}},
+    isAccessibleForFree: {type: "boolean"},
+    sameAs: {type: "string", format: "uri"},
+    visibility: {type: "string", enum: ["published", "unpublished", "draft", "archived", "restricted"]},
+    eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
+    eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
+    locations: {type: "array", items: {$ref: "Location.yml"}},
+    organizer: {$ref: "Organization.yml"},
+    subEvents: {type: "array", items: {$ref: "#"}},
+    superEvent: {type: "string"}
+  }
+};
+
+export function validateEvent(o: object): {isValid: boolean; validate: ValidateFunction} {
+  const ajv = new Ajv();
+  ajv.addSchema(schemaForTitle, "Title.yml");
+  ajv.addSchema(schemaForDescription, "Description.yml");
+  ajv.addSchema(schemaForLocation, "Location.yml");
+  ajv.addSchema(schemaForOrganization, "Organization.yml");
+
+  const validate = ajv.compile(schemaForEvent);
+  return {isValid: validate(o), validate: validate};
+}
 
 export interface Event {
   "@context"?: "kulturdaten.berlin/api/v1/spec";
@@ -38,7 +85,7 @@ export interface Event {
   visibility?: "published" | "unpublished" | "draft" | "archived" | "restricted";
   eventStatus?: "cancelled" | "postponed" | "rescheduled" | "scheduled";
   eventAttendanceMode?: "offline" | "online" | "mixed";
-  location?: Location;
+  locations?: Location[];
   organizer?: Organization;
   subEvents?: Event[];
   superEvent?: string;

@@ -1,24 +1,29 @@
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
 import { readdir } from 'fs/promises';
 import { parse } from 'path';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
-import { readFileSync } from 'fs';
 import * as yaml from 'js-yaml';
+
 
 async function generate() {
 	const directoryPath = './src/schemas/models';
 
 	let	schemaFiles = await readdir(directoryPath);
-	
 	schemaFiles.forEach(async function (file) {
 		const { name } = parse(file);
+
 		await generateInterface(name);
 		console.log(`Generated interfaces for ${file}`);
 	});
+
+
+
+	
+
 }
 
 async function generateInterface(className: string, rootDirectory: string = './src/schemas/models') {
-	const options = (baseFile: string, dependencies: string) => {
+	const options = (baseFile: string, dependencies: {imports: string, ajvSchema: string}, schema: string, schemaName: string) => {
 		return {
 			bannerComment: `/* eslint-disable */
 		/**
@@ -29,7 +34,19 @@ async function generateInterface(className: string, rootDirectory: string = './s
 		 * 
 		 * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
 		 */
-		 ${dependencies}
+
+		import Ajv, { ValidateFunction } from "ajv";
+
+		 ${dependencies.imports}
+
+		 export const schemaFor${schemaName} = ${schema};
+
+		 export function validate${schemaName}(o : object): {isValid: boolean, validate: ValidateFunction} {
+			const ajv = new Ajv() 
+			${dependencies.ajvSchema}
+			const validate = ajv.compile(schemaFor${schemaName});
+			return {isValid: validate(o), validate: validate};
+		  }
 		`,
 			additionalProperties: false,
 			cwd: rootDirectory,
@@ -38,10 +55,11 @@ async function generateInterface(className: string, rootDirectory: string = './s
 	};
 	const schemaPath = `${rootDirectory}/${className}.yml`;
 	const schemaYaml = readFileSync(schemaPath, 'utf8');
-	const schemaObject = await yaml.load(schemaYaml) as JSONSchema;
+	const schemaObject = await yaml.load(schemaYaml);
+	
 	const parsedDependencies = await parseDependenciesFrom(className, rootDirectory);
 	const dependencies = generateImportsForDependencies(parsedDependencies);
-	const targetType = await compile(schemaObject, className, options(schemaPath, dependencies));
+	const targetType = await compile(schemaObject as JSONSchema, className, options(schemaPath, dependencies, JSON.stringify(schemaObject), className));
 	const targetPath = `./src/generated/models/${className}.generated.ts`;
 
 	writeFileSync(targetPath, targetType);
@@ -57,16 +75,23 @@ async function parseDependenciesFrom(file: string, rootDirectory: string): Promi
 }
 
 function generateImportForDependency(dependency: string) {
-	return dependency ? `import { ${dependency} } from './${dependency}.generated';` : '';
+	return dependency ? `import { ${dependency}, schemaFor${dependency} } from './${dependency}.generated';` : '';
+}
+
+function generateAjvSchemaForDependency(dependency: string) {
+	return dependency ? `ajv.addSchema(schemaFor${dependency}, '${dependency}.yml');` : '';
 }
 
 function generateImportsForDependencies(dependencies: string[]) {
 	let imports = '';
+	let ajvSchema = '';
 	dependencies.forEach(dependency => {
 		imports += '\n';
 		imports += generateImportForDependency(dependency);
+		ajvSchema += generateAjvSchemaForDependency(dependency);
+		ajvSchema += '\n';
 	});
-	return imports;
+	return {imports: imports, ajvSchema: ajvSchema};
 }
 
 generate();

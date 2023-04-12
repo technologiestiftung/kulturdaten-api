@@ -21,6 +21,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Auth'
+  /events:
+    get:
+      tags:
+        - Events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
   /organizations:
     get:
       tags:
@@ -226,22 +242,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Health'
-  /events:
-    get:
-      tags:
-        - Server
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  events:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Event'
 components:
   securitySchemes:
     bearerAuth:
@@ -525,11 +525,13 @@ components:
             - offline
             - online
             - mixed
-        location:
-          type: object
-          properties:
-            name:
-              type: string
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
         organizer:
           type: object
           properties:

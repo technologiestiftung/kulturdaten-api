@@ -23,6 +23,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/Auth'      
 
+  /events:
+    get:
+      tags:
+        - Events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/Event'
+
   /organizations:
     get:
       tags:
@@ -237,22 +254,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Health'
 
-  /events:
-    get:
-      tags:
-        - Server
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  events: 
-                    type: array
-                    items:    
-                      $ref: '#/components/schemas/Event'
+
 
 components:
   securitySchemes:

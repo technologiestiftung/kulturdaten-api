@@ -84,8 +84,10 @@ properties:
       - offline
       - online
       - mixed
-  location:
-    $ref: Location.yml
+  locations:
+    type: array
+    items:
+      $ref: Location.yml
   organizer:
     $ref: Organization.yml
   subEvents:

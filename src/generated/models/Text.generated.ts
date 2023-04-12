@@ -8,6 +8,21 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
+import Ajv, {ValidateFunction} from "ajv";
+
+export const schemaForText = {
+  type: "object",
+  properties: {de: {type: "string"}, en: {type: "string"}, "de-easy": {type: "string"}},
+  additionalProperties: true
+};
+
+export function validateText(o: object): {isValid: boolean; validate: ValidateFunction} {
+  const ajv = new Ajv();
+
+  const validate = ajv.compile(schemaForText);
+  return {isValid: validate(o), validate: validate};
+}
+
 export interface Text {
   de?: string;
   en?: string;

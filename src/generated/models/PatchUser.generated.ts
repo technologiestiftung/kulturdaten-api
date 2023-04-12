@@ -8,6 +8,25 @@
  * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
  */
 
+import Ajv, {ValidateFunction} from "ajv";
+
+export const schemaForPatchUser = {
+  type: "object",
+  properties: {
+    email: {type: "string", minLength: 1},
+    firstName: {type: "string", minLength: 1},
+    lastName: {type: "string", minLength: 1},
+    permissionFlags: {type: "number"}
+  }
+};
+
+export function validatePatchUser(o: object): {isValid: boolean; validate: ValidateFunction} {
+  const ajv = new Ajv();
+
+  const validate = ajv.compile(schemaForPatchUser);
+  return {isValid: validate(o), validate: validate};
+}
+
 export interface PatchUser {
   email?: string;
   firstName?: string;

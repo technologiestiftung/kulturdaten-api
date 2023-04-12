@@ -1,9 +1,13 @@
 import express from "express";
 import request from "supertest";
+import {  readFileSync } from 'fs';
 import { OrganizationsController } from "../../organizations/controllers/organizations.controller";
 import { OrganizationsService } from "../../organizations/services/organizations.service";
 import { OrganizationsRoutes } from "../../organizations/organizations.routes";
 import { MockOrganizationsRepository } from "./mocks/mock.organizations.repository";
+import * as yaml from 'js-yaml';
+
+import { validateOrganization } from "../../generated/models/Organization.generated";
 
 const app = express();
 app.use(express.json());
@@ -22,6 +26,10 @@ describe('Exploring existing organizations', () => {
 		const { body, statusCode } = await request(app).get('/v1/organizations');
 
 		expect(statusCode).toBe(200);
+
+		console.log("VALIDATE " + validateOrganization(body.organizations[0]).isValid);
+		 
+
 		expect(body.organizations).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({
