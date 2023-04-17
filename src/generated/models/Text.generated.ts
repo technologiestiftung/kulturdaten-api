@@ -19,7 +19,6 @@ export const schemaForText = {
 
 export function validateText(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForText);
   return {isValid: validate(o), validate: validate};

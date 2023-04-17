@@ -1,4 +1,4 @@
-openapi: 3.0.2
+openapi: 3.0.3
 info:
   title: API Kulturdaten.Berlin
   version: 1.0.0
@@ -37,6 +37,24 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Event'
+    post:
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvent'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: string
   /organizations:
     get:
       tags:
@@ -270,8 +288,6 @@ components:
           type: string
         name:
           type: string
-          examples:
-            - Kleine Bühne
         description:
           type: object
           properties:
@@ -541,8 +557,6 @@ components:
               type: string
             name:
               type: string
-              examples:
-                - Kleine Bühne
             description:
               type: object
               properties:
@@ -564,5 +578,126 @@ components:
           type: array
           items:
             $ref: '#'
+        superEvent:
+          type: string
+    CreateEvent:
+      type: object
+      properties:
+        '@context':
+          type: string
+          enum:
+            - kulturdaten.berlin/api/v1/spec
+        '@type':
+          type: string
+          enum:
+            - Event
+            - EventSeries
+            - ExhibitionEvent
+        kind:
+          type: string
+          enum:
+            - culture
+        title:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        subTitle:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        description:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        shortDescription:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+            de-easy:
+              type: string
+          additionalProperties: true
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        previousStartDate:
+          type: string
+          format: date-time
+        doorTime:
+          type: string
+          format: date-time
+        typicalAgeRange:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        isAccessibleForFree:
+          type: boolean
+        sameAs:
+          type: string
+          format: uri
+        visibility:
+          type: string
+          enum:
+            - published
+            - unpublished
+            - draft
+            - archived
+            - restricted
+        eventStatus:
+          type: string
+          enum:
+            - cancelled
+            - postponed
+            - rescheduled
+            - scheduled
+        eventAttendanceMode:
+          type: string
+          enum:
+            - offline
+            - online
+            - mixed
+        locations:
+          type: array
+          items:
+            type: string
+        organizer:
+          type: string
+        subEvents:
+          type: array
+          items:
+            type: string
         superEvent:
           type: string

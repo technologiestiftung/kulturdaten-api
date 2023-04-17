@@ -21,7 +21,6 @@ export const schemaForCreateOrganization = {
 
 export function validateCreateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
-  ajv.addKeyword("example");
   ajv.addSchema(schemaForDescription, "Description.yml");
 
   const validate = ajv.compile(schemaForCreateOrganization);

@@ -32,9 +32,17 @@ properties:
   sha256:
     type: string
   license:
-    type: string
-    format: uri
-  acquireLicensePage:
-    type: string
-    format: uri
+    type: object
+    properties:
+      name: 
+        type: string
+      identifier:
+        type: string
+        description: SPDX License Identifier
+      url:
+        type: string
+        format: uri
+      acquireLicensePage:
+        type: string
+        format: uri
 

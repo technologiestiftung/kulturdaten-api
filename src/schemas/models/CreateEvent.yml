@@ -1,0 +1,88 @@
+type: object
+properties:
+  '@context':
+      type: string
+      enum:
+        - 'kulturdaten.berlin/api/v1/spec'
+  '@type':
+    type: string
+    enum:
+      - 'Event'
+      - 'EventSeries'
+      - 'ExhibitionEvent'
+  kind:
+    type: string
+    enum:
+      - 'culture'
+  title: 
+    $ref: Title.yml
+  subTitle:
+    $ref: Title.yml
+  description:
+    $ref: Description.yml
+  shortDescription:
+    $ref: Description.yml
+  startDate:
+    type: string
+    format: date-time
+  endDate:
+    type: string
+    format: date-time
+  previousStartDate:
+    type: string
+    format: date-time
+  doorTime:
+    type: string
+    format: date-time
+  typicalAgeRange:
+    type: string
+  categories:
+    type: array
+    items:
+      type: string
+  keywords:
+    type: array
+    items:
+      type: string
+  inLanguages:
+    type: array
+    items:
+      type: string
+  isAccessibleForFree:
+    type: boolean
+  sameAs: 
+    type: string
+    format: uri
+  visibility:
+    type: string
+    enum:
+      - published
+      - unpublished
+      - draft
+      - archived
+      - restricted
+  eventStatus:
+    type: string
+    enum:
+      - cancelled
+      - postponed
+      - rescheduled
+      - scheduled
+  eventAttendanceMode:
+    type: string
+    enum:
+      - offline
+      - online
+      - mixed
+  locations:
+    type: array
+    items:
+      type: string
+  organizer:
+    type: string
+  subEvents:
+    type: array
+    items:
+      type: string
+  superEvent:
+    type: string

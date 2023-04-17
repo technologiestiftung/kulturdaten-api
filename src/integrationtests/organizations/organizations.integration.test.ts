@@ -19,6 +19,7 @@ const organizationsRoutes = new OrganizationsRoutes(organizationsController);
 
 app.use('/v1/organizations', organizationsRoutes.getRouter());
 
+
 describe('Exploring existing organizations', () => {
 	it('GET /v1/organizations - success - get all the organizations', async () => {
 		const { body, statusCode } = await request(app).get('/v1/organizations');

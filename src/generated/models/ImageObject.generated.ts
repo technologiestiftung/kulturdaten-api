@@ -29,14 +29,20 @@ export const schemaForImageObject = {
     description: {$ref: "Description.yml"},
     encodingFormat: {type: "string"},
     sha256: {type: "string"},
-    license: {type: "string", format: "uri"},
-    acquireLicensePage: {type: "string", format: "uri"}
+    license: {
+      type: "object",
+      properties: {
+        name: {type: "string"},
+        identifier: {type: "string", description: "SPDX License Identifier"},
+        url: {type: "string", format: "uri"},
+        acquireLicensePage: {type: "string", format: "uri"}
+      }
+    }
   }
 };
 
 export function validateImageObject(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
-  ajv.addKeyword("example");
   ajv.addSchema(schemaForSubTitle, "SubTitle.yml");
   ajv.addSchema(schemaForDescription, "Description.yml");
 
@@ -57,6 +63,13 @@ export interface ImageObject {
   description?: Description;
   encodingFormat?: string;
   sha256?: string;
-  license?: string;
-  acquireLicensePage?: string;
+  license?: {
+    name?: string;
+    /**
+     * SPDX License Identifier
+     */
+    identifier?: string;
+    url?: string;
+    acquireLicensePage?: string;
+  };
 }

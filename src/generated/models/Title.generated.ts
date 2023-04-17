@@ -19,7 +19,6 @@ export const schemaForTitle = {
 
 export function validateTitle(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForTitle);
   return {isValid: validate(o), validate: validate};

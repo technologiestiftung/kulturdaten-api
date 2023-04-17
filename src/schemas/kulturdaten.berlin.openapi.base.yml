@@ -1,4 +1,4 @@
-openapi: '3.0.2'
+openapi: 3.0.3
 info:
   title: API Kulturdaten.Berlin 
   version: '1.0.0'
@@ -39,6 +39,24 @@ paths:
                     type: array
                     items:    
                       $ref: '#/components/schemas/Event'
+    post:
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvent'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier: 
+                    type: string
 
   /organizations:
     get:
@@ -299,3 +317,6 @@ components:
 
     Event:
        $ref: models/Event.yml
+
+    CreateEvent:
+       $ref: models/CreateEvent.yml
