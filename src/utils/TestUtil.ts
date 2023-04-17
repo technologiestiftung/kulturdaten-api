@@ -5,3 +5,4 @@ export function expectResponseSendIsEqual(mockesResponse: express.Response, expe
 	const [firstArg] = capture(mockesResponse.send).last();
 	expect(firstArg).toEqual(expected);
 }
+

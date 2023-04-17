@@ -35,7 +35,7 @@ class KulturdatenBerlinApp {
 	public port = process.env.APP_PORT || '5000';
 	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
-	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/v1/docs/`
+	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/v1/docs/`
 
 	public ini() {
 		this.initDatabase();
@@ -105,8 +105,8 @@ class KulturdatenBerlinApp {
 
 	private registerOpenApi() {
 		const swaggerDocument = YAML.load(this.openAPISpec);
-		this.app.use(`/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-		this.app.use(`/v1/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
+		this.app.use(`/api/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+		this.app.use(`/api/v1/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
 		this.app.use(OpenApiValidator.middleware({
 			apiSpec: this.openAPISpec,
 			validateRequests: true,
@@ -121,23 +121,23 @@ class KulturdatenBerlinApp {
 		});
 
 		const healthRoutes = Container.get(HealthRoutes);
-		this.app.use('/v1/health', healthRoutes.getRouter());
+		this.app.use('/api/v1/health', healthRoutes.getRouter());
 	}
 
 	private registerAuthRoutes() {
 		const authRoutes = Container.get(AuthRoutes);
-		this.app.use('/v1/auth',
+		this.app.use('/api/v1/auth',
 		authRoutes.getRouter());
 	}
 
 	private registerOrganizationRoutes() {
 		const organizationsRoute = Container.get(OrganizationsRoutes);
-		this.app.use('/v1/organizations', organizationsRoute.getRouter());
+		this.app.use('/api/v1/organizations', organizationsRoute.getRouter());
 	}
 
 	private registerUserRoutes() {
 		const usersRoute = Container.get(UsersRoutes);
-		this.app.use('/v1/users', usersRoute.getRouter());
+		this.app.use('/api/v1/users', usersRoute.getRouter());
 	}
 
 }

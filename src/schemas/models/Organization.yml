@@ -4,6 +4,8 @@ properties:
     type: string
   name:
     type: string
+    examples: 
+      - Kleine Bühne
   description:
     $ref: Description.yml
   createdAt:

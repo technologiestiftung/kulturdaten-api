@@ -10,10 +10,15 @@
 
 import Ajv, {ValidateFunction} from "ajv";
 
-export const schemaForLogin = {type: "object", properties: {password: {type: "string"}, email: {type: "string"}}};
+export const schemaForLogin = {
+  $id: "Login.yml",
+  type: "object",
+  properties: {password: {type: "string"}, email: {type: "string"}}
+};
 
 export function validateLogin(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForLogin);
   return {isValid: validate(o), validate: validate};

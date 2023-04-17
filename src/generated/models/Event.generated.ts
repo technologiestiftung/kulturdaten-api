@@ -16,6 +16,7 @@ import {Location, schemaForLocation} from "./Location.generated";
 import {Organization, schemaForOrganization} from "./Organization.generated";
 
 export const schemaForEvent = {
+  $id: "Event.yml",
   type: "object",
   properties: {
     "@context": {type: "string", enum: ["kulturdaten.berlin/api/v1/spec"]},
@@ -51,6 +52,7 @@ export const schemaForEvent = {
 
 export function validateEvent(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForDescription, "Description.yml");
   ajv.addSchema(schemaForLocation, "Location.yml");

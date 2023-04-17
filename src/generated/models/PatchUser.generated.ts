@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 
 export const schemaForPatchUser = {
+  $id: "PatchUser.yml",
   type: "object",
   properties: {
     email: {type: "string", minLength: 1},
@@ -22,6 +23,7 @@ export const schemaForPatchUser = {
 
 export function validatePatchUser(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForPatchUser);
   return {isValid: validate(o), validate: validate};

@@ -1,36 +1,37 @@
 
 import { CreateOrganization } from "../../../generated/models/CreateOrganization.generated";
-import { Organization } from "../../../generated/models/Organization.generated";
+import { schemaForDescription } from "../../../generated/models/Description.generated";
+import { Organization, schemaForOrganization } from "../../../generated/models/Organization.generated";
 import { PatchOrganization } from "../../../generated/models/PatchOrganization.generated";
 import { OrganizationsRepository } from "../../../organizations/repositories/organizations.repository";
 import { faker } from '@faker-js/faker';
-
+import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 
 
 export class MockOrganizationsRepository implements OrganizationsRepository {
 
 
-	constructor(public dummyOrganizations: Organization[] = []){};
+	constructor(public dummyOrganizations: Organization[] = []) { };
 
 	reset() {
 		this.dummyOrganizations = [];
 	}
 
-	public fillWithDummyOrganizations(number: number){
+	public fillWithDummyOrganizations(number: number) {
 		this.dummyOrganizations = dummyOrganizations(number);
 	}
 
-	public addDummyOrganization(){
+	public addDummyOrganization() {
 		const d = dummyOrganization();
 		this.dummyOrganizations.push(d);
 		return d.identifier;
 	}
 
 	async addOrganization(organizationFields: CreateOrganization): Promise<string> {
-		let newOrganization:Organization = {
+		let newOrganization: Organization = {
 			identifier: `IDfor${organizationFields.name}`,
 			...organizationFields
-		} 
+		}
 		this.dummyOrganizations.push(newOrganization);
 		return Promise.resolve(newOrganization.identifier);
 	}
@@ -40,31 +41,31 @@ export class MockOrganizationsRepository implements OrganizationsRepository {
 	async getOrganizationByIdentifier(organizationId: string): Promise<Organization | null> {
 		try {
 			let organization: Organization | undefined = this.dummyOrganizations.find(({ identifier }) => identifier === organizationId)
-			if(organization){
+			if (organization) {
 				return Promise.resolve(organization);
 			} else return Promise.resolve(null);
 		} catch (error) {
 			return Promise.resolve(null);
 		}
-	
+
 	}
-	async updateOrganizationById(organizationId: string, organizationFields: PatchOrganization ): Promise<boolean> {
-		if(organizationFields){
+	async updateOrganizationById(organizationId: string, organizationFields: PatchOrganization): Promise<boolean> {
+		if (organizationFields) {
 			const index = this.dummyOrganizations.findIndex(({ identifier }) => identifier === organizationId);
-		
+
 			if (index !== -1) {
-				if(organizationFields.name) this.dummyOrganizations[index].name = organizationFields.name;
-				if(organizationFields.description) this.dummyOrganizations[index].description = organizationFields.description;
+				if (organizationFields.name) this.dummyOrganizations[index].name = organizationFields.name;
+				if (organizationFields.description) this.dummyOrganizations[index].description = organizationFields.description;
 				return Promise.resolve(true);
 			} else {
 				return Promise.resolve(false);
 			}
 		}
-		return Promise.resolve(false); 
+		return Promise.resolve(false);
 	}
 	async removeOrganizationById(organizationId: string): Promise<boolean> {
 		const index = this.dummyOrganizations.findIndex(({ identifier }) => identifier === organizationId);
-		if(index >= 0){
+		if (index >= 0) {
 			delete this.dummyOrganizations[index];
 			return true;
 		}
@@ -74,16 +75,18 @@ export class MockOrganizationsRepository implements OrganizationsRepository {
 }
 
 
-export function dummyOrganization(): Organization{
-	return {
-		identifier: faker.database.mongodbObjectId(),
-		name: faker.company.name(),
-		description: {
-			de: faker.company.catchPhrase()
-		},
-		createdAt: faker.datatype.datetime().toDateString(),
-		updatedAt: faker.datatype.datetime().toDateString(),
-	}
+export function dummyOrganization(): Organization {
+	const schema = schemaForOrganization as Schema;
+	const refs = [
+		schemaForDescription as Schema
+	];
+	// @ts-ignore
+	const fakeOrganization : Organization = JSONSchemaFaker.generate(schema, refs) as Organization;
+	fakeOrganization.identifier = faker.database.mongodbObjectId();
+	fakeOrganization.name = faker.company.name();
+	fakeOrganization.createdAt = faker.datatype.datetime().toDateString();
+	fakeOrganization.updatedAt = faker.datatype.datetime().toDateString();
+	return fakeOrganization;
 }
 
 export function dummyCreateDto(): CreateOrganization {
@@ -96,7 +99,7 @@ export function dummyCreateDto(): CreateOrganization {
 }
 
 export function dummyOrganizations(number: number): Organization[] {
-	let organizations:Organization[] = [];
+	let organizations: Organization[] = [];
 	for (let index = 0; index < number; index++) {
 		organizations.push(dummyOrganization());
 	}

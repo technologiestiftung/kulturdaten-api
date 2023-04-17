@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 
 export const schemaForUser = {
+  $id: "User.yml",
   type: "object",
   properties: {
     identifier: {type: "string"},
@@ -27,6 +28,7 @@ export const schemaForUser = {
 
 export function validateUser(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForUser);
   return {isValid: validate(o), validate: validate};

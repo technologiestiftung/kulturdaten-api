@@ -13,10 +13,11 @@ import Ajv, {ValidateFunction} from "ajv";
 import {Description, schemaForDescription} from "./Description.generated";
 
 export const schemaForOrganization = {
+  $id: "Organization.yml",
   type: "object",
   properties: {
     identifier: {type: "string"},
-    name: {type: "string"},
+    name: {type: "string", examples: ["Kleine Bühne"]},
     description: {$ref: "Description.yml"},
     createdAt: {type: "string"},
     updatedAt: {type: "string"}
@@ -26,6 +27,7 @@ export const schemaForOrganization = {
 
 export function validateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForDescription, "Description.yml");
 
   const validate = ajv.compile(schemaForOrganization);

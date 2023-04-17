@@ -10,10 +10,15 @@
 
 import Ajv, {ValidateFunction} from "ajv";
 
-export const schemaForAuth = {type: "object", properties: {accessToken: {type: "string"}, expiresIn: {type: "string"}}};
+export const schemaForAuth = {
+  $id: "Auth.yml",
+  type: "object",
+  properties: {accessToken: {type: "string"}, expiresIn: {type: "string"}}
+};
 
 export function validateAuth(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForAuth);
   return {isValid: validate(o), validate: validate};

@@ -11,12 +11,14 @@
 import Ajv, {ValidateFunction} from "ajv";
 
 export const schemaForNotFoundError = {
+  $id: "NotFoundError.yml",
   type: "object",
   properties: {error: {type: "object", properties: {msg: {type: "string"}}}}
 };
 
 export function validateNotFoundError(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForNotFoundError);
   return {isValid: validate(o), validate: validate};

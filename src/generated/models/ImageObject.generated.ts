@@ -14,6 +14,7 @@ import {SubTitle, schemaForSubTitle} from "./SubTitle.generated";
 import {Description, schemaForDescription} from "./Description.generated";
 
 export const schemaForImageObject = {
+  $id: "ImageObject.yml",
   type: "object",
   properties: {
     "@context": {type: "string", enum: ["kulturdaten.berlin/api/v1/spec"]},
@@ -35,6 +36,7 @@ export const schemaForImageObject = {
 
 export function validateImageObject(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForSubTitle, "SubTitle.yml");
   ajv.addSchema(schemaForDescription, "Description.yml");
 

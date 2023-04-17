@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 
 export const schemaForHealth = {
+  $id: "Health.yml",
   type: "object",
   properties: {
     healthy: {type: "boolean"},
@@ -23,6 +24,7 @@ export const schemaForHealth = {
 
 export function validateHealth(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForHealth);
   return {isValid: validate(o), validate: validate};

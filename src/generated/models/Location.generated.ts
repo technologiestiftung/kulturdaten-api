@@ -10,10 +10,11 @@
 
 import Ajv, {ValidateFunction} from "ajv";
 
-export const schemaForLocation = {type: "object", properties: {name: {type: "string"}}};
+export const schemaForLocation = {$id: "Location.yml", type: "object", properties: {name: {type: "string"}}};
 
 export function validateLocation(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForLocation);
   return {isValid: validate(o), validate: validate};

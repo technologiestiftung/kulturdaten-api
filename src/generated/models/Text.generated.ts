@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 
 export const schemaForText = {
+  $id: "Text.yml",
   type: "object",
   properties: {de: {type: "string"}, en: {type: "string"}, "de-easy": {type: "string"}},
   additionalProperties: true
@@ -18,6 +19,7 @@ export const schemaForText = {
 
 export function validateText(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForText);
   return {isValid: validate(o), validate: validate};

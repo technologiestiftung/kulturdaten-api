@@ -1,11 +1,9 @@
 import express from "express";
 import request from "supertest";
-import {  readFileSync } from 'fs';
 import { OrganizationsController } from "../../organizations/controllers/organizations.controller";
 import { OrganizationsService } from "../../organizations/services/organizations.service";
 import { OrganizationsRoutes } from "../../organizations/organizations.routes";
-import { MockOrganizationsRepository } from "./mocks/mock.organizations.repository";
-import * as yaml from 'js-yaml';
+import { MockOrganizationsRepository, dummyOrganization } from "./mocks/mock.organizations.repository";
 
 import { validateOrganization } from "../../generated/models/Organization.generated";
 
@@ -18,8 +16,8 @@ const organizationsService = new OrganizationsService(organizationsRepository);
 const organizationsController = new OrganizationsController(organizationsService);
 const organizationsRoutes = new OrganizationsRoutes(organizationsController);
 
-app.use('/v1/organizations', organizationsRoutes.getRouter());
 
+app.use('/v1/organizations', organizationsRoutes.getRouter());
 
 describe('Exploring existing organizations', () => {
 	it('GET /v1/organizations - success - get all the organizations', async () => {
@@ -27,19 +25,9 @@ describe('Exploring existing organizations', () => {
 
 		expect(statusCode).toBe(200);
 
-		console.log("VALIDATE " + validateOrganization(body.organizations[0]).isValid);
-		 
-
-		expect(body.organizations).toEqual(
-			expect.arrayContaining([
-				expect.objectContaining({
-					identifier: expect.any(String),
-					name: expect.any(String),
-					createdAt: expect.any(String),
-					updatedAt: expect.any(String),
-				})
-			])
-		);
+		body.organizations.forEach((o: object) => {
+			expect(validateOrganization(o).isValid).toBe(true);
+		});
 	});
 
 
@@ -97,7 +85,7 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('PATCH /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId:string = organizationsRepository.addDummyOrganization() || '';
+		const existOrganizationId: string = organizationsRepository.addDummyOrganization() || '';
 
 		const { statusCode } = await request(app).patch(`/v1/organizations/${existOrganizationId}`).send({
 			name: 'Neuer Name',
@@ -121,7 +109,7 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('DELETE /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId:string = organizationsRepository.addDummyOrganization() || '';
+		const existOrganizationId: string = organizationsRepository.addDummyOrganization() || '';
 
 		const { statusCode } = await request(app).delete(`/v1/organizations/${existOrganizationId}`);
 

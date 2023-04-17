@@ -11,10 +11,11 @@
 import Ajv, {ValidateFunction} from "ajv";
 
 export const schemaForCreateUser = {
+  $id: "CreateUser.yml",
   type: "object",
   properties: {
     email: {type: "string", format: "email", minLength: 1},
-    password: {type: "string", format: "password", minLength: 8},
+    password: {type: "string", format: "password", minLength: 12},
     firstName: {type: "string"},
     lastName: {type: "string"}
   },
@@ -23,6 +24,7 @@ export const schemaForCreateUser = {
 
 export function validateCreateUser(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForCreateUser);
   return {isValid: validate(o), validate: validate};

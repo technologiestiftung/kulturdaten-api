@@ -11,12 +11,14 @@
 import Ajv, {ValidateFunction} from "ajv";
 
 export const schemaForEmailAlreadyInUseError = {
+  $id: "EmailAlreadyInUseError.yml",
   type: "object",
   properties: {error: {type: "object", properties: {msg: {type: "string"}}}}
 };
 
 export function validateEmailAlreadyInUseError(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForEmailAlreadyInUseError);
   return {isValid: validate(o), validate: validate};

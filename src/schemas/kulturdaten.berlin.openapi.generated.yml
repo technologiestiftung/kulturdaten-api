@@ -3,7 +3,7 @@ info:
   title: API Kulturdaten.Berlin
   version: 1.0.0
 servers:
-  - url: http://localhost:3000/v1/
+  - url: http://localhost:3000/api/v1/
 paths:
   /auth/token:
     post:
@@ -270,6 +270,8 @@ components:
           type: string
         name:
           type: string
+          examples:
+            - Kleine Bühne
         description:
           type: object
           properties:
@@ -354,7 +356,7 @@ components:
         password:
           type: string
           format: password
-          minLength: 8
+          minLength: 12
         firstName:
           type: string
         lastName:
@@ -539,6 +541,8 @@ components:
               type: string
             name:
               type: string
+              examples:
+                - Kleine Bühne
             description:
               type: object
               properties:

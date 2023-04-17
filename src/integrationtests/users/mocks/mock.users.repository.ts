@@ -1,18 +1,18 @@
 import { UsersRepository } from "../../../users/repositories/users.repository";
 import { faker } from '@faker-js/faker';
 import { PermissionFlag } from "../../../auth/middleware/auth.permissionflag.enum";
-import { User } from "../../../generated/models/User.generated";
+import { User, schemaForUser } from "../../../generated/models/User.generated";
 import { CreateUser } from "../../../generated/models/CreateUser.generated";
 import { PatchUser } from "../../../generated/models/PatchUser.generated";
-
+import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 
 
 export class MockUsersRepository implements UsersRepository {
 
 
-	constructor(public dummyUsers: User[] = []) { } 
-	
-	
+	constructor(public dummyUsers: User[] = []) { }
+
+
 	getUserByEmail(userEmail: string): Promise<User | null> {
 		try {
 			let user: User | undefined = this.dummyUsers.find(({ email }) => email === userEmail)
@@ -46,7 +46,7 @@ export class MockUsersRepository implements UsersRepository {
 		let newUser: User = {
 			identifier: `IDfor${userFields.email}`,
 			...userFields,
-			permissionFlags:  1
+			permissionFlags: 1
 		};
 		delete newUser.password;
 		newUser.identifier = `IDfor${userFields.email}`;
@@ -70,12 +70,12 @@ export class MockUsersRepository implements UsersRepository {
 	async updateUserById(userId: string, userFields: PatchUser): Promise<boolean> {
 		if (userFields) {
 			const index = this.dummyUsers.findIndex(({ identifier }) => identifier === userId);
-		
+
 			if (index !== -1) {
-				if(userFields.email) this.dummyUsers[index].email = userFields.email;
-				if(userFields.firstName) this.dummyUsers[index].firstName = userFields.firstName;
-				if(userFields.lastName) this.dummyUsers[index].lastName = userFields.lastName;
-				if(userFields.permissionFlags) this.dummyUsers[index].permissionFlags = userFields.permissionFlags;
+				if (userFields.email) this.dummyUsers[index].email = userFields.email;
+				if (userFields.firstName) this.dummyUsers[index].firstName = userFields.firstName;
+				if (userFields.lastName) this.dummyUsers[index].lastName = userFields.lastName;
+				if (userFields.permissionFlags) this.dummyUsers[index].permissionFlags = userFields.permissionFlags;
 				return Promise.resolve(true);
 			} else {
 				return Promise.resolve(false);
@@ -96,15 +96,18 @@ export class MockUsersRepository implements UsersRepository {
 
 
 export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGISTERED_USER): User {
-	return {
-		identifier: faker.database.mongodbObjectId(),
-		email: faker.internet.email(),
-		firstName: faker.name.firstName(),
-		lastName: faker.name.lastName(),
-		createdAt: faker.datatype.datetime().toDateString(),
-		updatedAt: faker.datatype.datetime().toDateString(),
-		permissionFlags: permissionFlag
-	}
+	const schema = schemaForUser as Schema;
+	// @ts-ignore
+	const fakeUser: User = JSONSchemaFaker.generate(schema) as User;
+
+	fakeUser.identifier = faker.database.mongodbObjectId();
+	fakeUser.email = faker.internet.email();
+	fakeUser.firstName = faker.name.firstName();
+	fakeUser.lastName = faker.name.lastName();
+	fakeUser.createdAt = faker.datatype.datetime().toDateString();
+	fakeUser.updatedAt = faker.datatype.datetime().toDateString();
+	fakeUser.permissionFlags = permissionFlag;
+	return fakeUser;
 }
 
 export function dummyCreateDto(): CreateUser {
