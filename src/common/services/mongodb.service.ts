@@ -4,6 +4,7 @@ import debug from 'debug';
 import { Organization } from '../../generated/models/Organization.generated';
 import { User } from '../../generated/models/User.generated';
 import { Event } from '../../generated/models/Event.generated';
+import { Location } from '../../generated/models/Location.generated';
 
 const log: debug.IDebugger = debug('app:mongodb-controller');
 
@@ -47,7 +48,7 @@ export class MongoDBConnector {
 		await this.users().createIndex({ identifier: 1 },{ name: 'id_index' });
 		await this.users().createIndex({ email: 1}, { name: 'email_index' });
 		await this.events().createIndex({ identifier: 1 },{ name: 'id_index' });
-
+		await this.locations().createIndex({ identifier: 1 },{ name: 'id_index' });
 	}
 
 	public organizations(): Collection<Organization> {
@@ -60,6 +61,10 @@ export class MongoDBConnector {
 
 	public events(): Collection<Event> {
 		return this.database.collection<Event>('events');
+	}
+
+	public locations(): Collection<Location> {
+		return this.database.collection<Location>('locations');
 	}
 
 }

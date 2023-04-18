@@ -58,42 +58,6 @@ paths:
                   identifier: 
                     type: string
 
-  /organizations:
-    get:
-      tags:
-        - Organizations
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  organizations: 
-                    type: array
-                    items:    
-                      $ref: '#/components/schemas/Organization'  
-  
-    post:
-      tags:
-        - Organizations
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateOrganization'
-      responses:
-        '201':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  identifier: 
-                    type: string
-
   /events/{identifier}:
     parameters:
       - in: path
@@ -150,6 +114,134 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
+
+  /locations:
+    get:
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/Location'
+    post:
+      tags:
+        - Locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocation'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier: 
+                    type: string
+
+  /locations/{identifier}:
+    parameters:
+      - in: path
+        name: identifier 
+        required: true
+        schema:
+          type: string
+        description: The location ID
+    get:
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location: 
+                    $ref: '#/components/schemas/Location'  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    patch:
+      tags:
+        - Locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchLocation'
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    delete:
+      tags:
+        - Locations
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+
+  /organizations:
+    get:
+      tags:
+        - Organizations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organizations: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/Organization'  
+  
+    post:
+      tags:
+        - Organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganization'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier: 
+                    type: string
 
 
   /organizations/{identifier}:
@@ -208,6 +300,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
+
+
+
 
   /users:
     get:
@@ -383,3 +478,12 @@ components:
 
     PatchEvent:
       $ref: models/PatchEvent.yml
+
+    Location:
+      $ref: models/Location.yml
+
+    PatchLocation:
+      $ref: models/PatchLocation.yml
+
+    CreateLocation:
+      $ref: models/CreateLocation.yml
