@@ -9,15 +9,18 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForLogin = {
   $id: "Login.yml",
   type: "object",
+  additionalProperties: false,
   properties: {password: {type: "string"}, email: {type: "string"}}
 };
 
 export function validateLogin(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForLogin);
   return {isValid: validate(o), validate: validate};

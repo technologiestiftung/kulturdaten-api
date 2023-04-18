@@ -9,18 +9,21 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 import {Description, schemaForDescription} from "./Description.generated";
 
 export const schemaForCreateOrganization = {
   $id: "CreateOrganization.yml",
   type: "object",
+  additionalProperties: false,
   properties: {name: {type: "string"}, description: {$ref: "Description.yml"}},
   required: ["name"]
 };
 
 export function validateCreateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
   ajv.addSchema(schemaForDescription, "Description.yml");
 
   const validate = ajv.compile(schemaForCreateOrganization);

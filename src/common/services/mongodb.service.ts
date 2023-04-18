@@ -3,6 +3,7 @@ import { Service } from 'typedi';
 import debug from 'debug';
 import { Organization } from '../../generated/models/Organization.generated';
 import { User } from '../../generated/models/User.generated';
+import { Event } from '../../generated/models/Event.generated';
 
 const log: debug.IDebugger = debug('app:mongodb-controller');
 
@@ -45,7 +46,7 @@ export class MongoDBConnector {
 		await this.organizations().createIndex({ identifier: 1 },{ name: 'id_index' });
 		await this.users().createIndex({ identifier: 1 },{ name: 'id_index' });
 		await this.users().createIndex({ email: 1}, { name: 'email_index' });
-
+		await this.events().createIndex({ identifier: 1 },{ name: 'id_index' });
 
 	}
 
@@ -55,6 +56,10 @@ export class MongoDBConnector {
 
 	public users(): Collection<User> {
 		return this.database.collection<User>('users');
-
 	}
+
+	public events(): Collection<Event> {
+		return this.database.collection<Event>('events');
+	}
+
 }

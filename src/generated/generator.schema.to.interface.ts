@@ -32,13 +32,15 @@ async function generateInterface(className: string, rootDirectory: string = './s
 		 */
 
 		import Ajv, { ValidateFunction } from "ajv";
-
+		import addFormats from "ajv-formats";
+		
 		 ${dependencies.imports}
 
 		 export const schemaFor${schemaName} = ${schema};
 
 		 export function validate${schemaName}(o : object): {isValid: boolean, validate: ValidateFunction} {
 			const ajv = new Ajv();
+			addFormats(ajv);
 			${dependencies.ajvSchema}
 			const validate = ajv.compile(schemaFor${schemaName});
 			return {isValid: validate(o), validate: validate};

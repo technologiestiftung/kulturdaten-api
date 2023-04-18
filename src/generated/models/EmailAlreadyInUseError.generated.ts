@@ -9,6 +9,7 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForEmailAlreadyInUseError = {
   $id: "EmailAlreadyInUseError.yml",
@@ -18,6 +19,7 @@ export const schemaForEmailAlreadyInUseError = {
 
 export function validateEmailAlreadyInUseError(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForEmailAlreadyInUseError);
   return {isValid: validate(o), validate: validate};

@@ -1,0 +1,9 @@
+type: object
+properties:
+  label:
+    type: string
+  targetType:
+    type: string
+  identifier:
+    type: string
+additionalProperties: true

@@ -1,17 +1,10 @@
 type: object
+additionalProperties: false
 properties:
   '@context':
       type: string
       enum:
         - 'kulturdaten.berlin/api/v1/spec'
-  identifier:
-    type: string
-  created:
-    type: string
-    format: date-time
-  updated:
-    type: string
-    format: date-time
   '@type':
     type: string
     enum:
@@ -22,8 +15,6 @@ properties:
     type: string
     enum:
       - 'culture'
-  origin:
-    type: string
   title: 
     $ref: Title.yml
   subTitle:
@@ -96,5 +87,3 @@ properties:
       $ref: Reference.yml
   superEvent:
     $ref: Reference.yml
-required:
-  - identifier

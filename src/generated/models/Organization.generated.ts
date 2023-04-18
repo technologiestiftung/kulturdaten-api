@@ -9,6 +9,7 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 import {Description, schemaForDescription} from "./Description.generated";
 
@@ -27,6 +28,7 @@ export const schemaForOrganization = {
 
 export function validateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
   ajv.addSchema(schemaForDescription, "Description.yml");
 
   const validate = ajv.compile(schemaForOrganization);

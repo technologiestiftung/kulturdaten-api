@@ -9,6 +9,7 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForAuth = {
   $id: "Auth.yml",
@@ -18,6 +19,7 @@ export const schemaForAuth = {
 
 export function validateAuth(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForAuth);
   return {isValid: validate(o), validate: validate};

@@ -9,6 +9,7 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForSubTitle = {
   $id: "SubTitle.yml",
@@ -19,6 +20,7 @@ export const schemaForSubTitle = {
 
 export function validateSubTitle(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForSubTitle);
   return {isValid: validate(o), validate: validate};

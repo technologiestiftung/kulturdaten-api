@@ -9,6 +9,7 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForNotFoundError = {
   $id: "NotFoundError.yml",
@@ -18,6 +19,7 @@ export const schemaForNotFoundError = {
 
 export function validateNotFoundError(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForNotFoundError);
   return {isValid: validate(o), validate: validate};

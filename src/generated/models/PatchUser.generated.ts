@@ -9,10 +9,12 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForPatchUser = {
   $id: "PatchUser.yml",
   type: "object",
+  additionalProperties: false,
   properties: {
     email: {type: "string", minLength: 1},
     firstName: {type: "string", minLength: 1},
@@ -23,6 +25,7 @@ export const schemaForPatchUser = {
 
 export function validatePatchUser(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForPatchUser);
   return {isValid: validate(o), validate: validate};

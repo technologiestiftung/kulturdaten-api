@@ -9,6 +9,7 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForDescription = {
   $id: "Description.yml",
@@ -19,6 +20,7 @@ export const schemaForDescription = {
 
 export function validateDescription(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForDescription);
   return {isValid: validate(o), validate: validate};

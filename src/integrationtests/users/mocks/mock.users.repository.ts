@@ -104,8 +104,6 @@ export function dummyUser(permissionFlag: PermissionFlag = PermissionFlag.REGIST
 	fakeUser.email = faker.internet.email();
 	fakeUser.firstName = faker.name.firstName();
 	fakeUser.lastName = faker.name.lastName();
-	fakeUser.createdAt = faker.datatype.datetime().toDateString();
-	fakeUser.updatedAt = faker.datatype.datetime().toDateString();
 	fakeUser.permissionFlags = permissionFlag;
 	return fakeUser;
 }

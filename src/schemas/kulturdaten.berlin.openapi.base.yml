@@ -94,6 +94,63 @@ paths:
                   identifier: 
                     type: string
 
+  /events/{identifier}:
+    parameters:
+      - in: path
+        name: identifier 
+        required: true
+        schema:
+          type: string
+        description: The event ID
+    get:
+      tags:
+        - Events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event: 
+                    $ref: '#/components/schemas/Event'  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    patch:
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchEvent'
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    delete:
+      tags:
+        - Events
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+
 
   /organizations/{identifier}:
     parameters:
@@ -316,7 +373,13 @@ components:
       $ref: models/EmailAlreadyInUseError.yml
 
     Event:
-       $ref: models/Event.yml
+      $ref: models/Event.yml
 
     CreateEvent:
-       $ref: models/CreateEvent.yml
+      $ref: models/CreateEvent.yml
+
+    Reference:
+      $ref: models/Reference.yml
+
+    PatchEvent:
+      $ref: models/PatchEvent.yml

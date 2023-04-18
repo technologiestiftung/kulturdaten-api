@@ -1,4 +1,5 @@
 type: object
+additionalProperties: false
 properties:
   '@context':
       type: string
@@ -74,15 +75,15 @@ properties:
       - offline
       - online
       - mixed
-  locations:
+  location:
     type: array
     items:
-      type: string
+      $ref: Reference.yml
   organizer:
-    type: string
+    $ref: Reference.yml
   subEvents:
     type: array
     items:
-      type: string
+      $ref: Reference.yml
   superEvent:
-    type: string
+    $ref: Reference.yml

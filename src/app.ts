@@ -25,6 +25,8 @@ import { AuthRoutes } from './auth/auth.routes';
 import { MongoDBConnector } from './common/services/mongodb.service';
 import { MongoDBOrganizationsRepository } from './organizations/repositories/organizations.repository.mobgodb';
 import { MongoDBUsersRepository } from './users/repositories/users.repository.mobgodb';
+import { MongoDBEventsRepository } from './events/repositories/events.repository.mobgodb';
+import { EventsRoutes } from './events/events.routes';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -53,6 +55,7 @@ class KulturdatenBerlinApp {
 
 		this.registerOrganizationRoutes();
 		this.registerUserRoutes();
+		this.registerEventsRoutes();
 	}
 
 	public start() {
@@ -70,7 +73,7 @@ class KulturdatenBerlinApp {
 		// TODO: make Dependency Injection visible
 		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get(MongoDBConnector)));
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get(MongoDBConnector)));
-
+		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get(MongoDBConnector)));
 	}
 
 	private initLogger() {
@@ -138,6 +141,11 @@ class KulturdatenBerlinApp {
 	private registerUserRoutes() {
 		const usersRoute = Container.get(UsersRoutes);
 		this.app.use('/api/v1/users', usersRoute.getRouter());
+	}
+
+	private registerEventsRoutes() {
+		const eventsRoute = Container.get(EventsRoutes);
+		this.app.use('/api/v1/events', eventsRoute.getRouter());
 	}
 
 }

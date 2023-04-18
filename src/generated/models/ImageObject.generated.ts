@@ -9,6 +9,7 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 import {SubTitle, schemaForSubTitle} from "./SubTitle.generated";
 import {Description, schemaForDescription} from "./Description.generated";
@@ -43,6 +44,7 @@ export const schemaForImageObject = {
 
 export function validateImageObject(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
   ajv.addSchema(schemaForSubTitle, "SubTitle.yml");
   ajv.addSchema(schemaForDescription, "Description.yml");
 

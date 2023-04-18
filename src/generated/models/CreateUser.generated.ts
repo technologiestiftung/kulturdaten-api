@@ -9,10 +9,12 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 export const schemaForCreateUser = {
   $id: "CreateUser.yml",
   type: "object",
+  additionalProperties: false,
   properties: {
     email: {type: "string", format: "email", minLength: 1},
     password: {type: "string", format: "password", minLength: 12},
@@ -24,6 +26,7 @@ export const schemaForCreateUser = {
 
 export function validateCreateUser(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const validate = ajv.compile(schemaForCreateUser);
   return {isValid: validate(o), validate: validate};

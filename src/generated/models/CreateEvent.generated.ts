@@ -9,13 +9,16 @@
  */
 
 import Ajv, {ValidateFunction} from "ajv";
+import addFormats from "ajv-formats";
 
 import {Title, schemaForTitle} from "./Title.generated";
 import {Description, schemaForDescription} from "./Description.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
 
 export const schemaForCreateEvent = {
   $id: "CreateEvent.yml",
   type: "object",
+  additionalProperties: false,
   properties: {
     "@context": {type: "string", enum: ["kulturdaten.berlin/api/v1/spec"]},
     "@type": {type: "string", enum: ["Event", "EventSeries", "ExhibitionEvent"]},
@@ -37,17 +40,19 @@ export const schemaForCreateEvent = {
     visibility: {type: "string", enum: ["published", "unpublished", "draft", "archived", "restricted"]},
     eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
     eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
-    locations: {type: "array", items: {type: "string"}},
-    organizer: {type: "string"},
-    subEvents: {type: "array", items: {type: "string"}},
-    superEvent: {type: "string"}
+    location: {type: "array", items: {$ref: "Reference.yml"}},
+    organizer: {$ref: "Reference.yml"},
+    subEvents: {type: "array", items: {$ref: "Reference.yml"}},
+    superEvent: {$ref: "Reference.yml"}
   }
 };
 
 export function validateCreateEvent(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
+  addFormats(ajv);
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForDescription, "Description.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForCreateEvent);
   return {isValid: validate(o), validate: validate};
@@ -74,8 +79,8 @@ export interface CreateEvent {
   visibility?: "published" | "unpublished" | "draft" | "archived" | "restricted";
   eventStatus?: "cancelled" | "postponed" | "rescheduled" | "scheduled";
   eventAttendanceMode?: "offline" | "online" | "mixed";
-  locations?: string[];
-  organizer?: string;
-  subEvents?: string[];
-  superEvent?: string;
+  location?: Reference[];
+  organizer?: Reference;
+  subEvents?: Reference[];
+  superEvent?: Reference;
 }

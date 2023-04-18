@@ -23,7 +23,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 		const newUser = createUser as User;
 		newUser.identifier = generateID();
 		newUser.permissionFlags = 1;
-		await this.db.users().insertOne(createUser as User);
+		await this.db.users().insertOne(newUser);
 		return newUser.identifier;
 	}
 	getUsers(limit: number, page: number): Promise<User[] | null> {
