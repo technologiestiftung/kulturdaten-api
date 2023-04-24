@@ -11,58 +11,58 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
-import {SubTitle, schemaForSubTitle} from "./SubTitle.generated";
-import {Description, schemaForDescription} from "./Description.generated";
+import {Core, schemaForCore} from "./Core.generated";
+import {Title, schemaForTitle} from "./Title.generated";
+import {Text, schemaForText} from "./Text.generated";
 
 export const schemaForImageObject = {
   $id: "ImageObject.yml",
-  type: "object",
-  properties: {
-    "@context": {type: "string", enum: ["kulturdaten.berlin/api/v1/spec"]},
-    identifier: {type: "string"},
-    created: {type: "string", format: "date-time"},
-    updated: {type: "string", format: "date-time"},
-    "@type": {type: "string", enum: ["ImageObject"]},
-    contentUrl: {type: "string", format: "uri"},
-    height: {type: "number"},
-    width: {type: "number"},
-    caption: {$ref: "SubTitle.yml"},
-    description: {$ref: "Description.yml"},
-    encodingFormat: {type: "string"},
-    sha256: {type: "string"},
-    license: {
+  allOf: [
+    {$ref: "Core.yml"},
+    {
       type: "object",
       properties: {
-        name: {type: "string"},
-        identifier: {type: "string", description: "SPDX License Identifier"},
-        url: {type: "string", format: "uri"},
-        acquireLicensePage: {type: "string", format: "uri"}
+        "@type": {type: "string", enum: ["ImageObject"]},
+        contentUrl: {type: "string", format: "uri"},
+        height: {type: "number"},
+        width: {type: "number"},
+        caption: {$ref: "Title.yml"},
+        description: {$ref: "Text.yml"},
+        encodingFormat: {type: "string"},
+        sha256: {type: "string"},
+        license: {
+          type: "object",
+          properties: {
+            name: {type: "string"},
+            identifier: {type: "string", description: "SPDX License Identifier"},
+            url: {type: "string", format: "uri"},
+            acquireLicensePage: {type: "string", format: "uri"}
+          }
+        }
       }
     }
-  }
+  ]
 };
 
 export function validateImageObject(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addSchema(schemaForSubTitle, "SubTitle.yml");
-  ajv.addSchema(schemaForDescription, "Description.yml");
+  ajv.addKeyword("example");
+  ajv.addSchema(schemaForCore, "Core.yml");
+  ajv.addSchema(schemaForTitle, "Title.yml");
+  ajv.addSchema(schemaForText, "Text.yml");
 
   const validate = ajv.compile(schemaForImageObject);
   return {isValid: validate(o), validate: validate};
 }
 
-export interface ImageObject {
-  "@context"?: "kulturdaten.berlin/api/v1/spec";
-  identifier?: string;
-  created?: string;
-  updated?: string;
+export type ImageObject = Core & {
   "@type"?: "ImageObject";
   contentUrl?: string;
   height?: number;
   width?: number;
-  caption?: SubTitle;
-  description?: Description;
+  caption?: Title;
+  description?: Text;
   encodingFormat?: string;
   sha256?: string;
   license?: {
@@ -74,4 +74,4 @@ export interface ImageObject {
     url?: string;
     acquireLicensePage?: string;
   };
-}
+};

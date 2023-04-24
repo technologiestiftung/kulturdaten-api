@@ -11,9 +11,9 @@ beforeEach(() => {
 });
 
 let dummyLocations = [
-	{ identifier: "1", name: "Location 1" },
-	{ identifier: "2", name: "Location 2" },
-	{ identifier: "3", name: "Location 3" },
+	{ identifier: "1", name: { de:  "Location 1" } },
+	{ identifier: "2", name: { de:  "Location 2" } },
+	{ identifier: "3", name: { de:  "Location 3" } },
 ]
 
 describe('create location is being tested', () => {
@@ -21,7 +21,7 @@ describe('create location is being tested', () => {
 		let mockedRepo: LocationsRepository = mock(MongoDBLocationsRepository);
 		let repo: LocationsRepository = instance(mockedRepo);
 		let service: LocationsService = new LocationsService(repo);
-		let org: CreateLocation = { name: "New Location" };
+		let org: CreateLocation = { name: { de:  "Location 1" }};
 
 		service.create(org);
 
@@ -35,7 +35,7 @@ describe('create location is being tested', () => {
 		);
 		let repo: LocationsRepository = instance(mockedRepo);
 		let service: LocationsService = new LocationsService(repo);
-		let org: CreateLocation = { name: "New Location" };
+		let org: CreateLocation = { name: { de:  "Location 1" } };
 
 		let orgId: String | null = await service.create(org);
 
@@ -140,7 +140,7 @@ describe('patchById is being testes', () => {
 		let repo: LocationsRepository = instance(mockedRepo);
 		let service: LocationsService = new LocationsService(repo);
 
-		service.patchById("ID", {name: "new Name"});
+		service.patchById("ID", {name: { de:  "new Name" }});
 
 		verify(mockedRepo.updateLocationById("ID", anything())).called();
 	});
@@ -153,7 +153,7 @@ describe('patchById is being testes', () => {
 		let repo: LocationsRepository = instance(mockedRepo);
 		let service: LocationsService = new LocationsService(repo);
 
-		let updatedLocation = await  service.patchById("ID", {name: "new Name"});;
+		let updatedLocation = await  service.patchById("ID", {name: { de:  "new Name" }});;
 
 		expect(updatedLocation).toBe(true);
 	});

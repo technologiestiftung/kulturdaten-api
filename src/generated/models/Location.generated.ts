@@ -11,21 +11,80 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Core, schemaForCore} from "./Core.generated";
+import {Title, schemaForTitle} from "./Title.generated";
+import {Text, schemaForText} from "./Text.generated";
+import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
+import {GeoCoordinates, schemaForGeoCoordinates} from "./GeoCoordinates.generated";
+import {Borough, schemaForBorough} from "./Borough.generated";
+import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
+import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
+import {ShortText, schemaForShortText} from "./ShortText.generated";
+
 export const schemaForLocation = {
   $id: "Location.yml",
-  type: "object",
-  properties: {identifier: {type: "string"}, name: {type: "string"}}
+  allOf: [
+    {$ref: "Core.yml"},
+    {
+      type: "object",
+      properties: {
+        "@type": {type: "string", enum: ["VirtualLocation", "Place"]},
+        name: {$ref: "Title.yml"},
+        description: {$ref: "Text.yml"},
+        address: {$ref: "PostalAddress.yml"},
+        geo: {$ref: "GeoCoordinates.yml"},
+        borough: {$ref: "Borough.yml"},
+        contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
+        url: {type: "string"},
+        accessibility: {type: "string"},
+        categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
+      }
+    }
+  ]
 };
 
 export function validateLocation(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
+  ajv.addSchema(schemaForCore, "Core.yml");
+  ajv.addSchema(schemaForTitle, "Title.yml");
+  ajv.addSchema(schemaForText, "Text.yml");
+  ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");
+  ajv.addSchema(schemaForGeoCoordinates, "GeoCoordinates.yml");
+  ajv.addSchema(schemaForBorough, "Borough.yml");
+  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
+  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
+  ajv.addSchema(schemaForShortText, "ShortText.yml");
 
   const validate = ajv.compile(schemaForLocation);
   return {isValid: validate(o), validate: validate};
 }
 
-export interface Location {
-  identifier?: string;
-  name?: string;
-}
+export type Location = Core & {
+  "@type"?: "VirtualLocation" | "Place";
+  name?: Title;
+  description?: Text;
+  address?: PostalAddress;
+  geo?: GeoCoordinates;
+  borough?:
+    | "Mitte"
+    | "Friedrichshain-Kreuzberg"
+    | "Pankow"
+    | "Charlottenburg-Wilmersdorf"
+    | "Spandau"
+    | "Steglitz-Zehlendorf"
+    | "Tempelhof-Schöneberg"
+    | "Neukölln"
+    | "Treptow-Köpenick"
+    | "Marzahn-Hellersdorf"
+    | "Lichtenberg"
+    | "Reinickendorf"
+    | "außerhalb";
+  contactPoint?: ContactPoint[];
+  url?: string;
+  accessibility?: string;
+  categories?: DefinedTerm[];
+};

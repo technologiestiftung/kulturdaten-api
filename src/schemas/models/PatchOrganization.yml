@@ -2,6 +2,22 @@ type: object
 additionalProperties: false
 properties:
   name:
-    type: string
+    $ref: Title.yml
   description:
-    $ref: Description.yml
+    $ref: Text.yml
+  address:
+    $ref: PostalAddress.yml
+  contactPoint:
+    type: array
+    items:
+      $ref: ContactPoint.yml
+  url:
+    type: string
+  email:
+    type: string
+  telephone:
+    type: string
+  categories:
+    type: array
+    items:
+      $ref: DefinedTerm.yml

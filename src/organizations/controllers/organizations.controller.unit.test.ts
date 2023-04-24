@@ -9,9 +9,9 @@ beforeEach(() => {
 });
 
 let dummyOrganizations = [
-	{ identifier: "1", name: "Organization 1" },
-	{ identifier: "2", name: "Organization 2" },
-	{ identifier: "3", name: "Organization 3" },
+	{ identifier: "1", name: { de:  "Organization 1" }},
+	{ identifier: "2", name: { de:  "Organization 2" }},
+	{ identifier: "3", name: { de:  "Organization 3" }},
 ]
 
 let newOrganization = { name: "Name", description: { de: "Beschreibung" }, createdAt: "", updatedAt: "" };

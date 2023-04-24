@@ -15,6 +15,7 @@ export const schemaForUser = {
   $id: "User.yml",
   type: "object",
   properties: {
+    "@type": {type: "string", enum: ["User"]},
     identifier: {type: "string"},
     email: {type: "string"},
     password: {type: "string"},
@@ -30,12 +31,14 @@ export const schemaForUser = {
 export function validateUser(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForUser);
   return {isValid: validate(o), validate: validate};
 }
 
 export interface User {
+  "@type"?: "User";
   identifier: string;
   email: string;
   password?: string;

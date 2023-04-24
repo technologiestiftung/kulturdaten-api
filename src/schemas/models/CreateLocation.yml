@@ -1,4 +1,19 @@
 type: object
+additionalProperties: false
 properties:
   name:
+    $ref: Title.yml
+  description:
+    $ref: Text.yml
+  address:
+    $ref: PostalAddress.yml
+  borough:
+    $ref: Borough.yml
+  contactPoint:
+    type: array
+    items:
+      $ref: ContactPoint.yml
+  url:
+    type: string
+  accessibility:
     type: string

@@ -12,8 +12,10 @@ async function generate() {
 	schemaFiles.forEach(async function (file) {
 		const { name } = parse(file);
 
-		await generateInterface(name);
-		console.log(`generate interface for ${file}`);
+		//await generateInterface(name);
+		//console.log(`generate interface for ${file}`);
+		await generateFaker(name);
+		console.log(`generate test faker for ${file}`);
 	});
 
 }
@@ -41,6 +43,7 @@ async function generateInterface(className: string, rootDirectory: string = './s
 		 export function validate${schemaName}(o : object): {isValid: boolean, validate: ValidateFunction} {
 			const ajv = new Ajv();
 			addFormats(ajv);
+			ajv.addKeyword("example");
 			${dependencies.ajvSchema}
 			const validate = ajv.compile(schemaFor${schemaName});
 			return {isValid: validate(o), validate: validate};
@@ -55,7 +58,7 @@ async function generateInterface(className: string, rootDirectory: string = './s
 	const schemaYaml = readFileSync(schemaPath, 'utf8');
 	const schemaObject = await yaml.load(schemaYaml);
 
-	const parsedDependencies = await parseDependenciesFrom(className, rootDirectory);
+	const parsedDependencies = await findDependencies(className, rootDirectory);
 	const dependencies = generateImportsAndAjvSchemeForDependency(parsedDependencies);
 	let schemaDef = {
 		$id: `${className}.yml`,
@@ -68,12 +71,26 @@ async function generateInterface(className: string, rootDirectory: string = './s
 }
 
 
-async function parseDependenciesFrom(file: string, rootDirectory: string): Promise<string[]> {
+async function findDependencies(file: string, rootDirectory: string) : Promise<string[]> {
+	const foundDependencies: string[] = [];
+	findDependenciesInSchema(file, rootDirectory, foundDependencies);
+	return foundDependencies;
+}
+
+
+function findDependenciesInSchema(file: string, rootDirectory: string, foundDependencies: string[]) : void {
 	const schemaPath = `${rootDirectory}/${file}.yml`;
 	const schemaYaml = readFileSync(schemaPath, 'utf8');
 	let regexForDependencies: RegExp = /(?<!^[\/])[A-Za-z]+(?=.yml)/g;
+	
 	const dependencies = new Set(schemaYaml.match(regexForDependencies));
-	return [...dependencies];
+	dependencies.forEach(dependency => {
+		if (!foundDependencies.includes(dependency)) {
+			console.log("foundDeepDependencies for " + dependency + " "  + JSON.stringify(foundDependencies));
+			foundDependencies.push(dependency);
+			findDependenciesInSchema(dependency, rootDirectory, foundDependencies);
+		  }
+	});
 }
 
 function generateImportForDependency(dependency: string) {
@@ -96,4 +113,54 @@ function generateImportsAndAjvSchemeForDependency(dependencies: string[]) {
 	return { imports: imports, ajvSchema: ajvSchema };
 }
 
+
+async function generateFaker(className: string, rootDirectory: string = './src/schemas/models') {
+
+	const parsedDependencies = await findDependencies(className, rootDirectory);
+
+	const dependencies = generateFakerRefsAndImportsForDependencies(parsedDependencies);
+
+	const faker = `
+	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
+	import { ${className}, schemaFor${className} } from "../models/${className}.generated";
+
+	${dependencies.imports}
+
+	const schema = schemaFor${className} as Schema;
+	const refs = [
+		${dependencies.refs}
+	];
+	// @ts-ignore
+	const fake${className}: ${className} = JSONSchemaFaker.generate(schema, refs) as ${className};
+	return fake${className};
+	`
+
+	const targetPath = `./src/generated/faker/faker.${className}.generated.ts`;
+	writeFileSync(targetPath, faker);
+}
+
+function generateFakerRefsAndImportsForDependencies(dependencies: string[]){
+	let refs = '';
+	let imports = '';
+	dependencies.forEach(dependency => {
+		imports += '\n';
+		imports += generateFakerImportForDependency(dependency);
+		refs += generateFakerSchemaRefForDependency(dependency);
+		refs += '\n';
+	});
+
+	return { refs: refs, imports: imports };
+}
+
+function generateFakerSchemaRefForDependency(dependency: string) {
+	return dependency ? `schemaFor${dependency} as Schema',` : '';
+}
+
+function generateFakerImportForDependency(dependency: string) {
+	return dependency ? `import { schemaFor${dependency} } from '../models/${dependency}.generated';` : '';
+}
+
+
+
 generate();
+

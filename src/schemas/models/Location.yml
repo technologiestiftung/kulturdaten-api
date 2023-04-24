@@ -1,6 +1,31 @@
-type: object
-properties:
-  identifier:
-    type: string
-  name:
-    type: string
+allOf: 
+  - $ref: Core.yml
+  - type: object
+    properties:
+      '@type':
+        type: string
+        enum:
+          - 'VirtualLocation'
+          - 'Place'
+      name:
+        $ref: Title.yml
+      description:
+        $ref: Text.yml
+      address:
+        $ref: PostalAddress.yml
+      geo:
+        $ref: GeoCoordinates.yml
+      borough:
+        $ref: Borough.yml
+      contactPoint:
+        type: array
+        items:
+          $ref: ContactPoint.yml
+      url:
+        type: string
+      accessibility:
+        type: string
+      categories:
+        type: array
+        items:
+          $ref: DefinedTerm.yml

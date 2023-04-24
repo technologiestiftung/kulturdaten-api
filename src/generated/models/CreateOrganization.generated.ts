@@ -11,26 +11,53 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
-import {Description, schemaForDescription} from "./Description.generated";
+import {Title, schemaForTitle} from "./Title.generated";
+import {Text, schemaForText} from "./Text.generated";
+import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
+import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
+import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
+import {ShortText, schemaForShortText} from "./ShortText.generated";
 
 export const schemaForCreateOrganization = {
   $id: "CreateOrganization.yml",
   type: "object",
   additionalProperties: false,
-  properties: {name: {type: "string"}, description: {$ref: "Description.yml"}},
-  required: ["name"]
+  properties: {
+    name: {$ref: "Title.yml"},
+    description: {$ref: "Text.yml"},
+    address: {$ref: "PostalAddress.yml"},
+    contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
+    url: {type: "string"},
+    email: {type: "string"},
+    telephone: {type: "string"},
+    categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
+  }
 };
 
 export function validateCreateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addSchema(schemaForDescription, "Description.yml");
+  ajv.addKeyword("example");
+  ajv.addSchema(schemaForTitle, "Title.yml");
+  ajv.addSchema(schemaForText, "Text.yml");
+  ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");
+  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
+  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
+  ajv.addSchema(schemaForShortText, "ShortText.yml");
 
   const validate = ajv.compile(schemaForCreateOrganization);
   return {isValid: validate(o), validate: validate};
 }
 
 export interface CreateOrganization {
-  name: string;
-  description?: Description;
+  name?: Title;
+  description?: Text;
+  address?: PostalAddress;
+  contactPoint?: ContactPoint[];
+  url?: string;
+  email?: string;
+  telephone?: string;
+  categories?: DefinedTerm[];
 }

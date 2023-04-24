@@ -11,20 +11,60 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Title, schemaForTitle} from "./Title.generated";
+import {Text, schemaForText} from "./Text.generated";
+import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
+import {Borough, schemaForBorough} from "./Borough.generated";
+import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
+
 export const schemaForCreateLocation = {
   $id: "CreateLocation.yml",
   type: "object",
-  properties: {name: {type: "string"}}
+  additionalProperties: false,
+  properties: {
+    name: {$ref: "Title.yml"},
+    description: {$ref: "Text.yml"},
+    address: {$ref: "PostalAddress.yml"},
+    borough: {$ref: "Borough.yml"},
+    contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
+    url: {type: "string"},
+    accessibility: {type: "string"}
+  }
 };
 
 export function validateCreateLocation(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
+  ajv.addSchema(schemaForTitle, "Title.yml");
+  ajv.addSchema(schemaForText, "Text.yml");
+  ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");
+  ajv.addSchema(schemaForBorough, "Borough.yml");
+  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
 
   const validate = ajv.compile(schemaForCreateLocation);
   return {isValid: validate(o), validate: validate};
 }
 
 export interface CreateLocation {
-  name?: string;
+  name?: Title;
+  description?: Text;
+  address?: PostalAddress;
+  borough?:
+    | "Mitte"
+    | "Friedrichshain-Kreuzberg"
+    | "Pankow"
+    | "Charlottenburg-Wilmersdorf"
+    | "Spandau"
+    | "Steglitz-Zehlendorf"
+    | "Tempelhof-Schöneberg"
+    | "Neukölln"
+    | "Treptow-Köpenick"
+    | "Marzahn-Hellersdorf"
+    | "Lichtenberg"
+    | "Reinickendorf"
+    | "außerhalb";
+  contactPoint?: ContactPoint[];
+  url?: string;
+  accessibility?: string;
 }

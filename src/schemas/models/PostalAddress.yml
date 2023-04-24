@@ -1,0 +1,18 @@
+type: object
+properties:
+  '@type':
+    type: string
+    enum:
+      - 'PostalAddress'
+  streetAddress:
+    type: string
+    example: Rubenstr. 31
+  addressLocality:
+    type: string
+    example: Berlin
+  postalCode:
+    type: string
+    example: 12157
+  description:
+    type: string
+    example: HH 1. Stock

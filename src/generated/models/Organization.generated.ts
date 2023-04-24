@@ -11,34 +11,61 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
-import {Description, schemaForDescription} from "./Description.generated";
+import {Core, schemaForCore} from "./Core.generated";
+import {Title, schemaForTitle} from "./Title.generated";
+import {Text, schemaForText} from "./Text.generated";
+import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
+import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
+import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
+import {ShortText, schemaForShortText} from "./ShortText.generated";
 
 export const schemaForOrganization = {
   $id: "Organization.yml",
-  type: "object",
-  properties: {
-    identifier: {type: "string"},
-    name: {type: "string"},
-    description: {$ref: "Description.yml"},
-    createdAt: {type: "string"},
-    updatedAt: {type: "string"}
-  },
-  required: ["identifier", "name"]
+  allOf: [
+    {$ref: "Core.yml"},
+    {
+      type: "object",
+      properties: {
+        "@type": {type: "string", enum: ["Organization"]},
+        name: {$ref: "Title.yml"},
+        description: {$ref: "Text.yml"},
+        address: {$ref: "PostalAddress.yml"},
+        contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
+        url: {type: "string"},
+        email: {type: "string"},
+        telephone: {type: "string"},
+        categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
+      }
+    }
+  ]
 };
 
 export function validateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addSchema(schemaForDescription, "Description.yml");
+  ajv.addKeyword("example");
+  ajv.addSchema(schemaForCore, "Core.yml");
+  ajv.addSchema(schemaForTitle, "Title.yml");
+  ajv.addSchema(schemaForText, "Text.yml");
+  ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");
+  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
+  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
+  ajv.addSchema(schemaForShortText, "ShortText.yml");
 
   const validate = ajv.compile(schemaForOrganization);
   return {isValid: validate(o), validate: validate};
 }
 
-export interface Organization {
-  identifier: string;
-  name: string;
-  description?: Description;
-  createdAt?: string;
-  updatedAt?: string;
-}
+export type Organization = Core & {
+  "@type"?: "Organization";
+  name?: Title;
+  description?: Text;
+  address?: PostalAddress;
+  contactPoint?: ContactPoint[];
+  url?: string;
+  email?: string;
+  telephone?: string;
+  categories?: DefinedTerm[];
+};

@@ -9,12 +9,12 @@ beforeEach(() => {
 });
 
 let dummyLocations = [
-	{ identifier: "1", name: "Location 1" },
-	{ identifier: "2", name: "Location 2" },
-	{ identifier: "3", name: "Location 3" },
+	{ identifier: "1", name: { de:  "Location 1" }},
+	{ identifier: "2", name: { de:  "Location 2" } },
+	{ identifier: "3", name: { de:  "Location 3" } },
 ]
 
-let newLocation = { name: "Name", description: { de: "Beschreibung" }, createdAt: "", updatedAt: "" };
+let newLocation = { name: { de:  "Name" }, description: { de: "Beschreibung" }, createdAt: "", updatedAt: "" };
 
 describe('listLocations is being tested', () => {
 	test('locations available locations as a document with code 200', async () => {
@@ -34,9 +34,9 @@ describe('listLocations is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			locations: [
-				{ identifier: '1', name: 'Location 1' },
-				{ identifier: '2', name: 'Location 2' },
-				{ identifier: '3', name: 'Location 3' }
+				{ identifier: '1', name: { de:  "Location 1" } },
+				{ identifier: '2', name: { de:  "Location 2" } },
+				{ identifier: '3', name: { de:  "Location 3" } }
 			]
 		});
 
@@ -62,7 +62,7 @@ describe('getLocationById is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			location:
-				{ identifier: '1', name: 'Location 1' }
+				{ identifier: '1', name: { de:  "Location 1" } }
 		});
 	})
 });

@@ -4,3 +4,5 @@ properties:
     type: string
   expiresIn:
     type: string
+  user:
+    $ref: Reference.yml

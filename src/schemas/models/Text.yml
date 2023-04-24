@@ -1,9 +1,7 @@
 type: object
-properties:
-  de:
-    type: string
-  en:
-    type: string
-  de-easy:
-    type: string
-additionalProperties: true
+additionalProperties:
+  type: string
+example:
+  de: Text in Deutsch.
+  en: Text in English.
+  de-easy: Text in leichter Sprache.

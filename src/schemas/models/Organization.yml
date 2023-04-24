@@ -1,15 +1,28 @@
-type: object
-properties:
-  identifier:
-    type: string
-  name:
-    type: string
-  description:
-    $ref: Description.yml
-  createdAt:
-    type: string
-  updatedAt:
-    type: string
-required:
-  - identifier
-  - name
+allOf: 
+  - $ref: Core.yml
+  - type: object
+    properties:
+      '@type':
+        type: string
+        enum:
+          - 'Organization'
+      name:
+        $ref: Title.yml
+      description:
+        $ref: Text.yml
+      address:
+        $ref: PostalAddress.yml
+      contactPoint:
+        type: array
+        items:
+          $ref: ContactPoint.yml
+      url:
+        type: string
+      email:
+        type: string
+      telephone:
+        type: string
+      categories:
+        type: array
+        items:
+          $ref: DefinedTerm.yml

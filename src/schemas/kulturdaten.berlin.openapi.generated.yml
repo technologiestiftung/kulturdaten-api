@@ -428,67 +428,314 @@ components:
           type: string
         expiresIn:
           type: string
-    Organization:
-      type: object
-      properties:
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
+        user:
           type: object
           properties:
-            de:
+            label:
               type: string
-            en:
+            targetType:
               type: string
-            de-easy:
+            identifier:
               type: string
           additionalProperties: true
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-        - identifier
-        - name
+    Organization:
+      allOf:
+        - type: object
+          properties:
+            '@context':
+              type: string
+              enum:
+                - kulturdaten.berlin/api/v1/spec
+            identifier:
+              type: string
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+            kind:
+              type: string
+              enum:
+                - culture
+            origin:
+              type: string
+        - type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - Organization
+            name:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Titel in Deutsch.
+                en: Title title in English.
+                de-easy: Titel in leichter Sprache.
+            description:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Text in Deutsch.
+                en: Text in English.
+                de-easy: Text in leichter Sprache.
+            address:
+              type: object
+              properties:
+                '@type':
+                  type: string
+                  enum:
+                    - PostalAddress
+                streetAddress:
+                  type: string
+                  example: Rubenstr. 31
+                addressLocality:
+                  type: string
+                  example: Berlin
+                postalCode:
+                  type: string
+                  example: 12157
+                description:
+                  type: string
+                  example: HH 1. Stock
+            contactPoint:
+              type: array
+              items:
+                type: object
+                properties:
+                  '@type':
+                    type: string
+                    enum:
+                      - ContactPoint
+                  name:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    example:
+                      de: Titel in Deutsch.
+                      en: Title title in English.
+                      de-easy: Titel in leichter Sprache.
+                  telephone:
+                    type: string
+                  email:
+                    type: string
+            url:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+            categories:
+              type: array
+              items:
+                type: object
+                properties:
+                  inDefinedTermSet:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      targetType:
+                        type: string
+                      identifier:
+                        type: string
+                    additionalProperties: true
+                  term:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    example:
+                      de: Kurzer Text in Deutsch.
+                      en: Short text in English.
+                      de-easy: Kurzer Text in leichter Sprache.
     CreateOrganization:
       type: object
       additionalProperties: false
       properties:
         name:
-          type: string
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
         description:
           type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Text in Deutsch.
+            en: Text in English.
+            de-easy: Text in leichter Sprache.
+        address:
+          type: object
           properties:
-            de:
+            '@type':
               type: string
-            en:
+              enum:
+                - PostalAddress
+            streetAddress:
               type: string
-            de-easy:
+              example: Rubenstr. 31
+            addressLocality:
               type: string
-          additionalProperties: true
-      required:
-        - name
+              example: Berlin
+            postalCode:
+              type: string
+              example: 12157
+            description:
+              type: string
+              example: HH 1. Stock
+        contactPoint:
+          type: array
+          items:
+            type: object
+            properties:
+              '@type':
+                type: string
+                enum:
+                  - ContactPoint
+              name:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
+              telephone:
+                type: string
+              email:
+                type: string
+        url:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              inDefinedTermSet:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+              term:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Kurzer Text in Deutsch.
+                  en: Short text in English.
+                  de-easy: Kurzer Text in leichter Sprache.
     PatchOrganization:
       type: object
       additionalProperties: false
       properties:
         name:
-          type: string
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
         description:
           type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Text in Deutsch.
+            en: Text in English.
+            de-easy: Text in leichter Sprache.
+        address:
+          type: object
           properties:
-            de:
+            '@type':
               type: string
-            en:
+              enum:
+                - PostalAddress
+            streetAddress:
               type: string
-            de-easy:
+              example: Rubenstr. 31
+            addressLocality:
               type: string
-          additionalProperties: true
+              example: Berlin
+            postalCode:
+              type: string
+              example: 12157
+            description:
+              type: string
+              example: HH 1. Stock
+        contactPoint:
+          type: array
+          items:
+            type: object
+            properties:
+              '@type':
+                type: string
+                enum:
+                  - ContactPoint
+              name:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
+              telephone:
+                type: string
+              email:
+                type: string
+        url:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              inDefinedTermSet:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+              term:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Kurzer Text in Deutsch.
+                  en: Short text in English.
+                  de-easy: Kurzer Text in leichter Sprache.
     User:
       type: object
       properties:
+        '@type':
+          type: string
+          enum:
+            - User
         identifier:
           type: string
         email:
@@ -576,178 +823,205 @@ components:
             msg:
               type: string
     Event:
-      type: object
-      properties:
-        '@context':
-          type: string
-          enum:
-            - kulturdaten.berlin/api/v1/spec
-        identifier:
-          type: string
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-        '@type':
-          type: string
-          enum:
-            - Event
-            - EventSeries
-            - ExhibitionEvent
-        kind:
-          type: string
-          enum:
-            - culture
-        origin:
-          type: string
-        title:
-          type: object
+      allOf:
+        - type: object
           properties:
-            de:
+            '@context':
               type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
-        subTitle:
-          type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
-        description:
-          type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
-        shortDescription:
-          type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        previousStartDate:
-          type: string
-          format: date-time
-        doorTime:
-          type: string
-          format: date-time
-        typicalAgeRange:
-          type: string
-        categories:
-          type: array
-          items:
-            type: string
-        keywords:
-          type: array
-          items:
-            type: string
-        inLanguages:
-          type: array
-          items:
-            type: string
-        isAccessibleForFree:
-          type: boolean
-        sameAs:
-          type: string
-          format: uri
-        visibility:
-          type: string
-          enum:
-            - published
-            - unpublished
-            - draft
-            - archived
-            - restricted
-        eventStatus:
-          type: string
-          enum:
-            - cancelled
-            - postponed
-            - rescheduled
-            - scheduled
-        eventAttendanceMode:
-          type: string
-          enum:
-            - offline
-            - online
-            - mixed
-        location:
-          type: array
-          items:
-            type: object
-            properties:
-              label:
-                type: string
-              targetType:
-                type: string
-              identifier:
-                type: string
-            additionalProperties: true
-        organizer:
-          type: object
-          properties:
-            label:
-              type: string
-            targetType:
-              type: string
+              enum:
+                - kulturdaten.berlin/api/v1/spec
             identifier:
               type: string
-          additionalProperties: true
-        subEvents:
-          type: array
-          items:
-            type: object
-            properties:
-              label:
-                type: string
-              targetType:
-                type: string
-              identifier:
-                type: string
-            additionalProperties: true
-        superEvent:
-          type: object
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+            kind:
+              type: string
+              enum:
+                - culture
+            origin:
+              type: string
+        - type: object
           properties:
-            label:
+            '@type':
               type: string
-            targetType:
+              enum:
+                - Event
+                - EventSeries
+                - ExhibitionEvent
+            title:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Titel in Deutsch.
+                en: Title title in English.
+                de-easy: Titel in leichter Sprache.
+            subTitle:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Titel in Deutsch.
+                en: Title title in English.
+                de-easy: Titel in leichter Sprache.
+            description:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Text in Deutsch.
+                en: Text in English.
+                de-easy: Text in leichter Sprache.
+            shortDescription:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Kurzer Text in Deutsch.
+                en: Short text in English.
+                de-easy: Kurzer Text in leichter Sprache.
+            startDate:
               type: string
-            identifier:
+              format: date-time
+            endDate:
               type: string
-          additionalProperties: true
-      required:
-        - identifier
+              format: date-time
+            previousStartDate:
+              type: string
+              format: date-time
+            doorTime:
+              type: string
+              format: date-time
+            typicalAgeRange:
+              type: string
+            categories:
+              type: array
+              items:
+                type: object
+                properties:
+                  inDefinedTermSet:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      targetType:
+                        type: string
+                      identifier:
+                        type: string
+                    additionalProperties: true
+                  term:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    example:
+                      de: Kurzer Text in Deutsch.
+                      en: Short text in English.
+                      de-easy: Kurzer Text in leichter Sprache.
+            keywords:
+              type: array
+              items:
+                type: object
+                properties:
+                  inDefinedTermSet:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      targetType:
+                        type: string
+                      identifier:
+                        type: string
+                    additionalProperties: true
+                  term:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    example:
+                      de: Kurzer Text in Deutsch.
+                      en: Short text in English.
+                      de-easy: Kurzer Text in leichter Sprache.
+            inLanguages:
+              type: array
+              items:
+                type: string
+            isAccessibleForFree:
+              type: boolean
+            sameAs:
+              type: string
+              format: uri
+            visibility:
+              type: string
+              enum:
+                - published
+                - unpublished
+                - draft
+                - archived
+                - restricted
+            eventStatus:
+              type: string
+              enum:
+                - cancelled
+                - postponed
+                - rescheduled
+                - scheduled
+            eventAttendanceMode:
+              type: string
+              enum:
+                - offline
+                - online
+                - mixed
+            location:
+              type: array
+              items:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+            organizer:
+              type: object
+              properties:
+                label:
+                  type: string
+                targetType:
+                  type: string
+                identifier:
+                  type: string
+              additionalProperties: true
+            subEvents:
+              type: array
+              items:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+            superEvent:
+              type: object
+              properties:
+                label:
+                  type: string
+                targetType:
+                  type: string
+                identifier:
+                  type: string
+              additionalProperties: true
     CreateEvent:
       type: object
       additionalProperties: false
       properties:
-        '@context':
-          type: string
-          enum:
-            - kulturdaten.berlin/api/v1/spec
         '@type':
           type: string
           enum:
@@ -760,44 +1034,36 @@ components:
             - culture
         title:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
         subTitle:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
         description:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Text in Deutsch.
+            en: Text in English.
+            de-easy: Text in leichter Sprache.
         shortDescription:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Kurzer Text in Deutsch.
+            en: Short text in English.
+            de-easy: Kurzer Text in leichter Sprache.
         startDate:
           type: string
           format: date-time
@@ -815,11 +1081,49 @@ components:
         categories:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              inDefinedTermSet:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+              term:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Kurzer Text in Deutsch.
+                  en: Short text in English.
+                  de-easy: Kurzer Text in leichter Sprache.
         keywords:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              inDefinedTermSet:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+              term:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Kurzer Text in Deutsch.
+                  en: Short text in English.
+                  de-easy: Kurzer Text in leichter Sprache.
         inLanguages:
           type: array
           items:
@@ -908,10 +1212,6 @@ components:
       type: object
       additionalProperties: false
       properties:
-        '@context':
-          type: string
-          enum:
-            - kulturdaten.berlin/api/v1/spec
         '@type':
           type: string
           enum:
@@ -924,44 +1224,36 @@ components:
             - culture
         title:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
         subTitle:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
         description:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Text in Deutsch.
+            en: Text in English.
+            de-easy: Text in leichter Sprache.
         shortDescription:
           type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-            de-easy:
-              type: string
-          additionalProperties: true
+          additionalProperties:
+            type: string
+          example:
+            de: Kurzer Text in Deutsch.
+            en: Short text in English.
+            de-easy: Kurzer Text in leichter Sprache.
         startDate:
           type: string
           format: date-time
@@ -979,11 +1271,49 @@ components:
         categories:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              inDefinedTermSet:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+              term:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Kurzer Text in Deutsch.
+                  en: Short text in English.
+                  de-easy: Kurzer Text in leichter Sprache.
         keywords:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              inDefinedTermSet:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  targetType:
+                    type: string
+                  identifier:
+                    type: string
+                additionalProperties: true
+              term:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Kurzer Text in Deutsch.
+                  en: Short text in English.
+                  de-easy: Kurzer Text in leichter Sprache.
         inLanguages:
           type: array
           items:
@@ -1059,19 +1389,302 @@ components:
               type: string
           additionalProperties: true
     Location:
-      type: object
-      properties:
-        identifier:
-          type: string
-        name:
-          type: string
+      allOf:
+        - type: object
+          properties:
+            '@context':
+              type: string
+              enum:
+                - kulturdaten.berlin/api/v1/spec
+            identifier:
+              type: string
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+            kind:
+              type: string
+              enum:
+                - culture
+            origin:
+              type: string
+        - type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - VirtualLocation
+                - Place
+            name:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Titel in Deutsch.
+                en: Title title in English.
+                de-easy: Titel in leichter Sprache.
+            description:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                de: Text in Deutsch.
+                en: Text in English.
+                de-easy: Text in leichter Sprache.
+            address:
+              type: object
+              properties:
+                '@type':
+                  type: string
+                  enum:
+                    - PostalAddress
+                streetAddress:
+                  type: string
+                  example: Rubenstr. 31
+                addressLocality:
+                  type: string
+                  example: Berlin
+                postalCode:
+                  type: string
+                  example: 12157
+                description:
+                  type: string
+                  example: HH 1. Stock
+            geo:
+              type: object
+              additionalProperties: false
+              properties:
+                '@type':
+                  type: string
+                  enum:
+                    - GeoCoordinates
+                latitude:
+                  type: string
+                longitude:
+                  type: string
+            borough:
+              type: string
+              enum:
+                - Mitte
+                - Friedrichshain-Kreuzberg
+                - Pankow
+                - Charlottenburg-Wilmersdorf
+                - Spandau
+                - Steglitz-Zehlendorf
+                - Tempelhof-Schöneberg
+                - Neukölln
+                - Treptow-Köpenick
+                - Marzahn-Hellersdorf
+                - Lichtenberg
+                - Reinickendorf
+                - außerhalb
+            contactPoint:
+              type: array
+              items:
+                type: object
+                properties:
+                  '@type':
+                    type: string
+                    enum:
+                      - ContactPoint
+                  name:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    example:
+                      de: Titel in Deutsch.
+                      en: Title title in English.
+                      de-easy: Titel in leichter Sprache.
+                  telephone:
+                    type: string
+                  email:
+                    type: string
+            url:
+              type: string
+            accessibility:
+              type: string
+            categories:
+              type: array
+              items:
+                type: object
+                properties:
+                  inDefinedTermSet:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      targetType:
+                        type: string
+                      identifier:
+                        type: string
+                    additionalProperties: true
+                  term:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    example:
+                      de: Kurzer Text in Deutsch.
+                      en: Short text in English.
+                      de-easy: Kurzer Text in leichter Sprache.
     PatchLocation:
       type: object
+      additionalProperties: false
       properties:
         name:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
+        description:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Text in Deutsch.
+            en: Text in English.
+            de-easy: Text in leichter Sprache.
+        address:
+          type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - PostalAddress
+            streetAddress:
+              type: string
+              example: Rubenstr. 31
+            addressLocality:
+              type: string
+              example: Berlin
+            postalCode:
+              type: string
+              example: 12157
+            description:
+              type: string
+              example: HH 1. Stock
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        contactPoint:
+          type: array
+          items:
+            type: object
+            properties:
+              '@type':
+                type: string
+                enum:
+                  - ContactPoint
+              name:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
+              telephone:
+                type: string
+              email:
+                type: string
+        url:
+          type: string
+        accessibility:
           type: string
     CreateLocation:
       type: object
+      additionalProperties: false
       properties:
         name:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Titel in Deutsch.
+            en: Title title in English.
+            de-easy: Titel in leichter Sprache.
+        description:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            de: Text in Deutsch.
+            en: Text in English.
+            de-easy: Text in leichter Sprache.
+        address:
+          type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - PostalAddress
+            streetAddress:
+              type: string
+              example: Rubenstr. 31
+            addressLocality:
+              type: string
+              example: Berlin
+            postalCode:
+              type: string
+              example: 12157
+            description:
+              type: string
+              example: HH 1. Stock
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        contactPoint:
+          type: array
+          items:
+            type: object
+            properties:
+              '@type':
+                type: string
+                enum:
+                  - ContactPoint
+              name:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
+              telephone:
+                type: string
+              email:
+                type: string
+        url:
+          type: string
+        accessibility:
           type: string

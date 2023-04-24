@@ -1,0 +1,6 @@
+type: object
+properties:
+  inDefinedTermSet: 
+    $ref: Reference.yml
+  term:
+    $ref: ShortText.yml

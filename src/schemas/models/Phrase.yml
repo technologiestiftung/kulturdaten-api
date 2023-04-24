@@ -1,0 +1,7 @@
+type: object
+additionalProperties:
+  type: string
+example:
+  de: Phrase
+  en: Phrase
+  de-easy: Ausdruck

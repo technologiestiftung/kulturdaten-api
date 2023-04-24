@@ -1,0 +1,12 @@
+type: object
+properties:
+  '@type':
+    type: string
+    enum:
+      - 'ContactPoint'
+  name:
+    $ref: Title.yml
+  telephone:
+    type: string
+  email:
+    type: string

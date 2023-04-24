@@ -27,7 +27,8 @@ describe('Exploring existing organizations', () => {
 		expect(statusCode).toBe(200);
 
 		body.organizations.forEach((o: object) => {
-			expect(validateOrganization(o).isValid).toBe(true);
+			let val = validateOrganization(o);
+			expect(val.isValid).toBe(true);
 		});
 	});
 
@@ -64,12 +65,8 @@ describe('Exploring existing organizations', () => {
 
 		expect(statusCode).toBe(200);
 
-		expect(body.organization).toEqual(expect.objectContaining({
-			identifier: existOrganizationId,
-			name: expect.any(String),
-			createdAt: expect.any(String),
-			updatedAt: expect.any(String),
-		}));
+		let val = validateOrganization(body.organization);
+		expect(val.isValid).toBe(true);
 	});
 
 	it('PATCH /v1/organizations/:organizationId - failure when organization is not found', async () => {

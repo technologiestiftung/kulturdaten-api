@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+properties:
+  '@type':
+    type: string
+    enum:
+      - 'GeoCoordinates'
+  latitude:
+    type: string
+  longitude:
+    type: string

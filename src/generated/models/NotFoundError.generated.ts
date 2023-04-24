@@ -20,6 +20,7 @@ export const schemaForNotFoundError = {
 export function validateNotFoundError(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForNotFoundError);
   return {isValid: validate(o), validate: validate};

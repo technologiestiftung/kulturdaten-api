@@ -11,76 +11,75 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Core, schemaForCore} from "./Core.generated";
 import {Title, schemaForTitle} from "./Title.generated";
-import {Description, schemaForDescription} from "./Description.generated";
+import {Text, schemaForText} from "./Text.generated";
+import {ShortText, schemaForShortText} from "./ShortText.generated";
+import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 
 export const schemaForEvent = {
   $id: "Event.yml",
-  type: "object",
-  properties: {
-    "@context": {type: "string", enum: ["kulturdaten.berlin/api/v1/spec"]},
-    identifier: {type: "string"},
-    created: {type: "string", format: "date-time"},
-    updated: {type: "string", format: "date-time"},
-    "@type": {type: "string", enum: ["Event", "EventSeries", "ExhibitionEvent"]},
-    kind: {type: "string", enum: ["culture"]},
-    origin: {type: "string"},
-    title: {$ref: "Title.yml"},
-    subTitle: {$ref: "Title.yml"},
-    description: {$ref: "Description.yml"},
-    shortDescription: {$ref: "Description.yml"},
-    startDate: {type: "string", format: "date-time"},
-    endDate: {type: "string", format: "date-time"},
-    previousStartDate: {type: "string", format: "date-time"},
-    doorTime: {type: "string", format: "date-time"},
-    typicalAgeRange: {type: "string"},
-    categories: {type: "array", items: {type: "string"}},
-    keywords: {type: "array", items: {type: "string"}},
-    inLanguages: {type: "array", items: {type: "string"}},
-    isAccessibleForFree: {type: "boolean"},
-    sameAs: {type: "string", format: "uri"},
-    visibility: {type: "string", enum: ["published", "unpublished", "draft", "archived", "restricted"]},
-    eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
-    eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
-    location: {type: "array", items: {$ref: "Reference.yml"}},
-    organizer: {$ref: "Reference.yml"},
-    subEvents: {type: "array", items: {$ref: "Reference.yml"}},
-    superEvent: {$ref: "Reference.yml"}
-  },
-  required: ["identifier"]
+  allOf: [
+    {$ref: "Core.yml"},
+    {
+      type: "object",
+      properties: {
+        "@type": {type: "string", enum: ["Event", "EventSeries", "ExhibitionEvent"]},
+        title: {$ref: "Title.yml"},
+        subTitle: {$ref: "Title.yml"},
+        description: {$ref: "Text.yml"},
+        shortDescription: {$ref: "ShortText.yml"},
+        startDate: {type: "string", format: "date-time"},
+        endDate: {type: "string", format: "date-time"},
+        previousStartDate: {type: "string", format: "date-time"},
+        doorTime: {type: "string", format: "date-time"},
+        typicalAgeRange: {type: "string"},
+        categories: {type: "array", items: {$ref: "DefinedTerm.yml"}},
+        keywords: {type: "array", items: {$ref: "DefinedTerm.yml"}},
+        inLanguages: {type: "array", items: {type: "string"}},
+        isAccessibleForFree: {type: "boolean"},
+        sameAs: {type: "string", format: "uri"},
+        visibility: {type: "string", enum: ["published", "unpublished", "draft", "archived", "restricted"]},
+        eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
+        eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
+        location: {type: "array", items: {$ref: "Reference.yml"}},
+        organizer: {$ref: "Reference.yml"},
+        subEvents: {type: "array", items: {$ref: "Reference.yml"}},
+        superEvent: {$ref: "Reference.yml"}
+      }
+    }
+  ]
 };
 
 export function validateEvent(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
+  ajv.addSchema(schemaForCore, "Core.yml");
   ajv.addSchema(schemaForTitle, "Title.yml");
-  ajv.addSchema(schemaForDescription, "Description.yml");
+  ajv.addSchema(schemaForText, "Text.yml");
+  ajv.addSchema(schemaForShortText, "ShortText.yml");
+  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForEvent);
   return {isValid: validate(o), validate: validate};
 }
 
-export interface Event {
-  "@context"?: "kulturdaten.berlin/api/v1/spec";
-  identifier: string;
-  created?: string;
-  updated?: string;
+export type Event = Core & {
   "@type"?: "Event" | "EventSeries" | "ExhibitionEvent";
-  kind?: "culture";
-  origin?: string;
   title?: Title;
   subTitle?: Title;
-  description?: Description;
-  shortDescription?: Description;
+  description?: Text;
+  shortDescription?: ShortText;
   startDate?: string;
   endDate?: string;
   previousStartDate?: string;
   doorTime?: string;
   typicalAgeRange?: string;
-  categories?: string[];
-  keywords?: string[];
+  categories?: DefinedTerm[];
+  keywords?: DefinedTerm[];
   inLanguages?: string[];
   isAccessibleForFree?: boolean;
   sameAs?: string;
@@ -91,4 +90,4 @@ export interface Event {
   organizer?: Reference;
   subEvents?: Reference[];
   superEvent?: Reference;
-}
+};

@@ -31,9 +31,6 @@ export class EventsController {
 	}
 
 	async createEvent(res: express.Response, createEvent: CreateEvent) {
-		console.log("CreateEvent Controller " + JSON.stringify(createEvent));
-		
-		
 		const eventId = await this.eventsService.create(createEvent);
 		res.status(201).send({ identifier: eventId });
 	}

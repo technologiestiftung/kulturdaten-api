@@ -1,11 +1,18 @@
 
 import { CreateOrganization } from "../../../generated/models/CreateOrganization.generated";
-import { schemaForDescription } from "../../../generated/models/Description.generated";
 import { Organization, schemaForOrganization } from "../../../generated/models/Organization.generated";
 import { PatchOrganization } from "../../../generated/models/PatchOrganization.generated";
 import { OrganizationsRepository } from "../../../organizations/repositories/organizations.repository";
+import {Core, schemaForCore} from "../../../generated/models/Core.generated";
+import {Title, schemaForTitle} from "../../../generated/models/Title.generated";
+import {ShortText, schemaForShortText } from "../../../generated/models/ShortText.generated";
+import {Text, schemaForText} from "../../../generated/models/Text.generated";
+import {PostalAddress, schemaForPostalAddress} from "../../../generated/models/PostalAddress.generated";
+import {ContactPoint, schemaForContactPoint} from "../../../generated/models/ContactPoint.generated";
+import {DefinedTerm, schemaForDefinedTerm} from "../../../generated/models/DefinedTerm.generated";
 import { faker } from '@faker-js/faker';
 import { JSONSchemaFaker, Schema } from 'json-schema-faker';
+import { schemaForReference } from "../../../generated/models/Reference.generated";
 
 
 export class MockOrganizationsRepository implements OrganizationsRepository {
@@ -28,12 +35,13 @@ export class MockOrganizationsRepository implements OrganizationsRepository {
 	}
 
 	async addOrganization(organizationFields: CreateOrganization): Promise<string> {
+		let id = `IDfor${organizationFields.name}`;
 		let newOrganization: Organization = {
-			identifier: `IDfor${organizationFields.name}`,
+			identifier: id,
 			...organizationFields
 		}
 		this.dummyOrganizations.push(newOrganization);
-		return Promise.resolve(newOrganization.identifier);
+		return Promise.resolve(id);
 	}
 	async getOrganizations(limit: number, page: number): Promise<Organization[] | null> {
 		return Promise.resolve(this.dummyOrganizations);
@@ -78,20 +86,26 @@ export class MockOrganizationsRepository implements OrganizationsRepository {
 export function dummyOrganization(): Organization {
 	const schema = schemaForOrganization as Schema;
 	const refs = [
-		schemaForDescription as Schema
+		schemaForCore as Schema,
+		schemaForTitle as Schema,
+		schemaForText as Schema,
+		schemaForPostalAddress as Schema,
+		schemaForContactPoint as Schema,
+		schemaForDefinedTerm as Schema,
+		schemaForShortText as Schema,
+		schemaForReference as Schema
 	];
 	// @ts-ignore
 	const fakeOrganization : Organization = JSONSchemaFaker.generate(schema, refs) as Organization;
 	fakeOrganization.identifier = faker.database.mongodbObjectId();
-	fakeOrganization.name = faker.company.name();
-	fakeOrganization.createdAt = faker.datatype.datetime().toDateString();
-	fakeOrganization.updatedAt = faker.datatype.datetime().toDateString();
 	return fakeOrganization;
 }
 
 export function dummyCreateDto(): CreateOrganization {
 	return {
-		name: faker.company.name(),
+		name : {
+			"de": faker.company.name()
+		},
 		description: {
 			de: faker.company.catchPhrase()
 		}

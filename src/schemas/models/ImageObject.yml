@@ -1,48 +1,38 @@
-type: object
-properties:
-  '@context':
-      type: string
-      enum:
-        - 'kulturdaten.berlin/api/v1/spec'
-  identifier:
-    type: string
-  created:
-    type: string
-    format: date-time
-  updated:
-    type: string
-    format: date-time
-  '@type':
-    type: string
-    enum:
-      - 'ImageObject'
-  contentUrl:
-    type: string
-    format: uri
-  height:
-    type: number
-  width:
-    type: number
-  caption:
-    $ref: SubTitle.yml
-  description:
-    $ref: Description.yml
-  encodingFormat:
-    type: string
-  sha256:
-    type: string
-  license:
-    type: object
+allOf: 
+  - $ref: Core.yml
+  - type: object
     properties:
-      name: 
+      '@type':
         type: string
-      identifier:
-        type: string
-        description: SPDX License Identifier
-      url:
-        type: string
-        format: uri
-      acquireLicensePage:
+        enum:
+          - 'ImageObject'
+      contentUrl:
         type: string
         format: uri
+      height:
+        type: number
+      width:
+        type: number
+      caption:
+        $ref: Title.yml
+      description:
+        $ref: Text.yml
+      encodingFormat:
+        type: string
+      sha256:
+        type: string
+      license:
+        type: object
+        properties:
+          name: 
+            type: string
+          identifier:
+            type: string
+            description: SPDX License Identifier
+          url:
+            type: string
+            format: uri
+          acquireLicensePage:
+            type: string
+            format: uri
 

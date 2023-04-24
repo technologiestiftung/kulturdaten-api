@@ -1,10 +1,6 @@
 type: object
 additionalProperties: false
 properties:
-  '@context':
-      type: string
-      enum:
-        - 'kulturdaten.berlin/api/v1/spec'
   '@type':
     type: string
     enum:
@@ -20,9 +16,9 @@ properties:
   subTitle:
     $ref: Title.yml
   description:
-    $ref: Description.yml
+    $ref: Text.yml
   shortDescription:
-    $ref: Description.yml
+    $ref: ShortText.yml
   startDate:
     type: string
     format: date-time
@@ -40,11 +36,11 @@ properties:
   categories:
     type: array
     items:
-      type: string
+      $ref: DefinedTerm.yml
   keywords:
     type: array
     items:
-      type: string
+      $ref: DefinedTerm.yml
   inLanguages:
     type: array
     items:
