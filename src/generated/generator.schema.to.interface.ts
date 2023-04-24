@@ -4,6 +4,7 @@ import { parse } from 'path';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
 import * as yaml from 'js-yaml';
 
+// TODO: Refactor young padawan.
 
 async function generate() {
 	const directoryPath = './src/schemas/models';
@@ -12,8 +13,8 @@ async function generate() {
 	schemaFiles.forEach(async function (file) {
 		const { name } = parse(file);
 
-		//await generateInterface(name);
-		//console.log(`generate interface for ${file}`);
+		await generateInterface(name);
+		console.log(`generate interface for ${file}`);
 		await generateFaker(name);
 		console.log(`generate test faker for ${file}`);
 	});
@@ -86,7 +87,6 @@ function findDependenciesInSchema(file: string, rootDirectory: string, foundDepe
 	const dependencies = new Set(schemaYaml.match(regexForDependencies));
 	dependencies.forEach(dependency => {
 		if (!foundDependencies.includes(dependency)) {
-			console.log("foundDeepDependencies for " + dependency + " "  + JSON.stringify(foundDependencies));
 			foundDependencies.push(dependency);
 			findDependenciesInSchema(dependency, rootDirectory, foundDependencies);
 		  }
@@ -123,16 +123,27 @@ async function generateFaker(className: string, rootDirectory: string = './src/s
 	const faker = `
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { ${className}, schemaFor${className} } from "../models/${className}.generated";
+${dependencies.imports}
 
-	${dependencies.imports}
+	export function fake${className}(specifiedPropertiesFor${className}: object = {}): ${className} {
+		const schema = schemaFor${className} as Schema;
+		const refs : Schema[] = [
+${dependencies.refs}
+		];
+		// @ts-ignore
+		const fake${className}: ${className} = JSONSchemaFaker.generate(schema, refs) as ${className};
+		// @ts-ignore
+		const return${className} = { ...fake${className}, ...specifiedPropertiesFor${className} };
+		return return${className};
+	}
 
-	const schema = schemaFor${className} as Schema;
-	const refs = [
-		${dependencies.refs}
-	];
-	// @ts-ignore
-	const fake${className}: ${className} = JSONSchemaFaker.generate(schema, refs) as ${className};
-	return fake${className};
+	export function fake${className}s(...create${className}: object[]) : ${className}[] {
+		const return${className}s : ${className}[] = [];
+		create${className}.forEach(element => {
+			return${className}s.push(fake${className}(element));
+		});
+		return return${className}s;
+	}
 	`
 
 	const targetPath = `./src/generated/faker/faker.${className}.generated.ts`;
@@ -144,8 +155,8 @@ function generateFakerRefsAndImportsForDependencies(dependencies: string[]){
 	let imports = '';
 	dependencies.forEach(dependency => {
 		imports += '\n';
-		imports += generateFakerImportForDependency(dependency);
-		refs += generateFakerSchemaRefForDependency(dependency);
+		imports += '\t' + generateFakerImportForDependency(dependency);
+		refs += '\t' + '\t' + '\t'+ generateFakerSchemaRefForDependency(dependency);
 		refs += '\n';
 	});
 
@@ -153,7 +164,7 @@ function generateFakerRefsAndImportsForDependencies(dependencies: string[]){
 }
 
 function generateFakerSchemaRefForDependency(dependency: string) {
-	return dependency ? `schemaFor${dependency} as Schema',` : '';
+	return dependency ? `schemaFor${dependency} as Schema,` : '';
 }
 
 function generateFakerImportForDependency(dependency: string) {
