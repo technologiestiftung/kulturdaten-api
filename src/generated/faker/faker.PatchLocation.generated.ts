@@ -8,7 +8,7 @@
 	import { schemaForBorough } from '../models/Borough.generated';
 	import { schemaForContactPoint } from '../models/ContactPoint.generated';
 
-	export function fakePatchLocation(specifiedPropertiesForPatchLocation: object = {}): PatchLocation {
+	export function fakePatchLocation(useExamples: boolean, specifiedPropertiesForPatchLocation: object = {}): PatchLocation {
 		const schema = schemaForPatchLocation as Schema;
 		const refs : Schema[] = [
 			schemaForTitle as Schema,
@@ -18,6 +18,7 @@
 			schemaForContactPoint as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakePatchLocation: PatchLocation = JSONSchemaFaker.generate(schema, refs) as PatchLocation;
 		// @ts-ignore
@@ -25,10 +26,10 @@
 		return returnPatchLocation;
 	}
 
-	export function fakePatchLocations(...createPatchLocation: object[]) : PatchLocation[] {
+	export function fakePatchLocations(useExamples: boolean, ...createPatchLocation: object[]) : PatchLocation[] {
 		const returnPatchLocations : PatchLocation[] = [];
 		createPatchLocation.forEach(element => {
-			returnPatchLocations.push(fakePatchLocation(element));
+			returnPatchLocations.push(fakePatchLocation(useExamples, element));
 		});
 		return returnPatchLocations;
 	}

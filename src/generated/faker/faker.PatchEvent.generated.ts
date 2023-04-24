@@ -8,7 +8,7 @@
 	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForReference } from '../models/Reference.generated';
 
-	export function fakePatchEvent(specifiedPropertiesForPatchEvent: object = {}): PatchEvent {
+	export function fakePatchEvent(useExamples: boolean, specifiedPropertiesForPatchEvent: object = {}): PatchEvent {
 		const schema = schemaForPatchEvent as Schema;
 		const refs : Schema[] = [
 			schemaForTitle as Schema,
@@ -18,6 +18,7 @@
 			schemaForReference as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakePatchEvent: PatchEvent = JSONSchemaFaker.generate(schema, refs) as PatchEvent;
 		// @ts-ignore
@@ -25,10 +26,10 @@
 		return returnPatchEvent;
 	}
 
-	export function fakePatchEvents(...createPatchEvent: object[]) : PatchEvent[] {
+	export function fakePatchEvents(useExamples: boolean, ...createPatchEvent: object[]) : PatchEvent[] {
 		const returnPatchEvents : PatchEvent[] = [];
 		createPatchEvent.forEach(element => {
-			returnPatchEvents.push(fakePatchEvent(element));
+			returnPatchEvents.push(fakePatchEvent(useExamples, element));
 		});
 		return returnPatchEvents;
 	}

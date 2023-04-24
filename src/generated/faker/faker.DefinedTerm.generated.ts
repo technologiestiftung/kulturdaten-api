@@ -5,13 +5,14 @@
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
 
-	export function fakeDefinedTerm(specifiedPropertiesForDefinedTerm: object = {}): DefinedTerm {
+	export function fakeDefinedTerm(useExamples: boolean, specifiedPropertiesForDefinedTerm: object = {}): DefinedTerm {
 		const schema = schemaForDefinedTerm as Schema;
 		const refs : Schema[] = [
 			schemaForReference as Schema,
 			schemaForShortText as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeDefinedTerm: DefinedTerm = JSONSchemaFaker.generate(schema, refs) as DefinedTerm;
 		// @ts-ignore
@@ -19,10 +20,10 @@
 		return returnDefinedTerm;
 	}
 
-	export function fakeDefinedTerms(...createDefinedTerm: object[]) : DefinedTerm[] {
+	export function fakeDefinedTerms(useExamples: boolean, ...createDefinedTerm: object[]) : DefinedTerm[] {
 		const returnDefinedTerms : DefinedTerm[] = [];
 		createDefinedTerm.forEach(element => {
-			returnDefinedTerms.push(fakeDefinedTerm(element));
+			returnDefinedTerms.push(fakeDefinedTerm(useExamples, element));
 		});
 		return returnDefinedTerms;
 	}

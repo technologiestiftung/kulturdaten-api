@@ -3,11 +3,12 @@
 	import { Phrase, schemaForPhrase } from "../models/Phrase.generated";
 
 
-	export function fakePhrase(specifiedPropertiesForPhrase: object = {}): Phrase {
+	export function fakePhrase(useExamples: boolean, specifiedPropertiesForPhrase: object = {}): Phrase {
 		const schema = schemaForPhrase as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakePhrase: Phrase = JSONSchemaFaker.generate(schema, refs) as Phrase;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnPhrase;
 	}
 
-	export function fakePhrases(...createPhrase: object[]) : Phrase[] {
+	export function fakePhrases(useExamples: boolean, ...createPhrase: object[]) : Phrase[] {
 		const returnPhrases : Phrase[] = [];
 		createPhrase.forEach(element => {
-			returnPhrases.push(fakePhrase(element));
+			returnPhrases.push(fakePhrase(useExamples, element));
 		});
 		return returnPhrases;
 	}

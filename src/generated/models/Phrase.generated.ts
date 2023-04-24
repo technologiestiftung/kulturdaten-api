@@ -14,19 +14,21 @@ import addFormats from "ajv-formats";
 export const schemaForPhrase = {
   $id: "Phrase.yml",
   type: "object",
+  required: ["de"],
+  properties: {de: {type: "string"}},
   additionalProperties: {type: "string"},
-  example: {de: "Phrase", en: "Phrase", "de-easy": "Ausdruck"}
+  examples: [{de: "Phrase", en: "Phrase", "de-easy": "Ausdruck"}]
 };
 
 export function validatePhrase(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForPhrase);
   return {isValid: validate(o), validate: validate};
 }
 
 export interface Phrase {
+  de: string;
   [k: string]: string;
 }

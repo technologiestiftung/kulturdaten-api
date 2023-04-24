@@ -3,11 +3,12 @@
 	import { Health, schemaForHealth } from "../models/Health.generated";
 
 
-	export function fakeHealth(specifiedPropertiesForHealth: object = {}): Health {
+	export function fakeHealth(useExamples: boolean, specifiedPropertiesForHealth: object = {}): Health {
 		const schema = schemaForHealth as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeHealth: Health = JSONSchemaFaker.generate(schema, refs) as Health;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnHealth;
 	}
 
-	export function fakeHealths(...createHealth: object[]) : Health[] {
+	export function fakeHealths(useExamples: boolean, ...createHealth: object[]) : Health[] {
 		const returnHealths : Health[] = [];
 		createHealth.forEach(element => {
-			returnHealths.push(fakeHealth(element));
+			returnHealths.push(fakeHealth(useExamples, element));
 		});
 		return returnHealths;
 	}

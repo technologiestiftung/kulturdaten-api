@@ -14,19 +14,21 @@ import addFormats from "ajv-formats";
 export const schemaForTitle = {
   $id: "Title.yml",
   type: "object",
+  required: ["de"],
+  properties: {de: {type: "string"}},
   additionalProperties: {type: "string"},
-  example: {de: "Titel in Deutsch.", en: "Title title in English.", "de-easy": "Titel in leichter Sprache."}
+  examples: [{de: "Titel in Deutsch.", en: "Title title in English.", "de-easy": "Titel in leichter Sprache."}]
 };
 
 export function validateTitle(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForTitle);
   return {isValid: validate(o), validate: validate};
 }
 
 export interface Title {
+  de: string;
   [k: string]: string;
 }

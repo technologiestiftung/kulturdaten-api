@@ -11,7 +11,7 @@
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
 
-	export function fakeOrganization(specifiedPropertiesForOrganization: object = {}): Organization {
+	export function fakeOrganization(useExamples: boolean, specifiedPropertiesForOrganization: object = {}): Organization {
 		const schema = schemaForOrganization as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
@@ -24,6 +24,7 @@
 			schemaForShortText as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeOrganization: Organization = JSONSchemaFaker.generate(schema, refs) as Organization;
 		// @ts-ignore
@@ -31,10 +32,10 @@
 		return returnOrganization;
 	}
 
-	export function fakeOrganizations(...createOrganization: object[]) : Organization[] {
+	export function fakeOrganizations(useExamples: boolean, ...createOrganization: object[]) : Organization[] {
 		const returnOrganizations : Organization[] = [];
 		createOrganization.forEach(element => {
-			returnOrganizations.push(fakeOrganization(element));
+			returnOrganizations.push(fakeOrganization(useExamples, element));
 		});
 		return returnOrganizations;
 	}

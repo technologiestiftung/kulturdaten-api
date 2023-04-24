@@ -26,7 +26,6 @@ export const schemaForPatchUser = {
 export function validatePatchUser(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForPatchUser);
   return {isValid: validate(o), validate: validate};

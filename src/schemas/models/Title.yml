@@ -1,7 +1,12 @@
 type: object
+required:
+  - de
+properties:
+  de:
+    type: string
 additionalProperties:
   type: string
-example:
-  de: Titel in Deutsch.
-  en: Title title in English.
-  de-easy: Titel in leichter Sprache.
+examples:
+  - de: Titel in Deutsch.
+    en: Title title in English.
+    de-easy: Titel in leichter Sprache.

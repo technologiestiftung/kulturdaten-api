@@ -10,7 +10,7 @@
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
 
-	export function fakePatchOrganization(specifiedPropertiesForPatchOrganization: object = {}): PatchOrganization {
+	export function fakePatchOrganization(useExamples: boolean, specifiedPropertiesForPatchOrganization: object = {}): PatchOrganization {
 		const schema = schemaForPatchOrganization as Schema;
 		const refs : Schema[] = [
 			schemaForTitle as Schema,
@@ -22,6 +22,7 @@
 			schemaForShortText as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakePatchOrganization: PatchOrganization = JSONSchemaFaker.generate(schema, refs) as PatchOrganization;
 		// @ts-ignore
@@ -29,10 +30,10 @@
 		return returnPatchOrganization;
 	}
 
-	export function fakePatchOrganizations(...createPatchOrganization: object[]) : PatchOrganization[] {
+	export function fakePatchOrganizations(useExamples: boolean, ...createPatchOrganization: object[]) : PatchOrganization[] {
 		const returnPatchOrganizations : PatchOrganization[] = [];
 		createPatchOrganization.forEach(element => {
-			returnPatchOrganizations.push(fakePatchOrganization(element));
+			returnPatchOrganizations.push(fakePatchOrganization(useExamples, element));
 		});
 		return returnPatchOrganizations;
 	}

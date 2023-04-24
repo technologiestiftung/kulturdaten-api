@@ -3,11 +3,12 @@
 	import { User, schemaForUser } from "../models/User.generated";
 
 
-	export function fakeUser(specifiedPropertiesForUser: object = {}): User {
+	export function fakeUser(useExamples: boolean, specifiedPropertiesForUser: object = {}): User {
 		const schema = schemaForUser as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeUser: User = JSONSchemaFaker.generate(schema, refs) as User;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnUser;
 	}
 
-	export function fakeUsers(...createUser: object[]) : User[] {
+	export function fakeUsers(useExamples: boolean, ...createUser: object[]) : User[] {
 		const returnUsers : User[] = [];
 		createUser.forEach(element => {
-			returnUsers.push(fakeUser(element));
+			returnUsers.push(fakeUser(useExamples, element));
 		});
 		return returnUsers;
 	}

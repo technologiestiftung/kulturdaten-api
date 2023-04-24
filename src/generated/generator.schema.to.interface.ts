@@ -44,7 +44,6 @@ async function generateInterface(className: string, rootDirectory: string = './s
 		 export function validate${schemaName}(o : object): {isValid: boolean, validate: ValidateFunction} {
 			const ajv = new Ajv();
 			addFormats(ajv);
-			ajv.addKeyword("example");
 			${dependencies.ajvSchema}
 			const validate = ajv.compile(schemaFor${schemaName});
 			return {isValid: validate(o), validate: validate};
@@ -125,11 +124,12 @@ async function generateFaker(className: string, rootDirectory: string = './src/s
 	import { ${className}, schemaFor${className} } from "../models/${className}.generated";
 ${dependencies.imports}
 
-	export function fake${className}(specifiedPropertiesFor${className}: object = {}): ${className} {
+	export function fake${className}(useExamples: boolean, specifiedPropertiesFor${className}: object = {}): ${className} {
 		const schema = schemaFor${className} as Schema;
 		const refs : Schema[] = [
 ${dependencies.refs}
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fake${className}: ${className} = JSONSchemaFaker.generate(schema, refs) as ${className};
 		// @ts-ignore
@@ -137,10 +137,10 @@ ${dependencies.refs}
 		return return${className};
 	}
 
-	export function fake${className}s(...create${className}: object[]) : ${className}[] {
+	export function fake${className}s(useExamples: boolean, ...create${className}: object[]) : ${className}[] {
 		const return${className}s : ${className}[] = [];
 		create${className}.forEach(element => {
-			return${className}s.push(fake${className}(element));
+			return${className}s.push(fake${className}(useExamples, element));
 		});
 		return return${className}s;
 	}

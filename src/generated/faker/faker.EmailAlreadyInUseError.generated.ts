@@ -3,11 +3,12 @@
 	import { EmailAlreadyInUseError, schemaForEmailAlreadyInUseError } from "../models/EmailAlreadyInUseError.generated";
 
 
-	export function fakeEmailAlreadyInUseError(specifiedPropertiesForEmailAlreadyInUseError: object = {}): EmailAlreadyInUseError {
+	export function fakeEmailAlreadyInUseError(useExamples: boolean, specifiedPropertiesForEmailAlreadyInUseError: object = {}): EmailAlreadyInUseError {
 		const schema = schemaForEmailAlreadyInUseError as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeEmailAlreadyInUseError: EmailAlreadyInUseError = JSONSchemaFaker.generate(schema, refs) as EmailAlreadyInUseError;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnEmailAlreadyInUseError;
 	}
 
-	export function fakeEmailAlreadyInUseErrors(...createEmailAlreadyInUseError: object[]) : EmailAlreadyInUseError[] {
+	export function fakeEmailAlreadyInUseErrors(useExamples: boolean, ...createEmailAlreadyInUseError: object[]) : EmailAlreadyInUseError[] {
 		const returnEmailAlreadyInUseErrors : EmailAlreadyInUseError[] = [];
 		createEmailAlreadyInUseError.forEach(element => {
-			returnEmailAlreadyInUseErrors.push(fakeEmailAlreadyInUseError(element));
+			returnEmailAlreadyInUseErrors.push(fakeEmailAlreadyInUseError(useExamples, element));
 		});
 		return returnEmailAlreadyInUseErrors;
 	}

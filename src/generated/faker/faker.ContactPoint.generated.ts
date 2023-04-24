@@ -4,12 +4,13 @@
 
 	import { schemaForTitle } from '../models/Title.generated';
 
-	export function fakeContactPoint(specifiedPropertiesForContactPoint: object = {}): ContactPoint {
+	export function fakeContactPoint(useExamples: boolean, specifiedPropertiesForContactPoint: object = {}): ContactPoint {
 		const schema = schemaForContactPoint as Schema;
 		const refs : Schema[] = [
 			schemaForTitle as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeContactPoint: ContactPoint = JSONSchemaFaker.generate(schema, refs) as ContactPoint;
 		// @ts-ignore
@@ -17,10 +18,10 @@
 		return returnContactPoint;
 	}
 
-	export function fakeContactPoints(...createContactPoint: object[]) : ContactPoint[] {
+	export function fakeContactPoints(useExamples: boolean, ...createContactPoint: object[]) : ContactPoint[] {
 		const returnContactPoints : ContactPoint[] = [];
 		createContactPoint.forEach(element => {
-			returnContactPoints.push(fakeContactPoint(element));
+			returnContactPoints.push(fakeContactPoint(useExamples, element));
 		});
 		return returnContactPoints;
 	}

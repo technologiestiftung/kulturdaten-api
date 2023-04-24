@@ -8,7 +8,7 @@
 	import { schemaForBorough } from '../models/Borough.generated';
 	import { schemaForContactPoint } from '../models/ContactPoint.generated';
 
-	export function fakeCreateLocation(specifiedPropertiesForCreateLocation: object = {}): CreateLocation {
+	export function fakeCreateLocation(useExamples: boolean, specifiedPropertiesForCreateLocation: object = {}): CreateLocation {
 		const schema = schemaForCreateLocation as Schema;
 		const refs : Schema[] = [
 			schemaForTitle as Schema,
@@ -18,6 +18,7 @@
 			schemaForContactPoint as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeCreateLocation: CreateLocation = JSONSchemaFaker.generate(schema, refs) as CreateLocation;
 		// @ts-ignore
@@ -25,10 +26,10 @@
 		return returnCreateLocation;
 	}
 
-	export function fakeCreateLocations(...createCreateLocation: object[]) : CreateLocation[] {
+	export function fakeCreateLocations(useExamples: boolean, ...createCreateLocation: object[]) : CreateLocation[] {
 		const returnCreateLocations : CreateLocation[] = [];
 		createCreateLocation.forEach(element => {
-			returnCreateLocations.push(fakeCreateLocation(element));
+			returnCreateLocations.push(fakeCreateLocation(useExamples, element));
 		});
 		return returnCreateLocations;
 	}

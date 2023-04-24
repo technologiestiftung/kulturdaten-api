@@ -3,11 +3,12 @@
 	import { GeoCoordinates, schemaForGeoCoordinates } from "../models/GeoCoordinates.generated";
 
 
-	export function fakeGeoCoordinates(specifiedPropertiesForGeoCoordinates: object = {}): GeoCoordinates {
+	export function fakeGeoCoordinates(useExamples: boolean, specifiedPropertiesForGeoCoordinates: object = {}): GeoCoordinates {
 		const schema = schemaForGeoCoordinates as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeGeoCoordinates: GeoCoordinates = JSONSchemaFaker.generate(schema, refs) as GeoCoordinates;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnGeoCoordinates;
 	}
 
-	export function fakeGeoCoordinatess(...createGeoCoordinates: object[]) : GeoCoordinates[] {
+	export function fakeGeoCoordinatess(useExamples: boolean, ...createGeoCoordinates: object[]) : GeoCoordinates[] {
 		const returnGeoCoordinatess : GeoCoordinates[] = [];
 		createGeoCoordinates.forEach(element => {
-			returnGeoCoordinatess.push(fakeGeoCoordinates(element));
+			returnGeoCoordinatess.push(fakeGeoCoordinates(useExamples, element));
 		});
 		return returnGeoCoordinatess;
 	}

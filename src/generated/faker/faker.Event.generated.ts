@@ -9,7 +9,7 @@
 	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForReference } from '../models/Reference.generated';
 
-	export function fakeEvent(specifiedPropertiesForEvent: object = {}): Event {
+	export function fakeEvent(useExamples: boolean, specifiedPropertiesForEvent: object = {}): Event {
 		const schema = schemaForEvent as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
@@ -20,6 +20,7 @@
 			schemaForReference as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeEvent: Event = JSONSchemaFaker.generate(schema, refs) as Event;
 		// @ts-ignore
@@ -27,10 +28,10 @@
 		return returnEvent;
 	}
 
-	export function fakeEvents(...createEvent: object[]) : Event[] {
+	export function fakeEvents(useExamples: boolean, ...createEvent: object[]) : Event[] {
 		const returnEvents : Event[] = [];
 		createEvent.forEach(element => {
-			returnEvents.push(fakeEvent(element));
+			returnEvents.push(fakeEvent(useExamples, element));
 		});
 		return returnEvents;
 	}

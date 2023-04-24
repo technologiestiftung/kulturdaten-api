@@ -3,11 +3,12 @@
 	import { Core, schemaForCore } from "../models/Core.generated";
 
 
-	export function fakeCore(specifiedPropertiesForCore: object = {}): Core {
+	export function fakeCore(useExamples: boolean, specifiedPropertiesForCore: object = {}): Core {
 		const schema = schemaForCore as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeCore: Core = JSONSchemaFaker.generate(schema, refs) as Core;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnCore;
 	}
 
-	export function fakeCores(...createCore: object[]) : Core[] {
+	export function fakeCores(useExamples: boolean, ...createCore: object[]) : Core[] {
 		const returnCores : Core[] = [];
 		createCore.forEach(element => {
-			returnCores.push(fakeCore(element));
+			returnCores.push(fakeCore(useExamples, element));
 		});
 		return returnCores;
 	}

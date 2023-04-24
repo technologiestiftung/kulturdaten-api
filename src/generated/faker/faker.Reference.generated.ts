@@ -3,11 +3,12 @@
 	import { Reference, schemaForReference } from "../models/Reference.generated";
 
 
-	export function fakeReference(specifiedPropertiesForReference: object = {}): Reference {
+	export function fakeReference(useExamples: boolean, specifiedPropertiesForReference: object = {}): Reference {
 		const schema = schemaForReference as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeReference: Reference = JSONSchemaFaker.generate(schema, refs) as Reference;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnReference;
 	}
 
-	export function fakeReferences(...createReference: object[]) : Reference[] {
+	export function fakeReferences(useExamples: boolean, ...createReference: object[]) : Reference[] {
 		const returnReferences : Reference[] = [];
 		createReference.forEach(element => {
-			returnReferences.push(fakeReference(element));
+			returnReferences.push(fakeReference(useExamples, element));
 		});
 		return returnReferences;
 	}

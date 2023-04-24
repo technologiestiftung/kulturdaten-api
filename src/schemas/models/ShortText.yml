@@ -1,7 +1,12 @@
 type: object
+required:
+  - de
+properties:
+  de:
+    type: string
 additionalProperties:
   type: string
-example:
-  de: Kurzer Text in Deutsch.
-  en: Short text in English.
-  de-easy: Kurzer Text in leichter Sprache.
+examples:
+  - de: Kurzer Text in Deutsch.
+    en: Short text in English.
+    de-easy: Kurzer Text in leichter Sprache.

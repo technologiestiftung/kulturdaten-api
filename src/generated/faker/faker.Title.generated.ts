@@ -3,11 +3,12 @@
 	import { Title, schemaForTitle } from "../models/Title.generated";
 
 
-	export function fakeTitle(specifiedPropertiesForTitle: object = {}): Title {
+	export function fakeTitle(useExamples: boolean, specifiedPropertiesForTitle: object = {}): Title {
 		const schema = schemaForTitle as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeTitle: Title = JSONSchemaFaker.generate(schema, refs) as Title;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnTitle;
 	}
 
-	export function fakeTitles(...createTitle: object[]) : Title[] {
+	export function fakeTitles(useExamples: boolean, ...createTitle: object[]) : Title[] {
 		const returnTitles : Title[] = [];
 		createTitle.forEach(element => {
-			returnTitles.push(fakeTitle(element));
+			returnTitles.push(fakeTitle(useExamples, element));
 		});
 		return returnTitles;
 	}

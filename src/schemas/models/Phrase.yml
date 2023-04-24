@@ -1,7 +1,12 @@
 type: object
+required:
+  - de
+properties:
+  de:
+    type: string
 additionalProperties:
   type: string
-example:
-  de: Phrase
-  en: Phrase
-  de-easy: Ausdruck
+examples:
+  - de: Phrase
+    en: Phrase
+    de-easy: Ausdruck

@@ -3,11 +3,12 @@
 	import { Login, schemaForLogin } from "../models/Login.generated";
 
 
-	export function fakeLogin(specifiedPropertiesForLogin: object = {}): Login {
+	export function fakeLogin(useExamples: boolean, specifiedPropertiesForLogin: object = {}): Login {
 		const schema = schemaForLogin as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeLogin: Login = JSONSchemaFaker.generate(schema, refs) as Login;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnLogin;
 	}
 
-	export function fakeLogins(...createLogin: object[]) : Login[] {
+	export function fakeLogins(useExamples: boolean, ...createLogin: object[]) : Login[] {
 		const returnLogins : Login[] = [];
 		createLogin.forEach(element => {
-			returnLogins.push(fakeLogin(element));
+			returnLogins.push(fakeLogin(useExamples, element));
 		});
 		return returnLogins;
 	}

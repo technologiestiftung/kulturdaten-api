@@ -6,7 +6,7 @@
 	import { schemaForTitle } from '../models/Title.generated';
 	import { schemaForText } from '../models/Text.generated';
 
-	export function fakeImageObject(specifiedPropertiesForImageObject: object = {}): ImageObject {
+	export function fakeImageObject(useExamples: boolean, specifiedPropertiesForImageObject: object = {}): ImageObject {
 		const schema = schemaForImageObject as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
@@ -14,6 +14,7 @@
 			schemaForText as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeImageObject: ImageObject = JSONSchemaFaker.generate(schema, refs) as ImageObject;
 		// @ts-ignore
@@ -21,10 +22,10 @@
 		return returnImageObject;
 	}
 
-	export function fakeImageObjects(...createImageObject: object[]) : ImageObject[] {
+	export function fakeImageObjects(useExamples: boolean, ...createImageObject: object[]) : ImageObject[] {
 		const returnImageObjects : ImageObject[] = [];
 		createImageObject.forEach(element => {
-			returnImageObjects.push(fakeImageObject(element));
+			returnImageObjects.push(fakeImageObject(useExamples, element));
 		});
 		return returnImageObjects;
 	}

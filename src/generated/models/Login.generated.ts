@@ -21,7 +21,6 @@ export const schemaForLogin = {
 export function validateLogin(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForLogin);
   return {isValid: validate(o), validate: validate};

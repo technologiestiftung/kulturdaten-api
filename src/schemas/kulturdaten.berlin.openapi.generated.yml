@@ -468,20 +468,30 @@ components:
                 - Organization
             name:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Titel in Deutsch.
-                en: Title title in English.
-                de-easy: Titel in leichter Sprache.
+              examples:
+                - de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
             description:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Text in Deutsch.
-                en: Text in English.
-                de-easy: Text in leichter Sprache.
+              examples:
+                - de: Text in Deutsch.
+                  en: Text in English.
+                  de-easy: Text in leichter Sprache.
             address:
               type: object
               properties:
@@ -491,16 +501,20 @@ components:
                     - PostalAddress
                 streetAddress:
                   type: string
-                  example: Rubenstr. 31
+                  examples:
+                    - Rubenstr. 31
                 addressLocality:
                   type: string
-                  example: Berlin
+                  examples:
+                    - Berlin
                 postalCode:
                   type: string
-                  example: 12157
+                  examples:
+                    - '12157'
                 description:
                   type: string
-                  example: HH 1. Stock
+                  examples:
+                    - HH 1. Stock
             contactPoint:
               type: array
               items:
@@ -512,12 +526,17 @@ components:
                       - ContactPoint
                   name:
                     type: object
+                    required:
+                      - de
+                    properties:
+                      de:
+                        type: string
                     additionalProperties:
                       type: string
-                    example:
-                      de: Titel in Deutsch.
-                      en: Title title in English.
-                      de-easy: Titel in leichter Sprache.
+                    examples:
+                      - de: Titel in Deutsch.
+                        en: Title title in English.
+                        de-easy: Titel in leichter Sprache.
                   telephone:
                     type: string
                   email:
@@ -545,32 +564,47 @@ components:
                     additionalProperties: true
                   term:
                     type: object
+                    required:
+                      - de
+                    properties:
+                      de:
+                        type: string
                     additionalProperties:
                       type: string
-                    example:
-                      de: Kurzer Text in Deutsch.
-                      en: Short text in English.
-                      de-easy: Kurzer Text in leichter Sprache.
+                    examples:
+                      - de: Kurzer Text in Deutsch.
+                        en: Short text in English.
+                        de-easy: Kurzer Text in leichter Sprache.
     CreateOrganization:
       type: object
       additionalProperties: false
       properties:
         name:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         description:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Text in Deutsch.
-            en: Text in English.
-            de-easy: Text in leichter Sprache.
+          examples:
+            - de: Text in Deutsch.
+              en: Text in English.
+              de-easy: Text in leichter Sprache.
         address:
           type: object
           properties:
@@ -580,16 +614,20 @@ components:
                 - PostalAddress
             streetAddress:
               type: string
-              example: Rubenstr. 31
+              examples:
+                - Rubenstr. 31
             addressLocality:
               type: string
-              example: Berlin
+              examples:
+                - Berlin
             postalCode:
               type: string
-              example: 12157
+              examples:
+                - '12157'
             description:
               type: string
-              example: HH 1. Stock
+              examples:
+                - HH 1. Stock
         contactPoint:
           type: array
           items:
@@ -601,12 +639,17 @@ components:
                   - ContactPoint
               name:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Titel in Deutsch.
-                  en: Title title in English.
-                  de-easy: Titel in leichter Sprache.
+                examples:
+                  - de: Titel in Deutsch.
+                    en: Title title in English.
+                    de-easy: Titel in leichter Sprache.
               telephone:
                 type: string
               email:
@@ -634,32 +677,47 @@ components:
                 additionalProperties: true
               term:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Kurzer Text in Deutsch.
-                  en: Short text in English.
-                  de-easy: Kurzer Text in leichter Sprache.
+                examples:
+                  - de: Kurzer Text in Deutsch.
+                    en: Short text in English.
+                    de-easy: Kurzer Text in leichter Sprache.
     PatchOrganization:
       type: object
       additionalProperties: false
       properties:
         name:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         description:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Text in Deutsch.
-            en: Text in English.
-            de-easy: Text in leichter Sprache.
+          examples:
+            - de: Text in Deutsch.
+              en: Text in English.
+              de-easy: Text in leichter Sprache.
         address:
           type: object
           properties:
@@ -669,16 +727,20 @@ components:
                 - PostalAddress
             streetAddress:
               type: string
-              example: Rubenstr. 31
+              examples:
+                - Rubenstr. 31
             addressLocality:
               type: string
-              example: Berlin
+              examples:
+                - Berlin
             postalCode:
               type: string
-              example: 12157
+              examples:
+                - '12157'
             description:
               type: string
-              example: HH 1. Stock
+              examples:
+                - HH 1. Stock
         contactPoint:
           type: array
           items:
@@ -690,12 +752,17 @@ components:
                   - ContactPoint
               name:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Titel in Deutsch.
-                  en: Title title in English.
-                  de-easy: Titel in leichter Sprache.
+                examples:
+                  - de: Titel in Deutsch.
+                    en: Title title in English.
+                    de-easy: Titel in leichter Sprache.
               telephone:
                 type: string
               email:
@@ -723,12 +790,17 @@ components:
                 additionalProperties: true
               term:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Kurzer Text in Deutsch.
-                  en: Short text in English.
-                  de-easy: Kurzer Text in leichter Sprache.
+                examples:
+                  - de: Kurzer Text in Deutsch.
+                    en: Short text in English.
+                    de-easy: Kurzer Text in leichter Sprache.
     User:
       type: object
       properties:
@@ -854,36 +926,56 @@ components:
                 - ExhibitionEvent
             title:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Titel in Deutsch.
-                en: Title title in English.
-                de-easy: Titel in leichter Sprache.
+              examples:
+                - de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
             subTitle:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Titel in Deutsch.
-                en: Title title in English.
-                de-easy: Titel in leichter Sprache.
+              examples:
+                - de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
             description:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Text in Deutsch.
-                en: Text in English.
-                de-easy: Text in leichter Sprache.
+              examples:
+                - de: Text in Deutsch.
+                  en: Text in English.
+                  de-easy: Text in leichter Sprache.
             shortDescription:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Kurzer Text in Deutsch.
-                en: Short text in English.
-                de-easy: Kurzer Text in leichter Sprache.
+              examples:
+                - de: Kurzer Text in Deutsch.
+                  en: Short text in English.
+                  de-easy: Kurzer Text in leichter Sprache.
             startDate:
               type: string
               format: date-time
@@ -915,12 +1007,17 @@ components:
                     additionalProperties: true
                   term:
                     type: object
+                    required:
+                      - de
+                    properties:
+                      de:
+                        type: string
                     additionalProperties:
                       type: string
-                    example:
-                      de: Kurzer Text in Deutsch.
-                      en: Short text in English.
-                      de-easy: Kurzer Text in leichter Sprache.
+                    examples:
+                      - de: Kurzer Text in Deutsch.
+                        en: Short text in English.
+                        de-easy: Kurzer Text in leichter Sprache.
             keywords:
               type: array
               items:
@@ -938,12 +1035,17 @@ components:
                     additionalProperties: true
                   term:
                     type: object
+                    required:
+                      - de
+                    properties:
+                      de:
+                        type: string
                     additionalProperties:
                       type: string
-                    example:
-                      de: Kurzer Text in Deutsch.
-                      en: Short text in English.
-                      de-easy: Kurzer Text in leichter Sprache.
+                    examples:
+                      - de: Kurzer Text in Deutsch.
+                        en: Short text in English.
+                        de-easy: Kurzer Text in leichter Sprache.
             inLanguages:
               type: array
               items:
@@ -1034,36 +1136,56 @@ components:
             - culture
         title:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         subTitle:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         description:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Text in Deutsch.
-            en: Text in English.
-            de-easy: Text in leichter Sprache.
+          examples:
+            - de: Text in Deutsch.
+              en: Text in English.
+              de-easy: Text in leichter Sprache.
         shortDescription:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Kurzer Text in Deutsch.
-            en: Short text in English.
-            de-easy: Kurzer Text in leichter Sprache.
+          examples:
+            - de: Kurzer Text in Deutsch.
+              en: Short text in English.
+              de-easy: Kurzer Text in leichter Sprache.
         startDate:
           type: string
           format: date-time
@@ -1095,12 +1217,17 @@ components:
                 additionalProperties: true
               term:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Kurzer Text in Deutsch.
-                  en: Short text in English.
-                  de-easy: Kurzer Text in leichter Sprache.
+                examples:
+                  - de: Kurzer Text in Deutsch.
+                    en: Short text in English.
+                    de-easy: Kurzer Text in leichter Sprache.
         keywords:
           type: array
           items:
@@ -1118,12 +1245,17 @@ components:
                 additionalProperties: true
               term:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Kurzer Text in Deutsch.
-                  en: Short text in English.
-                  de-easy: Kurzer Text in leichter Sprache.
+                examples:
+                  - de: Kurzer Text in Deutsch.
+                    en: Short text in English.
+                    de-easy: Kurzer Text in leichter Sprache.
         inLanguages:
           type: array
           items:
@@ -1224,36 +1356,56 @@ components:
             - culture
         title:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         subTitle:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         description:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Text in Deutsch.
-            en: Text in English.
-            de-easy: Text in leichter Sprache.
+          examples:
+            - de: Text in Deutsch.
+              en: Text in English.
+              de-easy: Text in leichter Sprache.
         shortDescription:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Kurzer Text in Deutsch.
-            en: Short text in English.
-            de-easy: Kurzer Text in leichter Sprache.
+          examples:
+            - de: Kurzer Text in Deutsch.
+              en: Short text in English.
+              de-easy: Kurzer Text in leichter Sprache.
         startDate:
           type: string
           format: date-time
@@ -1285,12 +1437,17 @@ components:
                 additionalProperties: true
               term:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Kurzer Text in Deutsch.
-                  en: Short text in English.
-                  de-easy: Kurzer Text in leichter Sprache.
+                examples:
+                  - de: Kurzer Text in Deutsch.
+                    en: Short text in English.
+                    de-easy: Kurzer Text in leichter Sprache.
         keywords:
           type: array
           items:
@@ -1308,12 +1465,17 @@ components:
                 additionalProperties: true
               term:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Kurzer Text in Deutsch.
-                  en: Short text in English.
-                  de-easy: Kurzer Text in leichter Sprache.
+                examples:
+                  - de: Kurzer Text in Deutsch.
+                    en: Short text in English.
+                    de-easy: Kurzer Text in leichter Sprache.
         inLanguages:
           type: array
           items:
@@ -1419,20 +1581,30 @@ components:
                 - Place
             name:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Titel in Deutsch.
-                en: Title title in English.
-                de-easy: Titel in leichter Sprache.
+              examples:
+                - de: Titel in Deutsch.
+                  en: Title title in English.
+                  de-easy: Titel in leichter Sprache.
             description:
               type: object
+              required:
+                - de
+              properties:
+                de:
+                  type: string
               additionalProperties:
                 type: string
-              example:
-                de: Text in Deutsch.
-                en: Text in English.
-                de-easy: Text in leichter Sprache.
+              examples:
+                - de: Text in Deutsch.
+                  en: Text in English.
+                  de-easy: Text in leichter Sprache.
             address:
               type: object
               properties:
@@ -1442,16 +1614,20 @@ components:
                     - PostalAddress
                 streetAddress:
                   type: string
-                  example: Rubenstr. 31
+                  examples:
+                    - Rubenstr. 31
                 addressLocality:
                   type: string
-                  example: Berlin
+                  examples:
+                    - Berlin
                 postalCode:
                   type: string
-                  example: 12157
+                  examples:
+                    - '12157'
                 description:
                   type: string
-                  example: HH 1. Stock
+                  examples:
+                    - HH 1. Stock
             geo:
               type: object
               additionalProperties: false
@@ -1491,12 +1667,17 @@ components:
                       - ContactPoint
                   name:
                     type: object
+                    required:
+                      - de
+                    properties:
+                      de:
+                        type: string
                     additionalProperties:
                       type: string
-                    example:
-                      de: Titel in Deutsch.
-                      en: Title title in English.
-                      de-easy: Titel in leichter Sprache.
+                    examples:
+                      - de: Titel in Deutsch.
+                        en: Title title in English.
+                        de-easy: Titel in leichter Sprache.
                   telephone:
                     type: string
                   email:
@@ -1522,32 +1703,47 @@ components:
                     additionalProperties: true
                   term:
                     type: object
+                    required:
+                      - de
+                    properties:
+                      de:
+                        type: string
                     additionalProperties:
                       type: string
-                    example:
-                      de: Kurzer Text in Deutsch.
-                      en: Short text in English.
-                      de-easy: Kurzer Text in leichter Sprache.
+                    examples:
+                      - de: Kurzer Text in Deutsch.
+                        en: Short text in English.
+                        de-easy: Kurzer Text in leichter Sprache.
     PatchLocation:
       type: object
       additionalProperties: false
       properties:
         name:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         description:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Text in Deutsch.
-            en: Text in English.
-            de-easy: Text in leichter Sprache.
+          examples:
+            - de: Text in Deutsch.
+              en: Text in English.
+              de-easy: Text in leichter Sprache.
         address:
           type: object
           properties:
@@ -1557,16 +1753,20 @@ components:
                 - PostalAddress
             streetAddress:
               type: string
-              example: Rubenstr. 31
+              examples:
+                - Rubenstr. 31
             addressLocality:
               type: string
-              example: Berlin
+              examples:
+                - Berlin
             postalCode:
               type: string
-              example: 12157
+              examples:
+                - '12157'
             description:
               type: string
-              example: HH 1. Stock
+              examples:
+                - HH 1. Stock
         borough:
           type: string
           enum:
@@ -1594,12 +1794,17 @@ components:
                   - ContactPoint
               name:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Titel in Deutsch.
-                  en: Title title in English.
-                  de-easy: Titel in leichter Sprache.
+                examples:
+                  - de: Titel in Deutsch.
+                    en: Title title in English.
+                    de-easy: Titel in leichter Sprache.
               telephone:
                 type: string
               email:
@@ -1614,20 +1819,30 @@ components:
       properties:
         name:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Titel in Deutsch.
-            en: Title title in English.
-            de-easy: Titel in leichter Sprache.
+          examples:
+            - de: Titel in Deutsch.
+              en: Title title in English.
+              de-easy: Titel in leichter Sprache.
         description:
           type: object
+          required:
+            - de
+          properties:
+            de:
+              type: string
           additionalProperties:
             type: string
-          example:
-            de: Text in Deutsch.
-            en: Text in English.
-            de-easy: Text in leichter Sprache.
+          examples:
+            - de: Text in Deutsch.
+              en: Text in English.
+              de-easy: Text in leichter Sprache.
         address:
           type: object
           properties:
@@ -1637,16 +1852,20 @@ components:
                 - PostalAddress
             streetAddress:
               type: string
-              example: Rubenstr. 31
+              examples:
+                - Rubenstr. 31
             addressLocality:
               type: string
-              example: Berlin
+              examples:
+                - Berlin
             postalCode:
               type: string
-              example: 12157
+              examples:
+                - '12157'
             description:
               type: string
-              example: HH 1. Stock
+              examples:
+                - HH 1. Stock
         borough:
           type: string
           enum:
@@ -1674,12 +1893,17 @@ components:
                   - ContactPoint
               name:
                 type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
                 additionalProperties:
                   type: string
-                example:
-                  de: Titel in Deutsch.
-                  en: Title title in English.
-                  de-easy: Titel in leichter Sprache.
+                examples:
+                  - de: Titel in Deutsch.
+                    en: Title title in English.
+                    de-easy: Titel in leichter Sprache.
               telephone:
                 type: string
               email:

@@ -25,7 +25,6 @@ export const schemaForGeoCoordinates = {
 export function validateGeoCoordinates(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForGeoCoordinates);
   return {isValid: validate(o), validate: validate};

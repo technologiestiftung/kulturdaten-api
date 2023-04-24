@@ -22,7 +22,6 @@ export const schemaForAuth = {
 export function validateAuth(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
   ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForAuth);

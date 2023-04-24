@@ -17,10 +17,25 @@ let dummyOrganizations = [
 	{ identifier: "3", name: { de:  "Organization 3" }},
 ]
 
-let newOrganization = fakeOrganization();
+let newOrganization = fakeOrganization(false);
 
 describe('listOrganizations is being tested', () => {
 
+	test('test faker', () => {
+		let fake = fakeOrganization(true, {identifier : "1"});
+		let val = validateOrganization(fake);
+		expect(val.isValid).toBe(true);
+	});
+
+
+	test('test fakers', () => {
+		let fakes = fakeOrganizations(true, {identifier : "1"}, {identifier : "2"}, {identifier : "3"});
+		fakes.forEach(f => {
+			let val = validateOrganization(f);
+			expect(val.isValid).toBe(true);
+		});
+		
+	});
 
 	test('organizations available organizations as a document with code 200', async () => {
 		let controller = generateMockController();

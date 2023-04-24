@@ -16,17 +16,16 @@ export const schemaForPostalAddress = {
   type: "object",
   properties: {
     "@type": {type: "string", enum: ["PostalAddress"]},
-    streetAddress: {type: "string", example: "Rubenstr. 31"},
-    addressLocality: {type: "string", example: "Berlin"},
-    postalCode: {type: "string", example: 12157},
-    description: {type: "string", example: "HH 1. Stock"}
+    streetAddress: {type: "string", examples: ["Rubenstr. 31"]},
+    addressLocality: {type: "string", examples: ["Berlin"]},
+    postalCode: {type: "string", examples: ["12157"]},
+    description: {type: "string", examples: ["HH 1. Stock"]}
   }
 };
 
 export function validatePostalAddress(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForPostalAddress);
   return {isValid: validate(o), validate: validate};

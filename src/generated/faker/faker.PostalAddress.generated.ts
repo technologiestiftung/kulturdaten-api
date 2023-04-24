@@ -3,11 +3,12 @@
 	import { PostalAddress, schemaForPostalAddress } from "../models/PostalAddress.generated";
 
 
-	export function fakePostalAddress(specifiedPropertiesForPostalAddress: object = {}): PostalAddress {
+	export function fakePostalAddress(useExamples: boolean, specifiedPropertiesForPostalAddress: object = {}): PostalAddress {
 		const schema = schemaForPostalAddress as Schema;
 		const refs : Schema[] = [
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakePostalAddress: PostalAddress = JSONSchemaFaker.generate(schema, refs) as PostalAddress;
 		// @ts-ignore
@@ -15,10 +16,10 @@
 		return returnPostalAddress;
 	}
 
-	export function fakePostalAddresss(...createPostalAddress: object[]) : PostalAddress[] {
+	export function fakePostalAddresss(useExamples: boolean, ...createPostalAddress: object[]) : PostalAddress[] {
 		const returnPostalAddresss : PostalAddress[] = [];
 		createPostalAddress.forEach(element => {
-			returnPostalAddresss.push(fakePostalAddress(element));
+			returnPostalAddresss.push(fakePostalAddress(useExamples, element));
 		});
 		return returnPostalAddresss;
 	}

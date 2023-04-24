@@ -51,7 +51,6 @@ export const schemaForPatchEvent = {
 export function validatePatchEvent(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");
   ajv.addSchema(schemaForShortText, "ShortText.yml");

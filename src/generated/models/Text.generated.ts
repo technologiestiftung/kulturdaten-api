@@ -14,19 +14,21 @@ import addFormats from "ajv-formats";
 export const schemaForText = {
   $id: "Text.yml",
   type: "object",
+  required: ["de"],
+  properties: {de: {type: "string"}},
   additionalProperties: {type: "string"},
-  example: {de: "Text in Deutsch.", en: "Text in English.", "de-easy": "Text in leichter Sprache."}
+  examples: [{de: "Text in Deutsch.", en: "Text in English.", "de-easy": "Text in leichter Sprache."}]
 };
 
 export function validateText(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
-  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForText);
   return {isValid: validate(o), validate: validate};
 }
 
 export interface Text {
+  de: string;
   [k: string]: string;
 }

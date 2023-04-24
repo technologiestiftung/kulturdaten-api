@@ -4,12 +4,13 @@
 
 	import { schemaForReference } from '../models/Reference.generated';
 
-	export function fakeAuth(specifiedPropertiesForAuth: object = {}): Auth {
+	export function fakeAuth(useExamples: boolean, specifiedPropertiesForAuth: object = {}): Auth {
 		const schema = schemaForAuth as Schema;
 		const refs : Schema[] = [
 			schemaForReference as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeAuth: Auth = JSONSchemaFaker.generate(schema, refs) as Auth;
 		// @ts-ignore
@@ -17,10 +18,10 @@
 		return returnAuth;
 	}
 
-	export function fakeAuths(...createAuth: object[]) : Auth[] {
+	export function fakeAuths(useExamples: boolean, ...createAuth: object[]) : Auth[] {
 		const returnAuths : Auth[] = [];
 		createAuth.forEach(element => {
-			returnAuths.push(fakeAuth(element));
+			returnAuths.push(fakeAuth(useExamples, element));
 		});
 		return returnAuths;
 	}

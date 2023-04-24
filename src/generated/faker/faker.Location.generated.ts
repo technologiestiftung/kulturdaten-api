@@ -13,7 +13,7 @@
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
 
-	export function fakeLocation(specifiedPropertiesForLocation: object = {}): Location {
+	export function fakeLocation(useExamples: boolean, specifiedPropertiesForLocation: object = {}): Location {
 		const schema = schemaForLocation as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
@@ -28,6 +28,7 @@
 			schemaForShortText as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeLocation: Location = JSONSchemaFaker.generate(schema, refs) as Location;
 		// @ts-ignore
@@ -35,10 +36,10 @@
 		return returnLocation;
 	}
 
-	export function fakeLocations(...createLocation: object[]) : Location[] {
+	export function fakeLocations(useExamples: boolean, ...createLocation: object[]) : Location[] {
 		const returnLocations : Location[] = [];
 		createLocation.forEach(element => {
-			returnLocations.push(fakeLocation(element));
+			returnLocations.push(fakeLocation(useExamples, element));
 		});
 		return returnLocations;
 	}

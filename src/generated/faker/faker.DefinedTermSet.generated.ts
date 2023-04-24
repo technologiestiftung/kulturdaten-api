@@ -7,7 +7,7 @@
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
 
-	export function fakeDefinedTermSet(specifiedPropertiesForDefinedTermSet: object = {}): DefinedTermSet {
+	export function fakeDefinedTermSet(useExamples: boolean, specifiedPropertiesForDefinedTermSet: object = {}): DefinedTermSet {
 		const schema = schemaForDefinedTermSet as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
@@ -16,6 +16,7 @@
 			schemaForShortText as Schema,
 
 		];
+		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
 		const fakeDefinedTermSet: DefinedTermSet = JSONSchemaFaker.generate(schema, refs) as DefinedTermSet;
 		// @ts-ignore
@@ -23,10 +24,10 @@
 		return returnDefinedTermSet;
 	}
 
-	export function fakeDefinedTermSets(...createDefinedTermSet: object[]) : DefinedTermSet[] {
+	export function fakeDefinedTermSets(useExamples: boolean, ...createDefinedTermSet: object[]) : DefinedTermSet[] {
 		const returnDefinedTermSets : DefinedTermSet[] = [];
 		createDefinedTermSet.forEach(element => {
-			returnDefinedTermSets.push(fakeDefinedTermSet(element));
+			returnDefinedTermSets.push(fakeDefinedTermSet(useExamples, element));
 		});
 		return returnDefinedTermSets;
 	}
