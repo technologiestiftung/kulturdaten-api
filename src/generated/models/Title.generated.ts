@@ -16,13 +16,13 @@ export const schemaForTitle = {
   type: "object",
   required: ["de"],
   properties: {de: {type: "string"}},
-  additionalProperties: {type: "string"},
-  examples: [{de: "Titel in Deutsch.", en: "Title title in English.", "de-easy": "Titel in leichter Sprache."}]
+  additionalProperties: {type: "string"}
 };
 
 export function validateTitle(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForTitle);
   return {isValid: validate(o), validate: validate};

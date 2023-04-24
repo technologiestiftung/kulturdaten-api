@@ -21,6 +21,7 @@ export const schemaForReference = {
 export function validateReference(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForReference);
   return {isValid: validate(o), validate: validate};

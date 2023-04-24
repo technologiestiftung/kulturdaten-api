@@ -16,15 +16,13 @@ export const schemaForShortText = {
   type: "object",
   required: ["de"],
   properties: {de: {type: "string"}},
-  additionalProperties: {type: "string"},
-  examples: [
-    {de: "Kurzer Text in Deutsch.", en: "Short text in English.", "de-easy": "Kurzer Text in leichter Sprache."}
-  ]
+  additionalProperties: {type: "string"}
 };
 
 export function validateShortText(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForShortText);
   return {isValid: validate(o), validate: validate};

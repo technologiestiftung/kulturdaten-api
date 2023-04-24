@@ -18,8 +18,8 @@ import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
 import {GeoCoordinates, schemaForGeoCoordinates} from "./GeoCoordinates.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
-import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
+import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {ShortText, schemaForShortText} from "./ShortText.generated";
 
 export const schemaForLocation = {
@@ -37,6 +37,7 @@ export const schemaForLocation = {
         borough: {$ref: "Borough.yml"},
         contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
         url: {type: "string"},
+        managedBy: {$ref: "Reference.yml"},
         accessibility: {type: "string"},
         categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
       }
@@ -47,6 +48,7 @@ export const schemaForLocation = {
 export function validateLocation(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForCore, "Core.yml");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");
@@ -54,8 +56,8 @@ export function validateLocation(o: object): {isValid: boolean; validate: Valida
   ajv.addSchema(schemaForGeoCoordinates, "GeoCoordinates.yml");
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
-  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
+  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
   ajv.addSchema(schemaForShortText, "ShortText.yml");
 
   const validate = ajv.compile(schemaForLocation);
@@ -84,6 +86,7 @@ export type Location = Core & {
     | "außerhalb";
   contactPoint?: ContactPoint[];
   url?: string;
+  managedBy?: Reference;
   accessibility?: string;
   categories?: DefinedTerm[];
 };

@@ -27,6 +27,7 @@ export const schemaForContactPoint = {
 export function validateContactPoint(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForTitle, "Title.yml");
 
   const validate = ajv.compile(schemaForContactPoint);

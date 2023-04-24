@@ -72,7 +72,7 @@ allOf:
         type: array
         items:
           $ref: Reference.yml
-      organizer:
+      organizedBy:
         $ref: Reference.yml
       subEvents:
         type: array

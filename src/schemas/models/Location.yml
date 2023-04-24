@@ -23,6 +23,8 @@ allOf:
           $ref: ContactPoint.yml
       url:
         type: string
+      managedBy:
+        $ref: Reference.yml
       accessibility:
         type: string
       categories:

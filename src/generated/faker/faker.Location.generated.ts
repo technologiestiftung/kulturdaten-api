@@ -9,8 +9,8 @@
 	import { schemaForGeoCoordinates } from '../models/GeoCoordinates.generated';
 	import { schemaForBorough } from '../models/Borough.generated';
 	import { schemaForContactPoint } from '../models/ContactPoint.generated';
-	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForReference } from '../models/Reference.generated';
+	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
 
 	export function fakeLocation(useExamples: boolean, specifiedPropertiesForLocation: object = {}): Location {
@@ -23,8 +23,8 @@
 			schemaForGeoCoordinates as Schema,
 			schemaForBorough as Schema,
 			schemaForContactPoint as Schema,
-			schemaForDefinedTerm as Schema,
 			schemaForReference as Schema,
+			schemaForDefinedTerm as Schema,
 			schemaForShortText as Schema,
 
 		];

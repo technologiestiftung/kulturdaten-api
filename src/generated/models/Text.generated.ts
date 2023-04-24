@@ -16,13 +16,13 @@ export const schemaForText = {
   type: "object",
   required: ["de"],
   properties: {de: {type: "string"}},
-  additionalProperties: {type: "string"},
-  examples: [{de: "Text in Deutsch.", en: "Text in English.", "de-easy": "Text in leichter Sprache."}]
+  additionalProperties: {type: "string"}
 };
 
 export function validateText(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
 
   const validate = ajv.compile(schemaForText);
   return {isValid: validate(o), validate: validate};

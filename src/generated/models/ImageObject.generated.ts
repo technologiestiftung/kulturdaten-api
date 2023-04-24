@@ -47,6 +47,7 @@ export const schemaForImageObject = {
 export function validateImageObject(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForCore, "Core.yml");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");

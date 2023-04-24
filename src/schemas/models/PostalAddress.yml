@@ -6,17 +6,10 @@ properties:
       - 'PostalAddress'
   streetAddress:
     type: string
-    examples: 
-      - Rubenstr. 31
   addressLocality:
     type: string
-    examples: 
-      - Berlin
   postalCode:
     type: string
-    examples: 
-      - "12157"
+    example: "12157"
   description:
     type: string
-    examples: 
-      - HH 1. Stock

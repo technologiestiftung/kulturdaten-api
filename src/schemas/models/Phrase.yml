@@ -6,7 +6,3 @@ properties:
     type: string
 additionalProperties:
   type: string
-examples:
-  - de: Phrase
-    en: Phrase
-    de-easy: Ausdruck

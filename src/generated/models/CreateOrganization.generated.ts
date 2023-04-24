@@ -38,6 +38,7 @@ export const schemaForCreateOrganization = {
 export function validateCreateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");
   ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");

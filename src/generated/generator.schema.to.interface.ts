@@ -44,6 +44,7 @@ async function generateInterface(className: string, rootDirectory: string = './s
 		 export function validate${schemaName}(o : object): {isValid: boolean, validate: ValidateFunction} {
 			const ajv = new Ajv();
 			addFormats(ajv);
+			ajv.addKeyword("example");
 			${dependencies.ajvSchema}
 			const validate = ajv.compile(schemaFor${schemaName});
 			return {isValid: validate(o), validate: validate};

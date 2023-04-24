@@ -44,7 +44,7 @@ export const schemaForEvent = {
         eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
         eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
         location: {type: "array", items: {$ref: "Reference.yml"}},
-        organizer: {$ref: "Reference.yml"},
+        organizedBy: {$ref: "Reference.yml"},
         subEvents: {type: "array", items: {$ref: "Reference.yml"}},
         superEvent: {$ref: "Reference.yml"}
       }
@@ -55,6 +55,7 @@ export const schemaForEvent = {
 export function validateEvent(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
+  ajv.addKeyword("example");
   ajv.addSchema(schemaForCore, "Core.yml");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");
@@ -86,7 +87,7 @@ export type Event = Core & {
   eventStatus?: "cancelled" | "postponed" | "rescheduled" | "scheduled";
   eventAttendanceMode?: "offline" | "online" | "mixed";
   location?: Reference[];
-  organizer?: Reference;
+  organizedBy?: Reference;
   subEvents?: Reference[];
   superEvent?: Reference;
 };
