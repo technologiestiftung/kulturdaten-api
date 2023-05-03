@@ -16,7 +16,7 @@ allOf:
         type: array
         items:
           $ref: ContactPoint.yml
-      url:
+      website:
         type: string
       email:
         type: string
@@ -26,3 +26,4 @@ allOf:
         type: array
         items:
           $ref: DefinedTerm.yml
+    

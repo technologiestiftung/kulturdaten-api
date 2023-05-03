@@ -29,10 +29,11 @@ import { MongoDBEventsRepository } from './events/repositories/events.repository
 import { EventsRoutes } from './events/events.routes';
 import { LocationsRoutes } from './locations/locations.routes';
 import { MongoDBLocationsRepository } from './locations/repositories/locations.repository.mobgodb';
+import { MongoClient } from 'mongodb';
 
 const log: debug.IDebugger = debug('app:main');
 
-class KulturdatenBerlinApp {
+export class KulturdatenBerlinApp {
 
 	constructor(public app: express.Application) { }
 
@@ -41,8 +42,7 @@ class KulturdatenBerlinApp {
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
 	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/v1/docs/`
 
-	public ini() {
-		this.initDatabase();
+	public async ini() {
 		this.initDependencyInjection();
 		this.initLogger();
 		this.initAuthStrategies();
@@ -68,16 +68,38 @@ class KulturdatenBerlinApp {
 		});
 	}
 
-	private initDatabase(){
-		Container.get(MongoDBConnector).init();
+	private createDatabaseConnection()  {
+		const path = process.env.MONGO_URI || 'localhost';
+		const port = process.env.MONGO_PORT || 27017;
+
+		const uri = `mongodb://${path}:${port}`;
+		const client =  new MongoClient(uri);
+
+		const db = process.env.MONGO_DB || 'api-db';
+		const database = client.db(db);
+
+		console.log('Connection to MongoDB established.');
+
+		process.on('exit', async function () {
+			console.log('Connection to MongoDB terminated.');
+
+			await client.close();
+		});
+		
+
+		return database;
 	}
 
 	private initDependencyInjection() {
 		// TODO: make all Dependency Injections visible
-		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get(MongoDBConnector)));
-		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get(MongoDBConnector)));
-		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get(MongoDBConnector)));
-		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get(MongoDBConnector)));
+		let database = this.createDatabaseConnection();
+		Container.set('Database', database);
+		console.log(JSON.stringify(Container.get('Database')));
+		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get('Database')));
+		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
+		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
+		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
+
 	}
 
 	private initLogger() {

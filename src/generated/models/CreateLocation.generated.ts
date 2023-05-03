@@ -20,15 +20,15 @@ import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
 export const schemaForCreateLocation = {
   $id: "CreateLocation.yml",
   type: "object",
-  additionalProperties: false,
   properties: {
     name: {$ref: "Title.yml"},
     description: {$ref: "Text.yml"},
     address: {$ref: "PostalAddress.yml"},
     borough: {$ref: "Borough.yml"},
     contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
-    url: {type: "string"},
-    accessibility: {type: "string"}
+    website: {type: "string"},
+    accessibility: {type: "string"},
+    managedBy: {type: "object", properties: {identifier: {type: "string"}}}
   }
 };
 
@@ -65,6 +65,9 @@ export interface CreateLocation {
     | "Reinickendorf"
     | "außerhalb";
   contactPoint?: ContactPoint[];
-  url?: string;
+  website?: string;
   accessibility?: string;
+  managedBy?: {
+    identifier?: string;
+  };
 }

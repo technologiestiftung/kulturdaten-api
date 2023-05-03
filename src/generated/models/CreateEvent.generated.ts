@@ -20,7 +20,6 @@ import {Reference, schemaForReference} from "./Reference.generated";
 export const schemaForCreateEvent = {
   $id: "CreateEvent.yml",
   type: "object",
-  additionalProperties: false,
   properties: {
     "@type": {type: "string", enum: ["Event", "EventSeries", "ExhibitionEvent"]},
     kind: {type: "string", enum: ["culture"]},

@@ -14,7 +14,6 @@ import addFormats from "ajv-formats";
 export const schemaForGeoCoordinates = {
   $id: "GeoCoordinates.yml",
   type: "object",
-  additionalProperties: false,
   properties: {
     "@type": {type: "string", enum: ["GeoCoordinates"]},
     latitude: {type: "string"},

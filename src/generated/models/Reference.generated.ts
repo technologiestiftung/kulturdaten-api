@@ -14,7 +14,12 @@ import addFormats from "ajv-formats";
 export const schemaForReference = {
   $id: "Reference.yml",
   type: "object",
-  properties: {label: {type: "string"}, targetType: {type: "string"}, identifier: {type: "string"}},
+  properties: {
+    label: {type: "string"},
+    targetType: {type: "string"},
+    identifier: {type: "string"},
+    url: {type: "string"}
+  },
   additionalProperties: true
 };
 
@@ -31,5 +36,6 @@ export interface Reference {
   label?: string;
   targetType?: string;
   identifier?: string;
+  url?: string;
   [k: string]: unknown;
 }

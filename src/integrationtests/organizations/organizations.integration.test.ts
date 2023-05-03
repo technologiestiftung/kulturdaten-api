@@ -3,15 +3,14 @@ import request from "supertest";
 import { OrganizationsController } from "../../organizations/controllers/organizations.controller";
 import { OrganizationsService } from "../../organizations/services/organizations.service";
 import { OrganizationsRoutes } from "../../organizations/organizations.routes";
-import { MockOrganizationsRepository, dummyOrganization } from "./mocks/mock.organizations.repository";
+import { MockOrganizationsRepository } from "./mocks/mock.organizations.repository";
 
 import { validateOrganization } from "../../generated/models/Organization.generated";
 
 const app = express();
 app.use(express.json());
 
-const organizationsRepository = new MockOrganizationsRepository();
-organizationsRepository.fillWithDummyOrganizations(5);
+const organizationsRepository = new MockOrganizationsRepository(false,{identifier: "1"},{identifier: "2"},{identifier: "3"});
 const organizationsService = new OrganizationsService(organizationsRepository);
 const organizationsController = new OrganizationsController(organizationsService);
 const organizationsRoutes = new OrganizationsRoutes(organizationsController);
@@ -59,7 +58,7 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('GET /v1/organizations/:organizationId - get the organization', async () => {
-		const existOrganizationId = organizationsRepository.addDummyOrganization();
+		const existOrganizationId = organizationsRepository.addDummyOrganization(false,{identifier: "1"});
 
 		const { body, statusCode } = await request(app).get(`/v1/organizations/${existOrganizationId}`);
 
@@ -83,7 +82,7 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('PATCH /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId: string = organizationsRepository.addDummyOrganization() || '';
+		const existOrganizationId: string = organizationsRepository.addDummyOrganization(false,{identifier: "1"}) || '';
 
 		const { statusCode } = await request(app).patch(`/v1/organizations/${existOrganizationId}`).send({
 			name: 'Neuer Name',
@@ -107,7 +106,7 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('DELETE /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId: string = organizationsRepository.addDummyOrganization() || '';
+		const existOrganizationId: string = organizationsRepository.addDummyOrganization(false,{identifier: "1"}) || '';
 
 		const { statusCode } = await request(app).delete(`/v1/organizations/${existOrganizationId}`);
 

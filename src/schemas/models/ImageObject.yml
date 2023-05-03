@@ -35,4 +35,5 @@ allOf:
           acquireLicensePage:
             type: string
             format: uri
+    
 

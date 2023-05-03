@@ -14,7 +14,6 @@ import addFormats from "ajv-formats";
 export const schemaForPatchUser = {
   $id: "PatchUser.yml",
   type: "object",
-  additionalProperties: false,
   properties: {
     email: {type: "string", minLength: 1},
     firstName: {type: "string", minLength: 1},

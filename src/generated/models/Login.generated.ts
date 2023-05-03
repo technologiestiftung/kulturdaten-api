@@ -14,7 +14,6 @@ import addFormats from "ajv-formats";
 export const schemaForLogin = {
   $id: "Login.yml",
   type: "object",
-  additionalProperties: false,
   properties: {password: {type: "string"}, email: {type: "string"}}
 };
 

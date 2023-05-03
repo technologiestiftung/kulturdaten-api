@@ -20,6 +20,7 @@ export const schemaForCore = {
     created: {type: "string", format: "date-time"},
     updated: {type: "string", format: "date-time"},
     kind: {type: "string", enum: ["culture"]},
+    url: {type: "string"},
     origin: {type: "string"}
   }
 };
@@ -39,5 +40,6 @@ export interface Core {
   created?: string;
   updated?: string;
   kind?: "culture";
+  url?: string;
   origin?: string;
 }

@@ -14,7 +14,6 @@ import addFormats from "ajv-formats";
 export const schemaForCreateUser = {
   $id: "CreateUser.yml",
   type: "object",
-  additionalProperties: false,
   properties: {
     email: {type: "string", format: "email", minLength: 1},
     password: {type: "string", format: "password", minLength: 12},

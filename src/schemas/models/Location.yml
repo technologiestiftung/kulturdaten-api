@@ -21,7 +21,7 @@ allOf:
         type: array
         items:
           $ref: ContactPoint.yml
-      url:
+      website:
         type: string
       managedBy:
         $ref: Reference.yml
@@ -31,3 +31,4 @@ allOf:
         type: array
         items:
           $ref: DefinedTerm.yml
+    

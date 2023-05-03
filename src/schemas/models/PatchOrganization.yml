@@ -1,5 +1,5 @@
 type: object
-additionalProperties: false
+
 properties:
   name:
     $ref: Title.yml
@@ -11,7 +11,7 @@ properties:
     type: array
     items:
       $ref: ContactPoint.yml
-  url:
+  website:
     type: string
   email:
     type: string

@@ -1,5 +1,5 @@
 type: object
-additionalProperties: false
+
 properties:
   password:
     type: string

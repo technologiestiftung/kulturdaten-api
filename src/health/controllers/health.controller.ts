@@ -1,6 +1,6 @@
 import express from 'express';
 import debug from 'debug';
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { MongoDBConnector } from '../../common/services/mongodb.service';
 
 const log: debug.IDebugger = debug('app:health-controller');
@@ -13,7 +13,7 @@ export class HealthController {
 	public intervalInMilliseconds:number = 10000;
 
 	
-	constructor(private repo : MongoDBConnector){}
+	constructor(@Inject('DBConnector') private repo: MongoDBConnector){}
 
 	public async check() {
 		if(this.isTimeForCheck()){

@@ -22,13 +22,12 @@ import {ShortText, schemaForShortText} from "./ShortText.generated";
 export const schemaForPatchOrganization = {
   $id: "PatchOrganization.yml",
   type: "object",
-  additionalProperties: false,
   properties: {
     name: {$ref: "Title.yml"},
     description: {$ref: "Text.yml"},
     address: {$ref: "PostalAddress.yml"},
     contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
-    url: {type: "string"},
+    website: {type: "string"},
     email: {type: "string"},
     telephone: {type: "string"},
     categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
@@ -56,7 +55,7 @@ export interface PatchOrganization {
   description?: Text;
   address?: PostalAddress;
   contactPoint?: ContactPoint[];
-  url?: string;
+  website?: string;
   email?: string;
   telephone?: string;
   categories?: DefinedTerm[];

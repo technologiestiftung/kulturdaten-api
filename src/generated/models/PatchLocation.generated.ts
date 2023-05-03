@@ -20,14 +20,13 @@ import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
 export const schemaForPatchLocation = {
   $id: "PatchLocation.yml",
   type: "object",
-  additionalProperties: false,
   properties: {
     name: {$ref: "Title.yml"},
     description: {$ref: "Text.yml"},
     address: {$ref: "PostalAddress.yml"},
     borough: {$ref: "Borough.yml"},
     contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
-    url: {type: "string"},
+    website: {type: "string"},
     accessibility: {type: "string"}
   }
 };
@@ -65,6 +64,6 @@ export interface PatchLocation {
     | "Reinickendorf"
     | "außerhalb";
   contactPoint?: ContactPoint[];
-  url?: string;
+  website?: string;
   accessibility?: string;
 }

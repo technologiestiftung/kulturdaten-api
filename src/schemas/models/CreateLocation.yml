@@ -1,5 +1,5 @@
 type: object
-additionalProperties: false
+
 properties:
   name:
     $ref: Title.yml
@@ -13,7 +13,12 @@ properties:
     type: array
     items:
       $ref: ContactPoint.yml
-  url:
+  website:
     type: string
   accessibility:
     type: string
+  managedBy:
+    type: object
+    properties:
+      identifier:
+        type: string

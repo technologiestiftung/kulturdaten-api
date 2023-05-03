@@ -415,7 +415,6 @@ components:
   schemas:
     Login:
       type: object
-      additionalProperties: false
       properties:
         password:
           type: string
@@ -436,6 +435,8 @@ components:
             targetType:
               type: string
             identifier:
+              type: string
+            url:
               type: string
           additionalProperties: true
     Organization:
@@ -458,6 +459,8 @@ components:
               type: string
               enum:
                 - culture
+            url:
+              type: string
             origin:
               type: string
         - type: object
@@ -522,7 +525,7 @@ components:
                     type: string
                   email:
                     type: string
-            url:
+            website:
               type: string
             email:
               type: string
@@ -542,6 +545,8 @@ components:
                         type: string
                       identifier:
                         type: string
+                      url:
+                        type: string
                     additionalProperties: true
                   term:
                     type: object
@@ -554,7 +559,6 @@ components:
                       type: string
     CreateOrganization:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: object
@@ -612,7 +616,7 @@ components:
                 type: string
               email:
                 type: string
-        url:
+        website:
           type: string
         email:
           type: string
@@ -631,6 +635,8 @@ components:
                   targetType:
                     type: string
                   identifier:
+                    type: string
+                  url:
                     type: string
                 additionalProperties: true
               term:
@@ -644,7 +650,6 @@ components:
                   type: string
     PatchOrganization:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: object
@@ -702,7 +707,7 @@ components:
                 type: string
               email:
                 type: string
-        url:
+        website:
           type: string
         email:
           type: string
@@ -721,6 +726,8 @@ components:
                   targetType:
                     type: string
                   identifier:
+                    type: string
+                  url:
                     type: string
                 additionalProperties: true
               term:
@@ -763,7 +770,6 @@ components:
         - permissionFlags
     CreateUser:
       type: object
-      additionalProperties: false
       properties:
         email:
           type: string
@@ -782,7 +788,6 @@ components:
         - password
     PatchUser:
       type: object
-      additionalProperties: false
       properties:
         email:
           type: string
@@ -845,6 +850,8 @@ components:
               type: string
               enum:
                 - culture
+            url:
+              type: string
             origin:
               type: string
         - type: object
@@ -919,6 +926,8 @@ components:
                         type: string
                       identifier:
                         type: string
+                      url:
+                        type: string
                     additionalProperties: true
                   term:
                     type: object
@@ -942,6 +951,8 @@ components:
                       targetType:
                         type: string
                       identifier:
+                        type: string
+                      url:
                         type: string
                     additionalProperties: true
                   term:
@@ -994,6 +1005,8 @@ components:
                     type: string
                   identifier:
                     type: string
+                  url:
+                    type: string
                 additionalProperties: true
             organizedBy:
               type: object
@@ -1003,6 +1016,8 @@ components:
                 targetType:
                   type: string
                 identifier:
+                  type: string
+                url:
                   type: string
               additionalProperties: true
             subEvents:
@@ -1016,6 +1031,8 @@ components:
                     type: string
                   identifier:
                     type: string
+                  url:
+                    type: string
                 additionalProperties: true
             superEvent:
               type: object
@@ -1026,10 +1043,11 @@ components:
                   type: string
                 identifier:
                   type: string
+                url:
+                  type: string
               additionalProperties: true
     CreateEvent:
       type: object
-      additionalProperties: false
       properties:
         '@type':
           type: string
@@ -1105,6 +1123,8 @@ components:
                     type: string
                   identifier:
                     type: string
+                  url:
+                    type: string
                 additionalProperties: true
               term:
                 type: object
@@ -1128,6 +1148,8 @@ components:
                   targetType:
                     type: string
                   identifier:
+                    type: string
+                  url:
                     type: string
                 additionalProperties: true
               term:
@@ -1180,6 +1202,8 @@ components:
                 type: string
               identifier:
                 type: string
+              url:
+                type: string
             additionalProperties: true
         organizer:
           type: object
@@ -1189,6 +1213,8 @@ components:
             targetType:
               type: string
             identifier:
+              type: string
+            url:
               type: string
           additionalProperties: true
         subEvents:
@@ -1202,6 +1228,8 @@ components:
                 type: string
               identifier:
                 type: string
+              url:
+                type: string
             additionalProperties: true
         superEvent:
           type: object
@@ -1211,6 +1239,8 @@ components:
             targetType:
               type: string
             identifier:
+              type: string
+            url:
               type: string
           additionalProperties: true
     Reference:
@@ -1222,10 +1252,11 @@ components:
           type: string
         identifier:
           type: string
+        url:
+          type: string
       additionalProperties: true
     PatchEvent:
       type: object
-      additionalProperties: false
       properties:
         '@type':
           type: string
@@ -1301,6 +1332,8 @@ components:
                     type: string
                   identifier:
                     type: string
+                  url:
+                    type: string
                 additionalProperties: true
               term:
                 type: object
@@ -1324,6 +1357,8 @@ components:
                   targetType:
                     type: string
                   identifier:
+                    type: string
+                  url:
                     type: string
                 additionalProperties: true
               term:
@@ -1376,6 +1411,8 @@ components:
                 type: string
               identifier:
                 type: string
+              url:
+                type: string
             additionalProperties: true
         organizer:
           type: object
@@ -1385,6 +1422,8 @@ components:
             targetType:
               type: string
             identifier:
+              type: string
+            url:
               type: string
           additionalProperties: true
         subEvents:
@@ -1398,6 +1437,8 @@ components:
                 type: string
               identifier:
                 type: string
+              url:
+                type: string
             additionalProperties: true
         superEvent:
           type: object
@@ -1407,6 +1448,8 @@ components:
             targetType:
               type: string
             identifier:
+              type: string
+            url:
               type: string
           additionalProperties: true
     Location:
@@ -1429,6 +1472,8 @@ components:
               type: string
               enum:
                 - culture
+            url:
+              type: string
             origin:
               type: string
         - type: object
@@ -1474,7 +1519,6 @@ components:
                   type: string
             geo:
               type: object
-              additionalProperties: false
               properties:
                 '@type':
                   type: string
@@ -1522,7 +1566,7 @@ components:
                     type: string
                   email:
                     type: string
-            url:
+            website:
               type: string
             managedBy:
               type: object
@@ -1532,6 +1576,8 @@ components:
                 targetType:
                   type: string
                 identifier:
+                  type: string
+                url:
                   type: string
               additionalProperties: true
             accessibility:
@@ -1550,6 +1596,8 @@ components:
                         type: string
                       identifier:
                         type: string
+                      url:
+                        type: string
                     additionalProperties: true
                   term:
                     type: object
@@ -1562,7 +1610,6 @@ components:
                       type: string
     PatchLocation:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: object
@@ -1636,13 +1683,12 @@ components:
                 type: string
               email:
                 type: string
-        url:
+        website:
           type: string
         accessibility:
           type: string
     CreateLocation:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: object
@@ -1716,7 +1762,12 @@ components:
                 type: string
               email:
                 type: string
-        url:
+        website:
           type: string
         accessibility:
           type: string
+        managedBy:
+          type: object
+          properties:
+            identifier:
+              type: string

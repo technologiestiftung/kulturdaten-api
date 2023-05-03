@@ -16,5 +16,7 @@ properties:
     type: string
     enum:
       - 'culture'
+  url:
+    type: string
   origin:
     type: string

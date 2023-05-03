@@ -36,7 +36,7 @@ export const schemaForLocation = {
         geo: {$ref: "GeoCoordinates.yml"},
         borough: {$ref: "Borough.yml"},
         contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
-        url: {type: "string"},
+        website: {type: "string"},
         managedBy: {$ref: "Reference.yml"},
         accessibility: {type: "string"},
         categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
@@ -85,7 +85,7 @@ export type Location = Core & {
     | "Reinickendorf"
     | "außerhalb";
   contactPoint?: ContactPoint[];
-  url?: string;
+  website?: string;
   managedBy?: Reference;
   accessibility?: string;
   categories?: DefinedTerm[];

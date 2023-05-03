@@ -6,4 +6,6 @@ properties:
     type: string
   identifier:
     type: string
+  url:
+    type: string
 additionalProperties: true

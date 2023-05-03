@@ -80,3 +80,4 @@ allOf:
           $ref: Reference.yml
       superEvent:
         $ref: Reference.yml
+    
