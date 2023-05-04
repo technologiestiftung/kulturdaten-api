@@ -1,0 +1,142 @@
+[
+	{
+	  "@context": "kulturdaten.berlin/api/v1/spec",
+	  "identifier": "10001",
+	  "created": "2022-04-10T08:30:00Z",
+	  "updated": "2022-05-20T12:45:00Z",
+	  "kind": "culture",
+	  "url": "https://www.example.com/10001",
+	  "origin": "Kulturdaten Berlin",
+	  "@type": "Place",
+	  "name": {
+		"de": "Berliner Philharmonie"
+	  },
+	  "description": {
+		"de": "Die Berliner Philharmonie ist ein Konzertsaal in Berlin-Tiergarten."
+	  },
+	  "address": {
+		"@type": "PostalAddress",
+		"streetAddress": "Herbert-von-Karajan-Straße 1",
+		"addressLocality": "Berlin",
+		"postalCode": "10785",
+		"description": "Eingang West"
+	  },
+	  "geo": {
+		"@type": "GeoCoordinates",
+		"latitude": "52.5095",
+		"longitude": "13.3695"
+	  },
+	  "borough": "Mitte",
+	  "contactPoint": [
+		{
+		  "@type": "ContactPoint",
+		  "name": {
+			"de": "Kartenbüro"
+		  },
+		  "telephone": "+49 30 254 88-999",
+		  "email": "tickets@berliner-philharmoniker.de"
+		}
+	  ],
+	  "website": "https://www.berliner-philharmoniker.de/",
+	  "managedBy": {
+		"label": "Berliner Philharmoniker",
+		"targetType": "Organization",
+		"identifier": "1001",
+		"url": "https://www.berliner-philharmoniker.de"
+	  },
+	  "accessibility": "Teilweise barrierefrei",
+	  "categories": [
+		{
+		  "inDefinedTermSet": {
+			"label": "Kategorien",
+			"targetType": "DefinedTermSet",
+			"identifier": "2001",
+			"url": "https://www.example.com/categories"
+		  },
+		  "term": {
+			"de": "Klassische Musik"
+		  }
+		},
+		{
+		  "inDefinedTermSet": {
+			"label": "Kategorien",
+			"targetType": "DefinedTermSet",
+			"identifier": "2001",
+			"url": "https://www.example.com/categories"
+		  },
+		  "term": {
+			"de": "Konzertsaal"
+		  }
+		}
+	  ]
+	},{
+		"@context": "kulturdaten.berlin/api/v1/spec",
+		"identifier": "10002",
+		"created": "2022-04-25T15:30:00Z",
+		"updated": "2022-05-01T09:45:00Z",
+		"kind": "culture",
+		"url": "https://www.museum-digital.de/brandenburg/index.php?t=objekt&oges=3552",
+		"origin": "Museum Digital",
+		"@type": "Place",
+		"name": {
+		  "de": "Museum für Naturkunde"
+		},
+		"description": {
+		  "de": "Das Museum für Naturkunde in Berlin ist ein Forschungsmuseum für Biowissenschaften und Geowissenschaften sowie ein öffentliches Schaumuseum für Naturkunde."
+		},
+		"address": {
+		  "@type": "PostalAddress",
+		  "streetAddress": "Invalidenstraße 43",
+		  "addressLocality": "Berlin",
+		  "postalCode": "10115"
+		},
+		"geo": {
+		  "@type": "GeoCoordinates",
+		  "latitude": "52.5309446",
+		  "longitude": "13.3798495"
+		},
+		"borough": "Mitte",
+		"contactPoint": [
+		  {
+			"@type": "ContactPoint",
+			"name": {
+			  "de": "Museum für Naturkunde Berlin"
+			},
+			"telephone": "+49 30 2093-8591",
+			"email": "info@mfn.berlin"
+		  }
+		],
+		"website": "https://www.naturkundemuseum-berlin.de",
+		"managedBy": {
+		  "label": "Museum für Naturkunde Berlin",
+		  "targetType": "Organisation",
+		  "identifier": "https://berlin.de/mfn",
+		  "url": "https://www.naturkundemuseum-berlin.de/en/about-us/the-museum/organisation/management/"
+		},
+		"accessibility": "The museum is wheelchair accessible and offers guided tours for visitors with visual or hearing impairments.",
+		"categories": [
+		  {
+			"inDefinedTermSet": {
+			  "label": "Kultur",
+			  "targetType": "http://www.w3.org/ns/dcat#Dataset",
+			  "identifier": "https://daten.berlin.de/kategorie/kultur",
+			  "url": "https://daten.berlin.de/kategorie/kultur"
+			},
+			"term": {
+			  "de": "Museum"
+			}
+		  },
+		  {
+			"inDefinedTermSet": {
+			  "label": "Bildung",
+			  "targetType": "http://www.w3.org/ns/dcat#Dataset",
+			  "identifier": "https://daten.berlin.de/kategorie/bildung",
+			  "url": "https://daten.berlin.de/kategorie/bildung"
+			},
+			"term": {
+			  "de": "Forschungsmuseum"
+			}
+		  }
+		]
+	  }
+]

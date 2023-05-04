@@ -33,7 +33,7 @@ export class MongoDBConnector {
 		return db.collection<Location>('locations');
 	};
 
-	private async getDatabase() {
+	public async getDatabase() {
 		const db = process.env.MONGO_DB || 'api-db';
 		return this.client.db(db);
 	};
