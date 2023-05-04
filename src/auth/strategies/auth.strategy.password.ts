@@ -15,7 +15,6 @@ export class AuthPassword {
 		if (!this.strategy) {
 			this.strategy = new localStrategy.Strategy({usernameField: 'email'},async function verify(username, password, done) {
 				try {
-					console.log("Strategie wird ausgeführt.");
 					
 					const user: any = await usersService.getUserByEmailWithPassword(username);
 					if (!user) { return done(null, false) }

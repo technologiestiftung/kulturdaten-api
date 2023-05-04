@@ -5,14 +5,16 @@ import { OrganizationsService } from "../../organizations/services/organizations
 import { OrganizationsRoutes } from "../../organizations/organizations.routes";
 import { MockOrganizationsRepository } from "./mocks/mock.organizations.repository";
 
+import { validateOrganization } from "../../generated/models/Organization.generated";
+
 const app = express();
 app.use(express.json());
 
-const organizationsRepository = new MockOrganizationsRepository();
-organizationsRepository.fillWithDummyOrganizations(5);
+const organizationsRepository = new MockOrganizationsRepository(false,{identifier: "1"},{identifier: "2"},{identifier: "3"});
 const organizationsService = new OrganizationsService(organizationsRepository);
 const organizationsController = new OrganizationsController(organizationsService);
 const organizationsRoutes = new OrganizationsRoutes(organizationsController);
+
 
 app.use('/v1/organizations', organizationsRoutes.getRouter());
 
@@ -22,17 +24,11 @@ describe('Exploring existing organizations', () => {
 		const { body, statusCode } = await request(app).get('/v1/organizations');
 
 		expect(statusCode).toBe(200);
-		expect(body.organizations).toEqual(
-			expect.arrayContaining([
-				expect.objectContaining({
-					identifier: expect.any(String),
-					name: expect.any(String),
-					description: expect.any(String),
-					createdAt: expect.any(String),
-					updatedAt: expect.any(String),
-				})
-			])
-		);
+
+		body.organizations.forEach((o: object) => {
+			let val = validateOrganization(o);
+			expect(val.isValid).toBe(true);
+		});
 	});
 
 
@@ -62,19 +58,14 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('GET /v1/organizations/:organizationId - get the organization', async () => {
-		const existOrganizationId = organizationsRepository.addDummyOrganization();
+		const existOrganizationId = organizationsRepository.addDummyOrganization(false,{identifier: "1"});
 
 		const { body, statusCode } = await request(app).get(`/v1/organizations/${existOrganizationId}`);
 
 		expect(statusCode).toBe(200);
 
-		expect(body.organization).toEqual(expect.objectContaining({
-			identifier: existOrganizationId,
-			name: expect.any(String),
-			description: expect.any(String),
-			createdAt: expect.any(String),
-			updatedAt: expect.any(String),
-		}));
+		let val = validateOrganization(body.organization);
+		expect(val.isValid).toBe(true);
 	});
 
 	it('PATCH /v1/organizations/:organizationId - failure when organization is not found', async () => {
@@ -91,7 +82,7 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('PATCH /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId:string = organizationsRepository.addDummyOrganization() || '';
+		const existOrganizationId: string = organizationsRepository.addDummyOrganization(false,{identifier: "1"}) || '';
 
 		const { statusCode } = await request(app).patch(`/v1/organizations/${existOrganizationId}`).send({
 			name: 'Neuer Name',
@@ -115,7 +106,7 @@ describe('Exploring existing organizations', () => {
 	});
 
 	it('DELETE /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId:string = organizationsRepository.addDummyOrganization() || '';
+		const existOrganizationId: string = organizationsRepository.addDummyOrganization(false,{identifier: "1"}) || '';
 
 		const { statusCode } = await request(app).delete(`/v1/organizations/${existOrganizationId}`);
 

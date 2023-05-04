@@ -1,60 +1,67 @@
-import { Collection, MongoClient } from 'mongodb';
-import { Service } from 'typedi';
-import { Organization } from '../../organizations/models/organization.generated';
-import { User } from '../../users/models/user.generated';
+import { Collection, Db, MongoClient } from 'mongodb';
+import { Inject, Service } from 'typedi';
 import debug from 'debug';
+import { Organization } from '../../generated/models/Organization.generated';
+import { User } from '../../generated/models/User.generated';
+import { Event } from '../../generated/models/Event.generated';
+import { Location } from '../../generated/models/Location.generated';
 
 const log: debug.IDebugger = debug('app:mongodb-controller');
 
 @Service()
 export class MongoDBConnector {
 
-	public database;
-	public client;
+	constructor(public client: MongoClient) {}
 
-	constructor() {
-		const path = process.env.MONGO_URI || 'localhost';
-		const port = process.env.MONGO_PORT || 27017;
+	public async events() {
+		const db = await this.getDatabase();
+		return db.collection<Event>('events');
+	};
 
-		const uri = `mongodb://${path}:${port}`;
-		this.client = new MongoClient(uri);
+	public async organizations() {
+		const db = await this.getDatabase();
+		return db.collection<Organization>('organizations');
+	};
 
+	public async users() {
+		const db = await this.getDatabase();
+		return db.collection<User>('users');
+	};
+
+	public async locations() {
+		const db = await this.getDatabase();
+		return db.collection<Location>('locations');
+	};
+
+	public async getDatabase() {
 		const db = process.env.MONGO_DB || 'api-db';
-		this.database = this.client.db(db);
+		return this.client.db(db);
+	};
 
-		console.log('Connection to MongoDB established.');
-
-		const cl = this.client;
-
-		process.on('exit', async function () {
-			console.log('Connection to MongoDB terminated.');
-
-			await cl.close();
-		});
-
-	}
 	public async isHealthy(): Promise<boolean> {
 		const adminDB = this.client.db('admin');
 		const pingResult = await adminDB.command({ ping: 1 });
-	
+
 		return pingResult.ok === 1;
 	}
 
-	public async init() {
+	public async initIndex() {
+		const events = await this.events();
+		await events.createIndex({ identifier: 1 }, { name: 'id_index' });
 
-		await this.organizations().createIndex({ identifier: 1 },{ name: 'id_index' });
-		await this.users().createIndex({ identifier: 1 },{ name: 'id_index' });
-		await this.users().createIndex({ email: 1}, { name: 'email_index' });
+		const organizations = await this.organizations();
+		await organizations.createIndex({ identifier: 1 }, { name: 'id_index' });
 
-
+		const users = await this.users();
+		await users.createIndex({ identifier: 1 }, { name: 'id_index' });
+		await users.createIndex({ email: 1 }, { name: 'email_index' });
+		
+		const locations = await this.locations();
+		await locations.createIndex({ identifier: 1 }, { name: 'id_index' });
 	}
 
-	public organizations(): Collection<Organization> {
-		return this.database.collection<Organization>('organizations');
+	public async close() {
+		await this.client.close();
 	}
 
-	public users(): Collection<User> {
-		return this.database.collection<User>('users');
-
-	}
 }

@@ -1,0 +1,8 @@
+type: object
+required:
+  - de
+properties:
+  de:
+    type: string
+additionalProperties:
+  type: string

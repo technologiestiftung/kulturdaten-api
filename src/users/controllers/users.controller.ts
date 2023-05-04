@@ -3,9 +3,9 @@ import { UsersService } from '../services/users.service';
 import argon2 from 'argon2';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { CreateUser } from '../dtos/create.user.dto.generated';
-import { PatchUser } from '../dtos/patch.user.dto.generated';
-import { NotFoundError } from '../../common/errors/notFoundError.generated';
+import { NotFoundError } from '../../generated/models/NotFoundError.generated';
+import { CreateUser } from '../../generated/models/CreateUser.generated';
+import { PatchUser } from '../../generated/models/PatchUser.generated';
 
 const log: debug.IDebugger = debug('app:users-controller');
 

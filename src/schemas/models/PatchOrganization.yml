@@ -1,0 +1,23 @@
+type: object
+
+properties:
+  name:
+    $ref: Title.yml
+  description:
+    $ref: Text.yml
+  address:
+    $ref: PostalAddress.yml
+  contactPoint:
+    type: array
+    items:
+      $ref: ContactPoint.yml
+  website:
+    type: string
+  email:
+    type: string
+  telephone:
+    type: string
+  categories:
+    type: array
+    items:
+      $ref: DefinedTerm.yml

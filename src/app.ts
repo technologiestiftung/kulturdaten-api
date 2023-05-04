@@ -25,53 +25,81 @@ import { AuthRoutes } from './auth/auth.routes';
 import { MongoDBConnector } from './common/services/mongodb.service';
 import { MongoDBOrganizationsRepository } from './organizations/repositories/organizations.repository.mobgodb';
 import { MongoDBUsersRepository } from './users/repositories/users.repository.mobgodb';
+import { MongoDBEventsRepository } from './events/repositories/events.repository.mobgodb';
+import { EventsRoutes } from './events/events.routes';
+import { LocationsRoutes } from './locations/locations.routes';
+import { MongoDBLocationsRepository } from './locations/repositories/locations.repository.mobgodb';
+import { MongoClient } from 'mongodb';
 
 const log: debug.IDebugger = debug('app:main');
 
-class KulturdatenBerlinApp {
+export class KulturdatenBerlinApp {
 
 	constructor(public app: express.Application) { }
 
 	public port = process.env.APP_PORT || '5000';
 	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
-	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/v1/docs/`
+	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/v1/docs/`
+	public dataBaseClient : MongoClient | null = null;
 
-	public ini() {
-		this.initDatabase();
-		this.initDependencyInjection();
+
+	public async ini() {
+		this.initDataBaseConnection();
+		await this.initDependencyInjection();
 		this.initLogger();
 		this.initAuthStrategies();
  		this.registerDefaultMiddleware();
 		this.registerOpenApi();
 		this.registerStatusChecks();
 		this.registerErrorHandler();
+		
 	}
 
 	public registerRoutes() {
 		this.registerAuthRoutes();
-
 		this.registerOrganizationRoutes();
 		this.registerUserRoutes();
+		this.registerEventsRoutes();
+		this.registerLocationsRoutes();
 	}
 
-	public start() {
+	public async start() {
+		await this.ini();
+		this.registerRoutes();
 		this.app.listen(this.port, () => {
 			console.log(this.runningMessage);
 			console.log(this.documentationMessage);
 		});
 	}
 
-	private initDatabase(){
-		Container.get(MongoDBConnector).init();
+	private initDataBaseConnection() {
+		const path = process.env.MONGO_URI || 'localhost';
+		const port = process.env.MONGO_PORT || 27017;
+		const uri = `mongodb://${path}:${port}`;
+		this.dataBaseClient =  new MongoClient(uri);
+		const cl = this.dataBaseClient;
+		process.on('exit', async function () {
+			console.log('Connection to MongoDB terminated.');
+
+			await cl.close();
+		});
 	}
 
-	private initDependencyInjection() {
-		// TODO: make Dependency Injection visible
-		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get(MongoDBConnector)));
-		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get(MongoDBConnector)));
-
+	private async initDependencyInjection() {
+		// TODO: make all Dependency Injections visible
+		if(this.dataBaseClient) {
+			const mongoDBConnector = new MongoDBConnector(this.dataBaseClient);
+			await mongoDBConnector.initIndex();
+			Container.set('Database', mongoDBConnector);
+		} 
+		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get('Database')));
+		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
+		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
+		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
 	}
+
+
 
 	private initLogger() {
 		const loggerOptions: expressWinston.LoggerOptions = {
@@ -105,8 +133,8 @@ class KulturdatenBerlinApp {
 
 	private registerOpenApi() {
 		const swaggerDocument = YAML.load(this.openAPISpec);
-		this.app.use(`/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-		this.app.use(`/v1/spec`, express.static(this.openAPISpec));
+		this.app.use(`/api/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+		this.app.use(`/api/v1/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
 		this.app.use(OpenApiValidator.middleware({
 			apiSpec: this.openAPISpec,
 			validateRequests: true,
@@ -121,32 +149,39 @@ class KulturdatenBerlinApp {
 		});
 
 		const healthRoutes = Container.get(HealthRoutes);
-		this.app.use('/v1/health', healthRoutes.getRouter());
+		this.app.use('/api/v1/health', healthRoutes.getRouter());
 	}
 
 	private registerAuthRoutes() {
 		const authRoutes = Container.get(AuthRoutes);
-		this.app.use('/v1/auth',
+		this.app.use('/api/v1/auth',
 		authRoutes.getRouter());
 	}
 
 	private registerOrganizationRoutes() {
 		const organizationsRoute = Container.get(OrganizationsRoutes);
-		this.app.use('/v1/organizations', organizationsRoute.getRouter());
+		this.app.use('/api/v1/organizations', organizationsRoute.getRouter());
 	}
 
 	private registerUserRoutes() {
 		const usersRoute = Container.get(UsersRoutes);
-		this.app.use('/v1/users', usersRoute.getRouter());
+		this.app.use('/api/v1/users', usersRoute.getRouter());
 	}
 
+	private registerEventsRoutes() {
+		const eventsRoute = Container.get(EventsRoutes);
+		this.app.use('/api/v1/events', eventsRoute.getRouter());
+	}
+
+	private registerLocationsRoutes() {
+		const locationsRoute = Container.get(LocationsRoutes);
+		this.app.use('/api/v1/locations', locationsRoute.getRouter());
+	}
 }
 
 const app = express();
 const kulturdatenBerlin = new KulturdatenBerlinApp(app);
 
-kulturdatenBerlin.ini();
-kulturdatenBerlin.registerRoutes();
 kulturdatenBerlin.start();
 
 

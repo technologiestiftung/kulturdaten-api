@@ -1,37 +1,42 @@
-import { CreateOrganization } from "../../../organizations/dtos/create.organization.dto.generated";
-import { OrganizationsRepository } from "../../../organizations/repositories/organizations.repository";
-import { faker } from '@faker-js/faker';
-import { Organization } from "../../../organizations/models/organization.generated";
-import { PatchOrganization } from "../../../organizations/dtos/patch.organization.dto.generated";
 
+import { CreateOrganization } from "../../../generated/models/CreateOrganization.generated";
+import { Organization, schemaForOrganization } from "../../../generated/models/Organization.generated";
+import { PatchOrganization } from "../../../generated/models/PatchOrganization.generated";
+import { OrganizationsRepository } from "../../../organizations/repositories/organizations.repository";
+import { fakeOrganization, fakeOrganizations } from "../../../generated/faker/faker.Organization.generated";
 
 
 export class MockOrganizationsRepository implements OrganizationsRepository {
 
 
-	constructor(public dummyOrganizations: Organization[] = []){};
+	private dummyOrganizations: Organization[];
 
-	reset() {
+	constructor(useExamples: boolean, ...specifiedPropertiesForOrganizations: object[]) { 
+		this.dummyOrganizations = fakeOrganizations(useExamples,...specifiedPropertiesForOrganizations);
+	};
+
+	public reset() {
 		this.dummyOrganizations = [];
 	}
 
-	public fillWithDummyOrganizations(number: number){
-		this.dummyOrganizations = dummyOrganizations(number);
+	public fillWithDummyOrganizations(useExamples: boolean, specifiedPropertiesForOrganization: object = {}) {
+		this.dummyOrganizations = fakeOrganizations(useExamples,specifiedPropertiesForOrganization);
 	}
 
-	public addDummyOrganization(){
-		const d = dummyOrganization();
+	public addDummyOrganization(useExamples: boolean, specifiedPropertiesForOrganization: object = {}) {
+		const d =  fakeOrganization(useExamples,specifiedPropertiesForOrganization);
 		this.dummyOrganizations.push(d);
 		return d.identifier;
 	}
 
 	async addOrganization(organizationFields: CreateOrganization): Promise<string> {
-		let newOrganization:Organization = {
-			identifier: `IDfor${organizationFields.name}`,
+		let id = `IDfor${organizationFields.name}`;
+		let newOrganization: Organization = {
+			identifier: id,
 			...organizationFields
-		} 
+		}
 		this.dummyOrganizations.push(newOrganization);
-		return Promise.resolve(newOrganization.identifier);
+		return Promise.resolve(id);
 	}
 	async getOrganizations(limit: number, page: number): Promise<Organization[] | null> {
 		return Promise.resolve(this.dummyOrganizations);
@@ -39,31 +44,31 @@ export class MockOrganizationsRepository implements OrganizationsRepository {
 	async getOrganizationByIdentifier(organizationId: string): Promise<Organization | null> {
 		try {
 			let organization: Organization | undefined = this.dummyOrganizations.find(({ identifier }) => identifier === organizationId)
-			if(organization){
+			if (organization) {
 				return Promise.resolve(organization);
 			} else return Promise.resolve(null);
 		} catch (error) {
 			return Promise.resolve(null);
 		}
-	
+
 	}
-	async updateOrganizationById(organizationId: string, organizationFields: PatchOrganization ): Promise<boolean> {
-		if(organizationFields){
+	async updateOrganizationById(organizationId: string, organizationFields: PatchOrganization): Promise<boolean> {
+		if (organizationFields) {
 			const index = this.dummyOrganizations.findIndex(({ identifier }) => identifier === organizationId);
-		
+
 			if (index !== -1) {
-				if(organizationFields.name) this.dummyOrganizations[index].name = organizationFields.name;
-				if(organizationFields.description) this.dummyOrganizations[index].description = organizationFields.description;
+				if (organizationFields.name) this.dummyOrganizations[index].name = organizationFields.name;
+				if (organizationFields.description) this.dummyOrganizations[index].description = organizationFields.description;
 				return Promise.resolve(true);
 			} else {
 				return Promise.resolve(false);
 			}
 		}
-		return Promise.resolve(false); 
+		return Promise.resolve(false);
 	}
 	async removeOrganizationById(organizationId: string): Promise<boolean> {
 		const index = this.dummyOrganizations.findIndex(({ identifier }) => identifier === organizationId);
-		if(index >= 0){
+		if (index >= 0) {
 			delete this.dummyOrganizations[index];
 			return true;
 		}
@@ -71,30 +76,3 @@ export class MockOrganizationsRepository implements OrganizationsRepository {
 	}
 
 }
-
-
-export function dummyOrganization(): Organization{
-	return {
-		identifier: faker.database.mongodbObjectId(),
-		name: faker.company.name(),
-		description: faker.company.catchPhrase(),
-		createdAt: faker.datatype.datetime().toDateString(),
-		updatedAt: faker.datatype.datetime().toDateString(),
-	}
-}
-
-export function dummyCreateDto(): CreateOrganization {
-	return {
-		name: faker.company.name(),
-		description: faker.company.catchPhrase()
-	}
-}
-
-export function dummyOrganizations(number: number): Organization[] {
-	let organizations:Organization[] = [];
-	for (let index = 0; index < number; index++) {
-		organizations.push(dummyOrganization());
-	}
-	return organizations;
-}
-

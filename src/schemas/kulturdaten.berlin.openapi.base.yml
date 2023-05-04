@@ -1,9 +1,9 @@
-openapi: '3.0.2'
+openapi: 3.0.3
 info:
   title: API Kulturdaten.Berlin 
   version: '1.0.0'
 servers:
-  - url: http://localhost:3000/v1/
+  - url: http://localhost:3000/api/v1/
 paths:
 
   /auth/token:
@@ -14,14 +14,198 @@ paths:
         content:
           application/json:
             schema:
-              $ref: auth/Login.yml
+              $ref: '#/components/schemas/Login'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: auth/Auth.yml      
+                $ref: '#/components/schemas/Auth'      
+
+  /events:
+    get:
+      tags:
+        - Events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/Event'
+    post:
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvent'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier: 
+                    type: string
+
+  /events/{identifier}:
+    parameters:
+      - in: path
+        name: identifier 
+        required: true
+        schema:
+          type: string
+        description: The event ID
+    get:
+      tags:
+        - Events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event: 
+                    $ref: '#/components/schemas/Event'  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    patch:
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchEvent'
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    delete:
+      tags:
+        - Events
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+
+  /locations:
+    get:
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations: 
+                    type: array
+                    items:    
+                      $ref: '#/components/schemas/Location'
+    post:
+      tags:
+        - Locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocation'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier: 
+                    type: string
+
+  /locations/{identifier}:
+    parameters:
+      - in: path
+        name: identifier 
+        required: true
+        schema:
+          type: string
+        description: The location ID
+    get:
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location: 
+                    $ref: '#/components/schemas/Location'  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    patch:
+      tags:
+        - Locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchLocation'
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    delete:
+      tags:
+        - Locations
+      responses:
+        '204':
+          description: OK  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
 
   /organizations:
     get:
@@ -38,7 +222,7 @@ paths:
                   organizations: 
                     type: array
                     items:    
-                      $ref: organizations/Organization.yml
+                      $ref: '#/components/schemas/Organization'  
   
     post:
       tags:
@@ -47,7 +231,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: organizations/CreateOrganization.yml
+              $ref: '#/components/schemas/CreateOrganization'
       responses:
         '201':
           description: OK
@@ -80,13 +264,13 @@ paths:
                 type: object
                 properties:
                   organization: 
-                    $ref: organizations/Organization.yml
+                    $ref: '#/components/schemas/Organization'  
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: errors/NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Organizations
@@ -94,7 +278,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: organizations/PatchOrganization.yml
+              $ref: '#/components/schemas/PatchOrganization'
       responses:
         '204':
           description: OK  
@@ -103,7 +287,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Organizations
@@ -115,7 +299,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
+
+
+
 
   /users:
     get:
@@ -134,7 +321,7 @@ paths:
                   users: 
                     type: array
                     items:    
-                      $ref: users/User.yml
+                      $ref: '#/components/schemas/User'
     post:
       tags:
         - Users
@@ -142,7 +329,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: users/CreateUser.yml
+              $ref: '#/components/schemas/CreateUser'
       responses:
         '201':
           description: OK
@@ -158,7 +345,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/EmailAlreadyInUseError.yml
+                $ref: '#/components/schemas/EmailAlreadyInUseError'
 
   /users/{identifier}:
     parameters:
@@ -182,13 +369,13 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: users/User.yml
+                    $ref: '#/components/schemas/User'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: errors/NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Users
@@ -198,7 +385,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: users/PatchUser.yml
+              $ref: '#/components/schemas/PatchUser'
       responses:
         '204':
           description: OK  
@@ -207,7 +394,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
         - Users
@@ -221,7 +408,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: errors/NotFoundError.yml
+                $ref: '#/components/schemas/NotFoundError'
 
 
 
@@ -235,7 +422,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: health/Health.yml
+                $ref: '#/components/schemas/Health'
+
+
 
 components:
   securitySchemes:
@@ -246,37 +435,55 @@ components:
 
   schemas:
     Login:
-      $ref: auth/Login.yml
+      $ref: models/Login.yml
 
     Auth:
-      $ref: auth/Auth.yml 
+      $ref: models/Auth.yml 
     
     Organization:
-      $ref: organizations/Organization.yml
+      $ref: models/Organization.yml
 
     CreateOrganization:
-      $ref: organizations/CreateOrganization.yml
+      $ref: models/CreateOrganization.yml
 
     PatchOrganization:
-      $ref: organizations/PatchOrganization.yml
+      $ref: models/PatchOrganization.yml
 
     User:
-      $ref: users/User.yml
+      $ref: models/User.yml
     
     CreateUser:
-      $ref: users/CreateUser.yml
+      $ref: models/CreateUser.yml
     
     PatchUser:
-      $ref: users/PatchUser.yml
+      $ref: models/PatchUser.yml
 
     Health:
-      $ref: health/Health.yml
+      $ref: models/Health.yml
 
-    ResourceNotFoundError:
-      $ref: errors/NotFoundError.yml
+    NotFoundError:
+      $ref: models/NotFoundError.yml
     
     EmailAlreadyInUseError:
-      $ref: errors/EmailAlreadyInUseError.yml
+      $ref: models/EmailAlreadyInUseError.yml
 
-    MultipleEvents:
-      $ref: events/MultipleEvents.yml
+    Event:
+      $ref: models/Event.yml
+
+    CreateEvent:
+      $ref: models/CreateEvent.yml
+
+    Reference:
+      $ref: models/Reference.yml
+
+    PatchEvent:
+      $ref: models/PatchEvent.yml
+
+    Location:
+      $ref: models/Location.yml
+
+    PatchLocation:
+      $ref: models/PatchLocation.yml
+
+    CreateLocation:
+      $ref: models/CreateLocation.yml

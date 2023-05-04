@@ -2,6 +2,9 @@ import express from 'express';
 import { mock, instance, when, verify, anything, capture, anyString } from 'ts-mockito';
 import { OrganizationsService } from '../services/organizations.service';
 import { OrganizationsController } from './organizations.controller';
+import { fakeOrganization, fakeOrganizations } from '../../generated/faker/faker.Organization.generated';
+import { log } from 'winston';
+import { validateOrganization } from '../../generated/models/Organization.generated';
 
 
 beforeEach(() => {
@@ -9,14 +12,31 @@ beforeEach(() => {
 });
 
 let dummyOrganizations = [
-	{ identifier: "1", name: "Organization 1" },
-	{ identifier: "2", name: "Organization 2" },
-	{ identifier: "3", name: "Organization 3" },
+	{ identifier: "1", name: { de:  "Organization 1" }},
+	{ identifier: "2", name: { de:  "Organization 2" }},
+	{ identifier: "3", name: { de:  "Organization 3" }},
 ]
 
-let newOrganization = { name: "Name", description: "Beschreibung", createdAt: "", updatedAt: "" };
+let newOrganization = fakeOrganization(false);
 
 describe('listOrganizations is being tested', () => {
+
+	test('test faker', () => {
+		let fake = fakeOrganization(true, {identifier : "1"});
+		let val = validateOrganization(fake);
+		expect(val.isValid).toBe(true);
+	});
+
+
+	test('test fakers', () => {
+		let fakes = fakeOrganizations(true, {identifier : "1"}, {identifier : "2"}, {identifier : "3"});
+		fakes.forEach(f => {
+			let val = validateOrganization(f);
+			expect(val.isValid).toBe(true);
+		});
+		
+	});
+
 	test('organizations available organizations as a document with code 200', async () => {
 		let controller = generateMockController();
 		let { req, res, firstMockedResponse, secondMockedResponse } = generateMockRequestResponse(200);
@@ -34,9 +54,9 @@ describe('listOrganizations is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organizations: [
-				{ identifier: '1', name: 'Organization 1' },
-				{ identifier: '2', name: 'Organization 2' },
-				{ identifier: '3', name: 'Organization 3' }
+				{ identifier: '1', name: { de:  "Organization 1" } },
+				{ identifier: '2', name: { de:  "Organization 2" } },
+				{ identifier: '3', name: { de:  "Organization 3" } }
 			]
 		});
 
@@ -62,7 +82,7 @@ describe('getOrganizationById is being tested', () => {
 
 		expectResponseSendIsEqual(secondMockedResponse, {
 			organization:
-				{ identifier: '1', name: 'Organization 1' }
+				{ identifier: '1', name: { de:  "Organization 1" } }
 		});
 	})
 });

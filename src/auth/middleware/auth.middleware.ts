@@ -1,7 +1,6 @@
+import { User } from "../../generated/models/User.generated";
 import { PermissionFlag } from "./auth.permissionflag.enum"
 import express from 'express';
-import { matchedData } from "express-validator";
-import { User } from "../../users/models/user.generated";
 
 
 export class permit {

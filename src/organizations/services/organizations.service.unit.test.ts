@@ -1,9 +1,9 @@
 import { OrganizationsRepository } from "../repositories/organizations.repository";
 import { OrganizationsService } from "./organizations.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
-import { CreateOrganization } from "../dtos/create.organization.dto.generated";
 import { MongoDBOrganizationsRepository } from "../repositories/organizations.repository.mobgodb";
-import { Organization } from "../models/organization.generated";
+import { CreateOrganization } from "../../generated/models/CreateOrganization.generated";
+import { Organization } from "../../generated/models/Organization.generated";
 
 
 beforeEach(() => {
@@ -11,9 +11,9 @@ beforeEach(() => {
 });
 
 let dummyOrganizations = [
-	{ identifier: "1", name: "Organization 1" },
-	{ identifier: "2", name: "Organization 2" },
-	{ identifier: "3", name: "Organization 3" },
+	{ identifier: "1", name: { 'de' : "1 Organization"} },
+	{ identifier: "2", name: { 'de' : "2 Organization"} },
+	{ identifier: "3", name: { 'de' : "3 Organization"} },
 ]
 
 describe('create organization is being tested', () => {
@@ -21,7 +21,7 @@ describe('create organization is being tested', () => {
 		let mockedRepo: OrganizationsRepository = mock(MongoDBOrganizationsRepository);
 		let repo: OrganizationsRepository = instance(mockedRepo);
 		let service: OrganizationsService = new OrganizationsService(repo);
-		let org: CreateOrganization = { name: "New Organization" };
+		let org: CreateOrganization = { name: { 'de' : "New Organization"} };
 
 		service.create(org);
 
@@ -35,7 +35,7 @@ describe('create organization is being tested', () => {
 		);
 		let repo: OrganizationsRepository = instance(mockedRepo);
 		let service: OrganizationsService = new OrganizationsService(repo);
-		let org: CreateOrganization = { name: "New Organization" };
+		let org: CreateOrganization = { name: { 'de' : "New Organization"} };
 
 		let orgId: String | null = await service.create(org);
 
@@ -140,7 +140,7 @@ describe('patchById is being testes', () => {
 		let repo: OrganizationsRepository = instance(mockedRepo);
 		let service: OrganizationsService = new OrganizationsService(repo);
 
-		service.patchById("ID", {name: "new Name"});
+		service.patchById("ID",{ name: { 'de' : "New Name"}});
 
 		verify(mockedRepo.updateOrganizationById("ID", anything())).called();
 	});
@@ -153,7 +153,7 @@ describe('patchById is being testes', () => {
 		let repo: OrganizationsRepository = instance(mockedRepo);
 		let service: OrganizationsService = new OrganizationsService(repo);
 
-		let updatedOrganization = await  service.patchById("ID", {name: "new Name"});;
+		let updatedOrganization = await  service.patchById("ID", { name: { 'de' : "New Name"}});;
 
 		expect(updatedOrganization).toBe(true);
 	});

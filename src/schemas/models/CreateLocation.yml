@@ -1,0 +1,24 @@
+type: object
+
+properties:
+  name:
+    $ref: Title.yml
+  description:
+    $ref: Text.yml
+  address:
+    $ref: PostalAddress.yml
+  borough:
+    $ref: Borough.yml
+  contactPoint:
+    type: array
+    items:
+      $ref: ContactPoint.yml
+  website:
+    type: string
+  accessibility:
+    type: string
+  managedBy:
+    type: object
+    properties:
+      identifier:
+        type: string
