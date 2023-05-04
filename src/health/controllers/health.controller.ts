@@ -13,7 +13,7 @@ export class HealthController {
 	public intervalInMilliseconds:number = 10000;
 
 	
-	constructor(@Inject('DBConnector') private repo: MongoDBConnector){}
+	constructor(@Inject('Database') private repo: MongoDBConnector){}
 
 	public async check() {
 		if(this.isTimeForCheck()){

@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from 'mongodb';
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import debug from 'debug';
 import { Organization } from '../../generated/models/Organization.generated';
 import { User } from '../../generated/models/User.generated';
@@ -11,42 +11,53 @@ const log: debug.IDebugger = debug('app:mongodb-controller');
 @Service()
 export class MongoDBConnector {
 
-	public database : Db;
-	public client : MongoClient;
+	constructor(public client: MongoClient) {}
 
-	constructor(database: Db, client: MongoClient) {
-		this.database = database;
-		this.client = client;
-	}
+	public async events() {
+		const db = await this.getDatabase();
+		return db.collection<Event>('events');
+	};
+
+	public async organizations() {
+		const db = await this.getDatabase();
+		return db.collection<Organization>('organizations');
+	};
+
+	public async users() {
+		const db = await this.getDatabase();
+		return db.collection<User>('users');
+	};
+
+	public async locations() {
+		const db = await this.getDatabase();
+		return db.collection<Location>('locations');
+	};
+
+	private async getDatabase() {
+		const db = process.env.MONGO_DB || 'api-db';
+		return this.client.db(db);
+	};
+
 	public async isHealthy(): Promise<boolean> {
 		const adminDB = this.client.db('admin');
 		const pingResult = await adminDB.command({ ping: 1 });
-	
+
 		return pingResult.ok === 1;
 	}
 
 	public async initIndex() {
-		await this.organizations().createIndex({ identifier: 1 },{ name: 'id_index' });
-		await this.users().createIndex({ identifier: 1 },{ name: 'id_index' });
-		await this.users().createIndex({ email: 1}, { name: 'email_index' });
-		await this.events().createIndex({ identifier: 1 },{ name: 'id_index' });
-		await this.locations().createIndex({ identifier: 1 },{ name: 'id_index' });
-	}
+		const events = await this.events();
+		await events.createIndex({ identifier: 1 }, { name: 'id_index' });
 
-	public organizations(): Collection<Organization> {
-		return this.database.collection<Organization>('organizations');
-	}
+		const organizations = await this.organizations();
+		await organizations.createIndex({ identifier: 1 }, { name: 'id_index' });
 
-	public users(): Collection<User> {
-		return this.database.collection<User>('users');
-	}
-
-	public events(): Collection<Event> {
-		return this.database.collection<Event>('events');
-	}
-
-	public locations(): Collection<Location> {
-		return this.database.collection<Location>('locations');
+		const users = await this.users();
+		await users.createIndex({ identifier: 1 }, { name: 'id_index' });
+		await users.createIndex({ email: 1 }, { name: 'email_index' });
+		
+		const locations = await this.locations();
+		await locations.createIndex({ identifier: 1 }, { name: 'id_index' });
 	}
 
 	public async close() {

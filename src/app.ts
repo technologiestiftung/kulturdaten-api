@@ -41,66 +41,65 @@ export class KulturdatenBerlinApp {
 	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
 	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/v1/docs/`
+	public dataBaseClient : MongoClient | null = null;
+
 
 	public async ini() {
-		this.initDependencyInjection();
+		this.initDataBaseConnection();
+		await this.initDependencyInjection();
 		this.initLogger();
 		this.initAuthStrategies();
  		this.registerDefaultMiddleware();
 		this.registerOpenApi();
 		this.registerStatusChecks();
 		this.registerErrorHandler();
+		
 	}
 
 	public registerRoutes() {
 		this.registerAuthRoutes();
-
 		this.registerOrganizationRoutes();
 		this.registerUserRoutes();
 		this.registerEventsRoutes();
 		this.registerLocationsRoutes();
 	}
 
-	public start() {
+	public async start() {
+		await this.ini();
+		this.registerRoutes();
 		this.app.listen(this.port, () => {
 			console.log(this.runningMessage);
 			console.log(this.documentationMessage);
 		});
 	}
 
-	private createDatabaseConnection()  {
+	private initDataBaseConnection() {
 		const path = process.env.MONGO_URI || 'localhost';
 		const port = process.env.MONGO_PORT || 27017;
-
 		const uri = `mongodb://${path}:${port}`;
-		const client =  new MongoClient(uri);
-
-		const db = process.env.MONGO_DB || 'api-db';
-		const database = client.db(db);
-
-		console.log('Connection to MongoDB established.');
-
+		this.dataBaseClient =  new MongoClient(uri);
+		const cl = this.dataBaseClient;
 		process.on('exit', async function () {
 			console.log('Connection to MongoDB terminated.');
 
-			await client.close();
+			await cl.close();
 		});
-		
-
-		return database;
 	}
 
-	private initDependencyInjection() {
+	private async initDependencyInjection() {
 		// TODO: make all Dependency Injections visible
-		let database = this.createDatabaseConnection();
-		Container.set('Database', database);
-		console.log(JSON.stringify(Container.get('Database')));
+		if(this.dataBaseClient) {
+			const mongoDBConnector = new MongoDBConnector(this.dataBaseClient);
+			await mongoDBConnector.initIndex();
+			Container.set('Database', mongoDBConnector);
+		} 
 		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get('Database')));
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
 		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
 		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
-
 	}
+
+
 
 	private initLogger() {
 		const loggerOptions: expressWinston.LoggerOptions = {
@@ -183,8 +182,6 @@ export class KulturdatenBerlinApp {
 const app = express();
 const kulturdatenBerlin = new KulturdatenBerlinApp(app);
 
-kulturdatenBerlin.ini();
-kulturdatenBerlin.registerRoutes();
 kulturdatenBerlin.start();
 
 

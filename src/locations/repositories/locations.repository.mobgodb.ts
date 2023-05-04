@@ -11,30 +11,32 @@ import { Db } from "mongodb";
 @Service()
 export class MongoDBLocationsRepository implements LocationsRepository {
 
-	private locations;
-
-	constructor(@Inject('Database') private db: Db) { 
-		this.locations = db.collection<Location>('locations');
-	}
+	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
 	async addLocation(createLocation: CreateLocation): Promise<string> {
 		const newLocation = createLocation as Location;
 		newLocation.identifier = generateID();
-		await this.locations.insertOne(newLocation);
+
+		const locations = await this.dbConnector.locations();
+		await locations.insertOne(newLocation);
 		return newLocation.identifier;
 	}
-	getLocations(limit: number, page: number): Promise<Location[] | null> {
-		return this.locations.find({}, { projection: { _id: 0 } }).toArray();
+	async getLocations(limit: number, page: number): Promise<Location[] | null> {
+		const locations = await this.dbConnector.locations();
+		return locations.find({}, { projection: { _id: 0 } }).toArray();
 	}
-	getLocationByIdentifier(locationId: string): Promise<Location | null> {
-		return this.locations.findOne({ identifier: locationId }, { projection: { _id: 0 } });
+	async getLocationByIdentifier(locationId: string): Promise<Location | null> {
+		const locations = await this.dbConnector.locations();
+		return locations.findOne({ identifier: locationId }, { projection: { _id: 0 } });
 	}
 	async updateLocationById(locationId: string, locationFields: PatchLocation): Promise<boolean> {
-		const result = await this.locations.updateOne({ identifier: locationId }, { $set: locationFields });
+		const locations = await this.dbConnector.locations();
+		const result = await locations.updateOne({ identifier: locationId }, { $set: locationFields });
 		return Promise.resolve(result.modifiedCount === 1);
 	}
 	async removeLocationById(locationId: string): Promise<boolean> {
-		const result = await this.locations.deleteOne({ identifier: locationId });
+		const locations = await this.dbConnector.locations();
+		const result = await locations.deleteOne({ identifier: locationId });
 		return Promise.resolve(result.deletedCount === 1);
 	}
 
