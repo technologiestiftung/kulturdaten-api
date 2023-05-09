@@ -183,7 +183,7 @@ export class KulturdatenBerlinApp {
 
 	registerHarvesterRoutes() {
 		const harvesterRoute = Container.get(HarvesterRoutes);
-		this.app.use('/api/v1/admin/harvest/district', harvesterRoute.getRouter());
+		this.app.use('/api/v1/admin/harvest/baevents-bezirkskalender', harvesterRoute.getRouter());
 	}
 }
 

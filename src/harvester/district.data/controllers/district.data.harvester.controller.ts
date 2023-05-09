@@ -10,9 +10,9 @@ export class DistrictDataHarvestersController {
 
 
 	async harvest(res: Response) {
-		this.service.harvestDistrictData();
+		const createdItems = await this.service.harvestDistrictData();
 
-		res = res.status(200).send();
+		res = res.status(200).send(createdItems);
 	}
 
 }

@@ -7,35 +7,48 @@ import { Event } from "../../../generated/models/Event.generated";
 import { CreateEvent } from "../../../generated/models/CreateEvent.generated";
 import { CreateLocation } from "../../../generated/models/CreateLocation.generated";
 import { EventDate } from "../../../generated/models/EventDate.generated";
+import { LocationsService } from "../../../locations/services/locations.service";
+import { OrganizationsService } from "../../../organizations/services/organizations.service";
+import { EventsService } from "../../../events/services/events.service";
 
 
 @Service()
 export class DistrictDataService {
 
-	constructor(public harvesterClient: HarvesterClient<Bezirksdaten>) { }
+	constructor(public harvesterClient: HarvesterClient<Bezirksdaten>,
+		public locationService: LocationsService,
+		public organizationService: OrganizationsService,
+		public eventService: EventsService) { }
 
 	async harvestDistrictData() {
 		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=5';
 		const districtData = await this.harvesterClient.fetchData(apiURL);
-/*
+		const createdOrganizationIDs : string[] = [];
+		const createdLocationIDs : string[] = [];
+		const createdEventIDs : string[] = [];
+
 		for (const key in districtData.veranstalter) {
 			const veranstalter = districtData.veranstalter[key];
 			const organization = this.mapOrganisation(veranstalter);
-			console.log("Organisation: " + JSON.stringify(organization));
+			const oID = await this.organizationService.create(organization);
+			createdOrganizationIDs.push(oID);
 		}
 
 		for (const key in districtData.veranstaltungsorte) {
 			const veranstaltungsort = districtData.veranstaltungsorte[key];
 			const location = this.mapLocation(veranstaltungsort, districtData.bezirke);
-			console.log("Ort: " + JSON.stringify(location));
+			const lID = await this.locationService.create(location);
+			createdLocationIDs.push(lID);
 		}
-*/
 
 		for (const key in districtData.events) {
 			const e = districtData.events[key];
 			const event = this.mapEvent(e);
-			console.log("Event: " + JSON.stringify(event));
+			const eID = await this.eventService.create(event);
+			createdEventIDs.push(eID);
 		}
+
+		return { createsOrganizations: createdOrganizationIDs, createdLocations : createdLocationIDs, createdEvents : createdEventIDs };
 	}
 
 

@@ -2,5 +2,5 @@ type: object
 properties:
   name:
     type: string
-  idThere:
+  originId:
     type: string

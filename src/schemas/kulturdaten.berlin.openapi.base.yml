@@ -417,13 +417,31 @@ paths:
               schema:
                 $ref: "#/components/schemas/Health"
 
-  /admin/harvest/district:
+  /admin/harvest/baevents-bezirkskalender:
     post:
       tags:
-        - Harvest district data
+        - Admin
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  createsOrganizations:
+                    type: array
+                    items:
+                      type: string
+                  createdLocations:
+                    type: array
+                    items:
+                      type: string
+                  createdEvents:
+                    type: array
+                    items:
+                      type: string
+                    
 
 components:
   securitySchemes:
