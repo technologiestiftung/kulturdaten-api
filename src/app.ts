@@ -30,6 +30,7 @@ import { EventsRoutes } from './events/events.routes';
 import { LocationsRoutes } from './locations/locations.routes';
 import { MongoDBLocationsRepository } from './locations/repositories/locations.repository.mobgodb';
 import { MongoClient } from 'mongodb';
+import { HarvesterRoutes } from './harvester/harvester.routes';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -62,7 +63,9 @@ export class KulturdatenBerlinApp {
 		this.registerUserRoutes();
 		this.registerEventsRoutes();
 		this.registerLocationsRoutes();
+		this.registerHarvesterRoutes();
 	}
+
 
 	public async start() {
 		await this.ini();
@@ -176,6 +179,11 @@ export class KulturdatenBerlinApp {
 	private registerLocationsRoutes() {
 		const locationsRoute = Container.get(LocationsRoutes);
 		this.app.use('/api/v1/locations', locationsRoute.getRouter());
+	}
+
+	registerHarvesterRoutes() {
+		const harvesterRoute = Container.get(HarvesterRoutes);
+		this.app.use('/api/v1/admin/harvest/district', harvesterRoute.getRouter());
 	}
 }
 

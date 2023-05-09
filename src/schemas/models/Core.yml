@@ -19,4 +19,4 @@ properties:
   url:
     type: string
   origin:
-    type: string
+    $ref: Origin.yml

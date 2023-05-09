@@ -18,6 +18,7 @@ import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
 import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 import {ShortText, schemaForShortText} from "./ShortText.generated";
+import {Origin, schemaForOrigin} from "./Origin.generated";
 
 export const schemaForCreateOrganization = {
   $id: "CreateOrganization.yml",
@@ -30,7 +31,8 @@ export const schemaForCreateOrganization = {
     website: {type: "string"},
     email: {type: "string"},
     telephone: {type: "string"},
-    categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
+    categories: {type: "array", items: {$ref: "DefinedTerm.yml"}},
+    origin: {$ref: "Origin.yml"}
   }
 };
 
@@ -45,6 +47,7 @@ export function validateCreateOrganization(o: object): {isValid: boolean; valida
   ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
   ajv.addSchema(schemaForShortText, "ShortText.yml");
+  ajv.addSchema(schemaForOrigin, "Origin.yml");
 
   const validate = ajv.compile(schemaForCreateOrganization);
   return {isValid: validate(o), validate: validate};
@@ -59,4 +62,5 @@ export interface CreateOrganization {
   email?: string;
   telephone?: string;
   categories?: DefinedTerm[];
+  origin?: Origin;
 }

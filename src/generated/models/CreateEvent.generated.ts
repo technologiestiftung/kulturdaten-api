@@ -16,13 +16,15 @@ import {Text, schemaForText} from "./Text.generated";
 import {ShortText, schemaForShortText} from "./ShortText.generated";
 import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
+import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
+import {EventDate, schemaForEventDate} from "./EventDate.generated";
+import {Origin, schemaForOrigin} from "./Origin.generated";
 
 export const schemaForCreateEvent = {
   $id: "CreateEvent.yml",
   type: "object",
   properties: {
     "@type": {type: "string", enum: ["Event", "EventSeries", "ExhibitionEvent"]},
-    kind: {type: "string", enum: ["culture"]},
     title: {$ref: "Title.yml"},
     subTitle: {$ref: "Title.yml"},
     description: {$ref: "Text.yml"},
@@ -41,9 +43,11 @@ export const schemaForCreateEvent = {
     eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
     eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
     location: {type: "array", items: {$ref: "Reference.yml"}},
-    organizer: {$ref: "Reference.yml"},
-    subEvents: {type: "array", items: {$ref: "Reference.yml"}},
-    superEvent: {$ref: "Reference.yml"}
+    contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
+    organizedBy: {$ref: "Reference.yml"},
+    eventDates: {type: "array", items: {$ref: "EventDate.yml"}},
+    homepage: {type: "string"},
+    origin: {$ref: "Origin.yml"}
   }
 };
 
@@ -56,6 +60,9 @@ export function validateCreateEvent(o: object): {isValid: boolean; validate: Val
   ajv.addSchema(schemaForShortText, "ShortText.yml");
   ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
+  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
+  ajv.addSchema(schemaForEventDate, "EventDate.yml");
+  ajv.addSchema(schemaForOrigin, "Origin.yml");
 
   const validate = ajv.compile(schemaForCreateEvent);
   return {isValid: validate(o), validate: validate};
@@ -63,7 +70,6 @@ export function validateCreateEvent(o: object): {isValid: boolean; validate: Val
 
 export interface CreateEvent {
   "@type"?: "Event" | "EventSeries" | "ExhibitionEvent";
-  kind?: "culture";
   title?: Title;
   subTitle?: Title;
   description?: Text;
@@ -82,7 +88,9 @@ export interface CreateEvent {
   eventStatus?: "cancelled" | "postponed" | "rescheduled" | "scheduled";
   eventAttendanceMode?: "offline" | "online" | "mixed";
   location?: Reference[];
-  organizer?: Reference;
-  subEvents?: Reference[];
-  superEvent?: Reference;
+  contactPoint?: ContactPoint[];
+  organizedBy?: Reference;
+  eventDates?: EventDate[];
+  homepage?: string;
+  origin?: Origin;
 }

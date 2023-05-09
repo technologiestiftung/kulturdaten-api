@@ -16,6 +16,7 @@ import {Text, schemaForText} from "./Text.generated";
 import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
+import {Origin, schemaForOrigin} from "./Origin.generated";
 
 export const schemaForCreateLocation = {
   $id: "CreateLocation.yml",
@@ -28,7 +29,8 @@ export const schemaForCreateLocation = {
     contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
     website: {type: "string"},
     accessibility: {type: "string"},
-    managedBy: {type: "object", properties: {identifier: {type: "string"}}}
+    managedBy: {type: "object", properties: {identifier: {type: "string"}}},
+    origin: {$ref: "Origin.yml"}
   }
 };
 
@@ -41,6 +43,7 @@ export function validateCreateLocation(o: object): {isValid: boolean; validate: 
   ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
+  ajv.addSchema(schemaForOrigin, "Origin.yml");
 
   const validate = ajv.compile(schemaForCreateLocation);
   return {isValid: validate(o), validate: validate};
@@ -70,4 +73,5 @@ export interface CreateLocation {
   managedBy?: {
     identifier?: string;
   };
+  origin?: Origin;
 }

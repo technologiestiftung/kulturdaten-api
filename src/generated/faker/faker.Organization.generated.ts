@@ -12,6 +12,7 @@
 	import { Organization, schemaForOrganization } from "../models/Organization.generated";
 
 	import { schemaForCore } from '../models/Core.generated';
+	import { schemaForOrigin } from '../models/Origin.generated';
 	import { schemaForTitle } from '../models/Title.generated';
 	import { schemaForText } from '../models/Text.generated';
 	import { schemaForPostalAddress } from '../models/PostalAddress.generated';
@@ -24,6 +25,7 @@
 		const schema = schemaForOrganization as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
+			schemaForOrigin as Schema,
 			schemaForTitle as Schema,
 			schemaForText as Schema,
 			schemaForPostalAddress as Schema,

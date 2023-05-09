@@ -12,11 +12,14 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Core, schemaForCore} from "./Core.generated";
+import {Origin, schemaForOrigin} from "./Origin.generated";
 import {Title, schemaForTitle} from "./Title.generated";
 import {Text, schemaForText} from "./Text.generated";
 import {ShortText, schemaForShortText} from "./ShortText.generated";
 import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
+import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
+import {EventDate, schemaForEventDate} from "./EventDate.generated";
 
 export const schemaForEvent = {
   $id: "Event.yml",
@@ -44,9 +47,10 @@ export const schemaForEvent = {
         eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
         eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
         location: {type: "array", items: {$ref: "Reference.yml"}},
+        contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
         organizedBy: {$ref: "Reference.yml"},
-        subEvents: {type: "array", items: {$ref: "Reference.yml"}},
-        superEvent: {$ref: "Reference.yml"}
+        eventDates: {type: "array", items: {$ref: "EventDate.yml"}},
+        homepage: {type: "string"}
       }
     }
   ]
@@ -57,11 +61,14 @@ export function validateEvent(o: object): {isValid: boolean; validate: ValidateF
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForCore, "Core.yml");
+  ajv.addSchema(schemaForOrigin, "Origin.yml");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");
   ajv.addSchema(schemaForShortText, "ShortText.yml");
   ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
+  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
+  ajv.addSchema(schemaForEventDate, "EventDate.yml");
 
   const validate = ajv.compile(schemaForEvent);
   return {isValid: validate(o), validate: validate};
@@ -87,7 +94,8 @@ export type Event = Core & {
   eventStatus?: "cancelled" | "postponed" | "rescheduled" | "scheduled";
   eventAttendanceMode?: "offline" | "online" | "mixed";
   location?: Reference[];
+  contactPoint?: ContactPoint[];
   organizedBy?: Reference;
-  subEvents?: Reference[];
-  superEvent?: Reference;
+  eventDates?: EventDate[];
+  homepage?: string;
 };

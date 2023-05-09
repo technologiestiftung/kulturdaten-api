@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Core, schemaForCore} from "./Core.generated";
+import {Origin, schemaForOrigin} from "./Origin.generated";
 import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 import {ShortText, schemaForShortText} from "./ShortText.generated";
@@ -37,6 +38,7 @@ export function validateDefinedTermSet(o: object): {isValid: boolean; validate: 
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForCore, "Core.yml");
+  ajv.addSchema(schemaForOrigin, "Origin.yml");
   ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
   ajv.addSchema(schemaForShortText, "ShortText.yml");

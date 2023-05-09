@@ -12,21 +12,27 @@
 	import { Event, schemaForEvent } from "../models/Event.generated";
 
 	import { schemaForCore } from '../models/Core.generated';
+	import { schemaForOrigin } from '../models/Origin.generated';
 	import { schemaForTitle } from '../models/Title.generated';
 	import { schemaForText } from '../models/Text.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
 	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForReference } from '../models/Reference.generated';
+	import { schemaForContactPoint } from '../models/ContactPoint.generated';
+	import { schemaForEventDate } from '../models/EventDate.generated';
 
 	export function fakeEvent(useExamples: boolean, specifiedPropertiesForEvent: object = {}): Event {
 		const schema = schemaForEvent as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
+			schemaForOrigin as Schema,
 			schemaForTitle as Schema,
 			schemaForText as Schema,
 			schemaForShortText as Schema,
 			schemaForDefinedTerm as Schema,
 			schemaForReference as Schema,
+			schemaForContactPoint as Schema,
+			schemaForEventDate as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);
