@@ -63,6 +63,7 @@ export function validateLocation(o: object): {isValid: boolean; validate: Valida
   ajv.addSchema(schemaForShortText, "ShortText.yml");
 
   const validate = ajv.compile(schemaForLocation);
+  
   return {isValid: validate(o), validate: validate};
 }
 

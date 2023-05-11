@@ -6,7 +6,9 @@
 	  "updated": "2022-05-20T12:45:00Z",
 	  "kind": "culture",
 	  "url": "https://www.example.com/10001",
-	  "origin": "Kulturdaten Berlin",
+	  "origin": {
+		"name": "Kulturdaten Berlin"
+	  },
 	  "@type": "Place",
 	  "name": {
 		"de": "Berliner Philharmonie"
@@ -76,7 +78,9 @@
 		"updated": "2022-05-01T09:45:00Z",
 		"kind": "culture",
 		"url": "https://www.museum-digital.de/brandenburg/index.php?t=objekt&oges=3552",
-		"origin": "Museum Digital",
+		"origin": {
+			"name": "Museum Digital"
+		  } ,
 		"@type": "Place",
 		"name": {
 		  "de": "Museum für Naturkunde"

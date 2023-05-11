@@ -1,126 +1,159 @@
-import express from "express";
+import { Collection, Db, MongoClient } from 'mongodb';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { MongoDBConnector } from '../../common/services/mongodb.service';
+import { MongoDBEventsRepository } from '../../events/repositories/events.repository.mobgodb';
+import { EventsService } from '../../events/services/events.service';
+import { EventsController } from '../../events/controllers/events.controller';
+import { EventsRoutes } from '../../events/events.routes';
+import express from 'express';
 import request from "supertest";
-import { EventsController } from "../../events/controllers/events.controller";
-import { EventsService } from "../../events/services/events.service";
-import { EventsRoutes } from "../../events/events.routes";
-import { MockEventsRepository } from "./mocks/mock.events.repository";
+import { validateEvent } from '../../generated/models/Event.generated';
+import threeDummyEvents from './dummy.data/events.json';
+import { IDENTIFIER_REG_EX } from '../utils/matcher';
 
-import { validateEvent } from "../../generated/models/Event.generated";
+describe('Create events', () => {
+  afterEach(async () => {
+    await events.deleteMany();
+  });
 
-import Ajv from "ajv"
-import addFormats from "ajv-formats"
+  it('should create a event and return a identifier / POST /events', async () => {
+    const { body, statusCode } = await request(app).post('/v1/events').send({
+			name: { de :'New Event' },
+			description:  { de :'Description of new event.' }
+		});
 
-const app = express();
-app.use(express.json());
+    expect(statusCode).toBe(201);
 
-const eventsRepository = new MockEventsRepository();
-eventsRepository.fillWithDummyEvents(5);
-const eventsService = new EventsService(eventsRepository);
-const eventsController = new EventsController(eventsService);
-const eventsRoutes = new EventsRoutes(eventsController);
-
-
-app.use('/v1/events', eventsRoutes.getRouter());
-
-beforeAll(() => {
-	const ajv = new Ajv()
-	addFormats(ajv)
-
+    expect(body.identifier).toMatch(IDENTIFIER_REG_EX);
+    let loc = await events.findOne({identifier: body.identifier});
+    expect(loc?.name.de).toBe('New Event');
+  });
 });
 
-describe('Exploring existing events', () => {
-	it('GET /v1/events - success - get all the events', async () => {
-		const { body, statusCode } = await request(app).get('/v1/events');
+describe('Read events', () => {
+  beforeEach(async () => {
+    await events.insertMany(threeDummyEvents);
+  });
 
-		expect(statusCode).toBe(200);
+  afterEach(async () => {
+    await events.deleteMany();
+  });
 
-		body.events.forEach((o: object) => {
-			expect(validateEvent(o).isValid).toBe(true);
-		});
-	});
+  it('should return a list of all events / GET /events', async () => {
+    const { body, statusCode } = await request(app).get('/v1/events');
 
+    expect(statusCode).toBe(200);
+    expect(body.events).toHaveLength(3);
+    for (const o of body.events) {
+      expect(validateEvent(o).isValid).toBe(true);
+    }
+  });
 
-	it('POST /v1/events - success - get new eventId', async () => {
-		const { body, statusCode } = await request(app).post('/v1/events').send({
-			name: 'Neuer Veranstalter',
-			description: 'Beschreibung'
-		});
+  it('should return a empty list / GET /events', async () => {
+    await events.deleteMany();
 
-		expect(statusCode).toBe(201);
+    const { body, statusCode } = await request(app).get('/v1/events');
 
-		expect(body).toEqual(expect.objectContaining({
-			identifier: expect.any(String),
-		}));
-	});
+    expect(statusCode).toBe(200);
+    expect(body.events).toHaveLength(0);
+  });
 
-	it('GET /v1/events/:eventId - failure when event is not found', async () => {
-		const { body, statusCode } = await request(app).get('/v1/events/wrongID');
+  it('should return an error when an invalid ID is provided / GET /events/invalidID', async () => {
+    const { body, statusCode } = await request(app).get('/v1/events/invalidID');
 
-		expect(statusCode).toBe(404);
+    expect(statusCode).toBe(404);
+    expect(body.error.msg).toBe('Event not found');
+  });
 
-		expect(body).toEqual({
-			error: {
-				msg: 'Event not found'
-			}
-		});
-	});
+  it('should return a single event / GET /events/existID', async () => {
+    const { body, statusCode } = await request(app).get('/v1/events/1001');
 
-	it('GET /v1/events/:eventId - get the event', async () => {
-		const existEventId = eventsRepository.addDummyEvent();
-
-		const { body, statusCode } = await request(app).get(`/v1/events/${existEventId}`);
-
-		expect(statusCode).toBe(200);
-
-		expect(validateEvent(body.event).isValid).toBe(true);
-	});
-
-	it('PATCH /v1/events/:eventId - failure when event is not found', async () => {
-		const { body, statusCode } = await request(app).patch('/v1/events/wrongID').send({
-			title: 'Neuer Title',
-		});
-		expect(statusCode).toBe(404);
-
-		expect(body).toEqual({
-			error: {
-				msg: 'Event not found'
-			}
-		});
-	});
-
-	it('PATCH /v1/events/:eventId -  success - event is updated and code 204', async () => {
-		const existEventId: string = eventsRepository.addDummyEvent() || '';
-
-		const { statusCode } = await request(app).patch(`/v1/events/${existEventId}`).send({
-			title: 'Neuer Title',
-		});
-
-		const existEvent = await eventsRepository.getEventByIdentifier(existEventId);
-		expect(existEvent?.title).toBe('Neuer Title');
-		expect(statusCode).toBe(204);
-	});
-
-
-	it('DELETE /v1/events/:eventId - failure when event is not found', async () => {
-		const { body, statusCode } = await request(app).delete('/v1/events/wrongID');
-		expect(statusCode).toBe(404);
-
-		expect(body).toEqual({
-			error: {
-				msg: 'Event not found'
-			}
-		});
-	});
-
-	it('DELETE /v1/events/:eventId -  success - event is updated and code 204', async () => {
-		const existEventId: string = eventsRepository.addDummyEvent() || '';
-
-		const { statusCode } = await request(app).delete(`/v1/events/${existEventId}`);
-
-		const existEvent = await eventsRepository.getEventByIdentifier("86576");
-		expect(existEvent).toBeNull();
-		expect(statusCode).toBe(204);
-	});
-
+    expect(statusCode).toBe(200);
+    expect(validateEvent(body.event).isValid).toBe(true);
+    expect(body.event.identifier).toBe('1001');
+    expect(body.event.title.de).toBe('Sommerkonzert im Park');
+  });
 });
 
+
+describe('Update events', () => {
+  beforeEach(async () => {
+    await events.insertMany(threeDummyEvents);
+  });
+
+  afterEach(async () => {
+    await events.deleteMany();
+  });
+
+  it('should update the name of a event / PATCH /events/existID', async () => {
+    const { body, statusCode } = await request(app).patch('/v1/events/1001').send({
+			name: { de :'Neuer Name' }
+		});
+
+    expect(statusCode).toBe(204);
+    let loc = await events.findOne({identifier: '1001'});
+    expect(loc?.name.de).toBe('Neuer Name');
+  });
+
+  it('should return an error when an invalid ID is provided / PATCH /events/invalidID', async () => {
+    const { body, statusCode } = await request(app).patch('/v1/events/invalidID').send({
+			name: { de :'Neuer Name' }
+		});
+
+    expect(statusCode).toBe(404);
+    expect(body.error.msg).toBe('Event not found');
+  });
+});
+
+describe('Delete events', () => {
+  beforeEach(async () => {
+    await events.insertMany(threeDummyEvents);
+  });
+
+  afterEach(async () => {
+    await events.deleteMany();
+  });
+
+  it('should remove a event from database / PATCH /events/existID', async () => {
+    const { body, statusCode } = await request(app).delete('/v1/events/1001');
+
+    expect(statusCode).toBe(204);
+    let loc = await events.findOne({identifier: '1001'});
+    expect(loc).toBeNull
+  });
+});
+
+let con: MongoClient;
+let mongoServer: MongoMemoryServer;
+let connector: MongoDBConnector;
+let app: express.Application;
+let events: Collection;
+
+beforeAll(async () => {
+  mongoServer = await MongoMemoryServer.create({ instance: { dbName: 'api-db' } });
+  process.env.MONGO_URI = mongoServer.getUri();
+  con = await MongoClient.connect(mongoServer.getUri(), {});
+  connector = new MongoDBConnector(con);
+  const eventsRepository = new MongoDBEventsRepository(connector);
+  const eventsService = new EventsService(eventsRepository);
+  const eventsController = new EventsController(eventsService);
+  const eventsRoutes = new EventsRoutes(eventsController);
+  const db = con.db('api-db');
+  events = db.collection('events');
+
+  app = express();
+  app.use(express.json());
+  app.use('/v1/events', eventsRoutes.getRouter());
+});
+
+afterAll(async () => {
+  if (con) {
+    await con.close();
+  }
+  if (mongoServer) {
+    await mongoServer.stop();
+  }
+  if (connector) {
+    await connector.close();
+  }
+});
