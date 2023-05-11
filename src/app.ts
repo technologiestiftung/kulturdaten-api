@@ -24,7 +24,7 @@ import { HealthRoutes } from './health/health.routes';
 import { AuthRoutes } from './auth/auth.routes';
 import { MongoDBConnector } from './common/services/mongodb.service';
 import { MongoDBOrganizationsRepository } from './organizations/repositories/organizations.repository.mobgodb';
-import { MongoDBUsersRepository } from './users/repositories/users.repository.mobgodb';
+import { MongoDBUsersRepository } from './users/repositories/users.repository.mongodb';
 import { MongoDBEventsRepository } from './events/repositories/events.repository.mobgodb';
 import { EventsRoutes } from './events/events.routes';
 import { LocationsRoutes } from './locations/locations.routes';

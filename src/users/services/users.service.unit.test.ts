@@ -1,7 +1,7 @@
 import { UsersRepository } from "../repositories/users.repository";
 import { UsersService } from "./users.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
-import { MongoDBUsersRepository } from "../repositories/users.repository.mobgodb"
+import { MongoDBUsersRepository } from "../repositories/users.repository.mongodb";
 import { CreateUser } from "../../generated/models/CreateUser.generated";
 import { User } from "../../generated/models/User.generated";
 
