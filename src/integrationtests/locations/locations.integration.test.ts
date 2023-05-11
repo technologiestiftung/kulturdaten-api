@@ -10,6 +10,7 @@ import request from "supertest";
 import { validateLocation } from '../../generated/models/Location.generated';
 import twoDummyLocations from './dummy.data/locations.json';
 import { IDENTIFIER_REG_EX } from '../utils/matcher';
+import { fakeCreateLocation } from '../../generated/faker/faker.CreateLocation.generated';
 
 describe('Create locations', () => {
   afterEach(async () => {
@@ -17,10 +18,7 @@ describe('Create locations', () => {
   });
 
   it('should create a location and return a identifier / POST /locations', async () => {
-    const { body, statusCode } = await request(app).post('/v1/locations').send({
-			name: { de :'New Location' },
-			description:  { de :'Description of new location.' }
-		});
+    const { body, statusCode } = await request(app).post('/v1/locations').send(fakeCreateLocation(false, { name : { de: 'New Location'}}));
 
     expect(statusCode).toBe(201);
 

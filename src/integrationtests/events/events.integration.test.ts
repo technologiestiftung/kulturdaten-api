@@ -10,6 +10,7 @@ import request from "supertest";
 import { validateEvent } from '../../generated/models/Event.generated';
 import threeDummyEvents from './dummy.data/events.json';
 import { IDENTIFIER_REG_EX } from '../utils/matcher';
+import { fakeCreateEvent } from '../../generated/faker/faker.CreateEvent.generated';
 
 describe('Create events', () => {
   afterEach(async () => {
@@ -17,16 +18,13 @@ describe('Create events', () => {
   });
 
   it('should create a event and return a identifier / POST /events', async () => {
-    const { body, statusCode } = await request(app).post('/v1/events').send({
-			name: { de :'New Event' },
-			description:  { de :'Description of new event.' }
-		});
+    const { body, statusCode } = await request(app).post('/v1/events').send(fakeCreateEvent(false, { title : { de: 'New Event'}}));
 
     expect(statusCode).toBe(201);
 
     expect(body.identifier).toMatch(IDENTIFIER_REG_EX);
     let loc = await events.findOne({identifier: body.identifier});
-    expect(loc?.name.de).toBe('New Event');
+    expect(loc?.title.de).toBe('New Event');
   });
 });
 
