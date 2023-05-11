@@ -7,7 +7,7 @@ import { UsersController } from '../../users/controllers/users.controller';
 import { UsersRoutes } from '../../users/users.routes';
 import express from 'express';
 import request from "supertest";
-import { validateUser } from '../../generated/models/User.generated';
+import { User, validateUser } from '../../generated/models/User.generated';
 import fiveDummyUsers from './dummy.data/users.json';
 import { IDENTIFIER_REG_EX } from '../utils/matcher';
 import { mockTokenForExistUser } from "../utils/mock.auth.strategy";
@@ -25,7 +25,16 @@ describe('Create users', () => {
     expect(statusCode).toBe(201);
 
     expect(body.identifier).toMatch(IDENTIFIER_REG_EX);
-    let loc = await users.findOne({identifier: body.identifier});
+  });
+
+  it('should create a user with lowercase mail / POST /users', async () => {
+    const { body, statusCode } = await request(app).post('/v1/users').send(fakeCreateUser(false, { email: 'Peter@ExaMple.com'}));
+
+    expect(statusCode).toBe(201);
+
+    expect(body.identifier).toMatch(IDENTIFIER_REG_EX);
+    let loc  = await users.findOne({identifier: body.identifier});
+    expect(loc?.email).toBe('peter@example.com');
   });
 });
 
@@ -114,6 +123,18 @@ describe('Update users', () => {
 
     expect(statusCode).toBe(404);
     expect(body.error.msg).toBe('User not found');
+  });
+
+  it('should update the email as lowercase / PATCH /users/existID', async () => {
+    const authToken = mockTokenForExistUser({identifier: '1001', email: "user1@example.com", permissionFlags: PermissionFlag.REGISTERED_USER});
+
+    const { body, statusCode } = await request(app).patch('/v1/users/1001').send({
+			email: 'PeTer@ExamPle.de'
+		}).set('Authorization', 'bearer ' + authToken);
+
+    expect(statusCode).toBe(204);
+    let loc = await users.findOne({identifier: '1001'});
+    expect(loc?.email).toBe('peter@example.de');
   });
 });
 

@@ -14,10 +14,12 @@ export class MongoDBUsersRepository implements UsersRepository {
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
 	async getUserByEmail(email: string): Promise<User | null> {
+		email = email.toLowerCase();
 		const users = await this.dbConnector.users();
 		return users.findOne({ email: email }, { projection: { _id: 0, password:0 } });
 	}
 	async getUserByEmailWithPassword(email: string): Promise<User | null> {
+		email = email.toLowerCase();
 		const users = await this.dbConnector.users();
 		return users.findOne({ email: email }, { projection: { _id: 0 } });
 	}
@@ -26,6 +28,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 		const newUser = createUser as User;
 		newUser.identifier = generateID();
 		newUser.permissionFlags = 1;
+		newUser.email = createUser.email.toLowerCase();
 
 		const users = await this.dbConnector.users();
 		await users.insertOne(newUser);
@@ -40,6 +43,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 		return users.findOne({ identifier: userId }, { projection: { _id: 0, password:0 } });
 	}
 	async updateUserById(userId: string, userFields: PatchUser): Promise<boolean> {
+		if(userFields.email) userFields.email = userFields.email.toLowerCase();
 		const users = await this.dbConnector.users();
 		const result = await users.updateOne({ identifier: userId }, { $set: userFields });
 		return Promise.resolve(result.modifiedCount === 1);
