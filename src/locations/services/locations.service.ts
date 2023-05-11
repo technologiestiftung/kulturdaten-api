@@ -1,4 +1,5 @@
 import { LocationsRepository } from '../repositories/locations.repository';
+import { Location } from '../../generated/models/Location.generated';
 import { CRUD } from '../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
 import { CreateLocation } from '../../generated/models/CreateLocation.generated';
@@ -6,6 +7,10 @@ import { PatchLocation } from '../../generated/models/PatchLocation.generated';
 
 @Service()
 export class LocationsService implements CRUD {
+	
+	async searchDuplicates(location: Location) : Promise<Location[]> {
+		return this.locationsRepository.searchDuplicates(location);
+	}
 
 	constructor(@Inject('LocationsRepository') public locationsRepository: LocationsRepository){}
 

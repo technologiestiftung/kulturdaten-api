@@ -7,6 +7,7 @@ import { PatchLocation } from '../../generated/models/PatchLocation.generated';
 const log: debug.IDebugger = debug('app:locations-repository');
 
 export interface LocationsRepository {
+	searchDuplicates(location: Location): Promise<Location[]>;
 
 	addLocation(createLocation: CreateLocation): Promise<string>;
 

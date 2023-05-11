@@ -406,7 +406,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Health'
-  /admin/harvest/district:
+  /admin/harvest/baevents-bezirkskalender:
     post:
       tags:
         - Admin
@@ -419,6 +419,10 @@ paths:
                 type: object
                 properties:
                   createsOrganizations:
+                    type: array
+                    items:
+                      type: string
+                  alreadyExistsOrganizationIDs:
                     type: array
                     items:
                       type: string
@@ -466,6 +470,8 @@ components:
     Organization:
       allOf:
         - type: object
+          required:
+            - identifier
           properties:
             '@context':
               type: string
@@ -490,7 +496,7 @@ components:
               properties:
                 name:
                   type: string
-                idThere:
+                originId:
                   type: string
         - type: object
           properties:
@@ -682,7 +688,7 @@ components:
           properties:
             name:
               type: string
-            idThere:
+            originId:
               type: string
     PatchOrganization:
       type: object
@@ -869,6 +875,8 @@ components:
     Event:
       allOf:
         - type: object
+          required:
+            - identifier
           properties:
             '@context':
               type: string
@@ -893,7 +901,7 @@ components:
               properties:
                 name:
                   type: string
-                idThere:
+                originId:
                   type: string
         - type: object
           properties:
@@ -1309,7 +1317,7 @@ components:
           properties:
             name:
               type: string
-            idThere:
+            originId:
               type: string
     Reference:
       type: object
@@ -1523,6 +1531,8 @@ components:
     Location:
       allOf:
         - type: object
+          required:
+            - identifier
           properties:
             '@context':
               type: string
@@ -1547,7 +1557,7 @@ components:
               properties:
                 name:
                   type: string
-                idThere:
+                originId:
                   type: string
         - type: object
           properties:
@@ -1849,5 +1859,5 @@ components:
           properties:
             name:
               type: string
-            idThere:
+            originId:
               type: string

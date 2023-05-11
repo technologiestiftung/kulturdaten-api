@@ -12,6 +12,16 @@ import { Db, MongoClient } from "mongodb";
 export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	
+	async searchDuplicates(organization: Organization): Promise<Organization[]> {
+		const organizations = await this.dbConnector.organizations();
+		const query = { 
+			'origin.originId': organization.origin?.originId,
+			'origin.name': organization.origin?.name 
+		};
+		const response = await organizations.find(query).toArray();
+		return response;
+	}
 
 	async addOrganization(createOrganization: CreateOrganization): Promise<string> {
 		const newOrganization = createOrganization as Organization;

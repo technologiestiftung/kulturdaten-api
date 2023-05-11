@@ -7,6 +7,7 @@ import { PatchEvent } from '../../generated/models/PatchEvent.generated';
 const log: debug.IDebugger = debug('app:events-repository');
 
 export interface EventsRepository {
+	searchDuplicates(event: Event): Promise<Event[]>;
 
 	addEvent(createEvent: CreateEvent): Promise<string>;
 

@@ -16,6 +16,12 @@ export class MockEventsRepository implements EventsRepository {
 
 
 	constructor(public dummyEvents: Event[] = []) { };
+	
+	
+	
+	searchDuplicates(event: Event): Promise<Event[]> {
+		throw new Error("Method not implemented.");
+	}
 
 	reset() {
 		this.dummyEvents = [];

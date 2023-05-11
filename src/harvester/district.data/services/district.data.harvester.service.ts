@@ -1,15 +1,16 @@
 import { Inject, Service } from "typedi";
 import { HarvesterClient } from "../../client/harvester.client";
 import { Organization } from "../../../generated/models/Organization.generated";
-import { Bezirke, Bezirksdaten, Termin, Termine, Veranstalter, Veranstaltung, Veranstaltungsort } from "../model/district.data.types";
+import { Bezirke, Bezirksdaten, Termin, Termine, Veranstalter, VeranstalterList, Veranstaltung, Veranstaltungen, Veranstaltungsort, Veranstaltungsorte } from "../model/district.data.types";
 import { CreateOrganization } from "../../../generated/models/CreateOrganization.generated";
-import { Event } from "../../../generated/models/Event.generated";
+import { Location } from '../../../generated/models/Location.generated';
 import { CreateEvent } from "../../../generated/models/CreateEvent.generated";
 import { CreateLocation } from "../../../generated/models/CreateLocation.generated";
 import { EventDate } from "../../../generated/models/EventDate.generated";
 import { LocationsService } from "../../../locations/services/locations.service";
 import { OrganizationsService } from "../../../organizations/services/organizations.service";
 import { EventsService } from "../../../events/services/events.service";
+import { Event } from "../../../generated/models/Event.generated";
 
 
 @Service()
@@ -23,34 +24,75 @@ export class DistrictDataService {
 	async harvestDistrictData() {
 		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=5';
 		const districtData = await this.harvesterClient.fetchData(apiURL);
-		const createdOrganizationIDs : string[] = [];
-		const createdLocationIDs : string[] = [];
-		const createdEventIDs : string[] = [];
 
-		for (const key in districtData.veranstalter) {
-			const veranstalter = districtData.veranstalter[key];
-			const organization = this.mapOrganisation(veranstalter);
-			const oID = await this.organizationService.create(organization);
-			createdOrganizationIDs.push(oID);
-		}
+		const {createdOrganizationIDs, alreadyExistsOrganizationIDs  } = await this.harvestOrganizations(districtData.veranstalter);
+		const {createdLocationIDs, alreadyExistsLocationIDs } = await this.harvestLocations(districtData.veranstaltungsorte, districtData.bezirke);
+		const {createdEventIDs,alreadyExistsEventsIDs} = await this.harvestEvents(districtData.events);
 
-		for (const key in districtData.veranstaltungsorte) {
-			const veranstaltungsort = districtData.veranstaltungsorte[key];
-			const location = this.mapLocation(veranstaltungsort, districtData.bezirke);
-			const lID = await this.locationService.create(location);
-			createdLocationIDs.push(lID);
-		}
-
-		for (const key in districtData.events) {
-			const e = districtData.events[key];
-			const event = this.mapEvent(e);
-			const eID = await this.eventService.create(event);
-			createdEventIDs.push(eID);
-		}
-
-		return { createsOrganizations: createdOrganizationIDs, createdLocations : createdLocationIDs, createdEvents : createdEventIDs };
+		return { createsOrganizations: createdOrganizationIDs, alreadyExistsOrganizationIDs: alreadyExistsOrganizationIDs, createdLocations : createdLocationIDs, alreadyExistsLocations : alreadyExistsLocationIDs, createdEvents : createdEventIDs, alreadyExistsEvents: alreadyExistsEventsIDs };
 	}
 
+
+	private async harvestEvents(veranstaltungen: Veranstaltungen) {
+		const createdEventIDs: string[] = [];
+		const alreadyExistsEventsIDs: string[] = [];
+	  
+		for (const key in veranstaltungen) {
+		  const e = veranstaltungen[key];
+		  const event = this.mapEvent(e);
+		  const duplicates = await this.eventService.searchDuplicates(event as Event);
+	  
+		  if (duplicates.length > 0) {
+			duplicates.forEach(duplicate => {
+			  alreadyExistsEventsIDs.push(duplicate.identifier);
+			});
+		  } else {
+			const eID = await this.eventService.create(event);
+			createdEventIDs.push(eID);
+		  }
+		}
+	  
+		return { createdEventIDs, alreadyExistsEventsIDs };
+	  }
+
+	private async harvestLocations(veranstaltungsorte: Veranstaltungsorte, bezirke: Bezirke) {
+		const createdLocationIDs : string[] = [];
+		const alreadyExistsLocationIDs : string[] = [];
+		for (const key in veranstaltungsorte) {
+			const veranstaltungsort = veranstaltungsorte[key];
+			const location = this.mapLocation(veranstaltungsort, bezirke);
+			const duplicates = await this.locationService.searchDuplicates(location as Location);
+
+			if (duplicates.length > 0) {
+				duplicates.forEach(duplicate => {
+					alreadyExistsLocationIDs.push(duplicate.identifier);
+				});
+			} else {
+				const lID = await this.locationService.create(location);
+				createdLocationIDs.push(lID);
+			}
+		}
+		return { createdLocationIDs: createdLocationIDs, alreadyExistsLocationIDs: alreadyExistsLocationIDs};
+	}
+
+	private async harvestOrganizations(veranstalterList: VeranstalterList) {
+		const createdOrganizationIDs : string[] = [];
+		const alreadyExistsOrganizationIDs : string[] = [];
+		for (const key in veranstalterList) {
+			const veranstalter = veranstalterList[key];
+			const organization = this.mapOrganisation(veranstalter);
+			const duplicates = await this.organizationService.searchDuplicates(organization as Organization);
+			if (duplicates.length > 0) {
+				duplicates.forEach(duplicate => {
+					alreadyExistsOrganizationIDs.push(duplicate.identifier);
+				});
+			} else {
+				const oID = await this.organizationService.create(organization);
+				createdOrganizationIDs.push(oID);
+			}
+		}
+		return {createdOrganizationIDs: createdOrganizationIDs, alreadyExistsOrganizationIDs : alreadyExistsOrganizationIDs };
+	}
 
 	mapOrganisation(veranstalter: Veranstalter): CreateOrganization {
 		const organization = {
@@ -63,7 +105,7 @@ export class DistrictDataService {
 			},
 			origin: {
 				name: 'Bezirkskalender',
-				idThere: veranstalter.id,
+				originId: veranstalter.id,
 			},
 			telephone: veranstalter.telefon,
 		};
@@ -81,7 +123,7 @@ export class DistrictDataService {
 			},
 			origin: {
 				name: 'Bezirkskalender',
-				idThere: veranstaltungsort.id,
+				originId: veranstaltungsort.id,
 			},
 			borough: bezirke[veranstaltungsort.bezirk_id].DE
 		};
@@ -97,7 +139,7 @@ export class DistrictDataService {
 			homepage: veranstaltung.event_homepage,
 			origin: {
 				name: 'Bezirkskalender',
-				idThere: veranstaltung.event_id
+				originId: veranstaltung.event_id
 			},
 			eventDates: this.mapEventDates(veranstaltung.termine)
 		};

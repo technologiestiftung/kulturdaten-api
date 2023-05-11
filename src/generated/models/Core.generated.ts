@@ -16,6 +16,7 @@ import {Origin, schemaForOrigin} from "./Origin.generated";
 export const schemaForCore = {
   $id: "Core.yml",
   type: "object",
+  required: ["identifier"],
   properties: {
     "@context": {type: "string", enum: ["kulturdaten.berlin/api/v1/spec"]},
     identifier: {type: "string"},
@@ -39,7 +40,7 @@ export function validateCore(o: object): {isValid: boolean; validate: ValidateFu
 
 export interface Core {
   "@context"?: "kulturdaten.berlin/api/v1/spec";
-  identifier?: string;
+  identifier: string;
   created?: string;
   updated?: string;
   kind?: "culture";

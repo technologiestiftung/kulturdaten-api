@@ -14,7 +14,7 @@ import addFormats from "ajv-formats";
 export const schemaForOrigin = {
   $id: "Origin.yml",
   type: "object",
-  properties: {name: {type: "string"}, idThere: {type: "string"}}
+  properties: {name: {type: "string"}, originId: {type: "string"}}
 };
 
 export function validateOrigin(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -28,5 +28,5 @@ export function validateOrigin(o: object): {isValid: boolean; validate: Validate
 
 export interface Origin {
   name?: string;
-  idThere?: string;
+  originId?: string;
 }

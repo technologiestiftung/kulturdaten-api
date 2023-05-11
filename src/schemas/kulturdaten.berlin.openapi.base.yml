@@ -433,6 +433,10 @@ paths:
                     type: array
                     items:
                       type: string
+                  alreadyExistsOrganizationIDs:
+                      type: array
+                      items:
+                        type: string                 
                   createdLocations:
                     type: array
                     items:
