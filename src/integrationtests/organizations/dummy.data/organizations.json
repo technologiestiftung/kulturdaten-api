@@ -1,0 +1,140 @@
+[
+	{
+		"@context": "kulturdaten.berlin/api/v1/spec",
+		"identifier": "2001",
+		"created": "2023-05-12T15:00:00Z",
+		"updated": "2023-05-12T16:30:00Z",
+		"kind": "culture",
+		"url": "https://www.example.com/organization/2001",
+		"origin": {
+		  "name": "Kneipenbetreiber Berlin",
+		  "originId": "5678"
+		},
+		"@type": "Organization",
+		"name": {
+		  "de": "Kneipenbetreiber Berlin"
+		},
+		"description": {
+		  "de": "Ein kleiner Betreiber von mehreren Kneipen in Berlin, in denen Livemusik gespielt wird. Genießen Sie eine gemütliche Atmosphäre, gute Getränke und Liveauftritte von lokalen Musikern."
+		},
+		"address": {
+		  "@type": "PostalAddress",
+		  "streetAddress": "Beispielstraße 456",
+		  "addressLocality": "Berlin",
+		  "postalCode": "12345",
+		  "description": "Zentrum"
+		},
+		"contactPoint": [
+		  {
+			"@type": "ContactPoint",
+			"name": {
+			  "de": "Kontaktstelle Kneipenbetreiber"
+			},
+			"telephone": "+49 30 987654321",
+			"email": "info@kneipenbetreiber-berlin.de"
+		  }
+		],
+		"website": "https://www.example.com/kneipenbetreiber",
+		"email": "info@kneipenbetreiber-berlin.de",
+		"telephone": "+49 30 987654321",
+		"categories": [
+		  {
+			"inDefinedTermSet": {
+			  "label": "Kategorien",
+			  "targetType": "DefinedTermSet",
+			  "identifier": "3001",
+			  "url": "https://www.example.com/categories"
+			},
+			"term": {
+			  "de": "Kneipen"
+			}
+		  },
+		  {
+			"inDefinedTermSet": {
+			  "label": "Kategorien",
+			  "targetType": "DefinedTermSet",
+			  "identifier": "3001",
+			  "url": "https://www.example.com/categories"
+			},
+			"term": {
+			  "de": "Livemusik"
+			}
+		  }
+		]
+	  },{
+		"@context": "kulturdaten.berlin/api/v1/spec",
+		"identifier": "3001",
+		"created": "2023-05-12T17:30:00Z",
+		"updated": "2023-05-12T18:45:00Z",
+		"kind": "culture",
+		"url": "https://www.example.com/organization/3001",
+		"origin": {
+		  "name": "Himmelskunst Berlin",
+		  "originId": "1234"
+		},
+		"@type": "Organization",
+		"name": {
+		  "de": "Himmelskunst Berlin"
+		},
+		"description": {
+		  "de": "Ein Kunst-Kollektiv, das auf den Dächern in Berlin außergewöhnliche Ausstellungen und Performances präsentiert. Erleben Sie Kunst in luftiger Höhe und entdecken Sie neue Perspektiven."
+		},
+		"address": {
+		  "@type": "PostalAddress",
+		  "streetAddress": "Dachstraße 1",
+		  "addressLocality": "Berlin",
+		  "postalCode": "12345",
+		  "description": "Verschiedene Dachterrassen"
+		},
+		"contactPoint": [
+		  {
+			"@type": "ContactPoint",
+			"name": {
+			  "de": "Kontaktstelle Himmelskunst"
+			},
+			"telephone": "+49 30 123456789",
+			"email": "info@himmelskunst-berlin.de"
+		  }
+		],
+		"website": "https://www.example.com/himmelskunst",
+		"email": "info@himmelskunst-berlin.de",
+		"telephone": "+49 30 123456789",
+		"categories": [
+		  {
+			"inDefinedTermSet": {
+			  "label": "Kategorien",
+			  "targetType": "DefinedTermSet",
+			  "identifier": "4001",
+			  "url": "https://www.example.com/categories"
+			},
+			"term": {
+			  "de": "Kunstausstellungen"
+			}
+		  },
+		  {
+			"inDefinedTermSet": {
+			  "label": "Kategorien",
+			  "targetType": "DefinedTermSet",
+			  "identifier": "4001",
+			  "url": "https://www.example.com/categories"
+			},
+			"term": {
+			  "de": "Performances"
+			}
+		  },
+		  {
+			"inDefinedTermSet": {
+			  "label": "Kategorien",
+			  "targetType": "DefinedTermSet",
+			  "identifier": "4001",
+			  "url": "https://www.example.com/categories"
+			},
+			"term": {
+			  "de": "Dachkunst"
+			}
+		  }
+		]
+	  }
+	  
+
+]

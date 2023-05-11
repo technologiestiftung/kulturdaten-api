@@ -1,119 +1,157 @@
-import express from "express";
+import { Collection, Db, MongoClient } from 'mongodb';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { MongoDBConnector } from '../../common/services/mongodb.service';
+import { MongoDBOrganizationsRepository } from '../../organizations/repositories/organizations.repository.mobgodb';
+import { OrganizationsService } from '../../organizations/services/organizations.service';
+import { OrganizationsController } from '../../organizations/controllers/organizations.controller';
+import { OrganizationsRoutes } from '../../organizations/organizations.routes';
+import express from 'express';
 import request from "supertest";
-import { OrganizationsController } from "../../organizations/controllers/organizations.controller";
-import { OrganizationsService } from "../../organizations/services/organizations.service";
-import { OrganizationsRoutes } from "../../organizations/organizations.routes";
-import { MockOrganizationsRepository } from "./mocks/mock.organizations.repository";
+import { validateOrganization } from '../../generated/models/Organization.generated';
+import twoDummyOrganizations from './dummy.data/organizations.json';
+import { IDENTIFIER_REG_EX } from '../utils/matcher';
+import { fakeCreateOrganization } from '../../generated/faker/faker.CreateOrganization.generated';
 
-import { validateOrganization } from "../../generated/models/Organization.generated";
+describe('Create organizations', () => {
+  afterEach(async () => {
+    await organizations.deleteMany();
+  });
 
-const app = express();
-app.use(express.json());
+  it('should create a organization and return a identifier / POST /organizations', async () => {
+    const { body, statusCode } = await request(app).post('/v1/organizations').send(fakeCreateOrganization(false, { name : { de: 'New Organization'}}));
 
-const organizationsRepository = new MockOrganizationsRepository(false,{identifier: "1"},{identifier: "2"},{identifier: "3"});
-const organizationsService = new OrganizationsService(organizationsRepository);
-const organizationsController = new OrganizationsController(organizationsService);
-const organizationsRoutes = new OrganizationsRoutes(organizationsController);
+    expect(statusCode).toBe(201);
 
-
-app.use('/v1/organizations', organizationsRoutes.getRouter());
-
-
-describe('Exploring existing organizations', () => {
-	it('GET /v1/organizations - success - get all the organizations', async () => {
-		const { body, statusCode } = await request(app).get('/v1/organizations');
-
-		expect(statusCode).toBe(200);
-
-		body.organizations.forEach((o: object) => {
-			let val = validateOrganization(o);
-			expect(val.isValid).toBe(true);
-		});
-	});
-
-
-	it('POST /v1/organizations - success - get new organizationId', async () => {
-		const { body, statusCode } = await request(app).post('/v1/organizations').send({
-			name: 'Neuer Veranstalter',
-			description: 'Beschreibung'
-		});
-
-		expect(statusCode).toBe(201);
-
-		expect(body).toEqual(expect.objectContaining({
-			identifier: expect.any(String),
-		}));
-	});
-
-	it('GET /v1/organizations/:organizationId - failure when organization is not found', async () => {
-		const { body, statusCode } = await request(app).get('/v1/organizations/wrongID');
-
-		expect(statusCode).toBe(404);
-
-		expect(body).toEqual({
-			error: {
-				msg: 'Organization not found'
-			}
-		});
-	});
-
-	it('GET /v1/organizations/:organizationId - get the organization', async () => {
-		const existOrganizationId = organizationsRepository.addDummyOrganization(false,{identifier: "1"});
-
-		const { body, statusCode } = await request(app).get(`/v1/organizations/${existOrganizationId}`);
-
-		expect(statusCode).toBe(200);
-
-		let val = validateOrganization(body.organization);
-		expect(val.isValid).toBe(true);
-	});
-
-	it('PATCH /v1/organizations/:organizationId - failure when organization is not found', async () => {
-		const { body, statusCode } = await request(app).patch('/v1/organizations/wrongID').send({
-			name: 'Neuer Name',
-		});
-		expect(statusCode).toBe(404);
-
-		expect(body).toEqual({
-			error: {
-				msg: 'Organization not found'
-			}
-		});
-	});
-
-	it('PATCH /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId: string = organizationsRepository.addDummyOrganization(false,{identifier: "1"}) || '';
-
-		const { statusCode } = await request(app).patch(`/v1/organizations/${existOrganizationId}`).send({
-			name: 'Neuer Name',
-		});
-
-		const existOrganization = await organizationsRepository.getOrganizationByIdentifier(existOrganizationId);
-		expect(existOrganization?.name).toBe('Neuer Name');
-		expect(statusCode).toBe(204);
-	});
-
-
-	it('DELETE /v1/organizations/:organizationId - failure when organization is not found', async () => {
-		const { body, statusCode } = await request(app).delete('/v1/organizations/wrongID');
-		expect(statusCode).toBe(404);
-
-		expect(body).toEqual({
-			error: {
-				msg: 'Organization not found'
-			}
-		});
-	});
-
-	it('DELETE /v1/organizations/:organizationId -  success - organization is updated and code 204', async () => {
-		const existOrganizationId: string = organizationsRepository.addDummyOrganization(false,{identifier: "1"}) || '';
-
-		const { statusCode } = await request(app).delete(`/v1/organizations/${existOrganizationId}`);
-
-		const existOrganization = await organizationsRepository.getOrganizationByIdentifier("86576");
-		expect(existOrganization).toBeNull();
-		expect(statusCode).toBe(204);
-	});
-
+    expect(body.identifier).toMatch(IDENTIFIER_REG_EX);
+    let loc = await organizations.findOne({identifier: body.identifier});
+    expect(loc?.name.de).toBe('New Organization');
+  });
 });
 
+describe('Read organizations', () => {
+  beforeEach(async () => {
+    await organizations.insertMany(twoDummyOrganizations);
+  });
+
+  afterEach(async () => {
+    await organizations.deleteMany();
+  });
+
+  it('should return a list of all organizations / GET /organizations', async () => {
+    const { body, statusCode } = await request(app).get('/v1/organizations');
+
+    expect(statusCode).toBe(200);
+    expect(body.organizations).toHaveLength(2);
+    for (const o of body.organizations) {
+      expect(validateOrganization(o).isValid).toBe(true);
+    }
+  });
+
+  it('should return a empty list / GET /organizations', async () => {
+    await organizations.deleteMany();
+
+    const { body, statusCode } = await request(app).get('/v1/organizations');
+
+    expect(statusCode).toBe(200);
+    expect(body.organizations).toHaveLength(0);
+  });
+
+  it('should return an error when an invalid ID is provided / GET /organizations/invalidID', async () => {
+    const { body, statusCode } = await request(app).get('/v1/organizations/invalidID');
+
+    expect(statusCode).toBe(404);
+    expect(body.error.msg).toBe('Organization not found');
+  });
+
+  it('should return a single organization / GET /organizations/existID', async () => {
+    const { body, statusCode } = await request(app).get('/v1/organizations/2001');
+
+    expect(statusCode).toBe(200);
+    expect(validateOrganization(body.organization).isValid).toBe(true);
+    expect(body.organization.identifier).toBe('2001');
+    expect(body.organization.name.de).toBe('Kneipenbetreiber Berlin');
+  });
+});
+
+
+describe('Update organizations', () => {
+  beforeEach(async () => {
+    await organizations.insertMany(twoDummyOrganizations);
+  });
+
+  afterEach(async () => {
+    await organizations.deleteMany();
+  });
+
+  it('should update the name of a organization / PATCH /organizations/existID', async () => {
+    const { body, statusCode } = await request(app).patch('/v1/organizations/2001').send({
+			name: { de :'Neuer Name' }
+		});
+
+    expect(statusCode).toBe(204);
+    let loc = await organizations.findOne({identifier: '2001'});
+    expect(loc?.name.de).toBe('Neuer Name');
+  });
+
+  it('should return an error when an invalid ID is provided / PATCH /organizations/invalidID', async () => {
+    const { body, statusCode } = await request(app).patch('/v1/organizations/invalidID').send({
+			name: { de :'Neuer Name' }
+		});
+
+    expect(statusCode).toBe(404);
+    expect(body.error.msg).toBe('Organization not found');
+  });
+});
+
+describe('Delete organizations', () => {
+  beforeEach(async () => {
+    await organizations.insertMany(twoDummyOrganizations);
+  });
+
+  afterEach(async () => {
+    await organizations.deleteMany();
+  });
+
+  it('should remove a organization from database / PATCH /organizations/existID', async () => {
+    const { body, statusCode } = await request(app).delete('/v1/organizations/2001');
+
+    expect(statusCode).toBe(204);
+    let loc = await organizations.findOne({identifier: '2001'});
+    expect(loc).toBeNull
+  });
+});
+
+let con: MongoClient;
+let mongoServer: MongoMemoryServer;
+let connector: MongoDBConnector;
+let app: express.Application;
+let organizations: Collection;
+
+beforeAll(async () => {
+  mongoServer = await MongoMemoryServer.create({ instance: { dbName: 'api-db' } });
+  process.env.MONGO_URI = mongoServer.getUri();
+  con = await MongoClient.connect(mongoServer.getUri(), {});
+  connector = new MongoDBConnector(con);
+  const organizationsRepository = new MongoDBOrganizationsRepository(connector);
+  const organizationsService = new OrganizationsService(organizationsRepository);
+  const organizationsController = new OrganizationsController(organizationsService);
+  const organizationsRoutes = new OrganizationsRoutes(organizationsController);
+  const db = con.db('api-db');
+  organizations = db.collection('organizations');
+
+  app = express();
+  app.use(express.json());
+  app.use('/v1/organizations', organizationsRoutes.getRouter());
+});
+
+afterAll(async () => {
+  if (con) {
+    await con.close();
+  }
+  if (mongoServer) {
+    await mongoServer.stop();
+  }
+  if (connector) {
+    await connector.close();
+  }
+});
