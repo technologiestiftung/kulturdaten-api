@@ -8,12 +8,11 @@ import { Organization } from '../../generated/models/Organization.generated';
 @Service()
 export class OrganizationsService implements CRUD {
 
+	constructor(@Inject('OrganizationsRepository') public organizationsRepository: OrganizationsRepository){}
 
 	async searchDuplicates(organization: Organization) : Promise<Organization []> {
 		return this.organizationsRepository.searchDuplicates(organization);
 	}
-
-	constructor(@Inject('OrganizationsRepository') public organizationsRepository: OrganizationsRepository){}
 
 	async create(resource: CreateOrganization) {
 		return this.organizationsRepository.addOrganization(resource);

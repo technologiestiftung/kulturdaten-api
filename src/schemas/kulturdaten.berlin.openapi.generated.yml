@@ -819,7 +819,6 @@ components:
           minLength: 1
         password:
           type: string
-          format: password
           minLength: 12
         firstName:
           type: string

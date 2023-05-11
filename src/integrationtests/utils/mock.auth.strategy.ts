@@ -2,7 +2,7 @@ import passport from "passport";
 import * as bearerStrategy from 'passport-http-bearer';
 
 export function mockTokenForExistUser (user = {
-	id: "1",
+	identifier: "1",
 	email: "user@ts.berlin",
 	permissionFlags: 1
 }, token: string = "EXIST_USER_TOKEN"): string {
@@ -11,7 +11,7 @@ export function mockTokenForExistUser (user = {
 };
 
 export function mockTokenForNotExistUser (user = {
-	id: "1",
+	identifier: "1",
 	email: "user@ts.berlin",
 	permissionFlags: 1
 }, token: string = "NOT_EXIST_USER_TOKEN"): string {

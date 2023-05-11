@@ -7,6 +7,7 @@ import { UsersController } from './controllers/users.controller';
 import { checkUsers } from './middleware/users.middleware';
 import { CreateUser } from '../generated/models/CreateUser.generated';
 import { PatchUser } from '../generated/models/PatchUser.generated';
+import { UsersService } from './services/users.service';
 
 
 const log: debug.IDebugger = debug('app:users-routes');
@@ -15,7 +16,7 @@ const log: debug.IDebugger = debug('app:users-routes');
 export class UsersRoutes {
 
 	constructor(
-		public usersController: UsersController) { }
+		public usersController: UsersController, public usersService : UsersService) { }
 
 	public getRouter(): Router {
 		let router = express.Router();
@@ -30,7 +31,7 @@ export class UsersRoutes {
 				})
 			.post(
 				'/',
-				checkUsers.eMailIsNotExist(),
+				checkUsers.eMailIsNotExist(this.usersService),
 				(req: express.Request, res: express.Response) => {
 					const createUser = req.body as CreateUser;
 					this.usersController.createUser(res, createUser);
