@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Core, schemaForCore} from "./Core.generated";
+import {Origin, schemaForOrigin} from "./Origin.generated";
 import {Title, schemaForTitle} from "./Title.generated";
 import {Text, schemaForText} from "./Text.generated";
 
@@ -49,6 +50,7 @@ export function validateImageObject(o: object): {isValid: boolean; validate: Val
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForCore, "Core.yml");
+  ajv.addSchema(schemaForOrigin, "Origin.yml");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");
 

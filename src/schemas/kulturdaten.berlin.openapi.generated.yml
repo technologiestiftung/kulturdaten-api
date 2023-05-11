@@ -406,6 +406,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Health'
+  /admin/harvest/baevents-bezirkskalender:
+    post:
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  createsOrganizations:
+                    type: array
+                    items:
+                      type: string
+                  alreadyExistsOrganizationIDs:
+                    type: array
+                    items:
+                      type: string
+                  createdLocations:
+                    type: array
+                    items:
+                      type: string
+                  createdEvents:
+                    type: array
+                    items:
+                      type: string
 components:
   securitySchemes:
     bearerAuth:
@@ -442,6 +470,8 @@ components:
     Organization:
       allOf:
         - type: object
+          required:
+            - identifier
           properties:
             '@context':
               type: string
@@ -462,7 +492,12 @@ components:
             url:
               type: string
             origin:
-              type: string
+              type: object
+              properties:
+                name:
+                  type: string
+                originId:
+                  type: string
         - type: object
           properties:
             '@type':
@@ -648,6 +683,13 @@ components:
                     type: string
                 additionalProperties:
                   type: string
+        origin:
+          type: object
+          properties:
+            name:
+              type: string
+            originId:
+              type: string
     PatchOrganization:
       type: object
       properties:
@@ -833,6 +875,8 @@ components:
     Event:
       allOf:
         - type: object
+          required:
+            - identifier
           properties:
             '@context':
               type: string
@@ -853,7 +897,12 @@ components:
             url:
               type: string
             origin:
-              type: string
+              type: object
+              properties:
+                name:
+                  type: string
+                originId:
+                  type: string
         - type: object
           properties:
             '@type':
@@ -1008,6 +1057,28 @@ components:
                   url:
                     type: string
                 additionalProperties: true
+            contactPoint:
+              type: array
+              items:
+                type: object
+                properties:
+                  '@type':
+                    type: string
+                    enum:
+                      - ContactPoint
+                  name:
+                    type: object
+                    required:
+                      - de
+                    properties:
+                      de:
+                        type: string
+                    additionalProperties:
+                      type: string
+                  telephone:
+                    type: string
+                  email:
+                    type: string
             organizedBy:
               type: object
               properties:
@@ -1020,32 +1091,22 @@ components:
                 url:
                   type: string
               additionalProperties: true
-            subEvents:
+            eventDates:
               type: array
               items:
                 type: object
                 properties:
-                  label:
+                  startDate:
                     type: string
-                  targetType:
+                    format: date-time
+                  endDate:
                     type: string
-                  identifier:
+                    format: date-time
+                  previousStartDate:
                     type: string
-                  url:
-                    type: string
-                additionalProperties: true
-            superEvent:
-              type: object
-              properties:
-                label:
-                  type: string
-                targetType:
-                  type: string
-                identifier:
-                  type: string
-                url:
-                  type: string
-              additionalProperties: true
+                    format: date-time
+            homepage:
+              type: string
     CreateEvent:
       type: object
       properties:
@@ -1055,10 +1116,6 @@ components:
             - Event
             - EventSeries
             - ExhibitionEvent
-        kind:
-          type: string
-          enum:
-            - culture
         title:
           type: object
           required:
@@ -1205,33 +1262,29 @@ components:
               url:
                 type: string
             additionalProperties: true
-        organizer:
-          type: object
-          properties:
-            label:
-              type: string
-            targetType:
-              type: string
-            identifier:
-              type: string
-            url:
-              type: string
-          additionalProperties: true
-        subEvents:
+        contactPoint:
           type: array
           items:
             type: object
             properties:
-              label:
+              '@type':
                 type: string
-              targetType:
+                enum:
+                  - ContactPoint
+              name:
+                type: object
+                required:
+                  - de
+                properties:
+                  de:
+                    type: string
+                additionalProperties:
+                  type: string
+              telephone:
                 type: string
-              identifier:
+              email:
                 type: string
-              url:
-                type: string
-            additionalProperties: true
-        superEvent:
+        organizedBy:
           type: object
           properties:
             label:
@@ -1243,6 +1296,29 @@ components:
             url:
               type: string
           additionalProperties: true
+        eventDates:
+          type: array
+          items:
+            type: object
+            properties:
+              startDate:
+                type: string
+                format: date-time
+              endDate:
+                type: string
+                format: date-time
+              previousStartDate:
+                type: string
+                format: date-time
+        homepage:
+          type: string
+        origin:
+          type: object
+          properties:
+            name:
+              type: string
+            originId:
+              type: string
     Reference:
       type: object
       properties:
@@ -1455,6 +1531,8 @@ components:
     Location:
       allOf:
         - type: object
+          required:
+            - identifier
           properties:
             '@context':
               type: string
@@ -1475,7 +1553,12 @@ components:
             url:
               type: string
             origin:
-              type: string
+              type: object
+              properties:
+                name:
+                  type: string
+                originId:
+                  type: string
         - type: object
           properties:
             '@type':
@@ -1770,4 +1853,11 @@ components:
           type: object
           properties:
             identifier:
+              type: string
+        origin:
+          type: object
+          properties:
+            name:
+              type: string
+            originId:
               type: string

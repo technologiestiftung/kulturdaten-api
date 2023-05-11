@@ -1,4 +1,6 @@
 type: object
+required:
+  - identifier
 properties:
   '@context':
       type: string
@@ -19,4 +21,4 @@ properties:
   url:
     type: string
   origin:
-    type: string
+    $ref: Origin.yml

@@ -7,6 +7,7 @@ import { PatchOrganization } from '../../generated/models/PatchOrganization.gene
 const log: debug.IDebugger = debug('app:organizations-repository');
 
 export interface OrganizationsRepository {
+	searchDuplicates(organization: Organization): Promise<Organization[]>;
 
 	addOrganization(createOrganization: CreateOrganization): Promise<string>;
 

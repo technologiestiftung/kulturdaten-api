@@ -16,6 +16,9 @@
 	import { schemaForShortText } from '../models/ShortText.generated';
 	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForReference } from '../models/Reference.generated';
+	import { schemaForContactPoint } from '../models/ContactPoint.generated';
+	import { schemaForEventDate } from '../models/EventDate.generated';
+	import { schemaForOrigin } from '../models/Origin.generated';
 
 	export function fakeCreateEvent(useExamples: boolean, specifiedPropertiesForCreateEvent: object = {}): CreateEvent {
 		const schema = schemaForCreateEvent as Schema;
@@ -25,6 +28,9 @@
 			schemaForShortText as Schema,
 			schemaForDefinedTerm as Schema,
 			schemaForReference as Schema,
+			schemaForContactPoint as Schema,
+			schemaForEventDate as Schema,
+			schemaForOrigin as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

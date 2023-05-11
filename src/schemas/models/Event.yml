@@ -72,12 +72,15 @@ allOf:
         type: array
         items:
           $ref: Reference.yml
-      organizedBy:
-        $ref: Reference.yml
-      subEvents:
+      contactPoint:
         type: array
         items:
-          $ref: Reference.yml
-      superEvent:
+          $ref: ContactPoint.yml
+      organizedBy:
         $ref: Reference.yml
-    
+      eventDates:
+        type: array
+        items:
+          $ref: EventDate.yml
+      homepage:
+        type: string

@@ -22,3 +22,5 @@ properties:
     properties:
       identifier:
         type: string
+  origin:
+    $ref: Origin.yml

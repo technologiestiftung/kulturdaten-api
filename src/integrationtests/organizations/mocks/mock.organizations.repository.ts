@@ -13,7 +13,11 @@ export class MockOrganizationsRepository implements OrganizationsRepository {
 
 	constructor(useExamples: boolean, ...specifiedPropertiesForOrganizations: object[]) { 
 		this.dummyOrganizations = fakeOrganizations(useExamples,...specifiedPropertiesForOrganizations);
-	};
+	}
+	
+	searchDuplicates(organization: Organization): Promise<Organization[]> {
+		throw new Error("Method not implemented.");
+	}
 
 	public reset() {
 		this.dummyOrganizations = [];

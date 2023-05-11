@@ -16,6 +16,7 @@
 	import { schemaForPostalAddress } from '../models/PostalAddress.generated';
 	import { schemaForBorough } from '../models/Borough.generated';
 	import { schemaForContactPoint } from '../models/ContactPoint.generated';
+	import { schemaForOrigin } from '../models/Origin.generated';
 
 	export function fakeCreateLocation(useExamples: boolean, specifiedPropertiesForCreateLocation: object = {}): CreateLocation {
 		const schema = schemaForCreateLocation as Schema;
@@ -25,6 +26,7 @@
 			schemaForPostalAddress as Schema,
 			schemaForBorough as Schema,
 			schemaForContactPoint as Schema,
+			schemaForOrigin as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

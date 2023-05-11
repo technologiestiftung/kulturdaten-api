@@ -1,11 +1,10 @@
 openapi: 3.0.3
 info:
-  title: API Kulturdaten.Berlin 
-  version: '1.0.0'
+  title: API Kulturdaten.Berlin
+  version: "1.0.0"
 servers:
   - url: http://localhost:3000/api/v1/
 paths:
-
   /auth/token:
     post:
       tags:
@@ -14,31 +13,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Login'
+              $ref: "#/components/schemas/Login"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Auth'      
+                $ref: "#/components/schemas/Auth"
 
   /events:
     get:
       tags:
         - Events
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  events: 
+                  events:
                     type: array
-                    items:    
-                      $ref: '#/components/schemas/Event'
+                    items:
+                      $ref: "#/components/schemas/Event"
     post:
       tags:
         - Events
@@ -46,22 +45,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateEvent'
+              $ref: "#/components/schemas/CreateEvent"
       responses:
-        '201':
+        "201":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  identifier: 
+                  identifier:
                     type: string
 
   /events/{identifier}:
     parameters:
       - in: path
-        name: identifier 
+        name: identifier
         required: true
         schema:
           type: string
@@ -70,21 +69,21 @@ paths:
       tags:
         - Events
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  event: 
-                    $ref: '#/components/schemas/Event'  
-        '404':
+                  event:
+                    $ref: "#/components/schemas/Event"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
         - Events
@@ -92,45 +91,45 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchEvent'
+              $ref: "#/components/schemas/PatchEvent"
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     delete:
       tags:
         - Events
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
 
   /locations:
     get:
       tags:
         - Locations
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  locations: 
+                  locations:
                     type: array
-                    items:    
-                      $ref: '#/components/schemas/Location'
+                    items:
+                      $ref: "#/components/schemas/Location"
     post:
       tags:
         - Locations
@@ -138,22 +137,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateLocation'
+              $ref: "#/components/schemas/CreateLocation"
       responses:
-        '201':
+        "201":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  identifier: 
+                  identifier:
                     type: string
 
   /locations/{identifier}:
     parameters:
       - in: path
-        name: identifier 
+        name: identifier
         required: true
         schema:
           type: string
@@ -162,21 +161,21 @@ paths:
       tags:
         - Locations
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  location: 
-                    $ref: '#/components/schemas/Location'  
-        '404':
+                  location:
+                    $ref: "#/components/schemas/Location"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
         - Locations
@@ -184,46 +183,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchLocation'
+              $ref: "#/components/schemas/PatchLocation"
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     delete:
       tags:
         - Locations
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
 
   /organizations:
     get:
       tags:
         - Organizations
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  organizations: 
+                  organizations:
                     type: array
-                    items:    
-                      $ref: '#/components/schemas/Organization'  
-  
+                    items:
+                      $ref: "#/components/schemas/Organization"
+
     post:
       tags:
         - Organizations
@@ -231,23 +230,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrganization'
+              $ref: "#/components/schemas/CreateOrganization"
       responses:
-        '201':
+        "201":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  identifier: 
+                  identifier:
                     type: string
-
 
   /organizations/{identifier}:
     parameters:
       - in: path
-        name: identifier 
+        name: identifier
         required: true
         schema:
           type: string
@@ -256,21 +254,21 @@ paths:
       tags:
         - Organizations
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  organization: 
-                    $ref: '#/components/schemas/Organization'  
-        '404':
+                  organization:
+                    $ref: "#/components/schemas/Organization"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
         - Organizations
@@ -278,31 +276,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchOrganization'
+              $ref: "#/components/schemas/PatchOrganization"
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     delete:
       tags:
         - Organizations
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
-
-
-
+                $ref: "#/components/schemas/NotFoundError"
 
   /users:
     get:
@@ -311,17 +306,17 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  users: 
+                  users:
                     type: array
-                    items:    
-                      $ref: '#/components/schemas/User'
+                    items:
+                      $ref: "#/components/schemas/User"
     post:
       tags:
         - Users
@@ -329,28 +324,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUser'
+              $ref: "#/components/schemas/CreateUser"
       responses:
-        '201':
+        "201":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  identifier: 
+                  identifier:
                     type: string
-        '409':
+        "409":
           description: Conflict
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmailAlreadyInUseError'
+                $ref: "#/components/schemas/EmailAlreadyInUseError"
 
   /users/{identifier}:
     parameters:
       - in: path
-        name: identifier 
+        name: identifier
         required: true
         schema:
           type: string
@@ -361,7 +356,7 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -369,13 +364,13 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: '#/components/schemas/User'
-        '404':
+                    $ref: "#/components/schemas/User"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
         - Users
@@ -385,61 +380,87 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchUser'
+              $ref: "#/components/schemas/PatchUser"
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: "#/components/schemas/NotFoundError"
     delete:
       tags:
         - Users
       security:
         - bearerAuth: []
       responses:
-        '204':
-          description: OK  
-        '404':
+        "204":
+          description: OK
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
-
-
+                $ref: "#/components/schemas/NotFoundError"
 
   /health:
     get:
       tags:
         - Server
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Health'
+                $ref: "#/components/schemas/Health"
 
-
+  /admin/harvest/baevents-bezirkskalender:
+    post:
+      tags:
+        - Admin
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  createsOrganizations:
+                    type: array
+                    items:
+                      type: string
+                  alreadyExistsOrganizationIDs:
+                      type: array
+                      items:
+                        type: string                 
+                  createdLocations:
+                    type: array
+                    items:
+                      type: string
+                  createdEvents:
+                    type: array
+                    items:
+                      type: string
+                    
 
 components:
   securitySchemes:
-    bearerAuth:           
+    bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT   
+      bearerFormat: JWT
 
   schemas:
     Login:
       $ref: models/Login.yml
 
     Auth:
-      $ref: models/Auth.yml 
-    
+      $ref: models/Auth.yml
+
     Organization:
       $ref: models/Organization.yml
 
@@ -451,10 +472,10 @@ components:
 
     User:
       $ref: models/User.yml
-    
+
     CreateUser:
       $ref: models/CreateUser.yml
-    
+
     PatchUser:
       $ref: models/PatchUser.yml
 
@@ -463,7 +484,7 @@ components:
 
     NotFoundError:
       $ref: models/NotFoundError.yml
-    
+
     EmailAlreadyInUseError:
       $ref: models/EmailAlreadyInUseError.yml
 

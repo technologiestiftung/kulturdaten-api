@@ -12,6 +12,16 @@ import { Db, MongoClient } from "mongodb";
 export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	
+	async searchDuplicates(event: Event): Promise<Event[]> {
+		const events = await this.dbConnector.events();
+		const query = { 
+			'origin.originId': event.origin?.originId,
+			'origin.name': event.origin?.name 
+		};
+		const response = await events.find(query).toArray();
+		return response;
+	}
 
 	async addEvent(createEvent: CreateEvent): Promise<string> {
 		const newEvent = createEvent as Event;

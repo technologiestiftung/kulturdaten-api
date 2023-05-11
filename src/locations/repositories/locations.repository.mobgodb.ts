@@ -12,6 +12,16 @@ import { Db } from "mongodb";
 export class MongoDBLocationsRepository implements LocationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	
+	async searchDuplicates(location: Location): Promise<Location[]> {
+		const locations = await this.dbConnector.locations();
+		const query = { 
+			'origin.originId': location.origin?.originId,
+			'origin.name': location.origin?.name 
+		};
+		const response = await locations.find(query).toArray();
+		return response;
+	}
 
 	async addLocation(createLocation: CreateLocation): Promise<string> {
 		const newLocation = createLocation as Location;

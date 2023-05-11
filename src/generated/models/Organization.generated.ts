@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Core, schemaForCore} from "./Core.generated";
+import {Origin, schemaForOrigin} from "./Origin.generated";
 import {Title, schemaForTitle} from "./Title.generated";
 import {Text, schemaForText} from "./Text.generated";
 import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
@@ -46,6 +47,7 @@ export function validateOrganization(o: object): {isValid: boolean; validate: Va
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForCore, "Core.yml");
+  ajv.addSchema(schemaForOrigin, "Origin.yml");
   ajv.addSchema(schemaForTitle, "Title.yml");
   ajv.addSchema(schemaForText, "Text.yml");
   ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");

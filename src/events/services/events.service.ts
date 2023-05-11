@@ -3,11 +3,17 @@ import { CRUD } from '../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
 import { CreateEvent } from '../../generated/models/CreateEvent.generated';
 import { PatchEvent } from '../../generated/models/PatchEvent.generated';
+import { Event } from '../../generated/models/Event.generated';
 
 @Service()
 export class EventsService implements CRUD {
 
+
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository){}
+
+	async searchDuplicates(event: Event) : Promise<Event[]> {
+		return this.eventsRepository.searchDuplicates(event);
+	}
 
 	async create(resource: CreateEvent) {
 		return this.eventsRepository.addEvent(resource);

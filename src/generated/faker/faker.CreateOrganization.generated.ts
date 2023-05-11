@@ -18,6 +18,7 @@
 	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
+	import { schemaForOrigin } from '../models/Origin.generated';
 
 	export function fakeCreateOrganization(useExamples: boolean, specifiedPropertiesForCreateOrganization: object = {}): CreateOrganization {
 		const schema = schemaForCreateOrganization as Schema;
@@ -29,6 +30,7 @@
 			schemaForDefinedTerm as Schema,
 			schemaForReference as Schema,
 			schemaForShortText as Schema,
+			schemaForOrigin as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

@@ -15,6 +15,9 @@ export class MockLocationsRepository implements LocationsRepository {
 	constructor(useExamples: boolean, ...specifiedPropertiesForLocations: object[]){
 		this.dummyLocations = fakeLocations(useExamples,...specifiedPropertiesForLocations);
 	}
+	searchDuplicates(location: Location): Promise<Location[]> {
+		throw new Error("Method not implemented.");
+	}
 
 	public reset() {
 		this.dummyLocations = [];
@@ -28,7 +31,7 @@ export class MockLocationsRepository implements LocationsRepository {
 
 
 	addLocation(createLocation: CreateLocation): Promise<string> {
-		let newLocation : Location =  {...createLocation}
+		let newLocation : Location =  { identifier: "234234234", ...createLocation}
 		newLocation = this.addCoreData(newLocation);
 		newLocation = this.resolveReferences(newLocation);
 		this.dummyLocations.push(newLocation);

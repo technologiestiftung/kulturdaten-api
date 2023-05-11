@@ -3,9 +3,15 @@ import { CRUD } from '../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
 import { CreateOrganization } from '../../generated/models/CreateOrganization.generated';
 import { PatchOrganization } from '../../generated/models/PatchOrganization.generated';
+import { Organization } from '../../generated/models/Organization.generated';
 
 @Service()
 export class OrganizationsService implements CRUD {
+
+
+	async searchDuplicates(organization: Organization) : Promise<Organization []> {
+		return this.organizationsRepository.searchDuplicates(organization);
+	}
 
 	constructor(@Inject('OrganizationsRepository') public organizationsRepository: OrganizationsRepository){}
 
