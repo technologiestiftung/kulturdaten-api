@@ -16,7 +16,12 @@ import {Reference, schemaForReference} from "./Reference.generated";
 export const schemaForAuth = {
   $id: "Auth.yml",
   type: "object",
-  properties: {accessToken: {type: "string"}, expiresIn: {type: "string"}, user: {$ref: "Reference.yml"}}
+  properties: {
+    authToken: {type: "string"},
+    expiresIn: {type: "string"},
+    expiringDate: {type: "string"},
+    user: {$ref: "Reference.yml"}
+  }
 };
 
 export function validateAuth(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -30,7 +35,8 @@ export function validateAuth(o: object): {isValid: boolean; validate: ValidateFu
 }
 
 export interface Auth {
-  accessToken?: string;
+  authToken?: string;
   expiresIn?: string;
+  expiringDate?: string;
   user?: Reference;
 }

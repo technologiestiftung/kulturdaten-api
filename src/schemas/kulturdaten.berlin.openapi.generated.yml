@@ -451,9 +451,11 @@ components:
     Auth:
       type: object
       properties:
-        accessToken:
+        authToken:
           type: string
         expiresIn:
+          type: string
+        expiringDate:
           type: string
         user:
           type: object

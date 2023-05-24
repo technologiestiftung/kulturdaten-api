@@ -1,8 +1,10 @@
 type: object
 properties:
-  accessToken:
+  authToken:
     type: string
   expiresIn:
+    type: string
+  expiringDate:
     type: string
   user:
     $ref: Reference.yml
