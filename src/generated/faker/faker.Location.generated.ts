@@ -11,32 +11,28 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { Location, schemaForLocation } from "../models/Location.generated";
 
-	import { schemaForCore } from '../models/Core.generated';
-	import { schemaForOrigin } from '../models/Origin.generated';
-	import { schemaForTitle } from '../models/Title.generated';
-	import { schemaForText } from '../models/Text.generated';
-	import { schemaForPostalAddress } from '../models/PostalAddress.generated';
-	import { schemaForGeoCoordinates } from '../models/GeoCoordinates.generated';
+	import { schemaForMetadata } from '../models/Metadata.generated';
+	import { schemaForLocationProfile } from '../models/LocationProfile.generated';
+	import { schemaForLocationStatus } from '../models/LocationStatus.generated';
+	import { schemaForAddress } from '../models/Address.generated';
 	import { schemaForBorough } from '../models/Borough.generated';
-	import { schemaForContactPoint } from '../models/ContactPoint.generated';
+	import { schemaForCoordinates } from '../models/Coordinates.generated';
+	import { schemaForLocationClassification } from '../models/LocationClassification.generated';
 	import { schemaForReference } from '../models/Reference.generated';
-	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
-	import { schemaForShortText } from '../models/ShortText.generated';
+	import { schemaForContact } from '../models/Contact.generated';
 
 	export function fakeLocation(useExamples: boolean, specifiedPropertiesForLocation: object = {}): Location {
 		const schema = schemaForLocation as Schema;
 		const refs : Schema[] = [
-			schemaForCore as Schema,
-			schemaForOrigin as Schema,
-			schemaForTitle as Schema,
-			schemaForText as Schema,
-			schemaForPostalAddress as Schema,
-			schemaForGeoCoordinates as Schema,
+			schemaForMetadata as Schema,
+			schemaForLocationProfile as Schema,
+			schemaForLocationStatus as Schema,
+			schemaForAddress as Schema,
 			schemaForBorough as Schema,
-			schemaForContactPoint as Schema,
+			schemaForCoordinates as Schema,
+			schemaForLocationClassification as Schema,
 			schemaForReference as Schema,
-			schemaForDefinedTerm as Schema,
-			schemaForShortText as Schema,
+			schemaForContact as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

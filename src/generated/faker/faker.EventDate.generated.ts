@@ -11,10 +11,22 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { EventDate, schemaForEventDate } from "../models/EventDate.generated";
 
+	import { schemaForPatchEvent } from '../models/PatchEvent.generated';
+	import { schemaForTitle } from '../models/Title.generated';
+	import { schemaForText } from '../models/Text.generated';
+	import { schemaForShortText } from '../models/ShortText.generated';
+	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
+	import { schemaForReference } from '../models/Reference.generated';
 
 	export function fakeEventDate(useExamples: boolean, specifiedPropertiesForEventDate: object = {}): EventDate {
 		const schema = schemaForEventDate as Schema;
 		const refs : Schema[] = [
+			schemaForPatchEvent as Schema,
+			schemaForTitle as Schema,
+			schemaForText as Schema,
+			schemaForShortText as Schema,
+			schemaForDefinedTerm as Schema,
+			schemaForReference as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

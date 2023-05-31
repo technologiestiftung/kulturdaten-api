@@ -11,18 +11,10 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { ImageObject, schemaForImageObject } from "../models/ImageObject.generated";
 
-	import { schemaForCore } from '../models/Core.generated';
-	import { schemaForOrigin } from '../models/Origin.generated';
-	import { schemaForTitle } from '../models/Title.generated';
-	import { schemaForText } from '../models/Text.generated';
 
 	export function fakeImageObject(useExamples: boolean, specifiedPropertiesForImageObject: object = {}): ImageObject {
 		const schema = schemaForImageObject as Schema;
 		const refs : Schema[] = [
-			schemaForCore as Schema,
-			schemaForOrigin as Schema,
-			schemaForTitle as Schema,
-			schemaForText as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

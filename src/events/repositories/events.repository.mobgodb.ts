@@ -16,8 +16,8 @@ export class MongoDBEventsRepository implements EventsRepository {
 	async searchDuplicates(event: Event): Promise<Event[]> {
 		const events = await this.dbConnector.events();
 		const query = { 
-			'origin.originId': event.origin?.originId,
-			'origin.name': event.origin?.name 
+			'origin.originId': event.metadata?.originObjectID,
+			'origin.name': event.metadata?.origin
 		};
 		const response = await events.find(query).toArray();
 		return response;

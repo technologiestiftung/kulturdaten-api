@@ -16,8 +16,8 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 	async searchDuplicates(organization: Organization): Promise<Organization[]> {
 		const organizations = await this.dbConnector.organizations();
 		const query = { 
-			'origin.originId': organization.origin?.originId,
-			'origin.name': organization.origin?.name 
+			'origin.originId': organization.metadata?.originObjectID,
+			'origin.name': organization.metadata?.origin 
 		};
 		const response = await organizations.find(query).toArray();
 		return response;

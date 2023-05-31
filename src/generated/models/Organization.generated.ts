@@ -11,63 +11,68 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
-import {Core, schemaForCore} from "./Core.generated";
-import {Origin, schemaForOrigin} from "./Origin.generated";
-import {Title, schemaForTitle} from "./Title.generated";
-import {Text, schemaForText} from "./Text.generated";
-import {PostalAddress, schemaForPostalAddress} from "./PostalAddress.generated";
-import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
-import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
-import {Reference, schemaForReference} from "./Reference.generated";
-import {ShortText, schemaForShortText} from "./ShortText.generated";
+import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {OrganizationProfile, schemaForOrganizationProfile} from "./OrganizationProfile.generated";
+import {OrganizationStatus, schemaForOrganizationStatus} from "./OrganizationStatus.generated";
+import {Address, schemaForAddress} from "./Address.generated";
+import {Borough, schemaForBorough} from "./Borough.generated";
+import {OrganizationClassification, schemaForOrganizationClassification} from "./OrganizationClassification.generated";
+import {Contact, schemaForContact} from "./Contact.generated";
 
 export const schemaForOrganization = {
   $id: "Organization.yml",
-  allOf: [
-    {$ref: "Core.yml"},
-    {
-      type: "object",
-      properties: {
-        "@type": {type: "string", enum: ["Organization"]},
-        name: {$ref: "Title.yml"},
-        description: {$ref: "Text.yml"},
-        address: {$ref: "PostalAddress.yml"},
-        contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
-        website: {type: "string"},
-        email: {type: "string"},
-        telephone: {type: "string"},
-        categories: {type: "array", items: {$ref: "DefinedTerm.yml"}}
-      }
-    }
-  ]
+  type: "object",
+  required: ["identifier"],
+  properties: {
+    type: {type: "string", enum: ["type.Organization"]},
+    identifier: {type: "string"},
+    metadata: {$ref: "Metadata.yml"},
+    profile: {$ref: "OrganizationProfile.yml"},
+    status: {$ref: "OrganizationStatus.yml"},
+    address: {$ref: "Address.yml"},
+    borough: {$ref: "Borough.yml"},
+    classifications: {$ref: "OrganizationClassification.yml"},
+    contact: {$ref: "Contact.yml"}
+  }
 };
 
 export function validateOrganization(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
-  ajv.addSchema(schemaForCore, "Core.yml");
-  ajv.addSchema(schemaForOrigin, "Origin.yml");
-  ajv.addSchema(schemaForTitle, "Title.yml");
-  ajv.addSchema(schemaForText, "Text.yml");
-  ajv.addSchema(schemaForPostalAddress, "PostalAddress.yml");
-  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
-  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
-  ajv.addSchema(schemaForReference, "Reference.yml");
-  ajv.addSchema(schemaForShortText, "ShortText.yml");
+  ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForOrganizationProfile, "OrganizationProfile.yml");
+  ajv.addSchema(schemaForOrganizationStatus, "OrganizationStatus.yml");
+  ajv.addSchema(schemaForAddress, "Address.yml");
+  ajv.addSchema(schemaForBorough, "Borough.yml");
+  ajv.addSchema(schemaForOrganizationClassification, "OrganizationClassification.yml");
+  ajv.addSchema(schemaForContact, "Contact.yml");
 
   const validate = ajv.compile(schemaForOrganization);
   return {isValid: validate(o), validate: validate};
 }
 
-export type Organization = Core & {
-  "@type"?: "Organization";
-  name?: Title;
-  description?: Text;
-  address?: PostalAddress;
-  contactPoint?: ContactPoint[];
-  website?: string;
-  email?: string;
-  telephone?: string;
-  categories?: DefinedTerm[];
-};
+export interface Organization {
+  type?: "type.Organization";
+  identifier: string;
+  metadata?: Metadata;
+  profile?: OrganizationProfile;
+  status?: OrganizationStatus;
+  address?: Address;
+  borough?:
+    | "Mitte"
+    | "Friedrichshain-Kreuzberg"
+    | "Pankow"
+    | "Charlottenburg-Wilmersdorf"
+    | "Spandau"
+    | "Steglitz-Zehlendorf"
+    | "Tempelhof-Schöneberg"
+    | "Neukölln"
+    | "Treptow-Köpenick"
+    | "Marzahn-Hellersdorf"
+    | "Lichtenberg"
+    | "Reinickendorf"
+    | "außerhalb";
+  classifications?: OrganizationClassification;
+  contact?: Contact;
+}

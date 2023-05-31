@@ -1,14 +1,105 @@
 openapi: 3.0.3
 info:
   title: API Kulturdaten.Berlin
+  description: >
+    Willkommen zur Kulturdaten.Berlin-API! Diese API ermöglicht es Ihnen, eine
+    Vielzahl von Funktionen zu nutzen, um Veranstaltungen, Kulturorte,
+    Kulturangebote und Kulturakteure in Berlin zu entdecken.
+
+    Sind Sie Kulturakteur, können Sie bequem Ihre Veranstaltungen und Kulturorte
+    verwalten.
+
+
+    Die API ist in mehrere Bereiche gegliedert. 
+
+
+    - **Events, Angebote, Orte und Akteure entdecken** - Hier entdecken Sie, was
+    kulturell in Berlin geboten wird. Viele Such- und Filtereinstellungen
+    ermöglichen es Ihnen, nur die Kulturorte und Kulturakteure zu finden, die
+    Sie wirklich benötigen.
+
+    - **Nutzer verwalten** - Für viele Funktionen dieser API müssen Sie als
+    Nutzer registriert sein. Hier können Sie sich registrieren und ihre
+    Nutzerdaten verwalten. 
+
+    - **Akteure verwalten** - Kulturaktuere betreiben Kulturorte und/oder bieten
+    Kulrutveranstaltungen an. Hier können Sie Akteure anlegen, diese verwalten
+    und anderen Nutzern Rechte geben, dies auch zu tun.
+
+    - **Orte verwalten** - Hier spielt die Musik. Kulturorte sind die Orte, an
+    denen Kulturveranstaltungen stattfinden. Hier können Sie als Akteur Orte
+    anlegen und diese verwalten. Auch können Sie anderen Nutzern Rechte geben,
+    dies auch zu tun. 
+
+    - **Angebote verwalten** - Bei einer Veranstaltung wird immer etwas
+    angeboten. Was dies ist, beschreibt das Angebot - ein Konzert, eine
+    Ausstellung oder eine Lesung. Hier können Sie als Akteur Angebote anlegen
+    und diese verwalten.
+
+    - **Events verwalten** - Eine Veranstaltung beantwortet die Frage: Was
+    (Angbot) findet wann (Termin), wo (Ort), von wem (Aktuer) und unter welchen
+    Umständen statt? Hier können Sie als Aktuer Veranstaltungen anlegen und
+    verwalten.
+
+
+
+    TODO: 
+
+
+    Um die API zu verwenden, benötigen Sie einen API-Schlüssel, den Sie von
+    unserer Website erhalten können. Senden Sie bei jedem API-Aufruf den
+    API-Schlüssel im Header.
+
+
+    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu
+    einem Buch:
+
+
+    ```
+
+    GET /api/v1/books/{id}
+
+    Headers:
+      Authorization: Bearer {Ihr API-Schlüssel}
+    ```
+
+
+    In der Antwort erhalten Sie detaillierte Informationen zum Buch,
+    einschließlich Titel, Autor, Preis und Verfügbarkeit.
+
+
+    Sie können auch die API-Dokumentation für weitere Informationen und
+    Beispiele zu jedem Endpunkt konsultieren.
+
+
+
+    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu
+    einem Buch:
+
+
+    ```
+
+    GET /api/v1/books/{id}
+
+    Headers:
+      Authorization: Bearer {Ihr API-Schlüssel}
+    ```
+
+
+    In der Antwort erhalten Sie detaillierte Informationen zum Buch,
+    einschließlich Titel, Autor, Preis und Verfügbarkeit.
+
+
+    Sie können auch die API-Dokumentation für weitere Informationen und
+    Beispiele zu jedem Endpunkt konsultieren.
   version: 1.0.0
 servers:
-  - url: http://localhost:3000/api/v1/
+  - url: http://localhost:3000/api/
 paths:
-  /auth/token:
+  /authentication/token:
     post:
       tags:
-        - Auth
+        - Authentication
       requestBody:
         content:
           application/json:
@@ -24,7 +115,7 @@ paths:
   /events:
     get:
       tags:
-        - Events
+        - Discover cultural data
       responses:
         '200':
           description: OK
@@ -39,12 +130,12 @@ paths:
                       $ref: '#/components/schemas/Event'
     post:
       tags:
-        - Events
+        - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateEvent'
+              $ref: '#/components/schemas/CommandEventCreate'
       responses:
         '201':
           description: OK
@@ -65,7 +156,7 @@ paths:
         description: The event ID
     get:
       tags:
-        - Events
+        - Discover cultural data
       responses:
         '200':
           description: OK
@@ -84,12 +175,14 @@ paths:
                 $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
-        - Events
+        - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchEvent'
+              oneOf:
+                - $ref: '#/components/schemas/CommandEventSwitchStatus'
+                - $ref: '#/components/schemas/CommandEventSwitchVisibility'
       responses:
         '204':
           description: OK
@@ -101,7 +194,99 @@ paths:
                 $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
-        - Events
+        - Maintain cultural data
+      responses:
+        '204':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+  /attraction:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Attraction'
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandAttractionCreate'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: string
+  /attraction/{identifier}:
+    parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+        description: The attraction ID
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attraction:
+                    $ref: '#/components/schemas/Attraction'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    patch:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CommandAttractionSwitchVisibility'
+                - $ref: '#/components/schemas/CommandAttractionEditProfile'
+      responses:
+        '204':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    delete:
+      tags:
+        - Maintain cultural data
       responses:
         '204':
           description: OK
@@ -114,7 +299,7 @@ paths:
   /locations:
     get:
       tags:
-        - Locations
+        - Discover cultural data
       responses:
         '200':
           description: OK
@@ -129,12 +314,12 @@ paths:
                       $ref: '#/components/schemas/Location'
     post:
       tags:
-        - Locations
+        - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateLocation'
+              $ref: '#/components/schemas/CommandLocationCreate'
       responses:
         '201':
           description: OK
@@ -155,7 +340,7 @@ paths:
         description: The location ID
     get:
       tags:
-        - Locations
+        - Discover cultural data
       responses:
         '200':
           description: OK
@@ -174,12 +359,14 @@ paths:
                 $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
-        - Locations
+        - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchLocation'
+              oneOf:
+                - $ref: '#/components/schemas/CommandLocationSwitchVisibility'
+                - $ref: '#/components/schemas/CommandLocationEditProfile'
       responses:
         '204':
           description: OK
@@ -191,7 +378,7 @@ paths:
                 $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
-        - Locations
+        - Maintain cultural data
       responses:
         '204':
           description: OK
@@ -204,7 +391,7 @@ paths:
   /organizations:
     get:
       tags:
-        - Organizations
+        - Discover cultural data
       responses:
         '200':
           description: OK
@@ -219,12 +406,12 @@ paths:
                       $ref: '#/components/schemas/Organization'
     post:
       tags:
-        - Organizations
+        - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrganization'
+              $ref: '#/components/schemas/CommandOrganizationCreate'
       responses:
         '201':
           description: OK
@@ -245,7 +432,7 @@ paths:
         description: The organization ID
     get:
       tags:
-        - Organizations
+        - Discover cultural data
       responses:
         '200':
           description: OK
@@ -264,12 +451,14 @@ paths:
                 $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
-        - Organizations
+        - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchOrganization'
+              oneOf:
+                - $ref: '#/components/schemas/CommandOrganizationSwitchVisibility'
+                - $ref: '#/components/schemas/CommandOrganizationEditProfile'
       responses:
         '204':
           description: OK
@@ -281,7 +470,7 @@ paths:
                 $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
-        - Organizations
+        - Maintain cultural data
       responses:
         '204':
           description: OK
@@ -458,333 +647,836 @@ components:
         user:
           type: object
           properties:
-            label:
+            referenceType:
               type: string
-            targetType:
+            referenceId:
               type: string
-            identifier:
-              type: string
-            url:
-              type: string
-          additionalProperties: true
-    Organization:
-      allOf:
-        - type: object
-          required:
-            - identifier
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+    Event:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Event
+        identifier:
+          type: string
+        metadata:
+          type: object
           properties:
-            '@context':
-              type: string
-              enum:
-                - kulturdaten.berlin/api/v1/spec
-            identifier:
-              type: string
             created:
               type: string
               format: date-time
             updated:
               type: string
-              format: date-time
-            kind:
-              type: string
-              enum:
-                - culture
-            url:
-              type: string
+              format: data-time
             origin:
-              type: object
-              properties:
-                name:
-                  type: string
-                originId:
-                  type: string
-        - type: object
-          properties:
-            '@type':
               type: string
-              enum:
-                - Organization
-            name:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            address:
-              type: object
-              properties:
-                '@type':
-                  type: string
-                  enum:
-                    - PostalAddress
-                streetAddress:
-                  type: string
-                addressLocality:
-                  type: string
-                postalCode:
-                  type: string
-                  example: '12157'
-                description:
-                  type: string
-            contactPoint:
+            originObjectID:
+              type: string
+            availableLanguages:
               type: array
               items:
-                type: object
-                properties:
-                  '@type':
-                    type: string
-                    enum:
-                      - ContactPoint
-                  name:
-                    type: object
-                    required:
-                      - de
-                    properties:
-                      de:
-                        type: string
-                    additionalProperties:
-                      type: string
-                  telephone:
-                    type: string
-                  email:
-                    type: string
+                type: string
+        profile:
+          type: object
+          properties:
+            title:
+              type: object
+              additionalProperties:
+                type: string
+            subtitle:
+              type: object
+              additionalProperties:
+                type: string
+            additionalInfo:
+              type: object
+              additionalProperties:
+                type: string
+            pleaseNote:
+              type: object
+              additionalProperties:
+                type: string
             website:
+              type: string
+            inLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: object
+          properties:
+            visibility:
+              type: string
+              enum:
+                - visibility.published
+                - visibility.unpublished
+                - visibility.draft
+                - visibility.archived
+                - visibility.restricted
+            eventStatus:
+              type: string
+              enum:
+                - eventStatus.cancelled
+                - eventStatus.postponed
+                - eventStatus.rescheduled
+                - eventStatus.scheduled
+        attractions:
+          type: array
+          items:
+            type: object
+            properties:
+              referenceType:
+                type: string
+              referenceId:
+                type: string
+              referenceLabel:
+                type: object
+                additionalProperties:
+                  type: string
+        schedule:
+          type: object
+          properties:
+            startDate:
+              type: string
+            startTime:
+              type: string
+            permanentOpening:
+              type: boolean
+            doorTime:
+              type: string
+            endDate:
+              type: string
+            endTime:
+              type: string
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              referenceType:
+                type: string
+              referenceId:
+                type: string
+              referenceLabel:
+                type: object
+                additionalProperties:
+                  type: string
+        organizer:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+        contact:
+          type: object
+          properties:
+            name:
               type: string
             email:
               type: string
             telephone:
               type: string
-            categories:
+        classification:
+          type: object
+          properties:
+            family:
+              type: boolean
+            tags:
               type: array
               items:
-                type: object
-                properties:
-                  inDefinedTermSet:
-                    type: object
-                    properties:
-                      label:
-                        type: string
-                      targetType:
-                        type: string
-                      identifier:
-                        type: string
-                      url:
-                        type: string
-                    additionalProperties: true
-                  term:
-                    type: object
-                    required:
-                      - de
-                    properties:
-                      de:
-                        type: string
-                    additionalProperties:
-                      type: string
-    CreateOrganization:
-      type: object
-      properties:
-        name:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        description:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        address:
+                type: string
+        admission:
           type: object
           properties:
-            '@type':
+            note:
+              type: object
+              additionalProperties:
+                type: string
+            ticketType:
               type: string
               enum:
-                - PostalAddress
-            streetAddress:
+                - ticketType.ticketRequired
+                - ticketType.freeOfCharge
+            registrationType:
               type: string
-            addressLocality:
+              enum:
+                - registrationType.registrationRequired
+                - registrationType.noRegistrationRequired
+                - registrationType.registrationDesired
+            admissionLink:
               type: string
-            postalCode:
+    CommandEventCreate:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Event.create
+        payload:
+          type: object
+          properties:
+            attractionsReferenceIds:
+              type: array
+              items:
+                type: string
+            schedule:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                startTime:
+                  type: string
+                permanentOpening:
+                  type: boolean
+                doorTime:
+                  type: string
+                endDate:
+                  type: string
+                endTime:
+                  type: string
+            locationsReferenceIds:
+              type: array
+              items:
+                type: string
+            organizerId:
               type: string
-              example: '12157'
+            admission:
+              type: object
+              properties:
+                note:
+                  type: object
+                  additionalProperties:
+                    type: string
+                ticketType:
+                  type: string
+                  enum:
+                    - ticketType.ticketRequired
+                    - ticketType.freeOfCharge
+                registrationType:
+                  type: string
+                  enum:
+                    - registrationType.registrationRequired
+                    - registrationType.noRegistrationRequired
+                    - registrationType.registrationDesired
+                admissionLink:
+                  type: string
+            profile:
+              type: object
+              properties:
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                subtitle:
+                  type: object
+                  additionalProperties:
+                    type: string
+                additionalInfo:
+                  type: object
+                  additionalProperties:
+                    type: string
+                pleaseNote:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
+                  type: string
+                inLanguages:
+                  type: array
+                  items:
+                    type: string
+            classification:
+              type: object
+              properties:
+                family:
+                  type: boolean
+                tags:
+                  type: array
+                  items:
+                    type: string
+            status:
+              type: object
+              properties:
+                visibility:
+                  type: string
+                  enum:
+                    - visibility.published
+                    - visibility.unpublished
+                    - visibility.draft
+                    - visibility.archived
+                    - visibility.restricted
+                eventStatus:
+                  type: string
+                  enum:
+                    - eventStatus.cancelled
+                    - eventStatus.postponed
+                    - eventStatus.rescheduled
+                    - eventStatus.scheduled
+    CommandEventSwitchStatus:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Event.switchStatus
+        payload:
+          type: object
+          properties:
+            eventStatus:
+              type: string
+              enum:
+                - eventStatus.cancelled
+                - eventStatus.postponed
+                - eventStatus.rescheduled
+                - eventStatus.scheduled
+    CommandEventSwitchVisibility:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Event.switchVisibility
+        payload:
+          type: object
+          properties:
+            visibility:
+              type: string
+              enum:
+                - visibility.published
+                - visibility.unpublished
+                - visibility.draft
+                - visibility.archived
+                - visibility.restricted
+    Attraction:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Attraction
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: data-time
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        profile:
+          type: object
+          properties:
+            title:
+              type: object
+              additionalProperties:
+                type: string
+            subtitle:
+              type: object
+              additionalProperties:
+                type: string
             description:
+              type: object
+              additionalProperties:
+                type: string
+            pleaseNote:
+              type: object
+              additionalProperties:
+                type: string
+            website:
               type: string
-        contactPoint:
+            inLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: object
+          properties:
+            visibility:
+              type: string
+              enum:
+                - visibility.published
+                - visibility.unpublished
+                - visibility.draft
+                - visibility.archived
+                - visibility.restricted
+        classification:
+          type: object
+          properties:
+            family:
+              type: boolean
+            tags:
+              type: array
+              items:
+                type: string
+        externalLinks:
           type: array
           items:
             type: object
             properties:
-              '@type':
-                type: string
-                enum:
-                  - ContactPoint
               name:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-              telephone:
                 type: string
-              email:
+              url:
                 type: string
-        website:
+    CommandAttractionSwitchVisibility:
+      type: object
+      properties:
+        type:
           type: string
-        email:
+          enum:
+            - type.command.Attraction.switchVisibility
+        payload:
+          type: object
+          properties:
+            visibility:
+              type: string
+              enum:
+                - visibility.published
+                - visibility.unpublished
+                - visibility.draft
+                - visibility.archived
+                - visibility.restricted
+    CommandAttractionEditProfile:
+      type: object
+      properties:
+        type:
           type: string
-        telephone:
+          enum:
+            - type.command.Attraction.editProfile
+        payload:
+          ref: AttractionProfile.yml
+    Location:
+      type: object
+      properties:
+        type:
           type: string
-        categories:
-          type: array
-          items:
-            type: object
-            properties:
-              inDefinedTermSet:
-                type: object
-                properties:
-                  label:
-                    type: string
-                  targetType:
-                    type: string
-                  identifier:
-                    type: string
-                  url:
-                    type: string
-                additionalProperties: true
-              term:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-        origin:
+          enum:
+            - type.Location
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: data-time
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        profile:
+          type: object
+          properties:
+            name:
+              type: object
+              additionalProperties:
+                type: string
+            description:
+              type: object
+              additionalProperties:
+                type: string
+            website:
+              type: string
+            inLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: object
+          properties:
+            visibility:
+              type: string
+              enum:
+                - visibility.published
+                - visibility.unpublished
+                - visibility.draft
+                - visibility.archived
+                - visibility.restricted
+        address:
+          $ref: Address.yml
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+            coordinateSystem:
+              type: string
+              enum:
+                - WGS84 (Decimal Degrees)
+        classifications:
+          type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
+        manager:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+        contact:
           type: object
           properties:
             name:
               type: string
-            originId:
+            email:
               type: string
-    PatchOrganization:
+            telephone:
+              type: string
+    CommandLocationCreate:
       type: object
       properties:
-        name:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        description:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        address:
+        type:
+          type: string
+          enum:
+            - type.command.Location.create
+        payload:
           type: object
           properties:
-            '@type':
+            profile:
+              type: object
+              properties:
+                name:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
+                  type: string
+                inLanguages:
+                  type: array
+                  items:
+                    type: string
+            status:
+              type: object
+              properties:
+                visibility:
+                  type: string
+                  enum:
+                    - visibility.published
+                    - visibility.unpublished
+                    - visibility.draft
+                    - visibility.archived
+                    - visibility.restricted
+            address:
+              $ref: Address.yml
+            borough:
               type: string
               enum:
-                - PostalAddress
-            streetAddress:
+                - Mitte
+                - Friedrichshain-Kreuzberg
+                - Pankow
+                - Charlottenburg-Wilmersdorf
+                - Spandau
+                - Steglitz-Zehlendorf
+                - Tempelhof-Schöneberg
+                - Neukölln
+                - Treptow-Köpenick
+                - Marzahn-Hellersdorf
+                - Lichtenberg
+                - Reinickendorf
+                - außerhalb
+            coordinates:
+              type: object
+              properties:
+                latitude:
+                  type: string
+                longitude:
+                  type: string
+                coordinateSystem:
+                  type: string
+                  enum:
+                    - WGS84 (Decimal Degrees)
+            classifications:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
+                    type: string
+            manager:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
+            contact:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                telephone:
+                  type: string
+    CommandLocationSwitchVisibility:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Location.switchVisibility
+        payload:
+          type: object
+          properties:
+            visibility:
               type: string
-            addressLocality:
+              enum:
+                - visibility.published
+                - visibility.unpublished
+                - visibility.draft
+                - visibility.archived
+                - visibility.restricted
+    CommandLocationEditProfile:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Location.editProfile
+        payload:
+          ref: LocationProfile.yml
+    Organization:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Organization
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
               type: string
-            postalCode:
+              format: date-time
+            updated:
               type: string
-              example: '12157'
+              format: data-time
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        profile:
+          type: object
+          properties:
+            name:
+              type: object
+              additionalProperties:
+                type: string
             description:
+              type: object
+              additionalProperties:
+                type: string
+            website:
               type: string
-        contactPoint:
-          type: array
-          items:
-            type: object
-            properties:
-              '@type':
+            inLanguages:
+              type: array
+              items:
                 type: string
-                enum:
-                  - ContactPoint
-              name:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
+        status:
+          type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
+        address:
+          $ref: Address.yml
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        classifications:
+          type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+    CommandOrganizationCreate:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Organization.create
+        payload:
+          type: object
+          properties:
+            profile:
+              type: object
+              properties:
+                name:
+                  type: object
+                  additionalProperties:
                     type: string
-                additionalProperties:
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
                   type: string
-              telephone:
-                type: string
-              email:
-                type: string
-        website:
-          type: string
-        email:
-          type: string
-        telephone:
-          type: string
-        categories:
-          type: array
-          items:
-            type: object
-            properties:
-              inDefinedTermSet:
-                type: object
-                properties:
-                  label:
+                inLanguages:
+                  type: array
+                  items:
                     type: string
-                  targetType:
+            status:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
                     type: string
-                  identifier:
+            address:
+              $ref: Address.yml
+            borough:
+              type: string
+              enum:
+                - Mitte
+                - Friedrichshain-Kreuzberg
+                - Pankow
+                - Charlottenburg-Wilmersdorf
+                - Spandau
+                - Steglitz-Zehlendorf
+                - Tempelhof-Schöneberg
+                - Neukölln
+                - Treptow-Köpenick
+                - Marzahn-Hellersdorf
+                - Lichtenberg
+                - Reinickendorf
+                - außerhalb
+            classifications:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
                     type: string
-                  url:
-                    type: string
-                additionalProperties: true
-              term:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
+            contact:
+              type: object
+              properties:
+                name:
                   type: string
+                email:
+                  type: string
+                telephone:
+                  type: string
+    CommandOrganizationSwitchVisibility:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Organization.switchVisibility
+        payload:
+          type: object
+          properties:
+            visibility:
+              type: string
+              enum:
+                - visibility.published
+                - visibility.unpublished
+                - visibility.draft
+                - visibility.archived
+                - visibility.restricted
+    CommandOrganizationEditProfile:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Organization.editProfile
+        payload:
+          ref: OrganizationProfile.yml
     User:
       type: object
       properties:
-        '@type':
+        type:
           type: string
           enum:
             - User
@@ -811,22 +1503,7 @@ components:
         - email
         - permissionFlags
     CreateUser:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          minLength: 1
-        password:
-          type: string
-          minLength: 12
-        firstName:
-          type: string
-        lastName:
-          type: string
-      required:
-        - email
-        - password
+      $ref: models/CreateUser.yml
     PatchUser:
       type: object
       properties:
@@ -870,993 +1547,4 @@ components:
           type: object
           properties:
             msg:
-              type: string
-    Event:
-      allOf:
-        - type: object
-          required:
-            - identifier
-          properties:
-            '@context':
-              type: string
-              enum:
-                - kulturdaten.berlin/api/v1/spec
-            identifier:
-              type: string
-            created:
-              type: string
-              format: date-time
-            updated:
-              type: string
-              format: date-time
-            kind:
-              type: string
-              enum:
-                - culture
-            url:
-              type: string
-            origin:
-              type: object
-              properties:
-                name:
-                  type: string
-                originId:
-                  type: string
-        - type: object
-          properties:
-            '@type':
-              type: string
-              enum:
-                - Event
-                - EventSeries
-                - ExhibitionEvent
-            title:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            subTitle:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            shortDescription:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            startDate:
-              type: string
-              format: date-time
-            endDate:
-              type: string
-              format: date-time
-            previousStartDate:
-              type: string
-              format: date-time
-            doorTime:
-              type: string
-              format: date-time
-            typicalAgeRange:
-              type: string
-            categories:
-              type: array
-              items:
-                type: object
-                properties:
-                  inDefinedTermSet:
-                    type: object
-                    properties:
-                      label:
-                        type: string
-                      targetType:
-                        type: string
-                      identifier:
-                        type: string
-                      url:
-                        type: string
-                    additionalProperties: true
-                  term:
-                    type: object
-                    required:
-                      - de
-                    properties:
-                      de:
-                        type: string
-                    additionalProperties:
-                      type: string
-            keywords:
-              type: array
-              items:
-                type: object
-                properties:
-                  inDefinedTermSet:
-                    type: object
-                    properties:
-                      label:
-                        type: string
-                      targetType:
-                        type: string
-                      identifier:
-                        type: string
-                      url:
-                        type: string
-                    additionalProperties: true
-                  term:
-                    type: object
-                    required:
-                      - de
-                    properties:
-                      de:
-                        type: string
-                    additionalProperties:
-                      type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-            isAccessibleForFree:
-              type: boolean
-            sameAs:
-              type: string
-              format: uri
-            visibility:
-              type: string
-              enum:
-                - published
-                - unpublished
-                - draft
-                - archived
-                - restricted
-            eventStatus:
-              type: string
-              enum:
-                - cancelled
-                - postponed
-                - rescheduled
-                - scheduled
-            eventAttendanceMode:
-              type: string
-              enum:
-                - offline
-                - online
-                - mixed
-            location:
-              type: array
-              items:
-                type: object
-                properties:
-                  label:
-                    type: string
-                  targetType:
-                    type: string
-                  identifier:
-                    type: string
-                  url:
-                    type: string
-                additionalProperties: true
-            contactPoint:
-              type: array
-              items:
-                type: object
-                properties:
-                  '@type':
-                    type: string
-                    enum:
-                      - ContactPoint
-                  name:
-                    type: object
-                    required:
-                      - de
-                    properties:
-                      de:
-                        type: string
-                    additionalProperties:
-                      type: string
-                  telephone:
-                    type: string
-                  email:
-                    type: string
-            organizedBy:
-              type: object
-              properties:
-                label:
-                  type: string
-                targetType:
-                  type: string
-                identifier:
-                  type: string
-                url:
-                  type: string
-              additionalProperties: true
-            eventDates:
-              type: array
-              items:
-                type: object
-                properties:
-                  startDate:
-                    type: string
-                    format: date-time
-                  endDate:
-                    type: string
-                    format: date-time
-                  previousStartDate:
-                    type: string
-                    format: date-time
-            homepage:
-              type: string
-    CreateEvent:
-      type: object
-      properties:
-        '@type':
-          type: string
-          enum:
-            - Event
-            - EventSeries
-            - ExhibitionEvent
-        title:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        subTitle:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        description:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        shortDescription:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        previousStartDate:
-          type: string
-          format: date-time
-        doorTime:
-          type: string
-          format: date-time
-        typicalAgeRange:
-          type: string
-        categories:
-          type: array
-          items:
-            type: object
-            properties:
-              inDefinedTermSet:
-                type: object
-                properties:
-                  label:
-                    type: string
-                  targetType:
-                    type: string
-                  identifier:
-                    type: string
-                  url:
-                    type: string
-                additionalProperties: true
-              term:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-        keywords:
-          type: array
-          items:
-            type: object
-            properties:
-              inDefinedTermSet:
-                type: object
-                properties:
-                  label:
-                    type: string
-                  targetType:
-                    type: string
-                  identifier:
-                    type: string
-                  url:
-                    type: string
-                additionalProperties: true
-              term:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-        inLanguages:
-          type: array
-          items:
-            type: string
-        isAccessibleForFree:
-          type: boolean
-        sameAs:
-          type: string
-          format: uri
-        visibility:
-          type: string
-          enum:
-            - published
-            - unpublished
-            - draft
-            - archived
-            - restricted
-        eventStatus:
-          type: string
-          enum:
-            - cancelled
-            - postponed
-            - rescheduled
-            - scheduled
-        eventAttendanceMode:
-          type: string
-          enum:
-            - offline
-            - online
-            - mixed
-        location:
-          type: array
-          items:
-            type: object
-            properties:
-              label:
-                type: string
-              targetType:
-                type: string
-              identifier:
-                type: string
-              url:
-                type: string
-            additionalProperties: true
-        contactPoint:
-          type: array
-          items:
-            type: object
-            properties:
-              '@type':
-                type: string
-                enum:
-                  - ContactPoint
-              name:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-              telephone:
-                type: string
-              email:
-                type: string
-        organizedBy:
-          type: object
-          properties:
-            label:
-              type: string
-            targetType:
-              type: string
-            identifier:
-              type: string
-            url:
-              type: string
-          additionalProperties: true
-        eventDates:
-          type: array
-          items:
-            type: object
-            properties:
-              startDate:
-                type: string
-                format: date-time
-              endDate:
-                type: string
-                format: date-time
-              previousStartDate:
-                type: string
-                format: date-time
-        homepage:
-          type: string
-        origin:
-          type: object
-          properties:
-            name:
-              type: string
-            originId:
-              type: string
-    Reference:
-      type: object
-      properties:
-        label:
-          type: string
-        targetType:
-          type: string
-        identifier:
-          type: string
-        url:
-          type: string
-      additionalProperties: true
-    PatchEvent:
-      type: object
-      properties:
-        '@type':
-          type: string
-          enum:
-            - Event
-            - EventSeries
-            - ExhibitionEvent
-        kind:
-          type: string
-          enum:
-            - culture
-        title:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        subTitle:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        description:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        shortDescription:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        previousStartDate:
-          type: string
-          format: date-time
-        doorTime:
-          type: string
-          format: date-time
-        typicalAgeRange:
-          type: string
-        categories:
-          type: array
-          items:
-            type: object
-            properties:
-              inDefinedTermSet:
-                type: object
-                properties:
-                  label:
-                    type: string
-                  targetType:
-                    type: string
-                  identifier:
-                    type: string
-                  url:
-                    type: string
-                additionalProperties: true
-              term:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-        keywords:
-          type: array
-          items:
-            type: object
-            properties:
-              inDefinedTermSet:
-                type: object
-                properties:
-                  label:
-                    type: string
-                  targetType:
-                    type: string
-                  identifier:
-                    type: string
-                  url:
-                    type: string
-                additionalProperties: true
-              term:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-        inLanguages:
-          type: array
-          items:
-            type: string
-        isAccessibleForFree:
-          type: boolean
-        sameAs:
-          type: string
-          format: uri
-        visibility:
-          type: string
-          enum:
-            - published
-            - unpublished
-            - draft
-            - archived
-            - restricted
-        eventStatus:
-          type: string
-          enum:
-            - cancelled
-            - postponed
-            - rescheduled
-            - scheduled
-        eventAttendanceMode:
-          type: string
-          enum:
-            - offline
-            - online
-            - mixed
-        location:
-          type: array
-          items:
-            type: object
-            properties:
-              label:
-                type: string
-              targetType:
-                type: string
-              identifier:
-                type: string
-              url:
-                type: string
-            additionalProperties: true
-        organizer:
-          type: object
-          properties:
-            label:
-              type: string
-            targetType:
-              type: string
-            identifier:
-              type: string
-            url:
-              type: string
-          additionalProperties: true
-        subEvents:
-          type: array
-          items:
-            type: object
-            properties:
-              label:
-                type: string
-              targetType:
-                type: string
-              identifier:
-                type: string
-              url:
-                type: string
-            additionalProperties: true
-        superEvent:
-          type: object
-          properties:
-            label:
-              type: string
-            targetType:
-              type: string
-            identifier:
-              type: string
-            url:
-              type: string
-          additionalProperties: true
-    Location:
-      allOf:
-        - type: object
-          required:
-            - identifier
-          properties:
-            '@context':
-              type: string
-              enum:
-                - kulturdaten.berlin/api/v1/spec
-            identifier:
-              type: string
-            created:
-              type: string
-              format: date-time
-            updated:
-              type: string
-              format: date-time
-            kind:
-              type: string
-              enum:
-                - culture
-            url:
-              type: string
-            origin:
-              type: object
-              properties:
-                name:
-                  type: string
-                originId:
-                  type: string
-        - type: object
-          properties:
-            '@type':
-              type: string
-              enum:
-                - VirtualLocation
-                - Place
-            name:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              required:
-                - de
-              properties:
-                de:
-                  type: string
-              additionalProperties:
-                type: string
-            address:
-              type: object
-              properties:
-                '@type':
-                  type: string
-                  enum:
-                    - PostalAddress
-                streetAddress:
-                  type: string
-                addressLocality:
-                  type: string
-                postalCode:
-                  type: string
-                  example: '12157'
-                description:
-                  type: string
-            geo:
-              type: object
-              properties:
-                '@type':
-                  type: string
-                  enum:
-                    - GeoCoordinates
-                latitude:
-                  type: string
-                longitude:
-                  type: string
-            borough:
-              type: string
-              enum:
-                - Mitte
-                - Friedrichshain-Kreuzberg
-                - Pankow
-                - Charlottenburg-Wilmersdorf
-                - Spandau
-                - Steglitz-Zehlendorf
-                - Tempelhof-Schöneberg
-                - Neukölln
-                - Treptow-Köpenick
-                - Marzahn-Hellersdorf
-                - Lichtenberg
-                - Reinickendorf
-                - außerhalb
-            contactPoint:
-              type: array
-              items:
-                type: object
-                properties:
-                  '@type':
-                    type: string
-                    enum:
-                      - ContactPoint
-                  name:
-                    type: object
-                    required:
-                      - de
-                    properties:
-                      de:
-                        type: string
-                    additionalProperties:
-                      type: string
-                  telephone:
-                    type: string
-                  email:
-                    type: string
-            website:
-              type: string
-            managedBy:
-              type: object
-              properties:
-                label:
-                  type: string
-                targetType:
-                  type: string
-                identifier:
-                  type: string
-                url:
-                  type: string
-              additionalProperties: true
-            accessibility:
-              type: string
-            categories:
-              type: array
-              items:
-                type: object
-                properties:
-                  inDefinedTermSet:
-                    type: object
-                    properties:
-                      label:
-                        type: string
-                      targetType:
-                        type: string
-                      identifier:
-                        type: string
-                      url:
-                        type: string
-                    additionalProperties: true
-                  term:
-                    type: object
-                    required:
-                      - de
-                    properties:
-                      de:
-                        type: string
-                    additionalProperties:
-                      type: string
-    PatchLocation:
-      type: object
-      properties:
-        name:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        description:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        address:
-          type: object
-          properties:
-            '@type':
-              type: string
-              enum:
-                - PostalAddress
-            streetAddress:
-              type: string
-            addressLocality:
-              type: string
-            postalCode:
-              type: string
-              example: '12157'
-            description:
-              type: string
-        borough:
-          type: string
-          enum:
-            - Mitte
-            - Friedrichshain-Kreuzberg
-            - Pankow
-            - Charlottenburg-Wilmersdorf
-            - Spandau
-            - Steglitz-Zehlendorf
-            - Tempelhof-Schöneberg
-            - Neukölln
-            - Treptow-Köpenick
-            - Marzahn-Hellersdorf
-            - Lichtenberg
-            - Reinickendorf
-            - außerhalb
-        contactPoint:
-          type: array
-          items:
-            type: object
-            properties:
-              '@type':
-                type: string
-                enum:
-                  - ContactPoint
-              name:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-              telephone:
-                type: string
-              email:
-                type: string
-        website:
-          type: string
-        accessibility:
-          type: string
-    CreateLocation:
-      type: object
-      properties:
-        name:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        description:
-          type: object
-          required:
-            - de
-          properties:
-            de:
-              type: string
-          additionalProperties:
-            type: string
-        address:
-          type: object
-          properties:
-            '@type':
-              type: string
-              enum:
-                - PostalAddress
-            streetAddress:
-              type: string
-            addressLocality:
-              type: string
-            postalCode:
-              type: string
-              example: '12157'
-            description:
-              type: string
-        borough:
-          type: string
-          enum:
-            - Mitte
-            - Friedrichshain-Kreuzberg
-            - Pankow
-            - Charlottenburg-Wilmersdorf
-            - Spandau
-            - Steglitz-Zehlendorf
-            - Tempelhof-Schöneberg
-            - Neukölln
-            - Treptow-Köpenick
-            - Marzahn-Hellersdorf
-            - Lichtenberg
-            - Reinickendorf
-            - außerhalb
-        contactPoint:
-          type: array
-          items:
-            type: object
-            properties:
-              '@type':
-                type: string
-                enum:
-                  - ContactPoint
-              name:
-                type: object
-                required:
-                  - de
-                properties:
-                  de:
-                    type: string
-                additionalProperties:
-                  type: string
-              telephone:
-                type: string
-              email:
-                type: string
-        website:
-          type: string
-        accessibility:
-          type: string
-        managedBy:
-          type: object
-          properties:
-            identifier:
-              type: string
-        origin:
-          type: object
-          properties:
-            name:
-              type: string
-            originId:
               type: string

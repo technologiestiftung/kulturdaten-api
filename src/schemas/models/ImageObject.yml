@@ -1,39 +1,25 @@
-allOf: 
-  - $ref: Core.yml
-  - type: object
-    properties:
-      '@type':
-        type: string
-        enum:
-          - 'ImageObject'
-      contentUrl:
-        type: string
-        format: uri
-      height:
-        type: number
-      width:
-        type: number
-      caption:
-        $ref: Title.yml
-      description:
-        $ref: Text.yml
-      encodingFormat:
-        type: string
-      sha256:
-        type: string
-      license:
-        type: object
-        properties:
-          name: 
-            type: string
-          identifier:
-            type: string
-            description: SPDX License Identifier
-          url:
-            type: string
-            format: uri
-          acquireLicensePage:
-            type: string
-            format: uri
+type: object
+properties:
+  type:
+    type: string
+    enum:
+      - 'Image'
+  url:
+    type: string
+  ratio:
+    type: string
+    enum: 
+      - '16_9'
+      - '3_2'
+      - '4_3'
+      - '1_1'
+  width:
+    type: number
+  height:
+    type: number
+  fallback:
+    type: boolean
+  attribution:
+    type: string
     
 

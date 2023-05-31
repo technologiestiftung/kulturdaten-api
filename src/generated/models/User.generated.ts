@@ -15,7 +15,7 @@ export const schemaForUser = {
   $id: "User.yml",
   type: "object",
   properties: {
-    "@type": {type: "string", enum: ["User"]},
+    type: {type: "string", enum: ["User"]},
     identifier: {type: "string"},
     email: {type: "string"},
     password: {type: "string"},
@@ -38,7 +38,7 @@ export function validateUser(o: object): {isValid: boolean; validate: ValidateFu
 }
 
 export interface User {
-  "@type"?: "User";
+  type?: "User";
   identifier: string;
   email: string;
   password?: string;

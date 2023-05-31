@@ -16,8 +16,8 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	async searchDuplicates(location: Location): Promise<Location[]> {
 		const locations = await this.dbConnector.locations();
 		const query = { 
-			'origin.originId': location.origin?.originId,
-			'origin.name': location.origin?.name 
+			'origin.originId': location.metadata?.originObjectID,
+			'origin.name': location.metadata?.origin 
 		};
 		const response = await locations.find(query).toArray();
 		return response;

@@ -1,0 +1,17 @@
+type: object
+properties:     
+  visibility:
+    type: string
+    enum:
+      - visibility.published
+      - visibility.unpublished
+      - visibility.draft
+      - visibility.archived
+      - visibility.restricted
+  eventStatus:
+    type: string
+    enum:
+      - eventStatus.cancelled
+      - eventStatus.postponed
+      - eventStatus.rescheduled
+      - eventStatus.scheduled

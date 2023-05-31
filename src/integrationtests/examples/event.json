@@ -1,0 +1,41 @@
+{
+	"@context": "kulturdaten.berlin/api/v1/spec",
+	"@type": "Event",
+	"kind": "culture",
+	"identifier": "event123",
+	"created": "2023-05-16T07:30:00Z",
+	"updated": "2023-05-17T07:30:00Z",
+	"visibility": "published",
+	"origin": "Berliner Philharmonie",
+	"originObjectID": "origin456",
+	"lang": "de",
+	"translationsIdentifier": [
+	  {"en": "event123_en"},
+	  {"fr": "event123_fr"}
+	],
+	"name": "Klassisches Konzert",
+	"description": "Ein klassisches Konzert mit Werken von Beethoven und Mozart.",
+	"attractionsIdentifier": ["attraction789", "attraction012"],
+	"eventDateTime": {
+	  "startDate": "2023-07-01",
+	  "startTime": "19:00",
+	  "permanentOpening": false,
+	  "doorTime": "18:30",
+	  "endDate": "2023-07-01",
+	  "endTime": "21:00"
+	},
+	"additionalInfo": "Bitte beachten Sie die aktuellen COVID-19 Sicherheitsmaßnahmen.",
+	"pleaseNote": "Elegante Kleidung erwünscht.",
+	"website": "https://www.berliner-philharmonie.de/konzerte",
+	"imagesIdentifier": ["image123", "image456"],
+	"classifications": {
+	  "family": false,
+	  "tags": ["Klassik", "Musik", "Beethoven", "Mozart"]
+	},
+	"inLanguages": ["de", "en", "fr"],
+	"eventStatus": "scheduled",
+	"eventAttendanceMode": "offline",
+	"locationsIdentifier": ["location789"],
+	"organizedByIdentifier": "org123"
+  }
+  

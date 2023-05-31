@@ -1,0 +1,29 @@
+type: object
+properties:
+  type: 
+    type: string
+    enum:
+      - type.command.Event.create
+  payload:
+    type: object
+    properties:
+      attractionsReferenceIds:
+        type: array
+        items:
+          type: string
+      schedule:
+        $ref: 'EventSchedule.yml'
+      locationsReferenceIds:
+        type: array
+        items:
+          type: string
+      organizerId:
+        type: string
+      admission:
+        $ref: 'EventAdmission.yml'     
+      profile:
+        $ref: 'EventProfile.yml'
+      classification: 
+        $ref: 'EventClassification.yml'     
+      status:
+        $ref: 'EventStatus.yml'

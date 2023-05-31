@@ -1,0 +1,39 @@
+{
+	"@context": "kulturdaten.berlin/api/v1/spec",
+	"@type": "Attraction",
+	"kind": "culture",
+	"identifier": "attraction789",
+	"created": "2022-02-15T08:00:00Z",
+	"updated": "2023-05-17T08:00:00Z",
+	"visibility": "published",
+	"origin": "Berliner Philharmonie",
+	"originObjectID": "origin456",
+	"lang": "de",
+	"translations": [
+	  {"en": "attraction789_en"},
+	  {"fr": "attraction789_fr"}
+	],
+	"name": "Beethoven's 9th Symphony",
+	"description": "Eine beeindruckende Aufführung der 9. Sinfonie von Beethoven, dirigiert von Sir Simon Rattle.",
+	"additionalInfo": "Diese Performance ist Teil der Beethoven-Serie der Berliner Philharmoniker.",
+	"website": "https://www.berliner-philharmoniker.de/konzerte/kalender/details/52971/",
+	"imagesIdentifier": ["image012", "image345"],
+	"classifications": {
+	  "family": true,
+	  "types": ["Musik", "Konzert"],
+	  "categories": ["klassische Musik"],
+	  "tags": ["Beethoven", "Sinfonie", "Konzert", "Berliner Philharmoniker"]
+	},
+	"externalLinks": [
+	  {
+		"name": "Ticketkauf",
+		"url": "https://www.berliner-philharmoniker.de/konzerte/kalender/details/52971/"
+	  },
+	  {
+		"name": "Programmdetails",
+		"url": "https://www.berliner-philharmoniker.de/konzerte/kalender/details/52971/"
+	  }
+	],
+	"upcomingEventsIdentifier": ["event123", "event456"]
+  }
+  

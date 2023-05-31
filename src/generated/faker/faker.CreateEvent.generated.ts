@@ -18,6 +18,7 @@
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForContactPoint } from '../models/ContactPoint.generated';
 	import { schemaForEventDate } from '../models/EventDate.generated';
+	import { schemaForPatchEvent } from '../models/PatchEvent.generated';
 	import { schemaForOrigin } from '../models/Origin.generated';
 
 	export function fakeCreateEvent(useExamples: boolean, specifiedPropertiesForCreateEvent: object = {}): CreateEvent {
@@ -30,6 +31,7 @@
 			schemaForReference as Schema,
 			schemaForContactPoint as Schema,
 			schemaForEventDate as Schema,
+			schemaForPatchEvent as Schema,
 			schemaForOrigin as Schema,
 
 		];

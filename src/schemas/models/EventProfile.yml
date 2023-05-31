@@ -1,0 +1,24 @@
+type: object
+properties:
+  title: 
+    type: object
+    additionalProperties:
+      type: string 
+  subtitle: 
+    type: object
+    additionalProperties:
+      type: string 
+  additionalInfo:
+    type: object
+    additionalProperties:
+      type: string 
+  pleaseNote:
+    type: object
+    additionalProperties:
+      type: string 
+  website:
+    type: string
+  inLanguages:
+    type: array
+    items:
+      type: string

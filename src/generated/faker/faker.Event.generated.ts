@@ -11,28 +11,26 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { Event, schemaForEvent } from "../models/Event.generated";
 
-	import { schemaForCore } from '../models/Core.generated';
-	import { schemaForOrigin } from '../models/Origin.generated';
-	import { schemaForTitle } from '../models/Title.generated';
-	import { schemaForText } from '../models/Text.generated';
-	import { schemaForShortText } from '../models/ShortText.generated';
-	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
+	import { schemaForMetadata } from '../models/Metadata.generated';
+	import { schemaForEventProfile } from '../models/EventProfile.generated';
+	import { schemaForEventStatus } from '../models/EventStatus.generated';
 	import { schemaForReference } from '../models/Reference.generated';
-	import { schemaForContactPoint } from '../models/ContactPoint.generated';
-	import { schemaForEventDate } from '../models/EventDate.generated';
+	import { schemaForEventSchedule } from '../models/EventSchedule.generated';
+	import { schemaForContact } from '../models/Contact.generated';
+	import { schemaForEventClassification } from '../models/EventClassification.generated';
+	import { schemaForEventAdmission } from '../models/EventAdmission.generated';
 
 	export function fakeEvent(useExamples: boolean, specifiedPropertiesForEvent: object = {}): Event {
 		const schema = schemaForEvent as Schema;
 		const refs : Schema[] = [
-			schemaForCore as Schema,
-			schemaForOrigin as Schema,
-			schemaForTitle as Schema,
-			schemaForText as Schema,
-			schemaForShortText as Schema,
-			schemaForDefinedTerm as Schema,
+			schemaForMetadata as Schema,
+			schemaForEventProfile as Schema,
+			schemaForEventStatus as Schema,
 			schemaForReference as Schema,
-			schemaForContactPoint as Schema,
-			schemaForEventDate as Schema,
+			schemaForEventSchedule as Schema,
+			schemaForContact as Schema,
+			schemaForEventClassification as Schema,
+			schemaForEventAdmission as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

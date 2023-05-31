@@ -1,0 +1,16 @@
+type: object
+properties:
+  name: 
+    type: object
+    additionalProperties:
+      type: string 
+  description:
+    type: object
+    additionalProperties:
+      type: string 
+  website:
+    type: string
+  inLanguages:
+    type: array
+    items:
+      type: string

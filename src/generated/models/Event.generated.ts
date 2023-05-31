@@ -11,91 +11,63 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
-import {Core, schemaForCore} from "./Core.generated";
-import {Origin, schemaForOrigin} from "./Origin.generated";
-import {Title, schemaForTitle} from "./Title.generated";
-import {Text, schemaForText} from "./Text.generated";
-import {ShortText, schemaForShortText} from "./ShortText.generated";
-import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
+import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {EventProfile, schemaForEventProfile} from "./EventProfile.generated";
+import {EventStatus, schemaForEventStatus} from "./EventStatus.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
-import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
-import {EventDate, schemaForEventDate} from "./EventDate.generated";
+import {EventSchedule, schemaForEventSchedule} from "./EventSchedule.generated";
+import {Contact, schemaForContact} from "./Contact.generated";
+import {EventClassification, schemaForEventClassification} from "./EventClassification.generated";
+import {EventAdmission, schemaForEventAdmission} from "./EventAdmission.generated";
 
 export const schemaForEvent = {
   $id: "Event.yml",
-  allOf: [
-    {$ref: "Core.yml"},
-    {
-      type: "object",
-      properties: {
-        "@type": {type: "string", enum: ["Event", "EventSeries", "ExhibitionEvent"]},
-        title: {$ref: "Title.yml"},
-        subTitle: {$ref: "Title.yml"},
-        description: {$ref: "Text.yml"},
-        shortDescription: {$ref: "ShortText.yml"},
-        startDate: {type: "string", format: "date-time"},
-        endDate: {type: "string", format: "date-time"},
-        previousStartDate: {type: "string", format: "date-time"},
-        doorTime: {type: "string", format: "date-time"},
-        typicalAgeRange: {type: "string"},
-        categories: {type: "array", items: {$ref: "DefinedTerm.yml"}},
-        keywords: {type: "array", items: {$ref: "DefinedTerm.yml"}},
-        inLanguages: {type: "array", items: {type: "string"}},
-        isAccessibleForFree: {type: "boolean"},
-        sameAs: {type: "string", format: "uri"},
-        visibility: {type: "string", enum: ["published", "unpublished", "draft", "archived", "restricted"]},
-        eventStatus: {type: "string", enum: ["cancelled", "postponed", "rescheduled", "scheduled"]},
-        eventAttendanceMode: {type: "string", enum: ["offline", "online", "mixed"]},
-        location: {type: "array", items: {$ref: "Reference.yml"}},
-        contactPoint: {type: "array", items: {$ref: "ContactPoint.yml"}},
-        organizedBy: {$ref: "Reference.yml"},
-        eventDates: {type: "array", items: {$ref: "EventDate.yml"}},
-        homepage: {type: "string"}
-      }
-    }
-  ]
+  type: "object",
+  required: ["identifier"],
+  properties: {
+    type: {type: "string", enum: ["type.Event"]},
+    identifier: {type: "string"},
+    metadata: {$ref: "Metadata.yml"},
+    profile: {$ref: "EventProfile.yml"},
+    status: {$ref: "EventStatus.yml"},
+    attractions: {type: "array", items: {$ref: "Reference.yml"}},
+    schedule: {$ref: "EventSchedule.yml"},
+    locations: {type: "array", items: {$ref: "Reference.yml"}},
+    organizer: {$ref: "Reference.yml"},
+    contact: {$ref: "Contact.yml"},
+    classification: {$ref: "EventClassification.yml"},
+    admission: {$ref: "EventAdmission.yml"}
+  }
 };
 
 export function validateEvent(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
-  ajv.addSchema(schemaForCore, "Core.yml");
-  ajv.addSchema(schemaForOrigin, "Origin.yml");
-  ajv.addSchema(schemaForTitle, "Title.yml");
-  ajv.addSchema(schemaForText, "Text.yml");
-  ajv.addSchema(schemaForShortText, "ShortText.yml");
-  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
+  ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForEventProfile, "EventProfile.yml");
+  ajv.addSchema(schemaForEventStatus, "EventStatus.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
-  ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
-  ajv.addSchema(schemaForEventDate, "EventDate.yml");
+  ajv.addSchema(schemaForEventSchedule, "EventSchedule.yml");
+  ajv.addSchema(schemaForContact, "Contact.yml");
+  ajv.addSchema(schemaForEventClassification, "EventClassification.yml");
+  ajv.addSchema(schemaForEventAdmission, "EventAdmission.yml");
 
   const validate = ajv.compile(schemaForEvent);
   return {isValid: validate(o), validate: validate};
 }
 
-export type Event = Core & {
-  "@type"?: "Event" | "EventSeries" | "ExhibitionEvent";
-  title?: Title;
-  subTitle?: Title;
-  description?: Text;
-  shortDescription?: ShortText;
-  startDate?: string;
-  endDate?: string;
-  previousStartDate?: string;
-  doorTime?: string;
-  typicalAgeRange?: string;
-  categories?: DefinedTerm[];
-  keywords?: DefinedTerm[];
-  inLanguages?: string[];
-  isAccessibleForFree?: boolean;
-  sameAs?: string;
-  visibility?: "published" | "unpublished" | "draft" | "archived" | "restricted";
-  eventStatus?: "cancelled" | "postponed" | "rescheduled" | "scheduled";
-  eventAttendanceMode?: "offline" | "online" | "mixed";
-  location?: Reference[];
-  contactPoint?: ContactPoint[];
-  organizedBy?: Reference;
-  eventDates?: EventDate[];
-  homepage?: string;
-};
+export interface Event {
+  type?: "type.Event";
+  identifier: string;
+  metadata?: Metadata;
+  profile?: EventProfile;
+  status?: EventStatus;
+  attractions?: Reference[];
+  schedule?: EventSchedule;
+  locations?: Reference[];
+  organizer?: Reference;
+  contact?: Contact;
+  classification?: EventClassification;
+  admission?: EventAdmission;
+}

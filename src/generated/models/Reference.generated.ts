@@ -15,12 +15,10 @@ export const schemaForReference = {
   $id: "Reference.yml",
   type: "object",
   properties: {
-    label: {type: "string"},
-    targetType: {type: "string"},
-    identifier: {type: "string"},
-    url: {type: "string"}
-  },
-  additionalProperties: true
+    referenceType: {type: "string"},
+    referenceId: {type: "string"},
+    referenceLabel: {type: "object", additionalProperties: {type: "string"}}
+  }
 };
 
 export function validateReference(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -33,9 +31,9 @@ export function validateReference(o: object): {isValid: boolean; validate: Valid
 }
 
 export interface Reference {
-  label?: string;
-  targetType?: string;
-  identifier?: string;
-  url?: string;
-  [k: string]: unknown;
+  referenceType?: string;
+  referenceId?: string;
+  referenceLabel?: {
+    [k: string]: string;
+  };
 }

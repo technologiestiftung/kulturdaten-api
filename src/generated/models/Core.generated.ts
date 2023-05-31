@@ -11,8 +11,6 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
-import {Origin, schemaForOrigin} from "./Origin.generated";
-
 export const schemaForCore = {
   $id: "Core.yml",
   type: "object",
@@ -23,8 +21,8 @@ export const schemaForCore = {
     created: {type: "string", format: "date-time"},
     updated: {type: "string", format: "date-time"},
     kind: {type: "string", enum: ["culture"]},
-    url: {type: "string"},
-    origin: {$ref: "Origin.yml"}
+    origin: {type: "string"},
+    originObjectID: {type: "string"}
   }
 };
 
@@ -32,7 +30,6 @@ export function validateCore(o: object): {isValid: boolean; validate: ValidateFu
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
-  ajv.addSchema(schemaForOrigin, "Origin.yml");
 
   const validate = ajv.compile(schemaForCore);
   return {isValid: validate(o), validate: validate};
@@ -44,6 +41,6 @@ export interface Core {
   created?: string;
   updated?: string;
   kind?: "culture";
-  url?: string;
-  origin?: Origin;
+  origin?: string;
+  originObjectID?: string;
 }

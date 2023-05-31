@@ -1,0 +1,36 @@
+{
+	"@context": "kulturdaten.berlin/api/v1/spec",
+	"@type": "Organization",
+	"kind": "culture",
+	"identifier": "org123",
+	"created": "2021-01-01T08:00:00Z",
+	"updated": "2023-05-17T08:00:00Z",
+	"visibility": "published",
+	"origin": "Berliner Philharmonie",
+	"originObjectID": "origin456",
+	"lang": "de",
+	"translationsIdentifier": [
+	  {"en": "org123_en"},
+	  {"fr": "org123_fr"}
+	],
+	"name": "Berliner Philharmonie",
+	"description": "Die Berliner Philharmonie ist ein Konzertsaal in Berlin und die Heimat der Berliner Philharmoniker.",
+	"address": {
+	  "street": "Herbert-von-Karajan-Straße 1",
+	  "city": "Berlin",
+	  "postalCode": "10785",
+	  "addressLine2": ""
+	},
+	"website": "https://www.berliner-philharmoniker.de",
+	"imagesIdentifier": ["image789", "image012"],
+	"contact": {
+	  "name": "Kundenservice",
+	  "email": "service@berliner-philharmoniker.de",
+	  "telephone": "+4930254880"
+	},
+	"classifications": {
+	  "categories": ["Musik", "Konzertsaal"],
+	  "tags": ["klassische Musik", "Philharmonie", "Berliner Philharmoniker"]
+	}
+  }
+  

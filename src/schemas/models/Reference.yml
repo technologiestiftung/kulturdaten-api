@@ -1,11 +1,10 @@
 type: object
 properties:
-  label:
+  referenceType:
     type: string
-  targetType:
+  referenceId: 
     type: string
-  identifier:
-    type: string
-  url:
-    type: string
-additionalProperties: true
+  referenceLabel:
+    type: object
+    additionalProperties:
+      type: string 

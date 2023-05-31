@@ -11,12 +11,10 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { Core, schemaForCore } from "../models/Core.generated";
 
-	import { schemaForOrigin } from '../models/Origin.generated';
 
 	export function fakeCore(useExamples: boolean, specifiedPropertiesForCore: object = {}): Core {
 		const schema = schemaForCore as Schema;
 		const refs : Schema[] = [
-			schemaForOrigin as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

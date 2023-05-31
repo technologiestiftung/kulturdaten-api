@@ -11,69 +11,35 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
-import {Core, schemaForCore} from "./Core.generated";
-import {Origin, schemaForOrigin} from "./Origin.generated";
-import {Title, schemaForTitle} from "./Title.generated";
-import {Text, schemaForText} from "./Text.generated";
-
 export const schemaForImageObject = {
   $id: "ImageObject.yml",
-  allOf: [
-    {$ref: "Core.yml"},
-    {
-      type: "object",
-      properties: {
-        "@type": {type: "string", enum: ["ImageObject"]},
-        contentUrl: {type: "string", format: "uri"},
-        height: {type: "number"},
-        width: {type: "number"},
-        caption: {$ref: "Title.yml"},
-        description: {$ref: "Text.yml"},
-        encodingFormat: {type: "string"},
-        sha256: {type: "string"},
-        license: {
-          type: "object",
-          properties: {
-            name: {type: "string"},
-            identifier: {type: "string", description: "SPDX License Identifier"},
-            url: {type: "string", format: "uri"},
-            acquireLicensePage: {type: "string", format: "uri"}
-          }
-        }
-      }
-    }
-  ]
+  type: "object",
+  properties: {
+    type: {type: "string", enum: ["Image"]},
+    url: {type: "string"},
+    ratio: {type: "string", enum: ["16_9", "3_2", "4_3", "1_1"]},
+    width: {type: "number"},
+    height: {type: "number"},
+    fallback: {type: "boolean"},
+    attribution: {type: "string"}
+  }
 };
 
 export function validateImageObject(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
-  ajv.addSchema(schemaForCore, "Core.yml");
-  ajv.addSchema(schemaForOrigin, "Origin.yml");
-  ajv.addSchema(schemaForTitle, "Title.yml");
-  ajv.addSchema(schemaForText, "Text.yml");
 
   const validate = ajv.compile(schemaForImageObject);
   return {isValid: validate(o), validate: validate};
 }
 
-export type ImageObject = Core & {
-  "@type"?: "ImageObject";
-  contentUrl?: string;
-  height?: number;
+export interface ImageObject {
+  type?: "Image";
+  url?: string;
+  ratio?: "16_9" | "3_2" | "4_3" | "1_1";
   width?: number;
-  caption?: Title;
-  description?: Text;
-  encodingFormat?: string;
-  sha256?: string;
-  license?: {
-    name?: string;
-    /**
-     * SPDX License Identifier
-     */
-    identifier?: string;
-    url?: string;
-    acquireLicensePage?: string;
-  };
-};
+  height?: number;
+  fallback?: boolean;
+  attribution?: string;
+}

@@ -12,7 +12,6 @@
 	import { DefinedTermSet, schemaForDefinedTermSet } from "../models/DefinedTermSet.generated";
 
 	import { schemaForCore } from '../models/Core.generated';
-	import { schemaForOrigin } from '../models/Origin.generated';
 	import { schemaForDefinedTerm } from '../models/DefinedTerm.generated';
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForShortText } from '../models/ShortText.generated';
@@ -21,7 +20,6 @@
 		const schema = schemaForDefinedTermSet as Schema;
 		const refs : Schema[] = [
 			schemaForCore as Schema,
-			schemaForOrigin as Schema,
 			schemaForDefinedTerm as Schema,
 			schemaForReference as Schema,
 			schemaForShortText as Schema,

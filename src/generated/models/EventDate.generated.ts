@@ -11,13 +11,23 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {PatchEvent, schemaForPatchEvent} from "./PatchEvent.generated";
+import {Title, schemaForTitle} from "./Title.generated";
+import {Text, schemaForText} from "./Text.generated";
+import {ShortText, schemaForShortText} from "./ShortText.generated";
+import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
+
 export const schemaForEventDate = {
   $id: "EventDate.yml",
   type: "object",
   properties: {
     startDate: {type: "string", format: "date-time"},
     endDate: {type: "string", format: "date-time"},
-    previousStartDate: {type: "string", format: "date-time"}
+    previousStartDate: {type: "string", format: "date-time"},
+    doorTime: {type: "string", format: "date-time"},
+    additionalTitle: {type: "string"},
+    overrides: {$ref: "PatchEvent.yml"}
   }
 };
 
@@ -25,6 +35,12 @@ export function validateEventDate(o: object): {isValid: boolean; validate: Valid
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForPatchEvent, "PatchEvent.yml");
+  ajv.addSchema(schemaForTitle, "Title.yml");
+  ajv.addSchema(schemaForText, "Text.yml");
+  ajv.addSchema(schemaForShortText, "ShortText.yml");
+  ajv.addSchema(schemaForDefinedTerm, "DefinedTerm.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForEventDate);
   return {isValid: validate(o), validate: validate};
@@ -34,4 +50,7 @@ export interface EventDate {
   startDate?: string;
   endDate?: string;
   previousStartDate?: string;
+  doorTime?: string;
+  additionalTitle?: string;
+  overrides?: PatchEvent;
 }

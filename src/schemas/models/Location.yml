@@ -1,34 +1,28 @@
-allOf: 
-  - $ref: Core.yml
-  - type: object
-    properties:
-      '@type':
-        type: string
-        enum:
-          - 'VirtualLocation'
-          - 'Place'
-      name:
-        $ref: Title.yml
-      description:
-        $ref: Text.yml
-      address:
-        $ref: PostalAddress.yml
-      geo:
-        $ref: GeoCoordinates.yml
-      borough:
-        $ref: Borough.yml
-      contactPoint:
-        type: array
-        items:
-          $ref: ContactPoint.yml
-      website:
-        type: string
-      managedBy:
-        $ref: Reference.yml
-      accessibility:
-        type: string
-      categories:
-        type: array
-        items:
-          $ref: DefinedTerm.yml
-    
+type: object
+required:
+  - identifier
+properties:
+  type: 
+    type: string
+    enum:
+      - type.Location
+  identifier:
+    type: string
+  metadata:
+    $ref: 'Metadata.yml'
+  profile:
+    $ref: 'LocationProfile.yml'
+  status:
+    $ref: 'LocationStatus.yml'
+  address:
+    $ref: 'Address.yml'
+  borough:
+    $ref: 'Borough.yml'
+  coordinates:
+    $ref: 'Coordinates.yml'
+  classifications:
+    $ref: 'LocationClassification.yml'
+  manager:
+    $ref: 'Reference.yml'
+  contact:
+    $ref: 'Contact.yml'

@@ -18,6 +18,7 @@ import {DefinedTerm, schemaForDefinedTerm} from "./DefinedTerm.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 import {ContactPoint, schemaForContactPoint} from "./ContactPoint.generated";
 import {EventDate, schemaForEventDate} from "./EventDate.generated";
+import {PatchEvent, schemaForPatchEvent} from "./PatchEvent.generated";
 import {Origin, schemaForOrigin} from "./Origin.generated";
 
 export const schemaForCreateEvent = {
@@ -62,6 +63,7 @@ export function validateCreateEvent(o: object): {isValid: boolean; validate: Val
   ajv.addSchema(schemaForReference, "Reference.yml");
   ajv.addSchema(schemaForContactPoint, "ContactPoint.yml");
   ajv.addSchema(schemaForEventDate, "EventDate.yml");
+  ajv.addSchema(schemaForPatchEvent, "PatchEvent.yml");
   ajv.addSchema(schemaForOrigin, "Origin.yml");
 
   const validate = ajv.compile(schemaForCreateEvent);
