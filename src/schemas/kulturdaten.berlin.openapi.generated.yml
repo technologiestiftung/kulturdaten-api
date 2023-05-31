@@ -657,6 +657,8 @@ components:
                 type: string
     Event:
       type: object
+      required:
+        - identifier
       properties:
         type:
           type: string
@@ -669,10 +671,8 @@ components:
           properties:
             created:
               type: string
-              format: date-time
             updated:
               type: string
-              format: data-time
             origin:
               type: string
             originObjectID:
@@ -958,6 +958,8 @@ components:
                 - visibility.restricted
     Attraction:
       type: object
+      required:
+        - identifier
       properties:
         type:
           type: string
@@ -970,10 +972,8 @@ components:
           properties:
             created:
               type: string
-              format: date-time
             updated:
               type: string
-              format: data-time
             origin:
               type: string
             originObjectID:
@@ -1065,6 +1065,8 @@ components:
           ref: AttractionProfile.yml
     Location:
       type: object
+      required:
+        - identifier
       properties:
         type:
           type: string
@@ -1077,10 +1079,8 @@ components:
           properties:
             created:
               type: string
-              format: date-time
             updated:
               type: string
-              format: data-time
             origin:
               type: string
             originObjectID:
@@ -1118,7 +1118,16 @@ components:
                 - visibility.archived
                 - visibility.restricted
         address:
-          $ref: Address.yml
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
         borough:
           type: string
           enum:
@@ -1212,7 +1221,16 @@ components:
                     - visibility.archived
                     - visibility.restricted
             address:
-              $ref: Address.yml
+              type: object
+              properties:
+                streetAddress:
+                  type: string
+                addressLocality:
+                  type: string
+                postalCode:
+                  type: string
+                description:
+                  type: string
             borough:
               type: string
               enum:
@@ -1296,6 +1314,8 @@ components:
           ref: LocationProfile.yml
     Organization:
       type: object
+      required:
+        - identifier
       properties:
         type:
           type: string
@@ -1308,10 +1328,8 @@ components:
           properties:
             created:
               type: string
-              format: date-time
             updated:
               type: string
-              format: data-time
             origin:
               type: string
             originObjectID:
@@ -1345,7 +1363,16 @@ components:
               items:
                 type: string
         address:
-          $ref: Address.yml
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
         borough:
           type: string
           enum:
@@ -1413,7 +1440,16 @@ components:
                   items:
                     type: string
             address:
-              $ref: Address.yml
+              type: object
+              properties:
+                streetAddress:
+                  type: string
+                addressLocality:
+                  type: string
+                postalCode:
+                  type: string
+                description:
+                  type: string
             borough:
               type: string
               enum:
@@ -1492,10 +1528,8 @@ components:
           type: string
         createdAt:
           type: string
-          format: date-time
         updatedAt:
           type: string
-          format: date-time
         permissionFlags:
           type: number
       required:

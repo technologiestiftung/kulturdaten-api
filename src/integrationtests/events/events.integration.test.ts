@@ -69,7 +69,7 @@ describe('Read events', () => {
     expect(statusCode).toBe(200);
     expect(validateEvent(body.event).isValid).toBe(true);
     expect(body.event.identifier).toBe('1001');
-    expect(body.event.title.de).toBe('Sommerkonzert im Park');
+    expect(body.event.profile.title.de).toBe('Sommerkonzert im Park');
   });
 });
 

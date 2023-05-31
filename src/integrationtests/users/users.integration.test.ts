@@ -1,7 +1,7 @@
 import { Collection, Db, MongoClient } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoDBConnector } from '../../common/services/mongodb.service';
-import { MongoDBUsersRepository } from '../../users/repositories/users.repository.mobgodb';
+import { MongoDBUsersRepository } from '../../users/repositories/users.repository.mongodb';
 import { UsersService } from '../../users/services/users.service';
 import { UsersController } from '../../users/controllers/users.controller';
 import { UsersRoutes } from '../../users/users.routes';

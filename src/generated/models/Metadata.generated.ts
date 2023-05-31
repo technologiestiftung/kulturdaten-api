@@ -15,8 +15,8 @@ export const schemaForMetadata = {
   $id: "Metadata.yml",
   type: "object",
   properties: {
-    created: {type: "string", format: "date-time"},
-    updated: {type: "string", format: "data-time"},
+    created: {type: "string"},
+    updated: {type: "string"},
     origin: {type: "string"},
     originObjectID: {type: "string"},
     availableLanguages: {type: "array", items: {type: "string"}}

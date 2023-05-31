@@ -21,8 +21,8 @@ export const schemaForUser = {
     password: {type: "string"},
     firstName: {type: "string"},
     lastName: {type: "string"},
-    createdAt: {type: "string", format: "date-time"},
-    updatedAt: {type: "string", format: "date-time"},
+    createdAt: {type: "string"},
+    updatedAt: {type: "string"},
     permissionFlags: {type: "number"}
   },
   required: ["identifier", "email", "permissionFlags"]

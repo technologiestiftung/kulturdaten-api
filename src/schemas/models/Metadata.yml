@@ -2,10 +2,8 @@ type: object
 properties:
   created:
     type: string
-    format: date-time
   updated:
     type: string
-    format: data-time
   origin:
     type: string
   originObjectID:

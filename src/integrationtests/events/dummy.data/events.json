@@ -1,184 +1,304 @@
 [
 	{
-		"@context": "kulturdaten.berlin/api/v1/spec",
+		"type": "type.Event",
 		"identifier": "1001",
-		"created": "2023-01-01T09:00:00Z",
-		"updated": "2023-01-05T15:30:00Z",
-		"kind": "culture",
-		"url": "https://www.example.com/event1",
-		"origin": {
-		  "name": "Event Organizer",
-		  "originId": "1001"
+		"metadata": {
+			"created": "2023-05-30T10:00:00Z",
+			"updated": "2023-05-31T09:30:00Z",
+			"origin": "Event Management System",
+			"originObjectID": "obj-789012",
+			"availableLanguages": [
+				"de"
+			]
 		},
-		"@type": "Event",
-		"title": {
-		  "de": "Sommerkonzert im Park"
-		},
-		"subTitle": {
-		  "de": "Klassische Musik unter freiem Himmel"
-		},
-		"description": {
-		  "de": "Genießen Sie ein Konzert mit klassischer Musik im wunderschönen Park. Nehmen Sie Ihre Picknickdecke mit und entspannen Sie sich während Sie den Klängen lauschen."
-		},
-		"shortDescription": {
-		  "de": "Konzert im Park"
-		},
-		"startDate": "2023-07-15T18:00:00Z",
-		"endDate": "2023-07-15T20:00:00Z",
-		"eventStatus": "scheduled",
-		"eventAttendanceMode": "offline",
-		"location": [
-		  {
-			"label": "Stadtpark",
-			"targetType": "Place",
-			"identifier": "park1",
-			"url": "https://www.example.com/park1"
-		  }
-		],
-		"contactPoint": [
-		  {
-			"@type": "ContactPoint",
-			"name": {
-			  "de": "Kontaktstelle für Veranstaltungen"
+		"profile": {
+			"title": {
+				"de": "Sommerkonzert im Park",
+				"en": "Summer Concert in the Park"
 			},
-			"telephone": "+49 30 12345678",
-			"email": "events@example.com"
-		  }
-		],
-		"organizedBy": {
-		  "label": "Event-Organizer",
-		  "targetType": "Organization",
-		  "identifier": "org1",
-		  "url": "https://www.example.com/org1"
-		},
-		"homepage": "https://www.example.com/event1"
-	  },
-	  {
-		"@context": "kulturdaten.berlin/api/v1/spec",
-		"identifier": "1003",
-		"created": "2023-03-01T11:00:00Z",
-		"updated": "2023-03-05T17:30:00Z",
-		"kind": "culture",
-		"url": "https://www.example.com/event3",
-		"origin": {
-		  "name": "Event Organizer",
-		  "originId": "1003"
-		},
-		"@type": "Event",
-		"title": {
-		  "de": "Herbstfest am Flussufer"
-		},
-		"subTitle": {
-		  "de": "Eine Feier im Zeichen des Herbstes"
-		},
-		"description": {
-		  "de": "Feiern Sie den Herbst mit einem bunten Fest am Flussufer. Es wird Live-Musik, Tanzvorführungen, kulinarische Köstlichkeiten und vieles mehr geben. Genießen Sie den herbstlichen Zauber und erleben Sie einen unvergesslichen Tag im Freien."
-		},
-		"shortDescription": {
-		  "de": "Herbstfest am Flussufer"
-		},
-		"startDate": "2023-09-23T12:00:00Z",
-		"endDate": "2023-09-24T18:00:00Z",
-		"eventStatus": "scheduled",
-		"eventAttendanceMode": "offline",
-		"location": [
-		  {
-			"label": "Flussuferpark",
-			"targetType": "Place",
-			"identifier": "park2",
-			"url": "https://www.example.com/park2"
-		  }
-		],
-		"contactPoint": [
-		  {
-			"@type": "ContactPoint",
-			"name": {
-			  "de": "Kontaktstelle für Veranstaltungen"
+			"subtitle": {
+				"de": "Ein musikalisches Erlebnis im Freien",
+				"en": "A musical experience in the outdoors"
 			},
-			"telephone": "+49 30 98765432",
-			"email": "events@example.com"
-		  }
-		],
-		"organizedBy": {
-		  "label": "Event-Organizer",
-		  "targetType": "Organization",
-		  "identifier": "org2",
-		  "url": "https://www.example.com/org2"
-		},
-		"homepage": "https://www.example.com/event3"
-	  },
-	  {
-		"@context": "kulturdaten.berlin/api/v1/spec",
-		"identifier": "1004",
-		"created": "2023-04-01T12:00:00Z",
-		"updated": "2023-04-05T18:30:00Z",
-		"kind": "culture",
-		"url": "https://www.example.com/event4",
-		"origin": {
-		  "name": "Event Organizer",
-		  "originId": "1004"
-		},
-		"@type": "Event",
-		"title": {
-		  "de": "Theaterstück: Die magische Reise"
-		},
-		"subTitle": {
-		  "de": "Ein zauberhaftes Theatererlebnis"
-		},
-		"description": {
-		  "de": "Tauchen Sie ein in eine Welt voller Magie und Abenteuer mit dem Theaterstück 'Die magische Reise'. Die Geschichte erzählt von einer Gruppe mutiger Helden, die auf eine aufregende Reise gehen, um das Geheimnis der verlorenen Zauberquelle zu enthüllen. Erleben Sie eine fesselnde Aufführung mit atemberaubenden Effekten und einer mitreißenden Handlung."
-		},
-		"shortDescription": {
-		  "de": "Theaterstück: Die magische Reise"
-		},
-		"eventDates": [
-		  {
-			"startDate": "2023-10-05T19:30:00Z",
-			"endDate": "2023-10-05T21:30:00Z"
-		  },
-		  {
-			"startDate": "2023-10-07T19:30:00Z",
-			"endDate": "2023-10-07T21:30:00Z"
-		  },
-		  {
-			"startDate": "2023-10-10T19:30:00Z",
-			"endDate": "2023-10-10T21:30:00Z"
-		  },
-		  {
-			"startDate": "2023-10-12T19:30:00Z",
-			"endDate": "2023-10-12T21:30:00Z"
-		  }
-		],
-		"eventStatus": "scheduled",
-		"eventAttendanceMode": "offline",
-		"location": [
-		  {
-			"label": "Theater am Park",
-			"targetType": "Place",
-			"identifier": "theater1",
-			"url": "https://www.example.com/theater1"
-		  }
-		],
-		"contactPoint": [
-		  {
-			"@type": "ContactPoint",
-			"name": {
-			  "de": "Kontaktstelle für Veranstaltungen"
+			"additionalInfo": {
+				"de": "Bitte bringen Sie Ihre eigenen Sitzgelegenheiten mit.",
+				"en": "Please bring your own seating arrangements."
 			},
-			"telephone": "+49 30 5555555",
-			"email": "events@example.com"
-		  }
-		],
-		"organizedBy": {
-		  "label": "Event-Organizer",
-		  "targetType": "Organization",
-		  "identifier": "org3",
-		  "url": "https://www.example.com/org3"
+			"pleaseNote": {
+				"de": "Bei schlechtem Wetter wird das Konzert verschoben.",
+				"en": "In case of bad weather, the concert will be rescheduled."
+			},
+			"website": "https://www.sommerkonzert-im-park.de",
+			"inLanguages": [
+				"de"
+			]
 		},
-		"homepage": "https://www.example.com/event4"
-	  }
-	  
-	  
-
-	  
+		"status": {
+			"visibility": "visibility.published",
+			"eventStatus": "eventStatus.scheduled"
+		},
+		"attractions": [
+			{
+				"referenceType": "type.Attraction",
+				"referenceId": "attraction-1",
+				"referenceLabel": {
+					"de": "Bands",
+					"en": "Bands"
+				}
+			}
+		],
+		"schedule": {
+			"startDate": "2023-07-15",
+			"startTime": "18:00",
+			"permanentOpening": false,
+			"doorTime": "17:30",
+			"endDate": "2023-07-15",
+			"endTime": "22:00"
+		},
+		"locations": [
+			{
+				"referenceType": "type.Location",
+				"referenceId": "location-1",
+				"referenceLabel": {
+					"de": "Stadtpark",
+					"en": "City Park"
+				}
+			}
+		],
+		"organizer": {
+			"referenceType": "type.Organizer",
+			"referenceId": "organizer-987654",
+			"referenceLabel": {
+				"de": "Kulturverein",
+				"en": "Cultural Association"
+			}
+		},
+		"contact": {
+			"name": "Anna Meier",
+			"email": "anna.meier@example.com",
+			"telephone": "+49 1234567890"
+		},
+		"classification": {
+			"family": true,
+			"tags": [
+				"Musik",
+				"Konzert"
+			]
+		},
+		"admission": {
+			"note": {
+				"de": "Eintrittsgebühr: 10€ pro Person",
+				"en": "Admission fee: 10€ per person"
+			},
+			"ticketType": "ticketType.ticketRequired",
+			"registrationType": "registrationType.noRegistrationRequired",
+			"admissionLink": "https://www.sommerkonzert-im-park.de/tickets"
+		}
+	},
+	{
+		"type": "type.Event",
+		"identifier": "event-789012",
+		"metadata": {
+			"created": "2023-05-30T14:30:00Z",
+			"updated": "2023-05-31T11:15:00Z",
+			"origin": "Event Management Platform",
+			"originObjectID": "obj-345678",
+			"availableLanguages": [
+				"de",
+				"en",
+				"fr"
+			]
+		},
+		"profile": {
+			"title": {
+				"de": "Kunstausstellung",
+				"en": "Art Exhibition",
+				"fr": "Exposition d'art"
+			},
+			"subtitle": {
+				"de": "Moderne Kunstwerke aus aller Welt",
+				"en": "Modern artworks from around the world",
+				"fr": "Œuvres d'art modernes du monde entier"
+			},
+			"additionalInfo": {
+				"de": "Besucher können die Kunstwerke kaufen.",
+				"en": "Visitors can purchase the artworks.",
+				"fr": "Les visiteurs peuvent acheter les œuvres d'art."
+			},
+			"pleaseNote": {
+				"de": "Fotografieren ist nicht gestattet.",
+				"en": "Photography is not allowed.",
+				"fr": "La photographie n'est pas autorisée."
+			},
+			"website": "https://www.kunstausstellung.de",
+			"inLanguages": [
+				"de",
+				"en"
+			]
+		},
+		"status": {
+			"visibility": "visibility.published",
+			"eventStatus": "eventStatus.scheduled"
+		},
+		"attractions": [
+			{
+				"referenceType": "type.Attraction",
+				"referenceId": "attraction-2",
+				"referenceLabel": {
+					"de": "Künstlergespräche",
+					"en": "Artist Talks",
+					"fr": "Conférences d'artistes"
+				}
+			}
+		],
+		"schedule": {
+			"startDate": "2023-08-10",
+			"startTime": "10:00",
+			"permanentOpening": false,
+			"doorTime": "09:30",
+			"endDate": "2023-08-20",
+			"endTime": "18:00"
+		},
+		"locations": [
+			{
+				"referenceType": "type.Location",
+				"referenceId": "location-2",
+				"referenceLabel": {
+					"de": "Galerie X",
+					"en": "Gallery X",
+					"fr": "Galerie X"
+				}
+			}
+		],
+		"organizer": {
+			"referenceType": "type.Organizer",
+			"referenceId": "organizer-543210",
+			"referenceLabel": {
+				"de": "Kunstverein",
+				"en": "Art Association",
+				"fr": "Association d'art"
+			}
+		},
+		"contact": {
+			"name": "Sophie Müller",
+			"email": "sophie.mueller@example.com",
+			"telephone": "+49 9876543210"
+		},
+		"classification": {
+			"family": false,
+			"tags": [
+				"Kunst",
+				"Ausstellung"
+			]
+		},
+		"admission": {
+			"note": {
+				"de": "Eintritt frei für Kinder unter 12 Jahren.",
+				"en": "Free admission for children under 12.",
+				"fr": "Entrée gratuite pour"
+			},
+			"ticketType": "ticketType.ticketRequired",
+			"registrationType": "registrationType.noRegistrationRequired",
+			"admissionLink": "https://www.punkrockkonzert.de/tickets"
+		}
+	},
+	{
+		"type": "type.Event",
+		"identifier": "event-234567",
+		"metadata": {
+			"created": "2023-05-30T16:45:00Z",
+			"updated": "2023-05-31T14:20:00Z",
+			"origin": "Event Management System",
+			"originObjectID": "obj-901234",
+			"availableLanguages": [
+				"de",
+				"en"
+			]
+		},
+		"profile": {
+			"title": {
+				"de": "Punk-Rock Konzert",
+				"en": "Punk Rock Concert"
+			},
+			"subtitle": {
+				"de": "Eine Nacht voller Energie und guter Laune",
+				"en": "A night full of energy and good vibes"
+			},
+			"additionalInfo": {
+				"de": "Feiern Sie mit uns zu den Klängen der besten Punk-Bands.",
+				"en": "Join us to celebrate with the sounds of the best punk bands."
+			},
+			"pleaseNote": {
+				"de": "Es wird wild! Moshpits und Stage-Diving sind erlaubt.",
+				"en": "Get ready for wildness! Mosh pits and stage diving are allowed."
+			},
+			"website": "https://www.punkrockkonzert.de",
+			"inLanguages": [
+				"de",
+				"en"
+			]
+		},
+		"status": {
+			"visibility": "visibility.published",
+			"eventStatus": "eventStatus.scheduled"
+		},
+		"attractions": [
+			{
+				"referenceType": "type.Attraction",
+				"referenceId": "attraction-3",
+				"referenceLabel": {
+					"de": "Support Bands",
+					"en": "Support Bands"
+				}
+			}
+		],
+		"schedule": {
+			"startDate": "2023-09-08",
+			"startTime": "20:00",
+			"permanentOpening": false,
+			"doorTime": "19:30",
+			"endDate": "2023-09-08",
+			"endTime": "23:00"
+		},
+		"locations": [
+			{
+				"referenceType": "type.Location",
+				"referenceId": "location-3",
+				"referenceLabel": {
+					"de": "Punkrock Club",
+					"en": "Punk Rock Club"
+				}
+			}
+		],
+		"organizer": {
+			"referenceType": "type.Organizer",
+			"referenceId": "organizer-987654",
+			"referenceLabel": {
+				"de": "Punkrock Verein",
+				"en": "Punk Rock Association"
+			}
+		},
+		"contact": {
+			"name": "Tom Punk",
+			"email": "tom.punk@example.com",
+			"telephone": "+49 1234567890"
+		},
+		"classification": {
+			"family": false,
+			"tags": [
+				"Punk",
+				"Konzert",
+				"Gute Laune"
+			]
+		},
+		"admission": {
+			"note": {
+				"de": "Einlass ab 18 Jahren.",
+				"en": "Entry for ages 18 and above."
+			},
+			"ticketType": "ticketType.ticketRequired",
+			"registrationType": "registrationType.noRegistrationRequired",
+			"admissionLink": "https://www.punkrockkonzert.de/tickets"
+		}
+	}
 ]
