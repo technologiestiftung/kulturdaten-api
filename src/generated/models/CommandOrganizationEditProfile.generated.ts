@@ -18,7 +18,7 @@ export const schemaForCommandOrganizationEditProfile = {
   type: "object",
   properties: {
     type: {type: "string", enum: ["type.command.Organization.editProfile"]},
-    payload: {ref: "OrganizationProfile.yml"}
+    payload: {$ref: "OrganizationProfile.yml"}
   }
 };
 
@@ -34,7 +34,5 @@ export function validateCommandOrganizationEditProfile(o: object): {isValid: boo
 
 export interface CommandOrganizationEditProfile {
   type?: "type.command.Organization.editProfile";
-  payload?: {
-    [k: string]: unknown;
-  };
+  payload?: OrganizationProfile;
 }

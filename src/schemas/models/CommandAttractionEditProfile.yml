@@ -5,4 +5,4 @@ properties:
     enum:
       - type.command.Attraction.editProfile
   payload:
-    ref: 'AttractionProfile.yml'
+    $ref: 'AttractionProfile.yml'

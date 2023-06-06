@@ -1,10 +1,10 @@
 import { Collection, Db, MongoClient } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoDBConnector } from '../../common/services/mongodb.service';
-import { MongoDBEventsRepository } from '../../events/repositories/events.repository.mobgodb';
-import { EventsService } from '../../events/services/events.service';
-import { EventsController } from '../../events/controllers/events.controller';
-import { EventsRoutes } from '../../events/events.routes';
+import { MongoDBEventsRepository } from '../../resources/events/repositories/events.repository.mobgodb';
+import { EventsService } from '../../resources/events/services/events.service';
+import { EventsController } from '../../resources/events/controllers/events.controller';
+import { EventsRoutes } from '../../resources/events/events.routes';
 import express from 'express';
 import request from "supertest";
 import { validateEvent } from '../../generated/models/Event.generated';

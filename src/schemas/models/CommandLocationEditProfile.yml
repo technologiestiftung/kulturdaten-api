@@ -5,4 +5,4 @@ properties:
     enum:
       - type.command.Location.editProfile
   payload:
-    ref: 'LocationProfile.yml'
+    $ref: 'LocationProfile.yml'

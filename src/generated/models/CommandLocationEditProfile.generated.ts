@@ -18,7 +18,7 @@ export const schemaForCommandLocationEditProfile = {
   type: "object",
   properties: {
     type: {type: "string", enum: ["type.command.Location.editProfile"]},
-    payload: {ref: "LocationProfile.yml"}
+    payload: {$ref: "LocationProfile.yml"}
   }
 };
 
@@ -34,7 +34,5 @@ export function validateCommandLocationEditProfile(o: object): {isValid: boolean
 
 export interface CommandLocationEditProfile {
   type?: "type.command.Location.editProfile";
-  payload?: {
-    [k: string]: unknown;
-  };
+  payload?: LocationProfile;
 }

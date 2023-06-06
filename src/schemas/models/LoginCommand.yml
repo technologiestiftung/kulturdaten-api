@@ -1,0 +1,13 @@
+type: object
+properties:
+  type: 
+    type: string
+    enum:
+      - type.command.Auth.login
+  payload:
+    type: object
+    properties:
+      password:
+        type: string
+      email:
+        type: string

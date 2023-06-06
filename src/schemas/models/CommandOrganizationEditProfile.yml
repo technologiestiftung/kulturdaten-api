@@ -5,4 +5,4 @@ properties:
     enum:
       - type.command.Organization.editProfile
   payload:
-    ref: 'OrganizationProfile.yml'
+    $ref: 'OrganizationProfile.yml'

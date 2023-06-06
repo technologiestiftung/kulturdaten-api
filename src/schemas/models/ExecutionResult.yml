@@ -1,0 +1,19 @@
+type: object
+properties:
+  success:
+    type: boolean
+  message:
+    type: string
+  data:
+    type: object
+  error:
+    type: object
+    properties:
+      code:
+        type: number
+      message:
+        type: string
+      details:
+        type: string
+required:
+  - success

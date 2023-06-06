@@ -1,0 +1,11 @@
+type: object
+properties:
+  type: 
+    type: string
+    enum:
+      - type.command.Location.publish
+  payload:
+    type: object
+    properties:
+      locationIdentifier:
+        type: string

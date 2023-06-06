@@ -18,7 +18,7 @@ export const schemaForCommandAttractionEditProfile = {
   type: "object",
   properties: {
     type: {type: "string", enum: ["type.command.Attraction.editProfile"]},
-    payload: {ref: "AttractionProfile.yml"}
+    payload: {$ref: "AttractionProfile.yml"}
   }
 };
 
@@ -34,7 +34,5 @@ export function validateCommandAttractionEditProfile(o: object): {isValid: boole
 
 export interface CommandAttractionEditProfile {
   type?: "type.command.Attraction.editProfile";
-  payload?: {
-    [k: string]: unknown;
-  };
+  payload?: AttractionProfile;
 }

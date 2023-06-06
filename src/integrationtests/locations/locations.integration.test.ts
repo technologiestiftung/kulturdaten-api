@@ -1,10 +1,10 @@
 import { Collection, Db, MongoClient } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoDBConnector } from '../../common/services/mongodb.service';
-import { MongoDBLocationsRepository } from '../../locations/repositories/locations.repository.mobgodb';
-import { LocationsService } from '../../locations/services/locations.service';
-import { LocationsController } from '../../locations/controllers/locations.controller';
-import { LocationsRoutes } from '../../locations/locations.routes';
+import { MongoDBLocationsRepository } from '../../resources/locations/repositories/locations.repository.mobgodb';
+import { LocationsService } from '../../resources/locations/services/locations.service';
+import { LocationsController } from '../../resources/locations/controllers/locations.controller';
+import { LocationsRoutes } from '../../resources/locations/locations.routes';
 import express from 'express';
 import request from "supertest";
 import { validateLocation } from '../../generated/models/Location.generated';

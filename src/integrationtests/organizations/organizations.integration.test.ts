@@ -1,10 +1,10 @@
 import { Collection, Db, MongoClient } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoDBConnector } from '../../common/services/mongodb.service';
-import { MongoDBOrganizationsRepository } from '../../organizations/repositories/organizations.repository.mobgodb';
-import { OrganizationsService } from '../../organizations/services/organizations.service';
-import { OrganizationsController } from '../../organizations/controllers/organizations.controller';
-import { OrganizationsRoutes } from '../../organizations/organizations.routes';
+import { MongoDBOrganizationsRepository } from '../../resources/organizations/repositories/organizations.repository.mobgodb';
+import { OrganizationsService } from '../../resources/organizations/services/organizations.service';
+import { OrganizationsController } from '../../resources/organizations/controllers/organizations.controller';
+import { OrganizationsRoutes } from '../../resources/organizations/organizations.routes';
 import express from 'express';
 import request from "supertest";
 import { validateOrganization } from '../../generated/models/Organization.generated';

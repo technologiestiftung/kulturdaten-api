@@ -1,0 +1,9 @@
+type: object
+additionalProperties: true
+properties:
+  type: 
+    type: string
+  payload:
+    type: object
+required:
+  - type

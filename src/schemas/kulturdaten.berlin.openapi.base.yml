@@ -56,14 +56,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Login"
+              $ref: "#/components/schemas/LoginCommand"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Auth"
+                $ref: "#/components/schemas/LoggedInResponse"
 
   /events:
     get:
@@ -75,12 +75,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  events:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Event"
+                $ref: "#/components/schemas/EventsResponse"
     post:
       tags:
         - Maintain cultural data
@@ -88,17 +83,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CommandEventCreate"
+              $ref: "#/components/schemas/CreateEventCommand"
       responses:
         "201":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
+                $ref: "#/components/schemas/EventCreatedResponse"
+
 
   /events/{identifier}:
     parameters:
@@ -117,16 +110,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  event:
-                    $ref: "#/components/schemas/Event"
+                $ref: "#/components/schemas/EventResponse"
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundError"
+                $ref: "#/components/schemas/ExecutionResult"
     patch:
       tags:
         - Maintain cultural data
@@ -135,29 +125,43 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: "#/components/schemas/CommandEventSwitchStatus"
-                - $ref: "#/components/schemas/CommandEventSwitchVisibility"
+                - $ref: "#/components/schemas/PublishEventCommand"
+                - $ref: "#/components/schemas/SwitchEventStatusCommand"
+                - $ref: "#/components/schemas/SwitchEventVisibilityCommand"
       responses:
         "204":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionResult"
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundError"
+                $ref: "#/components/schemas/ExecutionResult"
     delete:
       tags:
         - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArchiveEventCommand"
       responses:
         "204":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionResult"
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundError"
+                $ref: "#/components/schemas/ExecutionResult"
 
 
   /attraction:
@@ -600,23 +604,42 @@ components:
       bearerFormat: JWT
 
   schemas:
-    Login:
-      $ref: models/Login.yml
+    ExecutionResult:
+      $ref: models/ExecutionResult.yml
 
-    Auth:
-      $ref: models/Auth.yml
+    LoginCommand:
+      $ref: models/LoginCommand.yml
+
+    LoggedInResponse:
+      $ref: models/LoggedInResponse.yml
 
     Event:
       $ref: models/Event.yml
 
-    CommandEventCreate:
-      $ref: models/CommandEventCreate.yml
+    EventsResponse:
+      $ref: models/EventsResponse.yml
 
-    CommandEventSwitchStatus:
-      $ref: models/CommandEventSwitchStatus.yml
+    CreateEventCommand:
+      $ref: models/CreateEventCommand.yml
 
-    CommandEventSwitchVisibility:
-      $ref: models/CommandEventSwitchVisibility.yml
+    EventCreatedResponse:
+      $ref: models/EventCreatedResponse.yml
+
+    EventResponse: 
+      $ref: models/EventResponse.yml  
+
+    PublishEventCommand:
+      $ref: models/PublishEventCommand.yml  
+
+    SwitchEventStatusCommand:
+      $ref: models/SwitchEventStatusCommand.yml 
+    
+    SwitchEventVisibilityCommand:
+      $ref: models/SwitchEventVisibilityCommand.yml 
+
+    ArchiveEventCommand:
+      $ref: models/ArchiveEventCommand.yml
+
 
     Attraction:
       $ref: models/Attraction.yml
@@ -663,9 +686,6 @@ components:
 
     Health:
       $ref: models/Health.yml
-
-    NotFoundError:
-      $ref: models/NotFoundError.yml
 
     EmailAlreadyInUseError:
       $ref: models/EmailAlreadyInUseError.yml

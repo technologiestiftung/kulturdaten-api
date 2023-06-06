@@ -7,9 +7,9 @@ import { Location } from '../../../generated/models/Location.generated';
 import { CreateEvent } from "../../../generated/models/CreateEvent.generated";
 import { CreateLocation } from "../../../generated/models/CreateLocation.generated";
 import { EventDate } from "../../../generated/models/EventDate.generated";
-import { LocationsService } from "../../../locations/services/locations.service";
-import { OrganizationsService } from "../../../organizations/services/organizations.service";
-import { EventsService } from "../../../events/services/events.service";
+import { LocationsService } from "../../../resources/locations/services/locations.service";
+import { OrganizationsService } from "../../../resources/organizations/services/organizations.service";
+import { EventsService } from "../../../resources/events/services/events.service";
 import { Event } from "../../../generated/models/Event.generated";
 
 

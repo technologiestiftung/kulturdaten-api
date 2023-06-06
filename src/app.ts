@@ -9,28 +9,30 @@ import debug from 'debug';
 
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
-import { OrganizationsRoutes } from './organizations/organizations.routes';
+import { OrganizationsRoutes } from './resources/organizations/organizations.routes';
 import Container from 'typedi';
-import { UsersRoutes } from './users/users.routes';
-import { AuthPassword } from './auth/strategies/auth.strategy.password';
-import { UsersService } from './users/services/users.service';
+import { UsersRoutes } from './resources/users/users.routes';
+import { AuthPassword } from './resources/auth/strategies/auth.strategy.password';
+import { UsersService } from './resources/users/services/users.service';
 import passport from 'passport';
-import { AuthBearerJWT } from './auth/strategies/auth.strategy.bearerjwt';
+import { AuthBearerJWT } from './resources/auth/strategies/auth.strategy.bearerjwt';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import * as OpenApiValidator from 'express-openapi-validator';
-import { HealthRoutes } from './health/health.routes';
-import { AuthRoutes } from './auth/auth.routes';
+import { HealthRoutes } from './resources/health/health.routes';
+import { AuthRoutes } from './resources/auth/auth.routes';
 import { MongoDBConnector } from './common/services/mongodb.service';
-import { MongoDBOrganizationsRepository } from './organizations/repositories/organizations.repository.mobgodb';
-import { MongoDBUsersRepository } from './users/repositories/users.repository.mongodb';
-import { MongoDBEventsRepository } from './events/repositories/events.repository.mobgodb';
-import { EventsRoutes } from './events/events.routes';
-import { LocationsRoutes } from './locations/locations.routes';
-import { MongoDBLocationsRepository } from './locations/repositories/locations.repository.mobgodb';
+import { MongoDBOrganizationsRepository } from './resources/organizations/repositories/organizations.repository.mobgodb';
+import { MongoDBUsersRepository } from './resources/users/repositories/users.repository.mongodb';
+import { MongoDBEventsRepository } from './resources/events/repositories/events.repository.mobgodb';
+import { EventsRoutes } from './resources/events/events.routes';
+import { LocationsRoutes } from './resources/locations/locations.routes';
+import { MongoDBLocationsRepository } from './resources/locations/repositories/locations.repository.mobgodb';
 import { MongoClient } from 'mongodb';
 import { HarvesterRoutes } from './harvester/harvester.routes';
+import { PublishLocationExecutor } from './resources/locations/excecutors/PublishLocationExecutor';
+import { LocationsService } from './resources/locations/services/locations.service';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -48,6 +50,7 @@ export class KulturdatenBerlinApp {
 	public async ini() {
 		this.initDataBaseConnection();
 		await this.initDependencyInjection();
+		await this.registerCommandExecutors();
 		this.initLogger();
 		this.initAuthStrategies();
  		this.registerDefaultMiddleware();
@@ -55,6 +58,16 @@ export class KulturdatenBerlinApp {
 		this.registerStatusChecks();
 		this.registerErrorHandler();
 		
+	}
+	public async registerCommandExecutors() {
+		const executors = [
+			new PublishLocationExecutor(Container.get(LocationsService))
+		]
+		executors.forEach(executor => {
+			executor.getExecutableCommandTypes().forEach(commandType => {
+				Container.set(commandType, executor);
+			});
+		});
 	}
 
 	public registerRoutes() {

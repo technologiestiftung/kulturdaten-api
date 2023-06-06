@@ -104,14 +104,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Login'
+              $ref: '#/components/schemas/LoginCommand'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Auth'
+                $ref: '#/components/schemas/LoggedInResponse'
   /events:
     get:
       tags:
@@ -122,12 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  events:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Event'
+                $ref: '#/components/schemas/EventsResponse'
     post:
       tags:
         - Maintain cultural data
@@ -135,17 +130,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CommandEventCreate'
+              $ref: '#/components/schemas/CreateEventCommand'
       responses:
         '201':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
+                $ref: '#/components/schemas/EventCreatedResponse'
   /events/{identifier}:
     parameters:
       - in: path
@@ -163,16 +155,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  event:
-                    $ref: '#/components/schemas/Event'
+                $ref: '#/components/schemas/EventResponse'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/ExecutionResult'
     patch:
       tags:
         - Maintain cultural data
@@ -181,29 +170,43 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/CommandEventSwitchStatus'
-                - $ref: '#/components/schemas/CommandEventSwitchVisibility'
+                - $ref: '#/components/schemas/PublishEventCommand'
+                - $ref: '#/components/schemas/SwitchEventStatusCommand'
+                - $ref: '#/components/schemas/SwitchEventVisibilityCommand'
       responses:
         '204':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResult'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/ExecutionResult'
     delete:
       tags:
         - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveEventCommand'
       responses:
         '204':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResult'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/ExecutionResult'
   /attraction:
     get:
       tags:
@@ -630,31 +633,84 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    Login:
+    ExecutionResult:
       type: object
       properties:
-        password:
+        success:
+          type: boolean
+        message:
           type: string
-        email:
-          type: string
-    Auth:
-      type: object
-      properties:
-        accessToken:
-          type: string
-        expiresIn:
-          type: string
-        user:
+        data:
+          type: object
+        error:
           type: object
           properties:
-            referenceType:
+            code:
+              type: number
+            message:
               type: string
-            referenceId:
+            details:
               type: string
-            referenceLabel:
+      required:
+        - success
+    LoginCommand:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Auth.login
+        payload:
+          type: object
+          properties:
+            password:
+              type: string
+            email:
+              type: string
+    LoggedInResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            accessToken:
+              type: string
+            expiresIn:
+              type: string
+            user:
               type: object
-              additionalProperties:
-                type: string
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - User
+                identifier:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                createdAt:
+                  type: string
+                updatedAt:
+                  type: string
+                permissionFlags:
+                  type: number
+              required:
+                - identifier
+                - email
+                - permissionFlags
+      required:
+        - success
+        - message
     Event:
       type: object
       required:
@@ -814,7 +870,181 @@ components:
                 - registrationType.registrationDesired
             admissionLink:
               type: string
-    CommandEventCreate:
+    EventsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            events:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Event
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  profile:
+                    type: object
+                    properties:
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      subtitle:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      additionalInfo:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      pleaseNote:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      website:
+                        type: string
+                      inLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: object
+                    properties:
+                      visibility:
+                        type: string
+                        enum:
+                          - visibility.published
+                          - visibility.unpublished
+                          - visibility.draft
+                          - visibility.archived
+                          - visibility.restricted
+                      eventStatus:
+                        type: string
+                        enum:
+                          - eventStatus.cancelled
+                          - eventStatus.postponed
+                          - eventStatus.rescheduled
+                          - eventStatus.scheduled
+                  attractions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                  schedule:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                      startTime:
+                        type: string
+                      permanentOpening:
+                        type: boolean
+                      doorTime:
+                        type: string
+                      endDate:
+                        type: string
+                      endTime:
+                        type: string
+                  locations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                  organizer:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      telephone:
+                        type: string
+                  classification:
+                    type: object
+                    properties:
+                      family:
+                        type: boolean
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                  admission:
+                    type: object
+                    properties:
+                      note:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      ticketType:
+                        type: string
+                        enum:
+                          - ticketType.ticketRequired
+                          - ticketType.freeOfCharge
+                      registrationType:
+                        type: string
+                        enum:
+                          - registrationType.registrationRequired
+                          - registrationType.noRegistrationRequired
+                          - registrationType.registrationDesired
+                      admissionLink:
+                        type: string
+      required:
+        - success
+        - message
+    CreateEventCommand:
       type: object
       properties:
         type:
@@ -921,7 +1151,201 @@ components:
                     - eventStatus.postponed
                     - eventStatus.rescheduled
                     - eventStatus.scheduled
-    CommandEventSwitchStatus:
+    EventCreatedResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            identifier:
+              type: string
+      required:
+        - success
+        - message
+    EventResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            event:
+              type: object
+              required:
+                - identifier
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Event
+                identifier:
+                  type: string
+                metadata:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                    updated:
+                      type: string
+                    origin:
+                      type: string
+                    originObjectID:
+                      type: string
+                    availableLanguages:
+                      type: array
+                      items:
+                        type: string
+                profile:
+                  type: object
+                  properties:
+                    title:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    subtitle:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    additionalInfo:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    pleaseNote:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    website:
+                      type: string
+                    inLanguages:
+                      type: array
+                      items:
+                        type: string
+                status:
+                  type: object
+                  properties:
+                    visibility:
+                      type: string
+                      enum:
+                        - visibility.published
+                        - visibility.unpublished
+                        - visibility.draft
+                        - visibility.archived
+                        - visibility.restricted
+                    eventStatus:
+                      type: string
+                      enum:
+                        - eventStatus.cancelled
+                        - eventStatus.postponed
+                        - eventStatus.rescheduled
+                        - eventStatus.scheduled
+                attractions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                schedule:
+                  type: object
+                  properties:
+                    startDate:
+                      type: string
+                    startTime:
+                      type: string
+                    permanentOpening:
+                      type: boolean
+                    doorTime:
+                      type: string
+                    endDate:
+                      type: string
+                    endTime:
+                      type: string
+                locations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                organizer:
+                  type: object
+                  properties:
+                    referenceType:
+                      type: string
+                    referenceId:
+                      type: string
+                    referenceLabel:
+                      type: object
+                      additionalProperties:
+                        type: string
+                contact:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    telephone:
+                      type: string
+                classification:
+                  type: object
+                  properties:
+                    family:
+                      type: boolean
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                admission:
+                  type: object
+                  properties:
+                    note:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    ticketType:
+                      type: string
+                      enum:
+                        - ticketType.ticketRequired
+                        - ticketType.freeOfCharge
+                    registrationType:
+                      type: string
+                      enum:
+                        - registrationType.registrationRequired
+                        - registrationType.noRegistrationRequired
+                        - registrationType.registrationDesired
+                    admissionLink:
+                      type: string
+      required:
+        - success
+        - message
+    PublishEventCommand:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Event.publish
+    SwitchEventStatusCommand:
       type: object
       properties:
         type:
@@ -938,7 +1362,7 @@ components:
                 - eventStatus.postponed
                 - eventStatus.rescheduled
                 - eventStatus.scheduled
-    CommandEventSwitchVisibility:
+    SwitchEventVisibilityCommand:
       type: object
       properties:
         type:
@@ -956,6 +1380,15 @@ components:
                 - visibility.draft
                 - visibility.archived
                 - visibility.restricted
+    ArchiveEventCommand:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.command.Event.archive
+        reason:
+          type: string
     Attraction:
       type: object
       required:
@@ -1062,7 +1495,30 @@ components:
           enum:
             - type.command.Attraction.editProfile
         payload:
-          ref: AttractionProfile.yml
+          type: object
+          properties:
+            title:
+              type: object
+              additionalProperties:
+                type: string
+            subtitle:
+              type: object
+              additionalProperties:
+                type: string
+            description:
+              type: object
+              additionalProperties:
+                type: string
+            pleaseNote:
+              type: object
+              additionalProperties:
+                type: string
+            website:
+              type: string
+            inLanguages:
+              type: array
+              items:
+                type: string
     Location:
       type: object
       required:
@@ -1311,7 +1767,22 @@ components:
           enum:
             - type.command.Location.editProfile
         payload:
-          ref: LocationProfile.yml
+          type: object
+          properties:
+            name:
+              type: object
+              additionalProperties:
+                type: string
+            description:
+              type: object
+              additionalProperties:
+                type: string
+            website:
+              type: string
+            inLanguages:
+              type: array
+              items:
+                type: string
     Organization:
       type: object
       required:
@@ -1508,7 +1979,22 @@ components:
           enum:
             - type.command.Organization.editProfile
         payload:
-          ref: OrganizationProfile.yml
+          type: object
+          properties:
+            name:
+              type: object
+              additionalProperties:
+                type: string
+            description:
+              type: object
+              additionalProperties:
+                type: string
+            website:
+              type: string
+            inLanguages:
+              type: array
+              items:
+                type: string
     User:
       type: object
       properties:
@@ -1537,7 +2023,22 @@ components:
         - email
         - permissionFlags
     CreateUser:
-      $ref: models/CreateUser.yml
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          minLength: 12
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - email
+        - password
     PatchUser:
       type: object
       properties:
@@ -1566,14 +2067,6 @@ components:
                 type: string
               healthy:
                 type: boolean
-    NotFoundError:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            msg:
-              type: string
     EmailAlreadyInUseError:
       type: object
       properties:

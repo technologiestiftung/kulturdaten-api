@@ -1,17 +1,17 @@
 import { Collection, Db, MongoClient } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoDBConnector } from '../../common/services/mongodb.service';
-import { MongoDBUsersRepository } from '../../users/repositories/users.repository.mongodb';
-import { UsersService } from '../../users/services/users.service';
-import { UsersController } from '../../users/controllers/users.controller';
-import { UsersRoutes } from '../../users/users.routes';
+import { MongoDBUsersRepository } from '../../resources/users/repositories/users.repository.mongodb';
+import { UsersService } from '../../resources/users/services/users.service';
+import { UsersController } from '../../resources/users/controllers/users.controller';
+import { UsersRoutes } from '../../resources/users/users.routes';
 import express from 'express';
 import request from "supertest";
 import { User, validateUser } from '../../generated/models/User.generated';
 import fiveDummyUsers from './dummy.data/users.json';
 import { IDENTIFIER_REG_EX } from '../utils/matcher';
 import { mockTokenForExistUser } from "../utils/mock.auth.strategy";
-import { PermissionFlag } from "../../auth/middleware/auth.permissionflag.enum";
+import { PermissionFlag } from "../../resources/auth/middleware/auth.permissionflag.enum";
 import { fakeCreateUser } from '../../generated/faker/faker.CreateUser.generated';
 
 describe('Create users', () => {
