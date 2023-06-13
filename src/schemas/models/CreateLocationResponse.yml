@@ -1,0 +1,15 @@
+type: object
+properties:
+  success:
+    type: boolean
+    enum:
+      - true
+  message:
+    type: string
+  data:
+    type: object
+    properties:
+      locationIdentifier: 
+        type: string
+required:
+  - success

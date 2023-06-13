@@ -1,21 +1,5 @@
 type: object
-required:
-  - identifier
 properties:
-  type: 
-    type: string
-    enum:
-      - type.Attraction
-  identifier:
-    type: string
-  metadata:
-    $ref: 'Metadata.yml'
-  status:
-    type: string
-    enum:
-      - attraction.published
-      - attraction.unpublished
-      - attraction.archived
   title: 
     type: object
     additionalProperties:
@@ -28,18 +12,18 @@ properties:
     type: object
     additionalProperties:
       type: string 
-  pleaseNote:
-    type: object
-    additionalProperties:
-      type: string 
   website:
     type: string
+  address:
+    $ref: 'Address.yml'
+  borough:
+    $ref: 'Borough.yml'
+  coordinates:
+    $ref: 'Coordinates.yml'
   inLanguages:
     type: array
     items:
       type: string
-  family:
-    type: boolean
   tags:
     type: array
     items:
@@ -48,3 +32,7 @@ properties:
     type: array
     items: 
       $ref: 'ExternalLinks.yml'
+  manager:
+    $ref: 'Reference.yml'
+  contact:
+    $ref: 'Contact.yml'

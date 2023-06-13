@@ -1,0 +1,30 @@
+NotImplemented:
+  type: object
+  properties:
+    success:
+      type: boolean
+      enum:
+        - success.false
+    message:
+      type: string
+      enum: 
+        - message.not_implemented
+    error:
+      type: object
+      properties:
+        code:
+          type: number
+          enum:
+            - code.not_implemented
+        message:
+          type: string
+          enum: 
+            - message.not_implemented
+        details:
+          type: string
+          enum: 
+            - details.not_implemented
+  required:
+    - success
+    - message
+    - error

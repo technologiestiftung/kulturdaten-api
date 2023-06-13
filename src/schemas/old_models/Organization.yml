@@ -1,0 +1,24 @@
+type: object
+required:
+  - identifier
+properties:
+  type: 
+    type: string
+    enum:
+      - type.Organization
+  identifier:
+    type: string
+  metadata:
+    $ref: 'Metadata.yml'
+  profile:
+    $ref: 'OrganizationProfile.yml'
+  status:
+    $ref: 'OrganizationStatus.yml'
+  address:
+    $ref: 'Address.yml'
+  borough:
+    $ref: 'Borough.yml'
+  classifications:
+    $ref: 'OrganizationClassification.yml'
+  contact:
+    $ref: 'Contact.yml'

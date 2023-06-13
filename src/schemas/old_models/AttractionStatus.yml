@@ -5,6 +5,4 @@ properties:
     enum:
       - visibility.published
       - visibility.unpublished
-      - visibility.draft
       - visibility.archived
-      - visibility.restricted

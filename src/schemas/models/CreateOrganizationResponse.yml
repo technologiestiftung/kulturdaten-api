@@ -1,0 +1,14 @@
+properties:
+  success:
+    type: boolean
+    enum:
+      - true
+  message:
+    type: string
+  data:
+    type: object
+    properties:
+      organizationIdentifier: 
+        type: string
+required:
+  - success

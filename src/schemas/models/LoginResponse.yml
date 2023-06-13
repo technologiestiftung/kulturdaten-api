@@ -6,17 +6,12 @@ properties:
     type: string
   data:
     type: object
-  error:
-    type: object
     properties:
-      code:
-        type: number
-      message:
+      accessToken:
         type: string
-      details:
+      expiresIn:
         type: string
-    required:
-      - code
+      user:
+        $ref: 'User.yml'
 required:
   - success
-  - error

@@ -1,21 +1,5 @@
 type: object
-required:
-  - identifier
 properties:
-  type: 
-    type: string
-    enum:
-      - type.Event
-  identifier:
-    type: string
-  metadata:
-    $ref: 'Metadata.yml'
-  status:
-    type: string
-    enum:
-      - event.published
-      - event.unpublished
-      - event.archived
   schedule:
     $ref: 'Schedule.yml'
   title: 

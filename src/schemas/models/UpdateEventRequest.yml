@@ -1,23 +1,5 @@
 type: object
-required:
-  - identifier
 properties:
-  type: 
-    type: string
-    enum:
-      - type.Event
-  identifier:
-    type: string
-  metadata:
-    $ref: 'Metadata.yml'
-  status:
-    type: string
-    enum:
-      - event.published
-      - event.unpublished
-      - event.archived
-  schedule:
-    $ref: 'Schedule.yml'
   title: 
     type: object
     additionalProperties:
@@ -46,16 +28,6 @@ properties:
     type: array
     items:
       type: string 
-  locations:
-    type: array
-    items:
-      $ref: 'Reference.yml'
-  attractions:
-    type: array
-    items:
-      $ref: 'Reference.yml'
-  organizer:
-    $ref: 'Reference.yml'
   contact:
     $ref: 'Contact.yml'
   admission:

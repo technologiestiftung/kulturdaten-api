@@ -1,21 +1,5 @@
 type: object
-required:
-  - identifier
 properties:
-  type: 
-    type: string
-    enum:
-      - type.Organization
-  identifier:
-    type: string
-  metadata:
-    $ref: 'Metadata.yml'
-  status:
-    type: string
-    enum:
-      - organization.published
-      - organization.unpublished
-      - organization.archived
   title: 
     type: object
     additionalProperties:

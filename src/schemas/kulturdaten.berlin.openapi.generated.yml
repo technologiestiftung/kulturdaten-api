@@ -96,301 +96,6 @@ info:
 servers:
   - url: http://localhost:3000/api/
 paths:
-  /authentication/token:
-    post:
-      tags:
-        - Authentication
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginCommand'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoggedInResponse'
-  /events:
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventsResponse'
-    post:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateEventCommand'
-      responses:
-        '201':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventCreatedResponse'
-  /events/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The event ID
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventResponse'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExecutionResult'
-    patch:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/PublishEventCommand'
-                - $ref: '#/components/schemas/SwitchEventStatusCommand'
-                - $ref: '#/components/schemas/SwitchEventVisibilityCommand'
-      responses:
-        '204':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExecutionResult'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExecutionResult'
-    delete:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ArchiveEventCommand'
-      responses:
-        '204':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExecutionResult'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExecutionResult'
-  /attraction:
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  events:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Attraction'
-    post:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommandAttractionCreate'
-      responses:
-        '201':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
-  /attraction/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The attraction ID
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  attraction:
-                    $ref: '#/components/schemas/Attraction'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-    patch:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/CommandAttractionSwitchVisibility'
-                - $ref: '#/components/schemas/CommandAttractionEditProfile'
-      responses:
-        '204':
-          description: OK
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-    delete:
-      tags:
-        - Maintain cultural data
-      responses:
-        '204':
-          description: OK
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-  /locations:
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  locations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Location'
-    post:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommandLocationCreate'
-      responses:
-        '201':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
-  /locations/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The location ID
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  location:
-                    $ref: '#/components/schemas/Location'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-    patch:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/CommandLocationSwitchVisibility'
-                - $ref: '#/components/schemas/CommandLocationEditProfile'
-      responses:
-        '204':
-          description: OK
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-    delete:
-      tags:
-        - Maintain cultural data
-      responses:
-        '204':
-          description: OK
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
   /organizations:
     get:
       tags:
@@ -401,12 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  organizations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/GetOrganizationsResponse'
     post:
       tags:
         - Maintain cultural data
@@ -414,25 +114,130 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CommandOrganizationCreate'
+              $ref: '#/components/schemas/CreateOrganizationRequest'
       responses:
         '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrganizationResponse'
+  /organizations:search:
+    get:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchOrganizationsRequest'
+      responses:
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
+                $ref: '#/components/schemas/SearchOrganizationsResponse'
   /organizations/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The organization ID
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrganizationResponse'
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrganizationRequest'
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}:activate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}:deactivate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}:retire:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}:archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /attractions:
     get:
       tags:
         - Discover cultural data
@@ -442,47 +247,627 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  organization:
-                    $ref: '#/components/schemas/Organization'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-    patch:
+                $ref: '#/components/schemas/GetAttractionsResponse'
+    post:
       tags:
         - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/CommandOrganizationSwitchVisibility'
-                - $ref: '#/components/schemas/CommandOrganizationEditProfile'
+              $ref: '#/components/schemas/CreateAttractionRequest'
       responses:
-        '204':
-          description: OK
-        '404':
-          description: Not Found
+        '201':
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/CreateAttractionResponse'
+  /attractions:search:
+    post:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAttractionsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchAttractionsResponse'
+  /attractions/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAttractionResponse'
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAttractionRequest'
+      responses:
+        '200':
+          description: Updated
+  /attractions/{identifier}/externallinks:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddExternalLinkRequest'
+      responses:
+        '200':
+          description: OK
     delete:
       tags:
         - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveExternalLinkRequest'
       responses:
-        '204':
+        '200':
           description: OK
-        '404':
-          description: Not Found
+  /attractions/{identifier}:archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Archived
+  /attractions/{identifier}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Unarchived
+  /locations:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/GetLocationsResponse'
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLocationResponse'
+  /locations:search:
+    post:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchLocationsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchLocationsResponse'
+  /locations/{id}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLocationResponse'
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLocationRequest'
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/manager:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetLocationManagerRequest'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}:open:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}:close:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}:permanentlyClose:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}:archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}:claim:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimLocationRequest'
+      responses:
+        '200':
+          description: OK
+  /events:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEventsResponse'
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEventResponse'
+  /events:search:
+    post:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchEventsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchEventsResponse'
+  /event/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEventResponse'
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEventRequest'
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}/locations:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEventLocationRequest'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveEventLocationRequest'
+      responses:
+        '204':
+          description: No Content
+  /event/{identifier}/attractions:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEventAttractionRequest'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveEventAttractionRequest'
+      responses:
+        '204':
+          description: No Content
+  /event/{identifier}/organizer:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetEventOrganizerRequest'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /event/{identifier}:publish:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}:unpublish:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}:reschedule:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RescheduleEventRequest'
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}:postpone:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}:cancel:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}:archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /event/{identifier}:duplicate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DuplicateEventResponse'
+  /authentication/login:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
   /users:
     get:
       tags:
@@ -495,12 +880,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/GetUsersResponse'
     post:
       tags:
         - Users
@@ -508,17 +888,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUser'
+              $ref: '#/components/schemas/CreateUserRequest'
       responses:
         '201':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
+                $ref: '#/components/schemas/CreateUserResponse'
         '409':
           description: Conflict
           content:
@@ -547,7 +924,7 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: '#/components/schemas/User'
+                    $ref: '#/components/schemas/GetUserResponse'
         '404':
           description: Not Found
           content:
@@ -563,7 +940,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchUser'
+              $ref: '#/components/schemas/UpdateUserRequest'
       responses:
         '204':
           description: OK
@@ -587,6 +964,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
+  /users/{identifier}updatePassword:
+    parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+        description: The user ID
+    patch:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserPasswordRequest'
+      responses:
+        '204':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
   /health:
     get:
       tags:
@@ -597,7 +1001,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Health'
+                $ref: '#/components/schemas/HealthResponse'
   /admin/harvest/baevents-bezirkskalender:
     post:
       tags:
@@ -633,7 +1037,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    ExecutionResult:
+    Response:
       type: object
       properties:
         success:
@@ -653,21 +1057,2819 @@ components:
               type: string
       required:
         - success
-    LoginCommand:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+        error:
+          type: object
+          properties:
+            code:
+              type: number
+            message:
+              type: string
+            details:
+              type: string
+          required:
+            - code
+      required:
+        - success
+        - error
+    NotFoundError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+        error:
+          type: object
+          properties:
+            code:
+              type: number
+            message:
+              type: string
+            details:
+              type: string
+          required:
+            - code
+      required:
+        - success
+        - error
+    Event:
+      type: object
+      required:
+        - identifier
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Event
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
+              type: string
+            updated:
+              type: string
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: string
+          enum:
+            - event.published
+            - event.unpublished
+            - event.archived
+        schedule:
+          type: object
+          properties:
+            startDate:
+              type: string
+            startTime:
+              type: string
+            permanentOpening:
+              type: boolean
+            doorTime:
+              type: string
+            endDate:
+              type: string
+            endTime:
+              type: string
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        pleaseNote:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        family:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              referenceType:
+                type: string
+              referenceId:
+                type: string
+              referenceLabel:
+                type: object
+                additionalProperties:
+                  type: string
+        attractions:
+          type: array
+          items:
+            type: object
+            properties:
+              referenceType:
+                type: string
+              referenceId:
+                type: string
+              referenceLabel:
+                type: object
+                additionalProperties:
+                  type: string
+        organizer:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+        admission:
+          type: object
+          properties:
+            note:
+              type: object
+              additionalProperties:
+                type: string
+            ticketType:
+              type: string
+              enum:
+                - ticketType.ticketRequired
+                - ticketType.freeOfCharge
+            registrationType:
+              type: string
+              enum:
+                - registrationType.registrationRequired
+                - registrationType.noRegistrationRequired
+                - registrationType.registrationDesired
+            admissionLink:
+              type: string
+    Attraction:
+      type: object
+      required:
+        - identifier
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Attraction
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
+              type: string
+            updated:
+              type: string
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: string
+          enum:
+            - attraction.published
+            - attraction.unpublished
+            - attraction.archived
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        pleaseNote:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        family:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        externalLinks:
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+    Location:
+      type: object
+      required:
+        - identifier
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Location
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
+              type: string
+            updated:
+              type: string
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: string
+          enum:
+            - location.published
+            - location.unpublished
+            - location.archived
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        address:
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+            coordinateSystem:
+              type: string
+              enum:
+                - WGS84 (Decimal Degrees)
+        inLanguages:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        externalLinks:
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+        manager:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+    Organization:
+      type: object
+      required:
+        - identifier
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Organization
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
+              type: string
+            updated:
+              type: string
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: string
+          enum:
+            - organization.published
+            - organization.unpublished
+            - organization.archived
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        address:
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+            coordinateSystem:
+              type: string
+              enum:
+                - WGS84 (Decimal Degrees)
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+    User:
       type: object
       properties:
         type:
           type: string
           enum:
-            - type.command.Auth.login
-        payload:
+            - User
+        identifier:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        permissionFlags:
+          type: number
+      required:
+        - identifier
+        - email
+        - permissionFlags
+    UpdateUserPasswordRequest:
+      type: object
+      properties:
+        oneTimeCode:
+          type: string
+        newPassword:
+          type: string
+    HealthResponse:
+      type: object
+      properties:
+        healthy:
+          type: boolean
+        dependencies:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              healthy:
+                type: boolean
+    AddExternalLinkRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+        url:
+          type: string
+    GetOrganizationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
           type: object
           properties:
-            password:
+            organizations:
+              type: object
+              required:
+                - identifier
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Organization
+                identifier:
+                  type: string
+                metadata:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                    updated:
+                      type: string
+                    origin:
+                      type: string
+                    originObjectID:
+                      type: string
+                    availableLanguages:
+                      type: array
+                      items:
+                        type: string
+                status:
+                  type: string
+                  enum:
+                    - organization.published
+                    - organization.unpublished
+                    - organization.archived
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                displayName:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
+                  type: string
+                inLanguages:
+                  type: array
+                  items:
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+                address:
+                  type: object
+                  properties:
+                    streetAddress:
+                      type: string
+                    addressLocality:
+                      type: string
+                    postalCode:
+                      type: string
+                    description:
+                      type: string
+                borough:
+                  type: string
+                  enum:
+                    - Mitte
+                    - Friedrichshain-Kreuzberg
+                    - Pankow
+                    - Charlottenburg-Wilmersdorf
+                    - Spandau
+                    - Steglitz-Zehlendorf
+                    - Tempelhof-Schöneberg
+                    - Neukölln
+                    - Treptow-Köpenick
+                    - Marzahn-Hellersdorf
+                    - Lichtenberg
+                    - Reinickendorf
+                    - außerhalb
+                coordinates:
+                  type: object
+                  properties:
+                    latitude:
+                      type: string
+                    longitude:
+                      type: string
+                    coordinateSystem:
+                      type: string
+                      enum:
+                        - WGS84 (Decimal Degrees)
+                contact:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    telephone:
+                      type: string
+      required:
+        - success
+    GetOrganizationsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            organizations:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Organization
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - organization.published
+                      - organization.unpublished
+                      - organization.archived
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  address:
+                    type: object
+                    properties:
+                      streetAddress:
+                        type: string
+                      addressLocality:
+                        type: string
+                      postalCode:
+                        type: string
+                      description:
+                        type: string
+                  borough:
+                    type: string
+                    enum:
+                      - Mitte
+                      - Friedrichshain-Kreuzberg
+                      - Pankow
+                      - Charlottenburg-Wilmersdorf
+                      - Spandau
+                      - Steglitz-Zehlendorf
+                      - Tempelhof-Schöneberg
+                      - Neukölln
+                      - Treptow-Köpenick
+                      - Marzahn-Hellersdorf
+                      - Lichtenberg
+                      - Reinickendorf
+                      - außerhalb
+                  coordinates:
+                    type: object
+                    properties:
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                      coordinateSystem:
+                        type: string
+                        enum:
+                          - WGS84 (Decimal Degrees)
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      telephone:
+                        type: string
+      required:
+        - success
+    CreateOrganizationRequest:
+      type: object
+      properties:
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        address:
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+            coordinateSystem:
+              type: string
+              enum:
+                - WGS84 (Decimal Degrees)
+        contact:
+          type: object
+          properties:
+            name:
               type: string
             email:
               type: string
-    LoggedInResponse:
+            telephone:
+              type: string
+    CreateOrganizationResponse:
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            organizationIdentifier:
+              type: string
+      required:
+        - success
+    SearchOrganizationsRequest:
+      type: object
+      properties:
+        searchTerm:
+          type: object
+          properties:
+            value:
+              type: string
+            matchType:
+              type: string
+              enum:
+                - exact
+                - contains
+                - similar
+    SearchOrganizationsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            organizations:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Organization
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - organization.published
+                      - organization.unpublished
+                      - organization.archived
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  address:
+                    type: object
+                    properties:
+                      streetAddress:
+                        type: string
+                      addressLocality:
+                        type: string
+                      postalCode:
+                        type: string
+                      description:
+                        type: string
+                  borough:
+                    type: string
+                    enum:
+                      - Mitte
+                      - Friedrichshain-Kreuzberg
+                      - Pankow
+                      - Charlottenburg-Wilmersdorf
+                      - Spandau
+                      - Steglitz-Zehlendorf
+                      - Tempelhof-Schöneberg
+                      - Neukölln
+                      - Treptow-Köpenick
+                      - Marzahn-Hellersdorf
+                      - Lichtenberg
+                      - Reinickendorf
+                      - außerhalb
+                  coordinates:
+                    type: object
+                    properties:
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                      coordinateSystem:
+                        type: string
+                        enum:
+                          - WGS84 (Decimal Degrees)
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      telephone:
+                        type: string
+      required:
+        - success
+    UpdateOrganizationRequest:
+      type: object
+      properties:
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        address:
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+            coordinateSystem:
+              type: string
+              enum:
+                - WGS84 (Decimal Degrees)
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+    GetAttractionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            attractions:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Attraction
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - attraction.published
+                      - attraction.unpublished
+                      - attraction.archived
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  pleaseNote:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  family:
+                    type: boolean
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  externalLinks:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          url:
+                            type: string
+      required:
+        - success
+    CreateAttractionRequest:
+      type: object
+      properties:
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        pleaseNote:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        family:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        externalLinks:
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+    CreateAttractionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            attractionIdentifier:
+              type: string
+      required:
+        - success
+    SearchAttractionsRequest:
+      type: object
+      properties:
+        searchTerm:
+          type: object
+          properties:
+            value:
+              type: string
+            matchType:
+              type: string
+              enum:
+                - exact
+                - contains
+                - similar
+    SearchAttractionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            attractions:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Attraction
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - attraction.published
+                      - attraction.unpublished
+                      - attraction.archived
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  pleaseNote:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  family:
+                    type: boolean
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  externalLinks:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          url:
+                            type: string
+      required:
+        - success
+    GetAttractionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            attraction:
+              type: object
+              required:
+                - identifier
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Attraction
+                identifier:
+                  type: string
+                metadata:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                    updated:
+                      type: string
+                    origin:
+                      type: string
+                    originObjectID:
+                      type: string
+                    availableLanguages:
+                      type: array
+                      items:
+                        type: string
+                status:
+                  type: string
+                  enum:
+                    - attraction.published
+                    - attraction.unpublished
+                    - attraction.archived
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                displayName:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                pleaseNote:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
+                  type: string
+                inLanguages:
+                  type: array
+                  items:
+                    type: string
+                family:
+                  type: boolean
+                tags:
+                  type: array
+                  items:
+                    type: string
+                externalLinks:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        url:
+                          type: string
+      required:
+        - success
+    UpdateAttractionRequest:
+      type: object
+      properties:
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        pleaseNote:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        family:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        externalLinks:
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+    GetLocationsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            locations:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Location
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - location.published
+                      - location.unpublished
+                      - location.archived
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  address:
+                    type: object
+                    properties:
+                      streetAddress:
+                        type: string
+                      addressLocality:
+                        type: string
+                      postalCode:
+                        type: string
+                      description:
+                        type: string
+                  borough:
+                    type: string
+                    enum:
+                      - Mitte
+                      - Friedrichshain-Kreuzberg
+                      - Pankow
+                      - Charlottenburg-Wilmersdorf
+                      - Spandau
+                      - Steglitz-Zehlendorf
+                      - Tempelhof-Schöneberg
+                      - Neukölln
+                      - Treptow-Köpenick
+                      - Marzahn-Hellersdorf
+                      - Lichtenberg
+                      - Reinickendorf
+                      - außerhalb
+                  coordinates:
+                    type: object
+                    properties:
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                      coordinateSystem:
+                        type: string
+                        enum:
+                          - WGS84 (Decimal Degrees)
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  externalLinks:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          url:
+                            type: string
+                  manager:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      telephone:
+                        type: string
+      required:
+        - success
+    CreateLocationRequest:
+      type: object
+      properties:
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        address:
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+            coordinateSystem:
+              type: string
+              enum:
+                - WGS84 (Decimal Degrees)
+        inLanguages:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        externalLinks:
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+        manager:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+    CreateLocationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            locationIdentifier:
+              type: string
+      required:
+        - success
+    SearchLocationsRequest:
+      type: object
+      properties:
+        searchTerm:
+          type: object
+          properties:
+            value:
+              type: string
+            matchType:
+              type: string
+              enum:
+                - exact
+                - contains
+                - similar
+    SearchLocationsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            locations:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Location
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - location.published
+                      - location.unpublished
+                      - location.archived
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  address:
+                    type: object
+                    properties:
+                      streetAddress:
+                        type: string
+                      addressLocality:
+                        type: string
+                      postalCode:
+                        type: string
+                      description:
+                        type: string
+                  borough:
+                    type: string
+                    enum:
+                      - Mitte
+                      - Friedrichshain-Kreuzberg
+                      - Pankow
+                      - Charlottenburg-Wilmersdorf
+                      - Spandau
+                      - Steglitz-Zehlendorf
+                      - Tempelhof-Schöneberg
+                      - Neukölln
+                      - Treptow-Köpenick
+                      - Marzahn-Hellersdorf
+                      - Lichtenberg
+                      - Reinickendorf
+                      - außerhalb
+                  coordinates:
+                    type: object
+                    properties:
+                      latitude:
+                        type: string
+                      longitude:
+                        type: string
+                      coordinateSystem:
+                        type: string
+                        enum:
+                          - WGS84 (Decimal Degrees)
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  externalLinks:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          url:
+                            type: string
+                  manager:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      telephone:
+                        type: string
+      required:
+        - success
+    GetLocationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            location:
+              type: object
+              required:
+                - identifier
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Location
+                identifier:
+                  type: string
+                metadata:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                    updated:
+                      type: string
+                    origin:
+                      type: string
+                    originObjectID:
+                      type: string
+                    availableLanguages:
+                      type: array
+                      items:
+                        type: string
+                status:
+                  type: string
+                  enum:
+                    - location.published
+                    - location.unpublished
+                    - location.archived
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                displayName:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
+                  type: string
+                address:
+                  type: object
+                  properties:
+                    streetAddress:
+                      type: string
+                    addressLocality:
+                      type: string
+                    postalCode:
+                      type: string
+                    description:
+                      type: string
+                borough:
+                  type: string
+                  enum:
+                    - Mitte
+                    - Friedrichshain-Kreuzberg
+                    - Pankow
+                    - Charlottenburg-Wilmersdorf
+                    - Spandau
+                    - Steglitz-Zehlendorf
+                    - Tempelhof-Schöneberg
+                    - Neukölln
+                    - Treptow-Köpenick
+                    - Marzahn-Hellersdorf
+                    - Lichtenberg
+                    - Reinickendorf
+                    - außerhalb
+                coordinates:
+                  type: object
+                  properties:
+                    latitude:
+                      type: string
+                    longitude:
+                      type: string
+                    coordinateSystem:
+                      type: string
+                      enum:
+                        - WGS84 (Decimal Degrees)
+                inLanguages:
+                  type: array
+                  items:
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+                externalLinks:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        url:
+                          type: string
+                manager:
+                  type: object
+                  properties:
+                    referenceType:
+                      type: string
+                    referenceId:
+                      type: string
+                    referenceLabel:
+                      type: object
+                      additionalProperties:
+                        type: string
+                contact:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    telephone:
+                      type: string
+      required:
+        - success
+    UpdateLocationRequest:
+      type: object
+      properties:
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        address:
+          type: object
+          properties:
+            streetAddress:
+              type: string
+            addressLocality:
+              type: string
+            postalCode:
+              type: string
+            description:
+              type: string
+        borough:
+          type: string
+          enum:
+            - Mitte
+            - Friedrichshain-Kreuzberg
+            - Pankow
+            - Charlottenburg-Wilmersdorf
+            - Spandau
+            - Steglitz-Zehlendorf
+            - Tempelhof-Schöneberg
+            - Neukölln
+            - Treptow-Köpenick
+            - Marzahn-Hellersdorf
+            - Lichtenberg
+            - Reinickendorf
+            - außerhalb
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: string
+            longitude:
+              type: string
+            coordinateSystem:
+              type: string
+              enum:
+                - WGS84 (Decimal Degrees)
+        inLanguages:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        externalLinks:
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+    SetLocationManagerRequest:
+      type: object
+      properties:
+        organizationIdentifier:
+          type: string
+        alternativeDisplayName:
+          type: object
+          additionalProperties:
+            type: string
+    ClaimLocationRequest:
+      type: object
+      properties:
+        organizationIdentifier:
+          type: string
+          description: The identifier of the organization claiming the location.
+        justification:
+          type: string
+          description: The reason why the organization is claiming the location.
+        contact:
+          type: object
+          description: Contact information for any inquiries related to the claim.
+          properties:
+            name:
+              type: string
+              description: Contact person's full name.
+            email:
+              type: string
+              description: Contact person's email address.
+            phone:
+              type: string
+              description: Contact person's phone number (optional).
+      required:
+        - organizationId
+        - justification
+        - contact
+    GetEventsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            events:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Event
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - event.published
+                      - event.unpublished
+                      - event.archived
+                  schedule:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                      startTime:
+                        type: string
+                      permanentOpening:
+                        type: boolean
+                      doorTime:
+                        type: string
+                      endDate:
+                        type: string
+                      endTime:
+                        type: string
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  pleaseNote:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  family:
+                    type: boolean
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  locations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                  attractions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                  organizer:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      telephone:
+                        type: string
+                  admission:
+                    type: object
+                    properties:
+                      note:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      ticketType:
+                        type: string
+                        enum:
+                          - ticketType.ticketRequired
+                          - ticketType.freeOfCharge
+                      registrationType:
+                        type: string
+                        enum:
+                          - registrationType.registrationRequired
+                          - registrationType.noRegistrationRequired
+                          - registrationType.registrationDesired
+                      admissionLink:
+                        type: string
+      required:
+        - success
+    CreateEventRequest:
+      type: object
+      properties:
+        schedule:
+          type: object
+          properties:
+            startDate:
+              type: string
+            startTime:
+              type: string
+            permanentOpening:
+              type: boolean
+            doorTime:
+              type: string
+            endDate:
+              type: string
+            endTime:
+              type: string
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        pleaseNote:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        family:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              referenceType:
+                type: string
+              referenceId:
+                type: string
+              referenceLabel:
+                type: object
+                additionalProperties:
+                  type: string
+        attractions:
+          type: array
+          items:
+            type: object
+            properties:
+              referenceType:
+                type: string
+              referenceId:
+                type: string
+              referenceLabel:
+                type: object
+                additionalProperties:
+                  type: string
+        organizer:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+        admission:
+          type: object
+          properties:
+            note:
+              type: object
+              additionalProperties:
+                type: string
+            ticketType:
+              type: string
+              enum:
+                - ticketType.ticketRequired
+                - ticketType.freeOfCharge
+            registrationType:
+              type: string
+              enum:
+                - registrationType.registrationRequired
+                - registrationType.noRegistrationRequired
+                - registrationType.registrationDesired
+            admissionLink:
+              type: string
+    CreateEventResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            eventIdentifier:
+              type: string
+      required:
+        - success
+    SearchEventsRequest:
+      type: object
+      properties:
+        searchTerm:
+          type: object
+          properties:
+            value:
+              type: string
+            matchType:
+              type: string
+              enum:
+                - exact
+                - contains
+                - similar
+    SearchEventsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            events:
+              type: array
+              items:
+                type: object
+                required:
+                  - identifier
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Event
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - event.published
+                      - event.unpublished
+                      - event.archived
+                  schedule:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                      startTime:
+                        type: string
+                      permanentOpening:
+                        type: boolean
+                      doorTime:
+                        type: string
+                      endDate:
+                        type: string
+                      endTime:
+                        type: string
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  pleaseNote:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  family:
+                    type: boolean
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  locations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                  attractions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                  organizer:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      telephone:
+                        type: string
+                  admission:
+                    type: object
+                    properties:
+                      note:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      ticketType:
+                        type: string
+                        enum:
+                          - ticketType.ticketRequired
+                          - ticketType.freeOfCharge
+                      registrationType:
+                        type: string
+                        enum:
+                          - registrationType.registrationRequired
+                          - registrationType.noRegistrationRequired
+                          - registrationType.registrationDesired
+                      admissionLink:
+                        type: string
+      required:
+        - success
+    GetEventResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            event:
+              type: object
+              required:
+                - identifier
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Event
+                identifier:
+                  type: string
+                metadata:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                    updated:
+                      type: string
+                    origin:
+                      type: string
+                    originObjectID:
+                      type: string
+                    availableLanguages:
+                      type: array
+                      items:
+                        type: string
+                status:
+                  type: string
+                  enum:
+                    - event.published
+                    - event.unpublished
+                    - event.archived
+                schedule:
+                  type: object
+                  properties:
+                    startDate:
+                      type: string
+                    startTime:
+                      type: string
+                    permanentOpening:
+                      type: boolean
+                    doorTime:
+                      type: string
+                    endDate:
+                      type: string
+                    endTime:
+                      type: string
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                displayName:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                pleaseNote:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
+                  type: string
+                inLanguages:
+                  type: array
+                  items:
+                    type: string
+                family:
+                  type: boolean
+                tags:
+                  type: array
+                  items:
+                    type: string
+                locations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                attractions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                organizer:
+                  type: object
+                  properties:
+                    referenceType:
+                      type: string
+                    referenceId:
+                      type: string
+                    referenceLabel:
+                      type: object
+                      additionalProperties:
+                        type: string
+                contact:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    telephone:
+                      type: string
+                admission:
+                  type: object
+                  properties:
+                    note:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    ticketType:
+                      type: string
+                      enum:
+                        - ticketType.ticketRequired
+                        - ticketType.freeOfCharge
+                    registrationType:
+                      type: string
+                      enum:
+                        - registrationType.registrationRequired
+                        - registrationType.noRegistrationRequired
+                        - registrationType.registrationDesired
+                    admissionLink:
+                      type: string
+      required:
+        - success
+    UpdateEventRequest:
+      type: object
+      properties:
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        pleaseNote:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        family:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            telephone:
+              type: string
+        admission:
+          type: object
+          properties:
+            note:
+              type: object
+              additionalProperties:
+                type: string
+            ticketType:
+              type: string
+              enum:
+                - ticketType.ticketRequired
+                - ticketType.freeOfCharge
+            registrationType:
+              type: string
+              enum:
+                - registrationType.registrationRequired
+                - registrationType.noRegistrationRequired
+                - registrationType.registrationDesired
+            admissionLink:
+              type: string
+    AddEventLocationRequest:
+      type: object
+      properties:
+        locationIdentifier:
+          type: string
+        alternativeDisplayName:
+          type: object
+          additionalProperties:
+            type: string
+    RemoveEventLocationRequest:
+      type: object
+      properties:
+        locationIdentifier:
+          type: string
+    AddEventAttractionRequest:
+      type: object
+      properties:
+        attractionIdentifier:
+          type: string
+        alternativeDisplayName:
+          type: object
+          additionalProperties:
+            type: string
+    RemoveEventAttractionRequest:
+      type: object
+      properties:
+        attractionIdentifier:
+          type: string
+    SetEventOrganizerRequest:
+      type: object
+      properties:
+        organizationIdentifier:
+          type: string
+        alternativeDisplayName:
+          type: object
+          additionalProperties:
+            type: string
+    RescheduleEventRequest:
+      type: object
+      properties:
+        startDate:
+          type: string
+        startTime:
+          type: string
+        permanentOpening:
+          type: boolean
+        doorTime:
+          type: string
+        endDate:
+          type: string
+        endTime:
+          type: string
+        setToRescheduled:
+          type: boolean
+    DuplicateEventResponse:
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            eventIdentifier:
+              type: string
+      required:
+        - success
+    LoginRequest:
+      type: object
+      properties:
+        password:
+          type: string
+        email:
+          type: string
+    LoginResponse:
       type: object
       properties:
         success:
@@ -710,167 +3912,7 @@ components:
                 - permissionFlags
       required:
         - success
-        - message
-    Event:
-      type: object
-      required:
-        - identifier
-      properties:
-        type:
-          type: string
-          enum:
-            - type.Event
-        identifier:
-          type: string
-        metadata:
-          type: object
-          properties:
-            created:
-              type: string
-            updated:
-              type: string
-            origin:
-              type: string
-            originObjectID:
-              type: string
-            availableLanguages:
-              type: array
-              items:
-                type: string
-        profile:
-          type: object
-          properties:
-            title:
-              type: object
-              additionalProperties:
-                type: string
-            subtitle:
-              type: object
-              additionalProperties:
-                type: string
-            additionalInfo:
-              type: object
-              additionalProperties:
-                type: string
-            pleaseNote:
-              type: object
-              additionalProperties:
-                type: string
-            website:
-              type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-        status:
-          type: object
-          properties:
-            visibility:
-              type: string
-              enum:
-                - visibility.published
-                - visibility.unpublished
-                - visibility.draft
-                - visibility.archived
-                - visibility.restricted
-            eventStatus:
-              type: string
-              enum:
-                - eventStatus.cancelled
-                - eventStatus.postponed
-                - eventStatus.rescheduled
-                - eventStatus.scheduled
-        attractions:
-          type: array
-          items:
-            type: object
-            properties:
-              referenceType:
-                type: string
-              referenceId:
-                type: string
-              referenceLabel:
-                type: object
-                additionalProperties:
-                  type: string
-        schedule:
-          type: object
-          properties:
-            startDate:
-              type: string
-            startTime:
-              type: string
-            permanentOpening:
-              type: boolean
-            doorTime:
-              type: string
-            endDate:
-              type: string
-            endTime:
-              type: string
-        locations:
-          type: array
-          items:
-            type: object
-            properties:
-              referenceType:
-                type: string
-              referenceId:
-                type: string
-              referenceLabel:
-                type: object
-                additionalProperties:
-                  type: string
-        organizer:
-          type: object
-          properties:
-            referenceType:
-              type: string
-            referenceId:
-              type: string
-            referenceLabel:
-              type: object
-              additionalProperties:
-                type: string
-        contact:
-          type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-            telephone:
-              type: string
-        classification:
-          type: object
-          properties:
-            family:
-              type: boolean
-            tags:
-              type: array
-              items:
-                type: string
-        admission:
-          type: object
-          properties:
-            note:
-              type: object
-              additionalProperties:
-                type: string
-            ticketType:
-              type: string
-              enum:
-                - ticketType.ticketRequired
-                - ticketType.freeOfCharge
-            registrationType:
-              type: string
-              enum:
-                - registrationType.registrationRequired
-                - registrationType.noRegistrationRequired
-                - registrationType.registrationDesired
-            admissionLink:
-              type: string
-    EventsResponse:
+    GetUsersResponse:
       type: object
       properties:
         success:
@@ -880,278 +3922,75 @@ components:
         data:
           type: object
           properties:
-            events:
+            users:
               type: array
               items:
                 type: object
-                required:
-                  - identifier
                 properties:
                   type:
                     type: string
                     enum:
-                      - type.Event
+                      - User
                   identifier:
                     type: string
-                  metadata:
-                    type: object
-                    properties:
-                      created:
-                        type: string
-                      updated:
-                        type: string
-                      origin:
-                        type: string
-                      originObjectID:
-                        type: string
-                      availableLanguages:
-                        type: array
-                        items:
-                          type: string
-                  profile:
-                    type: object
-                    properties:
-                      title:
-                        type: object
-                        additionalProperties:
-                          type: string
-                      subtitle:
-                        type: object
-                        additionalProperties:
-                          type: string
-                      additionalInfo:
-                        type: object
-                        additionalProperties:
-                          type: string
-                      pleaseNote:
-                        type: object
-                        additionalProperties:
-                          type: string
-                      website:
-                        type: string
-                      inLanguages:
-                        type: array
-                        items:
-                          type: string
-                  status:
-                    type: object
-                    properties:
-                      visibility:
-                        type: string
-                        enum:
-                          - visibility.published
-                          - visibility.unpublished
-                          - visibility.draft
-                          - visibility.archived
-                          - visibility.restricted
-                      eventStatus:
-                        type: string
-                        enum:
-                          - eventStatus.cancelled
-                          - eventStatus.postponed
-                          - eventStatus.rescheduled
-                          - eventStatus.scheduled
-                  attractions:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        referenceType:
-                          type: string
-                        referenceId:
-                          type: string
-                        referenceLabel:
-                          type: object
-                          additionalProperties:
-                            type: string
-                  schedule:
-                    type: object
-                    properties:
-                      startDate:
-                        type: string
-                      startTime:
-                        type: string
-                      permanentOpening:
-                        type: boolean
-                      doorTime:
-                        type: string
-                      endDate:
-                        type: string
-                      endTime:
-                        type: string
-                  locations:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        referenceType:
-                          type: string
-                        referenceId:
-                          type: string
-                        referenceLabel:
-                          type: object
-                          additionalProperties:
-                            type: string
-                  organizer:
-                    type: object
-                    properties:
-                      referenceType:
-                        type: string
-                      referenceId:
-                        type: string
-                      referenceLabel:
-                        type: object
-                        additionalProperties:
-                          type: string
-                  contact:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      email:
-                        type: string
-                      telephone:
-                        type: string
-                  classification:
-                    type: object
-                    properties:
-                      family:
-                        type: boolean
-                      tags:
-                        type: array
-                        items:
-                          type: string
-                  admission:
-                    type: object
-                    properties:
-                      note:
-                        type: object
-                        additionalProperties:
-                          type: string
-                      ticketType:
-                        type: string
-                        enum:
-                          - ticketType.ticketRequired
-                          - ticketType.freeOfCharge
-                      registrationType:
-                        type: string
-                        enum:
-                          - registrationType.registrationRequired
-                          - registrationType.noRegistrationRequired
-                          - registrationType.registrationDesired
-                      admissionLink:
-                        type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  permissionFlags:
+                    type: number
+                required:
+                  - identifier
+                  - email
+                  - permissionFlags
       required:
         - success
-        - message
-    CreateEventCommand:
+    CreateUserRequest:
       type: object
       properties:
-        type:
+        email:
           type: string
-          enum:
-            - type.command.Event.create
-        payload:
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - password
+        - email
+    EmailAlreadyInUseError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+        error:
           type: object
           properties:
-            attractionsReferenceIds:
-              type: array
-              items:
-                type: string
-            schedule:
-              type: object
-              properties:
-                startDate:
-                  type: string
-                startTime:
-                  type: string
-                permanentOpening:
-                  type: boolean
-                doorTime:
-                  type: string
-                endDate:
-                  type: string
-                endTime:
-                  type: string
-            locationsReferenceIds:
-              type: array
-              items:
-                type: string
-            organizerId:
+            code:
+              type: number
+            message:
               type: string
-            admission:
-              type: object
-              properties:
-                note:
-                  type: object
-                  additionalProperties:
-                    type: string
-                ticketType:
-                  type: string
-                  enum:
-                    - ticketType.ticketRequired
-                    - ticketType.freeOfCharge
-                registrationType:
-                  type: string
-                  enum:
-                    - registrationType.registrationRequired
-                    - registrationType.noRegistrationRequired
-                    - registrationType.registrationDesired
-                admissionLink:
-                  type: string
-            profile:
-              type: object
-              properties:
-                title:
-                  type: object
-                  additionalProperties:
-                    type: string
-                subtitle:
-                  type: object
-                  additionalProperties:
-                    type: string
-                additionalInfo:
-                  type: object
-                  additionalProperties:
-                    type: string
-                pleaseNote:
-                  type: object
-                  additionalProperties:
-                    type: string
-                website:
-                  type: string
-                inLanguages:
-                  type: array
-                  items:
-                    type: string
-            classification:
-              type: object
-              properties:
-                family:
-                  type: boolean
-                tags:
-                  type: array
-                  items:
-                    type: string
-            status:
-              type: object
-              properties:
-                visibility:
-                  type: string
-                  enum:
-                    - visibility.published
-                    - visibility.unpublished
-                    - visibility.draft
-                    - visibility.archived
-                    - visibility.restricted
-                eventStatus:
-                  type: string
-                  enum:
-                    - eventStatus.cancelled
-                    - eventStatus.postponed
-                    - eventStatus.rescheduled
-                    - eventStatus.scheduled
-    EventCreatedResponse:
+            details:
+              type: string
+          required:
+            - code
+      required:
+        - success
+        - error
+    GetUserResponse:
       type: object
       properties:
         success:
@@ -1161,917 +4000,61 @@ components:
         data:
           type: object
           properties:
-            identifier:
-              type: string
-      required:
-        - success
-        - message
-    EventResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            event:
+            user:
               type: object
-              required:
-                - identifier
               properties:
                 type:
                   type: string
                   enum:
-                    - type.Event
+                    - User
                 identifier:
                   type: string
-                metadata:
-                  type: object
-                  properties:
-                    created:
-                      type: string
-                    updated:
-                      type: string
-                    origin:
-                      type: string
-                    originObjectID:
-                      type: string
-                    availableLanguages:
-                      type: array
-                      items:
-                        type: string
-                profile:
-                  type: object
-                  properties:
-                    title:
-                      type: object
-                      additionalProperties:
-                        type: string
-                    subtitle:
-                      type: object
-                      additionalProperties:
-                        type: string
-                    additionalInfo:
-                      type: object
-                      additionalProperties:
-                        type: string
-                    pleaseNote:
-                      type: object
-                      additionalProperties:
-                        type: string
-                    website:
-                      type: string
-                    inLanguages:
-                      type: array
-                      items:
-                        type: string
-                status:
-                  type: object
-                  properties:
-                    visibility:
-                      type: string
-                      enum:
-                        - visibility.published
-                        - visibility.unpublished
-                        - visibility.draft
-                        - visibility.archived
-                        - visibility.restricted
-                    eventStatus:
-                      type: string
-                      enum:
-                        - eventStatus.cancelled
-                        - eventStatus.postponed
-                        - eventStatus.rescheduled
-                        - eventStatus.scheduled
-                attractions:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      referenceType:
-                        type: string
-                      referenceId:
-                        type: string
-                      referenceLabel:
-                        type: object
-                        additionalProperties:
-                          type: string
-                schedule:
-                  type: object
-                  properties:
-                    startDate:
-                      type: string
-                    startTime:
-                      type: string
-                    permanentOpening:
-                      type: boolean
-                    doorTime:
-                      type: string
-                    endDate:
-                      type: string
-                    endTime:
-                      type: string
-                locations:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      referenceType:
-                        type: string
-                      referenceId:
-                        type: string
-                      referenceLabel:
-                        type: object
-                        additionalProperties:
-                          type: string
-                organizer:
-                  type: object
-                  properties:
-                    referenceType:
-                      type: string
-                    referenceId:
-                      type: string
-                    referenceLabel:
-                      type: object
-                      additionalProperties:
-                        type: string
-                contact:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    email:
-                      type: string
-                    telephone:
-                      type: string
-                classification:
-                  type: object
-                  properties:
-                    family:
-                      type: boolean
-                    tags:
-                      type: array
-                      items:
-                        type: string
-                admission:
-                  type: object
-                  properties:
-                    note:
-                      type: object
-                      additionalProperties:
-                        type: string
-                    ticketType:
-                      type: string
-                      enum:
-                        - ticketType.ticketRequired
-                        - ticketType.freeOfCharge
-                    registrationType:
-                      type: string
-                      enum:
-                        - registrationType.registrationRequired
-                        - registrationType.noRegistrationRequired
-                        - registrationType.registrationDesired
-                    admissionLink:
-                      type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                createdAt:
+                  type: string
+                updatedAt:
+                  type: string
+                permissionFlags:
+                  type: number
+              required:
+                - identifier
+                - email
+                - permissionFlags
       required:
         - success
-        - message
-    PublishEventCommand:
+    UpdateUserRequest:
       type: object
       properties:
-        type:
-          type: string
-          enum:
-            - type.command.Event.publish
-    SwitchEventStatusCommand:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Event.switchStatus
-        payload:
-          type: object
-          properties:
-            eventStatus:
-              type: string
-              enum:
-                - eventStatus.cancelled
-                - eventStatus.postponed
-                - eventStatus.rescheduled
-                - eventStatus.scheduled
-    SwitchEventVisibilityCommand:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Event.switchVisibility
-        payload:
-          type: object
-          properties:
-            visibility:
-              type: string
-              enum:
-                - visibility.published
-                - visibility.unpublished
-                - visibility.draft
-                - visibility.archived
-                - visibility.restricted
-    ArchiveEventCommand:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Event.archive
-        reason:
-          type: string
-    Attraction:
-      type: object
-      required:
-        - identifier
-      properties:
-        type:
-          type: string
-          enum:
-            - type.Attraction
-        identifier:
-          type: string
-        metadata:
-          type: object
-          properties:
-            created:
-              type: string
-            updated:
-              type: string
-            origin:
-              type: string
-            originObjectID:
-              type: string
-            availableLanguages:
-              type: array
-              items:
-                type: string
-        profile:
-          type: object
-          properties:
-            title:
-              type: object
-              additionalProperties:
-                type: string
-            subtitle:
-              type: object
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              additionalProperties:
-                type: string
-            pleaseNote:
-              type: object
-              additionalProperties:
-                type: string
-            website:
-              type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-        status:
-          type: object
-          properties:
-            visibility:
-              type: string
-              enum:
-                - visibility.published
-                - visibility.unpublished
-                - visibility.draft
-                - visibility.archived
-                - visibility.restricted
-        classification:
-          type: object
-          properties:
-            family:
-              type: boolean
-            tags:
-              type: array
-              items:
-                type: string
-        externalLinks:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              url:
-                type: string
-    CommandAttractionSwitchVisibility:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Attraction.switchVisibility
-        payload:
-          type: object
-          properties:
-            visibility:
-              type: string
-              enum:
-                - visibility.published
-                - visibility.unpublished
-                - visibility.draft
-                - visibility.archived
-                - visibility.restricted
-    CommandAttractionEditProfile:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Attraction.editProfile
-        payload:
-          type: object
-          properties:
-            title:
-              type: object
-              additionalProperties:
-                type: string
-            subtitle:
-              type: object
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              additionalProperties:
-                type: string
-            pleaseNote:
-              type: object
-              additionalProperties:
-                type: string
-            website:
-              type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-    Location:
-      type: object
-      required:
-        - identifier
-      properties:
-        type:
-          type: string
-          enum:
-            - type.Location
-        identifier:
-          type: string
-        metadata:
-          type: object
-          properties:
-            created:
-              type: string
-            updated:
-              type: string
-            origin:
-              type: string
-            originObjectID:
-              type: string
-            availableLanguages:
-              type: array
-              items:
-                type: string
-        profile:
-          type: object
-          properties:
-            name:
-              type: object
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              additionalProperties:
-                type: string
-            website:
-              type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-        status:
-          type: object
-          properties:
-            visibility:
-              type: string
-              enum:
-                - visibility.published
-                - visibility.unpublished
-                - visibility.draft
-                - visibility.archived
-                - visibility.restricted
-        address:
-          type: object
-          properties:
-            streetAddress:
-              type: string
-            addressLocality:
-              type: string
-            postalCode:
-              type: string
-            description:
-              type: string
-        borough:
-          type: string
-          enum:
-            - Mitte
-            - Friedrichshain-Kreuzberg
-            - Pankow
-            - Charlottenburg-Wilmersdorf
-            - Spandau
-            - Steglitz-Zehlendorf
-            - Tempelhof-Schöneberg
-            - Neukölln
-            - Treptow-Köpenick
-            - Marzahn-Hellersdorf
-            - Lichtenberg
-            - Reinickendorf
-            - außerhalb
-        coordinates:
-          type: object
-          properties:
-            latitude:
-              type: string
-            longitude:
-              type: string
-            coordinateSystem:
-              type: string
-              enum:
-                - WGS84 (Decimal Degrees)
-        classifications:
-          type: object
-          properties:
-            tags:
-              type: array
-              items:
-                type: string
-        manager:
-          type: object
-          properties:
-            referenceType:
-              type: string
-            referenceId:
-              type: string
-            referenceLabel:
-              type: object
-              additionalProperties:
-                type: string
-        contact:
-          type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-            telephone:
-              type: string
-    CommandLocationCreate:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Location.create
-        payload:
-          type: object
-          properties:
-            profile:
-              type: object
-              properties:
-                name:
-                  type: object
-                  additionalProperties:
-                    type: string
-                description:
-                  type: object
-                  additionalProperties:
-                    type: string
-                website:
-                  type: string
-                inLanguages:
-                  type: array
-                  items:
-                    type: string
-            status:
-              type: object
-              properties:
-                visibility:
-                  type: string
-                  enum:
-                    - visibility.published
-                    - visibility.unpublished
-                    - visibility.draft
-                    - visibility.archived
-                    - visibility.restricted
-            address:
-              type: object
-              properties:
-                streetAddress:
-                  type: string
-                addressLocality:
-                  type: string
-                postalCode:
-                  type: string
-                description:
-                  type: string
-            borough:
-              type: string
-              enum:
-                - Mitte
-                - Friedrichshain-Kreuzberg
-                - Pankow
-                - Charlottenburg-Wilmersdorf
-                - Spandau
-                - Steglitz-Zehlendorf
-                - Tempelhof-Schöneberg
-                - Neukölln
-                - Treptow-Köpenick
-                - Marzahn-Hellersdorf
-                - Lichtenberg
-                - Reinickendorf
-                - außerhalb
-            coordinates:
-              type: object
-              properties:
-                latitude:
-                  type: string
-                longitude:
-                  type: string
-                coordinateSystem:
-                  type: string
-                  enum:
-                    - WGS84 (Decimal Degrees)
-            classifications:
-              type: object
-              properties:
-                tags:
-                  type: array
-                  items:
-                    type: string
-            manager:
-              type: object
-              properties:
-                referenceType:
-                  type: string
-                referenceId:
-                  type: string
-                referenceLabel:
-                  type: object
-                  additionalProperties:
-                    type: string
-            contact:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                telephone:
-                  type: string
-    CommandLocationSwitchVisibility:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Location.switchVisibility
-        payload:
-          type: object
-          properties:
-            visibility:
-              type: string
-              enum:
-                - visibility.published
-                - visibility.unpublished
-                - visibility.draft
-                - visibility.archived
-                - visibility.restricted
-    CommandLocationEditProfile:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Location.editProfile
-        payload:
-          type: object
-          properties:
-            name:
-              type: object
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              additionalProperties:
-                type: string
-            website:
-              type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-    Organization:
-      type: object
-      required:
-        - identifier
-      properties:
-        type:
-          type: string
-          enum:
-            - type.Organization
-        identifier:
-          type: string
-        metadata:
-          type: object
-          properties:
-            created:
-              type: string
-            updated:
-              type: string
-            origin:
-              type: string
-            originObjectID:
-              type: string
-            availableLanguages:
-              type: array
-              items:
-                type: string
-        profile:
-          type: object
-          properties:
-            name:
-              type: object
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              additionalProperties:
-                type: string
-            website:
-              type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-        status:
-          type: object
-          properties:
-            tags:
-              type: array
-              items:
-                type: string
-        address:
-          type: object
-          properties:
-            streetAddress:
-              type: string
-            addressLocality:
-              type: string
-            postalCode:
-              type: string
-            description:
-              type: string
-        borough:
-          type: string
-          enum:
-            - Mitte
-            - Friedrichshain-Kreuzberg
-            - Pankow
-            - Charlottenburg-Wilmersdorf
-            - Spandau
-            - Steglitz-Zehlendorf
-            - Tempelhof-Schöneberg
-            - Neukölln
-            - Treptow-Köpenick
-            - Marzahn-Hellersdorf
-            - Lichtenberg
-            - Reinickendorf
-            - außerhalb
-        classifications:
-          type: object
-          properties:
-            tags:
-              type: array
-              items:
-                type: string
-        contact:
-          type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-            telephone:
-              type: string
-    CommandOrganizationCreate:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Organization.create
-        payload:
-          type: object
-          properties:
-            profile:
-              type: object
-              properties:
-                name:
-                  type: object
-                  additionalProperties:
-                    type: string
-                description:
-                  type: object
-                  additionalProperties:
-                    type: string
-                website:
-                  type: string
-                inLanguages:
-                  type: array
-                  items:
-                    type: string
-            status:
-              type: object
-              properties:
-                tags:
-                  type: array
-                  items:
-                    type: string
-            address:
-              type: object
-              properties:
-                streetAddress:
-                  type: string
-                addressLocality:
-                  type: string
-                postalCode:
-                  type: string
-                description:
-                  type: string
-            borough:
-              type: string
-              enum:
-                - Mitte
-                - Friedrichshain-Kreuzberg
-                - Pankow
-                - Charlottenburg-Wilmersdorf
-                - Spandau
-                - Steglitz-Zehlendorf
-                - Tempelhof-Schöneberg
-                - Neukölln
-                - Treptow-Köpenick
-                - Marzahn-Hellersdorf
-                - Lichtenberg
-                - Reinickendorf
-                - außerhalb
-            classifications:
-              type: object
-              properties:
-                tags:
-                  type: array
-                  items:
-                    type: string
-            contact:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                telephone:
-                  type: string
-    CommandOrganizationSwitchVisibility:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Organization.switchVisibility
-        payload:
-          type: object
-          properties:
-            visibility:
-              type: string
-              enum:
-                - visibility.published
-                - visibility.unpublished
-                - visibility.draft
-                - visibility.archived
-                - visibility.restricted
-    CommandOrganizationEditProfile:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.command.Organization.editProfile
-        payload:
-          type: object
-          properties:
-            name:
-              type: object
-              additionalProperties:
-                type: string
-            description:
-              type: object
-              additionalProperties:
-                type: string
-            website:
-              type: string
-            inLanguages:
-              type: array
-              items:
-                type: string
-    User:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - User
-        identifier:
-          type: string
         email:
-          type: string
-        password:
           type: string
         firstName:
           type: string
         lastName:
           type: string
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-        permissionFlags:
-          type: number
-      required:
-        - identifier
-        - email
-        - permissionFlags
-    CreateUser:
+    RemoveExternalLinkRequest:
       type: object
       properties:
-        email:
+        url:
           type: string
-          format: email
-          minLength: 1
-        password:
-          type: string
-          minLength: 12
-        firstName:
-          type: string
-        lastName:
-          type: string
-      required:
-        - email
-        - password
-    PatchUser:
-      type: object
+    CreateUserResponse:
       properties:
-        email:
-          type: string
-          minLength: 1
-        firstName:
-          type: string
-          minLength: 1
-        lastName:
-          type: string
-          minLength: 1
-        permissionFlags:
-          type: number
-    Health:
-      type: object
-      properties:
-        healthy:
+        success:
           type: boolean
-        dependencies:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              healthy:
-                type: boolean
-    EmailAlreadyInUseError:
-      type: object
-      properties:
-        error:
+          enum:
+            - true
+        message:
+          type: string
+        data:
           type: object
           properties:
-            msg:
+            userIdentifier:
               type: string
+      required:
+        - success

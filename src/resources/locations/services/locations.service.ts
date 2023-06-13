@@ -37,9 +37,8 @@ export class LocationsService implements CRUD {
 		return this.locationsRepository.updateLocationById(id, resource);
 	}
 
-	async publishLocation(publishLocationCommand: PublishLocationCommand): Promise<ExecutionResult> {
-		if(!publishLocationCommand.payload || !publishLocationCommand.payload.locationIdentifier) return {success: false, message: 'Missing payload'};
-		return this.locationsRepository.updateLocationVisibility(publishLocationCommand.payload.locationIdentifier, "visibility.published");
+	async publishLocation(locationIdentifier: string): Promise<ExecutionResult> {
+		return this.locationsRepository.updateLocationVisibility(locationIdentifier, "visibility.published");
 	}
 
 

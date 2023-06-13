@@ -15,8 +15,5 @@ properties:
         type: string
       details:
         type: string
-    required:
-      - code
 required:
   - success
-  - error

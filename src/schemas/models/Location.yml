@@ -10,18 +10,44 @@ properties:
     type: string
   metadata:
     $ref: 'Metadata.yml'
-  profile:
-    $ref: 'LocationProfile.yml'
   status:
-    $ref: 'LocationStatus.yml'
+    type: string
+    enum:
+      - location.published
+      - location.unpublished
+      - location.archived
+  title: 
+    type: object
+    additionalProperties:
+      type: string 
+  displayName:
+    type: object
+    additionalProperties:
+      type: string
+  description:
+    type: object
+    additionalProperties:
+      type: string 
+  website:
+    type: string
   address:
     $ref: 'Address.yml'
   borough:
     $ref: 'Borough.yml'
   coordinates:
     $ref: 'Coordinates.yml'
-  classifications:
-    $ref: 'LocationClassification.yml'
+  inLanguages:
+    type: array
+    items:
+      type: string
+  tags:
+    type: array
+    items:
+      type: string 
+  externalLinks:
+    type: array
+    items: 
+      $ref: 'ExternalLinks.yml'
   manager:
     $ref: 'Reference.yml'
   contact:

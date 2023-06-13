@@ -48,24 +48,7 @@ info:
 servers:
   - url: http://localhost:3000/api/
 paths:
-  /authentication/token:
-    post:
-      tags:
-        - Authentication
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LoginCommand"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/LoggedInResponse"
-
-  /events:
+  /organizations:
     get:
       tags:
         - Discover cultural data
@@ -75,7 +58,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EventsResponse"
+                $ref: "#/components/schemas/GetOrganizationsResponse"
     post:
       tags:
         - Maintain cultural data
@@ -83,88 +66,138 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateEventCommand"
+              $ref: "#/components/schemas/CreateOrganizationRequest"
       responses:
         "201":
-          description: OK
+          description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EventCreatedResponse"
+                $ref: "#/components/schemas/CreateOrganizationResponse"
 
-
-  /events/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The event ID
+  /organizations:search:
     get:
       tags:
         - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchOrganizationsRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EventResponse"
-        "404":
-          description: Not Found
+                $ref: "#/components/schemas/SearchOrganizationsResponse"
+
+  /organizations/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ExecutionResult"
+                $ref: "#/components/schemas/GetOrganizationResponse"
     patch:
       tags:
         - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: "#/components/schemas/PublishEventCommand"
-                - $ref: "#/components/schemas/SwitchEventStatusCommand"
-                - $ref: "#/components/schemas/SwitchEventVisibilityCommand"
+              $ref: "#/components/schemas/UpdateOrganizationRequest"
       responses:
-        "204":
+        "200":
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExecutionResult"
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExecutionResult"
-    delete:
+  
+  /organizations/{identifier}:activate:
+    post:
       tags:
         - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ArchiveEventCommand"
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
-        "204":
+        "200":
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExecutionResult"
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExecutionResult"
 
+  /organizations/{identifier}:deactivate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /organizations/{identifier}:retire:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
 
-  /attraction:
+  /organizations/{identifier}:archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /organizations/{identifier}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /attractions:
     get:
       tags:
         - Discover cultural data
@@ -174,12 +207,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  events:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Attraction"
+                $ref: "#/components/schemas/GetAttractionsResponse"
     post:
       tags:
         - Maintain cultural data
@@ -187,77 +215,130 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CommandAttractionCreate"
+              $ref: "#/components/schemas/CreateAttractionRequest"
       responses:
         "201":
-          description: OK
+          description: Created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
-
-  /attraction/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The attraction ID
-    get:
+                $ref: "#/components/schemas/CreateAttractionResponse"
+  
+  /attractions:search:
+    post:
       tags:
         - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchAttractionsRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  attraction:
-                    $ref: "#/components/schemas/Attraction"
-        "404":
-          description: Not Found
+                $ref: "#/components/schemas/SearchAttractionsResponse"
+
+  /attractions/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundError"
+                $ref: "#/components/schemas/GetAttractionResponse"
     patch:
       tags:
         - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: "#/components/schemas/CommandAttractionSwitchVisibility"
-                - $ref: "#/components/schemas/CommandAttractionEditProfile"
+              $ref: "#/components/schemas/UpdateAttractionRequest"
       responses:
-        "204":
-          description: OK
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundError"
-    delete:
+        "200":
+          description: Updated
+
+  /attractions/{identifier}/externallinks:
+      post:
+        tags:
+          - Maintain cultural data
+        parameters:
+          - name: identifier
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+         content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddExternalLinkRequest"         
+        responses:
+          "200":
+            description: OK
+      delete:
+        tags:
+          - Maintain cultural data
+        parameters:
+          - name: identifier
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+         content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoveExternalLinkRequest"   
+        responses:
+          "200":
+            description: OK
+
+  /attractions/{identifier}:archive:
+    post:
       tags:
         - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
-        "204":
-          description: OK
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundError"
+        "200":
+          description: Archived
 
+  /attractions/{identifier}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Unarchived
 
   /locations:
     get:
@@ -269,12 +350,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  locations:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Location"
+                $ref: "#/components/schemas/GetLocationsResponse"
     post:
       tags:
         - Maintain cultural data
@@ -282,78 +358,188 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CommandLocationCreate"
+              $ref: "#/components/schemas/CreateLocationRequest"
       responses:
         "201":
-          description: OK
+          description: Created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
-
-  /locations/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The location ID
-    get:
+                $ref: "#/components/schemas/CreateLocationResponse"
+  
+  /locations:search:
+    post:
       tags:
         - Discover cultural data
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  location:
-                    $ref: "#/components/schemas/Location"
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundError"
-    patch:
-      tags:
-        - Maintain cultural data
       requestBody:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: "#/components/schemas/CommandLocationSwitchVisibility"
-                - $ref: "#/components/schemas/CommandLocationEditProfile"
+              $ref: "#/components/schemas/SearchLocationsRequest"
       responses:
-        "204":
+        "200":
           description: OK
-        "404":
-          description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundError"
+                $ref: "#/components/schemas/SearchLocationsResponse"
+
+  /locations/{id}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetLocationResponse"
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateLocationRequest"
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}/manager:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetLocationManagerRequest"
+      responses:
+        "200":
+          description: OK
     delete:
       tags:
         - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
-        "204":
+        "200":
           description: OK
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundError"
+  
+  /locations/{id}:open:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}:close:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}:permanentlyClose:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}:archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
 
-  /organizations:
+  /locations/{id}:claim:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClaimLocationRequest"
+      responses:
+        "200":
+          description: OK
+
+  /events:
     get:
       tags:
         - Discover cultural data
@@ -363,13 +549,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  organizations:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Organization"
-
+                $ref: "#/components/schemas/GetEventsResponse"
     post:
       tags:
         - Maintain cultural data
@@ -377,76 +557,313 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CommandOrganizationCreate"
+              $ref: "#/components/schemas/CreateEventRequest"
       responses:
         "201":
-          description: OK
+          description: Created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
+                $ref: "#/components/schemas/CreateEventResponse"
 
-  /organizations/{identifier}:
-    parameters:
-      - in: path
-        name: identifier
-        required: true
-        schema:
-          type: string
-        description: The organization ID
-    get:
+  /events:search:
+    post:
       tags:
         - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchEventsRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  organization:
-                    $ref: "#/components/schemas/Organization"
-        "404":
-          description: Not Found
+                $ref: "#/components/schemas/SearchEventsResponse"
+
+
+  /event/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundError"
+                $ref: "#/components/schemas/GetEventResponse"
     patch:
       tags:
         - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: "#/components/schemas/CommandOrganizationSwitchVisibility"
-                - $ref: "#/components/schemas/CommandOrganizationEditProfile"
+              $ref: "#/components/schemas/UpdateEventRequest"
       responses:
-        "204":
+        "200":
           description: OK
-        "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundError"
+  
+  /event/{identifier}/locations:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddEventLocationRequest"
+      responses:
+        "200":
+          description: OK
+
     delete:
       tags:
         - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoveEventLocationRequest"
       responses:
         "204":
+          description: No Content
+
+  /event/{identifier}/attractions:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddEventAttractionRequest"
+      responses:
+        "200":
           description: OK
-        "404":
-          description: Not Found
+
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoveEventAttractionRequest"
+      responses:
+        "204":
+          description: No Content
+
+  /event/{identifier}/organizer:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetEventOrganizerRequest"
+      responses:
+        "200":
+          description: OK
+
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+
+  /event/{identifier}:publish:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /event/{identifier}:unpublish:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /event/{identifier}:reschedule:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RescheduleEventRequest"
+      responses:
+        "200":
+          description: OK
+
+  /event/{identifier}:postpone:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /event/{identifier}:cancel:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /event/{identifier}:archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /event/{identifier}:unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /event/{identifier}:duplicate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundError"
+                $ref: "#/components/schemas/DuplicateEventResponse"
+
+
+
+  /authentication/login:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
 
   /users:
     get:
@@ -460,12 +877,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/GetUsersResponse"
     post:
       tags:
         - Users
@@ -473,17 +885,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUser"
+              $ref: "#/components/schemas/CreateUserRequest"
       responses:
         "201":
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  identifier:
-                    type: string
+                $ref: "#/components/schemas/CreateUserResponse"
         "409":
           description: Conflict
           content:
@@ -513,7 +922,7 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: "#/components/schemas/User"
+                    $ref: "#/components/schemas/GetUserResponse"
         "404":
           description: Not Found
           content:
@@ -529,7 +938,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PatchUser"
+              $ref: "#/components/schemas/UpdateUserRequest"
       responses:
         "204":
           description: OK
@@ -554,6 +963,34 @@ paths:
               schema:
                 $ref: "#/components/schemas/NotFoundError"
 
+  /users/{identifier}updatePassword:
+    parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+        description: The user ID
+    patch:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserPasswordRequest"
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
   /health:
     get:
       tags:
@@ -564,7 +1001,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Health"
+                $ref: "#/components/schemas/HealthResponse"
 
   /admin/harvest/baevents-bezirkskalender:
     post:
@@ -604,88 +1041,173 @@ components:
       bearerFormat: JWT
 
   schemas:
-    ExecutionResult:
-      $ref: models/ExecutionResult.yml
+    Response:
+      $ref: models/Response.yml
 
-    LoginCommand:
-      $ref: models/LoginCommand.yml
+    Error:
+      $ref: models/Error.yml
 
-    LoggedInResponse:
-      $ref: models/LoggedInResponse.yml
+    NotFoundError:
+      $ref: models/Error.yml
 
     Event:
       $ref: models/Event.yml
 
-    EventsResponse:
-      $ref: models/EventsResponse.yml
-
-    CreateEventCommand:
-      $ref: models/CreateEventCommand.yml
-
-    EventCreatedResponse:
-      $ref: models/EventCreatedResponse.yml
-
-    EventResponse: 
-      $ref: models/EventResponse.yml  
-
-    PublishEventCommand:
-      $ref: models/PublishEventCommand.yml  
-
-    SwitchEventStatusCommand:
-      $ref: models/SwitchEventStatusCommand.yml 
-    
-    SwitchEventVisibilityCommand:
-      $ref: models/SwitchEventVisibilityCommand.yml 
-
-    ArchiveEventCommand:
-      $ref: models/ArchiveEventCommand.yml
-
-
     Attraction:
       $ref: models/Attraction.yml
-
-    CommandAttractionSwitchVisibility:
-      $ref: models/CommandAttractionSwitchVisibility.yml
-
-    CommandAttractionEditProfile:
-      $ref: models/CommandAttractionEditProfile.yml 
 
     Location:
       $ref: models/Location.yml
 
-    CommandLocationCreate:
-      $ref: models/CommandLocationCreate.yml
-
-    CommandLocationSwitchVisibility:
-      $ref: models/CommandLocationSwitchVisibility.yml
-
-    CommandLocationEditProfile:
-      $ref: models/CommandLocationEditProfile.yml
-
     Organization:
       $ref: models/Organization.yml
-    
-    CommandOrganizationCreate:
-      $ref: models/CommandOrganizationCreate.yml
-
-    CommandOrganizationSwitchVisibility:
-      $ref: models/CommandOrganizationSwitchVisibility.yml  
-
-    CommandOrganizationEditProfile:
-      $ref: models/CommandOrganizationEditProfile.yml 
-
 
     User:
       $ref: models/User.yml
 
-    CreateUser:
-      $ref: models/CreateUser.yml
+    UpdateUserPasswordRequest:
+      $ref: models/UpdateUserPasswordRequest.yml
 
-    PatchUser:
-      $ref: models/PatchUser.yml
+    HealthResponse:
+      $ref: models/HealthResponse.yml
 
-    Health:
-      $ref: models/Health.yml
+    AddExternalLinkRequest:
+      $ref: models/AddExternalLinkRequest.yml
+
+    GetOrganizationResponse:
+      $ref: models/GetOrganizationResponse.yml
+
+    GetOrganizationsResponse:
+      $ref: models/GetOrganizationsResponse.yml
+
+    CreateOrganizationRequest:
+      $ref: models/CreateOrganizationRequest.yml  
+
+    CreateOrganizationResponse:
+      $ref: models/CreateOrganizationResponse.yml 
+
+    SearchOrganizationsRequest:
+      $ref: models/SearchOrganizationsRequest.yml
+  
+    SearchOrganizationsResponse:
+      $ref: models/SearchOrganizationsResponse.yml
+
+    UpdateOrganizationRequest:
+      $ref: models/UpdateOrganizationRequest.yml
+
+    GetAttractionsResponse:
+      $ref: models/GetAttractionsResponse.yml
+
+    CreateAttractionRequest:
+      $ref: models/CreateAttractionRequest.yml
+    
+    CreateAttractionResponse:
+      $ref: models/CreateAttractionResponse.yml
+
+    SearchAttractionsRequest:
+      $ref: models/SearchAttractionsRequest.yml
+
+    SearchAttractionsResponse:
+      $ref: models/SearchAttractionsResponse.yml
+
+    GetAttractionResponse:
+      $ref: models/GetAttractionResponse.yml
+    
+    UpdateAttractionRequest:
+      $ref: models/UpdateAttractionRequest.yml
+
+    GetLocationsResponse:
+      $ref: models/GetLocationsResponse.yml
+
+    CreateLocationRequest:
+      $ref: models/CreateLocationRequest.yml
+
+    CreateLocationResponse:
+      $ref: models/CreateLocationResponse.yml
+
+    SearchLocationsRequest:
+      $ref: models/SearchLocationsRequest.yml
+    
+    SearchLocationsResponse:
+      $ref: models/SearchLocationsResponse.yml
+
+    GetLocationResponse:
+      $ref: models/GetLocationResponse.yml
+
+    UpdateLocationRequest:
+      $ref: models/UpdateLocationRequest.yml
+
+    SetLocationManagerRequest:
+      $ref: models/SetLocationManagerRequest.yml
+
+    ClaimLocationRequest:
+      $ref: models/ClaimLocationRequest.yml
+
+    GetEventsResponse:
+      $ref: models/GetEventsResponse.yml
+
+    CreateEventRequest:
+      $ref: models/CreateEventRequest.yml
+
+    CreateEventResponse:
+      $ref: models/CreateEventResponse.yml
+
+    SearchEventsRequest:
+      $ref: models/SearchEventsRequest.yml
+      
+    SearchEventsResponse:
+      $ref: models/SearchEventsResponse.yml
+
+    GetEventResponse:
+      $ref: models/GetEventResponse.yml
+
+    UpdateEventRequest:
+      $ref: models/UpdateEventRequest.yml 
+    
+    AddEventLocationRequest:
+      $ref: models/AddEventLocationRequest.yml
+
+    RemoveEventLocationRequest:
+      $ref: models/RemoveEventLocationRequest.yml
+
+    AddEventAttractionRequest:
+      $ref: models/AddEventAttractionRequest.yml
+
+    RemoveEventAttractionRequest:
+      $ref: models/RemoveEventAttractionRequest.yml
+
+    SetEventOrganizerRequest:
+      $ref: models/SetEventOrganizerRequest.yml
+
+    RescheduleEventRequest:
+      $ref: models/RescheduleEventRequest.yml
+
+    DuplicateEventResponse:
+      $ref: models/DuplicateEventResponse.yml
+    
+    LoginRequest:
+      $ref: models/LoginRequest.yml
+    
+    LoginResponse:
+      $ref: models/LoginResponse.yml
+
+    GetUsersResponse:
+      $ref: models/GetUsersResponse.yml
+
+    CreateUserRequest:
+      $ref: models/CreateUserRequest.yml
 
     EmailAlreadyInUseError:
       $ref: models/EmailAlreadyInUseError.yml
+
+    GetUserResponse:
+      $ref: models/GetUserResponse.yml
+
+    UpdateUserRequest:
+      $ref: models/UpdateUserRequest.yml
+
+    RemoveExternalLinkRequest: 
+      $ref: models/RemoveExternalLinkRequest.yml
+    
+    CreateUserResponse:
+      $ref: models/CreateUserResponse.yml

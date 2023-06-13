@@ -1,0 +1,14 @@
+type: object
+properties:
+  searchTerm:
+    type: object
+    properties:
+      value:
+        type: string
+      matchType:
+        type: string
+        enum:
+          - exact
+          - contains
+          - similar
+ 

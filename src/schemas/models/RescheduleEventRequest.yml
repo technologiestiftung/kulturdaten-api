@@ -1,0 +1,16 @@
+type: object
+properties:
+  startDate:
+    type: string
+  startTime:
+    type: string
+  permanentOpening:
+    type: boolean
+  doorTime:
+    type: string
+  endDate:
+    type: string
+  endTime:
+    type: string
+  setToRescheduled:
+    type: boolean

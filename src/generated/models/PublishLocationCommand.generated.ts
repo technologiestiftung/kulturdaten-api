@@ -14,10 +14,7 @@ import addFormats from "ajv-formats";
 export const schemaForPublishLocationCommand = {
   $id: "PublishLocationCommand.yml",
   type: "object",
-  properties: {
-    type: {type: "string", enum: ["type.command.Location.publish"]},
-    payload: {type: "object", properties: {locationIdentifier: {type: "string"}}}
-  }
+  properties: {type: {type: "string", enum: ["type.command.Location.publish"]}}
 };
 
 export function validatePublishLocationCommand(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -31,7 +28,4 @@ export function validatePublishLocationCommand(o: object): {isValid: boolean; va
 
 export interface PublishLocationCommand {
   type?: "type.command.Location.publish";
-  payload?: {
-    locationIdentifier?: string;
-  };
 }

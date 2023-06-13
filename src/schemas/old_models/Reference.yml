@@ -1,0 +1,10 @@
+type: object
+properties:
+  referenceType:
+    type: string
+  referenceId: 
+    type: string
+  referenceLabel:
+    type: object
+    additionalProperties:
+      type: string 

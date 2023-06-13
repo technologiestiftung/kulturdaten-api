@@ -4,7 +4,7 @@ import { User } from "../../generated/models/User.generated";
 
 export abstract class CommandExecutor {
     abstract getExecutableCommandTypes(): string[];
-    abstract execute(command: Command, user?: User): Promise<ExecutionResult> ;
+    abstract execute(command: Command, user?: User, identifier?: string): Promise<ExecutionResult> ;
 
     canExecuteCommandType(commandType: string): ExecutionResult {
         const executableCommandTypes = this.getExecutableCommandTypes();
