@@ -12,22 +12,18 @@
 	import { Organization, schemaForOrganization } from "../models/Organization.generated";
 
 	import { schemaForMetadata } from '../models/Metadata.generated';
-	import { schemaForOrganizationProfile } from '../models/OrganizationProfile.generated';
-	import { schemaForOrganizationStatus } from '../models/OrganizationStatus.generated';
 	import { schemaForAddress } from '../models/Address.generated';
 	import { schemaForBorough } from '../models/Borough.generated';
-	import { schemaForOrganizationClassification } from '../models/OrganizationClassification.generated';
+	import { schemaForCoordinates } from '../models/Coordinates.generated';
 	import { schemaForContact } from '../models/Contact.generated';
 
 	export function fakeOrganization(useExamples: boolean, specifiedPropertiesForOrganization: object = {}): Organization {
 		const schema = schemaForOrganization as Schema;
 		const refs : Schema[] = [
 			schemaForMetadata as Schema,
-			schemaForOrganizationProfile as Schema,
-			schemaForOrganizationStatus as Schema,
 			schemaForAddress as Schema,
 			schemaForBorough as Schema,
-			schemaForOrganizationClassification as Schema,
+			schemaForCoordinates as Schema,
 			schemaForContact as Schema,
 
 		];

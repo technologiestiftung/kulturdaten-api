@@ -12,9 +12,6 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
-import {AttractionProfile, schemaForAttractionProfile} from "./AttractionProfile.generated";
-import {AttractionStatus, schemaForAttractionStatus} from "./AttractionStatus.generated";
-import {AttractionClassification, schemaForAttractionClassification} from "./AttractionClassification.generated";
 import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
 
 export const schemaForAttraction = {
@@ -25,10 +22,16 @@ export const schemaForAttraction = {
     type: {type: "string", enum: ["type.Attraction"]},
     identifier: {type: "string"},
     metadata: {$ref: "Metadata.yml"},
-    profile: {$ref: "AttractionProfile.yml"},
-    status: {$ref: "AttractionStatus.yml"},
-    classification: {$ref: "AttractionClassification.yml"},
-    externalLinks: {$ref: "ExternalLinks.yml"}
+    status: {type: "string", enum: ["attraction.published", "attraction.unpublished", "attraction.archived"]},
+    title: {type: "object", additionalProperties: {type: "string"}},
+    displayName: {type: "object", additionalProperties: {type: "string"}},
+    description: {type: "object", additionalProperties: {type: "string"}},
+    pleaseNote: {type: "object", additionalProperties: {type: "string"}},
+    website: {type: "string"},
+    inLanguages: {type: "array", items: {type: "string"}},
+    family: {type: "boolean"},
+    tags: {type: "array", items: {type: "string"}},
+    externalLinks: {type: "array", items: {$ref: "ExternalLinks.yml"}}
   }
 };
 
@@ -37,9 +40,6 @@ export function validateAttraction(o: object): {isValid: boolean; validate: Vali
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
-  ajv.addSchema(schemaForAttractionProfile, "AttractionProfile.yml");
-  ajv.addSchema(schemaForAttractionStatus, "AttractionStatus.yml");
-  ajv.addSchema(schemaForAttractionClassification, "AttractionClassification.yml");
   ajv.addSchema(schemaForExternalLinks, "ExternalLinks.yml");
 
   const validate = ajv.compile(schemaForAttraction);
@@ -50,8 +50,22 @@ export interface Attraction {
   type?: "type.Attraction";
   identifier: string;
   metadata?: Metadata;
-  profile?: AttractionProfile;
-  status?: AttractionStatus;
-  classification?: AttractionClassification;
-  externalLinks?: ExternalLinks;
+  status?: "attraction.published" | "attraction.unpublished" | "attraction.archived";
+  title?: {
+    [k: string]: string;
+  };
+  displayName?: {
+    [k: string]: string;
+  };
+  description?: {
+    [k: string]: string;
+  };
+  pleaseNote?: {
+    [k: string]: string;
+  };
+  website?: string;
+  inLanguages?: string[];
+  family?: boolean;
+  tags?: string[];
+  externalLinks?: ExternalLinks[];
 }

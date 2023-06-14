@@ -4,6 +4,7 @@ import { Inject, Service } from 'typedi';
 import { CreateEvent } from '../../../generated/models/CreateEvent.generated';
 import { PatchEvent } from '../../../generated/models/PatchEvent.generated';
 import { Event } from '../../../generated/models/Event.generated';
+import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
 
 @Service()
 export class EventsService implements CRUD {
@@ -15,7 +16,7 @@ export class EventsService implements CRUD {
 		return this.eventsRepository.searchDuplicates(event);
 	}
 
-	async create(resource: CreateEvent) {
+	async create(resource: CreateEventRequest) {
 		return this.eventsRepository.addEvent(resource);
 	}
 

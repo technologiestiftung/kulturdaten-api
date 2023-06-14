@@ -7,6 +7,7 @@ import { PatchLocation } from '../../../generated/models/PatchLocation.generated
 import { PublishLocationCommand } from '../../../generated/models/PublishLocationCommand.generated';
 import { ExecutionResult } from '../../../generated/models/ExecutionResult.generated';
 import { schemaForLocationStatus } from '../../../generated/models/LocationStatus.generated';
+import { CreateLocationRequest } from '../../../generated/models/CreateLocationRequest.generated';
 
 @Service()
 export class LocationsService implements CRUD {
@@ -17,7 +18,7 @@ export class LocationsService implements CRUD {
 
 	constructor(@Inject('LocationsRepository') public locationsRepository: LocationsRepository){}
 
-	async create(resource: CreateLocation) {
+	async create(resource: CreateLocationRequest) {
 		return this.locationsRepository.addLocation(resource);
 	}
 

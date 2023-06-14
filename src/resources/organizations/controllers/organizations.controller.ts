@@ -4,11 +4,35 @@ import debug from 'debug';
 import { Service } from 'typedi';
 import { CreateOrganization } from '../../../generated/models/CreateOrganization.generated';
 import { PatchOrganization } from '../../../generated/models/PatchOrganization.generated';
+import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
+import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
+import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
 
 const log: debug.IDebugger = debug('app:organizations-controller');
 
 @Service()
 export class OrganizationsController {
+	unarchiveOrganization(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	archiveOrganization(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	retireOrganization(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	deactivateOrganization(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	activateOrganization(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	updateOrganization(res: express.Response<any, Record<string, any>>, identifier: string, updateOrganizationRequest: UpdateOrganizationRequest) {
+		throw new Error('Method not implemented.');
+	}
+	searchOrganizations(res: express.Response<any, Record<string, any>>, searchOrganizationsRequest: SearchOrganizationsRequest) {
+		throw new Error('Method not implemented.');
+	}
 
 	constructor(
 		public organizationsService: OrganizationsService) { }
@@ -30,7 +54,7 @@ export class OrganizationsController {
 		} 
 	}
 
-	async createOrganization(res: express.Response, createOrganization: CreateOrganization) {
+	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
 		const organizationId = await this.organizationsService.create(createOrganization);
 		res.status(201).send({ identifier: organizationId });
 	}

@@ -75,7 +75,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CreateOrganizationResponse"
 
-  /organizations:search:
+  /organizations/search:
     get:
       tags:
         - Discover cultural data
@@ -127,7 +127,7 @@ paths:
         "200":
           description: OK
   
-  /organizations/{identifier}:activate:
+  /organizations/{identifier}/activate:
     post:
       tags:
         - Maintain cultural data
@@ -141,7 +141,7 @@ paths:
         "200":
           description: OK
 
-  /organizations/{identifier}:deactivate:
+  /organizations/{identifier}/deactivate:
     post:
       tags:
         - Maintain cultural data
@@ -155,7 +155,7 @@ paths:
         "200":
           description: OK
   
-  /organizations/{identifier}:retire:
+  /organizations/{identifier}/retire:
     post:
       tags:
         - Maintain cultural data
@@ -169,7 +169,7 @@ paths:
         "200":
           description: OK
 
-  /organizations/{identifier}:archive:
+  /organizations/{identifier}/archive:
     post:
       tags:
         - Maintain cultural data
@@ -183,7 +183,7 @@ paths:
         "200":
           description: OK
 
-  /organizations/{identifier}:unarchive:
+  /organizations/{identifier}/unarchive:
     post:
       tags:
         - Maintain cultural data
@@ -224,7 +224,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CreateAttractionResponse"
   
-  /attractions:search:
+  /attractions/search:
     post:
       tags:
         - Discover cultural data
@@ -312,7 +312,7 @@ paths:
           "200":
             description: OK
 
-  /attractions/{identifier}:archive:
+  /attractions/{identifier}/archive:
     post:
       tags:
         - Maintain cultural data
@@ -326,7 +326,7 @@ paths:
         "200":
           description: Archived
 
-  /attractions/{identifier}:unarchive:
+  /attractions/{identifier}/unarchive:
     post:
       tags:
         - Maintain cultural data
@@ -367,7 +367,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CreateLocationResponse"
   
-  /locations:search:
+  /locations/search:
     post:
       tags:
         - Discover cultural data
@@ -450,7 +450,7 @@ paths:
         "200":
           description: OK
   
-  /locations/{id}:open:
+  /locations/{id}/open:
     post:
       tags:
         - Maintain cultural data
@@ -464,7 +464,7 @@ paths:
         "200":
           description: OK
   
-  /locations/{id}:close:
+  /locations/{id}/close:
     post:
       tags:
         - Maintain cultural data
@@ -478,7 +478,7 @@ paths:
         "200":
           description: OK
   
-  /locations/{id}:permanentlyClose:
+  /locations/{id}/permanentlyClose:
     post:
       tags:
         - Maintain cultural data
@@ -492,7 +492,7 @@ paths:
         "200":
           description: OK
   
-  /locations/{id}:archive:
+  /locations/{id}/archive:
     post:
       tags:
         - Maintain cultural data
@@ -506,7 +506,7 @@ paths:
         "200":
           description: OK
   
-  /locations/{id}:unarchive:
+  /locations/{id}/unarchive:
     post:
       tags:
         - Maintain cultural data
@@ -520,7 +520,7 @@ paths:
         "200":
           description: OK
 
-  /locations/{id}:claim:
+  /locations/{id}/claim:
     post:
       tags:
         - Maintain cultural data
@@ -566,7 +566,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CreateEventResponse"
 
-  /events:search:
+  /events/search:
     post:
       tags:
         - Discover cultural data
@@ -725,7 +725,7 @@ paths:
         "204":
           description: No Content
 
-  /event/{identifier}:publish:
+  /event/{identifier}/publish:
     post:
       tags:
         - Maintain cultural data
@@ -739,7 +739,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}:unpublish:
+  /event/{identifier}/unpublish:
     post:
       tags:
         - Maintain cultural data
@@ -753,7 +753,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}:reschedule:
+  /event/{identifier}/reschedule:
     post:
       tags:
         - Maintain cultural data
@@ -772,7 +772,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}:postpone:
+  /event/{identifier}/postpone:
     post:
       tags:
         - Maintain cultural data
@@ -786,7 +786,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}:cancel:
+  /event/{identifier}/cancel:
     post:
       tags:
         - Maintain cultural data
@@ -800,7 +800,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}:archive:
+  /event/{identifier}/archive:
     post:
       tags:
         - Maintain cultural data
@@ -814,7 +814,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}:unarchive:
+  /event/{identifier}/unarchive:
     post:
       tags:
         - Maintain cultural data
@@ -828,7 +828,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}:duplicate:
+  /event/{identifier}/duplicate:
     post:
       tags:
         - Maintain cultural data
@@ -963,7 +963,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/NotFoundError"
 
-  /users/{identifier}updatePassword:
+  /users/{identifier}/updatePassword:
     parameters:
       - in: path
         name: identifier

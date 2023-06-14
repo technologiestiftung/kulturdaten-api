@@ -4,11 +4,68 @@ import debug from 'debug';
 import { Service } from 'typedi';
 import { CreateEvent } from '../../../generated/models/CreateEvent.generated';
 import { PatchEvent } from '../../../generated/models/PatchEvent.generated';
+import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
+import { AddEventLocationRequest } from '../../../generated/models/AddEventLocationRequest.generated';
+import { RemoveEventLocationRequest } from '../../../generated/models/RemoveEventLocationRequest.generated';
+import { AddEventAttractionRequest } from '../../../generated/models/AddEventAttractionRequest.generated';
+import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEventAttractionRequest.generated';
+import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrganizerRequest.generated';
+import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
+import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
+import { SearchEventsRequest } from '../../../generated/models/SearchEventsRequest.generated';
 
 const log: debug.IDebugger = debug('app:events-controller');
 
 @Service()
 export class EventsController {
+	duplicateEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	unarchiveEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	archiveEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	cancelEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	postponeEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	rescheduleEvent(res: express.Response<any, Record<string, any>>, identifier: string, rescheduleEventRequest: RescheduleEventRequest) {
+		throw new Error('Method not implemented.');
+	}
+	unpublishEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	publishEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	deleteEventOrganizer(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	setEventOrganizer(res: express.Response<any, Record<string, any>>, identifier: string, setEventOrganizerRequest: SetEventOrganizerRequest) {
+		throw new Error('Method not implemented.');
+	}
+	removeEventAttraction(res: express.Response<any, Record<string, any>>, identifier: string, removeEventAttractionRequest: RemoveEventAttractionRequest) {
+		throw new Error('Method not implemented.');
+	}
+	addEventAttraction(res: express.Response<any, Record<string, any>>, identifier: string, addEventAttractionRequest: AddEventAttractionRequest) {
+		throw new Error('Method not implemented.');
+	}
+	removeEventLocation(res: express.Response<any, Record<string, any>>, identifier: string, removeEventLocationRequest: RemoveEventLocationRequest) {
+		throw new Error('Method not implemented.');
+	}
+	addEventLocation(res: express.Response<any, Record<string, any>>, identifier: string, addEventLocationRequest: AddEventLocationRequest) {
+		throw new Error('Method not implemented.');
+	}
+	updateEvent(res: express.Response<any, Record<string, any>>, identifier: string, updateEventRequest: UpdateEventRequest) {
+		throw new Error('Method not implemented.');
+	}
+	searchEvents(res: express.Response<any, Record<string, any>>, searchEventsRequest: SearchEventsRequest) {
+		throw new Error('Method not implemented.');
+	}
 
 	constructor(
 		public eventsService: EventsService) { }
@@ -30,7 +87,7 @@ export class EventsController {
 		} 
 	}
 
-	async createEvent(res: express.Response, createEvent: CreateEvent) {
+	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
 		const eventId = await this.eventsService.create(createEvent);
 		res.status(201).send({ identifier: eventId });
 	}

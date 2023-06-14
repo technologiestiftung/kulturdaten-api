@@ -6,11 +6,15 @@ import { Service } from 'typedi';
 import { NotFoundError } from '../../../generated/models/NotFoundError.generated';
 import { CreateUser } from '../../../generated/models/CreateUser.generated';
 import { PatchUser } from '../../../generated/models/PatchUser.generated';
+import { UpdateUserPasswordRequest } from '../../../generated/models/UpdateUserPasswordRequest.generated';
 
 const log: debug.IDebugger = debug('app:users-controller');
 
 @Service()
 export class UsersController {
+	updateUserPassword(res: express.Response<any, Record<string, any>>, identifier: string, updatePasswordRequest: UpdateUserPasswordRequest) {
+		throw new Error('Method not implemented.');
+	}
 
 	constructor(
 		public usersService: UsersService){}

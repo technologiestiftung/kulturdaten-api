@@ -2,8 +2,11 @@ import debug from 'debug';
 import express, { Router } from 'express';
 import { Service } from 'typedi';
 import { LocationsController } from './controllers/locations.controller';
-import { CreateLocation } from '../../generated/models/CreateLocation.generated';
-import { PatchLocation } from '../../generated/models/PatchLocation.generated';
+import { CreateLocationRequest } from '../../generated/models/CreateLocationRequest.generated';
+import { UpdateLocationRequest } from '../../generated/models/UpdateLocationRequest.generated';
+import { ClaimLocationRequest } from '../../generated/models/ClaimLocationRequest.generated';
+import { SearchLocationsRequest } from '../../generated/models/SearchLocationsRequest.generated';
+import { SetLocationManagerRequest } from '../../generated/models/SetLocationManagerRequest.generated';
 
 
 const log: debug.IDebugger = debug('app:locations-routes');
@@ -14,44 +17,76 @@ export class LocationsRoutes {
 	constructor(
 		public locationsController: LocationsController) { }
 
-	public getRouter(): Router {
-		let router = express.Router();
-
-		router
-			.get(
-				'/',
-				(req: express.Request, res: express.Response) => {
+		public getRouter(): Router {
+			let router = express.Router();
+		
+			router
+				.get('/', (req: express.Request, res: express.Response) => {
 					this.locationsController.listLocations(res);
 				})
-			.post(
-				'/',
-				(req: express.Request, res: express.Response) => {
-					const createLocation = req.body as CreateLocation;
-					this.locationsController.createLocation(res, createLocation);
+				.post('/', (req: express.Request, res: express.Response) => {
+					const createLocationRequest = req.body as CreateLocationRequest;
+					this.locationsController.createLocation(res, createLocationRequest);
 				});
-
-		router
-			.get(
-				'/:identifier',
-				(req: express.Request, res: express.Response) => {
+		
+			router
+				.get('/:identifier', (req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.getLocationById(res, identifier);
 				})
-			.patch(
-				'/:identifier',
-				(req: express.Request, res: express.Response) => {
+				.patch('/:identifier', (req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
-					const patchLocation = req.body as PatchLocation;
-					this.locationsController.patch(res, identifier, patchLocation);
-				})
-			.delete(
-				'/:identifier',
-				(req: express.Request, res: express.Response) => {
-					const identifier = req.params.identifier;
-					this.locationsController.removeLocation(res, identifier);
+					const updateLocationRequest = req.body as UpdateLocationRequest;
+					this.locationsController.updateLocation(res, identifier, updateLocationRequest);
 				});
-
-
-		return router;
-	}
+		
+			router
+				.post('/:identifier/manager', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const setLocationManagerRequest = req.body as SetLocationManagerRequest;
+					this.locationsController.setLocationManager(res, identifier, setLocationManagerRequest);
+				})
+				.delete('/:identifier/manager', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.deleteLocationManager(res, identifier);
+				});
+		
+			router
+				.post('/:identifier/open', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.openLocation(res, identifier);
+				})
+				.post('/:identifier/close', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.closeLocation(res, identifier);
+				})
+				.post('/:identifier/permanentlyClose', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.permanentlyCloseLocation(res, identifier);
+				})
+				.post('/:identifier/archive', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.archiveLocation(res, identifier);
+				})
+				.post('/:identifier/unarchive', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.unarchiveLocation(res, identifier);
+				});
+		
+			router
+				.post('/:identifier/claim', (req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const claimLocationRequest = req.body as ClaimLocationRequest;
+					this.locationsController.claimLocation(res, identifier, claimLocationRequest);
+				});
+		
+			router
+				.post('/search', (req: express.Request, res: express.Response) => {
+					const searchLocationsRequest = req.body as SearchLocationsRequest;
+					this.locationsController.searchLocations(res, searchLocationsRequest);
+				});
+		
+			return router;
+		}
+		
 }

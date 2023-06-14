@@ -4,11 +4,43 @@ import debug from 'debug';
 import { Service } from 'typedi';
 import { CreateLocation } from '../../../generated/models/CreateLocation.generated';
 import { PatchLocation } from '../../../generated/models/PatchLocation.generated';
+import { CreateLocationRequest } from '../../../generated/models/CreateLocationRequest.generated';
+import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationRequest.generated';
+import { ClaimLocationRequest } from '../../../generated/models/ClaimLocationRequest.generated';
+import { SearchLocationsRequest } from '../../../generated/models/SearchLocationsRequest.generated';
+import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
 
 const log: debug.IDebugger = debug('app:locations-controller');
 
 @Service()
 export class LocationsController {
+	searchLocations(res: express.Response<any, Record<string, any>>, searchLocationsRequest: SearchLocationsRequest) {
+		throw new Error('Method not implemented.');
+	}
+	claimLocation(res: express.Response<any, Record<string, any>>, identifier: string, claimLocationRequest: ClaimLocationRequest) {
+		throw new Error('Method not implemented.');
+	}
+
+	unarchiveLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	permanentlyCloseLocation: any;
+	archiveLocation: any;
+	closeLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	openLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	deleteLocationManager(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
+	}
+	setLocationManager(res: express.Response<any, Record<string, any>>, identifier: string, setLocationManagerRequest: SetLocationManagerRequest) {
+		throw new Error('Method not implemented.');
+	}
+	updateLocation(res: express.Response<any, Record<string, any>>, identifier: string, updateLocationRequest: UpdateLocationRequest) {
+		throw new Error('Method not implemented.');
+	}
 
 	constructor(
 		public locationsService: LocationsService) { }
@@ -30,8 +62,8 @@ export class LocationsController {
 		} 
 	}
 
-	async createLocation(res: express.Response, createLocation: CreateLocation) {
-		const locationId = await this.locationsService.create(createLocation);
+	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
+		const locationId = await this.locationsService.create(createLocationRequest);
 		res.status(201).send({ identifier: locationId });
 	}
 

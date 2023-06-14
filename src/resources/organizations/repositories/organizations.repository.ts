@@ -2,6 +2,7 @@ import debug from 'debug';
 import { CreateOrganization } from '../../../generated/models/CreateOrganization.generated';
 import { Organization } from '../../../generated/models/Organization.generated';
 import { PatchOrganization } from '../../../generated/models/PatchOrganization.generated';
+import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 
 
 const log: debug.IDebugger = debug('app:organizations-repository');
@@ -9,7 +10,7 @@ const log: debug.IDebugger = debug('app:organizations-repository');
 export interface OrganizationsRepository {
 	searchDuplicates(organization: Organization): Promise<Organization[]>;
 
-	addOrganization(createOrganization: CreateOrganization): Promise<string>;
+	addOrganization(createOrganization: CreateOrganizationRequest): Promise<string>;
 
 	getOrganizations(limit:number, page:number) : Promise<Organization[] | null>;
 

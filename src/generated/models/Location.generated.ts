@@ -12,12 +12,10 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
-import {LocationProfile, schemaForLocationProfile} from "./LocationProfile.generated";
-import {LocationStatus, schemaForLocationStatus} from "./LocationStatus.generated";
 import {Address, schemaForAddress} from "./Address.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {Coordinates, schemaForCoordinates} from "./Coordinates.generated";
-import {LocationClassification, schemaForLocationClassification} from "./LocationClassification.generated";
+import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 import {Contact, schemaForContact} from "./Contact.generated";
 
@@ -29,12 +27,17 @@ export const schemaForLocation = {
     type: {type: "string", enum: ["type.Location"]},
     identifier: {type: "string"},
     metadata: {$ref: "Metadata.yml"},
-    profile: {$ref: "LocationProfile.yml"},
-    status: {$ref: "LocationStatus.yml"},
+    status: {type: "string", enum: ["location.published", "location.unpublished", "location.archived"]},
+    title: {type: "object", additionalProperties: {type: "string"}},
+    displayName: {type: "object", additionalProperties: {type: "string"}},
+    description: {type: "object", additionalProperties: {type: "string"}},
+    website: {type: "string"},
     address: {$ref: "Address.yml"},
     borough: {$ref: "Borough.yml"},
     coordinates: {$ref: "Coordinates.yml"},
-    classifications: {$ref: "LocationClassification.yml"},
+    inLanguages: {type: "array", items: {type: "string"}},
+    tags: {type: "array", items: {type: "string"}},
+    externalLinks: {type: "array", items: {$ref: "ExternalLinks.yml"}},
     manager: {$ref: "Reference.yml"},
     contact: {$ref: "Contact.yml"}
   }
@@ -45,12 +48,10 @@ export function validateLocation(o: object): {isValid: boolean; validate: Valida
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
-  ajv.addSchema(schemaForLocationProfile, "LocationProfile.yml");
-  ajv.addSchema(schemaForLocationStatus, "LocationStatus.yml");
   ajv.addSchema(schemaForAddress, "Address.yml");
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForCoordinates, "Coordinates.yml");
-  ajv.addSchema(schemaForLocationClassification, "LocationClassification.yml");
+  ajv.addSchema(schemaForExternalLinks, "ExternalLinks.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
   ajv.addSchema(schemaForContact, "Contact.yml");
 
@@ -62,8 +63,17 @@ export interface Location {
   type?: "type.Location";
   identifier: string;
   metadata?: Metadata;
-  profile?: LocationProfile;
-  status?: LocationStatus;
+  status?: "location.published" | "location.unpublished" | "location.archived";
+  title?: {
+    [k: string]: string;
+  };
+  displayName?: {
+    [k: string]: string;
+  };
+  description?: {
+    [k: string]: string;
+  };
+  website?: string;
   address?: Address;
   borough?:
     | "Mitte"
@@ -80,7 +90,9 @@ export interface Location {
     | "Reinickendorf"
     | "außerhalb";
   coordinates?: Coordinates;
-  classifications?: LocationClassification;
+  inLanguages?: string[];
+  tags?: string[];
+  externalLinks?: ExternalLinks[];
   manager?: Reference;
   contact?: Contact;
 }

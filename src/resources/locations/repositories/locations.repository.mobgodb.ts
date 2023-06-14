@@ -6,6 +6,7 @@ import { CreateLocation } from "../../../generated/models/CreateLocation.generat
 import { Location } from "../../../generated/models/Location.generated";
 import { PatchLocation } from "../../../generated/models/PatchLocation.generated";
 import { ExecutionResult } from "../../../generated/models/ExecutionResult.generated";
+import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 
 
 @Service()
@@ -23,7 +24,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return response;
 	}
 
-	async addLocation(createLocation: CreateLocation): Promise<string> {
+	async addLocation(createLocation: CreateLocationRequest): Promise<string> {
 		const newLocation = createLocation as Location;
 		newLocation.identifier = generateID();
 

@@ -14,7 +14,17 @@ import addFormats from "ajv-formats";
 export const schemaForEmailAlreadyInUseError = {
   $id: "EmailAlreadyInUseError.yml",
   type: "object",
-  properties: {error: {type: "object", properties: {msg: {type: "string"}}}}
+  properties: {
+    success: {type: "boolean"},
+    message: {type: "string"},
+    data: {type: "object"},
+    error: {
+      type: "object",
+      properties: {code: {type: "number"}, message: {type: "string"}, details: {type: "string"}},
+      required: ["code"]
+    }
+  },
+  required: ["success", "error"]
 };
 
 export function validateEmailAlreadyInUseError(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -27,7 +37,12 @@ export function validateEmailAlreadyInUseError(o: object): {isValid: boolean; va
 }
 
 export interface EmailAlreadyInUseError {
-  error?: {
-    msg?: string;
+  success: boolean;
+  message?: string;
+  data?: {};
+  error: {
+    code: number;
+    message?: string;
+    details?: string;
   };
 }

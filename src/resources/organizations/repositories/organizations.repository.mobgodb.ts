@@ -6,6 +6,7 @@ import { CreateOrganization } from "../../../generated/models/CreateOrganization
 import { Organization } from "../../../generated/models/Organization.generated";
 import { PatchOrganization } from "../../../generated/models/PatchOrganization.generated";
 import { Db, MongoClient } from "mongodb";
+import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 
 
 @Service()
@@ -23,7 +24,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		return response;
 	}
 
-	async addOrganization(createOrganization: CreateOrganization): Promise<string> {
+	async addOrganization(createOrganization: CreateOrganizationRequest): Promise<string> {
 		const newOrganization = createOrganization as Organization;
 		newOrganization.identifier = generateID();
 

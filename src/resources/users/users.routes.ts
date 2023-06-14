@@ -8,6 +8,7 @@ import { checkUsers } from './middleware/users.middleware';
 import { CreateUser } from '../../generated/models/CreateUser.generated';
 import { PatchUser } from '../../generated/models/PatchUser.generated';
 import { UsersService } from './services/users.service';
+import { UpdateUserPasswordRequest } from '../../generated/models/UpdateUserPasswordRequest.generated';
 
 
 const log: debug.IDebugger = debug('app:users-routes');
@@ -64,6 +65,15 @@ export class UsersRoutes {
 					const patchUser = req.body as PatchUser;
 					this.usersController.patch(res, identifier, patchUser);
 				});
+
+		router
+			.patch('/:identifier/updatePassword', (req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const updatePasswordRequest = req.body as UpdateUserPasswordRequest;
+				this.usersController.updateUserPassword(res, identifier, updatePasswordRequest);
+			});
+
+				  
 		return router;
 	}
 }

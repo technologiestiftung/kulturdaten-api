@@ -12,18 +12,12 @@
 	import { Attraction, schemaForAttraction } from "../models/Attraction.generated";
 
 	import { schemaForMetadata } from '../models/Metadata.generated';
-	import { schemaForAttractionProfile } from '../models/AttractionProfile.generated';
-	import { schemaForAttractionStatus } from '../models/AttractionStatus.generated';
-	import { schemaForAttractionClassification } from '../models/AttractionClassification.generated';
 	import { schemaForExternalLinks } from '../models/ExternalLinks.generated';
 
 	export function fakeAttraction(useExamples: boolean, specifiedPropertiesForAttraction: object = {}): Attraction {
 		const schema = schemaForAttraction as Schema;
 		const refs : Schema[] = [
 			schemaForMetadata as Schema,
-			schemaForAttractionProfile as Schema,
-			schemaForAttractionStatus as Schema,
-			schemaForAttractionClassification as Schema,
 			schemaForExternalLinks as Schema,
 
 		];

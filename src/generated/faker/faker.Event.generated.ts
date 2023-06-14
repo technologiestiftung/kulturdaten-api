@@ -12,25 +12,19 @@
 	import { Event, schemaForEvent } from "../models/Event.generated";
 
 	import { schemaForMetadata } from '../models/Metadata.generated';
-	import { schemaForEventProfile } from '../models/EventProfile.generated';
-	import { schemaForEventStatus } from '../models/EventStatus.generated';
+	import { schemaForSchedule } from '../models/Schedule.generated';
 	import { schemaForReference } from '../models/Reference.generated';
-	import { schemaForEventSchedule } from '../models/EventSchedule.generated';
 	import { schemaForContact } from '../models/Contact.generated';
-	import { schemaForEventClassification } from '../models/EventClassification.generated';
-	import { schemaForEventAdmission } from '../models/EventAdmission.generated';
+	import { schemaForAdmission } from '../models/Admission.generated';
 
 	export function fakeEvent(useExamples: boolean, specifiedPropertiesForEvent: object = {}): Event {
 		const schema = schemaForEvent as Schema;
 		const refs : Schema[] = [
 			schemaForMetadata as Schema,
-			schemaForEventProfile as Schema,
-			schemaForEventStatus as Schema,
+			schemaForSchedule as Schema,
 			schemaForReference as Schema,
-			schemaForEventSchedule as Schema,
 			schemaForContact as Schema,
-			schemaForEventClassification as Schema,
-			schemaForEventAdmission as Schema,
+			schemaForAdmission as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

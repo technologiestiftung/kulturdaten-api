@@ -5,6 +5,7 @@ import { generateID } from "../../../utils/IDUtil";
 import { CreateEvent } from "../../../generated/models/CreateEvent.generated";
 import { Event } from "../../../generated/models/Event.generated";
 import { PatchEvent } from "../../../generated/models/PatchEvent.generated";
+import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 
 
 @Service()
@@ -22,7 +23,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		return response;
 	}
 
-	async addEvent(createEvent: CreateEvent): Promise<string> {
+	async addEvent(createEvent: CreateEventRequest): Promise<string> {
 		const newEvent = createEvent as Event;
 		newEvent.identifier = generateID();
 

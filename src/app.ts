@@ -31,7 +31,6 @@ import { LocationsRoutes } from './resources/locations/locations.routes';
 import { MongoDBLocationsRepository } from './resources/locations/repositories/locations.repository.mobgodb';
 import { MongoClient } from 'mongodb';
 import { HarvesterRoutes } from './harvester/harvester.routes';
-import { PublishLocationExecutor } from './resources/locations/excecutors/PublishLocationExecutor';
 import { LocationsService } from './resources/locations/services/locations.service';
 
 const log: debug.IDebugger = debug('app:main');
@@ -50,7 +49,6 @@ export class KulturdatenBerlinApp {
 	public async ini() {
 		this.initDataBaseConnection();
 		await this.initDependencyInjection();
-		await this.registerCommandExecutors();
 		this.initLogger();
 		this.initAuthStrategies();
  		this.registerDefaultMiddleware();
@@ -58,16 +56,6 @@ export class KulturdatenBerlinApp {
 		this.registerStatusChecks();
 		this.registerErrorHandler();
 		
-	}
-	public async registerCommandExecutors() {
-		const executors = [
-			new PublishLocationExecutor(Container.get(LocationsService))
-		]
-		executors.forEach(executor => {
-			executor.getExecutableCommandTypes().forEach(commandType => {
-				Container.set(commandType, executor);
-			});
-		});
 	}
 
 	public registerRoutes() {

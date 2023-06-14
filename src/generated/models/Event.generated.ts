@@ -12,13 +12,10 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
-import {EventProfile, schemaForEventProfile} from "./EventProfile.generated";
-import {EventStatus, schemaForEventStatus} from "./EventStatus.generated";
+import {Schedule, schemaForSchedule} from "./Schedule.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
-import {EventSchedule, schemaForEventSchedule} from "./EventSchedule.generated";
 import {Contact, schemaForContact} from "./Contact.generated";
-import {EventClassification, schemaForEventClassification} from "./EventClassification.generated";
-import {EventAdmission, schemaForEventAdmission} from "./EventAdmission.generated";
+import {Admission, schemaForAdmission} from "./Admission.generated";
 
 export const schemaForEvent = {
   $id: "Event.yml",
@@ -28,15 +25,21 @@ export const schemaForEvent = {
     type: {type: "string", enum: ["type.Event"]},
     identifier: {type: "string"},
     metadata: {$ref: "Metadata.yml"},
-    profile: {$ref: "EventProfile.yml"},
-    status: {$ref: "EventStatus.yml"},
-    attractions: {type: "array", items: {$ref: "Reference.yml"}},
-    schedule: {$ref: "EventSchedule.yml"},
+    status: {type: "string", enum: ["event.published", "event.unpublished", "event.archived"]},
+    schedule: {$ref: "Schedule.yml"},
+    title: {type: "object", additionalProperties: {type: "string"}},
+    displayName: {type: "object", additionalProperties: {type: "string"}},
+    description: {type: "object", additionalProperties: {type: "string"}},
+    pleaseNote: {type: "object", additionalProperties: {type: "string"}},
+    website: {type: "string"},
+    inLanguages: {type: "array", items: {type: "string"}},
+    family: {type: "boolean"},
+    tags: {type: "array", items: {type: "string"}},
     locations: {type: "array", items: {$ref: "Reference.yml"}},
+    attractions: {type: "array", items: {$ref: "Reference.yml"}},
     organizer: {$ref: "Reference.yml"},
     contact: {$ref: "Contact.yml"},
-    classification: {$ref: "EventClassification.yml"},
-    admission: {$ref: "EventAdmission.yml"}
+    admission: {$ref: "Admission.yml"}
   }
 };
 
@@ -45,13 +48,10 @@ export function validateEvent(o: object): {isValid: boolean; validate: ValidateF
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
-  ajv.addSchema(schemaForEventProfile, "EventProfile.yml");
-  ajv.addSchema(schemaForEventStatus, "EventStatus.yml");
+  ajv.addSchema(schemaForSchedule, "Schedule.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
-  ajv.addSchema(schemaForEventSchedule, "EventSchedule.yml");
   ajv.addSchema(schemaForContact, "Contact.yml");
-  ajv.addSchema(schemaForEventClassification, "EventClassification.yml");
-  ajv.addSchema(schemaForEventAdmission, "EventAdmission.yml");
+  ajv.addSchema(schemaForAdmission, "Admission.yml");
 
   const validate = ajv.compile(schemaForEvent);
   return {isValid: validate(o), validate: validate};
@@ -61,13 +61,27 @@ export interface Event {
   type?: "type.Event";
   identifier: string;
   metadata?: Metadata;
-  profile?: EventProfile;
-  status?: EventStatus;
-  attractions?: Reference[];
-  schedule?: EventSchedule;
+  status?: "event.published" | "event.unpublished" | "event.archived";
+  schedule?: Schedule;
+  title?: {
+    [k: string]: string;
+  };
+  displayName?: {
+    [k: string]: string;
+  };
+  description?: {
+    [k: string]: string;
+  };
+  pleaseNote?: {
+    [k: string]: string;
+  };
+  website?: string;
+  inLanguages?: string[];
+  family?: boolean;
+  tags?: string[];
   locations?: Reference[];
+  attractions?: Reference[];
   organizer?: Reference;
   contact?: Contact;
-  classification?: EventClassification;
-  admission?: EventAdmission;
+  admission?: Admission;
 }

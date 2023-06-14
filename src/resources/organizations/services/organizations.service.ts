@@ -4,6 +4,7 @@ import { Inject, Service } from 'typedi';
 import { CreateOrganization } from '../../../generated/models/CreateOrganization.generated';
 import { PatchOrganization } from '../../../generated/models/PatchOrganization.generated';
 import { Organization } from '../../../generated/models/Organization.generated';
+import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 
 @Service()
 export class OrganizationsService implements CRUD {
@@ -14,7 +15,7 @@ export class OrganizationsService implements CRUD {
 		return this.organizationsRepository.searchDuplicates(organization);
 	}
 
-	async create(resource: CreateOrganization) {
+	async create(resource: CreateOrganizationRequest) {
 		return this.organizationsRepository.addOrganization(resource);
 	}
 
