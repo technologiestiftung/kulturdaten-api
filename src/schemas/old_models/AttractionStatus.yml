@@ -1,8 +1,0 @@
-type: object
-properties:     
-  visibility:
-    type: string
-    enum:
-      - visibility.published
-      - visibility.unpublished
-      - visibility.archived

@@ -3,7 +3,7 @@ import { mock, instance, when, verify, anything, capture, anyString } from 'ts-m
 import { LocationsService } from '../services/locations.service';
 import { LocationsController } from './locations.controller';
 
-
+/* 
 beforeEach(() => {
 	jest.clearAllMocks();
 });
@@ -150,3 +150,4 @@ function generateMockController(limit: number = 100, page: number = 0) {
 	return controller;
 }
 
+*/

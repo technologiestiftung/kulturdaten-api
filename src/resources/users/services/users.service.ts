@@ -1,15 +1,15 @@
 import { UsersRepository } from '../repositories/users.repository';
 import { CRUD } from '../../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
-import { CreateUser } from '../../../generated/models/CreateUser.generated';
-import { PatchUser } from '../../../generated/models/PatchUser.generated';
+import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
+import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
 
 @Service()
 export class UsersService implements CRUD {
 
 	constructor(@Inject('UsersRepository') public usersRepository: UsersRepository){}
 
-	async create(createUser: CreateUser) {
+	async create(createUser: CreateUserRequest) {
 		return this.usersRepository.addUser(createUser);
 	}
 
@@ -21,7 +21,7 @@ export class UsersService implements CRUD {
 		return this.usersRepository.getUsers(limit, page);
 	}
 
-	async patchById(id: string, resource: PatchUser) {
+	async patchById(id: string, resource: UpdateUserRequest) {
 		return this.usersRepository.updateUserById(id, resource);
 	}
 

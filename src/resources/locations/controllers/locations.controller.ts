@@ -2,18 +2,48 @@ import express from 'express';
 import { LocationsService } from '../services/locations.service';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { CreateLocation } from '../../../generated/models/CreateLocation.generated';
-import { PatchLocation } from '../../../generated/models/PatchLocation.generated';
 import { CreateLocationRequest } from '../../../generated/models/CreateLocationRequest.generated';
 import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationRequest.generated';
 import { ClaimLocationRequest } from '../../../generated/models/ClaimLocationRequest.generated';
 import { SearchLocationsRequest } from '../../../generated/models/SearchLocationsRequest.generated';
 import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
+import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
 
 const log: debug.IDebugger = debug('app:locations-controller');
 
 @Service()
 export class LocationsController {
+
+	constructor(
+		public locationsService: LocationsService) { }
+
+	async listLocations(res: express.Response) {
+		const locations = await this.locationsService.list(100, 0);
+		if (locations) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ locations: locations }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
+		}
+	}
+
+	async getLocationById(res: express.Response, locationId: string) {
+		const location = await this.locationsService.readById(locationId);
+		if (location) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ location: location }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Location not found").build());
+		}
+	}
+
+	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
+		const locationId = await this.locationsService.create(createLocationRequest);
+		if (locationId) {
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: locationId } ).build());
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An location cannot be created with the data.").build());
+		}
+	}
+
 	searchLocations(res: express.Response<any, Record<string, any>>, searchLocationsRequest: SearchLocationsRequest) {
 		throw new Error('Method not implemented.');
 	}
@@ -24,8 +54,7 @@ export class LocationsController {
 	unarchiveLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
 		throw new Error('Method not implemented.');
 	}
-	permanentlyCloseLocation: any;
-	archiveLocation: any;
+
 	closeLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
 		throw new Error('Method not implemented.');
 	}
@@ -42,49 +71,11 @@ export class LocationsController {
 		throw new Error('Method not implemented.');
 	}
 
-	constructor(
-		public locationsService: LocationsService) { }
-
-	async listLocations(res: express.Response) {
-		const locations = await this.locationsService.list(100, 0);
-
-		res = res.status(200).send({ "locations": locations });
+	archiveLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
 	}
-
-	async getLocationById(res: express.Response, locationId: string) {
-		
-		const location = await this.locationsService.readById(locationId);
-		if (location){
-			res.status(200).send({ "location": location });
-		} 
-		else {
-			res.status(404).send({error: {msg: 'Location not found'}});
-		} 
-	}
-
-	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
-		const locationId = await this.locationsService.create(createLocationRequest);
-		res.status(201).send({ identifier: locationId });
-	}
-
-	async patch(res: express.Response, locationId: string, patchLocation: PatchLocation) {
-		if(await this.locationsService.patchById(locationId, patchLocation)){
-			res.status(204).send();
-		} 
-		else {
-			res.status(404).send({error: {msg: 'Location not found'}});
-		}
-	}
-
-
-	async removeLocation(res: express.Response, locationId: string) {
-		if(await this.locationsService.deleteById(locationId))
-		{
-			res.status(204).send();
-		}
-		else {
-			res.status(404).send({error: {msg: 'Location not found'}});
-		} 
+	permanentlyCloseLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
 	}
 
 }

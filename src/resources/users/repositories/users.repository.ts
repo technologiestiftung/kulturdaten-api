@@ -1,7 +1,7 @@
 import debug from 'debug';
-import { CreateUser } from '../../../generated/models/CreateUser.generated';
 import { User } from '../../../generated/models/User.generated';
-import { PatchUser } from '../../../generated/models/PatchUser.generated';
+import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
+import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
 
 
 const log: debug.IDebugger = debug('app:users-repository');
@@ -9,13 +9,13 @@ const log: debug.IDebugger = debug('app:users-repository');
 
 export interface UsersRepository {
 
-	addUser(userFields: CreateUser): Promise<string>;
+	addUser(userFields: CreateUserRequest): Promise<string>;
 
 	getUsers(limit: number, page: number): Promise<User[] | null>;
 
 	getUserByIdentifier(userId: string): Promise<User | null>;
 
-	updateUserById(userId: string, userFields: PatchUser): Promise<boolean>;
+	updateUserById(userId: string, userFields: UpdateUserRequest): Promise<boolean>;
 
 	removeUserById(userId: string): Promise<boolean>;
 

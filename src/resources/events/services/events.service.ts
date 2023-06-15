@@ -1,10 +1,9 @@
 import { EventsRepository } from '../repositories/events.repository';
 import { CRUD } from '../../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
-import { CreateEvent } from '../../../generated/models/CreateEvent.generated';
-import { PatchEvent } from '../../../generated/models/PatchEvent.generated';
 import { Event } from '../../../generated/models/Event.generated';
 import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
+import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
 
 @Service()
 export class EventsService implements CRUD {
@@ -32,7 +31,7 @@ export class EventsService implements CRUD {
 		return this.eventsRepository.getEventByIdentifier(id);
 	}
 
-	async patchById(id: string, resource: PatchEvent) {
+	async patchById(id: string, resource: UpdateEventRequest) {
 		return this.eventsRepository.updateEventById(id, resource);
 	}
 

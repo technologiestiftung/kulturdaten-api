@@ -1,7 +1,6 @@
 import debug from 'debug';
-import { CreateOrganization } from '../../../generated/models/CreateOrganization.generated';
 import { Organization } from '../../../generated/models/Organization.generated';
-import { PatchOrganization } from '../../../generated/models/PatchOrganization.generated';
+import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
 import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 
 
@@ -16,7 +15,7 @@ export interface OrganizationsRepository {
 
 	getOrganizationByIdentifier(organizationId: string) : Promise<Organization | null>;
 
-	updateOrganizationById(organizationId: string, organizationFields: PatchOrganization ): Promise<boolean>;
+	updateOrganizationById(organizationId: string, organizationFields: UpdateOrganizationRequest ): Promise<boolean>;
 
 	removeOrganizationById(organizationId: string) :  Promise<boolean>;
 }

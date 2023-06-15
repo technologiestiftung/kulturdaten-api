@@ -1,10 +1,9 @@
 import { OrganizationsRepository } from '../repositories/organizations.repository';
 import { CRUD } from '../../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
-import { CreateOrganization } from '../../../generated/models/CreateOrganization.generated';
-import { PatchOrganization } from '../../../generated/models/PatchOrganization.generated';
 import { Organization } from '../../../generated/models/Organization.generated';
 import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
+import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
 
 @Service()
 export class OrganizationsService implements CRUD {
@@ -31,7 +30,7 @@ export class OrganizationsService implements CRUD {
 		return this.organizationsRepository.getOrganizationByIdentifier(id);
 	}
 
-	async patchById(id: string, resource: PatchOrganization) {
+	async patchById(id: string, resource: UpdateOrganizationRequest) {
 		return this.organizationsRepository.updateOrganizationById(id, resource);
 	}
 

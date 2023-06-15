@@ -2,16 +2,47 @@ import express from 'express';
 import { OrganizationsService } from '../services/organizations.service';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { CreateOrganization } from '../../../generated/models/CreateOrganization.generated';
-import { PatchOrganization } from '../../../generated/models/PatchOrganization.generated';
 import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
 import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
+import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
 
 const log: debug.IDebugger = debug('app:organizations-controller');
 
 @Service()
 export class OrganizationsController {
+
+
+	constructor(
+		public organizationsService: OrganizationsService) { }
+
+	async listOrganizations(res: express.Response) {
+		const organizations = await this.organizationsService.list(100, 0);
+		if (organizations) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ organizations: organizations }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organizations not found").build());
+		}
+	}
+
+	async getOrganizationById(res: express.Response, organizationId: string) {
+		const organization = await this.organizationsService.readById(organizationId);
+		if (organization) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ organization: organization }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
+		}
+	}
+
+	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
+		const organizationId = await this.organizationsService.create(createOrganization);
+		if (organizationId) {
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: organizationId } ).build());
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build());
+		}
+	}
+
 	unarchiveOrganization(res: express.Response<any, Record<string, any>>, identifier: string) {
 		throw new Error('Method not implemented.');
 	}
@@ -32,51 +63,6 @@ export class OrganizationsController {
 	}
 	searchOrganizations(res: express.Response<any, Record<string, any>>, searchOrganizationsRequest: SearchOrganizationsRequest) {
 		throw new Error('Method not implemented.');
-	}
-
-	constructor(
-		public organizationsService: OrganizationsService) { }
-
-	async listOrganizations(res: express.Response) {
-		const organizations = await this.organizationsService.list(100, 0);
-
-		res = res.status(200).send({ "organizations": organizations });
-	}
-
-	async getOrganizationById(res: express.Response, organizationId: string) {
-		
-		const organization = await this.organizationsService.readById(organizationId);
-		if (organization){
-			res.status(200).send({ "organization": organization });
-		} 
-		else {
-			res.status(404).send({error: {msg: 'Organization not found'}});
-		} 
-	}
-
-	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
-		const organizationId = await this.organizationsService.create(createOrganization);
-		res.status(201).send({ identifier: organizationId });
-	}
-
-	async patch(res: express.Response, organizationId: string, patchOrganization: PatchOrganization) {
-		if(await this.organizationsService.patchById(organizationId, patchOrganization)){
-			res.status(204).send();
-		} 
-		else {
-			res.status(404).send({error: {msg: 'Organization not found'}});
-		}
-	}
-
-
-	async removeOrganization(res: express.Response, organizationId: string) {
-		if(await this.organizationsService.deleteById(organizationId))
-		{
-			res.status(204).send();
-		}
-		else {
-			res.status(404).send({error: {msg: 'Organization not found'}});
-		} 
 	}
 
 }

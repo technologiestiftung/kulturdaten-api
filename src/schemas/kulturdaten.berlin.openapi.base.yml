@@ -15,32 +15,18 @@ info:
     - **Events verwalten** - Eine Veranstaltung beantwortet die Frage: Was (Angbot) findet wann (Termin), wo (Ort), von wem (Aktuer) und unter welchen Umständen statt? Hier können Sie als Aktuer Veranstaltungen anlegen und verwalten.
 
 
-    TODO: 
-    
-    Um die API zu verwenden, benötigen Sie einen API-Schlüssel, den Sie von unserer Website erhalten können. Senden Sie bei jedem API-Aufruf den API-Schlüssel im Header.
+    Um die API zu verwenden, benötigen Sie einen JWT (JSON Web Token), den Sie durch einen login Request erhalten können. Senden Sie bei jedem API-Aufruf den JWT im Header als Bearer-Token.
 
-    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu einem Buch:
+    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu einem Event:
 
     ```
-    GET /api/v1/books/{id}
+    GET /api/events/{id}
     Headers:
-      Authorization: Bearer {Ihr API-Schlüssel}
-    ```
-
-    In der Antwort erhalten Sie detaillierte Informationen zum Buch, einschließlich Titel, Autor, Preis und Verfügbarkeit.
-
-    Sie können auch die API-Dokumentation für weitere Informationen und Beispiele zu jedem Endpunkt konsultieren.
-
-
-    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu einem Buch:
+      Authorization: Bearer {Ihr JWT}
 
     ```
-    GET /api/v1/books/{id}
-    Headers:
-      Authorization: Bearer {Ihr API-Schlüssel}
-    ```
 
-    In der Antwort erhalten Sie detaillierte Informationen zum Buch, einschließlich Titel, Autor, Preis und Verfügbarkeit.
+    In der Antwort erhalten Sie detaillierte Informationen zum Event, einschließlich Titel, Beschreibung, Datum und Veranstaltungsort.
 
     Sie können auch die API-Dokumentation für weitere Informationen und Beispiele zu jedem Endpunkt konsultieren.
 
@@ -991,6 +977,23 @@ paths:
               schema:
                 $ref: "#/components/schemas/NotFoundError"
 
+  /tools/eventGeneration:
+    post:
+      tags:
+        - Tools
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateEventsRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerateEventsResponse"
+
   /health:
     get:
       tags:
@@ -1211,3 +1214,9 @@ components:
     
     CreateUserResponse:
       $ref: models/CreateUserResponse.yml
+
+    GenerateEventsRequest:
+      $ref: models/GenerateEventsRequest.yml
+
+    GenerateEventsResponse:
+      $ref: models/GenerateEventsResponse.yml

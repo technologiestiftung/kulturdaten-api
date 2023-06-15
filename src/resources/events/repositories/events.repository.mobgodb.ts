@@ -2,10 +2,9 @@ import { Inject, Service } from "typedi";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { EventsRepository } from "./events.repository";
 import { generateID } from "../../../utils/IDUtil";
-import { CreateEvent } from "../../../generated/models/CreateEvent.generated";
 import { Event } from "../../../generated/models/Event.generated";
-import { PatchEvent } from "../../../generated/models/PatchEvent.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
+import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 
 
 @Service()
@@ -39,7 +38,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const events = await this.dbConnector.events();
 		return events.findOne({ identifier: eventId }, { projection: { _id: 0 } });
 	}
-	async updateEventById(eventId: string, eventFields: PatchEvent): Promise<boolean> {
+	async updateEventById(eventId: string, eventFields: UpdateEventRequest): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: eventFields });
 		return Promise.resolve(result.modifiedCount === 1);

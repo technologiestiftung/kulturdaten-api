@@ -10,7 +10,7 @@ import request from "supertest";
 import { validateOrganization } from '../../generated/models/Organization.generated';
 import twoDummyOrganizations from './dummy.data/organizations.json';
 import { IDENTIFIER_REG_EX } from '../utils/matcher';
-import { fakeCreateOrganization } from '../../generated/faker/faker.CreateOrganization.generated';
+import { fakeCreateOrganizationRequest } from '../../generated/faker/faker.CreateOrganizationRequest.generated';
 
 describe('Create organizations', () => {
   afterEach(async () => {
@@ -18,7 +18,7 @@ describe('Create organizations', () => {
   });
 
   it('should create a organization and return a identifier / POST /organizations', async () => {
-    const { body, statusCode } = await request(app).post('/v1/organizations').send(fakeCreateOrganization(false, { name : { de: 'New Organization'}}));
+    const { body, statusCode } = await request(app).post('/v1/organizations').send(fakeCreateOrganizationRequest(false, { name : { de: 'New Organization'}}));
 
     expect(statusCode).toBe(201);
 

@@ -11,6 +11,8 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Error, schemaForError} from "./Error.generated";
+
 export const schemaForResponse = {
   $id: "Response.yml",
   type: "object",
@@ -18,7 +20,7 @@ export const schemaForResponse = {
     success: {type: "boolean"},
     message: {type: "string"},
     data: {type: "object"},
-    error: {type: "object", properties: {code: {type: "number"}, message: {type: "string"}, details: {type: "string"}}}
+    error: {$ref: "Error.yml"}
   },
   required: ["success"]
 };
@@ -27,6 +29,7 @@ export function validateResponse(o: object): {isValid: boolean; validate: Valida
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForError, "Error.yml");
 
   const validate = ajv.compile(schemaForResponse);
   return {isValid: validate(o), validate: validate};
@@ -36,9 +39,5 @@ export interface Response {
   success: boolean;
   message?: string;
   data?: {};
-  error?: {
-    code?: number;
-    message?: string;
-    details?: string;
-  };
+  error?: Error;
 }

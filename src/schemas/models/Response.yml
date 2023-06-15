@@ -7,13 +7,6 @@ properties:
   data:
     type: object
   error:
-    type: object
-    properties:
-      code:
-        type: number
-      message:
-        type: string
-      details:
-        type: string
+    $ref: 'Error.yml'
 required:
   - success

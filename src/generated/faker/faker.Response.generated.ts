@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { Response, schemaForResponse } from "../models/Response.generated";
 
+	import { schemaForError } from '../models/Error.generated';
 
 	export function fakeResponse(useExamples: boolean, specifiedPropertiesForResponse: object = {}): Response {
 		const schema = schemaForResponse as Schema;
 		const refs : Schema[] = [
+			schemaForError as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

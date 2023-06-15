@@ -1,8 +1,0 @@
-type: object
-properties:
-  accessToken:
-    type: string
-  expiresIn:
-    type: string
-  user:
-    $ref: Reference.yml

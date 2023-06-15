@@ -2,8 +2,6 @@ import express from 'express';
 import { EventsService } from '../services/events.service';
 import debug from 'debug';
 import { Service } from 'typedi';
-import { CreateEvent } from '../../../generated/models/CreateEvent.generated';
-import { PatchEvent } from '../../../generated/models/PatchEvent.generated';
 import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
 import { AddEventLocationRequest } from '../../../generated/models/AddEventLocationRequest.generated';
 import { RemoveEventLocationRequest } from '../../../generated/models/RemoveEventLocationRequest.generated';
@@ -13,11 +11,43 @@ import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrga
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
 import { SearchEventsRequest } from '../../../generated/models/SearchEventsRequest.generated';
+import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
 
 const log: debug.IDebugger = debug('app:events-controller');
 
 @Service()
 export class EventsController {
+
+	constructor(
+		public eventsService: EventsService) { }
+
+	async listEvents(res: express.Response) {
+		const events = await this.eventsService.list(100, 0);
+		if (events) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ events: events }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Events not found").build());
+		}
+	}
+
+	async getEventById(res: express.Response, eventId: string) {
+		const event = await this.eventsService.readById(eventId);
+		if (event) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ event: event }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Event not found").build());
+		}
+	}
+
+	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
+		const eventId = await this.eventsService.create(createEvent);
+		if (eventId) {
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: eventId } ).build());
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An event cannot be created with the data.").build());
+		}
+	}
+
 	duplicateEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
 		throw new Error('Method not implemented.');
 	}
@@ -65,51 +95,6 @@ export class EventsController {
 	}
 	searchEvents(res: express.Response<any, Record<string, any>>, searchEventsRequest: SearchEventsRequest) {
 		throw new Error('Method not implemented.');
-	}
-
-	constructor(
-		public eventsService: EventsService) { }
-
-	async listEvents(res: express.Response) {
-		const events = await this.eventsService.list(100, 0);
-
-		res = res.status(200).send({ "events": events });
-	}
-
-	async getEventById(res: express.Response, eventId: string) {
-		
-		const event = await this.eventsService.readById(eventId);
-		if (event){
-			res.status(200).send({ "event": event });
-		} 
-		else {
-			res.status(404).send({error: {msg: 'Event not found'}});
-		} 
-	}
-
-	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
-		const eventId = await this.eventsService.create(createEvent);
-		res.status(201).send({ identifier: eventId });
-	}
-
-	async patch(res: express.Response, eventId: string, patchEvent: PatchEvent) {
-		if(await this.eventsService.patchById(eventId, patchEvent)){
-			res.status(204).send();
-		} 
-		else {
-			res.status(404).send({error: {msg: 'Event not found'}});
-		}
-	}
-
-
-	async removeEvent(res: express.Response, eventId: string) {
-		if(await this.eventsService.deleteById(eventId))
-		{
-			res.status(204).send();
-		}
-		else {
-			res.status(404).send({error: {msg: 'Event not found'}});
-		} 
 	}
 
 }

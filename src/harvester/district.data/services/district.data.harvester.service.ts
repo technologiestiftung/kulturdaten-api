@@ -1,12 +1,12 @@
+/*
 import { Inject, Service } from "typedi";
 import { HarvesterClient } from "../../client/harvester.client";
 import { Organization } from "../../../generated/models/Organization.generated";
 import { Bezirke, Bezirksdaten, Termin, Termine, Veranstalter, VeranstalterList, Veranstaltung, Veranstaltungen, Veranstaltungsort, Veranstaltungsorte } from "../model/district.data.types";
-import { CreateOrganization } from "../../../generated/models/CreateOrganization.generated";
+import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Location } from '../../../generated/models/Location.generated';
-import { CreateEvent } from "../../../generated/models/CreateEvent.generated";
-import { CreateLocation } from "../../../generated/models/CreateLocation.generated";
-import { EventDate } from "../../../generated/models/EventDate.generated";
+import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
+import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { LocationsService } from "../../../resources/locations/services/locations.service";
 import { OrganizationsService } from "../../../resources/organizations/services/organizations.service";
 import { EventsService } from "../../../resources/events/services/events.service";
@@ -27,19 +27,21 @@ export class DistrictDataService {
 
 		const {createdOrganizationIDs, alreadyExistsOrganizationIDs  } = await this.harvestOrganizations(districtData.veranstalter);
 		const {createdLocationIDs, alreadyExistsLocationIDs } = await this.harvestLocations(districtData.veranstaltungsorte, districtData.bezirke);
-		const {createdEventIDs,alreadyExistsEventsIDs} = await this.harvestEvents(districtData.events);
+		const {createdEventIDs,alreadyExistsEventsIDs, createdAttractionsIDs, alreadyExistsAttractionsIDs} = await this.harvestAttractionsAndEvents(districtData.events);
 
-		return { createsOrganizations: createdOrganizationIDs, alreadyExistsOrganizationIDs: alreadyExistsOrganizationIDs, createdLocations : createdLocationIDs, alreadyExistsLocations : alreadyExistsLocationIDs, createdEvents : createdEventIDs, alreadyExistsEvents: alreadyExistsEventsIDs };
+		return { createsOrganizations: createdOrganizationIDs, alreadyExistsOrganizationIDs: alreadyExistsOrganizationIDs, createdLocations : createdLocationIDs, alreadyExistsLocations : alreadyExistsLocationIDs, createdEvents : createdEventIDs, alreadyExistsEvents: alreadyExistsEventsIDs, createdAttractions: createdAttractionsIDs, alreadyExistsAttractions: alreadyExistsAttractionsIDs };
 	}
 
 
-	private async harvestEvents(veranstaltungen: Veranstaltungen) {
+	private async harvestAttractionsAndEvents(veranstaltungen: Veranstaltungen) {
 		const createdEventIDs: string[] = [];
 		const alreadyExistsEventsIDs: string[] = [];
+		const createdAttractionsIDs: string[] = [];
+		const alreadyExistsAttractionsIDs: string[] = [];
 	  
 		for (const key in veranstaltungen) {
 		  const e = veranstaltungen[key];
-		  const event = this.mapEvent(e);
+		  const { attractions, events } = this.mapEvent(e);
 		  const duplicates = await this.eventService.searchDuplicates(event as Event);
 	  
 		  if (duplicates.length > 0) {
@@ -52,7 +54,7 @@ export class DistrictDataService {
 		  }
 		}
 	  
-		return { createdEventIDs, alreadyExistsEventsIDs };
+		return { createdEventIDs, alreadyExistsEventsIDs, createdAttractionsIDs, alreadyExistsAttractionsIDs };
 	  }
 
 	private async harvestLocations(veranstaltungsorte: Veranstaltungsorte, bezirke: Bezirke) {
@@ -94,7 +96,7 @@ export class DistrictDataService {
 		return {createdOrganizationIDs: createdOrganizationIDs, alreadyExistsOrganizationIDs : alreadyExistsOrganizationIDs };
 	}
 
-	mapOrganisation(veranstalter: Veranstalter): CreateOrganization {
+	mapOrganisation(veranstalter: Veranstalter): CreateOrganizationRequest {
 		const organization = {
 			name: { de: veranstalter.name },
 			address: {
@@ -109,10 +111,10 @@ export class DistrictDataService {
 			},
 			telephone: veranstalter.telefon,
 		};
-		return organization as CreateOrganization;
+		return organization as CreateOrganizationRequest;
 	}
 
-	mapLocation(veranstaltungsort: Veranstaltungsort, bezirke: Bezirke): CreateLocation {
+	mapLocation(veranstaltungsort: Veranstaltungsort, bezirke: Bezirke): CreateLocationRequest {
 		const location = {
 			name: { de: veranstaltungsort.name },
 			address: {
@@ -127,16 +129,15 @@ export class DistrictDataService {
 			},
 			borough: bezirke[veranstaltungsort.bezirk_id].DE
 		};
-		return location as CreateLocation;
+		return location as CreateLocationRequest;
 	}
 
-	mapEvent(veranstaltung: Veranstaltung): CreateEvent {
+	mapEvent(veranstaltung: Veranstaltung): CreateEventRequest {
 		const event = {
-			"@type": "Event",
 			title: { de: veranstaltung.event_titel_de },
 			description: { de: veranstaltung.event_beschreibung_de },
-			contactPoint: [ {name: { de: 'Kontakt'}, email: veranstaltung.event_email } ],
-			homepage: veranstaltung.event_homepage,
+			contact: {name: { de: 'Kontakt'}, email: veranstaltung.event_email },
+			website: veranstaltung.event_homepage,
 			origin: {
 				name: 'Bezirkskalender',
 				originId: veranstaltung.event_id
@@ -144,7 +145,7 @@ export class DistrictDataService {
 			eventDates: this.mapEventDates(veranstaltung.termine)
 		};
 
-		return event as CreateEvent;
+		return event as CreateEventRequest;
 	}
 
 	mapEventDates(termine: Termine) : EventDate[] {
@@ -168,3 +169,4 @@ export class DistrictDataService {
 }
 
 
+*/

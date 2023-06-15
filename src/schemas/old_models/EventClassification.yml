@@ -1,8 +1,0 @@
-type: object
-properties:
-  family:
-    type: boolean
-  tags:
-    type: array
-    items:
-      type: string 

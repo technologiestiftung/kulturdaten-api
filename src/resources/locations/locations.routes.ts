@@ -28,6 +28,12 @@ export class LocationsRoutes {
 					const createLocationRequest = req.body as CreateLocationRequest;
 					this.locationsController.createLocation(res, createLocationRequest);
 				});
+
+			router
+				.post('/search', (req: express.Request, res: express.Response) => {
+					const searchLocationsRequest = req.body as SearchLocationsRequest;
+					this.locationsController.searchLocations(res, searchLocationsRequest);
+				});
 		
 			router
 				.get('/:identifier', (req: express.Request, res: express.Response) => {
@@ -80,11 +86,7 @@ export class LocationsRoutes {
 					this.locationsController.claimLocation(res, identifier, claimLocationRequest);
 				});
 		
-			router
-				.post('/search', (req: express.Request, res: express.Response) => {
-					const searchLocationsRequest = req.body as SearchLocationsRequest;
-					this.locationsController.searchLocations(res, searchLocationsRequest);
-				});
+
 		
 			return router;
 		}

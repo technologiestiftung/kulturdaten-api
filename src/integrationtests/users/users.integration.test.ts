@@ -12,7 +12,7 @@ import fiveDummyUsers from './dummy.data/users.json';
 import { IDENTIFIER_REG_EX } from '../utils/matcher';
 import { mockTokenForExistUser } from "../utils/mock.auth.strategy";
 import { PermissionFlag } from "../../resources/auth/middleware/auth.permissionflag.enum";
-import { fakeCreateUser } from '../../generated/faker/faker.CreateUser.generated';
+import { fakeCreateUserRequest } from '../../generated/faker/faker.CreateUserRequest.generated';
 
 describe('Create users', () => {
   afterEach(async () => {
@@ -20,7 +20,7 @@ describe('Create users', () => {
   });
 
   it('should create a user and return a identifier / POST /users', async () => {
-    const { body, statusCode } = await request(app).post('/v1/users').send(fakeCreateUser(false));
+    const { body, statusCode } = await request(app).post('/v1/users').send(fakeCreateUserRequest(false));
 
     expect(statusCode).toBe(201);
 
@@ -28,7 +28,7 @@ describe('Create users', () => {
   });
 
   it('should create a user with lowercase mail / POST /users', async () => {
-    const { body, statusCode } = await request(app).post('/v1/users').send(fakeCreateUser(false, { email: 'Peter@ExaMple.com'}));
+    const { body, statusCode } = await request(app).post('/v1/users').send(fakeCreateUserRequest(false, { email: 'Peter@ExaMple.com'}));
 
     expect(statusCode).toBe(201);
 

@@ -3,8 +3,8 @@ import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { UsersRepository } from "./users.repository";
 import { generateID } from "../../../utils/IDUtil";
 import { User } from "../../../generated/models/User.generated";
-import { CreateUser } from "../../../generated/models/CreateUser.generated";
-import { PatchUser } from "../../../generated/models/PatchUser.generated";
+import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
+import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 
 
 @Service()
@@ -23,7 +23,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 		return users.findOne({ email: email }, { projection: { _id: 0 } });
 	}
 
-	async addUser(createUser: CreateUser): Promise<string> {
+	async addUser(createUser: CreateUserRequest): Promise<string> {
 		const newUser = createUser as User;
 		newUser.identifier = generateID();
 		newUser.permissionFlags = 1;
@@ -41,7 +41,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 		const users = await this.dbConnector.users();
 		return users.findOne({ identifier: userId }, { projection: { _id: 0, password:0 } });
 	}
-	async updateUserById(userId: string, userFields: PatchUser): Promise<boolean> {
+	async updateUserById(userId: string, userFields: UpdateUserRequest): Promise<boolean> {
 		if(userFields.email) userFields.email = userFields.email.toLowerCase();
 		const users = await this.dbConnector.users();
 		const result = await users.updateOne({ identifier: userId }, { $set: userFields });

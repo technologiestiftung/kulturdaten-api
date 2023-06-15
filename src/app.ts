@@ -42,9 +42,17 @@ export class KulturdatenBerlinApp {
 	public port = process.env.APP_PORT || '5000';
 	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
-	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/v1/docs/`
+	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/docs/`
 	public dataBaseClient : MongoClient | null = null;
-
+	
+	public async start() {
+		await this.ini();
+		this.registerRoutes();
+		this.app.listen(this.port, () => {
+			console.log(this.runningMessage);
+			console.log(this.documentationMessage);
+		});
+	}
 
 	public async ini() {
 		this.initDataBaseConnection();
@@ -65,16 +73,6 @@ export class KulturdatenBerlinApp {
 		this.registerEventsRoutes();
 		this.registerLocationsRoutes();
 		this.registerHarvesterRoutes();
-	}
-
-
-	public async start() {
-		await this.ini();
-		this.registerRoutes();
-		this.app.listen(this.port, () => {
-			console.log(this.runningMessage);
-			console.log(this.documentationMessage);
-		});
 	}
 
 	private initDataBaseConnection() {
@@ -137,8 +135,8 @@ export class KulturdatenBerlinApp {
 
 	private registerOpenApi() {
 		const swaggerDocument = YAML.load(this.openAPISpec);
-		this.app.use(`/api/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-		this.app.use(`/api/v1/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
+		this.app.use(`/api/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+		this.app.use(`/api/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
 		this.app.use(OpenApiValidator.middleware({
 			apiSpec: this.openAPISpec,
 			validateRequests: true,
@@ -153,38 +151,38 @@ export class KulturdatenBerlinApp {
 		});
 
 		const healthRoutes = Container.get(HealthRoutes);
-		this.app.use('/api/v1/health', healthRoutes.getRouter());
+		this.app.use('/api/health', healthRoutes.getRouter());
 	}
 
 	private registerAuthRoutes() {
 		const authRoutes = Container.get(AuthRoutes);
-		this.app.use('/api/v1/auth',
+		this.app.use('/api/auth',
 		authRoutes.getRouter());
 	}
 
 	private registerOrganizationRoutes() {
 		const organizationsRoute = Container.get(OrganizationsRoutes);
-		this.app.use('/api/v1/organizations', organizationsRoute.getRouter());
+		this.app.use('/api/organizations', organizationsRoute.getRouter());
 	}
 
 	private registerUserRoutes() {
 		const usersRoute = Container.get(UsersRoutes);
-		this.app.use('/api/v1/users', usersRoute.getRouter());
+		this.app.use('/api/users', usersRoute.getRouter());
 	}
 
 	private registerEventsRoutes() {
 		const eventsRoute = Container.get(EventsRoutes);
-		this.app.use('/api/v1/events', eventsRoute.getRouter());
+		this.app.use('/api/events', eventsRoute.getRouter());
 	}
 
 	private registerLocationsRoutes() {
 		const locationsRoute = Container.get(LocationsRoutes);
-		this.app.use('/api/v1/locations', locationsRoute.getRouter());
+		this.app.use('/api/locations', locationsRoute.getRouter());
 	}
 
 	registerHarvesterRoutes() {
 		const harvesterRoute = Container.get(HarvesterRoutes);
-		this.app.use('/api/v1/admin/harvest/baevents-bezirkskalender', harvesterRoute.getRouter());
+		this.app.use('/api/admin/harvest/baevents-bezirkskalender', harvesterRoute.getRouter());
 	}
 }
 

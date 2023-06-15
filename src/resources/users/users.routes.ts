@@ -5,8 +5,8 @@ import { Service } from 'typedi';
 import { permit } from '../auth/middleware/auth.middleware';
 import { UsersController } from './controllers/users.controller';
 import { checkUsers } from './middleware/users.middleware';
-import { CreateUser } from '../../generated/models/CreateUser.generated';
-import { PatchUser } from '../../generated/models/PatchUser.generated';
+import { CreateUserRequest } from '../../generated/models/CreateUserRequest.generated';
+import { UpdateUserRequest } from '../../generated/models/UpdateUserRequest.generated';
 import { UsersService } from './services/users.service';
 import { UpdateUserPasswordRequest } from '../../generated/models/UpdateUserPasswordRequest.generated';
 
@@ -34,7 +34,7 @@ export class UsersRoutes {
 				'/',
 				checkUsers.eMailIsNotExist(this.usersService),
 				(req: express.Request, res: express.Response) => {
-					const createUser = req.body as CreateUser;
+					const createUser = req.body as CreateUserRequest;
 					this.usersController.createUser(res, createUser);
 				});
 
@@ -62,7 +62,7 @@ export class UsersRoutes {
 				permit.onlyAdminCanChancePermissions(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
-					const patchUser = req.body as PatchUser;
+					const patchUser = req.body as UpdateUserRequest;
 					this.usersController.patch(res, identifier, patchUser);
 				});
 

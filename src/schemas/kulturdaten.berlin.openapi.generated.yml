@@ -43,51 +43,27 @@ info:
 
 
 
-    TODO: 
-
-
-    Um die API zu verwenden, benötigen Sie einen API-Schlüssel, den Sie von
-    unserer Website erhalten können. Senden Sie bei jedem API-Aufruf den
-    API-Schlüssel im Header.
+    Um die API zu verwenden, benötigen Sie einen JWT (JSON Web Token), den Sie
+    von unserer Website erhalten können. Senden Sie bei jedem API-Aufruf den JWT
+    im Header als Bearer-Token.
 
 
     Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu
-    einem Buch:
+    einem Event:
 
 
     ```
 
-    GET /api/v1/books/{id}
+    GET /api/events/{id}
 
     Headers:
-      Authorization: Bearer {Ihr API-Schlüssel}
-    ```
-
-
-    In der Antwort erhalten Sie detaillierte Informationen zum Buch,
-    einschließlich Titel, Autor, Preis und Verfügbarkeit.
-
-
-    Sie können auch die API-Dokumentation für weitere Informationen und
-    Beispiele zu jedem Endpunkt konsultieren.
-
-
-
-    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu
-    einem Buch:
-
+      Authorization: Bearer {Ihr JWT}
 
     ```
 
-    GET /api/v1/books/{id}
 
-    Headers:
-      Authorization: Bearer {Ihr API-Schlüssel}
-    ```
-
-
-    In der Antwort erhalten Sie detaillierte Informationen zum Buch,
-    einschließlich Titel, Autor, Preis und Verfügbarkeit.
+    In der Antwort erhalten Sie detaillierte Informationen zum Event,
+    einschließlich Titel, Beschreibung, Datum und Veranstaltungsort.
 
 
     Sie können auch die API-Dokumentation für weitere Informationen und
@@ -991,6 +967,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
+  /tools/eventGeneration:
+    post:
+      tags:
+        - Tools
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateEventsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateEventsResponse'
   /health:
     get:
       tags:
@@ -1060,49 +1052,21 @@ components:
     Error:
       type: object
       properties:
-        success:
-          type: boolean
+        code:
+          type: number
         message:
           type: string
-        data:
-          type: object
-        error:
-          type: object
-          properties:
-            code:
-              type: number
-            message:
-              type: string
-            details:
-              type: string
-          required:
-            - code
-      required:
-        - success
-        - error
+        details:
+          type: string
     NotFoundError:
       type: object
       properties:
-        success:
-          type: boolean
+        code:
+          type: number
         message:
           type: string
-        data:
-          type: object
-        error:
-          type: object
-          properties:
-            code:
-              type: number
-            message:
-              type: string
-            details:
-              type: string
-          required:
-            - code
-      required:
-        - success
-        - error
+        details:
+          type: string
     Event:
       type: object
       required:
@@ -4056,5 +4020,29 @@ components:
           properties:
             userIdentifier:
               type: string
+      required:
+        - success
+    GenerateEventsRequest:
+      type: object
+      properties:
+        textInput:
+          type: string
+    GenerateEventsResponse:
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            attractionIdentifier:
+              type: string
+            eventsIdentifier:
+              type: array
+              items:
+                type: string
       required:
         - success

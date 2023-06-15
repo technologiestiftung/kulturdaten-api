@@ -2,10 +2,8 @@ import { Inject, Service } from "typedi";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { OrganizationsRepository } from "./organizations.repository";
 import { generateID } from "../../../utils/IDUtil";
-import { CreateOrganization } from "../../../generated/models/CreateOrganization.generated";
 import { Organization } from "../../../generated/models/Organization.generated";
-import { PatchOrganization } from "../../../generated/models/PatchOrganization.generated";
-import { Db, MongoClient } from "mongodb";
+import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 
 
@@ -44,7 +42,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		
 		return organizations.findOne({ identifier: organizationId }, { projection: { _id: 0 } });
 	}
-	async updateOrganizationById(organizationId: string, organizationFields: PatchOrganization): Promise<boolean> {
+	async updateOrganizationById(organizationId: string, organizationFields: UpdateOrganizationRequest): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
 
 		const result = await organizations.updateOne({ identifier: organizationId }, { $set: organizationFields });

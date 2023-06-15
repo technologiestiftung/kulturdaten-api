@@ -2,8 +2,8 @@ import { UsersRepository } from "../repositories/users.repository";
 import { UsersService } from "./users.service";
 import { mock, instance, when, verify, anything } from 'ts-mockito';
 import { MongoDBUsersRepository } from "../repositories/users.repository.mongodb";
-import { CreateUser } from "../../../generated/models/CreateUser.generated";
 import { User } from "../../../generated/models/User.generated";
+import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 
 beforeEach(() => {
 	jest.clearAllMocks();
@@ -20,7 +20,7 @@ describe('create user is being tested', () => {
 		let mockedRepo: UsersRepository = mock(MongoDBUsersRepository);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
-		let org: CreateUser = { email: "mail-new@test.de", password: "HASH-NEW" };
+		let org: CreateUserRequest = { email: "mail-new@test.de", password: "HASH-NEW" };
 
 		service.create(org);
 
@@ -34,7 +34,7 @@ describe('create user is being tested', () => {
 		);
 		let repo: UsersRepository = instance(mockedRepo);
 		let service: UsersService = new UsersService(repo);
-		let org: CreateUser = { email: "mail-new@test.de", password: "HASH-NEW" };
+		let org: CreateUserRequest = { email: "mail-new@test.de", password: "HASH-NEW" };
 
 		let orgId: String | null = await service.create(org);
 

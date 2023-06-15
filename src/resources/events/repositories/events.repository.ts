@@ -1,8 +1,7 @@
 import debug from 'debug';
-import { CreateEvent } from '../../../generated/models/CreateEvent.generated';
 import { Event } from '../../../generated/models/Event.generated';
-import { PatchEvent } from '../../../generated/models/PatchEvent.generated';
 import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
+import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
 
 
 const log: debug.IDebugger = debug('app:events-repository');
@@ -16,7 +15,7 @@ export interface EventsRepository {
 
 	getEventByIdentifier(eventId: string) : Promise<Event | null>;
 
-	updateEventById(eventId: string, eventFields: PatchEvent ): Promise<boolean>;
+	updateEventById(eventId: string, eventFields: UpdateEventRequest ): Promise<boolean>;
 
 	removeEventById(eventId: string) :  Promise<boolean>;
 }
