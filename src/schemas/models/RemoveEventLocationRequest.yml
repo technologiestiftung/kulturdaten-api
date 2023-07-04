@@ -2,3 +2,5 @@ type: object
 properties:
   locationIdentifier:
     type: string
+required:
+  - locationIdentifier    

@@ -5,12 +5,14 @@ import { generateID } from "../../../utils/IDUtil";
 import { Location } from "../../../generated/models/Location.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
 
 
 @Service()
 export class MongoDBLocationsRepository implements LocationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+
 	
 	async searchDuplicates(location: Location): Promise<Location[]> {
 		const locations = await this.dbConnector.locations();
@@ -49,16 +51,37 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return Promise.resolve(result.deletedCount === 1);
 	}
 
-	async updateLocationVisibility(locationIdentifier: string, visibility: string): Promise<boolean> {
+
+	async updateOpeningStatus(identifier: string, openingStatus: Location['openingStatus']): Promise<boolean>{
 		const locations = await this.dbConnector.locations();
-		const filter = { identifier: locationIdentifier }; 
+		const filter = { identifier: identifier }; 
         const updateDocument = {
             $set: {
-                "status.visibility": visibility
+                "openingStatus": openingStatus
             },
         };
         const result = await locations.updateOne(filter, updateDocument);
 		return Promise.resolve(result.modifiedCount === 1);
+	}
+
+	async updateStatus(identifier: string, status: Location['status']): Promise<boolean>{
+		const locations = await this.dbConnector.locations();
+		const filter = { identifier: identifier }; 
+        const updateDocument = {
+            $set: {
+                "status": status
+            },
+        };
+        const result = await locations.updateOne(filter, updateDocument);
+		return Promise.resolve(result.modifiedCount === 1);
+	}
+
+	deleteLocationManager(identifier: string): Promise<boolean> {
+		throw new Error("Method not implemented.");
+	}
+
+	setLocationManager(identifier: string, reference: Reference): Promise<boolean> {
+		throw new Error("Method not implemented.");
 	}
 
 }

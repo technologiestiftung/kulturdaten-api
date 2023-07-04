@@ -44,8 +44,8 @@ info:
 
 
     Um die API zu verwenden, benötigen Sie einen JWT (JSON Web Token), den Sie
-    von unserer Website erhalten können. Senden Sie bei jedem API-Aufruf den JWT
-    im Header als Bearer-Token.
+    durch einen login Request erhalten können. Senden Sie bei jedem API-Aufruf
+    den JWT im Header als Bearer-Token.
 
 
     Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu
@@ -72,147 +72,6 @@ info:
 servers:
   - url: http://localhost:3000/api/
 paths:
-  /organizations:
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetOrganizationsResponse'
-    post:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateOrganizationRequest'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateOrganizationResponse'
-  /organizations/search:
-    get:
-      tags:
-        - Discover cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchOrganizationsRequest'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchOrganizationsResponse'
-  /organizations/{identifier}:
-    get:
-      tags:
-        - Discover cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetOrganizationResponse'
-    patch:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateOrganizationRequest'
-      responses:
-        '200':
-          description: OK
-  /organizations/{identifier}/activate:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /organizations/{identifier}/deactivate:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /organizations/{identifier}/retire:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /organizations/{identifier}/archive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /organizations/{identifier}/unarchive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
   /attractions:
     get:
       tags:
@@ -322,7 +181,7 @@ paths:
             schema:
               $ref: '#/components/schemas/RemoveExternalLinkRequest'
       responses:
-        '200':
+        '204':
           description: OK
   /attractions/{identifier}/archive:
     post:
@@ -350,195 +209,32 @@ paths:
       responses:
         '200':
           description: Unarchived
-  /locations:
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetLocationsResponse'
-    post:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateLocationRequest'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateLocationResponse'
-  /locations/search:
-    post:
-      tags:
-        - Discover cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchLocationsRequest'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchLocationsResponse'
-  /locations/{id}:
-    get:
-      tags:
-        - Discover cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetLocationResponse'
-    patch:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateLocationRequest'
-      responses:
-        '200':
-          description: OK
-  /locations/{id}/manager:
-    put:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SetLocationManagerRequest'
-      responses:
-        '200':
-          description: OK
-    delete:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /locations/{id}/open:
+  /attractions/{identifier}/publish:
     post:
       tags:
         - Maintain cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: OK
-  /locations/{id}/close:
+          description: Published
+  /attractions/{identifier}/unpublish:
     post:
       tags:
         - Maintain cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: OK
-  /locations/{id}/permanentlyClose:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /locations/{id}/archive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /locations/{id}/unarchive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-  /locations/{id}/claim:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClaimLocationRequest'
-      responses:
-        '200':
-          description: OK
+          description: Unpublished
   /events:
     get:
       tags:
@@ -828,22 +524,336 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DuplicateEventResponse'
-  /authentication/login:
-    post:
+  /locations:
+    get:
       tags:
-        - Authentication
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
+        - Discover cultural data
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginResponse'
+                $ref: '#/components/schemas/GetLocationsResponse'
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLocationResponse'
+  /locations/search:
+    post:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchLocationsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchLocationsResponse'
+  /locations/{id}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLocationResponse'
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLocationRequest'
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/manager:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetLocationManagerRequest'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/open:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/close:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/permanentlyClose:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /locations/{id}/claim:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimLocationRequest'
+      responses:
+        '200':
+          description: OK
+  /organizations:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrganizationsResponse'
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrganizationResponse'
+  /organizations/search:
+    post:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchOrganizationsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchOrganizationsResponse'
+  /organizations/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrganizationResponse'
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrganizationRequest'
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}/activate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}/deactivate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}/retire:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}/archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /organizations/{identifier}/unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
   /users:
     get:
       tags:
@@ -983,6 +993,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenerateEventsResponse'
+  /authentication/login:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
   /health:
     get:
       tags:
@@ -1099,6 +1125,13 @@ components:
             - event.published
             - event.unpublished
             - event.archived
+        scheduleStatus:
+          type: string
+          enum:
+            - event.cancelled
+            - event.postponed
+            - event.rescheduled
+            - event.scheduled
         schedule:
           type: object
           properties:
@@ -1271,14 +1304,14 @@ components:
         externalLinks:
           type: array
           items:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                url:
-                  type: string
+            type: object
+            properties:
+              displayName:
+                type: string
+              url:
+                type: string
+            required:
+              - url
     Location:
       type: object
       required:
@@ -1363,6 +1396,46 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+        openingStatus:
+          type: string
+          enum:
+            - location.opened
+            - location.closed
+            - location.permanentlyClosed
+        openingHours:
+          type: array
+          items:
+            type: object
+            properties:
+              closes:
+                type: string
+                description: >-
+                  The closing hour of the place or service on the given day(s)
+                  of the week.
+              dayOfWeek:
+                type: string
+                enum:
+                  - Monday
+                  - Tuesday
+                  - Wednesday
+                  - Thursday
+                  - Friday
+                  - Saturday
+                  - Sunday
+                description: The day of the week for which these opening hours are valid.
+              opens:
+                type: string
+                description: >-
+                  The opening hour of the place or service on the given day(s)
+                  of the week.
+              validFrom:
+                type: string
+                description: The date when the item becomes valid.
+              validThrough:
+                type: string
+                description: >-
+                  The date after when the item is not valid. For example the end
+                  of an offer, salary period, or a period of opening hours.
         inLanguages:
           type: array
           items:
@@ -1378,10 +1451,12 @@ components:
             items:
               type: object
               properties:
-                name:
+                displayName:
                   type: string
                 url:
                   type: string
+              required:
+                - url
         manager:
           type: object
           properties:
@@ -1558,6 +1633,8 @@ components:
           type: string
         url:
           type: string
+      required:
+        - url
     GetOrganizationResponse:
       type: object
       properties:
@@ -2149,14 +2226,14 @@ components:
                   externalLinks:
                     type: array
                     items:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          url:
-                            type: string
+                      type: object
+                      properties:
+                        displayName:
+                          type: string
+                        url:
+                          type: string
+                      required:
+                        - url
       required:
         - success
     CreateAttractionRequest:
@@ -2193,14 +2270,14 @@ components:
         externalLinks:
           type: array
           items:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                url:
-                  type: string
+            type: object
+            properties:
+              displayName:
+                type: string
+              url:
+                type: string
+            required:
+              - url
     CreateAttractionResponse:
       type: object
       properties:
@@ -2306,14 +2383,14 @@ components:
                   externalLinks:
                     type: array
                     items:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          url:
-                            type: string
+                      type: object
+                      properties:
+                        displayName:
+                          type: string
+                        url:
+                          type: string
+                      required:
+                        - url
       required:
         - success
     GetAttractionResponse:
@@ -2389,14 +2466,14 @@ components:
                 externalLinks:
                   type: array
                   items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                        url:
-                          type: string
+                    type: object
+                    properties:
+                      displayName:
+                        type: string
+                      url:
+                        type: string
+                    required:
+                      - url
       required:
         - success
     UpdateAttractionRequest:
@@ -2433,14 +2510,14 @@ components:
         externalLinks:
           type: array
           items:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                url:
-                  type: string
+            type: object
+            properties:
+              displayName:
+                type: string
+              url:
+                type: string
+            required:
+              - url
     GetLocationsResponse:
       type: object
       properties:
@@ -2537,6 +2614,49 @@ components:
                         type: string
                         enum:
                           - WGS84 (Decimal Degrees)
+                  openingStatus:
+                    type: string
+                    enum:
+                      - location.opened
+                      - location.closed
+                      - location.permanentlyClosed
+                  openingHours:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        closes:
+                          type: string
+                          description: >-
+                            The closing hour of the place or service on the
+                            given day(s) of the week.
+                        dayOfWeek:
+                          type: string
+                          enum:
+                            - Monday
+                            - Tuesday
+                            - Wednesday
+                            - Thursday
+                            - Friday
+                            - Saturday
+                            - Sunday
+                          description: >-
+                            The day of the week for which these opening hours
+                            are valid.
+                        opens:
+                          type: string
+                          description: >-
+                            The opening hour of the place or service on the
+                            given day(s) of the week.
+                        validFrom:
+                          type: string
+                          description: The date when the item becomes valid.
+                        validThrough:
+                          type: string
+                          description: >-
+                            The date after when the item is not valid. For
+                            example the end of an offer, salary period, or a
+                            period of opening hours.
                   inLanguages:
                     type: array
                     items:
@@ -2552,10 +2672,12 @@ components:
                       items:
                         type: object
                         properties:
-                          name:
+                          displayName:
                             type: string
                           url:
                             type: string
+                        required:
+                          - url
                   manager:
                     type: object
                     properties:
@@ -2633,6 +2755,40 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+        openingHours:
+          type: array
+          items:
+            type: object
+            properties:
+              closes:
+                type: string
+                description: >-
+                  The closing hour of the place or service on the given day(s)
+                  of the week.
+              dayOfWeek:
+                type: string
+                enum:
+                  - Monday
+                  - Tuesday
+                  - Wednesday
+                  - Thursday
+                  - Friday
+                  - Saturday
+                  - Sunday
+                description: The day of the week for which these opening hours are valid.
+              opens:
+                type: string
+                description: >-
+                  The opening hour of the place or service on the given day(s)
+                  of the week.
+              validFrom:
+                type: string
+                description: The date when the item becomes valid.
+              validThrough:
+                type: string
+                description: >-
+                  The date after when the item is not valid. For example the end
+                  of an offer, salary period, or a period of opening hours.
         inLanguages:
           type: array
           items:
@@ -2648,10 +2804,12 @@ components:
             items:
               type: object
               properties:
-                name:
+                displayName:
                   type: string
                 url:
                   type: string
+              required:
+                - url
         manager:
           type: object
           properties:
@@ -2798,6 +2956,49 @@ components:
                         type: string
                         enum:
                           - WGS84 (Decimal Degrees)
+                  openingStatus:
+                    type: string
+                    enum:
+                      - location.opened
+                      - location.closed
+                      - location.permanentlyClosed
+                  openingHours:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        closes:
+                          type: string
+                          description: >-
+                            The closing hour of the place or service on the
+                            given day(s) of the week.
+                        dayOfWeek:
+                          type: string
+                          enum:
+                            - Monday
+                            - Tuesday
+                            - Wednesday
+                            - Thursday
+                            - Friday
+                            - Saturday
+                            - Sunday
+                          description: >-
+                            The day of the week for which these opening hours
+                            are valid.
+                        opens:
+                          type: string
+                          description: >-
+                            The opening hour of the place or service on the
+                            given day(s) of the week.
+                        validFrom:
+                          type: string
+                          description: The date when the item becomes valid.
+                        validThrough:
+                          type: string
+                          description: >-
+                            The date after when the item is not valid. For
+                            example the end of an offer, salary period, or a
+                            period of opening hours.
                   inLanguages:
                     type: array
                     items:
@@ -2813,10 +3014,12 @@ components:
                       items:
                         type: object
                         properties:
-                          name:
+                          displayName:
                             type: string
                           url:
                             type: string
+                        required:
+                          - url
                   manager:
                     type: object
                     properties:
@@ -2933,6 +3136,49 @@ components:
                       type: string
                       enum:
                         - WGS84 (Decimal Degrees)
+                openingStatus:
+                  type: string
+                  enum:
+                    - location.opened
+                    - location.closed
+                    - location.permanentlyClosed
+                openingHours:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      closes:
+                        type: string
+                        description: >-
+                          The closing hour of the place or service on the given
+                          day(s) of the week.
+                      dayOfWeek:
+                        type: string
+                        enum:
+                          - Monday
+                          - Tuesday
+                          - Wednesday
+                          - Thursday
+                          - Friday
+                          - Saturday
+                          - Sunday
+                        description: >-
+                          The day of the week for which these opening hours are
+                          valid.
+                      opens:
+                        type: string
+                        description: >-
+                          The opening hour of the place or service on the given
+                          day(s) of the week.
+                      validFrom:
+                        type: string
+                        description: The date when the item becomes valid.
+                      validThrough:
+                        type: string
+                        description: >-
+                          The date after when the item is not valid. For example
+                          the end of an offer, salary period, or a period of
+                          opening hours.
                 inLanguages:
                   type: array
                   items:
@@ -2948,10 +3194,12 @@ components:
                     items:
                       type: object
                       properties:
-                        name:
+                        displayName:
                           type: string
                         url:
                           type: string
+                      required:
+                        - url
                 manager:
                   type: object
                   properties:
@@ -3044,10 +3292,12 @@ components:
             items:
               type: object
               properties:
-                name:
+                displayName:
                   type: string
                 url:
                   type: string
+              required:
+                - url
         contact:
           type: object
           properties:
@@ -3066,6 +3316,8 @@ components:
           type: object
           additionalProperties:
             type: string
+      required:
+        - organizationIdentifier
     ClaimLocationRequest:
       type: object
       properties:
@@ -3089,7 +3341,7 @@ components:
               type: string
               description: Contact person's phone number (optional).
       required:
-        - organizationId
+        - organizationIdentifier
         - justification
         - contact
     GetEventsResponse:
@@ -3136,6 +3388,13 @@ components:
                       - event.published
                       - event.unpublished
                       - event.archived
+                  scheduleStatus:
+                    type: string
+                    enum:
+                      - event.cancelled
+                      - event.postponed
+                      - event.rescheduled
+                      - event.scheduled
                   schedule:
                     type: object
                     properties:
@@ -3433,6 +3692,13 @@ components:
                       - event.published
                       - event.unpublished
                       - event.archived
+                  scheduleStatus:
+                    type: string
+                    enum:
+                      - event.cancelled
+                      - event.postponed
+                      - event.rescheduled
+                      - event.scheduled
                   schedule:
                     type: object
                     properties:
@@ -3586,6 +3852,13 @@ components:
                     - event.published
                     - event.unpublished
                     - event.archived
+                scheduleStatus:
+                  type: string
+                  enum:
+                    - event.cancelled
+                    - event.postponed
+                    - event.rescheduled
+                    - event.scheduled
                 schedule:
                   type: object
                   properties:
@@ -3771,6 +4044,8 @@ components:
       properties:
         locationIdentifier:
           type: string
+      required:
+        - locationIdentifier
     AddEventAttractionRequest:
       type: object
       properties:
@@ -3785,6 +4060,8 @@ components:
       properties:
         attractionIdentifier:
           type: string
+      required:
+        - attractionIdentifier
     SetEventOrganizerRequest:
       type: object
       properties:
@@ -4007,6 +4284,8 @@ components:
       properties:
         url:
           type: string
+      required:
+        - url
     CreateUserResponse:
       properties:
         success:

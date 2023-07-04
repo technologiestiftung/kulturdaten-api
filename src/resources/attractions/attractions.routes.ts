@@ -64,7 +64,15 @@ export class AttractionsRoutes {
 			.post('/:identifier/unarchive', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.attractionsController.unarchiveAttraction(res, identifier);
-			});
+			})	
+			.post('/:identifier/publish', (req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				this.attractionsController.publishAttraction(res, identifier);
+			})	
+			.post('/:identifier/unpublish', (req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				this.attractionsController.unpublishAttraction(res, identifier);
+			})
 
 		return router;
 	}

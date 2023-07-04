@@ -2,3 +2,5 @@ type: object
 properties:
   attractionIdentifier:
     type: string
+required:
+  - attractionIdentifier    

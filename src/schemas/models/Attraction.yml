@@ -45,6 +45,4 @@ properties:
     items:
       type: string 
   externalLinks:
-    type: array
-    items: 
-      $ref: 'ExternalLinks.yml'
+    $ref: 'ExternalLinks.yml'

@@ -5,12 +5,14 @@ import { generateID } from "../../../utils/IDUtil";
 import { Organization } from "../../../generated/models/Organization.generated";
 import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
+import { SearchOrganizationsRequest } from "../../../generated/models/SearchOrganizationsRequest.generated";
 
 
 @Service()
 export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+
 	
 	async searchDuplicates(organization: Organization): Promise<Organization[]> {
 		const organizations = await this.dbConnector.organizations();
@@ -32,7 +34,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		return newOrganization.identifier;
 	}
 
-	async getOrganizations(limit: number, page: number): Promise<Organization[] | null> {
+	async getOrganizations(limit: number, page: number): Promise<Organization[]> {
 		const organizations = await this.dbConnector.organizations();
 		
 		return organizations.find({}, { projection: { _id: 0 } }).toArray();
@@ -53,6 +55,22 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 		const result = await organizations.deleteOne({ identifier: organizationId });
 		return Promise.resolve(result.deletedCount === 1);
+	}
+
+	async updateOrganizationActivationStatusById(identifier: string, activationStatus: Organization['activationStatus']): Promise<boolean> {
+		const organizations = await this.dbConnector.organizations();
+		const result = await organizations.updateOne({ identifier: identifier }, { $set: { activationStatus: activationStatus } });
+		return Promise.resolve(result.modifiedCount === 1);
+	}
+	
+	async updateOrganizationStatusById(identifier: string, status: Organization['status']): Promise<boolean> {
+		const organizations = await this.dbConnector.organizations();
+		const result = await organizations.updateOne({ identifier: identifier }, { $set: { status: status } });
+		return Promise.resolve(result.modifiedCount === 1);
+	}
+	
+	searchOrganizations(searchOrganizationsRequest: SearchOrganizationsRequest): Organization[] | PromiseLike<Organization[]> {
+		throw new Error("Method not implemented.");
 	}
 
 }

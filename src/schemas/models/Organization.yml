@@ -16,6 +16,12 @@ properties:
       - organization.published
       - organization.unpublished
       - organization.archived
+  activationStatus:
+    type: string
+    enum:
+      - organization.active
+      - organization.inactive
+      - organization.retired
   title: 
     type: object
     additionalProperties:

@@ -16,6 +16,13 @@ properties:
       - event.published
       - event.unpublished
       - event.archived
+  scheduleStatus:
+    type: string
+    enum:
+      - event.cancelled
+      - event.postponed
+      - event.rescheduled
+      - event.scheduled
   schedule:
     $ref: 'Schedule.yml'
   title: 

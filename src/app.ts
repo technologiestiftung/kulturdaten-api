@@ -32,6 +32,8 @@ import { MongoDBLocationsRepository } from './resources/locations/repositories/l
 import { MongoClient } from 'mongodb';
 import { HarvesterRoutes } from './harvester/harvester.routes';
 import { LocationsService } from './resources/locations/services/locations.service';
+import { AttractionsRoutes } from './resources/attractions/attractions.routes';
+import { MongoDBAttractionsRepository } from './resources/attractions/repositories/attractions.repository.mongodb';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -73,7 +75,9 @@ export class KulturdatenBerlinApp {
 		this.registerEventsRoutes();
 		this.registerLocationsRoutes();
 		this.registerHarvesterRoutes();
+		this.registerAttractionsRoutes();
 	}
+
 
 	private initDataBaseConnection() {
 		const path = process.env.MONGO_URI || 'localhost';
@@ -99,6 +103,7 @@ export class KulturdatenBerlinApp {
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
 		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
 		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
+		Container.set('AttractionsRepository', new MongoDBAttractionsRepository(Container.get('Database')));
 	}
 
 
@@ -163,6 +168,11 @@ export class KulturdatenBerlinApp {
 	private registerOrganizationRoutes() {
 		const organizationsRoute = Container.get(OrganizationsRoutes);
 		this.app.use('/api/organizations', organizationsRoute.getRouter());
+	}
+
+	registerAttractionsRoutes() {
+		const attractionsRoute = Container.get(AttractionsRoutes);
+		this.app.use('/api/attractions', attractionsRoute.getRouter());
 	}
 
 	private registerUserRoutes() {

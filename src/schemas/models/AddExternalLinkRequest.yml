@@ -4,3 +4,5 @@ properties:
     type: string
   url:
     type: string
+required:
+  - url    

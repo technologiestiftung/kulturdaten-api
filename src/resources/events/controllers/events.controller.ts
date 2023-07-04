@@ -5,13 +5,14 @@ import { Service } from 'typedi';
 import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
 import { AddEventLocationRequest } from '../../../generated/models/AddEventLocationRequest.generated';
 import { RemoveEventLocationRequest } from '../../../generated/models/RemoveEventLocationRequest.generated';
-import { AddEventAttractionRequest } from '../../../generated/models/AddEventAttractionRequest.generated';
-import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEventAttractionRequest.generated';
 import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrganizerRequest.generated';
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
 import { SearchEventsRequest } from '../../../generated/models/SearchEventsRequest.generated';
 import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
+import { SearchEventsResponse } from '../../../generated/models/SearchEventsResponse.generated';
+import { AddEventAttractionRequest } from '../../../generated/models/AddEventAttractionRequest.generated';
+import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEventAttractionRequest.generated';
 
 const log: debug.IDebugger = debug('app:events-controller');
 
@@ -23,10 +24,29 @@ export class EventsController {
 
 	async listEvents(res: express.Response) {
 		const events = await this.eventsService.list(100, 0);
+		res.status(200).send(new SuccessResponseBuilder().okResponse({ events: events }).build());
+	}
+
+	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
+		const eventId = await this.eventsService.create(createEvent);
+		res.status(201).send(new SuccessResponseBuilder().okResponse({ eventIdentifier: eventId } ).build());
+	}
+
+	public async duplicateEvent(res: express.Response, identifier: string): Promise<void> {
+        const eventId = await this.eventsService.duplicate(identifier);
+        if (eventId) {
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ eventIdentifier: eventId } ).build());
+        } else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Failed to duplicate the event").build());
+        }
+    }
+
+	async searchEvents(res: express.Response, searchEventsRequest: SearchEventsRequest) {
+		const events = await this.eventsService.search(searchEventsRequest);
 		if (events) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ events: events }).build());
+			res.status(200).send(new SuccessResponseBuilder<SearchEventsResponse>().okResponse({ events: events }).build());
 		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Events not found").build());
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No events matched the search criteria").build());
 		}
 	}
 
@@ -39,62 +59,135 @@ export class EventsController {
 		}
 	}
 
-	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
-		const eventId = await this.eventsService.create(createEvent);
-		if (eventId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: eventId } ).build());
+	async updateEvent(res: express.Response, identifier: string, updateEventRequest: UpdateEventRequest) {
+		const isUpdated = await this.eventsService.update(identifier, updateEventRequest);
+		if (isUpdated) {
+			res.status(200).send();
 		} else {
-			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An event cannot be created with the data.").build());
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the event").build());
 		}
 	}
 
-	duplicateEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
+
+	async addEventLocation(res: express.Response, identifier: string, addEventLocationRequest: AddEventLocationRequest) {
+		const isAdded = await this.eventsService.addEventLocation(identifier, addEventLocationRequest);
+		if (isAdded) {
+		  res.status(200).send();
+		} else {
+		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to add location to the event").build());
+		}
 	}
-	unarchiveEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
+
+	async removeEventLocation(res: express.Response, identifier: string, removeEventLocationRequest: RemoveEventLocationRequest) {
+		const isRemoved = await this.eventsService.removeEventLocation(identifier, removeEventLocationRequest);
+		if (isRemoved) {
+		  res.status(204).send();
+		} else {
+		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to remove location from the event").build());
+		}
 	}
-	archiveEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
+
+	async addEventAttraction(res: express.Response, identifier: string, addEventAttractionRequest: AddEventAttractionRequest) {
+		const isAdded = await this.eventsService.addEventAttraction(identifier, addEventAttractionRequest);
+		if (isAdded) {
+		  res.status(200).send();
+		} else {
+		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to add attraction to the event").build());
+		}
 	}
-	cancelEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
+
+	async removeEventAttraction(res: express.Response, identifier: string, removeEventAttractionRequest: RemoveEventAttractionRequest) {
+		const isRemoved = await this.eventsService.removeEventAttraction(identifier, removeEventAttractionRequest);
+		if (isRemoved) {
+		  res.status(204).send();
+		} else {
+		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to remove attraction from the event").build());
+		}
 	}
-	postponeEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
+
+	async setEventOrganizer(res: express.Response, identifier: string, setEventOrganizerRequest: SetEventOrganizerRequest) {
+        const isSet = await this.eventsService.setEventOrganizer(identifier, setEventOrganizerRequest);
+        if (isSet) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to set the organizer for the event").build());
+        }
 	}
-	rescheduleEvent(res: express.Response<any, Record<string, any>>, identifier: string, rescheduleEventRequest: RescheduleEventRequest) {
-		throw new Error('Method not implemented.');
+
+	async deleteEventOrganizer(res: express.Response, identifier: string) {
+        const isDeleted = await this.eventsService.deleteEventOrganizer(identifier);
+        if (isDeleted) {
+            res.status(204).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to delete the organizer from the event").build());
+        }
 	}
-	unpublishEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
-	publishEvent(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
-	deleteEventOrganizer(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
-	setEventOrganizer(res: express.Response<any, Record<string, any>>, identifier: string, setEventOrganizerRequest: SetEventOrganizerRequest) {
-		throw new Error('Method not implemented.');
-	}
-	removeEventAttraction(res: express.Response<any, Record<string, any>>, identifier: string, removeEventAttractionRequest: RemoveEventAttractionRequest) {
-		throw new Error('Method not implemented.');
-	}
-	addEventAttraction(res: express.Response<any, Record<string, any>>, identifier: string, addEventAttractionRequest: AddEventAttractionRequest) {
-		throw new Error('Method not implemented.');
-	}
-	removeEventLocation(res: express.Response<any, Record<string, any>>, identifier: string, removeEventLocationRequest: RemoveEventLocationRequest) {
-		throw new Error('Method not implemented.');
-	}
-	addEventLocation(res: express.Response<any, Record<string, any>>, identifier: string, addEventLocationRequest: AddEventLocationRequest) {
-		throw new Error('Method not implemented.');
-	}
-	updateEvent(res: express.Response<any, Record<string, any>>, identifier: string, updateEventRequest: UpdateEventRequest) {
-		throw new Error('Method not implemented.');
-	}
-	searchEvents(res: express.Response<any, Record<string, any>>, searchEventsRequest: SearchEventsRequest) {
-		throw new Error('Method not implemented.');
+
+	public async publishEvent(res: express.Response, identifier: string): Promise<void> {
+        const isPublished = await this.eventsService.publish(identifier);
+        if (isPublished) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to publish the event").build());
+        }
+    }
+
+    public async unpublishEvent(res: express.Response, identifier: string): Promise<void> {
+        const isUnpublished = await this.eventsService.unpublish(identifier);
+        if (isUnpublished) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unpublish the event").build());
+        }
+    }
+
+
+
+
+
+    public async archiveEvent(res: express.Response, identifier: string): Promise<void> {
+        const isArchived = await this.eventsService.archive(identifier);
+        if (isArchived) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to archive the event").build());
+        }
+    }
+
+	public async unarchiveEvent(res: express.Response, identifier: string): Promise<void> {
+        const isUnarchived = await this.eventsService.unarchive(identifier);
+        if (isUnarchived) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unarchive the event").build());
+        }
+    }
+
+    public async cancelEvent(res: express.Response, identifier: string): Promise<void> {
+        const isCanceled = await this.eventsService.cancel(identifier);
+        if (isCanceled) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to cancel the event").build());
+        }
+    }
+
+    public async postponeEvent(res: express.Response, identifier: string): Promise<void> {
+        const isPostponed = await this.eventsService.postpone(identifier);
+        if (isPostponed) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to postpone the event").build());
+        }
+    }
+
+    public async rescheduleEvent(res: express.Response, identifier: string, rescheduleEventRequest: RescheduleEventRequest): Promise<void> {
+        const isRescheduled = await this.eventsService.reschedule(identifier, rescheduleEventRequest);
+        if (isRescheduled) {
+            res.status(200).send();
+        } else {
+            res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to reschedule the event").build());
+        }
 	}
 
 }

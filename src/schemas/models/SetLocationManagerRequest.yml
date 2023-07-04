@@ -6,3 +6,5 @@ properties:
     type: object
     additionalProperties:
       type: string 
+required:
+  - organizationIdentifier

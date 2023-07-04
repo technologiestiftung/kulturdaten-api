@@ -1,42 +1,81 @@
 import { LocationsRepository } from '../repositories/locations.repository';
 import { Location } from '../../../generated/models/Location.generated';
-import { CRUD } from '../../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
 import { CreateLocationRequest } from '../../../generated/models/CreateLocationRequest.generated';
 import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationRequest.generated';
+import { SearchLocationsRequest } from '../../../generated/models/SearchLocationsRequest.generated';
+import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
 
 @Service()
-export class LocationsService implements CRUD {
-	
-	async searchDuplicates(location: Location) : Promise<Location[]> {
-		return this.locationsRepository.searchDuplicates(location);
-	}
+export class LocationsService{
 
 	constructor(@Inject('LocationsRepository') public locationsRepository: LocationsRepository){}
+
+
+	async list(limit: number, page: number) {
+		return this.locationsRepository.getLocations(limit,page);
+	}
 
 	async create(resource: CreateLocationRequest) {
 		return this.locationsRepository.addLocation(resource);
 	}
 
-	async deleteById(id: string) : Promise<boolean> {
-		return this.locationsRepository.removeLocationById(id);
-	}
-
-	async list(limit: number, page: number) {
-		return this.locationsRepository.getLocations(limit,page);
+	search(searchLocationsRequest: SearchLocationsRequest) : Promise<Location[] | null> {
+		throw new Error('Method not implemented.');
 	}
 
 	async readById(id: string) {
 		return this.locationsRepository.getLocationByIdentifier(id);
 	}
 
-	async patchById(id: string, resource: UpdateLocationRequest) {
-		return this.locationsRepository.updateLocationById(id, resource);
+	async update(id: string, updateLocationRequest: UpdateLocationRequest) {
+		return this.locationsRepository.updateLocationById(id, updateLocationRequest);
 	}
 
-	async publishLocation(locationIdentifier: string): Promise<boolean> {
-		return this.locationsRepository.updateLocationVisibility(locationIdentifier, "visibility.published");
+	setLocationManager(identifier: string, setLocationManagerRequest: SetLocationManagerRequest): Promise<boolean> {
+		const reference = {
+			referenceType: 'type.Organization',
+			referenceId: setLocationManagerRequest.organizationIdentifier,
+			referenceLabel: setLocationManagerRequest.alternativeDisplayName
+		}
+		return this.locationsRepository.setLocationManager(identifier, reference);
 	}
+
+	deleteLocationManager(identifier: string): Promise<boolean> {
+		return this.locationsRepository.deleteLocationManager(identifier);
+	}
+
+	archive(identifier: string)  : Promise<boolean> {
+		return this.locationsRepository.updateStatus(identifier, "location.archived");
+	}
+	unarchive(identifier: string) : Promise<boolean>  {
+		return this.locationsRepository.updateStatus(identifier, "location.unpublished");
+	}
+	
+	async publishLocation(identifier: string): Promise<boolean> {
+		return this.locationsRepository.updateStatus(identifier, "location.published");
+	}
+
+	async unpublish(identifier: string): Promise<boolean> {
+		return this.locationsRepository.updateStatus(identifier, "location.unpublished");
+	  }
+
+
+	permanentlyCloseLocation(identifier: string): Promise<boolean>  {
+		return this.locationsRepository.updateOpeningStatus(identifier, "location.permanentlyClosed");
+	}
+	openLocation(identifier: string) : Promise<boolean> {
+		return this.locationsRepository.updateOpeningStatus(identifier, "location.opened");
+	}
+	closeLocation(identifier: string) : Promise<boolean> {
+		return this.locationsRepository.updateOpeningStatus(identifier, "location.closed");
+	}
+
+	
+	async searchDuplicates(location: Location) : Promise<Location[]> {
+		return this.locationsRepository.searchDuplicates(location);
+	}
+
 
 
 }

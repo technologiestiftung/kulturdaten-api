@@ -8,6 +8,7 @@ import { ClaimLocationRequest } from '../../../generated/models/ClaimLocationReq
 import { SearchLocationsRequest } from '../../../generated/models/SearchLocationsRequest.generated';
 import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
 import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
+import { SearchLocationsResponse } from '../../../generated/models/SearchLocationsResponse.generated';
 
 const log: debug.IDebugger = debug('app:locations-controller');
 
@@ -38,44 +39,89 @@ export class LocationsController {
 	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
 		const locationId = await this.locationsService.create(createLocationRequest);
 		if (locationId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: locationId } ).build());
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: locationId }).build());
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An location cannot be created with the data.").build());
 		}
 	}
 
-	searchLocations(res: express.Response<any, Record<string, any>>, searchLocationsRequest: SearchLocationsRequest) {
-		throw new Error('Method not implemented.');
+	async searchLocations(res: express.Response, searchLocationsRequest: SearchLocationsRequest) {
+		const locations = await this.locationsService.search(searchLocationsRequest);
+		if (locations) {
+			res.status(200).send(new SuccessResponseBuilder<SearchLocationsResponse>().okResponse({ locations: locations }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No locations matched the search criteria").build());
+		}
 	}
-	claimLocation(res: express.Response<any, Record<string, any>>, identifier: string, claimLocationRequest: ClaimLocationRequest) {
+	claimLocation(res: express.Response, identifier: string, claimLocationRequest: ClaimLocationRequest) {
+		//TODO: check claim
+		this.setLocationManager(res, identifier, claimLocationRequest);
+	}
+
+	async unarchiveLocation(res: express.Response, identifier: string) {
+		const isUnarchived = await this.locationsService.unarchive(identifier);
+		if (isUnarchived) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unarchive the location").build());
+		}
+	}
+
+	async closeLocation(res: express.Response, identifier: string) {
+		const isClosed = await this.locationsService.closeLocation(identifier);
+		if (isClosed) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to close the location").build());
+		}
+	}
+
+	async openLocation(res: express.Response, identifier: string) {
+		const isOpened = await this.locationsService.openLocation(identifier);
+		if (isOpened) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to open the location").build());
+		}
+	}
+
+	async permanentlyCloseLocation(res: express.Response, identifier: string) {
+		const isPermanentlyClosed = await this.locationsService.permanentlyCloseLocation(identifier);
+		if (isPermanentlyClosed) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to permanently close the location").build());
+		}
+	}
+
+	async deleteLocationManager(res: express.Response, identifier: string) {
+		const isDeleted = await this.locationsService.deleteLocationManager(identifier);
+		if (isDeleted) {
+			res.status(204).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to delete the manager from the location").build());
+		}
+	}
+	async setLocationManager(res: express.Response, identifier: string, setLocationManagerRequest: SetLocationManagerRequest) {
+		const isSet = await this.locationsService.setLocationManager(identifier, setLocationManagerRequest);
+		if (isSet) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to set the manager for the location").build());
+		}
+	}
+	updateLocation(res: express.Response, identifier: string, updateLocationRequest: UpdateLocationRequest) {
 		throw new Error('Method not implemented.');
 	}
 
-	unarchiveLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
+	async archiveLocation(res: express.Response, identifier: string) {
+		const isArchived = await this.locationsService.archive(identifier);
+		if (isArchived) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to archive the location").build());
+		}
 	}
 
-	closeLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
-	openLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
-	deleteLocationManager(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
-	setLocationManager(res: express.Response<any, Record<string, any>>, identifier: string, setLocationManagerRequest: SetLocationManagerRequest) {
-		throw new Error('Method not implemented.');
-	}
-	updateLocation(res: express.Response<any, Record<string, any>>, identifier: string, updateLocationRequest: UpdateLocationRequest) {
-		throw new Error('Method not implemented.');
-	}
-
-	archiveLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
-	permanentlyCloseLocation(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
-	}
 
 }

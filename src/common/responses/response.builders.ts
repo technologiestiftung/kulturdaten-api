@@ -1,40 +1,41 @@
 import { Response } from '../../generated/models/Response.generated';
 
-export class SuccessResponseBuilder {
+export class SuccessResponseBuilder<T extends Response> {
   private success: boolean = true;
   private message?: string;
-  private data?: {};
+  private data?: any;
 
-  setMessage(message: string): SuccessResponseBuilder {
+  setMessage(message: string): SuccessResponseBuilder<T> {
     this.message = message;
     return this;
   }
 
-  setData(data: {}): SuccessResponseBuilder {
+  setData(data: any): SuccessResponseBuilder<T> {
     this.data = data;
     return this;
   }
 
-  okResponse(data?: {}): SuccessResponseBuilder {
+  okResponse(data?: any): SuccessResponseBuilder<T> {
     this.message = "Operation Successful";
     this.data = data;
     return this;
   }
 
-  createdResponse(data?: {}): SuccessResponseBuilder {
+  createdResponse(data?: any): SuccessResponseBuilder<T> {
     this.message = "Resource Created";
     this.data = data;
     return this;
   }
 
-  build(): Response {
+  build(): T {
     return {
       success: this.success,
       message: this.message,
       data: this.data
-    };
+    } as T;
   }
 }
+
 
 export class ErrorResponseBuilder {
   private success: boolean = false;

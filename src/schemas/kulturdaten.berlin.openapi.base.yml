@@ -34,155 +34,6 @@ info:
 servers:
   - url: http://localhost:3000/api/
 paths:
-  /organizations:
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetOrganizationsResponse"
-    post:
-      tags:
-        - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateOrganizationRequest"
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CreateOrganizationResponse"
-
-  /organizations/search:
-    get:
-      tags:
-        - Discover cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SearchOrganizationsRequest"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SearchOrganizationsResponse"
-
-  /organizations/{identifier}:
-    get:
-      tags:
-        - Discover cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetOrganizationResponse"
-    patch:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateOrganizationRequest"
-      responses:
-        "200":
-          description: OK
-  
-  /organizations/{identifier}/activate:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-
-  /organizations/{identifier}/deactivate:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-  
-  /organizations/{identifier}/retire:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-
-  /organizations/{identifier}/archive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-
-  /organizations/{identifier}/unarchive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: identifier
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-
   /attractions:
     get:
       tags:
@@ -295,7 +146,7 @@ paths:
             schema:
               $ref: "#/components/schemas/RemoveExternalLinkRequest"   
         responses:
-          "200":
+          "204":
             description: OK
 
   /attractions/{identifier}/archive:
@@ -326,204 +177,33 @@ paths:
         "200":
           description: Unarchived
 
-  /locations:
-    get:
-      tags:
-        - Discover cultural data
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetLocationsResponse"
+  /attractions/{identifier}/publish:
     post:
       tags:
         - Maintain cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateLocationRequest"
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CreateLocationResponse"
-  
-  /locations/search:
-    post:
-      tags:
-        - Discover cultural data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SearchLocationsRequest"
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SearchLocationsResponse"
+          description: Published
 
-  /locations/{id}:
-    get:
-      tags:
-        - Discover cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetLocationResponse"
-    patch:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateLocationRequest"
-      responses:
-        "200":
-          description: OK
-  
-  /locations/{id}/manager:
-    put:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SetLocationManagerRequest"
-      responses:
-        "200":
-          description: OK
-    delete:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-  
-  /locations/{id}/open:
+  /attractions/{identifier}/unpublish:
     post:
       tags:
         - Maintain cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: OK
-  
-  /locations/{id}/close:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-  
-  /locations/{id}/permanentlyClose:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-  
-  /locations/{id}/archive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-  
-  /locations/{id}/unarchive:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-
-  /locations/{id}/claim:
-    post:
-      tags:
-        - Maintain cultural data
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ClaimLocationRequest"
-      responses:
-        "200":
-          description: OK
+          description: Unpublished
 
   /events:
     get:
@@ -833,23 +513,353 @@ paths:
                 $ref: "#/components/schemas/DuplicateEventResponse"
 
 
-
-  /authentication/login:
-    post:
+  /locations:
+    get:
       tags:
-        - Authentication
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LoginRequest"
+        - Discover cultural data
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LoginResponse"
+                $ref: "#/components/schemas/GetLocationsResponse"
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLocationRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateLocationResponse"
+  
+  /locations/search:
+    post:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchLocationsRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchLocationsResponse"
+
+  /locations/{id}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetLocationResponse"
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateLocationRequest"
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}/manager:
+    put:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetLocationManagerRequest"
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}/open:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}/close:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}/permanentlyClose:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}/archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /locations/{id}/unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /locations/{id}/claim:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClaimLocationRequest"
+      responses:
+        "200":
+          description: OK
+
+  /organizations:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationsResponse"
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrganizationRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateOrganizationResponse"
+
+  /organizations/search:
+    post:
+      tags:
+        - Discover cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchOrganizationsRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchOrganizationsResponse"
+
+  /organizations/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationResponse"
+    patch:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrganizationRequest"
+      responses:
+        "200":
+          description: OK
+  
+  /organizations/{identifier}/activate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /organizations/{identifier}/deactivate:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  
+  /organizations/{identifier}/retire:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /organizations/{identifier}/archive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /organizations/{identifier}/unarchive:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
 
   /users:
     get:
@@ -993,6 +1003,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GenerateEventsResponse"
+
+  /authentication/login:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
 
   /health:
     get:

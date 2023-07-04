@@ -20,6 +20,8 @@ properties:
     $ref: 'Borough.yml'
   coordinates:
     $ref: 'Coordinates.yml'
+  openingHours:
+    $ref: 'OpeningHours.yml'
   inLanguages:
     type: array
     items:

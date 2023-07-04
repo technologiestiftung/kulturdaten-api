@@ -5,43 +5,108 @@ import { SearchAttractionsRequest } from '../../../generated/models/SearchAttrac
 import { UpdateAttractionRequest } from '../../../generated/models/UpdateAttractionRequest.generated';
 import { AddExternalLinkRequest } from '../../../generated/models/AddExternalLinkRequest.generated';
 import { RemoveExternalLinkRequest } from '../../../generated/models/RemoveExternalLinkRequest.generated';
+import { SuccessResponseBuilder, ErrorResponseBuilder } from '../../../common/responses/response.builders';
+import { AttractionsService } from '../services/attractions.service';
+import { GetAttractionsResponse } from '../../../generated/models/GetAttractionsResponse.generated';
+import { CreateAttractionResponse } from '../../../generated/models/CreateAttractionResponse.generated';
+import { SearchAttractionsResponse } from '../../../generated/models/SearchAttractionsResponse.generated';
+import { GetAttractionResponse } from '../../../generated/models/GetAttractionResponse.generated';
 
 @Service()
 export class AttractionsController {
+
+  constructor(
+		public attractionsService: AttractionsService) { }
   
-  public listAttractions(res: Response): void {
-    // Implementiere die Logik zum Auflisten von Attraktionen
+  async listAttractions(res: Response) {
+    const attractions = await this.attractionsService.list(100, 0);
+    res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse({ attractions: attractions }).build());
   }
-  
-  public createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest): void {
-    // Implementiere die Logik zum Erstellen einer Attraktion
+
+  async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {
+    const attractionId = await this.attractionsService.create(createAttractionRequest);
+		res.status(201).send(new SuccessResponseBuilder<CreateAttractionResponse>().okResponse({ attractionIdentifier: attractionId } ).build());
   }
-  
-  public searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest): void {
-    // Implementiere die Logik zur Suche nach Attraktionen
+
+  public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest) {
+    const attractions = await this.attractionsService.search(searchAttractionsRequest);
+    if (attractions) {
+        res.status(200).send(new SuccessResponseBuilder<SearchAttractionsResponse>().okResponse({ attractions: attractions }).build());
+    } else {
+        res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No attractions matched the search criteria").build());
+    }
   }
-  
-  public getAttractionById(res: Response, identifier: string): void {
-    // Implementiere die Logik zum Abrufen einer Attraktion anhand der ID
+
+  async getAttractionById(res: Response, identifier: string) {
+    const attraction = await this.attractionsService.readById(identifier);
+		if (attraction) {
+			res.status(200).send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ attraction: attraction }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
+		}
   }
-  
-  public updateAttraction(res: Response, identifier: string, updateAttractionRequest: UpdateAttractionRequest): void {
-    // Implementiere die Logik zum Aktualisieren einer Attraktion
+
+  public async updateAttraction(res: Response, identifier: string, updateAttractionRequest: UpdateAttractionRequest): Promise<void> {
+    const isUpdated = await this.attractionsService.update(identifier, updateAttractionRequest);
+    if (isUpdated) {
+        res.status(200).send();
+    } else {
+        res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the attraction").build());
+    }
   }
-  
-  public addExternalLink(res: Response, identifier: string, addExternalLinkRequest: AddExternalLinkRequest): void {
-    // Implementiere die Logik zum Hinzufügen eines externen Links zu einer Attraktion
+
+  public async addExternalLink(res: Response, identifier: string, addExternalLinkRequest: AddExternalLinkRequest): Promise<void> {
+    const isAdded = await this.attractionsService.addExternalLink(identifier, addExternalLinkRequest);
+    if (isAdded) {
+      res.status(200).send();
+    } else {
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to add external link to the attraction").build());
+    }
   }
-  
-  public removeExternalLink(res: Response, identifier: string, removeExternalLinkRequest: RemoveExternalLinkRequest): void {
-    // Implementiere die Logik zum Entfernen eines externen Links von einer Attraktion
+
+  public async removeExternalLink(res: Response, identifier: string, removeExternalLinkRequest: RemoveExternalLinkRequest): Promise<void> {
+    const isRemoved = await this.attractionsService.removeExternalLink(identifier, removeExternalLinkRequest);
+    if (isRemoved) {
+      res.status(204).send();
+    } else {
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to remove external link from the attraction").build());
+    }
   }
-  
-  public archiveAttraction(res: Response, identifier: string): void {
-    // Implementiere die Logik zum Archivieren einer Attraktion
+
+  public async archiveAttraction(res: Response, identifier: string): Promise<void> {
+    const isArchived = await this.attractionsService.archive(identifier);
+    if (isArchived) {
+      res.status(200).send();
+    } else {
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to archive the attraction").build());
+    }
   }
-  
-  public unarchiveAttraction(res: Response, identifier: string): void {
-    // Implementiere die Logik zum Wiederherstellen einer archivierten Attraktion
+
+  public async unarchiveAttraction(res: Response, identifier: string): Promise<void> {
+    const isUnarchived = await this.attractionsService.unarchive(identifier);
+    if (isUnarchived) {
+      res.status(200).send();
+    } else {
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unarchive the attraction").build());
+    }
   }
+
+  public async publishAttraction(res: Response, identifier: string): Promise<void> {
+    const isPublished = await this.attractionsService.publish(identifier);
+    if (isPublished) {
+      res.status(200).send();
+    } else {
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to publish the attraction").build());
+    }
+  }
+
+  public async unpublishAttraction(res: Response, identifier: string): Promise<void> {
+    const isUnpublished = await this.attractionsService.unpublish(identifier);
+    if (isUnpublished) {
+      res.status(200).send();
+    } else {
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unpublish the attraction").build());
+    }
+  }
+
 }

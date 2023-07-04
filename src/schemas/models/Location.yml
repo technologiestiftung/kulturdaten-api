@@ -36,6 +36,14 @@ properties:
     $ref: 'Borough.yml'
   coordinates:
     $ref: 'Coordinates.yml'
+  openingStatus:
+    type: string
+    enum:
+      - location.opened
+      - location.closed
+      - location.permanentlyClosed
+  openingHours:
+    $ref: 'OpeningHours.yml'
   inLanguages:
     type: array
     items:
