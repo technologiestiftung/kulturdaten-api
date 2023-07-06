@@ -1,0 +1,250 @@
+[
+	{
+		"type": "type.Location",
+		"identifier": "LOC-12345678",
+		"metadata": {
+		  "created": "2023-07-06T08:00:00Z",
+		  "updated": "2023-07-06T10:00:00Z",
+		  "origin": "Berlin",
+		  "originObjectID": "LOC-BER-1234",
+		  "availableLanguages": ["de", "en"]
+		},
+		"status": "location.published",
+		"title": {
+		  "de": "Berliner Historisches Museum",
+		  "en": "Berlin Historical Museum"
+		},
+		"displayName": {
+		  "de": "Historisches Museum",
+		  "en": "Historical Museum"
+		},
+		"description": {
+		  "de": "Das Berliner Historische Museum bietet Einblicke in die Geschichte der Stadt Berlin.",
+		  "en": "The Berlin Historical Museum offers insights into the history of the city of Berlin."
+		},
+		"website": "https://example.com/berlin-historical-museum",
+		"address": {
+		  "streetAddress": "Museumsstraße 1",
+		  "addressLocality": "Berlin",
+		  "postalCode": "10179",
+		  "description": "In der Nähe des Alexanderplatzes"
+		},
+		"borough": "Mitte",
+		"coordinates": {
+		  "latitude": "52.5200",
+		  "longitude": "13.4050",
+		  "coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"openingStatus": "location.opened",
+		"openingHours": [
+		  {
+			"closes": "17:00",
+			"dayOfWeek": "Monday",
+			"opens": "10:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  },
+		  {
+			"closes": "17:00",
+			"dayOfWeek": "Tuesday",
+			"opens": "10:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  },
+		  {
+			"closes": "17:00",
+			"dayOfWeek": "Wednesday",
+			"opens": "10:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  }
+		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Museum", "Geschichte", "Berlin"],
+		"externalLinks": [
+		  [
+			{
+			  "displayName": "TripAdvisor",
+			  "url": "https://www.tripadvisor.com/Attraction_Review-g187323-d123456-Berlin_Historical_Museum-Berlin.html"
+			}
+		  ]
+		],
+		"manager": {
+		  "referenceType": "Organization",
+		  "referenceId": "MAN-123",
+		  "referenceLabel": {
+			"de": "Berliner Museumsverband",
+			"en": "Berlin Museum Association"
+		  }
+		},
+		"contact": {
+		  "name": "Klara Schmidt",
+		  "email": "klara.schmidt@example.com",
+		  "telephone": "+49 30 12345678"
+		}
+	  },
+	  {
+		"type": "type.Location",
+		"identifier": "LOC-87654321",
+		"metadata": {
+		  "created": "2023-07-06T09:00:00Z",
+		  "updated": "2023-07-06T11:00:00Z",
+		  "origin": "Berlin",
+		  "originObjectID": "LOC-BER-5678",
+		  "availableLanguages": ["de", "en"]
+		},
+		"status": "location.published",
+		"title": {
+		  "de": "Berliner Tiergarten",
+		  "en": "Berlin Tiergarten"
+		},
+		"displayName": {
+		  "de": "Tiergarten",
+		  "en": "Tiergarten"
+		},
+		"description": {
+		  "de": "Der Berliner Tiergarten ist einer der größten und bekanntesten Parks in Berlin, ideal für Spaziergänge, Picknicks und Erholung.",
+		  "en": "The Berlin Tiergarten is one of the largest and most famous parks in Berlin, ideal for walks, picnics, and relaxation."
+		},
+		"website": "https://example.com/berlin-tiergarten",
+		"address": {
+		  "streetAddress": "Straße des 17. Juni",
+		  "addressLocality": "Berlin",
+		  "postalCode": "10557",
+		  "description": "Zentral gelegen nahe dem Brandenburger Tor"
+		},
+		"borough": "Mitte",
+		"coordinates": {
+		  "latitude": "52.5145",
+		  "longitude": "13.3501",
+		  "coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"openingStatus": "location.opened",
+		"openingHours": [
+		  {
+			"closes": "20:00",
+			"dayOfWeek": "Monday",
+			"opens": "06:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  },
+		  {
+			"closes": "20:00",
+			"dayOfWeek": "Tuesday",
+			"opens": "06:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  },
+		  {
+			"closes": "20:00",
+			"dayOfWeek": "Wednesday",
+			"opens": "06:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  }
+		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Park", "Erholung", "Berlin"],
+		"externalLinks": [
+		  [
+			{
+			  "displayName": "TripAdvisor",
+			  "url": "https://www.tripadvisor.com/Attraction_Review-g187323-d270109-Tiergarten-Berlin.html"
+			}
+		  ]
+		],
+		"manager": {
+		  "referenceType": "Organization",
+		  "referenceId": "MAN-456",
+		  "referenceLabel": {
+			"de": "Berliner Grünflächenamt",
+			"en": "Berlin Green Spaces Authority"
+		  }
+		},
+		"contact": {
+		  "name": "Max Müller",
+		  "email": "max.mueller@example.com",
+		  "telephone": "+49 30 87654321"
+		}
+	  },
+	  {
+		"type": "type.Location",
+		"identifier": "LOC-12345679",
+		"metadata": {
+		  "created": "2023-07-06T12:00:00Z",
+		  "updated": "2023-07-06T14:00:00Z",
+		  "origin": "Berlin",
+		  "originObjectID": "LOC-BER-7890",
+		  "availableLanguages": ["de", "en"]
+		},
+		"status": "location.published",
+		"title": {
+		  "de": "U-Schacht Bühne",
+		  "en": "U-Shaft Stage"
+		},
+		"displayName": {
+		  "de": "U-Schacht Bühne",
+		  "en": "U-Shaft Stage"
+		},
+		"description": {
+		  "de": "Die U-Schacht Bühne ist ein einzigartiger Veranstaltungsort in einem alten U-Bahn-Schacht in Berlin. Hier finden kleine Konzerte, Theateraufführungen und andere Veranstaltungen statt.",
+		  "en": "The U-Shaft Stage is a unique venue located in an old subway shaft in Berlin. It hosts small concerts, theater performances, and other events."
+		},
+		"website": "https://example.com/u-schacht-buehne",
+		"address": {
+		  "streetAddress": "U-Bahn Straße 5",
+		  "addressLocality": "Berlin",
+		  "postalCode": "10115",
+		  "description": "In einem alten U-Bahn-Schacht unter der Stadt"
+		},
+		"borough": "Mitte",
+		"coordinates": {
+		  "latitude": "52.5320",
+		  "longitude": "13.3788",
+		  "coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"openingStatus": "location.opened",
+		"openingHours": [
+		  {
+			"closes": "23:00",
+			"dayOfWeek": "Friday",
+			"opens": "20:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  },
+		  {
+			"closes": "23:00",
+			"dayOfWeek": "Saturday",
+			"opens": "20:00",
+			"validFrom": "2023-01-01",
+			"validThrough": "2023-12-31"
+		  }
+		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Bühne", "Konzerte", "Theater", "U-Bahn", "Berlin"],
+		"externalLinks": [
+		  [
+			{
+			  "displayName": "TimeOut",
+			  "url": "https://www.timeout.com/berlin/en/venues/u-shaft-stage"
+			}
+		  ]
+		],
+		"manager": {
+		  "referenceType": "Organization",
+		  "referenceId": "MAN-789",
+		  "referenceLabel": {
+			"de": "Kulturverein U-Schacht",
+			"en": "U-Shaft Culture Association"
+		  }
+		},
+		"contact": {
+		  "name": "Lena Schmidt",
+		  "email": "lena.schmidt@example.com",
+		  "telephone": "+49 30 12345679"
+		}
+	  }
+	  
+	  
+	  
+]

@@ -39,7 +39,7 @@ export class LocationsController {
 	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
 		const locationId = await this.locationsService.create(createLocationRequest);
 		if (locationId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: locationId }).build());
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ locationIdentifier: locationId }).build());
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An location cannot be created with the data.").build());
 		}
@@ -110,8 +110,13 @@ export class LocationsController {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to set the manager for the location").build());
 		}
 	}
-	updateLocation(res: express.Response, identifier: string, updateLocationRequest: UpdateLocationRequest) {
-		throw new Error('Method not implemented.');
+	async updateLocation(res: express.Response, identifier: string, updateLocationRequest: UpdateLocationRequest) {
+		const isUpdated = await this.locationsService.update(identifier, updateLocationRequest);
+		if (isUpdated) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the location").build());
+		}
 	}
 
 	async archiveLocation(res: express.Response, identifier: string) {

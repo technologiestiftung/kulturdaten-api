@@ -35,7 +35,7 @@ export class OrganizationsController {
 	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
 		const organizationId = await this.organizationsService.create(createOrganization);
 		if (organizationId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: organizationId }).build());
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ organizationIdentifier: organizationId }).build());
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build());
 		}
