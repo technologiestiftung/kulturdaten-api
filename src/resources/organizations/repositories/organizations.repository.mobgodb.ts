@@ -21,10 +21,6 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async searchOrganizations(filter: Filter): Promise<Organization[]> {
 		const organizationsCollection = await this.dbConnector.organizations();
-		console.log("FILTER " + filter);
-
-
-		
 		return Promise.resolve(organizationsCollection.find(filter, { projection: { _id: 0 } }).toArray());
 	}
 

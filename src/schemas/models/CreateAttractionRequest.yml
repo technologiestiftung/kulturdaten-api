@@ -30,3 +30,10 @@ properties:
       type: string 
   externalLinks:
     $ref: 'ExternalLinks.yml'
+  metadata:
+    type: object
+    properties:
+      origin:
+        type: string
+      originObjectID:
+        type: string  

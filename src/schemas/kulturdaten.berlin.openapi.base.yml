@@ -1057,11 +1057,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  createsOrganizations:
+                  createdOrganizations:
                     type: array
                     items:
                       $ref: '#/components/schemas/Reference'
-                    
+                  createdLocations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reference'                    
 
 components:
   securitySchemes:

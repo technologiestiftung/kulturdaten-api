@@ -14,7 +14,7 @@ import addFormats from "ajv-formats";
 export const schemaForSearchAttractionsRequest = {
   $id: "SearchAttractionsRequest.yml",
   type: "object",
-  properties: {filter: {type: "object", additionalProperties: true}}
+  properties: {searchFilter: {type: "object", additionalProperties: true}}
 };
 
 export function validateSearchAttractionsRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -27,7 +27,7 @@ export function validateSearchAttractionsRequest(o: object): {isValid: boolean; 
 }
 
 export interface SearchAttractionsRequest {
-  filter?: {
+  searchFilter?: {
     [k: string]: unknown;
   };
 }

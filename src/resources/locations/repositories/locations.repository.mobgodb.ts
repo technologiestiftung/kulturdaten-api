@@ -6,6 +6,7 @@ import { Location } from "../../../generated/models/Location.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 
 @Service()
@@ -14,28 +15,33 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
 	
-	async searchDuplicates(location: Location): Promise<Location[]> {
-		const locations = await this.dbConnector.locations();
-		const query = { 
-			'origin.originId': location.metadata?.originObjectID,
-			'origin.name': location.metadata?.origin 
-		};
-		const response = await locations.find(query).toArray();
-		return response;
-	}
-
-	async addLocation(createLocation: CreateLocationRequest): Promise<string> {
+	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
 		const newLocation = createLocation as Location;
 		newLocation.identifier = generateID();
 
 		const locations = await this.dbConnector.locations();
-		await locations.insertOne(newLocation);
-		return newLocation.identifier;
+		const result = await locations.insertOne(newLocation);
+
+		if(!result.acknowledged){
+			return Promise.resolve(null);
+		}
+		return {
+			referenceType: 'type.Location',
+			referenceId: newLocation.identifier,
+			referenceLabel: newLocation.displayName? newLocation.displayName : newLocation.title
+		};
 	}
 	async getLocations(limit: number, page: number): Promise<Location[] | null> {
 		const locations = await this.dbConnector.locations();
 		return locations.find({}, { projection: { _id: 0 } }).toArray();
 	}
+
+
+	async searchLocations(filter: Filter): Promise<Location[]> {
+		const locations = await this.dbConnector.locations();
+		return Promise.resolve(locations.find(filter, { projection: { _id: 0 } }).toArray());
+	}
+
 	async getLocationByIdentifier(locationId: string): Promise<Location | null> {
 		const locations = await this.dbConnector.locations();
 		return locations.findOne({ identifier: locationId }, { projection: { _id: 0 } });

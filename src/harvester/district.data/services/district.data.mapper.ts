@@ -66,11 +66,15 @@ export class DistrictDataMapper {
 			title: { 'de': veranstalter.name },
 			displayName: { 'de': veranstalter.name },
 			inLanguages: ['de'],
+			metadata:{
+				origin: 'bezirkskalender',
+				originObjectID: String(veranstalter.id)
+			} 
 		};
 	}
 	
 
-	mapLocation(veranstaltungsort: Veranstaltungsort, managerReference: Reference, bezirke: Bezirke): CreateLocationRequest {
+	mapLocation(veranstaltungsort: Veranstaltungsort): CreateLocationRequest {
 		return {
 			title: { 'de': veranstaltungsort.name },
 			address: {
@@ -79,7 +83,10 @@ export class DistrictDataMapper {
 				...(veranstaltungsort.ort && { addressLocality: veranstaltungsort.ort })
 			},
 			...(veranstaltungsort.telefon && { contact: { telephone: veranstaltungsort.telefon } }),
-			manager: managerReference
+			metadata:{
+				origin: 'bezirkskalender',
+				originObjectID: String(veranstaltungsort.id)
+			} 
 		};
 		
 	}

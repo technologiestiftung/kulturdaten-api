@@ -35,7 +35,8 @@ export const schemaForCreateLocationRequest = {
     tags: {type: "array", items: {type: "string"}},
     externalLinks: {type: "array", items: {$ref: "ExternalLinks.yml"}},
     manager: {$ref: "Reference.yml"},
-    contact: {$ref: "Contact.yml"}
+    contact: {$ref: "Contact.yml"},
+    metadata: {type: "object", properties: {origin: {type: "string"}, originObjectID: {type: "string"}}}
   }
 };
 
@@ -88,4 +89,8 @@ export interface CreateLocationRequest {
   externalLinks?: ExternalLinks[];
   manager?: Reference;
   contact?: Contact;
+  metadata?: {
+    origin?: string;
+    originObjectID?: string;
+  };
 }

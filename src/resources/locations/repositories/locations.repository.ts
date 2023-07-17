@@ -3,6 +3,7 @@ import { Location } from '../../../generated/models/Location.generated';
 import { CreateLocationRequest } from '../../../generated/models/CreateLocationRequest.generated';
 import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Filter } from '../../../generated/models/Filter.generated';
 
 
 const log: debug.IDebugger = debug('app:locations-repository');
@@ -17,9 +18,9 @@ export interface LocationsRepository {
 
 	setLocationManager(identifier: string, reference: Reference): Promise<boolean>;
 
-	searchDuplicates(location: Location): Promise<Location[]>;
+	searchLocations(filter: Filter): Promise<Location[]> ;
 
-	addLocation(createLocation: CreateLocationRequest): Promise<string>;
+	addLocation(createLocation: CreateLocationRequest): Promise<Reference | null>;
 
 	getLocations(limit:number, page:number) : Promise<Location[] | null>;
 

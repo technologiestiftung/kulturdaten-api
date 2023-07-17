@@ -1044,7 +1044,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  createsOrganizations:
+                  createdOrganizations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reference'
+                  createdLocations:
                     type: array
                     items:
                       $ref: '#/components/schemas/Reference'
@@ -1964,6 +1968,13 @@ components:
               type: string
             telephone:
               type: string
+        metadata:
+          type: object
+          properties:
+            origin:
+              type: string
+            originObjectID:
+              type: string
     CreateOrganizationResponse:
       properties:
         success:
@@ -2314,6 +2325,13 @@ components:
                 type: string
             required:
               - url
+        metadata:
+          type: object
+          properties:
+            origin:
+              type: string
+            originObjectID:
+              type: string
     CreateAttractionResponse:
       type: object
       properties:
@@ -2333,7 +2351,7 @@ components:
     SearchAttractionsRequest:
       type: object
       properties:
-        filter:
+        searchFilter:
           type: object
           additionalProperties: true
     SearchAttractionsResponse:
@@ -2858,6 +2876,13 @@ components:
               type: string
             telephone:
               type: string
+        metadata:
+          type: object
+          properties:
+            origin:
+              type: string
+            originObjectID:
+              type: string
     CreateLocationResponse:
       type: object
       properties:
@@ -2877,7 +2902,7 @@ components:
     SearchLocationsRequest:
       type: object
       properties:
-        filter:
+        searchFilter:
           type: object
           additionalProperties: true
     SearchLocationsResponse:
@@ -3638,6 +3663,13 @@ components:
                 - registrationType.registrationDesired
             admissionLink:
               type: string
+        metadata:
+          type: object
+          properties:
+            origin:
+              type: string
+            originObjectID:
+              type: string
     CreateEventResponse:
       type: object
       properties:
@@ -3657,7 +3689,7 @@ components:
     SearchEventsRequest:
       type: object
       properties:
-        filter:
+        searchFilter:
           type: object
           additionalProperties: true
     SearchEventsResponse:

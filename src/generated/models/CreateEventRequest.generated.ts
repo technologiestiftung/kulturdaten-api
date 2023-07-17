@@ -33,7 +33,8 @@ export const schemaForCreateEventRequest = {
     attractions: {type: "array", items: {$ref: "Reference.yml"}},
     organizer: {$ref: "Reference.yml"},
     contact: {$ref: "Contact.yml"},
-    admission: {$ref: "Admission.yml"}
+    admission: {$ref: "Admission.yml"},
+    metadata: {type: "object", properties: {origin: {type: "string"}, originObjectID: {type: "string"}}}
   }
 };
 
@@ -73,4 +74,8 @@ export interface CreateEventRequest {
   organizer?: Reference;
   contact?: Contact;
   admission?: Admission;
+  metadata?: {
+    origin?: string;
+    originObjectID?: string;
+  };
 }

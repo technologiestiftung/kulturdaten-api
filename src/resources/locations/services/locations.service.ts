@@ -20,8 +20,8 @@ export class LocationsService{
 		return this.locationsRepository.addLocation(resource);
 	}
 
-	search(searchLocationsRequest: SearchLocationsRequest) : Promise<Location[] | null> {
-		throw new Error('Method not implemented.');
+	search(searchLocationsRequest: SearchLocationsRequest) : Promise<Location[]> {
+		return this.locationsRepository.searchLocations(searchLocationsRequest.searchFilter? searchLocationsRequest.searchFilter : {});
 	}
 
 	async readById(id: string) {
@@ -70,12 +70,6 @@ export class LocationsService{
 	closeLocation(identifier: string) : Promise<boolean> {
 		return this.locationsRepository.updateOpeningStatus(identifier, "location.closed");
 	}
-
-	
-	async searchDuplicates(location: Location) : Promise<Location[]> {
-		return this.locationsRepository.searchDuplicates(location);
-	}
-
 
 
 }

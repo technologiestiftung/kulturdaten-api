@@ -22,17 +22,6 @@ export class OrganizationsService  {
 		return await this.organizationsRepository.addOrganization(resource);
 	}
 
-	async createOrUpdateFirst(resource: CreateOrganizationRequest, duplicationFilter: Filter): Promise<string> {
-		/*
-		const duplications = await this.organizationsRepository.searchOrganizations(duplicationFilter);
-		if (duplications.length > 0) {
-			return this.organizationsRepository.updateOrganizationById(duplications[0].identifier, resource);
-		} else {
-			return this.organizationsRepository.u
-		}
-		*/
-		throw new Error('Not implemented');
-	}
 
 	async search(searchOrganizationsRequest: SearchOrganizationsRequest): Promise<Organization[]> {
 		return this.organizationsRepository.searchOrganizations(searchOrganizationsRequest.searchFilter? searchOrganizationsRequest.searchFilter : {});

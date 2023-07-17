@@ -38,3 +38,10 @@ properties:
     $ref: 'Reference.yml'
   contact:
     $ref: 'Contact.yml'
+  metadata:
+    type: object
+    properties:
+      origin:
+        type: string
+      originObjectID:
+        type: string  

@@ -1,6 +1,6 @@
 type: object
 properties:
-  filter:
+  searchFilter:
     type: object
     additionalProperties: true
  

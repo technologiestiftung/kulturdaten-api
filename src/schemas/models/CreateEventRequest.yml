@@ -44,3 +44,10 @@ properties:
     $ref: 'Contact.yml'
   admission:
     $ref: 'Admission.yml'
+  metadata:
+    type: object
+    properties:
+      origin:
+        type: string
+      originObjectID:
+        type: string  

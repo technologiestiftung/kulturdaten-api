@@ -29,7 +29,8 @@ export const schemaForCreateOrganizationRequest = {
     address: {$ref: "Address.yml"},
     borough: {$ref: "Borough.yml"},
     coordinates: {$ref: "Coordinates.yml"},
-    contact: {$ref: "Contact.yml"}
+    contact: {$ref: "Contact.yml"},
+    metadata: {type: "object", properties: {origin: {type: "string"}, originObjectID: {type: "string"}}}
   }
 };
 
@@ -76,4 +77,8 @@ export interface CreateOrganizationRequest {
     | "außerhalb";
   coordinates?: Coordinates;
   contact?: Contact;
+  metadata?: {
+    origin?: string;
+    originObjectID?: string;
+  };
 }

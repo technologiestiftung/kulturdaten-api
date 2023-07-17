@@ -32,30 +32,79 @@ export class DistrictDataService {
 		const districtData = await this.harvesterClient.fetchData(apiURL);
 
 		const organizations: { [originObjectID: string]: Reference } = 
-			await this.createOrUpdateOrganizations(districtData.veranstalter, districtData.bezirke);
-		/*const locations: { [originObjectID: string]: Reference } =
-			await this.createOrUpdateLocations(districtData.veranstaltungsorte, districtData.bezirke, organizations);
+			await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
+
+		const locations: { [originObjectID: string]: Reference } =
+			await this.createLocations(districtData.veranstaltungsorte);
+
+
+		/*
 		const { attractions, events } = await this.createOrUpdateAttractionsAndEvents(districtData.events);
 		*/
-		return { createsOrganizations: organizations };
+		return { createdOrganizations: organizations, createdLocations: locations };
 	}
 
 
-	async createOrUpdateOrganizations(veranstalter: VeranstalterList, bezirke: Bezirke) : Promise<{ [originObjectID: string]: Reference }> {
+	async createOrganizations(veranstalter: VeranstalterList, bezirke: Bezirke) : Promise<{ [originObjectID: string]: Reference }> {
 		var createdOrganizations: { [originObjectID: string]: Reference } = {};
 		for (const key in veranstalter) {
 			const v = veranstalter[key];
-			const createOrganizationRequests = this.mapper.mapOrganisation(v);
-			const createdOrganizationReference = await this.organizationService.create(createOrganizationRequests);
-			if(createdOrganizationReference){
-				createdOrganizations[v.id] = createdOrganizationReference
+			const duplicationFilter = {
+				searchFilter: {
+					'metadata.originObjectID': String(v.id),
+					'metadata.origin': 'bezirkskalender'
+				}
+			};
+			const duplicateOrganizations = await this.organizationService.search(duplicationFilter);
+			if (duplicateOrganizations.length > 0) {
+				createdOrganizations[v.id] = {
+					referenceType: duplicateOrganizations[0].type,
+					referenceId: duplicateOrganizations[0].identifier,
+					referenceLabel: duplicateOrganizations[0].displayName? duplicateOrganizations[0].displayName : duplicateOrganizations[0].title
+				};
+			} else {
+				const createOrganizationRequests = this.mapper.mapOrganisation(v);
+				const createdOrganizationReference = await this.organizationService.create(createOrganizationRequests);
+	
+				if(createdOrganizationReference){
+					createdOrganizations[v.id] = createdOrganizationReference
+				}
 			}
 		}
 		return Promise.resolve(createdOrganizations);
 	}
 
-	async createOrUpdateLocations(veranstaltungsorte: Veranstaltungsorte, bezirke: Bezirke, organizations: { [originObjectID: string]: Reference }) : Promise<{ [originObjectID: string]: Reference }> {
-		throw new Error("Method not implemented.");
+	async createLocations(veranstaltungsorte: Veranstaltungsorte) : Promise<{ [originObjectID: string]: Reference }> {
+		var createdLocations: { [originObjectID: string]: Reference } = {};
+		for (const key in veranstaltungsorte) {
+			const o = veranstaltungsorte[key];
+			const duplicationFilter = {
+				searchFilter: {
+					'metadata.originObjectID': String(o.id),
+					'metadata.origin': 'bezirkskalender'
+				}
+			};
+			const duplicatedLocations = await this.locationService.search(duplicationFilter);
+
+			if (duplicatedLocations.length > 0) {
+				createdLocations[o.id] = {
+					referenceType: duplicatedLocations[0].type,
+					referenceId: duplicatedLocations[0].identifier,
+					referenceLabel: duplicatedLocations[0].displayName? duplicatedLocations[0].displayName : duplicatedLocations[0].title
+				};
+			} else {
+				
+				const createLocationRequest = this.mapper.mapLocation(o);
+
+				const createdLocationReference = await this.locationService.create(createLocationRequest);
+	
+				if(createdLocationReference){
+					createdLocations[o.id] = createdLocationReference;
+				}
+			}
+		}
+
+		return Promise.resolve(createdLocations);
 	}
 
 	createOrUpdateAttractionsAndEvents(events: Veranstaltungen): { attractions: { [originObjectID: string]: Reference }; events: { [originObjectID: string]: Reference }; } | PromiseLike<{ attractions: any; events: any; }> {
