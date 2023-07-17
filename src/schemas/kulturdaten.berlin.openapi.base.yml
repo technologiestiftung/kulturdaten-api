@@ -738,6 +738,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateOrganizationResponse"
+        "400":
+          description: Not Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /organizations/search:
     post:
@@ -773,6 +779,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetOrganizationResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
         - Maintain cultural data
@@ -1048,19 +1060,7 @@ paths:
                   createsOrganizations:
                     type: array
                     items:
-                      type: string
-                  alreadyExistsOrganizationIDs:
-                      type: array
-                      items:
-                        type: string                 
-                  createdLocations:
-                    type: array
-                    items:
-                      type: string
-                  createdEvents:
-                    type: array
-                    items:
-                      type: string
+                      $ref: '#/components/schemas/Reference'
                     
 
 components:
@@ -1071,6 +1071,9 @@ components:
       bearerFormat: JWT
 
   schemas:
+    Reference:
+      $ref: models/Reference.yml
+      
     Response:
       $ref: models/Response.yml
 

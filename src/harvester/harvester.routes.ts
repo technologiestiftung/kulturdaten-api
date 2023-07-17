@@ -21,8 +21,6 @@ export class HarvesterRoutes {
 		router
 			.post(
 				'/',
-				passport.authenticate('authenticated-user', { session: false }),
-				permit.authorizesAsAdmin(),
 				(req: express.Request, res: express.Response) => {
 					this.districtDataHarvestersController.harvest(res);
 				});

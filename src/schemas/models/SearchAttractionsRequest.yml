@@ -1,14 +1,6 @@
 type: object
 properties:
-  searchTerm:
+  filter:
     type: object
-    properties:
-      value:
-        type: string
-      matchType:
-        type: string
-        enum:
-          - exact
-          - contains
-          - similar
+    additionalProperties: true
  

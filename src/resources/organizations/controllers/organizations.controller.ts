@@ -16,11 +16,7 @@ export class OrganizationsController {
 
 	async listOrganizations(res: express.Response) {
 		const organizations = await this.organizationsService.list(100, 0);
-		if (organizations) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ organizations: organizations }).build());
-		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organizations not found").build());
-		}
+		res.status(200).send(new SuccessResponseBuilder().okResponse({ organizations: organizations }).build());
 	}
 
 	async getOrganizationById(res: express.Response, organizationId: string) {
@@ -33,9 +29,9 @@ export class OrganizationsController {
 	}
 
 	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
-		const organizationId = await this.organizationsService.create(createOrganization);
-		if (organizationId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ organizationIdentifier: organizationId }).build());
+		const organizationReference = await this.organizationsService.create(createOrganization);
+		if (organizationReference) {
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build());
 		}

@@ -739,6 +739,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateOrganizationResponse'
+        '400':
+          description: Not Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /organizations/search:
     post:
       tags:
@@ -772,6 +778,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetOrganizationResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
     patch:
       tags:
         - Maintain cultural data
@@ -1035,19 +1047,7 @@ paths:
                   createsOrganizations:
                     type: array
                     items:
-                      type: string
-                  alreadyExistsOrganizationIDs:
-                    type: array
-                    items:
-                      type: string
-                  createdLocations:
-                    type: array
-                    items:
-                      type: string
-                  createdEvents:
-                    type: array
-                    items:
-                      type: string
+                      $ref: '#/components/schemas/Reference'
 components:
   securitySchemes:
     bearerAuth:
@@ -1055,6 +1055,17 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    Reference:
+      type: object
+      properties:
+        referenceType:
+          type: string
+        referenceId:
+          type: string
+        referenceLabel:
+          type: object
+          additionalProperties:
+            type: string
     Response:
       type: object
       properties:
@@ -1964,24 +1975,25 @@ components:
         data:
           type: object
           properties:
-            organizationIdentifier:
-              type: string
+            organizationReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     SearchOrganizationsRequest:
       type: object
       properties:
-        searchTerm:
+        searchFilter:
           type: object
-          properties:
-            value:
-              type: string
-            matchType:
-              type: string
-              enum:
-                - exact
-                - contains
-                - similar
+          additionalProperties: true
     SearchOrganizationsResponse:
       type: object
       properties:
@@ -2321,17 +2333,9 @@ components:
     SearchAttractionsRequest:
       type: object
       properties:
-        searchTerm:
+        filter:
           type: object
-          properties:
-            value:
-              type: string
-            matchType:
-              type: string
-              enum:
-                - exact
-                - contains
-                - similar
+          additionalProperties: true
     SearchAttractionsResponse:
       type: object
       properties:
@@ -2873,17 +2877,9 @@ components:
     SearchLocationsRequest:
       type: object
       properties:
-        searchTerm:
+        filter:
           type: object
-          properties:
-            value:
-              type: string
-            matchType:
-              type: string
-              enum:
-                - exact
-                - contains
-                - similar
+          additionalProperties: true
     SearchLocationsResponse:
       type: object
       properties:
@@ -3661,17 +3657,9 @@ components:
     SearchEventsRequest:
       type: object
       properties:
-        searchTerm:
+        filter:
           type: object
-          properties:
-            value:
-              type: string
-            matchType:
-              type: string
-              enum:
-                - exact
-                - contains
-                - similar
+          additionalProperties: true
     SearchEventsResponse:
       type: object
       properties:

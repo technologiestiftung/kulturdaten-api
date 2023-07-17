@@ -4,6 +4,9 @@ import { Organization } from '../../../generated/models/Organization.generated';
 import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
 import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
+import { Filter } from '../../../generated/models/Filter.generated';
+import { Reference } from '../../../generated/models/Reference.generated';
+
 
 @Service()
 export class OrganizationsService  {
@@ -15,21 +18,37 @@ export class OrganizationsService  {
 		return  this.organizationsRepository.getOrganizations(limit, page);
 	}
 
-	async create(resource: CreateOrganizationRequest): Promise<string> {
-		return this.organizationsRepository.addOrganization(resource);
+	async create(resource: CreateOrganizationRequest): Promise<Reference | null> {
+		return await this.organizationsRepository.addOrganization(resource);
+	}
+
+	async createOrUpdateFirst(resource: CreateOrganizationRequest, duplicationFilter: Filter): Promise<string> {
+		/*
+		const duplications = await this.organizationsRepository.searchOrganizations(duplicationFilter);
+		if (duplications.length > 0) {
+			return this.organizationsRepository.updateOrganizationById(duplications[0].identifier, resource);
+		} else {
+			return this.organizationsRepository.u
+		}
+		*/
+		throw new Error('Not implemented');
+	}
+
+	async search(searchOrganizationsRequest: SearchOrganizationsRequest): Promise<Organization[]> {
+		return this.organizationsRepository.searchOrganizations(searchOrganizationsRequest.searchFilter? searchOrganizationsRequest.searchFilter : {});
 	}
 
 	async readById(id: string): Promise<Organization | null> {
 		return this.organizationsRepository.getOrganizationByIdentifier(id);
 	}
 
+	
+
 	async update(identifier: string, updateOrganizationRequest: UpdateOrganizationRequest): Promise<boolean> {
 		return this.organizationsRepository.updateOrganizationById(identifier, updateOrganizationRequest);
 	}
 
-	async search(searchOrganizationsRequest: SearchOrganizationsRequest): Promise<Organization[]> {
-		return this.organizationsRepository.searchOrganizations(searchOrganizationsRequest);
-	}
+
 
 	async archive(identifier: string): Promise<boolean> {
 		return this.organizationsRepository.updateOrganizationStatusById(identifier, 'organization.archived');

@@ -14,12 +14,7 @@ import addFormats from "ajv-formats";
 export const schemaForSearchOrganizationsRequest = {
   $id: "SearchOrganizationsRequest.yml",
   type: "object",
-  properties: {
-    searchTerm: {
-      type: "object",
-      properties: {value: {type: "string"}, matchType: {type: "string", enum: ["exact", "contains", "similar"]}}
-    }
-  }
+  properties: {searchFilter: {type: "object", additionalProperties: true}}
 };
 
 export function validateSearchOrganizationsRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -32,8 +27,7 @@ export function validateSearchOrganizationsRequest(o: object): {isValid: boolean
 }
 
 export interface SearchOrganizationsRequest {
-  searchTerm?: {
-    value?: string;
-    matchType?: "exact" | "contains" | "similar";
+  searchFilter?: {
+    [k: string]: unknown;
   };
 }

@@ -11,12 +11,14 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Reference, schemaForReference} from "./Reference.generated";
+
 export const schemaForCreateOrganizationResponse = {
   $id: "CreateOrganizationResponse.yml",
   properties: {
     success: {type: "boolean", enum: [true]},
     message: {type: "string"},
-    data: {type: "object", properties: {organizationIdentifier: {type: "string"}}}
+    data: {type: "object", properties: {organizationReference: {$ref: "Reference.yml"}}}
   },
   required: ["success"]
 };
@@ -25,6 +27,7 @@ export function validateCreateOrganizationResponse(o: object): {isValid: boolean
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForCreateOrganizationResponse);
   return {isValid: validate(o), validate: validate};
@@ -34,6 +37,6 @@ export interface CreateOrganizationResponse {
   success: true;
   message?: string;
   data?: {
-    organizationIdentifier?: string;
+    organizationReference?: Reference;
   };
 }

@@ -1,4 +1,4 @@
-/*
+
 import { Inject, Service } from "typedi";
 import { HarvesterClient } from "../../client/harvester.client";
 import { Organization } from "../../../generated/models/Organization.generated";
@@ -11,10 +11,16 @@ import { LocationsService } from "../../../resources/locations/services/location
 import { OrganizationsService } from "../../../resources/organizations/services/organizations.service";
 import { EventsService } from "../../../resources/events/services/events.service";
 import { Event } from "../../../generated/models/Event.generated";
+import { Attraction } from "../../../generated/models/Attraction.generated";
+import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
+import { DistrictDataMapper } from "./district.data.mapper";
 
 
 @Service()
 export class DistrictDataService {
+
+	private mapper : DistrictDataMapper = new DistrictDataMapper();
 
 	constructor(public harvesterClient: HarvesterClient<Bezirksdaten>,
 		public locationService: LocationsService,
@@ -25,148 +31,34 @@ export class DistrictDataService {
 		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=5';
 		const districtData = await this.harvesterClient.fetchData(apiURL);
 
-		const {createdOrganizationIDs, alreadyExistsOrganizationIDs  } = await this.harvestOrganizations(districtData.veranstalter);
-		const {createdLocationIDs, alreadyExistsLocationIDs } = await this.harvestLocations(districtData.veranstaltungsorte, districtData.bezirke);
-		const {createdEventIDs,alreadyExistsEventsIDs, createdAttractionsIDs, alreadyExistsAttractionsIDs} = await this.harvestAttractionsAndEvents(districtData.events);
-
-		return { createsOrganizations: createdOrganizationIDs, alreadyExistsOrganizationIDs: alreadyExistsOrganizationIDs, createdLocations : createdLocationIDs, alreadyExistsLocations : alreadyExistsLocationIDs, createdEvents : createdEventIDs, alreadyExistsEvents: alreadyExistsEventsIDs, createdAttractions: createdAttractionsIDs, alreadyExistsAttractions: alreadyExistsAttractionsIDs };
+		const organizations: { [originObjectID: string]: Reference } = 
+			await this.createOrUpdateOrganizations(districtData.veranstalter, districtData.bezirke);
+		/*const locations: { [originObjectID: string]: Reference } =
+			await this.createOrUpdateLocations(districtData.veranstaltungsorte, districtData.bezirke, organizations);
+		const { attractions, events } = await this.createOrUpdateAttractionsAndEvents(districtData.events);
+		*/
+		return { createsOrganizations: organizations };
 	}
 
 
-	private async harvestAttractionsAndEvents(veranstaltungen: Veranstaltungen) {
-		const createdEventIDs: string[] = [];
-		const alreadyExistsEventsIDs: string[] = [];
-		const createdAttractionsIDs: string[] = [];
-		const alreadyExistsAttractionsIDs: string[] = [];
-	  
-		for (const key in veranstaltungen) {
-		  const e = veranstaltungen[key];
-		  const { attractions, events } = this.mapEvent(e);
-		  const duplicates = await this.eventService.searchDuplicates(event as Event);
-	  
-		  if (duplicates.length > 0) {
-			duplicates.forEach(duplicate => {
-			  alreadyExistsEventsIDs.push(duplicate.identifier);
-			});
-		  } else {
-			const eID = await this.eventService.create(event);
-			createdEventIDs.push(eID);
-		  }
-		}
-	  
-		return { createdEventIDs, alreadyExistsEventsIDs, createdAttractionsIDs, alreadyExistsAttractionsIDs };
-	  }
-
-	private async harvestLocations(veranstaltungsorte: Veranstaltungsorte, bezirke: Bezirke) {
-		const createdLocationIDs : string[] = [];
-		const alreadyExistsLocationIDs : string[] = [];
-		for (const key in veranstaltungsorte) {
-			const veranstaltungsort = veranstaltungsorte[key];
-			const location = this.mapLocation(veranstaltungsort, bezirke);
-			const duplicates = await this.locationService.searchDuplicates(location as Location);
-
-			if (duplicates.length > 0) {
-				duplicates.forEach(duplicate => {
-					alreadyExistsLocationIDs.push(duplicate.identifier);
-				});
-			} else {
-				const lID = await this.locationService.create(location);
-				createdLocationIDs.push(lID);
+	async createOrUpdateOrganizations(veranstalter: VeranstalterList, bezirke: Bezirke) : Promise<{ [originObjectID: string]: Reference }> {
+		var createdOrganizations: { [originObjectID: string]: Reference } = {};
+		for (const key in veranstalter) {
+			const v = veranstalter[key];
+			const createOrganizationRequests = this.mapper.mapOrganisation(v);
+			const createdOrganizationReference = await this.organizationService.create(createOrganizationRequests);
+			if(createdOrganizationReference){
+				createdOrganizations[v.id] = createdOrganizationReference
 			}
 		}
-		return { createdLocationIDs: createdLocationIDs, alreadyExistsLocationIDs: alreadyExistsLocationIDs};
+		return Promise.resolve(createdOrganizations);
 	}
 
-	private async harvestOrganizations(veranstalterList: VeranstalterList) {
-		const createdOrganizationIDs : string[] = [];
-		const alreadyExistsOrganizationIDs : string[] = [];
-		for (const key in veranstalterList) {
-			const veranstalter = veranstalterList[key];
-			const organization = this.mapOrganisation(veranstalter);
-			const duplicates = await this.organizationService.searchDuplicates(organization as Organization);
-			if (duplicates.length > 0) {
-				duplicates.forEach(duplicate => {
-					alreadyExistsOrganizationIDs.push(duplicate.identifier);
-				});
-			} else {
-				const oID = await this.organizationService.create(organization);
-				createdOrganizationIDs.push(oID);
-			}
-		}
-		return {createdOrganizationIDs: createdOrganizationIDs, alreadyExistsOrganizationIDs : alreadyExistsOrganizationIDs };
+	async createOrUpdateLocations(veranstaltungsorte: Veranstaltungsorte, bezirke: Bezirke, organizations: { [originObjectID: string]: Reference }) : Promise<{ [originObjectID: string]: Reference }> {
+		throw new Error("Method not implemented.");
 	}
 
-	mapOrganisation(veranstalter: Veranstalter): CreateOrganizationRequest {
-		const organization = {
-			name: { de: veranstalter.name },
-			address: {
-				"@type": "PostalAddress",
-				streetAddress: `${veranstalter.strasse} ${veranstalter.hausnummer}`,
-				addressLocality: veranstalter.ort,
-				postalCode: veranstalter.plz,
-			},
-			origin: {
-				name: 'Bezirkskalender',
-				originId: veranstalter.id,
-			},
-			telephone: veranstalter.telefon,
-		};
-		return organization as CreateOrganizationRequest;
+	createOrUpdateAttractionsAndEvents(events: Veranstaltungen): { attractions: { [originObjectID: string]: Reference }; events: { [originObjectID: string]: Reference }; } | PromiseLike<{ attractions: any; events: any; }> {
+		throw new Error("Method not implemented.");
 	}
-
-	mapLocation(veranstaltungsort: Veranstaltungsort, bezirke: Bezirke): CreateLocationRequest {
-		const location = {
-			name: { de: veranstaltungsort.name },
-			address: {
-				"@type": "PostalAddress",
-				streetAddress: `${veranstaltungsort.strasse} ${veranstaltungsort.hausnummer}`,
-				addressLocality: veranstaltungsort.ort,
-				postalCode: veranstaltungsort.plz,
-			},
-			origin: {
-				name: 'Bezirkskalender',
-				originId: veranstaltungsort.id,
-			},
-			borough: bezirke[veranstaltungsort.bezirk_id].DE
-		};
-		return location as CreateLocationRequest;
-	}
-
-	mapEvent(veranstaltung: Veranstaltung): CreateEventRequest {
-		const event = {
-			title: { de: veranstaltung.event_titel_de },
-			description: { de: veranstaltung.event_beschreibung_de },
-			contact: {name: { de: 'Kontakt'}, email: veranstaltung.event_email },
-			website: veranstaltung.event_homepage,
-			origin: {
-				name: 'Bezirkskalender',
-				originId: veranstaltung.event_id
-			},
-			eventDates: this.mapEventDates(veranstaltung.termine)
-		};
-
-		return event as CreateEventRequest;
-	}
-
-	mapEventDates(termine: Termine) : EventDate[] {
-		const eventDates: EventDate[] = [];
-		for (const key in termine) {
-			const termin = termine[key];
-			eventDates.push(this.mapEventDate(termin));
-		}
-		return eventDates;
-	}
-
-	mapEventDate(termin: Termin) : EventDate {
-		const eventDate = {
-			startDate: new Date(`${termin.tag_von}T${termin.uhrzeit_von}`).toISOString(),
-			endDate:  new Date(`${termin.tag_bis}T${termin.uhrzeit_bis}`).toISOString()
-		};
-
-		return eventDate as EventDate;
-	}
-
 }
-
-
-*/

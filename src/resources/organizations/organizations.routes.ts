@@ -24,7 +24,7 @@ export class OrganizationsRoutes {
       });
 
     router
-      .get('/search', (req: express.Request, res: express.Response) => {
+      .post('/search', (req: express.Request, res: express.Response) => {
         const searchOrganizationsRequest = req.body as SearchOrganizationsRequest;
         this.organizationsController.searchOrganizations(res, searchOrganizationsRequest);
       });
