@@ -51,7 +51,7 @@
 		"reflect-metadata": "^0.1.13",
 		"slug": "^8.2.2",
 		"swagger-merger": "^1.5.4",
-		"swagger-ui-express": "^4.6.0",
+		"swagger-ui-express": "^5.0.0",
 		"ts-node": "^10.9.1",
 		"typedi": "^0.10.0",
 		"winston": "^3.8.2",
