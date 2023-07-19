@@ -2,11 +2,6 @@ import debug from 'debug';
 import { Event } from '../../../generated/models/Event.generated';
 import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
 import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
-import { AddEventLocationRequest } from '../../../generated/models/AddEventLocationRequest.generated';
-import { RemoveEventLocationRequest } from '../../../generated/models/RemoveEventLocationRequest.generated';
-import { AddEventAttractionRequest } from '../../../generated/models/AddEventAttractionRequest.generated';
-import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEventAttractionRequest.generated';
-import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrganizerRequest.generated';
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
 
@@ -16,7 +11,7 @@ const log: debug.IDebugger = debug('app:events-repository');
 export interface EventsRepository {
 	searchDuplicates(event: Event): Promise<Event[]>;
 
-	addEvent(createEvent: CreateEventRequest): Promise<string>;
+	addEvent(createEvent: CreateEventRequest): Promise<Reference | null>;
 
 	getEvents(limit:number, page:number) : Promise<Event[] | null>;
 

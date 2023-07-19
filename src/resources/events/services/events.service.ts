@@ -11,6 +11,7 @@ import { AddEventAttractionRequest } from '../../../generated/models/AddEventAtt
 import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEventAttractionRequest.generated';
 import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrganizerRequest.generated';
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
+import { Reference } from '../../../generated/models/Reference.generated';
 
 @Service()
 export class EventsService {
@@ -20,7 +21,7 @@ export class EventsService {
 		return this.eventsRepository.getEvents(limit, page);
 	}
 
-	async create(resource: CreateEventRequest) {
+	async create(resource: CreateEventRequest) : Promise<Reference | null> {
 		return this.eventsRepository.addEvent(resource);
 	}
 

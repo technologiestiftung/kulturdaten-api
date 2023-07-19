@@ -5,12 +5,7 @@ import { generateID } from "../../../utils/IDUtil";
 import { Event } from "../../../generated/models/Event.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
-import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
-import { AddEventLocationRequest } from "../../../generated/models/AddEventLocationRequest.generated";
-import { RemoveEventAttractionRequest } from "../../../generated/models/RemoveEventAttractionRequest.generated";
-import { RemoveEventLocationRequest } from "../../../generated/models/RemoveEventLocationRequest.generated";
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
-import { SetEventOrganizerRequest } from "../../../generated/models/SetEventOrganizerRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 
 
@@ -19,20 +14,28 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
-	
 
 	async getEvents(limit: number, page: number): Promise<Event[] | null> {
 		const events = await this.dbConnector.events();
 		return events.find({}, { projection: { _id: 0 } }).toArray();
 	}
 
-	async addEvent(createEvent: CreateEventRequest): Promise<string> {
+	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null>{
 		const newEvent = createEvent as Event;
 		newEvent.identifier = generateID();
 
 		const events = await this.dbConnector.events();
-		await events.insertOne(newEvent);
-		return newEvent.identifier;
+		const result = await events.insertOne(newEvent);
+
+		if(!result.acknowledged){
+			return Promise.resolve(null);
+		}
+		return {
+			referenceType: 'type.Event',
+			referenceId: newEvent.identifier,
+			referenceLabel: newEvent.displayName? newEvent.displayName : newEvent.title
+		};
+
 	}
 
 	async getEventByIdentifier(eventId: string): Promise<Event | null> {

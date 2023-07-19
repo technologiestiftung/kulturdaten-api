@@ -9,7 +9,7 @@ properties:
   data:
     type: object
     properties:
-      attractionIdentifier: 
-        type: string
+      attractionReference: 
+        $ref: 'Reference.yml'
 required:
   - success

@@ -11,13 +11,15 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Reference, schemaForReference} from "./Reference.generated";
+
 export const schemaForCreateLocationResponse = {
   $id: "CreateLocationResponse.yml",
   type: "object",
   properties: {
     success: {type: "boolean", enum: [true]},
     message: {type: "string"},
-    data: {type: "object", properties: {locationIdentifier: {type: "string"}}}
+    data: {type: "object", properties: {locationReference: {$ref: "Reference.yml"}}}
   },
   required: ["success"]
 };
@@ -26,6 +28,7 @@ export function validateCreateLocationResponse(o: object): {isValid: boolean; va
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForCreateLocationResponse);
   return {isValid: validate(o), validate: validate};
@@ -35,6 +38,6 @@ export interface CreateLocationResponse {
   success: true;
   message?: string;
   data?: {
-    locationIdentifier?: string;
+    locationReference?: Reference;
   };
 }

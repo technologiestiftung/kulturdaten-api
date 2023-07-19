@@ -2344,8 +2344,17 @@ components:
         data:
           type: object
           properties:
-            attractionIdentifier:
-              type: string
+            attractionReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     SearchAttractionsRequest:
@@ -2895,8 +2904,17 @@ components:
         data:
           type: object
           properties:
-            locationIdentifier:
-              type: string
+            locationReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     SearchLocationsRequest:
@@ -3682,8 +3700,17 @@ components:
         data:
           type: object
           properties:
-            eventIdentifier:
-              type: string
+            eventReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     SearchEventsRequest:

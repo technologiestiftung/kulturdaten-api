@@ -7,6 +7,7 @@ import { CreateAttractionRequest } from "../../../generated/models/CreateAttract
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
 
 
 @Service()
@@ -19,13 +20,22 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return attractions.find({}, { projection: { _id: 0 } }).toArray();
 	}
 
-	async addAttraction(createAttraction: CreateAttractionRequest): Promise<string> {
+	async addAttraction(createAttraction: CreateAttractionRequest) : Promise<Reference | null> {
 		const newAttraction = createAttraction as Attraction;
 		newAttraction.identifier = generateID();
 
 		const attractions = await this.dbConnector.attractions();
-		await attractions.insertOne(newAttraction);
-		return newAttraction.identifier;
+		const result = await attractions.insertOne(newAttraction);
+		
+
+		if(!result.acknowledged){
+			return Promise.resolve(null);
+		}
+		return {
+			referenceType: 'type.Attraction',
+			referenceId: newAttraction.identifier,
+			referenceLabel: newAttraction.displayName? newAttraction.displayName : newAttraction.title
+		};
 	}
 
 	async getAttractionByIdentifier(attractionId: string): Promise<Attraction | null> {

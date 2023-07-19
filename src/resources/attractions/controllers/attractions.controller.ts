@@ -24,8 +24,8 @@ export class AttractionsController {
   }
 
   async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {
-    const attractionId = await this.attractionsService.create(createAttractionRequest);
-		res.status(201).send(new SuccessResponseBuilder<CreateAttractionResponse>().okResponse({ attractionIdentifier: attractionId } ).build());
+    const attractionReference = await this.attractionsService.create(createAttractionRequest);
+		res.status(201).send(new SuccessResponseBuilder<CreateAttractionResponse>().okResponse({ attractionReference: attractionReference } ).build());
   }
 
   public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest) {

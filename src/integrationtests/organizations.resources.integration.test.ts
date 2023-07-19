@@ -42,16 +42,18 @@ describe('Create organizations', () => {
 		await env.organizations.deleteMany();
 	});
 
-	it('should create a organization and return a identifier / POST /organizations', async () => {
+	it('should create an organization and return an identifier / POST /organizations', async () => {
 		const { body, statusCode } = await request(env.app).post(env.ORGANIZATIONS_ROUTE).send(fakeCreateOrganizationRequest(false, { title: { de: 'New Organization' } }));
-
+	
 		expect(statusCode).toBe(201);
-
-		expect(body.data.organizationIdentifier).toMatch(IDENTIFIER_REG_EX);
-		let loc = await env.organizations.findOne({ identifier: body.data.organizationIdentifier });
-
+	
+		const newOrganizationID = body.data.organizationReference.referenceId;
+		expect(newOrganizationID).toMatch(IDENTIFIER_REG_EX);
+		let loc = await env.organizations.findOne({ identifier: newOrganizationID });
+	
 		expect(loc?.title.de).toBe('New Organization');
 	});
+	
 });
 
 

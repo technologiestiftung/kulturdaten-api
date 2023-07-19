@@ -5,6 +5,7 @@ import { CreateLocationRequest } from '../../../generated/models/CreateLocationR
 import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationRequest.generated';
 import { SearchLocationsRequest } from '../../../generated/models/SearchLocationsRequest.generated';
 import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
+import { Reference } from '../../../generated/models/Reference.generated';
 
 @Service()
 export class LocationsService{
@@ -16,7 +17,7 @@ export class LocationsService{
 		return this.locationsRepository.getLocations(limit,page);
 	}
 
-	async create(resource: CreateLocationRequest) {
+	async create(resource: CreateLocationRequest) : Promise<Reference | null>{
 		return this.locationsRepository.addLocation(resource);
 	}
 

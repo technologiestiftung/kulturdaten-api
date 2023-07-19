@@ -47,8 +47,9 @@ describe('Create attractions', () => {
 
 		expect(statusCode).toBe(201);
 
-		expect(body.data.attractionIdentifier).toMatch(IDENTIFIER_REG_EX);
-		let loc = await env.attractions.findOne({ identifier: body.data.attractionIdentifier });
+		const newAttractionID = body.data.attractionReference.referenceId;
+		expect(newAttractionID).toMatch(IDENTIFIER_REG_EX);
+		let loc = await env.attractions.findOne({ identifier: newAttractionID});
 
 		expect(loc?.title.de).toBe('New Attraction');
 	});

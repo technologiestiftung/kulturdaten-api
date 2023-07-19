@@ -4,6 +4,7 @@ import { CreateAttractionRequest } from '../../../generated/models/CreateAttract
 import { UpdateAttractionRequest } from '../../../generated/models/UpdateAttractionRequest.generated';
 import { AddExternalLinkRequest } from '../../../generated/models/AddExternalLinkRequest.generated';
 import { RemoveExternalLinkRequest } from '../../../generated/models/RemoveExternalLinkRequest.generated';
+import { Reference } from '../../../generated/models/Reference.generated';
 
 
 const log: debug.IDebugger = debug('app:attractions-repository');
@@ -11,7 +12,7 @@ const log: debug.IDebugger = debug('app:attractions-repository');
 export interface AttractionsRepository {
 	getAttractions(limit:number, page:number) : Promise<Attraction[]>;
 
-	addAttraction(createAttraction: CreateAttractionRequest): Promise<string>;
+	addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null>;
 
 	searchDuplicates(attraction: Attraction): Promise<Attraction[]>;
 

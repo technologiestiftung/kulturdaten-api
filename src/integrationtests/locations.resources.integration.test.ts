@@ -42,16 +42,18 @@ describe('Create locations', () => {
 		await env.locations.deleteMany();
 	});
 
-	it('should create a location and return a identifier / POST /locations', async () => {
+	it('should create a location and return an identifier / POST /locations', async () => {
 		const { body, statusCode } = await request(env.app).post(env.LOCATIONS_ROUTE).send(fakeCreateLocationRequest(false, { title: { de: 'New Location' } }));
-
+	
 		expect(statusCode).toBe(201);
-
-		expect(body.data.locationIdentifier).toMatch(IDENTIFIER_REG_EX);
-		let loc = await env.locations.findOne({ identifier: body.data.locationIdentifier });
-
+	
+		const newLocationID = body.data.locationReference.referenceId;
+		expect(newLocationID).toMatch(IDENTIFIER_REG_EX);
+		let loc = await env.locations.findOne({ identifier: newLocationID });
+	
 		expect(loc?.title.de).toBe('New Location');
 	});
+	
 });
 
 

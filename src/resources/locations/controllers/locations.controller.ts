@@ -37,9 +37,9 @@ export class LocationsController {
 	}
 
 	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
-		const locationId = await this.locationsService.create(createLocationRequest);
-		if (locationId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ locationIdentifier: locationId }).build());
+		const locationReference = await this.locationsService.create(createLocationRequest);
+		if (locationReference) {
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ locationReference: locationReference }).build());
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An location cannot be created with the data.").build());
 		}

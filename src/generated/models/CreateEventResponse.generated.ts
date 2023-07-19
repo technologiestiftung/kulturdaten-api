@@ -11,13 +11,15 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Reference, schemaForReference} from "./Reference.generated";
+
 export const schemaForCreateEventResponse = {
   $id: "CreateEventResponse.yml",
   type: "object",
   properties: {
     success: {type: "boolean", enum: [true]},
     message: {type: "string"},
-    data: {type: "object", properties: {eventIdentifier: {type: "string"}}}
+    data: {type: "object", properties: {eventReference: {$ref: "Reference.yml"}}}
   },
   required: ["success"]
 };
@@ -26,6 +28,7 @@ export function validateCreateEventResponse(o: object): {isValid: boolean; valid
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForCreateEventResponse);
   return {isValid: validate(o), validate: validate};
@@ -35,6 +38,6 @@ export interface CreateEventResponse {
   success: true;
   message?: string;
   data?: {
-    eventIdentifier?: string;
+    eventReference?: Reference;
   };
 }

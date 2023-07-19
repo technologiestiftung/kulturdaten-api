@@ -42,15 +42,18 @@ describe('Create events', () => {
 		await env.events.deleteMany();
 	});
 
-	it('should create a event and return a identifier / POST /events', async () => {
+	it('should create an event and return an identifier / POST /events', async () => {
 		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE).send(fakeCreateEventRequest(false, { title: { de: 'New Event' } }));
-
+	
 		expect(statusCode).toBe(201);
-
-		expect(body.data.eventIdentifier).toMatch(IDENTIFIER_REG_EX);
-		let loc = await env.events.findOne({ identifier: body.data.eventIdentifier });
+	
+		const newEventID = body.data.eventReference.referenceId;
+		expect(newEventID).toMatch(IDENTIFIER_REG_EX);
+		let loc = await env.events.findOne({ identifier: newEventID });
+	
 		expect(loc?.title.de).toBe('New Event');
 	});
+	
 });
 
 

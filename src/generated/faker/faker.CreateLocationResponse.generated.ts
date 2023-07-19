@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { CreateLocationResponse, schemaForCreateLocationResponse } from "../models/CreateLocationResponse.generated";
 
+	import { schemaForReference } from '../models/Reference.generated';
 
 	export function fakeCreateLocationResponse(useExamples: boolean, specifiedPropertiesForCreateLocationResponse: object = {}): CreateLocationResponse {
 		const schema = schemaForCreateLocationResponse as Schema;
 		const refs : Schema[] = [
+			schemaForReference as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

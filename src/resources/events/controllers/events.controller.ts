@@ -28,8 +28,13 @@ export class EventsController {
 	}
 
 	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
-		const eventId = await this.eventsService.create(createEvent);
-		res.status(201).send(new SuccessResponseBuilder().okResponse({ eventIdentifier: eventId } ).build());
+		const eventReference = await this.eventsService.create(createEvent);
+		if (eventReference) {
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ eventReference: eventReference }).build());
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An event cannot be created with the data.").build());
+		}
+	
 	}
 
 	public async duplicateEvent(res: express.Response, identifier: string): Promise<void> {

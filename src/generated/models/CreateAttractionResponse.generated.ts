@@ -11,13 +11,15 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Reference, schemaForReference} from "./Reference.generated";
+
 export const schemaForCreateAttractionResponse = {
   $id: "CreateAttractionResponse.yml",
   type: "object",
   properties: {
     success: {type: "boolean", enum: [true]},
     message: {type: "string"},
-    data: {type: "object", properties: {attractionIdentifier: {type: "string"}}}
+    data: {type: "object", properties: {attractionReference: {$ref: "Reference.yml"}}}
   },
   required: ["success"]
 };
@@ -26,6 +28,7 @@ export function validateCreateAttractionResponse(o: object): {isValid: boolean; 
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForCreateAttractionResponse);
   return {isValid: validate(o), validate: validate};
@@ -35,6 +38,6 @@ export interface CreateAttractionResponse {
   success: true;
   message?: string;
   data?: {
-    attractionIdentifier?: string;
+    attractionReference?: Reference;
   };
 }

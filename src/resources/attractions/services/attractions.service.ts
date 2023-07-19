@@ -6,6 +6,7 @@ import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttract
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { AttractionsRepository } from "../repositories/attractions.repository";
+import { Reference } from "../../../generated/models/Reference.generated";
 
 @Service()
 export class AttractionsService {
@@ -16,7 +17,7 @@ export class AttractionsService {
     return this.attractionsRepository.getAttractions(limit, page);
   }
 
-  async create(createAttractionRequest: CreateAttractionRequest): Promise<String> {
+  async create(createAttractionRequest: CreateAttractionRequest): Promise<Reference | null> {
     return this.attractionsRepository.addAttraction(createAttractionRequest);
   }
 
