@@ -5,6 +5,7 @@ import { UpdateAttractionRequest } from '../../../generated/models/UpdateAttract
 import { AddExternalLinkRequest } from '../../../generated/models/AddExternalLinkRequest.generated';
 import { RemoveExternalLinkRequest } from '../../../generated/models/RemoveExternalLinkRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Filter } from '../../../generated/models/Filter.generated';
 
 
 const log: debug.IDebugger = debug('app:attractions-repository');
@@ -15,6 +16,8 @@ export interface AttractionsRepository {
 	addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null>;
 
 	searchDuplicates(attraction: Attraction): Promise<Attraction[]>;
+
+	searchAttractions(filter: Filter): Promise<Attraction[]> ;
 
 	getAttractionByIdentifier(attractionId: string) : Promise<Attraction | null>;
 

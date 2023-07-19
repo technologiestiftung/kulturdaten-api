@@ -4,6 +4,7 @@ import { CreateEventRequest } from '../../../generated/models/CreateEventRequest
 import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Filter } from '../../../generated/models/Filter.generated';
 
 
 const log: debug.IDebugger = debug('app:events-repository');
@@ -14,6 +15,9 @@ export interface EventsRepository {
 	addEvent(createEvent: CreateEventRequest): Promise<Reference | null>;
 
 	getEvents(limit:number, page:number) : Promise<Event[] | null>;
+
+	searchEvents(filter: Filter): Promise<Event[]> ;
+
 
 	getEventByIdentifier(eventId: string) : Promise<Event | null>;
 

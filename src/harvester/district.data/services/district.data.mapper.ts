@@ -53,7 +53,7 @@ export class DistrictDataMapper {
 				...(termin.tag_bis && { endDate: termin.tag_bis }),
 				...(termin.uhrzeit_von && { startTime: termin.uhrzeit_von }),
 				...(termin.uhrzeit_bis && { endTime: termin.uhrzeit_bis }),
-				...(termin.uhrzeit_von_nutzen && { doorTime: termin.uhrzeit_von_nutzen }),
+				...(termin.uhrzeit_von_nutzen && { doorTime: String(termin.uhrzeit_von_nutzen) }),
 			},
 			attractions: [attractionReference],
 		};

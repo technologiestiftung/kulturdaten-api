@@ -35,7 +35,7 @@ export class DistrictDataService {
 	
 		const { attractions, events } = await this.createAttractionsAndEvents(districtData.events, organizations, locations);
 		
-		return { createdOrganizations: organizations, createdLocations: locations };
+		return { createdOrganizations: organizations, createdLocations: locations, createdAttractions: attractions, createdEvents: events };
 	}
 
 

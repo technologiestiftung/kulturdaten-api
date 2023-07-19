@@ -30,7 +30,7 @@ export class EventsService {
 	}
 
 	async search(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
-		throw new Error('Method not implemented.');
+		return this.eventsRepository.searchEvents(searchEventsRequest.searchFilter? searchEventsRequest.searchFilter : {});
 	}
 
 	async readById(id: string) {

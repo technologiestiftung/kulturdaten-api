@@ -8,12 +8,17 @@ import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttract
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 
 @Service()
 export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	async searchAttractions(filter: Filter): Promise<Attraction[]> {
+		const attractions = await this.dbConnector.attractions();
+		return Promise.resolve(attractions.find(filter, { projection: { _id: 0 } }).toArray());
+	}
 
 	async getAttractions(limit: number, page: number): Promise<Attraction[]> {
 		const attractions = await this.dbConnector.attractions();

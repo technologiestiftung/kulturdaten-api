@@ -22,7 +22,7 @@ export class AttractionsService {
   }
 
   async search(searchAttractionsRequest: SearchAttractionsRequest): Promise<Attraction[]> {
-    throw new Error('Method not implemented.');
+		return this.attractionsRepository.searchAttractions(searchAttractionsRequest.searchFilter? searchAttractionsRequest.searchFilter : {});
   }
 
   async readById(attractionId: any) : Promise<Attraction | null> {

@@ -7,13 +7,17 @@ import { CreateEventRequest } from "../../../generated/models/CreateEventRequest
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 
 @Service()
 export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
-
+	async searchEvents(filter: Filter): Promise<Event[]> {
+		const events = await this.dbConnector.events();
+		return Promise.resolve(events.find(filter, { projection: { _id: 0 } }).toArray());
+	}
 
 	async getEvents(limit: number, page: number): Promise<Event[] | null> {
 		const events = await this.dbConnector.events();
