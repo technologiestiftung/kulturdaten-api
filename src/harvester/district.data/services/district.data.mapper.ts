@@ -46,7 +46,7 @@ export class DistrictDataMapper {
 		}
 	}
 
-	mapEvent(termin: Termin, attractionReference: Reference): CreateEventRequest {
+	mapEvent(termin: Termin, attractionReference: Reference,locationReference: Reference, organizerReference: Reference): CreateEventRequest {
 		return {
 			schedule: {
 				...(termin.tag_von && { startDate: termin.tag_von }),
@@ -56,6 +56,9 @@ export class DistrictDataMapper {
 				...(termin.uhrzeit_von_nutzen && { doorTime: String(termin.uhrzeit_von_nutzen) }),
 			},
 			attractions: [attractionReference],
+			locations: [locationReference],
+			organizer: organizerReference,
+
 		};
 	}
 	
