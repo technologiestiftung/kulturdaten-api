@@ -31,6 +31,10 @@ export class DistrictDataMapper {
 				...(veranstaltung.event_beschreibung_ru && { 'ru': veranstaltung.event_beschreibung_ru }),
 				...(veranstaltung.event_beschreibung_tr && { 'tr': veranstaltung.event_beschreibung_tr })
 			},
+			metadata:{
+				origin: 'bezirkskalender',
+				originObjectID: String(veranstaltung.event_id)
+			},
 			...(veranstaltung.event_homepage ? { website: veranstaltung.event_homepage } : {}),
 			inLanguages: ['de', 'en', 'fr', 'ru', 'tr'].filter(lang => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`]),			family: veranstaltung.event_ist_gratis === 'true' ? true : false, // Annahme: Wenn das Event gratis ist, ist es familienfreundlich
 			tags: [
@@ -58,6 +62,10 @@ export class DistrictDataMapper {
 			attractions: [attractionReference],
 			locations: [locationReference],
 			organizer: organizerReference,
+			metadata:{
+				origin: 'bezirkskalender',
+				originObjectID: String(termin.id)
+			} 
 
 		};
 	}

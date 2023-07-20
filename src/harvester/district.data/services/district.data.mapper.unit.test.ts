@@ -26,6 +26,10 @@ describe('DistrictDataMapper', () => {
           'de': "Beschreibung DE",
           'en': "Description EN",
         },
+        metadata:{
+          origin: 'bezirkskalender',
+          originObjectID: String(veranstaltung.event_id)
+        },
         website: "http://example.com",
         inLanguages: ['de', 'en'],
         family: true,
