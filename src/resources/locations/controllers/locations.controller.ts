@@ -9,6 +9,7 @@ import { SearchLocationsRequest } from '../../../generated/models/SearchLocation
 import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
 import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
 import { SearchLocationsResponse } from '../../../generated/models/SearchLocationsResponse.generated';
+import { Reference } from '../../../generated/models/Reference.generated';
 
 const log: debug.IDebugger = debug('app:locations-controller');
 
@@ -44,6 +45,16 @@ export class LocationsController {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An location cannot be created with the data.").build());
 		}
 	}
+
+	async createLocations(res: express.Response, createLocationsRequest: CreateLocationRequest[]) {
+		const locationsReferences :  Promise<Reference | null> [] = [];
+		createLocationsRequest.forEach(async request => {
+			locationsReferences.push(this.locationsService.create(request));
+		});
+		const lR = await Promise.all(locationsReferences)
+	
+		res.status(201).send(new SuccessResponseBuilder().okResponse({ locations: lR }).build());
+	  }
 
 	async searchLocations(res: express.Response, searchLocationsRequest: SearchLocationsRequest) {
 		const locations = await this.locationsService.search(searchLocationsRequest);

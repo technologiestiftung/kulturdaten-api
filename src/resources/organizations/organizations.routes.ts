@@ -8,12 +8,12 @@ import { SearchOrganizationsRequest } from '../../generated/models/SearchOrganiz
 
 @Service()
 export class OrganizationsRoutes {
-  
-  constructor(public organizationsController: OrganizationsController) {}
+
+  constructor(public organizationsController: OrganizationsController) { }
 
   public getRouter(): Router {
     let router = express.Router();
-    
+
     router
       .get('/', (req: express.Request, res: express.Response) => {
         this.organizationsController.listOrganizations(res);
@@ -21,6 +21,13 @@ export class OrganizationsRoutes {
       .post('/', (req: express.Request, res: express.Response) => {
         const createOrganizationRequest = req.body as CreateOrganizationRequest;
         this.organizationsController.createOrganization(res, createOrganizationRequest);
+      });
+
+    router
+      .post('/bulk-create', (req: express.Request, res: express.Response) => {
+        const createOrganizationsRequest = req.body as CreateOrganizationRequest[];
+
+        this.organizationsController.createOrganizations(res, createOrganizationsRequest);
       });
 
     router

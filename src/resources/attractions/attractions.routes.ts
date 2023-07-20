@@ -28,6 +28,13 @@ export class AttractionsRoutes {
 			});
 
 		router
+			.post('/bulk-create', (req: express.Request, res: express.Response) => {
+				const createAttractionRequest = req.body as CreateAttractionRequest[];
+				
+				this.attractionsController.createAttractions(res, createAttractionRequest);
+			});	
+
+		router
 			.post('/search', (req: express.Request, res: express.Response) => {
 				const searchAttractionsRequest = req.body as SearchAttractionsRequest;
 				this.attractionsController.searchAttractions(res, searchAttractionsRequest);

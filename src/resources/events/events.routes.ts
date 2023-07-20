@@ -32,6 +32,13 @@ export class EventsRoutes {
 			});
 
 		router
+			.post('/bulk-create', (req: express.Request, res: express.Response) => {
+				const createEventsRequest = req.body as CreateEventRequest[];
+				
+				this.eventsController.createEvents(res, createEventsRequest);
+			});	
+
+		router
 			.post('/search', (req: express.Request, res: express.Response) => {
 				const searchEventsRequest = req.body as SearchEventsRequest;
 				this.eventsController.searchEvents(res, searchEventsRequest);

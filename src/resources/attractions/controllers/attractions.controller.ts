@@ -11,13 +11,14 @@ import { GetAttractionsResponse } from '../../../generated/models/GetAttractions
 import { CreateAttractionResponse } from '../../../generated/models/CreateAttractionResponse.generated';
 import { SearchAttractionsResponse } from '../../../generated/models/SearchAttractionsResponse.generated';
 import { GetAttractionResponse } from '../../../generated/models/GetAttractionResponse.generated';
+import { Reference } from '../../../generated/models/Reference.generated';
 
 @Service()
 export class AttractionsController {
 
   constructor(
-		public attractionsService: AttractionsService) { }
-  
+    public attractionsService: AttractionsService) { }
+
   async listAttractions(res: Response) {
     const attractions = await this.attractionsService.list(100, 0);
     res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse({ attractions: attractions }).build());
@@ -25,33 +26,47 @@ export class AttractionsController {
 
   async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {
     const attractionReference = await this.attractionsService.create(createAttractionRequest);
-		res.status(201).send(new SuccessResponseBuilder<CreateAttractionResponse>().okResponse({ attractionReference: attractionReference } ).build());
+    if (attractionReference) {
+      res.status(201).send(new SuccessResponseBuilder<CreateAttractionResponse>().okResponse({ attractionReference: attractionReference }).build());
+    } else {
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An attraction cannot be created with the data.").build());
+    }
+  }
+
+  async createAttractions(res: Response, createAttractionRequest: CreateAttractionRequest[]) {
+    const attractionsReferences :  Promise<Reference | null> [] = [];
+    createAttractionRequest.forEach(async request => {
+      attractionsReferences.push(this.attractionsService.create(request));
+    });
+    const aR = await Promise.all(attractionsReferences)
+
+    res.status(201).send(new SuccessResponseBuilder().okResponse({ attractions: aR }).build());
   }
 
   public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest) {
     const attractions = await this.attractionsService.search(searchAttractionsRequest);
     if (attractions) {
-        res.status(200).send(new SuccessResponseBuilder<SearchAttractionsResponse>().okResponse({ attractions: attractions }).build());
+      res.status(200).send(new SuccessResponseBuilder<SearchAttractionsResponse>().okResponse({ attractions: attractions }).build());
     } else {
-        res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No attractions matched the search criteria").build());
+      res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No attractions matched the search criteria").build());
     }
   }
 
   async getAttractionById(res: Response, identifier: string) {
     const attraction = await this.attractionsService.readById(identifier);
-		if (attraction) {
-			res.status(200).send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ attraction: attraction }).build());
-		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
-		}
+    if (attraction) {
+      res.status(200).send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ attraction: attraction }).build());
+    } else {
+      res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
+    }
   }
 
   public async updateAttraction(res: Response, identifier: string, updateAttractionRequest: UpdateAttractionRequest): Promise<void> {
     const isUpdated = await this.attractionsService.update(identifier, updateAttractionRequest);
     if (isUpdated) {
-        res.status(200).send();
+      res.status(200).send();
     } else {
-        res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the attraction").build());
+      res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the attraction").build());
     }
   }
 

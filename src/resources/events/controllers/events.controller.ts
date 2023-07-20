@@ -13,6 +13,7 @@ import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/re
 import { SearchEventsResponse } from '../../../generated/models/SearchEventsResponse.generated';
 import { AddEventAttractionRequest } from '../../../generated/models/AddEventAttractionRequest.generated';
 import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEventAttractionRequest.generated';
+import { Reference } from '../../../generated/models/Reference.generated';
 
 const log: debug.IDebugger = debug('app:events-controller');
 
@@ -36,6 +37,16 @@ export class EventsController {
 		}
 	
 	}
+
+	async createEvents(res: express.Response, createEventRequest: CreateEventRequest[]) {
+		const eventsReferences :  Promise<Reference | null> [] = [];
+		createEventRequest.forEach(async request => {
+			eventsReferences.push(this.eventsService.create(request));
+		});
+		const eR = await Promise.all(eventsReferences)
+	
+		res.status(201).send(new SuccessResponseBuilder().okResponse({ events: eR }).build());
+	  }
 
 	public async duplicateEvent(res: express.Response, identifier: string): Promise<void> {
         const eventId = await this.eventsService.duplicate(identifier);
