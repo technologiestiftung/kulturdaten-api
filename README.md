@@ -7,6 +7,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # Kulturdaten.berlin
+
 **Berlins Kulturdaten – zentral auffindbar, vielfältig vernetzt.**
 <img src="./media/verpackung.png" align="right" width="300">
 
@@ -18,17 +19,21 @@ Die Kulturdatenbank ist ein Projekt der Technologiestiftung Berlin (<https://www
 
 ## Prerequisites
 
-tbd...
+-   Node.js v18.0.0+ mit npm v9.0.0+
+-   Lokal installierte [MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/)
 
 ## Installation
 
-tbd...
+1. Pakete mit `npm install` installieren
+2. `.env`-Datei im Hauptverzeichnis anlegen und Werte ausfüllen (`.env.example` ist als Beispiel zu finden)
 
 ## Usage or Deployment
 
 tbd...
 
 ## Development
+
+`npm run debug`
 
 tbd...
 
@@ -65,7 +70,6 @@ Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3
 
 Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
 
-
 ## Credits
 
 <table>
@@ -79,4 +83,3 @@ Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
     </td>
   </tr>
 </table>
-
