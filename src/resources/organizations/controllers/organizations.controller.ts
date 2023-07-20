@@ -6,6 +6,7 @@ import { CreateOrganizationRequest } from '../../../generated/models/CreateOrgan
 import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
 import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
 import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
+import { Reference } from '../../../generated/models/Reference.generated';
 
 const log: debug.IDebugger = debug('app:organizations-controller');
 
@@ -36,6 +37,18 @@ export class OrganizationsController {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build());
 		}
 	}
+
+	async createOrganizations(res: express.Response, createOrganizationsRequest: CreateOrganizationRequest[]) {
+		const organizationsReferences :  Promise<Reference | null> [] = [];
+		createOrganizationsRequest.forEach(async request => {
+			organizationsReferences.push(this.organizationsService.create(request));
+		});
+		const oR = await Promise.all(organizationsReferences)
+	
+		res.status(201).send(new SuccessResponseBuilder().okResponse({ organizations: oR }).build());
+	  }
+
+
 
 	async unarchiveOrganization(res: express.Response, identifier: string) {
 		const isUnarchived = await this.organizationsService.unarchive(identifier);

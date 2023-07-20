@@ -98,6 +98,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAttractionResponse'
+  /attractions/bulk-create:
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateAttractionRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attractions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CreateAttractionResponse'
   /attractions/search:
     post:
       tags:
@@ -261,6 +284,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateEventResponse'
+  /events/bulk-create:
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateEventRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attractions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CreateEventRequest'
   /events/search:
     post:
       tags:
@@ -550,6 +596,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateLocationResponse'
+  /locations/bulk-create:
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateLocationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attractions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CreateLocationRequest'
   /locations/search:
     post:
       tags:
@@ -745,6 +814,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /organizations/bulk-create:
+    post:
+      tags:
+        - Maintain cultural data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateOrganizationResponse'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attractions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CreateOrganizationResponse'
   /organizations/search:
     post:
       tags:
