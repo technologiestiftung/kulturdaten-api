@@ -11,10 +11,16 @@ import { Reference } from "../../../generated/models/Reference.generated";
 @Service()
 export class AttractionsService {
 
+
   constructor(@Inject('AttractionsRepository') public attractionsRepository: AttractionsRepository) { }
 
   async list(limit: number, page: number): Promise<Attraction[]> {
     return this.attractionsRepository.getAttractions(limit, page);
+  }
+
+  async listAsReferences(limit: number, page: number) : Promise<Reference []>{
+    return this.attractionsRepository.getAttractionsAsReferences(limit, page);
+
   }
 
   async create(createAttractionRequest: CreateAttractionRequest): Promise<Reference | null> {
@@ -27,6 +33,10 @@ export class AttractionsService {
 
   async readById(attractionId: any) : Promise<Attraction | null> {
     return this.attractionsRepository.getAttractionByIdentifier(attractionId);
+  }
+
+  async readReferenceById(attractionId: any) : Promise<Reference | null> {
+    return this.attractionsRepository.getAttractionReferenceByIdentifier(attractionId);
   }
 
   async update(identifier: string, updateAttractionRequest: UpdateAttractionRequest): Promise<boolean> {

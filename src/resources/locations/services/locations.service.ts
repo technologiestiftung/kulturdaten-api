@@ -17,6 +17,10 @@ export class LocationsService{
 		return this.locationsRepository.getLocations(limit,page);
 	}
 
+	async listAsReferences(limit: number, page: number) {
+		return this.locationsRepository.getLocationsAsReferences(limit,page);
+	}
+
 	async create(resource: CreateLocationRequest) : Promise<Reference | null>{
 		return this.locationsRepository.addLocation(resource);
 	}
@@ -27,6 +31,11 @@ export class LocationsService{
 
 	async readById(id: string) {
 		return this.locationsRepository.getLocationByIdentifier(id);
+	}
+
+
+	async readReferenceById(id: string) {
+		return this.locationsRepository.getLocationReferenceByIdentifier(id);
 	}
 
 	async update(id: string, updateLocationRequest: UpdateLocationRequest) {

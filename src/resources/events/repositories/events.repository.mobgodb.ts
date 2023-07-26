@@ -1,7 +1,7 @@
 import { Inject, Service } from "typedi";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { EventsRepository } from "./events.repository";
-import { generateID } from "../../../utils/IDUtil";
+import { generateEventID } from "../../../utils/IDUtil";
 import { Event } from "../../../generated/models/Event.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
@@ -26,7 +26,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null>{
 		const newEvent = createEvent as Event;
-		newEvent.identifier = generateID();
+		newEvent.identifier = generateEventID();
 
 		const events = await this.dbConnector.events();
 		const result = await events.insertOne(newEvent);

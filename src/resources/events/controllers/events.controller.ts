@@ -20,12 +20,18 @@ const log: debug.IDebugger = debug('app:events-controller');
 @Service()
 export class EventsController {
 
+
+
 	constructor(
 		public eventsService: EventsService) { }
 
 	async listEvents(res: express.Response) {
 		const events = await this.eventsService.list(100, 0);
 		res.status(200).send(new SuccessResponseBuilder().okResponse({ events: events }).build());
+	}
+
+	listEventsAsReference(res: express.Response<any, Record<string, any>>) {
+		throw new Error('Method not implemented.');
 	}
 
 	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
@@ -73,6 +79,10 @@ export class EventsController {
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Event not found").build());
 		}
+	}
+
+	getEventReferenceById(res: express.Response<any, Record<string, any>>, identifier: string) {
+		throw new Error('Method not implemented.');
 	}
 
 	async updateEvent(res: express.Response, identifier: string, updateEventRequest: UpdateEventRequest) {

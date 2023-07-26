@@ -20,7 +20,12 @@ export class AttractionsRoutes {
 
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
+				const asReference = req.query.asReference;
+				if(asReference){
+					this.attractionsController.listAttractionsAsReference(res);
+				} else {
 				this.attractionsController.listAttractions(res);
+				}
 			})
 			.post('/', (req: express.Request, res: express.Response) => {
 				const createAttractionRequest = req.body as CreateAttractionRequest;
@@ -43,7 +48,12 @@ export class AttractionsRoutes {
 		router
 			.get('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
+				const asReference = req.query.asReference;
+				if(asReference){
+					this.attractionsController.getAttractionReferenceById(res, identifier);
+				} else {
 				this.attractionsController.getAttractionById(res, identifier);
+				}
 			})
 			.patch('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
