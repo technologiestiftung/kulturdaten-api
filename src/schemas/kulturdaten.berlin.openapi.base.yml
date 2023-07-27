@@ -38,6 +38,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -112,6 +118,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -233,6 +244,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -278,7 +295,7 @@ paths:
                   attractions:
                     type: array
                     items:
-                      $ref: "#/components/schemas/CreateEventRequest"
+                      $ref: "#/components/schemas/CreateEventResponse"
 
   /events/search:
     post:
@@ -308,6 +325,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -565,6 +587,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -639,6 +667,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -788,6 +821,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -827,7 +866,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/CreateOrganizationResponse"
+                $ref: "#/components/schemas/CreateOrganizationRequest"
       responses:
         "201":
           description: Created
@@ -868,6 +907,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK

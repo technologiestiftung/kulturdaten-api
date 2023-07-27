@@ -11,5 +11,9 @@ properties:
         type: array
         items:
           $ref: 'Event.yml'
+      eventsReferences:
+        type: array
+        items:
+          $ref: 'Reference.yml'
 required:
   - success

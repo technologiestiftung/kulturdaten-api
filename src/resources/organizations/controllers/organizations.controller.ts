@@ -13,12 +13,19 @@ const log: debug.IDebugger = debug('app:organizations-controller');
 @Service()
 export class OrganizationsController {
 
+
+
 	constructor(public organizationsService: OrganizationsService) {}
 
 	async listOrganizations(res: express.Response) {
 		const organizations = await this.organizationsService.list(100, 0);
 		res.status(200).send(new SuccessResponseBuilder().okResponse({ organizations: organizations }).build());
 	}
+
+	async listOrganizationsAsReference(res: express.Response) {
+		const organizationsReferences = await this.organizationsService.listAsReferences(100, 0);
+		res.status(200).send(new SuccessResponseBuilder().okResponse({ organizationsReferences: organizationsReferences }).build());
+	  }
 
 	async getOrganizationById(res: express.Response, organizationId: string) {
 		const organization = await this.organizationsService.readById(organizationId);
@@ -28,6 +35,15 @@ export class OrganizationsController {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
 		}
 	}
+
+	async getOrganizationReferenceById(res: express.Response, identifier: string) {
+		const organizationReference = await this.organizationsService.readReferenceById(identifier);
+		if(organizationReference) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
+		}
+	  }
 
 	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
 		const organizationReference = await this.organizationsService.create(createOrganization);

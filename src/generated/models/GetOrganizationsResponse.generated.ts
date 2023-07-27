@@ -17,6 +17,7 @@ import {Address, schemaForAddress} from "./Address.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {Coordinates, schemaForCoordinates} from "./Coordinates.generated";
 import {Contact, schemaForContact} from "./Contact.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
 
 export const schemaForGetOrganizationsResponse = {
   $id: "GetOrganizationsResponse.yml",
@@ -24,7 +25,13 @@ export const schemaForGetOrganizationsResponse = {
   properties: {
     success: {type: "boolean"},
     message: {type: "string"},
-    data: {type: "object", properties: {organizations: {type: "array", items: {$ref: "Organization.yml"}}}}
+    data: {
+      type: "object",
+      properties: {
+        organizations: {type: "array", items: {$ref: "Organization.yml"}},
+        organizationsReferences: {type: "array", items: {$ref: "Reference.yml"}}
+      }
+    }
   },
   required: ["success"]
 };
@@ -39,6 +46,7 @@ export function validateGetOrganizationsResponse(o: object): {isValid: boolean; 
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForCoordinates, "Coordinates.yml");
   ajv.addSchema(schemaForContact, "Contact.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForGetOrganizationsResponse);
   return {isValid: validate(o), validate: validate};
@@ -49,5 +57,6 @@ export interface GetOrganizationsResponse {
   message?: string;
   data?: {
     organizations?: Organization[];
+    organizationsReferences?: Reference[];
   };
 }

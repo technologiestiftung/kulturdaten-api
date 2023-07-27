@@ -76,6 +76,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -147,6 +153,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -262,6 +273,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -306,7 +323,7 @@ paths:
                   attractions:
                     type: array
                     items:
-                      $ref: '#/components/schemas/CreateEventRequest'
+                      $ref: '#/components/schemas/CreateEventResponse'
   /events/search:
     post:
       tags:
@@ -333,6 +350,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -574,6 +596,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -645,6 +673,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -786,6 +819,12 @@ paths:
     get:
       tags:
         - Discover cultural data
+      parameters:
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -824,7 +863,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/CreateOrganizationResponse'
+                $ref: '#/components/schemas/CreateOrganizationRequest'
       responses:
         '201':
           description: Created
@@ -863,6 +902,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: asReference
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -1758,7 +1802,7 @@ components:
         data:
           type: object
           properties:
-            organizations:
+            organization:
               type: object
               required:
                 - identifier
@@ -1865,6 +1909,17 @@ components:
                       type: string
                     telephone:
                       type: string
+            organizationReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     GetOrganizationsResponse:
@@ -1986,6 +2041,19 @@ components:
                         type: string
                       telephone:
                         type: string
+            organizationsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     CreateOrganizationRequest:
@@ -2216,6 +2284,19 @@ components:
                         type: string
                       telephone:
                         type: string
+            organizationsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     UpdateOrganizationRequest:
@@ -2373,6 +2454,19 @@ components:
                           type: string
                       required:
                         - url
+            attractionsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     CreateAttractionRequest:
@@ -2538,6 +2632,19 @@ components:
                           type: string
                       required:
                         - url
+            attractionsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     GetAttractionResponse:
@@ -2621,6 +2728,17 @@ components:
                         type: string
                     required:
                       - url
+            attractionReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     UpdateAttractionRequest:
@@ -2845,6 +2963,19 @@ components:
                         type: string
                       telephone:
                         type: string
+            locationsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     CreateLocationRequest:
@@ -3195,6 +3326,19 @@ components:
                         type: string
                       telephone:
                         type: string
+            locationsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     GetLocationResponse:
@@ -3375,6 +3519,17 @@ components:
                       type: string
                     telephone:
                       type: string
+            locationReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     UpdateLocationRequest:
@@ -3659,6 +3814,19 @@ components:
                           - registrationType.registrationDesired
                       admissionLink:
                         type: string
+            eventsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     CreateEventRequest:
@@ -3971,6 +4139,19 @@ components:
                           - registrationType.registrationDesired
                       admissionLink:
                         type: string
+            eventsReferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
       required:
         - success
     GetEventResponse:
@@ -4131,6 +4312,17 @@ components:
                         - registrationType.registrationDesired
                     admissionLink:
                       type: string
+            eventReference:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
       required:
         - success
     UpdateEventRequest:

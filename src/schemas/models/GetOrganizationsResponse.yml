@@ -11,5 +11,9 @@ properties:
         type: array
         items:
           $ref: 'Organization.yml'
+      organizationsReferences:
+        type: array
+        items:
+          $ref: 'Reference.yml'
 required:
   - success

@@ -27,7 +27,7 @@ export const schemaForGetLocationResponse = {
   properties: {
     success: {type: "boolean"},
     message: {type: "string"},
-    data: {type: "object", properties: {location: {$ref: "Location.yml"}}}
+    data: {type: "object", properties: {location: {$ref: "Location.yml"}, locationReference: {$ref: "Reference.yml"}}}
   },
   required: ["success"]
 };
@@ -55,5 +55,6 @@ export interface GetLocationResponse {
   message?: string;
   data?: {
     location?: Location;
+    locationReference?: Reference;
   };
 }

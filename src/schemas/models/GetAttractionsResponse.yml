@@ -11,5 +11,9 @@ properties:
         type: array
         items:
           $ref: 'Attraction.yml'
+      attractionsReferences:
+        type: array
+        items:
+          $ref: 'Reference.yml'
 required:
   - success

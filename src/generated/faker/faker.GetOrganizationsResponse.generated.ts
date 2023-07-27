@@ -17,6 +17,7 @@
 	import { schemaForBorough } from '../models/Borough.generated';
 	import { schemaForCoordinates } from '../models/Coordinates.generated';
 	import { schemaForContact } from '../models/Contact.generated';
+	import { schemaForReference } from '../models/Reference.generated';
 
 	export function fakeGetOrganizationsResponse(useExamples: boolean, specifiedPropertiesForGetOrganizationsResponse: object = {}): GetOrganizationsResponse {
 		const schema = schemaForGetOrganizationsResponse as Schema;
@@ -27,6 +28,7 @@
 			schemaForBorough as Schema,
 			schemaForCoordinates as Schema,
 			schemaForContact as Schema,
+			schemaForReference as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

@@ -11,5 +11,9 @@ properties:
         type: array
         items:
           $ref: 'Location.yml'
+      locationsReferences:
+        type: array
+        items:
+          $ref: 'Reference.yml'
 required:
   - success

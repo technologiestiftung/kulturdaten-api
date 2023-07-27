@@ -12,9 +12,13 @@ export interface OrganizationsRepository {
 
 	getOrganizations(limit:number, page:number) : Promise<Organization[]>;
 
+	getOrganizationsAsReferences(limit: number, page: number) : Promise<Reference[] | null>;
+
 	searchOrganizations(filter: Filter): Promise<Organization[]> ;	
 
 	getOrganizationByIdentifier(organizationId: string) : Promise<Organization | null>;
+
+	getOrganizationReferenceByIdentifier(identifier: string): Promise<Reference | null>;
 
 
 	addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null>;

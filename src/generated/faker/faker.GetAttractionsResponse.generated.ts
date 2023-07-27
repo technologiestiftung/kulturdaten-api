@@ -14,6 +14,7 @@
 	import { schemaForAttraction } from '../models/Attraction.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForExternalLinks } from '../models/ExternalLinks.generated';
+	import { schemaForReference } from '../models/Reference.generated';
 
 	export function fakeGetAttractionsResponse(useExamples: boolean, specifiedPropertiesForGetAttractionsResponse: object = {}): GetAttractionsResponse {
 		const schema = schemaForGetAttractionsResponse as Schema;
@@ -21,6 +22,7 @@
 			schemaForAttraction as Schema,
 			schemaForMetadata as Schema,
 			schemaForExternalLinks as Schema,
+			schemaForReference as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

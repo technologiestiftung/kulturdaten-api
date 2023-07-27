@@ -9,5 +9,7 @@ properties:
     properties:
       location:
         $ref: 'Location.yml'
+      locationReference:
+        $ref: 'Reference.yml'
 required:
   - success

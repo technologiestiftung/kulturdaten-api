@@ -24,7 +24,13 @@ export const schemaForGetEventsResponse = {
   properties: {
     success: {type: "boolean"},
     message: {type: "string"},
-    data: {type: "object", properties: {events: {type: "array", items: {$ref: "Event.yml"}}}}
+    data: {
+      type: "object",
+      properties: {
+        events: {type: "array", items: {$ref: "Event.yml"}},
+        eventsReferences: {type: "array", items: {$ref: "Reference.yml"}}
+      }
+    }
   },
   required: ["success"]
 };
@@ -49,5 +55,6 @@ export interface GetEventsResponse {
   message?: string;
   data?: {
     events?: Event[];
+    eventsReferences?: Reference[];
   };
 }

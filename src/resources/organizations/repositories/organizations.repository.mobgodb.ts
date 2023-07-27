@@ -7,16 +7,26 @@ import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrgan
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
+import { generateOrganizationReference, getOrganizationReferenceProjection } from "../../../utils/ReferenceUtil";
+
 
 @Service()
 export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
+
+
 	async getOrganizations(limit: number, page: number): Promise<Organization[]> {
 		const organizations = await this.dbConnector.organizations();
 
 		return organizations.find({}, { projection: { _id: 0 } }).toArray();
+	}
+
+	async getOrganizationsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
+		const organizations = await this.dbConnector.organizations();
+		let or = organizations.find({}, { projection: getOrganizationReferenceProjection() }).toArray();
+		return or as Promise<Reference[]>;
 	}
 
 	async searchOrganizations(filter: Filter): Promise<Organization[]> {
@@ -28,6 +38,11 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const organizations = await this.dbConnector.organizations();
 
 		return organizations.findOne({ identifier: organizationId }, { projection: { _id: 0 } });
+	}
+
+	async getOrganizationReferenceByIdentifier(identifier: string): Promise<Reference | null> {
+		const organizations = await this.dbConnector.organizations();
+		return organizations.findOne( { identifier: identifier }, { projection: getOrganizationReferenceProjection() }) as Reference;
 	}
 
 

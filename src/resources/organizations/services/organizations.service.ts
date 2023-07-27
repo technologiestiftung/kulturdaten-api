@@ -12,10 +12,16 @@ import { Reference } from '../../../generated/models/Reference.generated';
 export class OrganizationsService  {
 
 
+
+
 	constructor(@Inject('OrganizationsRepository') public organizationsRepository: OrganizationsRepository) { }
 
 	async list(limit: number, page: number): Promise<Organization[]> {
 		return  this.organizationsRepository.getOrganizations(limit, page);
+	}
+
+	listAsReferences(limit: number, page: number) {
+		return  this.organizationsRepository.getOrganizationsAsReferences(limit, page);
 	}
 
 	async create(resource: CreateOrganizationRequest): Promise<Reference | null> {
@@ -31,6 +37,9 @@ export class OrganizationsService  {
 		return this.organizationsRepository.getOrganizationByIdentifier(id);
 	}
 
+	async readReferenceById(identifier: string) : Promise<Reference | null> {
+		return this.organizationsRepository.getOrganizationReferenceByIdentifier(identifier);
+	}
 	
 
 	async update(identifier: string, updateOrganizationRequest: UpdateOrganizationRequest): Promise<boolean> {

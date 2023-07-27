@@ -42,5 +42,6 @@ export interface SearchEventsResponse {
   message?: string;
   data?: {
     events?: Event[];
+    eventsReferences?: Reference[];
   };
 }

@@ -9,5 +9,7 @@ properties:
     properties:
       event:
         $ref: 'Event.yml'
+      eventReference:
+        $ref: 'Reference.yml'
 required:
   - success

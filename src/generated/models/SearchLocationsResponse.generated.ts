@@ -48,5 +48,6 @@ export interface SearchLocationsResponse {
   message?: string;
   data?: {
     locations?: Location[];
+    locationsReferences?: Reference[];
   };
 }

@@ -14,6 +14,7 @@ import addFormats from "ajv-formats";
 import {Attraction, schemaForAttraction} from "./Attraction.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
 
 export const schemaForGetAttractionsResponse = {
   $id: "GetAttractionsResponse.yml",
@@ -21,7 +22,13 @@ export const schemaForGetAttractionsResponse = {
   properties: {
     success: {type: "boolean"},
     message: {type: "string"},
-    data: {type: "object", properties: {attractions: {type: "array", items: {$ref: "Attraction.yml"}}}}
+    data: {
+      type: "object",
+      properties: {
+        attractions: {type: "array", items: {$ref: "Attraction.yml"}},
+        attractionsReferences: {type: "array", items: {$ref: "Reference.yml"}}
+      }
+    }
   },
   required: ["success"]
 };
@@ -33,6 +40,7 @@ export function validateGetAttractionsResponse(o: object): {isValid: boolean; va
   ajv.addSchema(schemaForAttraction, "Attraction.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForExternalLinks, "ExternalLinks.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForGetAttractionsResponse);
   return {isValid: validate(o), validate: validate};
@@ -43,5 +51,6 @@ export interface GetAttractionsResponse {
   message?: string;
   data?: {
     attractions?: Attraction[];
+    attractionsReferences?: Reference[];
   };
 }

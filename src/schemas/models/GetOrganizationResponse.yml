@@ -7,7 +7,9 @@ properties:
   data:
     type: object
     properties:
-      organizations:
+      organization:
         $ref: 'Organization.yml'
+      organizationReference:
+        $ref: 'Reference.yml'
 required:
   - success

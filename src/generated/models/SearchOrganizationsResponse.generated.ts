@@ -18,6 +18,7 @@ import {Address, schemaForAddress} from "./Address.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {Coordinates, schemaForCoordinates} from "./Coordinates.generated";
 import {Contact, schemaForContact} from "./Contact.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
 
 export const schemaForSearchOrganizationsResponse = {
   $id: "SearchOrganizationsResponse.yml",
@@ -35,6 +36,7 @@ export function validateSearchOrganizationsResponse(o: object): {isValid: boolea
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForCoordinates, "Coordinates.yml");
   ajv.addSchema(schemaForContact, "Contact.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForSearchOrganizationsResponse);
   return {isValid: validate(o), validate: validate};
@@ -45,5 +47,6 @@ export interface SearchOrganizationsResponse {
   message?: string;
   data?: {
     organizations?: Organization[];
+    organizationsReferences?: Reference[];
   };
 }

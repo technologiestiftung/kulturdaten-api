@@ -29,12 +29,12 @@ export class LocationsService{
 		return this.locationsRepository.searchLocations(searchLocationsRequest.searchFilter? searchLocationsRequest.searchFilter : {});
 	}
 
-	async readById(id: string) {
+	async readById(id: string) : Promise<Location | null> {
 		return this.locationsRepository.getLocationByIdentifier(id);
 	}
 
 
-	async readReferenceById(id: string) {
+	async readReferenceById(id: string) : Promise<Reference | null> {
 		return this.locationsRepository.getLocationReferenceByIdentifier(id);
 	}
 

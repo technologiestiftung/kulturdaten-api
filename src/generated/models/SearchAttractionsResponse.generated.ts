@@ -15,6 +15,7 @@ import {GetAttractionsResponse, schemaForGetAttractionsResponse} from "./GetAttr
 import {Attraction, schemaForAttraction} from "./Attraction.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
+import {Reference, schemaForReference} from "./Reference.generated";
 
 export const schemaForSearchAttractionsResponse = {
   $id: "SearchAttractionsResponse.yml",
@@ -29,6 +30,7 @@ export function validateSearchAttractionsResponse(o: object): {isValid: boolean;
   ajv.addSchema(schemaForAttraction, "Attraction.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForExternalLinks, "ExternalLinks.yml");
+  ajv.addSchema(schemaForReference, "Reference.yml");
 
   const validate = ajv.compile(schemaForSearchAttractionsResponse);
   return {isValid: validate(o), validate: validate};
@@ -39,5 +41,6 @@ export interface SearchAttractionsResponse {
   message?: string;
   data?: {
     attractions?: Attraction[];
+    attractionsReferences?: Reference[];
   };
 }

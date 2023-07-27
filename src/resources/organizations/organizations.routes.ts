@@ -16,7 +16,12 @@ export class OrganizationsRoutes {
 
     router
       .get('/', (req: express.Request, res: express.Response) => {
-        this.organizationsController.listOrganizations(res);
+        const asReference = req.query.asReference;
+				if (asReference) {
+          this.organizationsController.listOrganizationsAsReference(res);
+        } else {
+          this.organizationsController.listOrganizations(res);
+        }
       })
       .post('/', (req: express.Request, res: express.Response) => {
         const createOrganizationRequest = req.body as CreateOrganizationRequest;
@@ -39,7 +44,12 @@ export class OrganizationsRoutes {
     router
       .get('/:identifier', (req: express.Request, res: express.Response) => {
         const identifier = req.params.identifier;
-        this.organizationsController.getOrganizationById(res, identifier);
+        const asReference = req.query.asReference;
+				if (asReference) {
+          this.organizationsController.getOrganizationReferenceById(res, identifier);          
+        } else {
+          this.organizationsController.getOrganizationById(res, identifier);
+        }
       })
       .patch('/:identifier', (req: express.Request, res: express.Response) => {
         const identifier = req.params.identifier;
