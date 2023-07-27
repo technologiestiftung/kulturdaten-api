@@ -4,7 +4,7 @@ import request from "supertest";
 import { TestEnvironment } from './integrationtestutils/TestEnvironment';
 import { validateAttraction } from '../generated/models/Attraction.generated';
 import { fakeCreateAttractionRequest } from '../generated/faker/faker.CreateAttractionRequest.generated';
-import { IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
+import { ATTRACTION_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
 import threeDummyAttractions from './testdata/attractions.json';
 
@@ -48,7 +48,7 @@ describe('Create attractions', () => {
 		expect(statusCode).toBe(201);
 
 		const newAttractionID = body.data.attractionReference.referenceId;
-		expect(newAttractionID).toMatch(IDENTIFIER_REG_EX);
+		expect(newAttractionID).toMatch(ATTRACTION_IDENTIFIER_REG_EX);
 		let loc = await env.attractions.findOne({ identifier: newAttractionID});
 
 		expect(loc?.title.de).toBe('New Attraction');

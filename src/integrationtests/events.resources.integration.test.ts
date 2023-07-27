@@ -4,7 +4,7 @@ import request from "supertest";
 import { TestEnvironment } from './integrationtestutils/TestEnvironment';
 import { validateEvent } from '../generated/models/Event.generated';
 import { fakeCreateEventRequest } from '../generated/faker/faker.CreateEventRequest.generated';
-import { IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
+import { EVENT_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
 import threeDummyEvents from './testdata/events.json';
 
@@ -48,7 +48,7 @@ describe('Create events', () => {
 		expect(statusCode).toBe(201);
 	
 		const newEventID = body.data.eventReference.referenceId;
-		expect(newEventID).toMatch(IDENTIFIER_REG_EX);
+		expect(newEventID).toMatch(EVENT_IDENTIFIER_REG_EX);
 		let loc = await env.events.findOne({ identifier: newEventID });
 	
 		expect(loc?.title.de).toBe('New Event');

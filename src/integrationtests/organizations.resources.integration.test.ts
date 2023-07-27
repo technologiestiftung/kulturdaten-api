@@ -4,7 +4,7 @@ import request from "supertest";
 import { TestEnvironment } from './integrationtestutils/TestEnvironment';
 import { validateOrganization } from '../generated/models/Organization.generated';
 import { fakeCreateOrganizationRequest } from '../generated/faker/faker.CreateOrganizationRequest.generated';
-import { IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
+import { ORGANIZATION_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
 import threeDummyOrganizations from './testdata/organizations.json';
 
@@ -48,7 +48,7 @@ describe('Create organizations', () => {
 		expect(statusCode).toBe(201);
 	
 		const newOrganizationID = body.data.organizationReference.referenceId;
-		expect(newOrganizationID).toMatch(IDENTIFIER_REG_EX);
+		expect(newOrganizationID).toMatch(ORGANIZATION_IDENTIFIER_REG_EX);
 		let loc = await env.organizations.findOne({ identifier: newOrganizationID });
 	
 		expect(loc?.title.de).toBe('New Organization');

@@ -4,7 +4,7 @@ import request from "supertest";
 import { TestEnvironment } from './integrationtestutils/TestEnvironment';
 import { validateLocation } from '../generated/models/Location.generated';
 import { fakeCreateLocationRequest } from '../generated/faker/faker.CreateLocationRequest.generated';
-import { IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
+import { LOCATION_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
 import threeDummyLocations from './testdata/locations.json';
 
@@ -48,7 +48,7 @@ describe('Create locations', () => {
 		expect(statusCode).toBe(201);
 	
 		const newLocationID = body.data.locationReference.referenceId;
-		expect(newLocationID).toMatch(IDENTIFIER_REG_EX);
+		expect(newLocationID).toMatch(LOCATION_IDENTIFIER_REG_EX);
 		let loc = await env.locations.findOne({ identifier: newLocationID });
 	
 		expect(loc?.title.de).toBe('New Location');
