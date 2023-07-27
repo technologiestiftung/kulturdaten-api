@@ -16,12 +16,18 @@ import { Reference } from '../../../generated/models/Reference.generated';
 @Service()
 export class AttractionsController {
 
+
   constructor(
     public attractionsService: AttractionsService) { }
 
   async listAttractions(res: Response) {
     const attractions = await this.attractionsService.list(100, 0);
     res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse({ attractions: attractions }).build());
+  }
+
+  async listAttractionsAsReference(res: Response<any, Record<string, any>>) {
+    const attractionsReferences = await this.attractionsService.listAsReferences(100, 0);
+    res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse({ attractionsReferences: attractionsReferences }).build());
   }
 
   async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {
@@ -56,6 +62,15 @@ export class AttractionsController {
     const attraction = await this.attractionsService.readById(identifier);
     if (attraction) {
       res.status(200).send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ attraction: attraction }).build());
+    } else {
+      res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
+    }
+  }
+
+  async getAttractionReferenceById(res: Response, identifier: string) {
+    const attractionReference = await this.attractionsService.readReferenceById(identifier);
+    if (attractionReference) {
+      res.status(200).send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ attractionReference: attractionReference }).build());
     } else {
       res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
     }

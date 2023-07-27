@@ -28,10 +28,28 @@ export class LocationsController {
 		}
 	}
 
+	async listLocationsAsReference(res: express.Response) {
+		const locationsReferences = await this.locationsService.listAsReferences(100, 0);
+		if (locationsReferences) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ locationsReferences: locationsReferences }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
+		}
+	}
+	
 	async getLocationById(res: express.Response, locationId: string) {
 		const location = await this.locationsService.readById(locationId);
 		if (location) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse({ location: location }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Location not found").build());
+		}
+	}
+
+	async getLocationReferenceById(res: express.Response, locationId: string) {
+		const location = await this.locationsService.readReferenceById(locationId);
+		if (location) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ locationReference: location }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Location not found").build());
 		}

@@ -13,6 +13,8 @@ const log: debug.IDebugger = debug('app:attractions-repository');
 export interface AttractionsRepository {
 	getAttractions(limit:number, page:number) : Promise<Attraction[]>;
 
+	getAttractionsAsReferences(limit: number, page: number): Promise<Reference[]>;
+
 	addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null>;
 
 	searchDuplicates(attraction: Attraction): Promise<Attraction[]>;
@@ -20,6 +22,8 @@ export interface AttractionsRepository {
 	searchAttractions(filter: Filter): Promise<Attraction[]> ;
 
 	getAttractionByIdentifier(attractionId: string) : Promise<Attraction | null>;
+
+	getAttractionReferenceByIdentifier(attractionId: string) : Promise<Reference | null>;
 
 	updateAttractionById(attractionId: string, attractionFields: UpdateAttractionRequest ): Promise<boolean>;
 

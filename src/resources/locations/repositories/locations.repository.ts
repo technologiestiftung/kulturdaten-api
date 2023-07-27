@@ -24,7 +24,11 @@ export interface LocationsRepository {
 
 	getLocations(limit:number, page:number) : Promise<Location[] | null>;
 
+	getLocationsAsReferences(limit:number, page:number) : Promise<Reference[] | null>;
+
 	getLocationByIdentifier(locationId: string) : Promise<Location | null>;
+
+	getLocationReferenceByIdentifier(locationId: string): Promise<Reference | null>;
 
 	updateLocationById(locationId: string, locationFields: UpdateLocationRequest ): Promise<boolean>;
 

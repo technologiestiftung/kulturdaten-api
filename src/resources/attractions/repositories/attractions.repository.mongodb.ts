@@ -1,7 +1,7 @@
 import { Inject, Service } from "typedi";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { AttractionsRepository } from "./attractions.repository";
-import { generateID } from "../../../utils/IDUtil";
+import { generateAttractionID } from "../../../utils/IDUtil";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
@@ -9,6 +9,8 @@ import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLin
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { getAttractionReferenceProjection } from "../../../utils/ReferenceUtil";
+import { generateAttractionReference } from "../../../utils/ReferenceUtil";
 
 
 @Service()
@@ -25,9 +27,16 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return attractions.find({}, { projection: { _id: 0 } }).toArray();
 	}
 
+	async getAttractionsAsReferences(limit: number, page: number): Promise<Reference[]>{
+		const attractions = await this.dbConnector.attractions();
+		let ar =  attractions.find({}, { projection: getAttractionReferenceProjection() }).toArray() ;
+		return ar as Promise<Reference[]>;
+	}
+
+
 	async addAttraction(createAttraction: CreateAttractionRequest) : Promise<Reference | null> {
 		const newAttraction = createAttraction as Attraction;
-		newAttraction.identifier = generateID();
+		newAttraction.identifier = generateAttractionID();
 
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.insertOne(newAttraction);
@@ -36,16 +45,18 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		if(!result.acknowledged){
 			return Promise.resolve(null);
 		}
-		return {
-			referenceType: 'type.Attraction',
-			referenceId: newAttraction.identifier,
-			referenceLabel: newAttraction.displayName? newAttraction.displayName : newAttraction.title
-		};
+		return generateAttractionReference(newAttraction);
 	}
 
 	async getAttractionByIdentifier(attractionId: string): Promise<Attraction | null> {
 		const attractions = await this.dbConnector.attractions();
 		return attractions.findOne({ identifier: attractionId }, { projection: { _id: 0 } });
+	}
+
+
+	async getAttractionReferenceByIdentifier(attractionId: string) : Promise<Reference | null> {
+		const attractions = await this.dbConnector.attractions();
+		return attractions.findOne({ identifier: attractionId }, { projection:  getAttractionReferenceProjection()}) as Reference;
 	}
 
 	async updateAttractionById(attractionId: string, attractionFields: UpdateAttractionRequest): Promise<boolean> {

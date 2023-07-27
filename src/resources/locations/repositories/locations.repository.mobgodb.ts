@@ -1,12 +1,13 @@
 import { Inject, Service } from "typedi";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { LocationsRepository } from "./locations.repository";
-import { generateID } from "../../../utils/IDUtil";
+import { generateLocationID } from "../../../utils/IDUtil";
 import { Location } from "../../../generated/models/Location.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { generateLocationReference, getLocationReferenceProjection } from "../../../utils/ReferenceUtil";
 
 
 @Service()
@@ -17,23 +18,25 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	
 	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
 		const newLocation = createLocation as Location;
-		newLocation.identifier = generateID();
+		newLocation.identifier = generateLocationID();
 
 		const locations = await this.dbConnector.locations();
 		const result = await locations.insertOne(newLocation);
 
-		if(!result.acknowledged){
+		if (!result.acknowledged) {
 			return Promise.resolve(null);
 		}
-		return {
-			referenceType: 'type.Location',
-			referenceId: newLocation.identifier,
-			referenceLabel: newLocation.displayName? newLocation.displayName : newLocation.title
-		};
+		return generateLocationReference(newLocation);
 	}
 	async getLocations(limit: number, page: number): Promise<Location[] | null> {
 		const locations = await this.dbConnector.locations();
 		return locations.find({}, { projection: { _id: 0 } }).toArray();
+	}
+
+	async getLocationsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
+		const locations = await this.dbConnector.locations();
+		let lr = locations.find({}, { projection: getLocationReferenceProjection() }).toArray();
+		return lr as Promise<Reference[]>;
 	}
 
 
@@ -46,6 +49,12 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		const locations = await this.dbConnector.locations();
 		return locations.findOne({ identifier: locationId }, { projection: { _id: 0 } });
 	}
+
+	async getLocationReferenceByIdentifier(locationId: string): Promise<Reference | null> {
+		const locations = await this.dbConnector.locations();
+		return locations.findOne({ identifier: locationId }, { projection: getLocationReferenceProjection() }) as Reference;
+	}
+
 	async updateLocationById(locationId: string, locationFields: UpdateLocationRequest): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const result = await locations.updateOne({ identifier: locationId }, { $set: locationFields });
@@ -58,7 +67,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	}
 
 
-	async updateOpeningStatus(identifier: string, openingStatus: Location['openingStatus']): Promise<boolean>{
+	async updateOpeningStatus(identifier: string, openingStatus: Location['openingStatus']): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const filter = { identifier: identifier }; 
         const updateDocument = {
@@ -70,7 +79,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return Promise.resolve(result.modifiedCount === 1);
 	}
 
-	async updateStatus(identifier: string, status: Location['status']): Promise<boolean>{
+	async updateStatus(identifier: string, status: Location['status']): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const filter = { identifier: identifier }; 
         const updateDocument = {

@@ -1,7 +1,7 @@
 import { Inject, Service } from "typedi";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { OrganizationsRepository } from "./organizations.repository";
-import { generateID } from "../../../utils/IDUtil";
+import {  generateOrganizationID } from "../../../utils/IDUtil";
 import { Organization } from "../../../generated/models/Organization.generated";
 import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
@@ -33,7 +33,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null> {
 		const newOrganization = createOrganization as Organization;
-		newOrganization.identifier = generateID();
+		newOrganization.identifier = generateOrganizationID();
 
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.insertOne(newOrganization);

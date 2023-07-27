@@ -22,7 +22,12 @@ export class LocationsRoutes {
 
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
+				const asReference = req.query.asReference;
+				if (asReference) {
+					this.locationsController.listLocationsAsReference(res);
+				} else {
 				this.locationsController.listLocations(res);
+				}
 			})
 			.post('/', (req: express.Request, res: express.Response) => {
 				const createLocationRequest = req.body as CreateLocationRequest;
@@ -45,7 +50,12 @@ export class LocationsRoutes {
 		router
 			.get('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
+				const asReference = req.query.asReference;
+				if (asReference) {
+					this.locationsController.getLocationReferenceById(res, identifier);
+				} else {
 				this.locationsController.getLocationById(res, identifier);
+				}
 			})
 			.patch('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
