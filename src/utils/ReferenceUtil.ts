@@ -2,6 +2,7 @@ import { Attraction } from "../generated/models/Attraction.generated";
 import { Location } from "../generated/models/Location.generated";
 import { Organization } from "../generated/models/Organization.generated";
 import { Reference } from "../generated/models/Reference.generated";
+import { Event } from "../generated/models/Event.generated";
 
 export function generateAttractionReference(attraction: Attraction): Reference {
 	return {
@@ -51,5 +52,20 @@ export function getOrganizationReferenceProjection()  {
 			referenceType: { $literal: "type.Organization" },
 			referenceId: "$identifier",
 			referenceLabel: "$title"
+	}
+}
+
+export function generateEventReference(event: Event): Reference {
+	return {
+			referenceType: event.type? event.type : "type.Event",
+			referenceId: event.identifier
+	}
+} 
+
+export function getEventReferenceProjection()  {
+	return {
+			_id: 0,
+			referenceType: { $literal: "type.Event" },
+			referenceId: "$identifier"
 	}
 }

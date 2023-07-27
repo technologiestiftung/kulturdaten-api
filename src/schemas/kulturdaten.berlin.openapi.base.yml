@@ -315,7 +315,7 @@ paths:
                 $ref: "#/components/schemas/SearchEventsResponse"
 
 
-  /event/{identifier}:
+  /events/{identifier}:
     get:
       tags:
         - Discover cultural data
@@ -355,7 +355,7 @@ paths:
         "200":
           description: OK
   
-  /event/{identifier}/locations:
+  /events/{identifier}/locations:
     put:
       tags:
         - Maintain cultural data
@@ -392,7 +392,7 @@ paths:
         "204":
           description: No Content
 
-  /event/{identifier}/attractions:
+  /events/{identifier}/attractions:
     put:
       tags:
         - Maintain cultural data
@@ -429,7 +429,7 @@ paths:
         "204":
           description: No Content
 
-  /event/{identifier}/organizer:
+  /events/{identifier}/organizer:
     put:
       tags:
         - Maintain cultural data
@@ -461,7 +461,7 @@ paths:
         "204":
           description: No Content
 
-  /event/{identifier}/publish:
+  /events/{identifier}/publish:
     post:
       tags:
         - Maintain cultural data
@@ -475,7 +475,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}/unpublish:
+  /events/{identifier}/unpublish:
     post:
       tags:
         - Maintain cultural data
@@ -489,7 +489,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}/reschedule:
+  /events/{identifier}/reschedule:
     post:
       tags:
         - Maintain cultural data
@@ -508,7 +508,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}/postpone:
+  /events/{identifier}/postpone:
     post:
       tags:
         - Maintain cultural data
@@ -522,7 +522,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}/cancel:
+  /events/{identifier}/cancel:
     post:
       tags:
         - Maintain cultural data
@@ -536,7 +536,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}/archive:
+  /events/{identifier}/archive:
     post:
       tags:
         - Maintain cultural data
@@ -550,7 +550,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}/unarchive:
+  /events/{identifier}/unarchive:
     post:
       tags:
         - Maintain cultural data
@@ -564,7 +564,7 @@ paths:
         "200":
           description: OK
 
-  /event/{identifier}/duplicate:
+  /events/{identifier}/duplicate:
     post:
       tags:
         - Maintain cultural data

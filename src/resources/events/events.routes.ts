@@ -24,7 +24,12 @@ export class EventsRoutes {
 
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
-				this.eventsController.listEvents(res);
+				const asReference = req.query.asReference;
+				if (asReference) {
+					this.eventsController.listEventsAsReference(res);
+				} else {
+					this.eventsController.listEvents(res);
+				}
 			})
 			.post('/', (req: express.Request, res: express.Response) => {
 				const createEventRequest = req.body as CreateEventRequest;
@@ -47,7 +52,12 @@ export class EventsRoutes {
 		router
 			.get('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
-				this.eventsController.getEventById(res, identifier);
+				const asReference = req.query.asReference;
+				if(asReference) {
+					this.eventsController.getEventReferenceById(res, identifier);
+				} else {
+					this.eventsController.getEventById(res, identifier);
+				}
 			})
 			.patch('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;

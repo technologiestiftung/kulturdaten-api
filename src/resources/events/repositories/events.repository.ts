@@ -10,11 +10,15 @@ import { Filter } from '../../../generated/models/Filter.generated';
 const log: debug.IDebugger = debug('app:events-repository');
 
 export interface EventsRepository {
+	getEventReferenceByIdentifier(id: string): Promise<Reference | null>;
+
 	searchDuplicates(event: Event): Promise<Event[]>;
 
 	addEvent(createEvent: CreateEventRequest): Promise<Reference | null>;
 
 	getEvents(limit:number, page:number) : Promise<Event[] | null>;
+
+	getEventsAsReferences(limit:number, page:number) : Promise<Reference[] | null>;
 
 	searchEvents(filter: Filter): Promise<Event[]> ;
 

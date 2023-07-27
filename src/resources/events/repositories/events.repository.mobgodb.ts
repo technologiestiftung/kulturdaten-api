@@ -8,12 +8,15 @@ import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { generateEventReference, getEventReferenceProjection } from "../../../utils/ReferenceUtil";
 
 
 @Service()
 export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+
+
 	async searchEvents(filter: Filter): Promise<Event[]> {
 		const events = await this.dbConnector.events();
 		return Promise.resolve(events.find(filter, { projection: { _id: 0 } }).toArray());
@@ -22,6 +25,12 @@ export class MongoDBEventsRepository implements EventsRepository {
 	async getEvents(limit: number, page: number): Promise<Event[] | null> {
 		const events = await this.dbConnector.events();
 		return events.find({}, { projection: { _id: 0 } }).toArray();
+	}
+
+	async getEventsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
+		const events = await this.dbConnector.events();
+		let er = events.find({}, { projection: getEventReferenceProjection() }).toArray();
+		return er as Promise<Reference[]>;
 	}
 
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null>{
@@ -34,17 +43,18 @@ export class MongoDBEventsRepository implements EventsRepository {
 		if(!result.acknowledged){
 			return Promise.resolve(null);
 		}
-		return {
-			referenceType: 'type.Event',
-			referenceId: newEvent.identifier,
-			referenceLabel: newEvent.displayName? newEvent.displayName : newEvent.title
-		};
+		return generateEventReference(newEvent);
 
 	}
 
 	async getEventByIdentifier(eventId: string): Promise<Event | null> {
 		const events = await this.dbConnector.events();
 		return events.findOne({ identifier: eventId }, { projection: { _id: 0 } });
+	}
+
+	async getEventReferenceByIdentifier(eventId: string): Promise<Reference | null> {
+		const events = await this.dbConnector.events();
+		return events.findOne({ identifier: eventId }, { projection: getEventReferenceProjection() }) as Reference;
 	}
 	async updateEventById(eventId: string, eventFields: UpdateEventRequest): Promise<boolean> {
 		const events = await this.dbConnector.events();

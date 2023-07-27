@@ -15,10 +15,15 @@ import { Reference } from '../../../generated/models/Reference.generated';
 
 @Service()
 export class EventsService {
+
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
 	async list(limit: number, page: number) {
 		return this.eventsRepository.getEvents(limit, page);
+	}
+
+	async listAsReferences(limit: number, page: number) {
+		return this.eventsRepository.getEventsAsReferences(limit, page);
 	}
 
 	async create(resource: CreateEventRequest) : Promise<Reference | null> {
@@ -35,6 +40,10 @@ export class EventsService {
 
 	async readById(id: string) {
 		return this.eventsRepository.getEventByIdentifier(id);
+	}
+
+	async readReferenceById(id: string) {
+		return this.eventsRepository.getEventReferenceByIdentifier(id);
 	}
 
 	update(identifier: string, updateEventRequest: UpdateEventRequest): Promise<boolean> {

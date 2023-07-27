@@ -30,8 +30,9 @@ export class EventsController {
 		res.status(200).send(new SuccessResponseBuilder().okResponse({ events: events }).build());
 	}
 
-	listEventsAsReference(res: express.Response<any, Record<string, any>>) {
-		throw new Error('Method not implemented.');
+	async listEventsAsReference(res: express.Response<any, Record<string, any>>) {
+		const eventsReferences = await this.eventsService.listAsReferences(100, 0);
+		res.status(200).send(new SuccessResponseBuilder().okResponse({ eventsReferences: eventsReferences }).build());
 	}
 
 	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
@@ -81,8 +82,13 @@ export class EventsController {
 		}
 	}
 
-	getEventReferenceById(res: express.Response<any, Record<string, any>>, identifier: string) {
-		throw new Error('Method not implemented.');
+	async getEventReferenceById(res: express.Response, identifier: string) {
+		const eventReference = await this.eventsService.readReferenceById(identifier);
+		if(eventReference){
+			res.status(200).send(new SuccessResponseBuilder().okResponse({ eventReference: eventReference }).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Event not found").build());
+		}
 	}
 
 	async updateEvent(res: express.Response, identifier: string, updateEventRequest: UpdateEventRequest) {
