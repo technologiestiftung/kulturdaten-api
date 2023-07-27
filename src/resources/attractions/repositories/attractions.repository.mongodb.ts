@@ -41,7 +41,6 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.insertOne(newAttraction);
 		
-
 		if(!result.acknowledged){
 			return Promise.resolve(null);
 		}

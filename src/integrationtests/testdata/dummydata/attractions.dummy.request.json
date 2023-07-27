@@ -1,0 +1,2045 @@
+[
+	{
+		"title": {
+			"de": "Symphonie des Lebens",
+			"en": "Symphony of Life"
+		},
+		"description": {
+			"de": "Ein klassisches Konzert mit Werken, die die menschliche Erfahrung durch Musik darstellen. Ein Abend voller Emotionen und schöner Melodien.",
+			"en": "A classical concert featuring pieces portraying the human experience through music. An evening full of emotions and beautiful melodies."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Klassische Musik",
+			"Konzert"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "123456"
+		}
+	},
+	{
+		"title": {
+			"de": "Stadtführung: Berlins geheime Ecken",
+			"en": "City Tour: Berlin's Secret Corners"
+		},
+		"description": {
+			"de": "Entdecken Sie die verborgenen Seiten Berlins bei einer aufregenden Stadtführung. Lassen Sie sich von der Geschichte und Kultur der Stadt verzaubern.",
+			"en": "Discover the hidden sides of Berlin on an exciting city tour. Be enchanted by the city's history and culture."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Stadtführung",
+			"Geschichte"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "234567"
+		}
+	},
+	{
+		"title": {
+			"de": "Poetry Slam: Stimmen der Stadt",
+			"en": "Poetry Slam: Voices of the City"
+		},
+		"description": {
+			"de": "Erleben Sie die lebendige Berliner Poetry Slam Szene. Kommen Sie und lauschen Sie den Stimmen, die das pulsierende Herz der Stadt ausdrücken.",
+			"en": "Experience the vibrant Berlin poetry slam scene. Come and listen to the voices expressing the pulsating heart of the city."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Poetry Slam",
+			"Literatur"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "345678"
+		}
+	},
+	{
+		"title": {
+			"de": "Jazznacht in Berlin",
+			"en": "Jazz Night in Berlin"
+		},
+		"description": {
+			"de": "Genießen Sie eine Nacht voller Jazzmusik von lokalen und internationalen Künstlern. Ein Muss für jeden Musikliebhaber.",
+			"en": "Enjoy a night full of jazz music from local and international artists. A must for every music lover."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Jazz",
+			"Konzert"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "456789"
+		}
+	},
+	{
+		"title": {
+			"de": "Berliner Tanzfestival",
+			"en": "Berlin Dance Festival"
+		},
+		"description": {
+			"de": "Ein Festival, das den Tanz in all seinen Formen feiert. Von Ballett bis Breakdance - für jeden Geschmack ist etwas dabei.",
+			"en": "A festival celebrating dance in all its forms. From ballet to breakdance - there is something for every taste."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Tanz",
+			"Festival"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "567890"
+		}
+	},
+	{
+		"title": {
+			"de": "Gourmet Essen Festival",
+			"en": "Gourmet Food Festival"
+		},
+		"description": {
+			"de": "Entdecken Sie die Vielfalt der Berliner Gourmet-Küche. Probieren Sie leckere Kreationen aus aller Welt.",
+			"en": "Discover the diversity of Berlin's gourmet cuisine. Try delicious creations from all over the world."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Essen",
+			"Festival"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "678901"
+		}
+	},
+	{
+		"title": {
+			"de": "Internationales Filmfestival Berlin",
+			"en": "International Film Festival Berlin"
+		},
+		"description": {
+			"de": "Entdecken Sie die neuesten Trends im internationalen Kino. Treffen Sie Filmschaffende und genießen Sie spannende Diskussionen.",
+			"en": "Discover the latest trends in international cinema. Meet filmmakers and enjoy exciting discussions."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Film",
+			"Festival"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "789012"
+		}
+	},
+	{
+		"title": {
+			"de": "Berliner Kunstausstellung",
+			"en": "Berlin Art Exhibition"
+		},
+		"description": {
+			"de": "Erleben Sie die Vielfalt der Berliner Kunstszene. Werke von aufstrebenden und etablierten Künstlern werden präsentiert.",
+			"en": "Experience the diversity of the Berlin art scene. Works by emerging and established artists are presented."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Kunst",
+			"Ausstellung"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "890123"
+		}
+	},
+	{
+		"title": {
+			"de": "Geschichtsvorlesung: Berlin im 20. Jahrhundert",
+			"en": "History Lecture: Berlin in the 20th Century"
+		},
+		"description": {
+			"de": "Eine fesselnde Vorlesung über die Geschichte Berlins im 20. Jahrhundert. Verstehen Sie die Stadt und ihre Vergangenheit besser.",
+			"en": "A captivating lecture about the history of Berlin in the 20th century. Understand the city and its past better."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Geschichte",
+			"Vorlesung"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "901234"
+		}
+	},
+	{
+		"title": {
+			"de": "Open-Air Theater: Shakespeares Werke",
+			"en": "Open-Air Theater: Shakespeare's Works"
+		},
+		"description": {
+			"de": "Genießen Sie Shakespeares unsterbliche Werke unter dem Sternenhimmel. Eine einzigartige Theatererfahrung im Freien.",
+			"en": "Enjoy Shakespeare's immortal works under the starry sky. A unique outdoor theater experience."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Theater",
+			"Open-Air"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "012345"
+		}
+	},
+	{
+		"title": {
+			"de": "Fotografieworkshop: Straßen von Berlin",
+			"en": "Photography Workshop: Streets of Berlin"
+		},
+		"description": {
+			"de": "Verbessern Sie Ihre Fotografiefähigkeiten in diesem praxisorientierten Workshop. Entdecken Sie die Straßen Berlins durch die Linse.",
+			"en": "Improve your photography skills in this hands-on workshop. Discover the streets of Berlin through the lens."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Fotografie",
+			"Workshop"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "098765"
+		}
+	},
+	{
+		"title": {
+			"de": "Architekturführung: Moderne Berlin",
+			"en": "Architecture Tour: Modern Berlin"
+		},
+		"description": {
+			"de": "Entdecken Sie die beeindruckende moderne Architektur Berlins. Verstehen Sie die Stadtentwicklung und die architektonischen Strömungen.",
+			"en": "Discover Berlin's impressive modern architecture. Understand the city's development and architectural trends."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Architektur",
+			"Führung"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "087654"
+		}
+	},
+	{
+		"title": {
+			"de": "Buchlesung: Berliner Autoren",
+			"en": "Book Reading: Berlin Authors"
+		},
+		"description": {
+			"de": "Treten Sie in direkten Kontakt mit lokalen Autoren und hören Sie sie aus ihren neuesten Werken vorlesen. Ein intimes literarisches Erlebnis.",
+			"en": "Engage directly with local authors and hear them read from their latest works. An intimate literary experience."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Literatur",
+			"Buchlesung"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "076543"
+		}
+	},
+	{
+		"title": {
+			"de": "Weinverkostung: Deutsche Weine",
+			"en": "Wine Tasting: German Wines"
+		},
+		"description": {
+			"de": "Erleben Sie die Vielfalt deutscher Weine bei einer Verkostung. Lernen Sie mehr über die Weinkultur und Herstellungsverfahren.",
+			"en": "Experience the diversity of German wines at a tasting. Learn more about the wine culture and production methods."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Wein",
+			"Verkostung"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "065432"
+		}
+	},
+	{
+		"title": {
+			"de": "Kochkurs: Berliner Küche",
+			"en": "Cooking Class: Berlin Cuisine"
+		},
+		"description": {
+			"de": "Lernen Sie, traditionelle Berliner Gerichte zuzubereiten. Ein unterhaltsamer und lehrreicher Kochkurs für alle Niveaus.",
+			"en": "Learn to prepare traditional Berlin dishes. An entertaining and educational cooking class for all levels."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Kochen",
+			"Workshop"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "054321"
+		}
+	},
+	{
+		"title": {
+			"de": "Yogaworkshop: Balance in der Großstadt",
+			"en": "Yoga Workshop: Balance in the Big City"
+		},
+		"description": {
+			"de": "Finden Sie Ruhe und Ausgeglichenheit in der Hektik der Stadt mit diesem Yogaworkshop. Für Anfänger und Fortgeschrittene geeignet.",
+			"en": "Find peace and balance in the hustle and bustle of the city with this yoga workshop. Suitable for beginners and advanced."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Yoga",
+			"Workshop"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "043210"
+		}
+	},
+	{
+		"title": {
+			"de": "Opernabend: Die Zauberflöte",
+			"en": "Opera Evening: The Magic Flute"
+		},
+		"description": {
+			"de": "Erleben Sie Mozarts Meisterwerk, Die Zauberflöte, in einer faszinierenden Inszenierung. Ein unvergesslicher Opernabend.",
+			"en": "Experience Mozart's masterpiece, The Magic Flute, in a fascinating production. An unforgettable evening at the opera."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Oper",
+			"Musik"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "032109"
+		}
+	},
+	{
+		"title": {
+			"de": "Poetry Slam: Berliner Stimmen",
+			"en": "Poetry Slam: Berlin Voices"
+		},
+		"description": {
+			"de": "Genießen Sie einen Abend voller kreativer Worte und leidenschaftlicher Performances bei unserem Berliner Poetry Slam.",
+			"en": "Enjoy an evening of creative words and passionate performances at our Berlin Poetry Slam."
+		},
+		"inLanguages": [
+			"de",
+			"en"
+		],
+		"tags": [
+			"Poetry Slam",
+			"Literatur"
+		],
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "021098"
+		}
+	},
+		{
+			"title": {
+				"de": "Nacht der Planetarien: Sterne über Berlin",
+				"en": "Night of Planetariums: Stars over Berlin"
+			},
+			"description": {
+				"de": "Erleben Sie eine magische Nacht unter den Sternen in einem unserer Planetarien. Astronomie-Enthusiasten und Neugierige sind willkommen.",
+				"en": "Experience a magical night under the stars in one of our planetariums. Astronomy enthusiasts and the curious are welcome."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Astronomie",
+				"Planetarium"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "110098"
+			}
+		},
+		{
+			"title": {
+				"de": "Underground Techno-Party: Berliner Nachtleben",
+				"en": "Underground Techno Party: Berlin Nightlife"
+			},
+			"description": {
+				"de": "Tauchen Sie ein in Berlins berühmte Techno-Szene bei einer Underground-Party. Lassen Sie sich von der Musik mitreißen.",
+				"en": "Dive into Berlin's famous techno scene at an underground party. Let the music carry you away."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Techno",
+				"Party"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "120099"
+			}
+		},
+		{
+			"title": {
+				"de": "Krimi-Wanderung: Mysterien von Berlin",
+				"en": "Crime Hike: Mysteries of Berlin"
+			},
+			"description": {
+				"de": "Entdecken Sie die dunkle Seite Berlins auf einer mysteriösen Krimi-Wanderung. Ein spannendes Erlebnis für Detektiv-Enthusiasten.",
+				"en": "Discover the dark side of Berlin on a mysterious crime hike. An exciting experience for detective enthusiasts."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Wanderung",
+				"Krimi"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "130078"
+			}
+		},
+		{
+			"title": {
+				"de": "Virtuelle Realität Erfahrung: Zeitreise durch Berlin",
+				"en": "Virtual Reality Experience: Time Travel through Berlin"
+			},
+			"description": {
+				"de": "Erleben Sie die Geschichte Berlins auf eine ganz neue Weise mit unserer Virtual Reality Tour. Ein Erlebnis, das Sie nicht verpassen sollten.",
+				"en": "Experience the history of Berlin in a whole new way with our virtual reality tour. An experience not to be missed."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Virtuelle Realität",
+				"Geschichte"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "140077"
+			}
+		},
+		{
+			"title": {
+				"de": "Graffiti-Workshop: Berlins Straßenkunst",
+				"en": "Graffiti Workshop: Berlin's Street Art"
+			},
+			"description": {
+				"de": "Entdecken Sie die Kunst des Graffiti in diesem praktischen Workshop. Lassen Sie Ihrer Kreativität freien Lauf und hinterlassen Sie Ihre Spur in Berlin.",
+				"en": "Discover the art of graffiti in this hands-on workshop. Let your creativity run free and leave your mark on Berlin."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Graffiti",
+				"Workshop"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "150066"
+			}
+		},
+		{
+			"title": {
+				"de": "Kabarett-Show: Lachen in Berlin",
+				"en": "Cabaret Show: Laughter in Berlin"
+			},
+			"description": {
+				"de": "Genießen Sie eine humorvolle Kabarett-Show, die die Eigenheiten und die Vielfalt Berlins hervorhebt. Ein Abend voller Lachen und Unterhaltung.",
+				"en": "Enjoy a humorous cabaret show highlighting the quirks and diversity of Berlin. An evening full of laughter and entertainment."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Kabarett",
+				"Unterhaltung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "160055"
+			}
+		},
+		{
+			"title": {
+				"de": "Drachenboot-Rennen: Auf der Spree",
+				"en": "Dragon Boat Race: On the Spree"
+			},
+			"description": {
+				"de": "Nehmen Sie an einem aufregenden Drachenbootrennen auf der Spree teil. Ein nasses und wildes Erlebnis, das Teamgeist fördert.",
+				"en": "Take part in an exciting dragon boat race on the Spree. A wet and wild experience that promotes team spirit."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Drachenboot",
+				"Rennen"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "170044"
+			}
+		},
+		{
+			"title": {
+				"de": "Kunstinstallation: Berliner Luft",
+				"en": "Art Installation: Berlin Air"
+			},
+			"description": {
+				"de": "Erleben Sie eine beeindruckende Kunstinstallation, die die Berliner Atmosphäre einfängt. Eine Reflektion über Stadt, Leben und Luft.",
+				"en": "Experience an impressive art installation that captures the Berlin atmosphere. A reflection on city, life and air."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Kunst",
+				"Installation"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "180033"
+			}
+		},
+		{
+			"title": {
+				"de": "Puppentheater: Märchen aus Berlin",
+				"en": "Puppet Theater: Fairy Tales from Berlin"
+			},
+			"description": {
+				"de": "Genießen Sie eine zauberhafte Puppentheater-Show, die traditionelle Märchen mit der Berliner Kultur verwebt. Geeignet für alle Altersgruppen.",
+				"en": "Enjoy a magical puppet theater show that weaves traditional fairy tales with Berlin culture. Suitable for all age groups."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Puppentheater",
+				"Märchen"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "190022"
+			}
+		},
+		{
+			"title": {
+				"de": "Filmfestival: Berliner Leinwände",
+				"en": "Film Festival: Berlin Screens"
+			},
+			"description": {
+				"de": "Besuchen Sie unser Filmfestival und entdecken Sie neue und klassische Filme aus Berlin und darüber hinaus. Eine Freude für alle Filmbegeisterten.",
+				"en": "Visit our film festival and discover new and classic films from Berlin and beyond. A delight for all film enthusiasts."
+			},
+			"inLanguages": [
+				"de",
+				"en"
+			],
+			"tags": [
+				"Film",
+				"Festival"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "200011"
+			}
+		},
+		{
+			"title": {
+				"de": "Tech-Talk: Zukunft der KI in Berlin",
+				"en": "Tech-Talk: Future of AI in Berlin"
+			},
+			"description": {
+				"de": "Begleiten Sie führende Experten, die die Zukunft der künstlichen Intelligenz in Berlin und darüber hinaus diskutieren. Ideal für Tech-Enthusiasten.",
+				"en": "Join leading experts discussing the future of artificial intelligence in Berlin and beyond. Ideal for tech enthusiasts."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","KI"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "210111"
+			}
+		},
+		{
+			"title": {
+				"de": "Blockchain-Workshop: Kryptowährungen verstehen",
+				"en": "Blockchain Workshop: Understanding Cryptocurrencies"
+			},
+			"description": {
+				"de": "Nehmen Sie an unserem Workshop teil, um die Grundlagen von Blockchain und Kryptowährungen zu verstehen. Ideal für Anfänger und Interessierte.",
+				"en": "Join our workshop to understand the basics of blockchain and cryptocurrencies. Ideal for beginners and those interested."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","Blockchain"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "220122"
+			}
+		},
+		{
+			"title": {
+				"de": "Tech-Messe: Innovationen entdecken",
+				"en": "Tech Fair: Discover Innovations"
+			},
+			"description": {
+				"de": "Besuchen Sie unsere Tech-Messe, um die neuesten Technologie-Innovationen zu entdecken und mit Entwicklern aus der ganzen Welt in Kontakt zu treten.",
+				"en": "Visit our tech fair to discover the latest technology innovations and connect with developers from around the world."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","Messe"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "230133"
+			}
+		},
+		{
+			"title": {
+				"de": "Start-up Pitch Night: Berlins Next Unicorn",
+				"en": "Start-up Pitch Night: Berlin's Next Unicorn"
+			},
+			"description": {
+				"de": "Treffen Sie die aufstrebenden Start-ups Berlins in einer spannenden Pitch-Night. Entdecken Sie das nächste große Ding in der Technologiebranche.",
+				"en": "Meet Berlin's rising start-ups in an exciting pitch night. Discover the next big thing in the tech industry."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","Start-up"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "240144"
+			}
+		},
+		{
+			"title": {
+				"de": "VR-Spieleturnier: Digitale Meisterschaft",
+				"en": "VR Games Tournament: Digital Championship"
+			},
+			"description": {
+				"de": "Nehmen Sie an unserem VR-Spieleturnier teil und beweisen Sie Ihre Fähigkeiten in der digitalen Welt. Ein Erlebnis voller Spaß und Adrenalin.",
+				"en": "Join our VR games tournament and prove your skills in the digital world. An experience full of fun and adrenaline."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","VR"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "250155"
+			}
+		},
+		{
+			"title": {
+				"de": "Robotik-Workshop: Maschinen des Futurs",
+				"en": "Robotics Workshop: Machines of the Future"
+			},
+			"description": {
+				"de": "Erfahren Sie mehr über die faszinierende Welt der Robotik in unserem praktischen Workshop. Bauen Sie Ihre eigenen Robotermodelle und lernen Sie von Experten.",
+				"en": "Learn about the fascinating world of robotics in our hands-on workshop. Build your own robot models and learn from experts."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","Robotik"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "260166"
+			}
+		},
+		{
+			"title": {
+				"de": "Cybersecurity-Konferenz: Sicheres Digitales Berlin",
+				"en": "Cybersecurity Conference: Secure Digital Berlin"
+			},
+			"description": {
+				"de": "Treffen Sie Cybersecurity-Experten und diskutieren Sie die neuesten Trends und Herausforderungen im Bereich der digitalen Sicherheit.",
+				"en": "Meet cybersecurity experts and discuss the latest trends and challenges in digital security."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","Cybersecurity"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "270177"
+			}
+		},
+		{
+			"title": {
+				"de": "3D-Druck-Demonstration: Gestalten der Zukunft",
+				"en": "3D Printing Demonstration: Shaping the Future"
+			},
+			"description": {
+				"de": "Entdecken Sie die revolutionäre Technologie des 3D-Drucks in einer Live-Demonstration. Erfahren Sie, wie Sie Ihre eigenen Designs zum Leben erwecken können.",
+				"en": "Discover the revolutionary technology of 3D printing in a live demonstration. Learn how you can bring your own designs to life."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","3D Druck"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "280188"
+			}
+		},
+		{
+			"title": {
+				"de": "Programmier-Bootcamp: Codieren lernen",
+				"en": "Programming Bootcamp: Learn to Code"
+			},
+			"description": {
+	
+	
+				"de": "Nehmen Sie an unserem intensiven Bootcamp teil, um die Grundlagen der Programmierung zu erlernen. Geeignet für alle, die eine Karriere in der Technologiebranche anstreben.",
+				"en": "Join our intensive bootcamp to learn the basics of programming. Suitable for anyone aspiring to a career in the tech industry."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Tech","Programmieren"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "290199"
+			}
+		},
+		{
+			"title": {
+				"de": "Magie und Illusion: Nacht des Zaubers",
+				"en": "Magic and Illusion: Night of Sorcery"
+			},
+			"description": {
+				"de": "Lassen Sie sich in eine Nacht voller Magie und Illusionen entführen, wo Zauberkünstler ihre besten Tricks vorführen. Ein Abend voller Wunder und Überraschungen.",
+				"en": "Be whisked away into a night full of magic and illusions, where magicians perform their best tricks. An evening full of wonders and surprises."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Magie"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "300001"
+			}
+		},
+		{
+			"title": {
+				"de": "Lebendige Puppen: Marionettenshow",
+				"en": "Living Puppets: Marionette Show"
+			},
+			"description": {
+				"de": "Erleben Sie die Faszination von Marionetten in einer atemberaubenden Show, in der die Puppen zum Leben erweckt werden. Perfekt für Kinder und Erwachsene.",
+				"en": "Experience the fascination of marionettes in a breathtaking show where the puppets come to life. Perfect for children and adults."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Marionetten"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "310002"
+			}
+		},
+		{
+			"title": {
+				"de": "Feuer und Licht: Pyrotechnik Show",
+				"en": "Fire and Light: Pyrotechnic Show"
+			},
+			"description": {
+				"de": "Begleiten Sie uns zu einer spektakulären Show aus Feuer und Licht, präsentiert von unseren begabten Pyrotechnikern. Ein visuelles Spektakel, das Sie nicht verpassen sollten.",
+				"en": "Join us for a spectacular show of fire and light, presented by our talented pyrotechnicians. A visual spectacle not to be missed."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Feuershow"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "320003"
+			}
+		},
+		{
+			"title": {
+				"de": "Komische Köpfe: Comedy Nacht",
+				"en": "Comic Heads: Comedy Night"
+			},
+			"description": {
+				"de": "Lachen Sie sich schlapp bei unserer Comedy-Nacht, wo Berlins lustigste Komiker ihre besten Witze zum Besten geben. Ein Abend voller Spaß und Heiterkeit.",
+				"en": "Laugh your socks off at our comedy night, where Berlin's funniest comedians deliver their best jokes. An evening full of fun and cheer."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Comedy"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "330004"
+			}
+		},
+		{
+			"title": {
+				"de": "Luftige Höhen: Akrobatik Show",
+				"en": "Lofty Heights: Acrobatics Show"
+			},
+			"description": {
+				"de": "Bestaunen Sie die atemberaubenden Fähigkeiten unserer Akrobaten in einer Show, die Sie an die Grenzen der Schwerkraft führt. Ein Erlebnis für die ganze Familie.",
+				"en": "Marvel at the breathtaking abilities of our acrobats in a show that takes you to the limits of gravity. An experience for the whole family."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Akrobatik"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "340005"
+			}
+		},
+		{
+			"title": {
+				"de": "Faszination der Sinne: Hypnose Show",
+				"en": "Fascination of the Senses: Hypnosis Show"
+			},
+			"description": {
+				"de": "Erleben Sie die Kraft der Hypnose in einer spannenden Show, die die Grenzen Ihrer Wahrnehmung herausfordert. Ein Erlebnis, das Sie faszinieren wird.",
+				"en": "Experience the power of hypnosis in an exciting show that challenges the boundaries of your perception. An experience that will fascinate you."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Hypnose"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "350006"
+			}
+		},
+		{
+			"title": {
+				"de": "Schönheit in Bewegung: Moderner Tanz",
+				"en": "Beauty in Motion: Modern Dance"
+			},
+			"description": {
+				"de": "Lassen Sie sich von der Schönheit und Eleganz des modernen Tanzes in unserem beeindruckenden Tanzensemble verzaubern. Ein wunderbares Erlebnis für alle Tanzliebhaber.",
+				"en": "Be enchanted by the beauty and elegance of modern dance in our stunning dance ensemble. A wonderful experience for all dance lovers."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Tanz"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "360007"
+			}
+		},
+		{
+			"title": {
+				"de": "Maskerade: Pantomime Show",
+				"en": "Masquerade: Pantomime Show"
+			},
+			"description": {
+				"de": "Erleben Sie die Kunst der Stille in unserer Pantomime Show, wo Geschichten ohne Worte erzählt werden. Ein einzigartiges und fesselndes Erlebnis.",
+				"en": "Experience the art of silence in our pantomime show, where stories are told without words. A unique and captivating experience."
+			
+	
+		},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Pantomime"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "370008"
+			}
+		},
+		{
+			"title": {
+				"de": "Meister der Manipulation: Jonglage Show",
+				"en": "Masters of Manipulation: Juggling Show"
+			},
+			"description": {
+				"de": "Bestaunen Sie die Geschicklichkeit unserer Jongleure, die mit allem jonglieren, was ihnen in die Hände fällt. Eine faszinierende Show, die Jung und Alt begeistert.",
+				"en": "Marvel at the dexterity of our jugglers, who juggle with everything they get their hands on. A fascinating show that delights young and old."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Jonglage"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "380009"
+			}
+		},
+		{
+			"title": {
+				"de": "Bizarre Träume: Surrealistisches Varieté",
+				"en": "Bizarre Dreams: Surrealist Variety"
+			},
+			"description": {
+				"de": "Treten Sie ein in eine surreale Welt, in der nichts ist, wie es scheint. Eine außergewöhnliche Varieté-Show, die Ihre Vorstellungskraft anregt.",
+				"en": "Step into a surreal world where nothing is as it seems. An extraordinary variety show that stimulates your imagination."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Surrealismus"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "390010"
+			}
+		},
+		{
+			"title": {
+				"de": "Bunte Federn: Burlesque Nacht",
+				"en": "Bright Feathers: Burlesque Night"
+			},
+			"description": {
+				"de": "Entdecken Sie die verführerische Welt des Burlesque in einer Nacht voller Glamour und Eleganz. Ein Abend, der Sie verzaubern wird.",
+				"en": "Discover the seductive world of burlesque in a night full of glamour and elegance. An evening that will enchant you."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Burlesque"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "400011"
+			}
+		},
+		{
+			"title": {
+				"de": "Lautlose Welt: Gebärdensprachtheater",
+				"en": "Silent World: Sign Language Theater"
+			},
+			"description": {
+				"de": "Erleben Sie die Ausdruckskraft der Gebärdensprache in unserem einzigartigen Theaterstück. Eine wunderbare Erfahrung, die Barrieren überwindet.",
+				"en": "Experience the expressiveness of sign language in our unique theatre piece. A wonderful experience that overcomes barriers."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Gebärdensprache"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "410012"
+			}
+		},
+		{
+			"title": {
+				"de": "Zirkus der Schatten: Schattentheater",
+				"en": "Circus of Shadows: Shadow Theater"
+			},
+			"description": {
+				"de": "Lassen Sie sich von der magischen Welt des Schattentheaters faszinieren, in der Geschichten durch Licht und Dunkelheit erzählt werden. Eine Reise in eine andere Dimension.",
+				"en": "Be fascinated by the magical world of shadow theatre, where stories are told through light and darkness. A journey into another dimension."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Schattentheater"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "420013"
+			}
+		},
+		{
+			"title": {
+				"de": "Von Stille bewegt: Mime Show",
+				"en": "Moved by Silence: Mime Show"
+			},
+			"description": {
+				"de": "Begleiten Sie uns auf eine Reise in die Welt der Mimik, wo Geschichten ohne Worte erzählt werden. Ein einzigartiges Erlebnis, das alle Sinne anspricht.",
+				"en": "Join us on a journey into the world of mime, where stories are told without words. A unique experience that appeals to all senses."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Mime"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "430014"
+			}
+		},
+		{
+			"title": {
+				"de": "Bewegung und Rhythmus: Percussion Show",
+				"en": "Motion and Rhythm: Percussion Show"
+			},
+			"description": {
+				"de": "Fühlen Sie den Beat in unserer atemberaubenden Percussion-Show, in der Rhythmus und Bewegung verschmelzen. Ein musikalisches Spektakel, das Sie nicht verpassen sollten.",
+				"en": "Feel the beat in our breathtaking percussion show, where rhythm and movement merge. A musical spectacle not to be missed."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Percussion"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "440015"
+			}
+		},
+		{
+			"title": {
+				"de": "Clowns und Komik: Clown Show",
+				"en": "Clowns and Comedy: Clown Show"
+			},
+			"description": {
+				"de": "Lassen Sie sich von unseren Clowns zum Lachen bringen in einer Show, die Spaß für die ganze Familie bietet. Ein unvergesslicher Abend voller Heiterkeit.",
+				"en": "Let our clowns make you laugh in a show that offers fun for the whole family. An unforgettable evening of merriment."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Clown"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "450016"
+			}
+		},
+		{
+			"title": {
+				"de": "Im Bann der Seile: Vertikalseil Show",
+				"en": "Under the Spell of the Ropes: Vertical Rope Show"
+			},
+			"description": {
+				"de": "Erleben Sie die atemberaubende Kunst des Vertikalseils, bei der Artisten in schwindelerregender Höhe atemberaubende Akrobatik zeigen. Ein Spektakel, das Sie in seinen Bann ziehen wird.",
+				"en": "Experience the breathtaking art of the vertical rope, where artists perform breathtaking acrobatics at dizzying heights. A spectacle that will captivate you."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Vertikalseil"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "460017"
+			}
+		},
+		{
+			"title": {
+				"de": "Hoch in der Luft: Trapez Show",
+				"en": "High in the Air: Trapeze Show"
+			},
+			"description": {
+				"de": "Halten Sie den Atem an, während unsere Trapezkünstler in der Luft schweben und unglaubliche Stunts vollführen. Ein Highlight, das Sie auf jeden Fall erleben sollten.",
+				"en": "Hold your breath as our trapeze artists float in the air and perform incredible stunts. A highlight you should definitely experience."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Trapez"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "470018"
+			}
+		},
+		{
+			"title": {
+				"de": "Das Spiel mit dem Feuer: Feuershow",
+				"en": "Playing with Fire: Fire Show"
+			},
+			"description": {
+				"de": "Erleben Sie die faszinierende Welt der Feuerkunst in einer Show, die Sie nicht mehr loslassen wird. Ein funkelndes Erlebnis, das Sie in seinen Bann ziehen wird.",
+				"en": "Experience the fascinating world of fire art in a show that will captivate you. A sparkling experience that will captivate you."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Feuershow"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "480019"
+			}
+		},
+		{
+			"title": {
+				"de": "Magische Momente: Zaubershow",
+				"en": "Magical Moments: Magic Show"
+			},
+			"description": {
+				"de": "Lassen Sie sich verzaubern von einer Welt voller Magie und Geheimnisse. Unsere Zaubershow wird Sie zum Staunen bringen und Sie in eine andere Welt entführen.",
+				"en": "Let yourself be enchanted by a world full of magic and secrets. Our magic show will amaze you and take you to another world."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Varieté","Zauberei"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "490020"
+			}
+		},
+		{
+			"title": {
+				"de": "Diskussionsrunde: Zukunft der Europäischen Union",
+				"en": "Discussion Panel: The Future of the European Union"
+			},
+			"description": {
+				"de": "Treffen Sie hochkarätige Experten aus Politik und Wissenschaft, um über die Zukunft der Europäischen Union zu diskutieren. Bringen Sie Ihre eigenen Fragen und Anliegen ein.",
+				"en": "Meet top-notch experts from politics and academia to discuss the future of the European Union. Bring your own questions and concerns."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Diskussion","Politik","EU"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "510001"
+			}
+		},
+		{
+			"title": {
+				"de": "Politik im Rampenlicht: Politische Kabarett-Nacht",
+				"en": "Politics in the Spotlight: Political Cabaret Night"
+			},
+			"description": {
+				"de": "Erleben Sie eine Nacht voller Satire und scharfsinniger Kommentare zum aktuellen politischen Geschehen. Genießen Sie die humorvolle Auseinandersetzung mit ernsten Themen.",
+				"en": "Experience a night full of satire and incisive commentary on current political events. Enjoy the humorous confrontation with serious topics."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Kabarett","Politik","Satire"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "520002"
+			}
+		},
+		{
+			"title": {
+				"de": "Vortrag: Cyber-Sicherheit in der Politik",
+				"en": "Lecture: Cyber Security in Politics"
+			},
+			"description": {
+				"de": "In dieser Veranstaltung lernen Sie, wie Cyber-Sicherheit die politische Landschaft beeinflusst. Ein renommierter Experte führt Sie in dieses komplexe Thema ein.",
+				"en": "In this event, you will learn how cyber security influences the political landscape. A renowned expert will introduce you to this complex topic."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Vortrag","Politik","Cyber-Sicherheit"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "530003"
+			}
+		},
+		{
+			"title": {
+				"de": "Podiumsdiskussion: Klimawandel und Politik",
+				"en": "Panel Discussion: Climate Change and Politics"
+			},
+			"description": {
+				"de": "Nehmen Sie an einer Diskussion mit führenden Experten über die Auswirkungen des Klimawandels auf die globale Politik teil. Erfahren Sie, welche Lösungen möglich sind.",
+				"en": "Join a discussion with leading experts on the impact of climate change on global politics. Learn about possible solutions."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Diskussion","Politik","Klimawandel"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "540004"
+			}
+		},
+		{
+			"title": {
+				"de": "Workshop: Politische Kommunikation",
+				"en": "Workshop: Political Communication"
+			},
+			"description": {
+				"de": "In diesem Workshop lernen Sie, wie Sie politische Themen effektiv kommunizieren können. Dieser Kurs ist sowohl für Politikinteressierte als auch für Fachleute geeignet.",
+				"en": "In this workshop, you will learn how to effectively communicate political topics. This course is suitable for both those interested in politics and professionals."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Workshop","Politik","Kommunikation"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "550005"
+			}
+		},
+		{
+			"title": {
+				"de": "Filmvorführung: 'Demokratie in Aktion'",
+				"en": "Film Screening: 'Democracy in Action'"
+			},
+			"description": {
+				"de": "Sehen Sie einen aufschlussreichen Dokumentarfilm über die inneren Abläufe der Demokratie. Nach der Vorführung gibt es eine Diskussionsrunde mit dem Filmemacher.",
+				"en": "Watch an enlightening documentary about the inner workings of democracy. After the screening, there will be a discussion panel with the filmmaker."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Film","Politik","Demokratie"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "560006"
+			}
+		},
+		{
+			"title": {
+				"de": "Debatte: Soziale Medien und Politik",
+				"en": "Debate: Social Media and Politics"
+			},
+			"description": {
+				"de": "In dieser Debatte diskutieren Fachleute, wie soziale Medien die politische Landschaft verändern. Kommen Sie und teilen Sie Ihre Meinung zu diesem wichtigen Thema.",
+				"en": "In this debate, experts discuss how social media is changing the political landscape. Come and share your views on this important issue."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Debatte","Politik","Soziale Medien"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "570007"
+			}
+		},
+		{
+			"title": {
+				"de": "Buchpräsentation: 'Die Macht der Politik'",
+				"en": "Book Presentation: 'The Power of Politics'"
+			},
+			"description": {
+				"de": "Treffen Sie den Autor des Bestsellers 'Die Macht der Politik' und diskutieren Sie über die zentralen Thesen des Buches. Eine signierte Ausgabe ist inbegriffen.",
+				"en": "Meet the author of the bestseller 'The Power of Politics' and discuss the book's central theses. A signed copy is included."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Buchpräsentation","Politik"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "580008"
+			}
+		},
+		{
+			"title": {
+				"de": "Live-Interview: Ein Abend mit Angela Merkel",
+				"en": "Live Interview: An Evening with Angela Merkel"
+			},
+			"description": {
+				"de": "Verbringen Sie einen Abend mit Angela Merkel, der ehemaligen Kanzlerin Deutschlands. Erfahren Sie mehr über ihre politische Karriere und ihre Sicht auf aktuelle globale Herausforderungen.",
+				"en": "Spend an evening with Angela Merkel, former Chancellor of Germany. Learn more about her political career and her view on current global challenges."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Interview","Politik","Angela Merkel"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "590009"
+			}
+		},
+		{
+			"title": {
+				"de": "Seminar: Politik verstehen",
+				"en": "Seminar: Understanding Politics"
+			},
+			"description": {
+				"de": "In diesem Seminar lernen Sie die Grundlagen der Politik kennen. Von der Struktur des politischen Systems bis hin zu aktuellen politischen Fragen - dieses Seminar deckt alles ab.",
+				"en": "In this seminar, you will learn the basics of politics. From the structure of the political system to current political issues - this seminar covers it all."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Seminar","Politik"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "600010"
+			}
+		},
+		{
+			"title": {
+				"de": "Workshop: Achtsamkeit im Alltag",
+				"en": "Workshop: Mindfulness in Everyday Life"
+			},
+			"description": {
+				"de": "In diesem Workshop lernen Sie, wie Sie Achtsamkeit in Ihren Alltag integrieren können, um Stress abzubauen und Ihr allgemeines Wohlbefinden zu verbessern.",
+				"en": "In this workshop, you'll learn how to incorporate mindfulness into your daily life to reduce stress and improve your overall well-being."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Workshop","Achtsamkeit","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "610011"
+			}
+		},
+		{
+			"title": {
+				"de": "Vortrag: Die Kunst des Glücklichseins",
+				"en": "Lecture: The Art of Happiness"
+			},
+			"description": {
+				"de": "Erfahren Sie in diesem inspirierenden Vortrag, was Glück ausmacht und wie Sie ein erfüllteres, glücklicheres Leben führen können.",
+				"en": "Learn in this inspiring lecture what constitutes happiness and how you can lead a more fulfilling, happier life."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Vortrag","Glück","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "620012"
+			}
+		},
+		{
+			"title": {
+				"de": "Kurs: Positives Denken",
+				"en": "Course: Positive Thinking"
+			},
+			"description": {
+				"de": "In diesem Kurs lernen Sie Techniken und Strategien, um Ihr Denken positiver zu gestalten und so Ihre Lebensqualität zu verbessern.",
+				"en": "In this course, you'll learn techniques and strategies to make your thinking more positive and thus improve your quality of life."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Kurs","Positives Denken","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "630013"
+			}
+		},
+		{
+			"title": {
+				"de": "Seminar: Selbstliebe und Akzeptanz",
+				"en": "Seminar: Self-Love and Acceptance"
+			},
+			"description": {
+				"de": "In diesem Seminar werden Sie lernen, sich selbst zu lieben und zu akzeptieren. Erkennen Sie Ihren eigenen Wert und lernen Sie, sich selbst anzunehmen, wie Sie sind.",
+				"en": "In this seminar, you'll learn to love and accept yourself. Recognize your own worth and learn to accept yourself as you are."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Seminar","Selbstliebe","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "640014"
+			}
+		},
+		{
+			"title": {
+				"de": "Yoga Retreat: Entspannung und Erneuerung",
+				"en": "Yoga Retreat: Relaxation and Renewal"
+			},
+			"description": {
+				"de": "Erlauben Sie sich eine Auszeit und nehmen Sie an unserem Yoga Retreat teil. Nutzen Sie Yoga, Meditation und gesunde Ernährung, um sich zu entspannen und zu erneuern.",
+				"en": "Give yourself a break and join our yoga retreat. Use yoga, meditation, and healthy eating to relax and renew yourself."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Retreat","Yoga","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "650015"
+			}
+		},
+		{
+			"title": {
+				"de": "Buchclub: 'Die 7 Geheimnisse des Glücks'",
+				"en": "Book Club: 'The 7 Secrets of Happiness'"
+			},
+			"description": {
+				"de": "Nehmen Sie an unserem Buchclub teil und diskutieren Sie über das Buch 'Die 7 Geheimnisse des Glücks'. Entdecken Sie, wie Sie ein glücklicheres und zufriedeneres Leben führen können.",
+				"en": "Join our book club and discuss the book 'The 7 Secrets of Happiness'. Discover how you can lead a happier and more satisfied life."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Buchclub","Glück","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "660016"
+			}
+		},
+		{
+			"title": {
+				"de": "Workshop: Lebensziele setzen und erreichen",
+				"en": "Workshop: Setting and Achieving Life Goals"
+			},
+			"description": {
+				"de": "In diesem Workshop lernen Sie, klare Lebensziele zu setzen und effektive Strategien zu entwickeln, um diese Ziele zu erreichen.",
+				"en": "In this workshop, you will learn how to set clear life goals and develop effective strategies to achieve these goals."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Workshop","Lebensziele","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "670017"
+			}
+		},
+		{
+			"title": {
+				"de": "Vortrag: Die Wissenschaft des Glücks",
+				"en": "Lecture: The Science of Happiness"
+			},
+			"description": {
+				"de": "In diesem Vortrag lernen Sie die wissenschaftlichen Erkenntnisse hinter Glück und Zufriedenheit kennen. Entdecken Sie, was wirklich zu einem glücklichen Leben führt.",
+				"en": "In this lecture, you will learn the scientific findings behind happiness and satisfaction. Discover what really leads to a happy life."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Vortrag","Glück","Wissenschaft"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "680018"
+			}
+		},
+		{
+			"title": {
+				"de": "Meditationsabend: Inneren Frieden finden",
+				"en": "Meditation Evening: Finding Inner Peace"
+			},
+			"description": {
+				"de": "Nehmen Sie an unserem Meditationsabend teil und lernen Sie Techniken, um inneren Frieden zu finden und Stress abzubauen.",
+				"en": "Join our meditation evening and learn techniques to find inner peace and reduce stress."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Meditation","Innerer Frieden","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "690019"
+			}
+		},
+		{
+			"title": {
+				"de": "Seminar: Die Kraft der Dankbarkeit",
+				"en": "Seminar: The Power of Gratitude"
+			},
+			"description": {
+				"de": "In diesem Seminar lernen Sie die transformierende Kraft der Dankbarkeit kennen. Entdecken Sie, wie Dankbarkeit Ihr Denken, Ihr Wohlbefinden und Ihr Leben verbessern kann.",
+				"en": "In this seminar, you will learn about the transformative power of gratitude. Discover how gratitude can improve your thinking, your well-being, and your life."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Seminar","Dankbarkeit","Lebensführung"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "700020"
+			}
+		},
+		{
+			"title": {
+				"de": "Klassisches Konzert: Beethovens 9. Symphonie",
+				"en": "Classical Concert: Beethoven's 9th Symphony"
+			},
+			"description": {
+				"de": "Erleben Sie Beethovens monumentale 9. Symphonie, aufgeführt vom renommierten Berliner Symphonieorchester.",
+				"en": "Experience Beethoven's monumental 9th Symphony, performed by the renowned Berlin Symphony Orchestra."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Klassisches Konzert","Beethoven"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "710021"
+			}
+		},
+		{
+			"title": {
+				"de": "Oper: Mozarts Zauberflöte",
+				"en": "Opera: Mozart's The Magic Flute"
+			},
+			"description": {
+				"de": "Erleben Sie Mozarts beliebte Oper 'Die Zauberflöte' in einer bezaubernden Inszenierung mit herausragenden Sängern und Sängerinnen.",
+				"en": "Experience Mozart's popular opera 'The Magic Flute' in a enchanting production featuring outstanding singers."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Oper","Mozart"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "720022"
+			}
+		},
+		{
+			"title": {
+				"de": "Ausstellung: Moderne Meister",
+				"en": "Exhibition: Modern Masters"
+			},
+			"description": {
+				"de": "Besuchen Sie unsere Ausstellung 'Moderne Meister' und sehen Sie Werke von Künstlern wie Picasso, Kandinsky und Dali.",
+				"en": "Visit our 'Modern Masters' exhibition and see works by artists such as Picasso, Kandinsky, and Dali."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Ausstellung","Moderne Kunst"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "730023"
+			}
+		},
+		{
+			"title": {
+				"de": "Ballett: Tschaikowskys Schwanensee",
+				"en": "Ballet: Tchaikovsky's Swan Lake"
+			},
+			"description": {
+				"de": "Lassen Sie sich von der Schönheit und Eleganz von Tschaikowskys 'Schwanensee', aufgeführt vom erstklassigen Berliner Ballett, verzaubern.",
+				"en": "Be enchanted by the beauty and elegance of Tchaikovsky's 'Swan Lake', performed by the first-class Berlin Ballet."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Ballett","Tschaikowsky"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "740024"
+			}
+		},
+		{
+			"title": {
+				"de": "Poetry Slam: Lyrische Meisterwerke",
+				"en": "Poetry Slam: Lyrical Masterpieces"
+			},
+			"description": {
+				"de": "Treffen Sie auf aufstrebende und etablierte Dichter und Dichterinnen in unserem 'Lyrischen Meisterwerke' Poetry Slam und lassen Sie sich von ihren Worten inspirieren.",
+				"en": "Meet emerging and established poets at our 'Lyrical Masterpieces' poetry slam and let their words inspire you."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Poetry Slam","Lyrik"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "750025"
+			}
+		},
+		{
+			"title": {
+				"de": "Theater: Shakespeares Hamlet",
+				"en": "Theatre: Shakespeare's Hamlet"
+			},
+			"description": {
+				"de": "Erleben Sie Shakespeares tragisches Meisterwerk 'Hamlet' in einer kraftvollen und bewegenden Inszenierung.",
+				"en": "Experience Shakespeare's tragic masterpiece 'Hamlet' in a powerful and moving production."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Theater","Shakespeare"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "760026"
+			}
+		},
+		{
+			"title": {
+				"de": "Filmvorführung: Klassiker des deutschen Films",
+				"en": "Film Screening: Classics of German Cinema"
+			},
+			"description": {
+				"de": "Kommen Sie zu unserer Filmvorführung und entdecken Sie die Klassiker des deutschen Films, von 'Das Cabinet des Dr. Caligari' bis 'Der Himmel über Berlin'.",
+				"en": "Come to our film screening and discover the classics of German cinema, from 'The Cabinet of Dr. Caligari' to 'Wings of Desire'."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Filmvorführung","Deutscher Film"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "770027"
+			}
+		},
+		{
+			"title": {
+				"de": "Literaturlesung: Werke von Thomas Mann",
+				"en": "Literature Reading: Works by Thomas Mann"
+			},
+			"description": {
+				"de": "Hören Sie Auszüge aus den Meisterwerken von Thomas Mann, gelesen von preisgekrönten Sprechern und Sprecherinnen.",
+				"en": "Listen to excerpts from the masterpieces of Thomas Mann, read by award-winning speakers."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Literaturlesung","Thomas Mann"
+			],
+			"metadata": {
+				"origin":
+	
+	 "DUMMY",
+				"originObjectID": "780028"
+			}
+		},
+		{
+			"title": {
+				"de": "Architekturführung: Bauhaus in Berlin",
+				"en": "Architecture Tour: Bauhaus in Berlin"
+			},
+			"description": {
+				"de": "Begleiten Sie uns auf einer Führung durch die beeindruckenden Bauhaus-Gebäude Berlins und erfahren Sie mehr über diese revolutionäre Architekturbewegung.",
+				"en": "Join us for a tour of Berlin's impressive Bauhaus buildings and learn more about this revolutionary architectural movement."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Architekturführung","Bauhaus"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "790029"
+			}
+		},
+		{
+			"title": {
+				"de": "Musikseminar: Die Entwicklung der Sinfonie",
+				"en": "Music Seminar: The Evolution of the Symphony"
+			},
+			"description": {
+				"de": "Nehmen Sie an unserem Musikseminar teil und erfahren Sie mehr über die Entwicklung der Sinfonie von Haydn bis Mahler.",
+				"en": "Participate in our music seminar and learn more about the evolution of the symphony from Haydn to Mahler."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Musikseminar","Sinfonie"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "800030"
+			}
+		},
+		{
+			"title": {
+				"de": "Underground Kunstausstellung: 'Bruchstücke'",
+				"en": "Underground Art Exhibition: 'Fragments'"
+			},
+			"description": {
+				"de": "Besuchen Sie unsere Underground-Ausstellung 'Bruchstücke', die Werke von aufstrebenden Künstlern der freien Kunstszene Berlins präsentiert.",
+				"en": "Visit our underground exhibition 'Fragments', showcasing works by emerging artists from Berlin's free art scene."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Kunstausstellung","Underground","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "810031"
+			}
+		},
+		{
+			"title": {
+				"de": "Live-Performance: 'Körper in Bewegung'",
+				"en": "Live Performance: 'Bodies in Motion'"
+			},
+			"description": {
+				"de": "Erleben Sie 'Körper in Bewegung', eine beeindruckende Live-Performance, die Tanz, Musik und bildende Kunst vereint.",
+				"en": "Experience 'Bodies in Motion', a stunning live performance that combines dance, music, and visual arts."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Live-Performance","Tanz","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "820032"
+			}
+		},
+		{
+			"title": {
+				"de": "Street Art Tour: Berlins Farben",
+				"en": "Street Art Tour: Berlin's Colors"
+			},
+			"description": {
+				"de": "Erkunden Sie bei unserer Street Art Tour die lebendigen Farben und Botschaften der Berliner Straßenkunst.",
+				"en": "Explore the vibrant colors and messages of Berlin's street art on our Street Art Tour."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Street Art","Tour","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "830033"
+			}
+		},
+		{
+			"title": {
+				"de": "Workshop: Einführung in die Improvisation",
+				"en": "Workshop: Introduction to Improvisation"
+			},
+			"description": {
+				"de": "In unserem Workshop zur Einführung in die Improvisation können Sie Ihre kreative Seite ausleben und neue Ausdrucksmöglichkeiten entdecken.",
+				"en": "In our introduction to improvisation workshop, you can express your creative side and discover new ways of expression."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Workshop","Improvisation","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "840034"
+			}
+		},
+		{
+			"title": {
+				"de": "Open Mic Night: Berlins Stimmen",
+				"en": "Open Mic Night: Voices of Berlin"
+			},
+			"description": {
+				"de": "Kommen Sie zu unserer Open Mic Night und entdecken Sie die vielfältigen Stimmen der freien Kunstszene Berlins.",
+				"en": "Come to our Open Mic Night and discover the diverse voices of Berlin's free art scene."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Open Mic","Poesie","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "850035"
+			}
+		},
+		{
+			"title": {
+				"de": "Independent Filmvorführung: 'Grenzenlos'",
+				"en": "Independent Film Screening: 'Boundless'"
+			},
+			"description": {
+				"de": "Sehen Sie 'Grenzenlos', einen unabhängigen Film, der die Themen Freiheit und Grenzen auf innovative Weise erkundet.",
+				"en": "Watch 'Boundless', an independent film that explores the themes of freedom and boundaries in innovative ways."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Filmvorführung","Independent Film","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "860036"
+			}
+		},
+		{
+			"title": {
+				"de": "Live-Musik: Experimentelle Klänge",
+				"en": "Live Music: Experimental Sounds"
+			},
+			"description": {
+				"de": "Genießen Sie einen Abend mit experimentellen Klängen, präsentiert von Künstlern der freien Musikszene Berlins.",
+				"en": "Enjoy an evening of experimental sounds, presented by artists from Berlin's free music scene."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Live-Musik","Experimentell","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "870037"
+			}
+		},
+		{
+			"title": {
+				"de": "Fotografie-Workshop: Berlin durch die Linse",
+				"en": "Photography Workshop: Berlin Through the Lens"
+			},
+			"description": {
+				"de": "Teilnehmen an unserem Fotografie-Workshop und lernen Sie, die Schönheit Berlins durch die Linse einer Kamera einzufangen.",
+				"en": "Join our photography workshop and learn how to capture the beauty of Berlin through the lens of a camera."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Fotografie","Workshop","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "880038"
+			}
+		},
+		{
+			"title": {
+				"de": "Skulpturenwerkstatt: Form und Funktion",
+				"en": "Sculpture Workshop: Form and Function"
+			},
+			"description": {
+				"de": "In unserer Skulpturenwerkstatt können Sie unter Anleitung eines erfahrenen Künstlers Ihre eigene Skulptur erstellen.",
+				"en": "In our sculpture workshop, you can create your own sculpture under the guidance of an experienced artist."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Skulpturen","Workshop","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "890039"
+			}
+		},
+		{
+			"title": {
+				"de": "Vernissage: 'Spuren der Zeit'",
+				"en": "Vernissage: 'Traces of Time'"
+			},
+			"description": {
+				"de": "Besuchen Sie die Vernissage unserer neuesten Ausstellung 'Spuren der Zeit', die eine vielseitige Auswahl von Werken der freien Kunstszene zeigt.",
+				"en": "Visit the vernissage of our latest exhibition 'Traces of Time', showcasing a versatile selection of works from the free art scene."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Vernissage","Ausstellung","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "900040"
+			}
+		},
+		{
+			"title": {
+				"de": "Kunstseminar: 'Kunst und Gesellschaft'",
+				"en": "Art Seminar: 'Art and Society'"
+			},
+			"description": {
+				"de": "Nehmen Sie an unserem Kunstseminar teil und diskutieren Sie über den Einfluss und die Rolle der Kunst in der Gesellschaft.",
+				"en": "Join our art seminar and discuss the influence and role of art in society."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Kunstseminar","Diskussion","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "910041"
+			}
+		},
+		{
+			"title": {
+				"de": "Kreatives Schreiben Workshop: 'Geschichten erzählen'",
+				"en": "Creative Writing Workshop: 'Telling Stories'"
+			},
+			"description": {
+				"de": "In unserem Workshop zum kreativen Schreiben können Sie das Handwerk des Geschichtenerzählens erlernen und Ihre eigenen Geschichten entwickeln.",
+				"en": "In our creative writing workshop, you can learn the craft of storytelling and develop your own stories."
+			},
+			"inLanguages": [
+				"de","en"
+			],
+			"tags": [
+				"Kreatives Schreiben","Workshop","Freie Kunstszene"
+			],
+			"metadata": {
+				"origin": "DUMMY",
+				"originObjectID": "920042"
+			}
+		}
+	]
+	
