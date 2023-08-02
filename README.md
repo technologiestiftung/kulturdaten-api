@@ -19,13 +19,13 @@ Die Kulturdatenbank ist ein Projekt der Technologiestiftung Berlin (<https://www
 
 ## Prerequisites
 
--   Node.js v18.0.0+ mit npm v9.0.0+
--   Lokal installierte [MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/)
+-   Install a Node version according to the version specified in `.nvmrc` (e.g. with `nvm install` or `nvm use`)
+-   Install [MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/)
 
 ## Installation
 
-1. Pakete mit `npm install` installieren
-2. `.env`-Datei im Hauptverzeichnis anlegen und Werte ausfüllen (`.env.example` ist als Beispiel zu finden)
+1. Install packages with `npm install`
+2. Create an `.env` in the root directory and fill it with values (see `.env.example` for inspiration)
 
 ## Usage or Deployment
 
@@ -33,13 +33,21 @@ tbd...
 
 ## Development
 
-`npm run debug`
+```shell
+npm run debug
+```
 
-tbd...
+tbd... 
 
 ## Tests
 
 tbd...
+
+## Production Build
+
+```shell
+npm start
+```
 
 ## Contributing
 
