@@ -149,8 +149,7 @@ export class KulturdatenBerlinApp {
 
 	private registerStatusChecks() {
 		this.app.get('/', (req: express.Request, res: express.Response) => {
-			let myIp = ip.address();
-			res.status(200).send(this.runningMessage + `${myIp}:${this.port}`);
+			res.status(200).send(this.runningMessage);
 		});
 
 		const healthRoutes = Container.get(HealthRoutes);
