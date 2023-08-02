@@ -22,7 +22,7 @@ export class DistrictDataService {
 		public eventService: EventsService, public attractionService: AttractionsService) { }
 
 	async harvestDistrictData() {
-		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=5';
+		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=14';
 		const districtData = await this.harvesterClient.fetchData(apiURL);
 
 		const organizations: { [originObjectID: string]: Reference } = 
