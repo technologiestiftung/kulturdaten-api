@@ -80,9 +80,7 @@ export class KulturdatenBerlinApp {
 
 
 	private initDataBaseConnection() {
-		const path = process.env.MONGO_URI || 'localhost';
-		const port = process.env.MONGO_PORT || 27017;
-		const uri = `mongodb://${path}:${port}`;
+		const uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
 		this.dataBaseClient =  new MongoClient(uri);
 		const cl = this.dataBaseClient;
 		process.on('exit', async function () {
