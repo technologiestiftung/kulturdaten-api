@@ -1,0 +1,5 @@
+type: object
+properties:
+  searchFilter:
+    type: object
+    additionalProperties: true

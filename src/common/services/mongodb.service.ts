@@ -5,6 +5,7 @@ import { Organization } from '../../generated/models/Organization.generated';
 import { User } from '../../generated/models/User.generated';
 import { Event } from '../../generated/models/Event.generated';
 import { Location } from '../../generated/models/Location.generated';
+import { Attraction } from '../../generated/models/Attraction.generated';
 
 const log: debug.IDebugger = debug('app:mongodb-controller');
 
@@ -16,6 +17,11 @@ export class MongoDBConnector {
 	public async events() {
 		const db = await this.getDatabase();
 		return db.collection<Event>('events');
+	};
+
+	public async attractions() {
+		const db = await this.getDatabase();
+		return db.collection<Attraction>('attractions');
 	};
 
 	public async organizations() {
@@ -58,7 +64,11 @@ export class MongoDBConnector {
 		
 		const locations = await this.locations();
 		await locations.createIndex({ identifier: 1 }, { name: 'id_index' });
+
+		const attractions = await this.attractions();
+		await attractions.createIndex({ identifier: 1 }, { name: 'id_index' });
 	}
+
 
 	public async close() {
 		await this.client.close();

@@ -1,0 +1,19 @@
+type: object
+properties:
+  success:
+    type: boolean
+  message:
+    type: string
+  data:
+    type: object
+    properties:
+      attractions:
+        type: array
+        items:
+          $ref: 'Attraction.yml'
+      attractionsReferences:
+        type: array
+        items:
+          $ref: 'Reference.yml'
+required:
+  - success

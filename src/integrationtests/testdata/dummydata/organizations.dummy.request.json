@@ -1,0 +1,137 @@
+[
+	{
+		"title": {
+			"de": "Berliner Klangwelle",
+			"en": "Berlin Soundwave"
+		},
+		"description": {
+			"de": "Die Berliner Klangwelle ist eine Organisation, die regelmäßige Musikfestivals und Konzerte organisiert und fördert, mit einem besonderen Schwerpunkt auf elektronischer Musik und lokalen Künstlern.",
+			"en": "Berlin Soundwave is an organization regularly organizing and promoting music festivals and concerts, with a special focus on electronic music and local artists."
+		},
+		"inLanguages": ["de", "en"],
+		"tags": ["Musik", "Festival", "Elektronische Musik"],
+		"address": {
+			"streetAddress": "Mehringdamm 33",
+			"addressLocality": "Berlin",
+			"postalCode": "10961"
+		},
+		"borough": "Friedrichshain-Kreuzberg",
+		"coordinates": {
+			"latitude": "52.492909",
+			"longitude": "13.391376",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "123456"
+		}
+	},
+	{
+		"title": {
+			"de": "Berliner Kulturbrücke",
+			"en": "Berlin Culture Bridge"
+		},
+		"description": {
+			"de": "Die Berliner Kulturbrücke engagiert sich für interkulturellen Austausch durch Kunst und Kultur, indem sie Ausstellungen, Workshops und Gesprächsrunden mit internationalen Künstlern organisiert.",
+			"en": "Berlin Culture Bridge is committed to intercultural exchange through art and culture, organizing exhibitions, workshops and discussion rounds with international artists."
+		},
+		"inLanguages": ["de", "en"],
+		"tags": ["Kunst", "Kultur", "Interkulturell"],
+		"address": {
+			"streetAddress": "Torstraße 94",
+			"addressLocality": "Berlin",
+			"postalCode": "10119"
+		},
+		"borough": "Mitte",
+		"coordinates": {
+			"latitude": "52.528890",
+			"longitude": "13.404954",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "234567"
+		}
+	},
+	{
+		"title": {
+			"de": "TanzSchritt",
+			"en": "DanceStep"
+		},
+		"description": {
+			"de": "TanzSchritt ist eine Organisation, die Tanzveranstaltungen und Workshops in ganz Berlin organisiert. Sie bietet eine Plattform für Tänzer aller Stilrichtungen, um sich zu präsentieren und zu vernetzen.",
+			"en": "DanceStep is an organization that organizes dance events and workshops throughout Berlin. It offers a platform for dancers of all styles to present themselves and network."
+		},
+		"inLanguages": ["de", "en"],
+		"tags": ["Tanz", "Workshop", "Vernetzung"],
+		"address": {
+			"streetAddress": "Kastanienallee 79",
+			"addressLocality": "Berlin",
+			"postalCode": "10435"
+		},
+		"borough": "Pankow",
+		"coordinates": {
+			"latitude": "52.536237",
+			"longitude": "13.411490",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "345678"
+		}
+	},
+	{
+		"title": {
+			"de": "LitBerliner",
+			"en": "LitBerliner"
+		},
+		"description": {
+			"de": "LitBerliner ist eine Organisation, die sich auf literarische Veranstaltungen spezialisiert hat. Sie organisiert regelmäßige Lesungen, Buchmessen und Schreibwerkstätten in Berlin.",
+			"en": "LitBerliner is an organization specialized in literary events. It organizes regular readings, book fairs, and writing workshops in Berlin."
+		},
+		"inLanguages": ["de", "en"],
+		"tags": ["Literatur", "Lesungen", "Buchmesse"],
+		"address": {
+			"streetAddress": "Oranienstraße 188",
+			"addressLocality": "Berlin",
+			"postalCode": "10999"
+		},
+		"borough": "Friedrichshain-Kreuzberg",
+		"coordinates": {
+			"latitude": "52.502930",
+			"longitude": "13.424824",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "456789"
+		}
+	},
+	{
+		"title": {
+			"de": "Kinogeflüster",
+			"en": "Cinema Whisper"
+		},
+		"description": {
+			"de": "Kinogeflüster ist eine Organisation, die Filmfestivals und Filmvorführungen in Berlin organisiert, mit besonderem Schwerpunkt auf Independent- und Arthouse-Filmen.",
+			"en": "Cinema Whisper is an organization that organizes film festivals and film screenings in Berlin, with a special emphasis on independent and arthouse films."
+		},
+		"inLanguages": ["de", "en"],
+		"tags": ["Film", "Festival", "Independent"],
+		"address": {
+			"streetAddress": "Warschauer Straße 59",
+			"addressLocality": "Berlin",
+			"postalCode": "10243"
+		},
+		"borough": "Friedrichshain-Kreuzberg",
+		"coordinates": {
+			"latitude": "52.511467",
+			"longitude": "13.446179",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"metadata": {
+			"origin": "DUMMY",
+			"originObjectID": "567890"
+		}
+	}
+]

@@ -1,0 +1,10 @@
+type: object
+properties:
+  organizationIdentifier: 
+    type: string
+  alternativeDisplayName:
+    type: object
+    additionalProperties:
+      type: string 
+required:
+  - organizationIdentifier

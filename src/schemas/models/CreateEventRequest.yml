@@ -1,0 +1,53 @@
+type: object
+properties:
+  schedule:
+    $ref: 'Schedule.yml'
+  title: 
+    type: object
+    additionalProperties:
+      type: string 
+  displayName:
+    type: object
+    additionalProperties:
+      type: string
+  description:
+    type: object
+    additionalProperties:
+      type: string 
+  pleaseNote:
+    type: object
+    additionalProperties:
+      type: string 
+  website:
+    type: string
+  inLanguages:
+    type: array
+    items:
+      type: string
+  family:
+    type: boolean
+  tags:
+    type: array
+    items:
+      type: string 
+  locations:
+    type: array
+    items:
+      $ref: 'Reference.yml'
+  attractions:
+    type: array
+    items:
+      $ref: 'Reference.yml'
+  organizer:
+    $ref: 'Reference.yml'
+  contact:
+    $ref: 'Contact.yml'
+  admission:
+    $ref: 'Admission.yml'
+  metadata:
+    type: object
+    properties:
+      origin:
+        type: string
+      originObjectID:
+        type: string  

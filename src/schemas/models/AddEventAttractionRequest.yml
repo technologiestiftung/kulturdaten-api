@@ -1,0 +1,8 @@
+type: object
+properties:
+  attractionIdentifier: 
+    type: string
+  alternativeDisplayName:
+    type: object
+    additionalProperties:
+      type: string 

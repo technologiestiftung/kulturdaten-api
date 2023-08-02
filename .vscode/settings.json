@@ -3,7 +3,7 @@
 		"codepaths",
 		"dtos",
 		"kulturdaten",
-		"mobgodb",
+		"mongodb",
 		"tsbuildinfo",
 		"typedi"
 	]

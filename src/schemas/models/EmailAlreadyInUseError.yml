@@ -1,7 +1,22 @@
 type: object
 properties:
+  success:
+    type: boolean
+  message:
+    type: string
+  data:
+    type: object
   error:
     type: object
     properties:
-      msg:
+      code:
+        type: number
+      message:
         type: string
+      details:
+        type: string
+    required:
+      - code
+required:
+  - success
+  - error

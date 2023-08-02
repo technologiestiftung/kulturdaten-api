@@ -3,7 +3,7 @@ import debug from 'debug';
 import express, { Router } from 'express';
 import { Service } from 'typedi';
 import passport from 'passport';
-import { permit } from '../auth/middleware/auth.middleware';
+import { permit } from '../resources/auth/middleware/auth.middleware';
 import { DistrictDataHarvestersController } from './district.data/controllers/district.data.harvester.controller';
 
 
@@ -21,8 +21,6 @@ export class HarvesterRoutes {
 		router
 			.post(
 				'/',
-				passport.authenticate('authenticated-user', { session: false }),
-				permit.authorizesAsAdmin(),
 				(req: express.Request, res: express.Response) => {
 					this.districtDataHarvestersController.harvest(res);
 				});

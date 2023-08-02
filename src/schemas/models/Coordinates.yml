@@ -1,0 +1,10 @@
+type: object
+properties:
+  latitude:
+    type: string
+  longitude:
+    type: string
+  coordinateSystem: 
+    type: string
+    enum: 
+    - WGS84 (Decimal Degrees)

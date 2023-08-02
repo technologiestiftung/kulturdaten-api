@@ -1,0 +1,153 @@
+[
+
+	{
+		"type": "type.Organization",
+		"identifier": "berlin-art-emporium-12345",
+		"metadata": {
+			"created": "2023-07-01T08:30:00Z",
+			"updated": "2023-07-06T09:15:00Z",
+			"origin": "berlin-cultural-directory",
+			"originObjectID": "dir6789",
+			"availableLanguages": ["de", "en", "fr"]
+		},
+		"status": "organization.published",
+		"activationStatus": "organization.active",
+		"title": {
+			"de": "Berliner Kunst-Basar",
+			"en": "Berlin Art Emporium",
+			"fr": "Emporium d'Art de Berlin"
+		},
+		"displayName": {
+			"de": "Kunst-Basar",
+			"en": "Art Emporium",
+			"fr": "Emporium d'Art"
+		},
+		"description": {
+			"de": "Ein lebendiger Ort, der Künstlern Raum bietet, ihre Werke auszustellen und zu verkaufen. Workshops und Events finden regelmäßig statt.",
+			"en": "A vibrant space for artists to showcase and sell their work. Regular workshops and events are held.",
+			"fr": "Un espace dynamique pour les artistes pour exposer et vendre leurs œuvres. Des ateliers et des événements sont régulièrement organisés."
+		},
+		"website": "https://berliner-kunst-basar.de",
+		"inLanguages": ["de", "en", "fr"],
+		"tags": ["art", "gallery", "workshops", "culture", "Berlin"],
+		"address": {
+			"streetAddress": "Kunststraße 15",
+			"addressLocality": "Berlin",
+			"postalCode": "10178",
+			"description": "Gegenüber dem Alexa Einkaufszentrum"
+		},
+		"borough": "Mitte",
+		"coordinates": {
+			"latitude": "52.5196",
+			"longitude": "13.4025",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"contact": {
+			"name": "Frau Schmidt",
+			"email": "kontakt@berliner-kunst-basar.de",
+			"telephone": "+49 30 12345678"
+		}
+	},
+	{
+		"type": "type.Organization",
+		"identifier": "berlin-literary-cafe-67890",
+		"metadata": {
+			"created": "2023-06-15T14:20:00Z",
+			"updated": "2023-07-06T10:45:00Z",
+			"origin": "berlin-cultural-directory",
+			"originObjectID": "dir8901",
+			"availableLanguages": ["de", "en", "es", "ru"]
+		},
+		"status": "organization.published",
+		"activationStatus": "organization.active",
+		"title": {
+			"de": "Berliner Literaturcafé",
+			"en": "Berlin Literary Café",
+			"es": "Café Literario de Berlín",
+			"ru": "Литературное кафе Берлина"
+		},
+		"displayName": {
+			"de": "Literaturcafé",
+			"en": "Literary Café",
+			"es": "Café Literario",
+			"ru": "Литературное кафе"
+		},
+		"description": {
+			"de": "Ein gemütliches Café, in dem Literaturbegeisterte zusammenkommen, um Bücher zu lesen, zu diskutieren und an Lesungen teilzunehmen.",
+			"en": "A cozy café where literature enthusiasts come together to read books, engage in discussions, and participate in readings.",
+			"es": "Un acogedor café donde los entusiastas de la literatura se reúnen para leer libros, participar en debates y asistir a lecturas.",
+			"ru": "Уютное кафе, где любители литературы собираются, чтобы читать книги, участвовать в обсуждениях и слушать чтения."
+		},
+		"website": "https://berliner-literaturcafe.de",
+		"inLanguages": ["de", "en", "es", "ru"],
+		"tags": ["literature", "cafe", "books", "readings", "culture", "Berlin"],
+		"address": {
+			"streetAddress": "Bücherweg 22",
+			"addressLocality": "Berlin",
+			"postalCode": "10437",
+			"description": "In der Nähe des Mauerparks"
+		},
+		"borough": "Pankow",
+		"coordinates": {
+			"latitude": "52.5442",
+			"longitude": "13.4056",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"contact": {
+			"name": "Herr Müller",
+			"email": "info@berliner-literaturcafe.de",
+			"telephone": "+49 30 87654321"
+		}
+	},
+
+	{
+    "type": "type.Organization",
+    "identifier": "temporal-cultural-exchange-45123",
+    "metadata": {
+        "created": "2350-01-12T10:20:00Z",
+        "updated": "2023-07-06T12:35:00Z",
+        "origin": "temporal-exchange-program-2350",
+        "originObjectID": "tep2350",
+        "availableLanguages": ["de", "en", "intergalactic"]
+    },
+    "status": "organization.published",
+    "activationStatus": "organization.active",
+    "title": {
+        "de": "Zeitreisende Kulturelle Austauschorganisation",
+        "en": "Time-Traveling Cultural Exchange Organization",
+        "intergalactic": "Tzoruk-Shi Zukal Moru-Toru"
+    },
+    "displayName": {
+        "de": "Zeitreisende Kultur",
+        "en": "Time-Traveling Culture",
+        "intergalactic": "Tzoruk Zukal"
+    },
+    "description": {
+        "de": "Eine Organisation aus dem Jahr 2350, die durch eine Zeitmaschine ins heutige Berlin gereist ist, um Menschen mit faszinierenden Kulturveranstaltungen aus der Zukunft vertraut zu machen.",
+        "en": "An organization from the year 2350 that has traveled through a time machine to present-day Berlin to acquaint people with fascinating cultural events from the future.",
+        "intergalactic": "Kruzar Shika Moruk Zuma 2350, Toru-Zima Tzoruk Berlin, Zish-Moru Gata-Zum Roshu Tzoruk-Toru."
+    },
+    "website": "https://temporal-cultural-exchange.org",
+    "inLanguages": ["de", "en", "intergalactic"],
+    "tags": ["time-travel", "culture", "future", "exchange", "Berlin", "intergalactic"],
+    "address": {
+        "streetAddress": "Zeitreisendenplatz 1",
+        "addressLocality": "Berlin",
+        "postalCode": "10179",
+        "description": "Neben dem Zeitportal"
+    },
+    "borough": "Mitte",
+    "coordinates": {
+        "latitude": "52.5219",
+        "longitude": "13.4134",
+        "coordinateSystem": "WGS84 (Decimal Degrees)"
+    },
+    "contact": {
+        "name": "Zara Xel'Naga",
+        "email": "contact@temporal-cultural-exchange.org",
+        "telephone": "+49 30 1234 5678"
+    }
+}
+
+	
+]

@@ -1,0 +1,48 @@
+type: object
+required:
+  - identifier
+properties:
+  type: 
+    type: string
+    enum:
+      - type.Attraction
+  identifier:
+    type: string
+  metadata:
+    $ref: 'Metadata.yml'
+  status:
+    type: string
+    enum:
+      - attraction.published
+      - attraction.unpublished
+      - attraction.archived
+  title: 
+    type: object
+    additionalProperties:
+      type: string 
+  displayName:
+    type: object
+    additionalProperties:
+      type: string
+  description:
+    type: object
+    additionalProperties:
+      type: string 
+  pleaseNote:
+    type: object
+    additionalProperties:
+      type: string 
+  website:
+    type: string
+  inLanguages:
+    type: array
+    items:
+      type: string
+  family:
+    type: boolean
+  tags:
+    type: array
+    items:
+      type: string 
+  externalLinks:
+    $ref: 'ExternalLinks.yml'

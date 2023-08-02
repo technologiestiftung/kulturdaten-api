@@ -1,0 +1,47 @@
+type: object
+properties:
+  title: 
+    type: object
+    additionalProperties:
+      type: string 
+  displayName:
+    type: object
+    additionalProperties:
+      type: string
+  description:
+    type: object
+    additionalProperties:
+      type: string 
+  website:
+    type: string
+  address:
+    $ref: 'Address.yml'
+  borough:
+    $ref: 'Borough.yml'
+  coordinates:
+    $ref: 'Coordinates.yml'
+  openingHours:
+    $ref: 'OpeningHours.yml'
+  inLanguages:
+    type: array
+    items:
+      type: string
+  tags:
+    type: array
+    items:
+      type: string 
+  externalLinks:
+    type: array
+    items: 
+      $ref: 'ExternalLinks.yml'
+  manager:
+    $ref: 'Reference.yml'
+  contact:
+    $ref: 'Contact.yml'
+  metadata:
+    type: object
+    properties:
+      origin:
+        type: string
+      originObjectID:
+        type: string  

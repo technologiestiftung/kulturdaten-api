@@ -9,28 +9,31 @@ import debug from 'debug';
 
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
-import { OrganizationsRoutes } from './organizations/organizations.routes';
+import { OrganizationsRoutes } from './resources/organizations/organizations.routes';
 import Container from 'typedi';
-import { UsersRoutes } from './users/users.routes';
-import { AuthPassword } from './auth/strategies/auth.strategy.password';
-import { UsersService } from './users/services/users.service';
+import { UsersRoutes } from './resources/users/users.routes';
+import { AuthPassword } from './resources/auth/strategies/auth.strategy.password';
+import { UsersService } from './resources/users/services/users.service';
 import passport from 'passport';
-import { AuthBearerJWT } from './auth/strategies/auth.strategy.bearerjwt';
+import { AuthBearerJWT } from './resources/auth/strategies/auth.strategy.bearerjwt';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import * as OpenApiValidator from 'express-openapi-validator';
-import { HealthRoutes } from './health/health.routes';
-import { AuthRoutes } from './auth/auth.routes';
+import { HealthRoutes } from './resources/health/health.routes';
+import { AuthRoutes } from './resources/auth/auth.routes';
 import { MongoDBConnector } from './common/services/mongodb.service';
-import { MongoDBOrganizationsRepository } from './organizations/repositories/organizations.repository.mobgodb';
-import { MongoDBUsersRepository } from './users/repositories/users.repository.mobgodb';
-import { MongoDBEventsRepository } from './events/repositories/events.repository.mobgodb';
-import { EventsRoutes } from './events/events.routes';
-import { LocationsRoutes } from './locations/locations.routes';
-import { MongoDBLocationsRepository } from './locations/repositories/locations.repository.mobgodb';
+import { MongoDBOrganizationsRepository } from './resources/organizations/repositories/organizations.repository.mongodb';
+import { MongoDBUsersRepository } from './resources/users/repositories/users.repository.mongodb';
+import { MongoDBEventsRepository } from './resources/events/repositories/events.repository.mongodb';
+import { EventsRoutes } from './resources/events/events.routes';
+import { LocationsRoutes } from './resources/locations/locations.routes';
+import { MongoDBLocationsRepository } from './resources/locations/repositories/locations.repository.mongodb';
 import { MongoClient } from 'mongodb';
 import { HarvesterRoutes } from './harvester/harvester.routes';
+import { LocationsService } from './resources/locations/services/locations.service';
+import { AttractionsRoutes } from './resources/attractions/attractions.routes';
+import { MongoDBAttractionsRepository } from './resources/attractions/repositories/attractions.repository.mongodb';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -41,9 +44,17 @@ export class KulturdatenBerlinApp {
 	public port = process.env.APP_PORT || '5000';
 	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
-	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/v1/docs/`
+	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/docs/`
 	public dataBaseClient : MongoClient | null = null;
-
+	
+	public async start() {
+		await this.ini();
+		this.registerRoutes();
+		this.app.listen(this.port, () => {
+			console.log(this.runningMessage);
+			console.log(this.documentationMessage);
+		});
+	}
 
 	public async ini() {
 		this.initDataBaseConnection();
@@ -64,17 +75,9 @@ export class KulturdatenBerlinApp {
 		this.registerEventsRoutes();
 		this.registerLocationsRoutes();
 		this.registerHarvesterRoutes();
+		this.registerAttractionsRoutes();
 	}
 
-
-	public async start() {
-		await this.ini();
-		this.registerRoutes();
-		this.app.listen(this.port, () => {
-			console.log(this.runningMessage);
-			console.log(this.documentationMessage);
-		});
-	}
 
 	private initDataBaseConnection() {
 		const uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
@@ -98,6 +101,7 @@ export class KulturdatenBerlinApp {
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
 		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
 		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
+		Container.set('AttractionsRepository', new MongoDBAttractionsRepository(Container.get('Database')));
 	}
 
 
@@ -134,8 +138,8 @@ export class KulturdatenBerlinApp {
 
 	private registerOpenApi() {
 		const swaggerDocument = YAML.load(this.openAPISpec);
-		this.app.use(`/api/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-		this.app.use(`/api/v1/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
+		this.app.use(`/api/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+		this.app.use(`/api/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
 		this.app.use(OpenApiValidator.middleware({
 			apiSpec: this.openAPISpec,
 			validateRequests: true,
@@ -145,43 +149,47 @@ export class KulturdatenBerlinApp {
 
 	private registerStatusChecks() {
 		this.app.get('/', (req: express.Request, res: express.Response) => {
-			let myIp = ip.address();
-			res.status(200).send(this.runningMessage + `${myIp}:${this.port}`);
+			res.status(200).send(this.runningMessage);
 		});
 
 		const healthRoutes = Container.get(HealthRoutes);
-		this.app.use('/api/v1/health', healthRoutes.getRouter());
+		this.app.use('/api/health', healthRoutes.getRouter());
 	}
 
 	private registerAuthRoutes() {
 		const authRoutes = Container.get(AuthRoutes);
-		this.app.use('/api/v1/auth',
+		this.app.use('/api/auth',
 		authRoutes.getRouter());
 	}
 
 	private registerOrganizationRoutes() {
 		const organizationsRoute = Container.get(OrganizationsRoutes);
-		this.app.use('/api/v1/organizations', organizationsRoute.getRouter());
+		this.app.use('/api/organizations', organizationsRoute.getRouter());
+	}
+
+	registerAttractionsRoutes() {
+		const attractionsRoute = Container.get(AttractionsRoutes);
+		this.app.use('/api/attractions', attractionsRoute.getRouter());
 	}
 
 	private registerUserRoutes() {
 		const usersRoute = Container.get(UsersRoutes);
-		this.app.use('/api/v1/users', usersRoute.getRouter());
+		this.app.use('/api/users', usersRoute.getRouter());
 	}
 
 	private registerEventsRoutes() {
 		const eventsRoute = Container.get(EventsRoutes);
-		this.app.use('/api/v1/events', eventsRoute.getRouter());
+		this.app.use('/api/events', eventsRoute.getRouter());
 	}
 
 	private registerLocationsRoutes() {
 		const locationsRoute = Container.get(LocationsRoutes);
-		this.app.use('/api/v1/locations', locationsRoute.getRouter());
+		this.app.use('/api/locations', locationsRoute.getRouter());
 	}
 
 	registerHarvesterRoutes() {
 		const harvesterRoute = Container.get(HarvesterRoutes);
-		this.app.use('/api/v1/admin/harvest/baevents-bezirkskalender', harvesterRoute.getRouter());
+		this.app.use('/api/admin/harvest/baevents-bezirkskalender', harvesterRoute.getRouter());
 	}
 }
 
