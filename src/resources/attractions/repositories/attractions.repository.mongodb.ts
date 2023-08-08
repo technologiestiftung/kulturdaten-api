@@ -122,4 +122,9 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return Promise.resolve(result.modifiedCount === 1);
 	}
 
+	async countAttractions(): Promise<number> {
+		const attractions = await this.dbConnector.attractions();
+		return attractions.countDocuments();
+	}
+
 }

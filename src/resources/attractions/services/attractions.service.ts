@@ -68,4 +68,8 @@ export class AttractionsService {
     return this.attractionsRepository.updateAttractionStatusById(identifier, 'attraction.unpublished');
   }
 
+  async countAttractions(): Promise<number> {
+    return this.attractionsRepository.countAttractions();
+  }
+
 }

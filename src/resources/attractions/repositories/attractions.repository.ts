@@ -37,5 +37,7 @@ export interface AttractionsRepository {
 
 	removeExternalLink(attractionId: string, externalLink: RemoveExternalLinkRequest): Promise<boolean>;
 
+	countAttractions(): Promise<number>;
+
 }
 

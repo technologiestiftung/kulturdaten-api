@@ -22,12 +22,44 @@ export class AttractionsController {
 
   async listAttractions(res: Response, page: number, pageSize: number) {
     const attractions = await this.attractionsService.list(page, pageSize);
-    res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse({ attractions: attractions }).build());
+    const attractionsCount = await this.attractionsService.countAttractions();
+    res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse(
+      {
+        page: page,
+        pageSize: pageSize,
+        totalCount: attractionsCount,
+        attractions: attractions
+      }).build());
   }
 
   async listAttractionsAsReference(res: Response, page: number, pageSize: number) {
     const attractionsReferences = await this.attractionsService.listAsReferences(page, pageSize);
-    res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse({ attractionsReferences: attractionsReferences }).build());
+    const attractionsCount = await this.attractionsService.countAttractions();
+
+    res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse(
+      {         
+        page: page,
+        pageSize: pageSize,
+        totalCount: attractionsCount,
+        attractionsReferences: attractionsReferences 
+      }).build());
+  }
+
+  public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest, page: number, pageSize: number) {
+    const attractions = await this.attractionsService.search(searchAttractionsRequest, page, pageSize);
+    const attractionsCount = await this.attractionsService.countAttractions();
+
+    if (attractions) {
+      res.status(200).send(new SuccessResponseBuilder<SearchAttractionsResponse>().okResponse(
+        { 
+          page: page,
+          pageSize: pageSize,
+          totalCount: attractionsCount,
+          attractions: attractions 
+        }).build());
+    } else {
+      res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No attractions matched the search criteria").build());
+    }
   }
 
   async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {
@@ -40,7 +72,7 @@ export class AttractionsController {
   }
 
   async createAttractions(res: Response, createAttractionRequest: CreateAttractionRequest[]) {
-    const attractionsReferences :  Promise<Reference | null> [] = [];
+    const attractionsReferences: Promise<Reference | null>[] = [];
     createAttractionRequest.forEach(async request => {
       attractionsReferences.push(this.attractionsService.create(request));
     });
@@ -49,14 +81,7 @@ export class AttractionsController {
     res.status(201).send(new SuccessResponseBuilder().okResponse({ attractions: aR }).build());
   }
 
-  public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest, page: number, pageSize: number) {
-    const attractions = await this.attractionsService.search(searchAttractionsRequest, page, pageSize);
-    if (attractions) {
-      res.status(200).send(new SuccessResponseBuilder<SearchAttractionsResponse>().okResponse({ attractions: attractions }).build());
-    } else {
-      res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No attractions matched the search criteria").build());
-    }
-  }
+
 
   async getAttractionById(res: Response, identifier: string) {
     const attraction = await this.attractionsService.readById(identifier);
