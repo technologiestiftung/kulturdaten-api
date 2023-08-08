@@ -1,11 +1,10 @@
 import { UsersRepository } from '../repositories/users.repository';
-import { CRUD } from '../../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
 import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
 import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
 
 @Service()
-export class UsersService implements CRUD {
+export class UsersService{
 
 	constructor(@Inject('UsersRepository') public usersRepository: UsersRepository){}
 

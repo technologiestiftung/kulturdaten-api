@@ -11,9 +11,14 @@ export class DistrictDataHarvestersController {
 
 
 	async harvest(res: Response) {
-		 const createdItems = await this.service.harvestDistrictData();
+		const createdItems = await this.service.harvestDistrictData();
 
-		 res.status(200).send(new SuccessResponseBuilder().okResponse({ createdOrganizations: createdItems }).build());
-		}
+		res.status(200).send(new SuccessResponseBuilder().okResponse({
+			createdOrganizations: createdItems.createdOrganizations.length,
+			createdLocations: createdItems.createdLocations.length,
+			createdEvents: createdItems.createdEvents.length,
+			createdAttractions: createdItems.createdAttractions.length
+		}).build());
+	}
 
 }

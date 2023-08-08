@@ -7,6 +7,7 @@ import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLin
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { AttractionsRepository } from "../repositories/attractions.repository";
 import { Reference } from "../../../generated/models/Reference.generated";
+import { pagination } from "../../../config/kulturdaten.config";
 
 @Service()
 export class AttractionsService {
@@ -14,12 +15,12 @@ export class AttractionsService {
 
   constructor(@Inject('AttractionsRepository') public attractionsRepository: AttractionsRepository) { }
 
-  async list(limit: number, page: number): Promise<Attraction[]> {
-    return this.attractionsRepository.getAttractions(limit, page);
+  async list(page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
+    return this.attractionsRepository.getAttractions(pageSize, page);
   }
 
-  async listAsReferences(limit: number, page: number) : Promise<Reference []>{
-    return this.attractionsRepository.getAttractionsAsReferences(limit, page);
+  async listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) : Promise<Reference []>{
+    return this.attractionsRepository.getAttractionsAsReferences(pageSize, page);
 
   }
 
@@ -27,8 +28,8 @@ export class AttractionsService {
     return this.attractionsRepository.addAttraction(createAttractionRequest);
   }
 
-  async search(searchAttractionsRequest: SearchAttractionsRequest): Promise<Attraction[]> {
-		return this.attractionsRepository.searchAttractions(searchAttractionsRequest.searchFilter? searchAttractionsRequest.searchFilter : {});
+  async search(searchAttractionsRequest: SearchAttractionsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
+		return this.attractionsRepository.searchAttractions(searchAttractionsRequest.searchFilter? searchAttractionsRequest.searchFilter : {},  page, pageSize);
   }
 
   async readById(attractionId: any) : Promise<Attraction | null> {

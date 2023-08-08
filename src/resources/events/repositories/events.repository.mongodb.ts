@@ -23,8 +23,14 @@ export class MongoDBEventsRepository implements EventsRepository {
 	}
 
 	async getEvents(limit: number, page: number): Promise<Event[] | null> {
+		if (limit <= 0) {limit = 1;}
+		if (page <= 0) {page = 1;}
 		const events = await this.dbConnector.events();
-		return events.find({}, { projection: { _id: 0 } }).toArray();
+		return events
+			.find({}, { projection: { _id: 0 } })
+			.limit(limit)
+			.skip((page - 1) * limit)
+			.toArray();
 	}
 
 	async getEventsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
@@ -33,14 +39,14 @@ export class MongoDBEventsRepository implements EventsRepository {
 		return er as Promise<Reference[]>;
 	}
 
-	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null>{
+	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {
 		const newEvent = createEvent as Event;
 		newEvent.identifier = generateEventID();
 
 		const events = await this.dbConnector.events();
 		const result = await events.insertOne(newEvent);
 
-		if(!result.acknowledged){
+		if (!result.acknowledged) {
 			return Promise.resolve(null);
 		}
 		return generateEventReference(newEvent);
@@ -89,7 +95,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const result = await events.updateOne(
 			{ identifier: eventId },
 			{ $pull: { locations: { referenceId: locationId } } }
-		  );
+		);
 		return Promise.resolve(result.modifiedCount === 1);
 	}
 	async addEventAttraction(eventId: string, attractionReference: Reference): Promise<boolean> {
@@ -103,18 +109,18 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const result = await events.updateOne(
 			{ identifier: eventId },
 			{ $pull: { attractions: { referenceId: attractionId } } }
-		  );
+		);
 		return Promise.resolve(result.modifiedCount === 1);
 	}
-	async setEventOrganizer(eventId: string,  organizerReference: Reference): Promise<boolean> {
+	async setEventOrganizer(eventId: string, organizerReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: { organizer: organizerReference } });
 		return Promise.resolve(result.modifiedCount === 1);
 	}
 	async deleteEventOrganizer(eventId: string): Promise<boolean> {
-        const events = await this.dbConnector.events();
-        const result = await events.updateOne({ identifier: eventId }, { $unset: { organizer: "" } });
-        return Promise.resolve(result.modifiedCount === 1);
+		const events = await this.dbConnector.events();
+		const result = await events.updateOne({ identifier: eventId }, { $unset: { organizer: "" } });
+		return Promise.resolve(result.modifiedCount === 1);
 	}
 
 	async reschedule(eventId: string, rescheduleEventRequest: RescheduleEventRequest): Promise<boolean> {
@@ -125,7 +131,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	async searchDuplicates(event: Event): Promise<Event[]> {
 		const events = await this.dbConnector.events();
-		const query = { 
+		const query = {
 			'origin.originId': event.metadata?.originObjectID,
 			'origin.name': event.metadata?.origin
 		};

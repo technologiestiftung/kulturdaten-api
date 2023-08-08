@@ -7,6 +7,8 @@ import { AddExternalLinkRequest } from '../../generated/models/AddExternalLinkRe
 import { RemoveExternalLinkRequest } from '../../generated/models/RemoveExternalLinkRequest.generated';
 import { AttractionsController } from './controllers/attractions.controller';
 import { SearchAttractionsRequest } from '../../generated/models/SearchAttractionsRequest.generated';
+import { getPagination } from '../../utils/RequestUtil';
+
 
 const log: debug.IDebugger = debug('app:attractions-routes');
 
@@ -20,11 +22,13 @@ export class AttractionsRoutes {
 
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
-				const asReference = req.query.asReference;
+				const asReference = req.query.asReference; 
+				const { page, pageSize} = getPagination(req);
+				
 				if(asReference){
-					this.attractionsController.listAttractionsAsReference(res);
+					this.attractionsController.listAttractionsAsReference(res, page, pageSize);
 				} else {
-				this.attractionsController.listAttractions(res);
+				this.attractionsController.listAttractions(res, page, pageSize);
 				}
 			})
 			.post('/', (req: express.Request, res: express.Response) => {
@@ -41,8 +45,10 @@ export class AttractionsRoutes {
 
 		router
 			.post('/search', (req: express.Request, res: express.Response) => {
+				const { page, pageSize} = getPagination(req);
+
 				const searchAttractionsRequest = req.body as SearchAttractionsRequest;
-				this.attractionsController.searchAttractions(res, searchAttractionsRequest);
+				this.attractionsController.searchAttractions(res, searchAttractionsRequest , page, pageSize);
 			});
 
 		router

@@ -29,8 +29,14 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return generateLocationReference(newLocation);
 	}
 	async getLocations(limit: number, page: number): Promise<Location[] | null> {
+		if (limit <= 0) {limit = 1;}
+		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
-		return locations.find({}, { projection: { _id: 0 } }).toArray();
+		return locations
+			.find({}, { projection: { _id: 0 } })
+			.limit(limit)
+			.skip((page - 1) * limit)
+			.toArray();
 	}
 
 	async getLocationsAsReferences(limit: number, page: number): Promise<Reference[] | null> {

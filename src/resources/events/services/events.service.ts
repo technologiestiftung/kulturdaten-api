@@ -1,5 +1,4 @@
 import { EventsRepository } from '../repositories/events.repository';
-import { CRUD } from '../../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
 import { Event } from '../../../generated/models/Event.generated';
 import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';

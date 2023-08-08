@@ -34,8 +34,14 @@ export class MongoDBUsersRepository implements UsersRepository {
 		return newUser.identifier;
 	}
 	async getUsers(limit: number, page: number): Promise<User[] | null> {
+		if (limit <= 0) {limit = 1;}
+		if (page <= 0) {page = 1;}
 		const users = await this.dbConnector.users();
-		return users.find({}, { projection: { _id: 0,  password:0} }).toArray();
+		return users
+			.find({}, { projection: { _id: 0,  password:0} })
+			.limit(limit)
+			.skip((page - 1) * limit)
+			.toArray();
 	}
 	async getUserByIdentifier(userId: string): Promise<User | null> {
 		const users = await this.dbConnector.users();

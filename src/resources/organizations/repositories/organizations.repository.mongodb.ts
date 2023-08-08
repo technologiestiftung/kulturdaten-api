@@ -18,9 +18,15 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 
 	async getOrganizations(limit: number, page: number): Promise<Organization[]> {
+		if (limit <= 0) {limit = 1;}
+		if (page <= 0) {page = 1;}
 		const organizations = await this.dbConnector.organizations();
 
-		return organizations.find({}, { projection: { _id: 0 } }).toArray();
+		return organizations
+			.find({}, { projection: { _id: 0 } })
+			.limit(limit)
+			.skip((page - 1) * limit)
+			.toArray();
 	}
 
 	async getOrganizationsAsReferences(limit: number, page: number): Promise<Reference[] | null> {

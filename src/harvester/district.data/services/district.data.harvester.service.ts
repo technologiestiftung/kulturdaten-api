@@ -22,7 +22,7 @@ export class DistrictDataService {
 		public eventService: EventsService, public attractionService: AttractionsService) { }
 
 	async harvestDistrictData() {
-		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=14';
+		const apiURL = process.env.DISTRICT_DATA_API_URL || '';
 		const districtData = await this.harvesterClient.fetchData(apiURL);
 
 		const organizations: { [originObjectID: string]: Reference } = 
@@ -33,9 +33,9 @@ export class DistrictDataService {
 
 
 	
-		const { attractions, events } = await this.createAttractionsAndEvents(districtData.events, organizations, locations);
+		const { createdAttractions, createdEvents} = await this.createAttractionsAndEvents(districtData.events, organizations, locations);
 		
-		return { createdOrganizations: organizations, createdLocations: locations, createdAttractions: attractions, createdEvents: events };
+		return { createdOrganizations: organizations, createdLocations: locations, createdAttractions: createdAttractions, createdEvents: createdEvents };
 	}
 
 
@@ -102,7 +102,7 @@ export class DistrictDataService {
 		return Promise.resolve(createdLocations);
 	}
 	
-	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }) : Promise<{ [originObjectID: string]: Reference; }> {
+	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }) : Promise<{ createdAttractions: { [originObjectID: string]: Reference; }, createdEvents: { [originObjectID: string]: Reference;} }> {
 		var createdAttractions: { [originObjectID: string]: Reference } = {};
 		var createdEvents: { [originObjectID: string]: Reference } = {};
 
@@ -155,7 +155,7 @@ export class DistrictDataService {
 			}
 		}
 
-		return Promise.resolve({createdAttractions, createdEvents});
+		return Promise.resolve({createdAttractions: createdAttractions, createdEvents: createdEvents});
 	}
 
 }
