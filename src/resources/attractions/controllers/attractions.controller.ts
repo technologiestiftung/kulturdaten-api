@@ -22,39 +22,41 @@ export class AttractionsController {
 
   async listAttractions(res: Response, page: number, pageSize: number) {
     const attractions = await this.attractionsService.list(page, pageSize);
-    const attractionsCount = await this.attractionsService.countAttractions();
+    const totalCount = await this.attractionsService.countAttractions();
     res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse(
       {
         page: page,
         pageSize: pageSize,
-        totalCount: attractionsCount,
+        totalCount: totalCount,
         attractions: attractions
       }).build());
   }
 
   async listAttractionsAsReference(res: Response, page: number, pageSize: number) {
     const attractionsReferences = await this.attractionsService.listAsReferences(page, pageSize);
-    const attractionsCount = await this.attractionsService.countAttractions();
+    const totalCount = await this.attractionsService.countAttractions();
 
     res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse(
       {         
         page: page,
         pageSize: pageSize,
-        totalCount: attractionsCount,
+        totalCount: totalCount,
         attractionsReferences: attractionsReferences 
       }).build());
   }
 
   public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest, page: number, pageSize: number) {
-    const attractions = await this.attractionsService.search(searchAttractionsRequest, page, pageSize);
-    const attractionsCount = await this.attractionsService.countAttractions();
+    const filter = searchAttractionsRequest.searchFilter ? searchAttractionsRequest.searchFilter : {};
+
+    const attractions = await this.attractionsService.search(filter, page, pageSize);
+    const totalCount = await this.attractionsService.countAttractions(filter);
 
     if (attractions) {
       res.status(200).send(new SuccessResponseBuilder<SearchAttractionsResponse>().okResponse(
         { 
           page: page,
           pageSize: pageSize,
-          totalCount: attractionsCount,
+          totalCount: totalCount,
           attractions: attractions 
         }).build());
     } else {

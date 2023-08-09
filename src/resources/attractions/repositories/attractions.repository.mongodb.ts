@@ -17,7 +17,7 @@ import { generateAttractionReference } from "../../../utils/ReferenceUtil";
 export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
-	async searchAttractions(filter: Filter, page: number, pageSize: number): Promise<Attraction[]> {
+	async searchAttractions(filter: Filter, page:number, pageSize:number): Promise<Attraction[]> {
 		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const attractions = await this.dbConnector.attractions();
@@ -28,7 +28,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 			.toArray());
 	}
 
-	async getAttractions(pageSize: number, page: number): Promise<Attraction[]> {
+	async getAttractions(page:number, pageSize:number): Promise<Attraction[]> {
 			if (pageSize <= 0) {pageSize = 1;}
 			if (page <= 0) {page = 1;}
 			const attractions = await this.dbConnector.attractions();
@@ -39,7 +39,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 			  .toArray();
 	}
 
-	async getAttractionsAsReferences(pageSize: number, page: number): Promise<Reference[]>{
+	async getAttractionsAsReferences(page:number, pageSize:number): Promise<Reference[]>{
 		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const attractions = await this.dbConnector.attractions();
@@ -122,8 +122,11 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return Promise.resolve(result.modifiedCount === 1);
 	}
 
-	async countAttractions(): Promise<number> {
+	async countAttractions(filter?: Filter): Promise<number> {
 		const attractions = await this.dbConnector.attractions();
+		if (filter){
+			return attractions.countDocuments(filter);
+		}
 		return attractions.countDocuments();
 	}
 

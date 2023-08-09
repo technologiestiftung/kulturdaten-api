@@ -47,6 +47,9 @@ export interface SearchLocationsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     locations?: Location[];
     locationsReferences?: Reference[];
   };

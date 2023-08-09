@@ -48,7 +48,7 @@ export class AttractionsRoutes {
 				const { page, pageSize} = getPagination(req);
 
 				const searchAttractionsRequest = req.body as SearchAttractionsRequest;
-				this.attractionsController.searchAttractions(res, searchAttractionsRequest , page, pageSize);
+				this.attractionsController.searchAttractions(res, searchAttractionsRequest, page, pageSize);
 			});
 
 		router

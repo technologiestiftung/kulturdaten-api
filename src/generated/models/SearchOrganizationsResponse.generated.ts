@@ -46,6 +46,9 @@ export interface SearchOrganizationsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     organizations?: Organization[];
     organizationsReferences?: Reference[];
   };

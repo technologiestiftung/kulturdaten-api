@@ -15,29 +15,39 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
-
-
-	async getOrganizations(limit: number, page: number): Promise<Organization[]> {
-		if (limit <= 0) {limit = 1;}
+	async getOrganizations(page:number, pageSize:number): Promise<Organization[]> {
+		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const organizations = await this.dbConnector.organizations();
 
 		return organizations
 			.find({}, { projection: { _id: 0 } })
-			.limit(limit)
-			.skip((page - 1) * limit)
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
 			.toArray();
 	}
 
-	async getOrganizationsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
+	async getOrganizationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
+		if (pageSize <= 0) {pageSize = 1;}
+		if (page <= 0) {page = 1;}
 		const organizations = await this.dbConnector.organizations();
-		let or = organizations.find({}, { projection: getOrganizationReferenceProjection() }).toArray();
+		let or = organizations
+			.find({}, { projection: getOrganizationReferenceProjection() })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
+			.toArray();
 		return or as Promise<Reference[]>;
 	}
 
-	async searchOrganizations(filter: Filter): Promise<Organization[]> {
+	async searchOrganizations(filter: Filter, page:number, pageSize:number): Promise<Organization[]> {
+		if (pageSize <= 0) {pageSize = 1;}
+		if (page <= 0) {page = 1;}
 		const organizationsCollection = await this.dbConnector.organizations();
-		return Promise.resolve(organizationsCollection.find(filter, { projection: { _id: 0 } }).toArray());
+		return Promise.resolve(organizationsCollection
+			.find(filter, { projection: { _id: 0 } })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
+			.toArray());
 	}
 
 	async getOrganizationByIdentifier(organizationId: string): Promise<Organization | null> {
@@ -97,5 +107,15 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const result = await organizations.deleteOne({ identifier: organizationId });
 		return Promise.resolve(result.deletedCount === 1);
 	}
+
+	async countOrganizations(filter?: Filter): Promise<number> {
+		const organizations = await this.dbConnector.organizations();
+		if(filter) {
+			return organizations.countDocuments(filter);
+		}
+		return organizations.countDocuments();
+	}
+
+
 
 }

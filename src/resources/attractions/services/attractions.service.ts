@@ -8,6 +8,7 @@ import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExter
 import { AttractionsRepository } from "../repositories/attractions.repository";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { pagination } from "../../../config/kulturdaten.config";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 @Service()
 export class AttractionsService {
@@ -16,21 +17,26 @@ export class AttractionsService {
   constructor(@Inject('AttractionsRepository') public attractionsRepository: AttractionsRepository) { }
 
   async list(page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
-    return this.attractionsRepository.getAttractions(pageSize, page);
+    return this.attractionsRepository.getAttractions(page, pageSize);
   }
 
   async listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) : Promise<Reference []>{
-    return this.attractionsRepository.getAttractionsAsReferences(pageSize, page);
+    return this.attractionsRepository.getAttractionsAsReferences(page, pageSize);
+  }
 
+  async search(searchFilter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
+		return this.attractionsRepository.searchAttractions(searchFilter,  page, pageSize);
+  }
+
+  async countAttractions(searchFilter?: Filter): Promise<number> {
+    return this.attractionsRepository.countAttractions(searchFilter);
   }
 
   async create(createAttractionRequest: CreateAttractionRequest): Promise<Reference | null> {
     return this.attractionsRepository.addAttraction(createAttractionRequest);
   }
 
-  async search(searchAttractionsRequest: SearchAttractionsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
-		return this.attractionsRepository.searchAttractions(searchAttractionsRequest.searchFilter? searchAttractionsRequest.searchFilter : {},  page, pageSize);
-  }
+
 
   async readById(attractionId: any) : Promise<Attraction | null> {
     return this.attractionsRepository.getAttractionByIdentifier(attractionId);
@@ -68,8 +74,6 @@ export class AttractionsService {
     return this.attractionsRepository.updateAttractionStatusById(identifier, 'attraction.unpublished');
   }
 
-  async countAttractions(): Promise<number> {
-    return this.attractionsRepository.countAttractions();
-  }
+
 
 }

@@ -27,6 +27,9 @@ export const schemaForGetEventsResponse = {
     data: {
       type: "object",
       properties: {
+        page: {type: "number"},
+        pageSize: {type: "number"},
+        totalCount: {type: "number"},
         events: {type: "array", items: {$ref: "Event.yml"}},
         eventsReferences: {type: "array", items: {$ref: "Reference.yml"}}
       }
@@ -54,6 +57,9 @@ export interface GetEventsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     events?: Event[];
     eventsReferences?: Reference[];
   };

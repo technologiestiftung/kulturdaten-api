@@ -17,25 +17,46 @@ export class MongoDBEventsRepository implements EventsRepository {
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
 
-	async searchEvents(filter: Filter): Promise<Event[]> {
+
+	async searchEvents(filter: Filter, page:number, pageSize:number): Promise<Event[]> {
+		if (pageSize <= 0) {pageSize = 1;}
+		if (page <= 0) {page = 1;}	
 		const events = await this.dbConnector.events();
-		return Promise.resolve(events.find(filter, { projection: { _id: 0 } }).toArray());
+		return Promise.resolve(events
+			.find(filter, { projection: { _id: 0 } })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
+			.toArray());
 	}
 
-	async getEvents(limit: number, page: number): Promise<Event[] | null> {
-		if (limit <= 0) {limit = 1;}
+	async countEvents(filter?: Filter): Promise<number> {
+		const events = await this.dbConnector.events();
+		if (filter) {
+			return events.countDocuments(filter);
+		}
+		return events.countDocuments();
+	}
+
+	async getEvents(page:number, pageSize:number): Promise<Event[] | null> {
+		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const events = await this.dbConnector.events();
 		return events
 			.find({}, { projection: { _id: 0 } })
-			.limit(limit)
-			.skip((page - 1) * limit)
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
 			.toArray();
 	}
 
-	async getEventsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
+	async getEventsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
+		if (pageSize <= 0) {pageSize = 1;}
+		if (page <= 0) {page = 1;}	
 		const events = await this.dbConnector.events();
-		let er = events.find({}, { projection: getEventReferenceProjection() }).toArray();
+		let er = events
+			.find({}, { projection: getEventReferenceProjection() })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
+			.toArray();
 		return er as Promise<Reference[]>;
 	}
 
@@ -138,5 +159,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const response = await events.find(query).toArray();
 		return response;
 	}
+
+
 
 }

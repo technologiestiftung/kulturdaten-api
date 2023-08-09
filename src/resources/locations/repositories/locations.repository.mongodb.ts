@@ -15,6 +15,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
+
 	
 	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
 		const newLocation = createLocation as Location;
@@ -28,27 +29,39 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		}
 		return generateLocationReference(newLocation);
 	}
-	async getLocations(limit: number, page: number): Promise<Location[] | null> {
-		if (limit <= 0) {limit = 1;}
+	async getLocations(page:number, pageSize:number): Promise<Location[] | null> {
+		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
 		return locations
 			.find({}, { projection: { _id: 0 } })
-			.limit(limit)
-			.skip((page - 1) * limit)
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
 			.toArray();
 	}
 
-	async getLocationsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
+	async getLocationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
+		if (pageSize <= 0) {pageSize = 1;}
+		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
-		let lr = locations.find({}, { projection: getLocationReferenceProjection() }).toArray();
+		let lr = locations
+			.find({}, { projection: getLocationReferenceProjection() })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)			
+			.toArray();
 		return lr as Promise<Reference[]>;
 	}
 
 
-	async searchLocations(filter: Filter): Promise<Location[]> {
+	async searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> {
+		if (pageSize <= 0) {pageSize = 1;}
+		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
-		return Promise.resolve(locations.find(filter, { projection: { _id: 0 } }).toArray());
+		return locations
+			.find(filter, { projection: { _id: 0 } })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)	
+			.toArray();
 	}
 
 	async getLocationByIdentifier(locationId: string): Promise<Location | null> {
@@ -103,6 +116,14 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	setLocationManager(identifier: string, reference: Reference): Promise<boolean> {
 		throw new Error("Method not implemented.");
+	}
+
+	async countLocations(filter?: Filter): Promise<number> {
+		const locations = await this.dbConnector.locations();
+		if (filter){
+			return locations.countDocuments(filter);
+		}
+		return locations.countDocuments();
 	}
 
 }

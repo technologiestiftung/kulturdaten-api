@@ -11,19 +11,30 @@ import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEv
 import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrganizerRequest.generated';
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { pagination } from "../../../config/kulturdaten.config";
+import { Filter } from '../../../generated/models/Filter.generated';
 
 @Service()
 export class EventsService {
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
-	async list(limit: number, page: number) {
-		return this.eventsRepository.getEvents(limit, page);
+	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
+		return this.eventsRepository.getEvents(page, pageSize);
 	}
 
-	async listAsReferences(limit: number, page: number) {
-		return this.eventsRepository.getEventsAsReferences(limit, page);
+	async listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) {
+		return this.eventsRepository.getEventsAsReferences(page, pageSize);
 	}
+
+	async search(searchFilter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Event[]> {
+		return this.eventsRepository.searchEvents(searchFilter, page, pageSize);
+	}
+
+	async countEvents(searchFilter?: Filter): Promise<number> {
+		return this.eventsRepository.countEvents(searchFilter);
+	  }
+
 
 	async create(resource: CreateEventRequest) : Promise<Reference | null> {
 		return this.eventsRepository.addEvent(resource);
@@ -33,9 +44,7 @@ export class EventsService {
 		throw new Error('Method not implemented.');
 	}
 
-	async search(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
-		return this.eventsRepository.searchEvents(searchEventsRequest.searchFilter? searchEventsRequest.searchFilter : {});
-	}
+
 
 	async readById(id: string) {
 		return this.eventsRepository.getEventByIdentifier(id);
@@ -117,5 +126,7 @@ export class EventsService {
 	async searchDuplicates(event: Event): Promise<Event[]> {
 		return this.eventsRepository.searchDuplicates(event);
 	}
+
+
 
 }

@@ -17,10 +17,18 @@ export class UsersController {
 	constructor(
 		public usersService: UsersService){}
 
-	async listUsers(res: express.Response) {
-		const users = await this.usersService.list(100, 0);
+	async listUsers(res: express.Response, page: number, pageSize: number) {
+		const users = await this.usersService.list(page, pageSize);
+		const totalCount = await this.usersService.countUsers();
+
 		if (users) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ users: users }).build());
+			res.status(200).send(new SuccessResponseBuilder().okResponse(
+				{ 
+					page: page,
+					pageSize: pageSize,
+					totalCount: totalCount,
+					users: users 
+				}).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Users not found").build());
 		}

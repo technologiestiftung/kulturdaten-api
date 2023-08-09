@@ -33,14 +33,14 @@ export class MongoDBUsersRepository implements UsersRepository {
 		await users.insertOne(newUser);
 		return newUser.identifier;
 	}
-	async getUsers(limit: number, page: number): Promise<User[] | null> {
-		if (limit <= 0) {limit = 1;}
+	async getUsers(page:number, pageSize:number): Promise<User[] | null> {
+		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const users = await this.dbConnector.users();
 		return users
 			.find({}, { projection: { _id: 0,  password:0} })
-			.limit(limit)
-			.skip((page - 1) * limit)
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
 			.toArray();
 	}
 	async getUserByIdentifier(userId: string): Promise<User | null> {
@@ -57,5 +57,10 @@ export class MongoDBUsersRepository implements UsersRepository {
 		const users = await this.dbConnector.users();
 		const result = await users.deleteOne({ identifier: userId });
 		return Promise.resolve(result.deletedCount === 1);
+	}
+
+	async countUsers(): Promise<number> {
+		const users = await this.dbConnector.users();
+		return users.countDocuments();
 	}
 }
