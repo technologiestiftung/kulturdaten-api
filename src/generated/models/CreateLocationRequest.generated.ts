@@ -32,6 +32,7 @@ export const schemaForCreateLocationRequest = {
     coordinates: {$ref: "Coordinates.yml"},
     openingHours: {$ref: "OpeningHours.yml"},
     inLanguages: {type: "array", items: {type: "string"}},
+    accessibility: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
     externalLinks: {type: "array", items: {$ref: "ExternalLinks.yml"}},
     manager: {$ref: "Reference.yml"},
@@ -85,6 +86,7 @@ export interface CreateLocationRequest {
   coordinates?: Coordinates;
   openingHours?: OpeningHours;
   inLanguages?: string[];
+  accessibility?: string[];
   tags?: string[];
   externalLinks?: ExternalLinks[];
   manager?: Reference;

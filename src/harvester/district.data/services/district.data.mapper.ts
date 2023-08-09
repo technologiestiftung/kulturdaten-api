@@ -1,9 +1,10 @@
+import { Borough } from "../../../generated/models/Borough.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
-import { Veranstaltung, Veranstalter, Veranstaltungsort, Bezirke, Termin } from "../model/district.data.types";
+import { Veranstaltung, Veranstalter, Veranstaltungsort, Bezirke, Termin, Barrierefreiheit } from "../model/district.data.types";
 
 export class DistrictDataMapper {
 
@@ -85,7 +86,13 @@ export class DistrictDataMapper {
 	}
 	
 
-	mapLocation(veranstaltungsort: Veranstaltungsort): CreateLocationRequest {
+	mapLocation(veranstaltungsort: Veranstaltungsort, barrierefreiheit: Barrierefreiheit, bezirke: Bezirke): CreateLocationRequest {
+		const accessibilityDescriptionStrings: string[]|null = veranstaltungsort.barrierefreiheit ? Object.keys(veranstaltungsort.barrierefreiheit).map((barrierefreiheitsId) => (barrierefreiheit[barrierefreiheitsId].name)) : null
+		let boroughOfLocation: Borough|null = null;
+		if (veranstaltungsort.bezirk_id) {
+			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
+		}
+
 		return {
 			title: { 'de': veranstaltungsort.name },
 			address: {
@@ -94,6 +101,8 @@ export class DistrictDataMapper {
 				...(veranstaltungsort.ort && { addressLocality: veranstaltungsort.ort })
 			},
 			...(veranstaltungsort.telefon && { contact: { telephone: veranstaltungsort.telefon } }),
+			...(accessibilityDescriptionStrings && { accessibility: accessibilityDescriptionStrings }),
+			...(boroughOfLocation && { borough: boroughOfLocation }),
 			metadata:{
 				origin: 'bezirkskalender',
 				originObjectID: String(veranstaltungsort.id)

@@ -1,7 +1,7 @@
 
 import { Service } from "typedi";
 import { HarvesterClient } from "../../client/harvester.client";
-import { Bezirke, Bezirksdaten, VeranstalterList, Veranstaltungen, Veranstaltungsorte } from "../model/district.data.types";
+import { Barrierefreiheit, Bezirke, Bezirksdaten, VeranstalterList, Veranstaltungen, Veranstaltungsorte } from "../model/district.data.types";
 
 import { LocationsService } from "../../../resources/locations/services/locations.service";
 import { OrganizationsService } from "../../../resources/organizations/services/organizations.service";
@@ -29,7 +29,7 @@ export class DistrictDataService {
 			await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
 
 		const locations: { [originObjectID: string]: Reference } =
-			await this.createLocations(districtData.veranstaltungsorte);
+			await this.createLocations(districtData.veranstaltungsorte, districtData.barrierefreiheit, districtData.bezirke);
 
 
 	
@@ -69,7 +69,7 @@ export class DistrictDataService {
 		return Promise.resolve(createdOrganizations);
 	}
 
-	async createLocations(veranstaltungsorte: Veranstaltungsorte) : Promise<{ [originObjectID: string]: Reference }> {
+	async createLocations(veranstaltungsorte: Veranstaltungsorte, barrierefreiheit: Barrierefreiheit, bezirke: Bezirke) : Promise<{ [originObjectID: string]: Reference }> {
 		var createdLocations: { [originObjectID: string]: Reference } = {};
 		for (const key in veranstaltungsorte) {
 			const o = veranstaltungsorte[key];
@@ -89,7 +89,7 @@ export class DistrictDataService {
 				};
 			} else {
 				
-				const createLocationRequest = this.mapper.mapLocation(o);
+				const createLocationRequest = this.mapper.mapLocation(o, barrierefreiheit, bezirke);
 
 				const createdLocationReference = await this.locationService.create(createLocationRequest);
 	
