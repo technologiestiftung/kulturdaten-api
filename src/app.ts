@@ -34,6 +34,8 @@ import { HarvesterRoutes } from './harvester/harvester.routes';
 import { LocationsService } from './resources/locations/services/locations.service';
 import { AttractionsRoutes } from './resources/attractions/attractions.routes';
 import { MongoDBAttractionsRepository } from './resources/attractions/repositories/attractions.repository.mongodb';
+import { MongoDBTagsRepository } from './resources/tags/repositories/tags.repository.mongodb';
+import { TagsRoutes } from './resources/tags/tags.routes';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -74,6 +76,7 @@ export class KulturdatenBerlinApp {
 		this.registerUserRoutes();
 		this.registerEventsRoutes();
 		this.registerLocationsRoutes();
+		this.registerTagsRoutes();
 		this.registerHarvesterRoutes();
 		this.registerAttractionsRoutes();
 	}
@@ -102,6 +105,8 @@ export class KulturdatenBerlinApp {
 		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
 		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
 		Container.set('AttractionsRepository', new MongoDBAttractionsRepository(Container.get('Database')));
+		Container.set('TagsRepository', new MongoDBTagsRepository(Container.get('Database')));
+
 	}
 
 
@@ -185,6 +190,11 @@ export class KulturdatenBerlinApp {
 	private registerLocationsRoutes() {
 		const locationsRoute = Container.get(LocationsRoutes);
 		this.app.use('/api/locations', locationsRoute.getRouter());
+	}
+
+	private registerTagsRoutes() {
+		const tagsRoute = Container.get(TagsRoutes);
+		this.app.use('/api/tags', tagsRoute.getRouter());
 	}
 
 	registerHarvesterRoutes() {

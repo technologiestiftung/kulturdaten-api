@@ -1,0 +1,26 @@
+import { Inject, Service } from "typedi";
+import { TagsRepository } from "../repositories/tags.repository";
+import { SearchTagsRequest } from "../../../generated/models/SearchTagsRequest.generated";
+import { Tag } from "../../../generated/models/Tag.generated";
+
+
+
+
+@Service()
+export class TagsService{
+
+	constructor(@Inject('TagsRepository') public tagsRepository: TagsRepository){}
+
+	async list(limit: number, page: number) {
+		return this.tagsRepository.getTags(limit,page);
+	}
+
+	search(searchTagsRequest: SearchTagsRequest) : Promise<Tag[]> {
+		return this.tagsRepository.searchTags(searchTagsRequest.searchFilter? searchTagsRequest.searchFilter : {});
+	}
+
+	async readById(id: string) : Promise<Tag | null> {
+		return this.tagsRepository.getTagByIdentifier(id);
+	}
+
+}

@@ -1,0 +1,15 @@
+type: object
+properties:
+  success:
+    type: boolean
+  message:
+    type: string
+  data:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          $ref: 'Tag.yml'
+required:
+  - success

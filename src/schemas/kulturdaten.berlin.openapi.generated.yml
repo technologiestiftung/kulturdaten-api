@@ -1157,6 +1157,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
+  /tags:
+    get:
+      tags:
+        - Categorization
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
   /health:
     get:
       tags:
@@ -3071,6 +3082,10 @@ components:
           type: array
           items:
             type: string
+        accessibility:
+          type: array
+          items:
+            type: string
         tags:
           type: array
           items:
@@ -3156,189 +3171,45 @@ components:
         data:
           type: object
           properties:
-            locations:
+            tags:
               type: array
               items:
                 type: object
-                required:
-                  - identifier
                 properties:
                   type:
                     type: string
                     enum:
-                      - type.Location
+                      - type.Tag
                   identifier:
                     type: string
-                  metadata:
-                    type: object
-                    properties:
-                      created:
-                        type: string
-                      updated:
-                        type: string
-                      origin:
-                        type: string
-                      originObjectID:
-                        type: string
-                      availableLanguages:
-                        type: array
-                        items:
-                          type: string
-                  status:
-                    type: string
-                    enum:
-                      - location.published
-                      - location.unpublished
-                      - location.archived
                   title:
                     type: object
                     additionalProperties:
                       type: string
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                  website:
-                    type: string
-                  address:
-                    type: object
-                    properties:
-                      streetAddress:
-                        type: string
-                      addressLocality:
-                        type: string
-                      postalCode:
-                        type: string
-                      description:
-                        type: string
-                  borough:
-                    type: string
-                    enum:
-                      - Mitte
-                      - Friedrichshain-Kreuzberg
-                      - Pankow
-                      - Charlottenburg-Wilmersdorf
-                      - Spandau
-                      - Steglitz-Zehlendorf
-                      - Tempelhof-Schöneberg
-                      - Neukölln
-                      - Treptow-Köpenick
-                      - Marzahn-Hellersdorf
-                      - Lichtenberg
-                      - Reinickendorf
-                      - außerhalb
-                  coordinates:
-                    type: object
-                    properties:
-                      latitude:
-                        type: string
-                      longitude:
-                        type: string
-                      coordinateSystem:
-                        type: string
-                        enum:
-                          - WGS84 (Decimal Degrees)
-                  openingStatus:
-                    type: string
-                    enum:
-                      - location.opened
-                      - location.closed
-                      - location.permanentlyClosed
-                  openingHours:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        closes:
-                          type: string
-                          description: >-
-                            The closing hour of the place or service on the
-                            given day(s) of the week.
-                        dayOfWeek:
-                          type: string
-                          enum:
-                            - Monday
-                            - Tuesday
-                            - Wednesday
-                            - Thursday
-                            - Friday
-                            - Saturday
-                            - Sunday
-                          description: >-
-                            The day of the week for which these opening hours
-                            are valid.
-                        opens:
-                          type: string
-                          description: >-
-                            The opening hour of the place or service on the
-                            given day(s) of the week.
-                        validFrom:
-                          type: string
-                          description: The date when the item becomes valid.
-                        validThrough:
-                          type: string
-                          description: >-
-                            The date after when the item is not valid. For
-                            example the end of an offer, salary period, or a
-                            period of opening hours.
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  externalLinks:
-                    type: array
-                    items:
-                      type: array
-                      items:
-                        type: object
+                  metadata:
+                    allOf:
+                      - type: object
                         properties:
-                          displayName:
+                          created:
                             type: string
-                          url:
+                          updated:
                             type: string
-                        required:
-                          - url
-                  manager:
-                    type: object
-                    properties:
-                      referenceType:
-                        type: string
-                      referenceId:
-                        type: string
-                      referenceLabel:
-                        type: object
-                        additionalProperties:
-                          type: string
-                  contact:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      email:
-                        type: string
-                      telephone:
-                        type: string
-            locationsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
-                    type: object
-                    additionalProperties:
-                      type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      - type: object
+                        properties:
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
+                required:
+                  - identifier
       required:
         - success
     GetLocationResponse:
@@ -4678,5 +4549,56 @@ components:
               type: array
               items:
                 type: string
+      required:
+        - success
+    GetTagsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Tag
+                  identifier:
+                    type: string
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  metadata:
+                    allOf:
+                      - type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      - type: object
+                        properties:
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
+                required:
+                  - identifier
       required:
         - success

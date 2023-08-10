@@ -4,12 +4,14 @@ import { CreateEventRequest } from "../../../generated/models/CreateEventRequest
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
+import { Tag } from "../../../generated/models/Tag.generated";
 import { Veranstaltung, Veranstalter, Veranstaltungsort, Bezirke, Termin, Barrierefreiheit } from "../model/district.data.types";
 
 export class DistrictDataMapper {
 
-	mapAttraction(veranstaltung: Veranstaltung): CreateAttractionRequest {
+	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
 		const v:any = veranstaltung; 
+		const tags : string[] = findTags(veranstaltung.kategorie_ids, allTags);
 		return {
 			title: {
 				...(veranstaltung.event_titel_de && { 'de': veranstaltung.event_titel_de }),
@@ -38,10 +40,7 @@ export class DistrictDataMapper {
 			},
 			...(veranstaltung.event_homepage ? { website: veranstaltung.event_homepage } : {}),
 			inLanguages: ['de', 'en', 'fr', 'ru', 'tr'].filter(lang => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`]),			family: veranstaltung.event_ist_gratis === 'true' ? true : false, // Annahme: Wenn das Event gratis ist, ist es familienfreundlich
-			tags: [
-				...(veranstaltung.event_ist_wochenmarkt === 'true' ? ["Wochenmarkt"] : []), 
-				...(veranstaltung.event_ist_ueberregional === 'true' ? ["Überregional"] : [])
-			],			
+			tags: tags,			
 			...(veranstaltung.event_homepage ? {externalLinks: [{
 				...(veranstaltung.event_homepagename ? { displayName: veranstaltung.event_homepagename } : {}),
 
@@ -114,3 +113,11 @@ export class DistrictDataMapper {
 
 
 }	
+
+function findTags(kategorie_ids: { [categoryId: string]: string; }, tags: Tag[]): string[] {
+	return tags
+	  .filter(tag =>
+		tag?.metadata?.externalIDs?.bezirkskalender ? Object.keys(kategorie_ids).includes(tag.metadata.externalIDs.bezirkskalender) : false
+	  )
+	  .map(tag => tag.identifier);
+  }

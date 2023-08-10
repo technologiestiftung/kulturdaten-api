@@ -9,6 +9,8 @@ import { EventsService } from "../../../resources/events/services/events.service
 import { Reference } from "../../../generated/models/Reference.generated";
 import { DistrictDataMapper } from "./district.data.mapper";
 import { AttractionsService } from "../../../resources/attractions/services/attractions.service";
+import { TagsService } from "../../../resources/tags/services/tags.service";
+import { Tag } from "../../../generated/models/Tag.generated";
 
 
 @Service()
@@ -19,10 +21,12 @@ export class DistrictDataService {
 	constructor(public harvesterClient: HarvesterClient<Bezirksdaten>,
 		public locationService: LocationsService,
 		public organizationService: OrganizationsService,
-		public eventService: EventsService, public attractionService: AttractionsService) { }
+		public eventService: EventsService, 
+		public attractionService: AttractionsService,
+		public tagsService: TagsService) { }
 
 	async harvestDistrictData() {
-		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=14';
+		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=5';
 		const districtData = await this.harvesterClient.fetchData(apiURL);
 
 		const organizations: { [originObjectID: string]: Reference } = 
@@ -31,9 +35,9 @@ export class DistrictDataService {
 		const locations: { [originObjectID: string]: Reference } =
 			await this.createLocations(districtData.veranstaltungsorte, districtData.barrierefreiheit, districtData.bezirke);
 
-
+		const tags : Tag[] = await this.tagsService.list(2000,1);
 	
-		const { attractions, events } = await this.createAttractionsAndEvents(districtData.events, organizations, locations);
+		const { attractions, events } = await this.createAttractionsAndEvents(districtData.events, organizations, locations, tags);
 		
 		return { createdOrganizations: organizations, createdLocations: locations, createdAttractions: attractions, createdEvents: events };
 	}
@@ -102,7 +106,7 @@ export class DistrictDataService {
 		return Promise.resolve(createdLocations);
 	}
 	
-	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }) : Promise<{ [originObjectID: string]: Reference; }> {
+	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }, tags : Tag[]) : Promise<{ [originObjectID: string]: Reference; }> {
 		var createdAttractions: { [originObjectID: string]: Reference } = {};
 		var createdEvents: { [originObjectID: string]: Reference } = {};
 
@@ -123,7 +127,7 @@ export class DistrictDataService {
 					referenceLabel: duplicatedAttractions[0].displayName? duplicatedAttractions[0].displayName : duplicatedAttractions[0].title
 				};
 			} else {
-				const createAttractionRequest = this.mapper.mapAttraction(veranstaltung);
+				const createAttractionRequest = this.mapper.mapAttraction(veranstaltung,tags);
 				const createdAtttractionReference = await this.attractionService.create(createAttractionRequest);
 				if(createdAtttractionReference){
 					createdAttractions[veranstaltung.event_id] = createdAtttractionReference;
