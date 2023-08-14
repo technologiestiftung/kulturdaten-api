@@ -11,6 +11,8 @@ export class MongoDBTagsRepository implements TagsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 	async searchTags(filter: Filter): Promise<Tag[]> {
+
+		
 		const tags = await this.dbConnector.tags();
 		return Promise.resolve(tags.find(filter, { projection: { _id: 0 } }).toArray());
 

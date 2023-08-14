@@ -5,10 +5,13 @@ import { SuccessResponseBuilder, ErrorResponseBuilder } from "../../../common/re
 import { CreateTagRequest } from '../../../generated/models/CreateTagRequest.generated';
 import { CreateTagResponse } from '../../../generated/models/CreateTagResponse.generated';
 import { GetTagResponse } from '../../../generated/models/GetTagResponse.generated';
+import { SearchTagsRequest } from '../../../generated/models/SearchTagsRequest.generated';
+import { SearchTagsResponse } from '../../../generated/models/SearchTagsResponse.generated';
 
 
 @Service()
 export class TagsController {
+
 
 
 
@@ -29,6 +32,15 @@ export class TagsController {
 		  res.status(200).send(new SuccessResponseBuilder<GetTagResponse>().okResponse({ attraction: tag }).build());
 		} else {
 		  res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Tag not found").build());
+		}
+	}
+
+	async searchTags(res: express.Response, searchTagsRequest: SearchTagsRequest) {
+		const tags = await this.tagsService.search(searchTagsRequest);
+		if (tags) {
+		  res.status(200).send(new SuccessResponseBuilder<SearchTagsResponse>().okResponse({ tags: tags }).build());
+		} else {
+		  res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No tags matched the search criteria").build());
 		}
 	}
 
