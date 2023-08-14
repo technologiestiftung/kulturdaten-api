@@ -20,7 +20,12 @@ export class TagsRoutes {
 				const createTagRequest = req.body as CreateTagRequest;
 				this.tagsController.createTag(res, createTagRequest);
 			});
-
+		
+		router
+			.get('/:identifier', (req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+					this.tagsController.getTagById(res, identifier);
+			})
 		return router;
 	}
 
