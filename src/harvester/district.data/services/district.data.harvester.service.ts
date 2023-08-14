@@ -11,6 +11,7 @@ import { DistrictDataMapper } from "./district.data.mapper";
 import { AttractionsService } from "../../../resources/attractions/services/attractions.service";
 import { TagsService } from "../../../resources/tags/services/tags.service";
 import { Tag } from "../../../generated/models/Tag.generated";
+import { Attraction } from "../../../generated/models/Attraction.generated";
 
 
 @Service()
@@ -25,22 +26,34 @@ export class DistrictDataService {
 		public attractionService: AttractionsService,
 		public tagsService: TagsService) { }
 
-	async harvestDistrictData() {
-		const apiURL = process.env.DISTRICT_DATA_API_URL || 'https://www.berlin.de/land/kalender/json.php?c=5';
-		const districtData = await this.harvesterClient.fetchData(apiURL);
-
-		const organizations: { [originObjectID: string]: Reference } = 
-			await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
-
-		const locations: { [originObjectID: string]: Reference } =
-			await this.createLocations(districtData.veranstaltungsorte, districtData.barrierefreiheit, districtData.bezirke);
-
-		const tags : Tag[] = await this.tagsService.list(2000,1);
+		async harvestDistrictData(calendarIDs: string[]) {
+			const createdOrganizations: { [originObjectID: string]: Reference } = {};
+			const createdLocations: { [originObjectID: string]: Reference } = {};
+			const createdAttractions: { [originObjectID: string]: Attraction } = {};
+			const createdEvents: { [originObjectID: string]: Event } = {};
+			const tags: Tag[] = await this.tagsService.list(2000, 1);
+			let apiURL = process.env.DISTRICT_DATA_API_URL;
+			if(!apiURL) return [];
 	
-		const { attractions, events } = await this.createAttractionsAndEvents(districtData.events, organizations, locations, tags);
-		
-		return { createdOrganizations: organizations, createdLocations: locations, createdAttractions: attractions, createdEvents: events };
-	}
+			for (const calendarID of calendarIDs) {
+				apiURL += calendarID;
+				const districtData = await this.harvesterClient.fetchData(apiURL);
+	
+				const organizations = await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
+				Object.assign(createdOrganizations, organizations);
+	
+				const locations = await this.createLocations(districtData.veranstaltungsorte, districtData.barrierefreiheit, districtData.bezirke);
+				Object.assign(createdLocations, locations);
+	
+				const { createdAttractions: attractions, createdEvents: events } = await this.createAttractionsAndEvents(districtData.events, organizations, locations, tags);
+				Object.assign(createdAttractions, attractions);
+				Object.assign(createdEvents, events);
+			}
+	
+			return { createdOrganizations, createdLocations, createdAttractions, createdEvents };
+		}
+	
+
 
 
 
@@ -106,7 +119,7 @@ export class DistrictDataService {
 		return Promise.resolve(createdLocations);
 	}
 	
-	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }, tags : Tag[]) : Promise<{ [originObjectID: string]: Reference; }> {
+	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }, tags : Tag[]) : Promise<{ createdAttractions: {[originObjectID: string]: Reference;}, createdEvents: { [originObjectID: string]: Reference} } > {
 		var createdAttractions: { [originObjectID: string]: Reference } = {};
 		var createdEvents: { [originObjectID: string]: Reference } = {};
 

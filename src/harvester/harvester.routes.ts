@@ -22,7 +22,8 @@ export class HarvesterRoutes {
 			.post(
 				'/',
 				(req: express.Request, res: express.Response) => {
-					this.districtDataHarvestersController.harvest(res);
+					const calendarIDs = req.body as string[];
+					this.districtDataHarvestersController.harvest(res, calendarIDs);
 				});
 
 

@@ -90,7 +90,7 @@ export class DistrictDataMapper {
 	mapLocation(veranstaltungsort: Veranstaltungsort, barrierefreiheit: Barrierefreiheit, bezirke: Bezirke): CreateLocationRequest {
 		const accessibilityDescriptionStrings: string[]|null = veranstaltungsort.barrierefreiheit ? Object.keys(veranstaltungsort.barrierefreiheit).map((barrierefreiheitsId) => (barrierefreiheit[barrierefreiheitsId].name)) : null
 		let boroughOfLocation: Borough|null = null;
-		if (veranstaltungsort.bezirk_id) {
+		if (veranstaltungsort.bezirk_id && bezirke[veranstaltungsort.bezirk_id].DE) {
 			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
 		}
 
