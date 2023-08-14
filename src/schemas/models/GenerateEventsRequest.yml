@@ -1,4 +1,0 @@
-type: object
-properties:
-  textInput: 
-    type: string

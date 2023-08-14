@@ -50,7 +50,7 @@ export class DistrictDataMapper {
 		}
 	}
 
-	mapEvent(termin: Termin, attractionReference: Reference,locationReference: Reference, organizerReference: Reference): CreateEventRequest {
+	mapEvent(termin: Termin, veranstaltung: Veranstaltung, attractionReference: Reference,locationReference: Reference, organizerReference: Reference): CreateEventRequest {
 		return {
 			schedule: {
 				...(termin.tag_von && { startDate: termin.tag_von }),
@@ -65,8 +65,8 @@ export class DistrictDataMapper {
 			metadata:{
 				origin: 'bezirkskalender',
 				originObjectID: String(termin.id)
-			} 
-
+			},
+			...(veranstaltung.event_ist_gratis && { admission: { ticketType: 'ticketType.freeOfCharge'} })
 		};
 	}
 	

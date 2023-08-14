@@ -21,3 +21,4 @@ properties:
               type: string
 required:
   - identifier
+  - title

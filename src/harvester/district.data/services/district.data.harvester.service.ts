@@ -149,7 +149,7 @@ export class DistrictDataService {
 						referenceLabel: duplicatedEvents[0].displayName? duplicatedEvents[0].displayName : duplicatedEvents[0].title
 					};
 				} else {
-					const createEventRequest = this.mapper.mapEvent(termin,createdAttractions[veranstaltung.event_id], locations[veranstaltung.event_veranstaltungsort_id], organizations[veranstaltung.event_veranstalter_id]);
+					const createEventRequest = this.mapper.mapEvent(termin,veranstaltung,createdAttractions[veranstaltung.event_id], locations[veranstaltung.event_veranstaltungsort_id], organizations[veranstaltung.event_veranstalter_id]);
 					const createdEventReference = await this.eventService.create(createEventRequest);
 					if(createdEventReference){
 						createdEvents[termin.id] = createdEventReference;

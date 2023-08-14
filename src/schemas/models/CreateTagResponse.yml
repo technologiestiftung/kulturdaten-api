@@ -8,11 +8,7 @@ properties:
   data:
     type: object
     properties:
-      attractionIdentifier: 
-        type: string
-      eventsIdentifier:
-        type: array
-        items:
-          type: string
+      tag: 
+        $ref: 'Tag.yml'
 required:
   - success

@@ -3,6 +3,7 @@ import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { TagsRepository } from "./tags.repository";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
+import { CreateTagRequest } from "../../../generated/models/CreateTagRequest.generated";
 
 
 @Service()
@@ -22,6 +23,16 @@ export class MongoDBTagsRepository implements TagsRepository {
 		const tags = await this.dbConnector.tags();
 		return tags.findOne({ identifier: tagId }, { projection: { _id: 0 } });
 
+	}
+
+	async addTag(createTagRequest: CreateTagRequest): Promise<Tag | null> {
+		const tags = await this.dbConnector.tags();
+		const result = await tags.insertOne(createTagRequest);
+		
+		if(!result.acknowledged){
+			return null;
+		}
+		return createTagRequest as Tag;
 	}
 
 }

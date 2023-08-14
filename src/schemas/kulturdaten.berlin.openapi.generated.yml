@@ -54,7 +54,7 @@ info:
 
     ```
 
-    GET /api/events/{id}
+    GET /api/events/{identifier}
 
     Headers:
       Authorization: Bearer {Ihr JWT}
@@ -663,7 +663,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchLocationsResponse'
-  /locations/{id}:
+  /locations/{identifier}:
     get:
       tags:
         - Discover cultural data
@@ -702,7 +702,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/manager:
+  /locations/{identifier}/manager:
     put:
       tags:
         - Maintain cultural data
@@ -732,7 +732,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/open:
+  /locations/{identifier}/open:
     post:
       tags:
         - Maintain cultural data
@@ -745,7 +745,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/close:
+  /locations/{identifier}/close:
     post:
       tags:
         - Maintain cultural data
@@ -758,7 +758,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/permanentlyClose:
+  /locations/{identifier}/permanentlyClose:
     post:
       tags:
         - Maintain cultural data
@@ -771,7 +771,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/archive:
+  /locations/{identifier}/archive:
     post:
       tags:
         - Maintain cultural data
@@ -784,7 +784,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/unarchive:
+  /locations/{identifier}/unarchive:
     post:
       tags:
         - Maintain cultural data
@@ -797,7 +797,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/claim:
+  /locations/{identifier}/claim:
     post:
       tags:
         - Maintain cultural data
@@ -1125,22 +1125,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
-  /tools/eventGeneration:
-    post:
-      tags:
-        - Tools
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateEventsRequest'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenerateEventsResponse'
   /authentication/login:
     post:
       tags:
@@ -1160,7 +1144,83 @@ paths:
   /tags:
     get:
       tags:
-        - Categorization
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+    post:
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTagRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTagResponse'
+  /tags/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagResponse'
+  /tags/attractions:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+  /tags/events:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+  /tags/locations:
+    get:
+      tags:
+        - Discover cultural data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+  /tags/organizations:
+    get:
+      tags:
+        - Discover cultural data
       responses:
         '200':
           description: OK
@@ -3210,6 +3270,7 @@ components:
                               type: string
                 required:
                   - identifier
+                  - title
       required:
         - success
     GetLocationResponse:
@@ -4527,30 +4588,6 @@ components:
               type: string
       required:
         - success
-    GenerateEventsRequest:
-      type: object
-      properties:
-        textInput:
-          type: string
-    GenerateEventsResponse:
-      properties:
-        success:
-          type: boolean
-          enum:
-            - true
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            attractionIdentifier:
-              type: string
-            eventsIdentifier:
-              type: array
-              items:
-                type: string
-      required:
-        - success
     GetTagsResponse:
       type: object
       properties:
@@ -4600,5 +4637,145 @@ components:
                               type: string
                 required:
                   - identifier
+                  - title
+      required:
+        - success
+    GetTagResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            tag:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Tag
+                identifier:
+                  type: string
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                metadata:
+                  allOf:
+                    - type: object
+                      properties:
+                        created:
+                          type: string
+                        updated:
+                          type: string
+                        origin:
+                          type: string
+                        originObjectID:
+                          type: string
+                        availableLanguages:
+                          type: array
+                          items:
+                            type: string
+                    - type: object
+                      properties:
+                        externalIDs:
+                          type: object
+                          additionalProperties:
+                            type: string
+              required:
+                - identifier
+                - title
+      required:
+        - success
+    CreateTagRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Tag
+        identifier:
+          type: string
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        metadata:
+          allOf:
+            - type: object
+              properties:
+                created:
+                  type: string
+                updated:
+                  type: string
+                origin:
+                  type: string
+                originObjectID:
+                  type: string
+                availableLanguages:
+                  type: array
+                  items:
+                    type: string
+            - type: object
+              properties:
+                externalIDs:
+                  type: object
+                  additionalProperties:
+                    type: string
+      required:
+        - identifier
+        - title
+    CreateTagResponse:
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            tag:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Tag
+                identifier:
+                  type: string
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                metadata:
+                  allOf:
+                    - type: object
+                      properties:
+                        created:
+                          type: string
+                        updated:
+                          type: string
+                        origin:
+                          type: string
+                        originObjectID:
+                          type: string
+                        availableLanguages:
+                          type: array
+                          items:
+                            type: string
+                    - type: object
+                      properties:
+                        externalIDs:
+                          type: object
+                          additionalProperties:
+                            type: string
+              required:
+                - identifier
+                - title
       required:
         - success
