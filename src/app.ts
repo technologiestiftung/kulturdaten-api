@@ -163,7 +163,7 @@ export class KulturdatenBerlinApp {
 
 	private registerAuthRoutes() {
 		const authRoutes = Container.get(AuthRoutes);
-		this.app.use('/api/auth',
+		this.app.use('/api/authentication',
 		authRoutes.getRouter());
 	}
 
