@@ -2130,6 +2130,10 @@ components:
     CreateOrganizationRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Organization
         title:
           type: object
           additionalProperties:
@@ -2206,6 +2210,9 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
+        - title
     CreateOrganizationResponse:
       properties:
         success:
@@ -2543,6 +2550,10 @@ components:
     CreateAttractionRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Attraction
         title:
           type: object
           additionalProperties:
@@ -2589,6 +2600,9 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
+        - title
     CreateAttractionResponse:
       type: object
       properties:
@@ -3052,6 +3066,10 @@ components:
     CreateLocationRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Location
         title:
           type: object
           additionalProperties:
@@ -3190,6 +3208,9 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
+        - title
     CreateLocationResponse:
       type: object
       properties:
@@ -3764,6 +3785,10 @@ components:
     CreateEventRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Event
         schedule:
           type: object
           properties:
@@ -3880,6 +3905,8 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
     CreateEventResponse:
       type: object
       properties:

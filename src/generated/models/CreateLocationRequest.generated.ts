@@ -23,6 +23,7 @@ export const schemaForCreateLocationRequest = {
   $id: "CreateLocationRequest.yml",
   type: "object",
   properties: {
+    type: {type: "string", enum: ["type.Location"]},
     title: {type: "object", additionalProperties: {type: "string"}},
     displayName: {type: "object", additionalProperties: {type: "string"}},
     description: {type: "object", additionalProperties: {type: "string"}},
@@ -38,7 +39,8 @@ export const schemaForCreateLocationRequest = {
     manager: {$ref: "Reference.yml"},
     contact: {$ref: "Contact.yml"},
     metadata: {type: "object", properties: {origin: {type: "string"}, originObjectID: {type: "string"}}}
-  }
+  },
+  required: ["type", "title"]
 };
 
 export function validateCreateLocationRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -58,7 +60,8 @@ export function validateCreateLocationRequest(o: object): {isValid: boolean; val
 }
 
 export interface CreateLocationRequest {
-  title?: {
+  type: "type.Location";
+  title: {
     [k: string]: string;
   };
   displayName?: {

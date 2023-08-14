@@ -13,6 +13,7 @@ export class DistrictDataMapper {
 		const v:any = veranstaltung; 
 		const tags : string[] = findTags(veranstaltung.kategorie_ids, allTags);
 		return {
+			type: "type.Attraction",
 			title: {
 				...(veranstaltung.event_titel_de && { 'de': veranstaltung.event_titel_de }),
 				...(veranstaltung.event_titel_en && { 'en': veranstaltung.event_titel_en }),
@@ -52,6 +53,7 @@ export class DistrictDataMapper {
 
 	mapEvent(termin: Termin, veranstaltung: Veranstaltung, attractionReference: Reference,locationReference: Reference, organizerReference: Reference): CreateEventRequest {
 		return {
+			type: "type.Event",
 			schedule: {
 				...(termin.tag_von && { startDate: termin.tag_von }),
 				...(termin.tag_bis && { endDate: termin.tag_bis }),
@@ -74,6 +76,7 @@ export class DistrictDataMapper {
 
 	mapOrganisation(veranstalter: Veranstalter): CreateOrganizationRequest {	
 		return {
+			type: "type.Organization",
 			title: { 'de': veranstalter.name },
 			displayName: { 'de': veranstalter.name },
 			inLanguages: ['de'],
@@ -93,6 +96,7 @@ export class DistrictDataMapper {
 		}
 
 		return {
+			type: "type.Location",
 			title: { 'de': veranstaltungsort.name },
 			address: {
 				...(veranstaltungsort.strasse && { streetAddress: veranstaltungsort.strasse }),
