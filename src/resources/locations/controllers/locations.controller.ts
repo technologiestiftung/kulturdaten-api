@@ -61,7 +61,13 @@ export class LocationsController {
 		const totalCount = await this.locationsService.countLocations(filter);
 
 		if (locations) {
-			res.status(200).send(new SuccessResponseBuilder<SearchLocationsResponse>().okResponse({ locations: locations }).build());
+			res.status(200).send(new SuccessResponseBuilder<SearchLocationsResponse>().okResponse(
+				{ 
+					page: page,
+					pageSize: pageSize,
+					totalCount: totalCount,
+					locations: locations 
+				}).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No locations matched the search criteria").build());
 		}
