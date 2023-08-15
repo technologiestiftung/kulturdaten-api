@@ -26,7 +26,7 @@ export class DistrictDataService {
 		public attractionService: AttractionsService,
 		public tagsService: TagsService) { }
 
-		async harvestDistrictData(calendarIDs: string[]) {
+		async harvestDistrictData(calendarIDs: string[]) : Promise<{ [originObjectID: string]: any }> {
 			const createdOrganizations: { [originObjectID: string]: Reference } = {};
 			const createdLocations: { [originObjectID: string]: Reference } = {};
 			const createdAttractions: { [originObjectID: string]: Attraction } = {};
@@ -36,8 +36,9 @@ export class DistrictDataService {
 			if(!apiURL) return [];
 	
 			for (const calendarID of calendarIDs) {
-				apiURL += calendarID;
-				const districtData = await this.harvesterClient.fetchData(apiURL);
+				try {
+				let url = apiURL + calendarID;
+				const districtData = await this.harvesterClient.fetchData(url);
 	
 				const organizations = await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
 				Object.assign(createdOrganizations, organizations);
@@ -48,13 +49,16 @@ export class DistrictDataService {
 				const { createdAttractions: attractions, createdEvents: events } = await this.createAttractionsAndEvents(districtData.events, organizations, locations, tags);
 				Object.assign(createdAttractions, attractions);
 				Object.assign(createdEvents, events);
+			
+				} catch (error) {
+					console.error( 'Error while harvesting district data ' + apiURL + " " + error);
+							
+				}
 			}
 	
-			return { createdOrganizations, createdLocations, createdAttractions, createdEvents };
-		}
-	
-
-
+		
+		return { createdOrganizations: createdOrganizations, createdLocations: createdLocations, createdAttractions: createdAttractions, createdEvents: createdEvents };
+	}
 
 
 	async createOrganizations(veranstalter: VeranstalterList, bezirke: Bezirke) : Promise<{ [originObjectID: string]: Reference }> {
@@ -172,7 +176,7 @@ export class DistrictDataService {
 			}
 		}
 
-		return Promise.resolve({createdAttractions, createdEvents});
+		return Promise.resolve({createdAttractions: createdAttractions, createdEvents: createdEvents});
 	}
 
 }

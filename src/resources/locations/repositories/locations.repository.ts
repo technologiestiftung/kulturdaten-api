@@ -9,6 +9,15 @@ import { Filter } from '../../../generated/models/Filter.generated';
 const log: debug.IDebugger = debug('app:locations-repository');
 
 export interface LocationsRepository {
+
+	getLocations(page:number, pageSize:number) : Promise<Location[] | null>;
+
+	getLocationsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
+
+	searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> ;
+
+	countLocations(filter?: Filter): Promise<number>;
+
 	deleteLocationManager(identifier: string): Promise<boolean>;
 
 	updateOpeningStatus(identifier: string, openingStatus: Location['openingStatus']): Promise<boolean>;
@@ -18,13 +27,9 @@ export interface LocationsRepository {
 
 	setLocationManager(identifier: string, reference: Reference): Promise<boolean>;
 
-	searchLocations(filter: Filter): Promise<Location[]> ;
 
 	addLocation(createLocation: CreateLocationRequest): Promise<Reference | null>;
 
-	getLocations(limit:number, page:number) : Promise<Location[] | null>;
-
-	getLocationsAsReferences(limit:number, page:number) : Promise<Reference[] | null>;
 
 	getLocationByIdentifier(locationId: string) : Promise<Location | null>;
 

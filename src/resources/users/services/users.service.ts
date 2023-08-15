@@ -1,11 +1,11 @@
 import { UsersRepository } from '../repositories/users.repository';
-import { CRUD } from '../../../common/interfaces/crud.interface';
 import { Inject, Service } from 'typedi';
 import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
 import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
+import { pagination } from "../../../config/kulturdaten.config";
 
 @Service()
-export class UsersService implements CRUD {
+export class UsersService{
 
 	constructor(@Inject('UsersRepository') public usersRepository: UsersRepository){}
 
@@ -17,8 +17,8 @@ export class UsersService implements CRUD {
 		return this.usersRepository.removeUserById(id);
 	}
 
-	async list(limit: number, page: number) {
-		return this.usersRepository.getUsers(limit, page);
+	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
+		return this.usersRepository.getUsers(page, pageSize);
 	}
 
 	async patchById(id: string, resource: UpdateUserRequest) {
@@ -37,5 +37,10 @@ export class UsersService implements CRUD {
 	async getUserByEmailWithPassword(email: string){
 		return this.usersRepository.getUserByEmailWithPassword(email);
 	}
+
+	async countUsers(): Promise<number> {
+		return this.usersRepository.countUsers();
+	  }
+	
 
 }

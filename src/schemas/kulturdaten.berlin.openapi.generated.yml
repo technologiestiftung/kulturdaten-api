@@ -82,6 +82,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -131,6 +143,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -279,6 +304,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -328,6 +365,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -602,6 +652,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -651,6 +713,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -825,6 +900,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -880,6 +967,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -1006,6 +1106,19 @@ paths:
     get:
       tags:
         - Users
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       security:
         - bearerAuth: []
       responses:
@@ -1272,13 +1385,13 @@ paths:
                 type: object
                 properties:
                   createdOrganizations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Reference'
+                    type: number
                   createdLocations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Reference'
+                    type: number
+                  createdEvents:
+                    type: number
+                  createdAttractions:
+                    type: number
 components:
   securitySchemes:
     bearerAuth:
@@ -2023,6 +2136,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             organizations:
               type: array
               items:
@@ -2273,6 +2392,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             organizations:
               type: array
               items:
@@ -2479,6 +2604,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             attractions:
               type: array
               items:
@@ -2664,6 +2795,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             attractions:
               type: array
               items:
@@ -2898,6 +3035,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             locations:
               type: array
               items:
@@ -3637,6 +3780,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             events:
               type: array
               items:
@@ -3968,6 +4117,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             events:
               type: array
               items:
@@ -4497,6 +4652,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             users:
               type: array
               items:

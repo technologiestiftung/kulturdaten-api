@@ -41,6 +41,9 @@ export interface SearchEventsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     events?: Event[];
     eventsReferences?: Reference[];
   };

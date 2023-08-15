@@ -40,6 +40,9 @@ export interface SearchAttractionsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     attractions?: Attraction[];
     attractionsReferences?: Reference[];
   };

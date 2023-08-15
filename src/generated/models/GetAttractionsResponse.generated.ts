@@ -25,6 +25,9 @@ export const schemaForGetAttractionsResponse = {
     data: {
       type: "object",
       properties: {
+        page: {type: "number"},
+        pageSize: {type: "number"},
+        totalCount: {type: "number"},
         attractions: {type: "array", items: {$ref: "Attraction.yml"}},
         attractionsReferences: {type: "array", items: {$ref: "Reference.yml"}}
       }
@@ -50,6 +53,9 @@ export interface GetAttractionsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     attractions?: Attraction[];
     attractionsReferences?: Reference[];
   };
