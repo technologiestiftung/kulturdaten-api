@@ -27,8 +27,8 @@ export class EventsService {
 		return this.eventsRepository.getEventsAsReferences(page, pageSize);
 	}
 
-	async search(searchFilter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Event[]> {
-		return this.eventsRepository.searchEvents(searchFilter, page, pageSize);
+	async search(searchEventsRequest: SearchEventsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Event[]> {
+		return this.eventsRepository.searchEvents(searchEventsRequest.searchFilter? searchEventsRequest.searchFilter : {}, page, pageSize);
 	}
 
 	async countEvents(searchFilter?: Filter): Promise<number> {

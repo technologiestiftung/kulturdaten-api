@@ -1384,14 +1384,45 @@ paths:
               schema:
                 type: object
                 properties:
-                  createdOrganizations:
-                    type: number
-                  createdLocations:
-                    type: number
-                  createdEvents:
-                    type: number
-                  createdAttractions:
-                    type: number
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      createdOrganizations:
+                        type: array
+                        items:
+                          type: string
+                      duplicateOrganizations:
+                        type: array
+                        items:
+                          type: string
+                      createdLocations:
+                        type: array
+                        items:
+                          type: string
+                      duplicateLocations:
+                        type: array
+                        items:
+                          type: string
+                      createdEvents:
+                        type: array
+                        items:
+                          type: string
+                      duplicateEvents:
+                        type: array
+                        items:
+                          type: string
+                      createdAttractions:
+                        type: array
+                        items:
+                          type: string
+                      duplicateAttractions:
+                        type: array
+                        items:
+                          type: string
 components:
   securitySchemes:
     bearerAuth:
