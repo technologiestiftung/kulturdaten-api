@@ -14,7 +14,14 @@ import addFormats from "ajv-formats";
 export const schemaForSearchEventsRequest = {
   $id: "SearchEventsRequest.yml",
   type: "object",
-  properties: {searchFilter: {type: "object", additionalProperties: true}}
+  oneOf: [{required: ["searchFilter"]}, {required: ["findEventsByAttractionTag"]}],
+  properties: {
+    searchFilter: {type: "object", additionalProperties: true},
+    findEventsByAttractionTag: {
+      type: "object",
+      properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {type: "string", enum: ["any", "all"]}}
+    }
+  }
 };
 
 export function validateSearchEventsRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -26,8 +33,14 @@ export function validateSearchEventsRequest(o: object): {isValid: boolean; valid
   return {isValid: validate(o), validate: validate};
 }
 
-export interface SearchEventsRequest {
+export type SearchEventsRequest = {
   searchFilter?: {
     [k: string]: unknown;
   };
-}
+  findEventsByAttractionTag?: {
+    tags?: string[];
+    matchMode?: "any" | "all";
+  };
+} & {
+  [k: string]: unknown;
+};
