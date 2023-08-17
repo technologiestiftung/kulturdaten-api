@@ -80,7 +80,7 @@
 		},
 		"website": "https://berliner-literaturcafe.de",
 		"inLanguages": ["de", "en", "es", "ru"],
-		"tags": ["literature", "cafe", "books", "readings", "culture", "Berlin"],
+		"tags": ["literature", "cafe", "books", "readings", "culture", "Berlin", "workshops"],
 		"address": {
 			"streetAddress": "Bücherweg 22",
 			"addressLocality": "Berlin",

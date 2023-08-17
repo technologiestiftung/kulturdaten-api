@@ -3,7 +3,6 @@ import { Inject, Service } from 'typedi';
 import { Organization } from '../../../generated/models/Organization.generated';
 import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
-import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
 import { pagination } from "../../../config/kulturdaten.config";
 import { Filter } from '../../../generated/models/Filter.generated';

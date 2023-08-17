@@ -2,7 +2,7 @@
 import request from "supertest";
 
 import { TestEnvironment } from './integrationtestutils/TestEnvironment';
-import { validateAttraction } from '../generated/models/Attraction.generated';
+import { Attraction, validateAttraction } from '../generated/models/Attraction.generated';
 import { fakeCreateAttractionRequest } from '../generated/faker/faker.CreateAttractionRequest.generated';
 import { ATTRACTION_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
@@ -131,4 +131,24 @@ describe('Update attractions', () => {
 	});
   });
   
+  describe('Search attractions', () => {
+	beforeEach(async () => {
+	  await env.attractions.insertMany(threeDummyAttractions);
+	});
+  
+	afterEach(async () => {
+	  await env.attractions.deleteMany();
+	});
+  
+	it('should return 2 attractions with tag history  / POST /attractions/search', async () => {
+	  const { body, statusCode } = await request(env.app).post(env.ATTRACTIONS_ROUTE +'/search').send({
+			"searchFilter":{"tags":{"$in":["history"]}}
+		});
 
+	  expect(statusCode).toBe(200);
+	  expect(body.data.attractions).toHaveLength(2);
+	  expect(body.data.attractions[0].tags).toContain('history');
+	  expect(body.data.attractions[1].tags).toContain('history');
+	});
+  });
+  

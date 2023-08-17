@@ -133,3 +133,23 @@ describe('Update organizations', () => {
   });
   
 
+  describe('Search organizations', () => {
+	beforeEach(async () => {
+	  await env.organizations.insertMany(threeDummyOrganizations);
+	});
+  
+	afterEach(async () => {
+	  await env.organizations.deleteMany();
+	});
+  
+	it('should return 2 organizations with tag workshops  / POST /organizations/search', async () => {
+	  const { body, statusCode } = await request(env.app).post(env.ORGANIZATIONS_ROUTE +'/search').send({
+			"searchFilter":{"tags":{"$in":["workshops"]}}
+		});
+
+	  expect(statusCode).toBe(200);
+	  expect(body.data.organizations).toHaveLength(2);
+	  expect(body.data.organizations[0].tags).toContain('workshops');
+	  expect(body.data.organizations[1].tags).toContain('workshops');
+	});
+  });

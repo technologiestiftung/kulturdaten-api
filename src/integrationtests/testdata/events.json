@@ -38,7 +38,7 @@
 		"website": "https://example.com/berlin-concert",
 		"inLanguages": ["de", "en"],
 		"family": false,
-		"tags": ["Musik", "Konzert", "Berlin"],
+		"tags": ["Musik", "Konzert"],
 		"locations": [
 		  {
 			"referenceType": "Venue",
