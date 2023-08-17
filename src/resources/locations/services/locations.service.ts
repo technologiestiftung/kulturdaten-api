@@ -27,8 +27,8 @@ export class LocationsService{
 		return this.locationsRepository.addLocation(resource);
 	}
 
-	search(searchLocationsRequest: SearchLocationsRequest, page: number = 1, pageSize: number = pagination.maxPageSize) : Promise<Location[]> {
-		return this.locationsRepository.searchLocations(searchLocationsRequest.searchFilter? searchLocationsRequest.searchFilter : {}, page, pageSize);
+	search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize) : Promise<Location[]> {
+		return this.locationsRepository.searchLocations(filter, page, pageSize);
 	}
 
 	async countLocations(searchFilter?: Filter): Promise<number> {

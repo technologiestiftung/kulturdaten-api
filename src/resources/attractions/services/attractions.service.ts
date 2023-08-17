@@ -24,8 +24,8 @@ export class AttractionsService {
     return this.attractionsRepository.getAttractionsAsReferences(page, pageSize);
   }
 
-  async search(searchAttractionsRequest: SearchAttractionsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
-		return this.attractionsRepository.searchAttractions(searchAttractionsRequest.searchFilter? searchAttractionsRequest.searchFilter : {},  page, pageSize);
+  async search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
+		return this.attractionsRepository.searchAttractions(filter,  page, pageSize);
   }
 
   async countAttractions(searchFilter?: Filter): Promise<number> {

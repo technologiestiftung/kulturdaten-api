@@ -21,8 +21,8 @@ export class OrganizationsService  {
 		return  this.organizationsRepository.getOrganizationsAsReferences(page, pageSize);
 	}
 
-	async search(searchOrganizationsRequest: SearchOrganizationsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Organization[]> {
-		return this.organizationsRepository.searchOrganizations(searchOrganizationsRequest.searchFilter? searchOrganizationsRequest.searchFilter : {}, page, pageSize);
+	async search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Organization[]> {
+		return this.organizationsRepository.searchOrganizations(filter, page, pageSize);
 	}
 
 	async create(resource: CreateOrganizationRequest): Promise<Reference | null> {
