@@ -5,9 +5,6 @@ dotenv.config()
 import express from 'express';
 import ip from 'ip';
 
-import * as fs from 'fs';
-import * as path from 'path';
-
 import debug from 'debug';
 
 import * as winston from 'winston';
@@ -38,6 +35,8 @@ import { AttractionsRoutes } from './resources/attractions/attractions.routes';
 import { MongoDBAttractionsRepository } from './resources/attractions/repositories/attractions.repository.mongodb';
 import { MongoDBTagsRepository } from './resources/tags/repositories/tags.repository.mongodb';
 import { TagsRoutes } from './resources/tags/tags.routes';
+import { MongoDBFilterStrategy } from './resources/events/filter/implementations/events.mongodb.filter.strategy';
+import { FindEventsByAttractionTagFilterStrategy } from './resources/events/filter/implementations/events.attractiontag.filter.strategy';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -103,54 +102,28 @@ export class KulturdatenBerlinApp {
 			Container.set('Database', mongoDBConnector);
 		}
 		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get('Database')));
-		this.importFilters('organizations');
+		Container.import([]);
 		
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
-		this.importFilters('users');
+		Container.import([]);
 
 		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
-		this.importFilters('events');
+		Container.import([MongoDBFilterStrategy, FindEventsByAttractionTagFilterStrategy]);
 
 		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
-		this.importFilters('locations');
+		Container.import([]);
 
 		Container.set('AttractionsRepository', new MongoDBAttractionsRepository(Container.get('Database')));
-		this.importFilters('attractions');
+		Container.import([]);
 
 		Container.set('TagsRepository', new MongoDBTagsRepository(Container.get('Database')));
-		this.importFilters('tags');
+		Container.import([]);
 
 
 
 	}
 
-	private importFilters(resourcesName: string) {
-		const filtersDir = this.getFilterDirectoryPath(resourcesName);
-		const filterFiles = this.getFilterFilesFromDirectory(filtersDir);
-
-		if (filterFiles.length) {
-			filterFiles.forEach(file => this.importFilterFromFile(path.join(filtersDir, file)));
-		} else {
-			log(`No filter strategy files found in ${filtersDir}`);
-		}
-	}
-
-	private getFilterDirectoryPath(resourcesName: string): string {
-		return path.join(__dirname, `./resources/${resourcesName}/filter/implementations`);
-	}
-
-	private getFilterFilesFromDirectory(directory: string): string[] {
-		if (!fs.existsSync(directory)) return [];
-		return fs.readdirSync(directory).filter(file => file.endsWith('filter.strategy.js'));
-	}
-
-	private importFilterFromFile(filePath: string) {
-		const filter = require(filePath);
-		log(`Importing filter strategy${path.basename(filePath)}...`);
-		Container.import([filter]);
-	}
-
-
+	
 	private initLogger() {
 		const loggerOptions: expressWinston.LoggerOptions = {
 			transports: [new winston.transports.Console()],
