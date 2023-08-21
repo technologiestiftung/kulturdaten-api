@@ -45,7 +45,7 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 		const events = await this.eventsRepository.searchEvents(attractionFilter, page, pageSize);
 		const totalCount = await this.eventsRepository.countEvents(attractionFilter);
 
-		return Promise.resolve({events:events, page:page, pageSize:pageSize, totalCount:totalCount});
+		return {events:events, page:page, pageSize:pageSize, totalCount:totalCount};
 
 	}
 	

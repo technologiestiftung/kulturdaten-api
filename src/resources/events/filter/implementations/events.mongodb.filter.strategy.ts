@@ -16,7 +16,7 @@ export class MongoDBFilterStrategy implements EventFilterStrategy {
 		let events : Event[] = await this.eventsRepository.searchEvents(filter, page, pageSize);
 		const totalCount = await this.eventsRepository.countEvents(filter);
 
-		return Promise.resolve({events:events, page:page, pageSize:pageSize, totalCount:totalCount});
+		return {events:events, page:page, pageSize:pageSize, totalCount:totalCount};
 	}
 	
 	public isExecutable(searchEventsRequest:SearchEventsRequest) : boolean {

@@ -126,22 +126,31 @@ export class KulturdatenBerlinApp {
 
 	}
 
-	 private importFilters(resourcesName: string) {
-		const filtersDir = path.join(__dirname, './resources/' + resourcesName + '/filter/implementations');
-		if (fs.existsSync(filtersDir)) {
-			const filterFiles = fs.readdirSync(filtersDir).filter(file => file.endsWith('filter.strategy.js'));
-			for (const file of filterFiles) {
-				const filter = require(path.join(filtersDir, file));
-				log(`Importing ${file}...`);
-				
-				Container.import([filter.default]);
-			}
+	private importFilters(resourcesName: string) {
+		const filtersDir = this.getFilterDirectoryPath(resourcesName);
+		const filterFiles = this.getFilterFilesFromDirectory(filtersDir);
+
+		if (filterFiles.length) {
+			filterFiles.forEach(file => this.importFilterFromFile(path.join(filtersDir, file)));
 		} else {
-			log(`No filter files found in ${filtersDir}`);
-			
+			log(`No filter strategy files found in ${filtersDir}`);
 		}
 	}
 
+	private getFilterDirectoryPath(resourcesName: string): string {
+		return path.join(__dirname, `./resources/${resourcesName}/filter/implementations`);
+	}
+
+	private getFilterFilesFromDirectory(directory: string): string[] {
+		if (!fs.existsSync(directory)) return [];
+		return fs.readdirSync(directory).filter(file => file.endsWith('filter.strategy.js'));
+	}
+
+	private importFilterFromFile(filePath: string): void {
+		const filter = require(filePath);
+		log(`Importing filter strategy${path.basename(filePath)}...`);
+		Container.import([filter]);
+	}
 
 
 	private initLogger() {
