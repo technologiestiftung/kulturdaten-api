@@ -38,9 +38,6 @@ import { AttractionsRoutes } from './resources/attractions/attractions.routes';
 import { MongoDBAttractionsRepository } from './resources/attractions/repositories/attractions.repository.mongodb';
 import { MongoDBTagsRepository } from './resources/tags/repositories/tags.repository.mongodb';
 import { TagsRoutes } from './resources/tags/tags.routes';
-import { EventFilterStrategy } from './resources/events/filter/events.filter.strategy';
-import { MongoDBFilterStrategy } from './resources/events/filter/implementations/events.mongodb.filter.strategy';
-import { FindEventsByAttractionTagFilterStrategy } from './resources/events/filter/implementations/events.attractiontag.filter.strategy';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -107,6 +104,7 @@ export class KulturdatenBerlinApp {
 		}
 		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get('Database')));
 		this.importFilters('organizations');
+		
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
 		this.importFilters('users');
 
@@ -146,7 +144,7 @@ export class KulturdatenBerlinApp {
 		return fs.readdirSync(directory).filter(file => file.endsWith('filter.strategy.js'));
 	}
 
-	private importFilterFromFile(filePath: string): void {
+	private importFilterFromFile(filePath: string) {
 		const filter = require(filePath);
 		log(`Importing filter strategy${path.basename(filePath)}...`);
 		Container.import([filter]);
@@ -214,7 +212,7 @@ export class KulturdatenBerlinApp {
 		this.app.use('/api/organizations', organizationsRoute.getRouter());
 	}
 
-	registerAttractionsRoutes() {
+	private registerAttractionsRoutes() {
 		const attractionsRoute = Container.get(AttractionsRoutes);
 		this.app.use('/api/attractions', attractionsRoute.getRouter());
 	}
@@ -239,7 +237,7 @@ export class KulturdatenBerlinApp {
 		this.app.use('/api/tags', tagsRoute.getRouter());
 	}
 
-	registerHarvesterRoutes() {
+	private registerHarvesterRoutes() {
 		const harvesterRoute = Container.get(HarvesterRoutes);
 		this.app.use('/api/admin/harvest/baevents-bezirkskalender', harvesterRoute.getRouter());
 	}
