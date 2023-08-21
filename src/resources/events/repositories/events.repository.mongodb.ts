@@ -15,23 +15,25 @@ import { generateEventReference, getEventReferenceProjection } from "../../../ut
 export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
-	async aggregateEvents(aggregate: object[], page: number, pageSize: number): Promise<Event[] | null> {
-		const events = await this.dbConnector.events();
-		const e = events.aggregate(aggregate);
-		
-		return Promise.resolve([]);
-	}
 
-
-
-	async searchEvents(filter: Filter, page:number, pageSize:number): Promise<Event[]> {
+	async searchEvents(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Event[]> {
 		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}	
 		const events = await this.dbConnector.events();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
+
 		return Promise.resolve(events
-			.find(filter, { projection: { _id: 0 } })
+			.find(filter, { projection: p })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)
+			.toArray());
+	}
+
+	async searchAllEvents(filter: Filter, projection? : object) : Promise<Event[]> {
+		const events = await this.dbConnector.events();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
+		return Promise.resolve(events
+			.find(filter, { projection: p })
 			.toArray());
 	}
 

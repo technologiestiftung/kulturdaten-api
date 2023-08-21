@@ -10,13 +10,13 @@ import { Filter } from '../../../generated/models/Filter.generated';
 const log: debug.IDebugger = debug('app:events-repository');
 
 export interface EventsRepository {
-	aggregateEvents(aggregate: object[], page: number, pageSize: number): Promise<Event[] | null>;
-
 	getEvents( page:number, pageSize:number) : Promise<Event[] | null>;
 
 	getEventsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
 
-	searchEvents(filter: Filter, page:number, pageSize:number): Promise<Event[]>;
+	searchEvents(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Event[]>;
+
+	searchAllEvents(filter: Filter, projection? : object) : Promise<Event[]>;
 
 	countEvents(filter?: Filter): Promise<number>;
 

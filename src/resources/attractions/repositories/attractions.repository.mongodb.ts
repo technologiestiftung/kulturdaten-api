@@ -30,6 +30,14 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 			.toArray());
 	}
 
+	async searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>{
+		const attractions = await this.dbConnector.attractions();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
+		return Promise.resolve(attractions
+			.find(filter, { projection: p })
+			.toArray());
+	} 
+
 	async getAttractions(page:number, pageSize:number): Promise<Attraction[]> {
 			if (pageSize <= 0) {pageSize = 1;}
 			if (page <= 0) {page = 1;}

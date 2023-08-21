@@ -18,6 +18,8 @@ export interface AttractionsRepository {
 
 	searchAttractions(filter: Filter, page: number, pageSize: number, projection? : object): Promise<Attraction[]> ;
 
+	searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>;
+
 	countAttractions(filter?: Filter): Promise<number>;
 
 

@@ -14,7 +14,9 @@ export interface LocationsRepository {
 
 	getLocationsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
 
-	searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> ;
+	searchLocations(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Location[]> ;
+
+	searchAllLocations(filter: Filter, projection? : object): Promise<Location[]> ;
 
 	countLocations(filter?: Filter): Promise<number>;
 

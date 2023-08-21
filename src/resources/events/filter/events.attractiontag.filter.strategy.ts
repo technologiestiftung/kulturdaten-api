@@ -34,7 +34,7 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 			"identifier": 1
 		};
 		
-		const attractions = await this.attractionsRepository.searchAttractions(tagFilter, page, pageSize, projection);
+		const attractions = await this.attractionsRepository.searchAllAttractions(tagFilter, projection);
 		const attractionsIdentifiers = attractions.map(attraction => attraction.identifier);
 		
 

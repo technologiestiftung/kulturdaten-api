@@ -53,14 +53,25 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	}
 
 
-	async searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> {
+	async searchLocations(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Location[]> {
 		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
+
 		return locations
-			.find(filter, { projection: { _id: 0 } })
+			.find(filter, { projection: p })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)	
+			.toArray();
+	}
+
+	async searchAllLocations(filter: Filter, projection? : object): Promise<Location[]> {
+		const locations = await this.dbConnector.locations();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
+
+		return locations
+			.find(filter, { projection: p })
 			.toArray();
 	}
 
