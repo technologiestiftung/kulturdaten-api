@@ -7,6 +7,7 @@ import { fakeCreateEventRequest } from '../generated/faker/faker.CreateEventRequ
 import { EVENT_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
 import threeDummyEvents from './testdata/events.json';
+import threeDummyAttractions from './testdata/attractions.json';
 import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/events.attractiontag.filter.strategy";
 import { MongoDBFilterStrategy } from "../resources/events/filter/events.mongodb.filter.strategy";
 
@@ -14,7 +15,7 @@ let env!: TestEnvironment;
 
 beforeAll(async () => {
 	env = new TestEnvironment();
-	(await env.startServer()).withEventsRoutes();
+	(await env.startServer()).withEventsRoutes().withAttractionsRoutes();
 });
 
 afterAll(async () => {
@@ -138,6 +139,7 @@ describe('Update events', () => {
 describe('Search events', () => {
 	beforeEach(async () => {
 		await env.events.insertMany(threeDummyEvents);
+		await env.attractions.insertMany(threeDummyAttractions);
 		env.eventsService.filterStrategies = [
 			new MongoDBFilterStrategy(env.eventsRepository),
 			new FindEventsByAttractionTagFilterStrategy(env.eventsRepository, env.attractionsRepository)
@@ -146,6 +148,7 @@ describe('Search events', () => {
 
 	afterEach(async () => {
 		await env.events.deleteMany();
+		await env.attractions.deleteMany();
 	});
 
 	it('should return 2 events with tag Berlin  / POST /events/search', async () => {
@@ -159,4 +162,44 @@ describe('Search events', () => {
 		expect(body.data.events[0].tags).toContain('Berlin');
 		expect(body.data.events[1].tags).toContain('Berlin');
 	});
+
+	it('should return 2 events whose attractions have the tag education  / POST /events/search', async () => {
+
+		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE + '/search').send({
+			"findEventsByAttractionTag": {
+				"tags": [
+					"education"
+				],
+				"matchMode": "any"
+			}
+
+		});
+
+		expect(statusCode).toBe(200);
+		expect(body.data.events).toHaveLength(2);
+		const identifier0 = body.data.events[0].identifier;
+		expect(identifier0.includes('1234-5678-9101-1121') || identifier0.includes('7890-1234-5678-9012')).toBeTruthy();
+		const identifier1 = body.data.events[1].identifier;
+		expect(identifier1.includes('1234-5678-9101-1121') || identifier1.includes('7890-1234-5678-9012')).toBeTruthy();
+	});
+
+	it('should return 1 event whose attractions have the tag history AND the tag  berlin-wall / POST /events/search', async () => {
+
+		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE + '/search').send({
+			"findEventsByAttractionTag": {
+				"tags": [
+					"history",
+					"berlin-wall"
+				],
+				"matchMode": "all"
+			}
+
+		});
+
+		expect(statusCode).toBe(200);
+		expect(body.data.events).toHaveLength(1);
+		expect(body.data.events[0].attractions[0].referenceId).toContain('berlin-wall-vr-experience-12345');
+	});
+
+
 });
