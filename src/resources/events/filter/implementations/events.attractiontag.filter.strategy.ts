@@ -1,11 +1,11 @@
 import { Inject, Service } from "typedi";
-import { SearchEventsRequest } from "../../../generated/models/SearchEventsRequest.generated";
-import { EventFilterStrategy, EventFilterStrategyToken } from "./events.filter.strategy";
-import { EventsRepository } from "../repositories/events.repository";
-import { Event } from '../../../generated/models/Event.generated';
-import { fakeEvent } from "../../../generated/faker/faker.Event.generated";
-import { AttractionsRepository } from "../../attractions/repositories/attractions.repository";
-import { Filter } from "../../../generated/models/Filter.generated";
+import { SearchEventsRequest } from "../../../../generated/models/SearchEventsRequest.generated";
+import { EventFilterStrategy, EventFilterStrategyToken } from "../events.filter.strategy";
+import { EventsRepository } from "../../repositories/events.repository";
+import { Event } from '../../../../generated/models/Event.generated';
+import { fakeEvent } from "../../../../generated/faker/faker.Event.generated";
+import { AttractionsRepository } from "../../../attractions/repositories/attractions.repository";
+import { Filter } from "../../../../generated/models/Filter.generated";
 
 
 

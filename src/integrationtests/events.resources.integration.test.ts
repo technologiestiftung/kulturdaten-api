@@ -8,8 +8,8 @@ import { EVENT_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
 import threeDummyEvents from './testdata/events.json';
 import threeDummyAttractions from './testdata/attractions.json';
-import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/events.attractiontag.filter.strategy";
-import { MongoDBFilterStrategy } from "../resources/events/filter/events.mongodb.filter.strategy";
+import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/events.attractiontag.filter.strategy";
+import { MongoDBFilterStrategy } from "../resources/events/filter/implementations/events.mongodb.filter.strategy";
 
 let env!: TestEnvironment;
 

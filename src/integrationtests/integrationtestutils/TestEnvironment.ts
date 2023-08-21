@@ -18,8 +18,8 @@ import { AttractionsRoutes } from "../../resources/attractions/attractions.route
 import { AttractionsController } from "../../resources/attractions/controllers/attractions.controller";
 import { MongoDBAttractionsRepository } from "../../resources/attractions/repositories/attractions.repository.mongodb";
 import { AttractionsService } from "../../resources/attractions/services/attractions.service";
-import { FindEventsByAttractionTagFilterStrategy } from "../../resources/events/filter/events.attractiontag.filter.strategy";
-import { MongoDBFilterStrategy } from "../../resources/events/filter/events.mongodb.filter.strategy";
+import { FindEventsByAttractionTagFilterStrategy } from "../../resources/events/filter/implementations/events.attractiontag.filter.strategy";
+import { MongoDBFilterStrategy } from "../../resources/events/filter/implementations/events.mongodb.filter.strategy";
 import { Container } from "typedi";
 import { EventsRepository } from "../../resources/events/repositories/events.repository";
 import { LocationsRepository } from "../../resources/locations/repositories/locations.repository";
