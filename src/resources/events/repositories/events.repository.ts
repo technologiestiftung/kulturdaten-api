@@ -10,6 +10,7 @@ import { Filter } from '../../../generated/models/Filter.generated';
 const log: debug.IDebugger = debug('app:events-repository');
 
 export interface EventsRepository {
+	aggregateEvents(aggregate: object[], page: number, pageSize: number): Promise<Event[] | null>;
 
 	getEvents( page:number, pageSize:number) : Promise<Event[] | null>;
 

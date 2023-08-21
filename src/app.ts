@@ -10,7 +10,7 @@ import debug from 'debug';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import { OrganizationsRoutes } from './resources/organizations/organizations.routes';
-import Container from 'typedi';
+import Container, { Token } from 'typedi';
 import { UsersRoutes } from './resources/users/users.routes';
 import { AuthPassword } from './resources/auth/strategies/auth.strategy.password';
 import { UsersService } from './resources/users/services/users.service';
@@ -31,11 +31,13 @@ import { LocationsRoutes } from './resources/locations/locations.routes';
 import { MongoDBLocationsRepository } from './resources/locations/repositories/locations.repository.mongodb';
 import { MongoClient } from 'mongodb';
 import { HarvesterRoutes } from './harvester/harvester.routes';
-import { LocationsService } from './resources/locations/services/locations.service';
 import { AttractionsRoutes } from './resources/attractions/attractions.routes';
 import { MongoDBAttractionsRepository } from './resources/attractions/repositories/attractions.repository.mongodb';
 import { MongoDBTagsRepository } from './resources/tags/repositories/tags.repository.mongodb';
 import { TagsRoutes } from './resources/tags/tags.routes';
+import { EventFilterStrategy } from './resources/events/filter/events.filter.strategy';
+import { MongoDBFilterStrategy } from './resources/events/filter/events.mongodb.filter.strategy';
+import { FindEventsByAttractionTagFilterStrategy } from './resources/events/filter/events.attractiontag.filter.strategy';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -106,6 +108,8 @@ export class KulturdatenBerlinApp {
 		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
 		Container.set('AttractionsRepository', new MongoDBAttractionsRepository(Container.get('Database')));
 		Container.set('TagsRepository', new MongoDBTagsRepository(Container.get('Database')));
+
+		Container.import([MongoDBFilterStrategy, FindEventsByAttractionTagFilterStrategy]);
 
 	}
 

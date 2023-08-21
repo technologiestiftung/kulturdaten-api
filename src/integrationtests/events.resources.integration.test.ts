@@ -7,6 +7,8 @@ import { fakeCreateEventRequest } from '../generated/faker/faker.CreateEventRequ
 import { EVENT_IDENTIFIER_REG_EX } from './integrationtestutils/testmatcher';
 
 import threeDummyEvents from './testdata/events.json';
+import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/events.attractiontag.filter.strategy";
+import { MongoDBFilterStrategy } from "../resources/events/filter/events.mongodb.filter.strategy";
 
 let env!: TestEnvironment;
 
@@ -44,16 +46,16 @@ describe('Create events', () => {
 
 	it('should create an event and return an identifier / POST /events', async () => {
 		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE).send(fakeCreateEventRequest(false, { title: { de: 'New Event' } }));
-	
+
 		expect(statusCode).toBe(201);
-	
+
 		const newEventID = body.data.eventReference.referenceId;
 		expect(newEventID).toMatch(EVENT_IDENTIFIER_REG_EX);
 		let loc = await env.events.findOne({ identifier: newEventID });
-	
+
 		expect(loc?.title.de).toBe('New Event');
 	});
-	
+
 });
 
 
@@ -105,52 +107,56 @@ describe('Read events', () => {
 
 describe('Update events', () => {
 	beforeEach(async () => {
-	  await env.events.insertMany(threeDummyEvents);
+		await env.events.insertMany(threeDummyEvents);
 	});
-  
+
 	afterEach(async () => {
-	  await env.events.deleteMany();
+		await env.events.deleteMany();
 	});
-  
+
 	it('should update the name of a event / PATCH /events/existID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE +'/1234-5678-9101-1121').send({
-				title: { de :'Neuer Name' }
-		  });
-
-	  expect(statusCode).toBe(200);
-	  let loc = await env.events.findOne({identifier: '1234-5678-9101-1121'});
-	  expect(loc?.title.de).toBe('Neuer Name');
-	});
-  
-	it('should return an error when an invalid ID is provided / PATCH /events/invalidID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE +'/invalidID').send({
-			  title: { de :'Neuer Name' }
-		  });
-  
-	  expect(statusCode).toBe(400);
-	  expect(body.error.message).toBe('Bad Request');
-	});
-  });
-  
-
-  describe('Search events', () => {
-	beforeEach(async () => {
-	  await env.events.insertMany(threeDummyEvents);
-	});
-  
-	afterEach(async () => {
-	  await env.events.deleteMany();
-	});
-  
-	it('should return 2 events with tag Berlin  / POST /events/search', async () => {
-	  const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE +'/search').send({
-			"searchFilter":{"tags":{"$in":["Berlin"]}}
+		const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE + '/1234-5678-9101-1121').send({
+			title: { de: 'Neuer Name' }
 		});
 
-	  expect(statusCode).toBe(200);
-	  expect(body.data.events).toHaveLength(2);
-	  expect(body.data.events[0].tags).toContain('Berlin');
-	  expect(body.data.events[1].tags).toContain('Berlin');
+		expect(statusCode).toBe(200);
+		let loc = await env.events.findOne({ identifier: '1234-5678-9101-1121' });
+		expect(loc?.title.de).toBe('Neuer Name');
 	});
-  });
-  
+
+	it('should return an error when an invalid ID is provided / PATCH /events/invalidID', async () => {
+		const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE + '/invalidID').send({
+			title: { de: 'Neuer Name' }
+		});
+
+		expect(statusCode).toBe(400);
+		expect(body.error.message).toBe('Bad Request');
+	});
+});
+
+
+describe('Search events', () => {
+	beforeEach(async () => {
+		await env.events.insertMany(threeDummyEvents);
+		env.eventsService.filterStrategies = [
+			new MongoDBFilterStrategy(env.eventsRepository),
+			new FindEventsByAttractionTagFilterStrategy(env.eventsRepository, env.attractionsRepository)
+		]
+	});
+
+	afterEach(async () => {
+		await env.events.deleteMany();
+	});
+
+	it('should return 2 events with tag Berlin  / POST /events/search', async () => {
+
+		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE + '/search').send({
+			"searchFilter": { "tags": { "$in": ["Berlin"] } }
+		});
+
+		expect(statusCode).toBe(200);
+		expect(body.data.events).toHaveLength(2);
+		expect(body.data.events[0].tags).toContain('Berlin');
+		expect(body.data.events[1].tags).toContain('Berlin');
+	});
+});

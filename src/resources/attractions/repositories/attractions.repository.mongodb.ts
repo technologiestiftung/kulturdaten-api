@@ -17,12 +17,14 @@ import { generateAttractionReference } from "../../../utils/ReferenceUtil";
 export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
-	async searchAttractions(filter: Filter, page:number, pageSize:number): Promise<Attraction[]> {
+	async searchAttractions(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Attraction[]> {
+		
 		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const attractions = await this.dbConnector.attractions();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
 		return Promise.resolve(attractions
-			.find(filter, { projection: { _id: 0 } })
+			.find(filter, { projection: p })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)
 			.toArray());

@@ -15,6 +15,12 @@ import { generateEventReference, getEventReferenceProjection } from "../../../ut
 export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	async aggregateEvents(aggregate: object[], page: number, pageSize: number): Promise<Event[] | null> {
+		const events = await this.dbConnector.events();
+		const e = events.aggregate(aggregate);
+		
+		return Promise.resolve([]);
+	}
 
 
 

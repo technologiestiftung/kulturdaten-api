@@ -1,5 +1,5 @@
 import { EventsRepository } from '../repositories/events.repository';
-import { Inject, Service } from 'typedi';
+import Container, { Inject, Service } from 'typedi';
 import { Event } from '../../../generated/models/Event.generated';
 import { CreateEventRequest } from '../../../generated/models/CreateEventRequest.generated';
 import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest.generated';
@@ -13,10 +13,13 @@ import { RescheduleEventRequest } from '../../../generated/models/RescheduleEven
 import { Reference } from '../../../generated/models/Reference.generated';
 import { pagination } from "../../../config/kulturdaten.config";
 import { Filter } from '../../../generated/models/Filter.generated';
+import { EventFilterStrategy, EventFilterStrategyToken } from '../filter/events.filter.strategy';
 
 @Service()
 export class EventsService {
 
+	public filterStrategies?: EventFilterStrategy[];
+	
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
 	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
@@ -27,8 +30,16 @@ export class EventsService {
 		return this.eventsRepository.getEventsAsReferences(page, pageSize);
 	}
 
-	async search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Event[]> {
-		return this.eventsRepository.searchEvents(filter, page, pageSize);
+	async search(searchEventsRequest: SearchEventsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<{events:Event[], page:number, pageSize:number, totalCount:number}>  {
+		if(!this.filterStrategies){
+			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
+		}
+		for (const strategy of this.filterStrategies) {
+			if (strategy.isExecutable(searchEventsRequest)) {
+				return await strategy.executeRequest(searchEventsRequest, page, pageSize);
+			}
+		}
+		return Promise.resolve({events:[], page:page, pageSize:pageSize, totalCount:0});
 	}
 
 	async countEvents(searchFilter?: Filter): Promise<number> {

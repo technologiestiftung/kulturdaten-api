@@ -16,7 +16,7 @@ export interface AttractionsRepository {
 	getAttractionsAsReferences(page:number, pageSize:number): Promise<Reference[]>;
 
 
-	searchAttractions(filter: Filter, page: number, pageSize: number): Promise<Attraction[]> ;
+	searchAttractions(filter: Filter, page: number, pageSize: number, projection? : object): Promise<Attraction[]> ;
 
 	countAttractions(filter?: Filter): Promise<number>;
 
