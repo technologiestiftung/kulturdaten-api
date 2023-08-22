@@ -1,18 +1,15 @@
+type: object
 properties:
   success:
     type: boolean
-    enum:
-      - true
   message:
     type: string
   data:
     type: object
     properties:
-      attractionIdentifier: 
-        type: string
-      eventsIdentifier:
+      tags:
         type: array
         items:
-          type: string
+          $ref: 'Tag.yml'
 required:
   - success

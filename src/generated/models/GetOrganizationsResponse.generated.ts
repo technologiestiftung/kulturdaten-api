@@ -28,6 +28,9 @@ export const schemaForGetOrganizationsResponse = {
     data: {
       type: "object",
       properties: {
+        page: {type: "number"},
+        pageSize: {type: "number"},
+        totalCount: {type: "number"},
         organizations: {type: "array", items: {$ref: "Organization.yml"}},
         organizationsReferences: {type: "array", items: {$ref: "Reference.yml"}}
       }
@@ -56,6 +59,9 @@ export interface GetOrganizationsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     organizations?: Organization[];
     organizationsReferences?: Reference[];
   };

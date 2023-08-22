@@ -17,6 +17,7 @@ export const schemaForCreateAttractionRequest = {
   $id: "CreateAttractionRequest.yml",
   type: "object",
   properties: {
+    type: {type: "string", enum: ["type.Attraction"]},
     title: {type: "object", additionalProperties: {type: "string"}},
     displayName: {type: "object", additionalProperties: {type: "string"}},
     description: {type: "object", additionalProperties: {type: "string"}},
@@ -27,7 +28,8 @@ export const schemaForCreateAttractionRequest = {
     tags: {type: "array", items: {type: "string"}},
     externalLinks: {$ref: "ExternalLinks.yml"},
     metadata: {type: "object", properties: {origin: {type: "string"}, originObjectID: {type: "string"}}}
-  }
+  },
+  required: ["type", "title"]
 };
 
 export function validateCreateAttractionRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -41,7 +43,8 @@ export function validateCreateAttractionRequest(o: object): {isValid: boolean; v
 }
 
 export interface CreateAttractionRequest {
-  title?: {
+  type: "type.Attraction";
+  title: {
     [k: string]: string;
   };
   displayName?: {

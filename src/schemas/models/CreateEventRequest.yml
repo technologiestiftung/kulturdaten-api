@@ -1,5 +1,9 @@
 type: object
 properties:
+  type: 
+    type: string
+    enum:
+      - type.Event
   schedule:
     $ref: 'Schedule.yml'
   title: 
@@ -51,3 +55,5 @@ properties:
         type: string
       originObjectID:
         type: string  
+required:
+  - type

@@ -20,6 +20,7 @@ export const schemaForCreateEventRequest = {
   $id: "CreateEventRequest.yml",
   type: "object",
   properties: {
+    type: {type: "string", enum: ["type.Event"]},
     schedule: {$ref: "Schedule.yml"},
     title: {type: "object", additionalProperties: {type: "string"}},
     displayName: {type: "object", additionalProperties: {type: "string"}},
@@ -35,7 +36,8 @@ export const schemaForCreateEventRequest = {
     contact: {$ref: "Contact.yml"},
     admission: {$ref: "Admission.yml"},
     metadata: {type: "object", properties: {origin: {type: "string"}, originObjectID: {type: "string"}}}
-  }
+  },
+  required: ["type"]
 };
 
 export function validateCreateEventRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -52,6 +54,7 @@ export function validateCreateEventRequest(o: object): {isValid: boolean; valida
 }
 
 export interface CreateEventRequest {
+  type: "type.Event";
   schedule?: Schedule;
   title?: {
     [k: string]: string;

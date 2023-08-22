@@ -1,0 +1,24 @@
+type: object
+properties:
+  type:
+    type: string
+    enum:
+      - type.Tag
+  identifier:
+    type: string
+  title: 
+    type: object
+    additionalProperties:
+      type: string 
+  metadata:
+    allOf:
+      - $ref: 'Metadata.yml'
+      - type: object
+        properties:
+          externalIDs:
+            type: object
+            additionalProperties:
+              type: string
+required:
+  - identifier
+  - title

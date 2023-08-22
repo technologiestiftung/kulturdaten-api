@@ -13,19 +13,52 @@ const log: debug.IDebugger = debug('app:organizations-controller');
 @Service()
 export class OrganizationsController {
 
+	constructor(public organizationsService: OrganizationsService) { }
 
+	async listOrganizations(res: express.Response, page: number, pageSize: number) {
+		const organizations = await this.organizationsService.list(page, pageSize);
+		const totalCount = await this.organizationsService.countOrganizations();
 
-	constructor(public organizationsService: OrganizationsService) {}
-
-	async listOrganizations(res: express.Response) {
-		const organizations = await this.organizationsService.list(100, 0);
-		res.status(200).send(new SuccessResponseBuilder().okResponse({ organizations: organizations }).build());
+		res.status(200).send(new SuccessResponseBuilder().okResponse(
+			{
+				page: page,
+				pageSize: pageSize,
+				totalCount: totalCount,
+				organizations: organizations
+			}).build());
 	}
 
-	async listOrganizationsAsReference(res: express.Response) {
-		const organizationsReferences = await this.organizationsService.listAsReferences(100, 0);
-		res.status(200).send(new SuccessResponseBuilder().okResponse({ organizationsReferences: organizationsReferences }).build());
-	  }
+	async listOrganizationsAsReference(res: express.Response, page: number, pageSize: number) {
+		const organizationsReferences = await this.organizationsService.listAsReferences(page, pageSize);
+		const totalCount = await this.organizationsService.countOrganizations();
+
+		res.status(200).send(new SuccessResponseBuilder().okResponse(
+			{
+				page: page,
+				pageSize: pageSize,
+				totalCount: totalCount,
+				organizationsReferences: organizationsReferences
+			}).build());
+	}
+
+	async searchOrganizations(res: express.Response, searchOrganizationsRequest: SearchOrganizationsRequest, page: number, pageSize: number) {
+		const filter = searchOrganizationsRequest.searchFilter ? searchOrganizationsRequest.searchFilter : {};
+		
+		const organizations = await this.organizationsService.search(filter, page, pageSize);
+		const totalCount = await this.organizationsService.countOrganizations(filter);
+
+		if (organizations) {
+			res.status(200).send(new SuccessResponseBuilder().okResponse(
+				{
+					page: page,
+					pageSize: pageSize,
+					totalCount: totalCount, 
+					organizations: organizations 
+				}).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No organizations matched the search criteria").build());
+		}
+	}
 
 	async getOrganizationById(res: express.Response, organizationId: string) {
 		const organization = await this.organizationsService.readById(organizationId);
@@ -38,12 +71,12 @@ export class OrganizationsController {
 
 	async getOrganizationReferenceById(res: express.Response, identifier: string) {
 		const organizationReference = await this.organizationsService.readReferenceById(identifier);
-		if(organizationReference) {
+		if (organizationReference) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
 		}
-	  }
+	}
 
 	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
 		const organizationReference = await this.organizationsService.create(createOrganization);
@@ -55,14 +88,14 @@ export class OrganizationsController {
 	}
 
 	async createOrganizations(res: express.Response, createOrganizationsRequest: CreateOrganizationRequest[]) {
-		const organizationsReferences :  Promise<Reference | null> [] = [];
+		const organizationsReferences: Promise<Reference | null>[] = [];
 		createOrganizationsRequest.forEach(async request => {
 			organizationsReferences.push(this.organizationsService.create(request));
 		});
 		const oR = await Promise.all(organizationsReferences)
-	
+
 		res.status(201).send(new SuccessResponseBuilder().okResponse({ organizations: oR }).build());
-	  }
+	}
 
 
 
@@ -120,12 +153,5 @@ export class OrganizationsController {
 		}
 	}
 
-	async searchOrganizations(res: express.Response, searchOrganizationsRequest: SearchOrganizationsRequest) {
-		const organizations = await this.organizationsService.search(searchOrganizationsRequest);
-		if (organizations) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ organizations: organizations }).build());
-		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No organizations matched the search criteria").build());
-		}
-	}
+
 }

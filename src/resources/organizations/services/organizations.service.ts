@@ -3,25 +3,25 @@ import { Inject, Service } from 'typedi';
 import { Organization } from '../../../generated/models/Organization.generated';
 import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
-import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
-import { Filter } from '../../../generated/models/Filter.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
-
+import { pagination } from "../../../config/kulturdaten.config";
+import { Filter } from '../../../generated/models/Filter.generated';
 
 @Service()
 export class OrganizationsService  {
 
-
-
-
 	constructor(@Inject('OrganizationsRepository') public organizationsRepository: OrganizationsRepository) { }
 
-	async list(limit: number, page: number): Promise<Organization[]> {
-		return  this.organizationsRepository.getOrganizations(limit, page);
+	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Organization[]> {
+		return  this.organizationsRepository.getOrganizations(page, pageSize);
 	}
 
-	listAsReferences(limit: number, page: number) {
-		return  this.organizationsRepository.getOrganizationsAsReferences(limit, page);
+	listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
+		return  this.organizationsRepository.getOrganizationsAsReferences(page, pageSize);
+	}
+
+	async search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Organization[]> {
+		return this.organizationsRepository.searchOrganizations(filter, page, pageSize);
 	}
 
 	async create(resource: CreateOrganizationRequest): Promise<Reference | null> {
@@ -29,9 +29,7 @@ export class OrganizationsService  {
 	}
 
 
-	async search(searchOrganizationsRequest: SearchOrganizationsRequest): Promise<Organization[]> {
-		return this.organizationsRepository.searchOrganizations(searchOrganizationsRequest.searchFilter? searchOrganizationsRequest.searchFilter : {});
-	}
+
 
 	async readById(id: string): Promise<Organization | null> {
 		return this.organizationsRepository.getOrganizationByIdentifier(id);
@@ -70,5 +68,9 @@ export class OrganizationsService  {
 	activate(identifier: string): Promise<boolean> {
 		return this.organizationsRepository.updateOrganizationActivationStatusById(identifier, 'organization.active');
 	}
+
+	async countOrganizations(searchFilter?: Filter): Promise<number> {
+		return this.organizationsRepository.countOrganizations(searchFilter);
+	  }
 
 }

@@ -15,6 +15,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
+
 	
 	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
 		const newLocation = createLocation as Location;
@@ -24,25 +25,37 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		const result = await locations.insertOne(newLocation);
 
 		if (!result.acknowledged) {
-			return Promise.resolve(null);
+			return null;
 		}
 		return generateLocationReference(newLocation);
 	}
-	async getLocations(limit: number, page: number): Promise<Location[] | null> {
+	async getLocations(page:number, pageSize:number): Promise<Location[] | null> {
 		const locations = await this.dbConnector.locations();
-		return locations.find({}, { projection: { _id: 0 } }).toArray();
+		return locations
+			.find({}, { projection: { _id: 0 } })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
+			.toArray();
 	}
 
-	async getLocationsAsReferences(limit: number, page: number): Promise<Reference[] | null> {
+	async getLocationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
 		const locations = await this.dbConnector.locations();
-		let lr = locations.find({}, { projection: getLocationReferenceProjection() }).toArray();
+		let lr = locations
+			.find({}, { projection: getLocationReferenceProjection() })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)			
+			.toArray();
 		return lr as Promise<Reference[]>;
 	}
 
 
-	async searchLocations(filter: Filter): Promise<Location[]> {
+	async searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> {
 		const locations = await this.dbConnector.locations();
-		return Promise.resolve(locations.find(filter, { projection: { _id: 0 } }).toArray());
+		return locations
+			.find(filter, { projection: { _id: 0 } })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)	
+			.toArray();
 	}
 
 	async getLocationByIdentifier(locationId: string): Promise<Location | null> {
@@ -58,12 +71,12 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	async updateLocationById(locationId: string, locationFields: UpdateLocationRequest): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const result = await locations.updateOne({ identifier: locationId }, { $set: locationFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeLocationById(locationId: string): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const result = await locations.deleteOne({ identifier: locationId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
 	}
 
 
@@ -76,7 +89,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
             },
         };
         const result = await locations.updateOne(filter, updateDocument);
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async updateStatus(identifier: string, status: Location['status']): Promise<boolean> {
@@ -88,7 +101,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
             },
         };
         const result = await locations.updateOne(filter, updateDocument);
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	deleteLocationManager(identifier: string): Promise<boolean> {
@@ -97,6 +110,11 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	setLocationManager(identifier: string, reference: Reference): Promise<boolean> {
 		throw new Error("Method not implemented.");
+	}
+
+	async countLocations(filter?: Filter): Promise<number> {
+		const locations = await this.dbConnector.locations();
+		return locations.countDocuments(filter);
 	}
 
 }

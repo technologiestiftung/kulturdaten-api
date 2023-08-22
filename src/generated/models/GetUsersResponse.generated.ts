@@ -19,7 +19,15 @@ export const schemaForGetUsersResponse = {
   properties: {
     success: {type: "boolean"},
     message: {type: "string"},
-    data: {type: "object", properties: {users: {type: "array", items: {$ref: "User.yml"}}}}
+    data: {
+      type: "object",
+      properties: {
+        page: {type: "number"},
+        pageSize: {type: "number"},
+        totalCount: {type: "number"},
+        users: {type: "array", items: {$ref: "User.yml"}}
+      }
+    }
   },
   required: ["success"]
 };
@@ -38,6 +46,9 @@ export interface GetUsersResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     users?: User[];
   };
 }

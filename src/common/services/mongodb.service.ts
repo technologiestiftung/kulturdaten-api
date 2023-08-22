@@ -6,6 +6,7 @@ import { User } from '../../generated/models/User.generated';
 import { Event } from '../../generated/models/Event.generated';
 import { Location } from '../../generated/models/Location.generated';
 import { Attraction } from '../../generated/models/Attraction.generated';
+import { Tag } from '../../generated/models/Tag.generated';
 
 const log: debug.IDebugger = debug('app:mongodb-controller');
 
@@ -39,6 +40,11 @@ export class MongoDBConnector {
 		return db.collection<Location>('locations');
 	};
 
+	public async tags() {
+		const db = await this.getDatabase();
+		return db.collection<Tag>('tags');
+	};
+
 	public async getDatabase() {
 		const db = process.env.MONGO_DB || 'api-db';
 		return this.client.db(db);
@@ -67,6 +73,9 @@ export class MongoDBConnector {
 
 		const attractions = await this.attractions();
 		await attractions.createIndex({ identifier: 1 }, { name: 'id_index' });
+
+		const tags = await this.tags();
+		await tags.createIndex({ identifier: 1 }, { name: 'id_index' });
 	}
 
 

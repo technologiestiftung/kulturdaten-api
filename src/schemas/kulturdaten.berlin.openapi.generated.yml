@@ -54,7 +54,7 @@ info:
 
     ```
 
-    GET /api/events/{id}
+    GET /api/events/{identifier}
 
     Headers:
       Authorization: Bearer {Ihr JWT}
@@ -82,6 +82,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -131,6 +143,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -279,6 +304,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -328,6 +365,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -602,6 +652,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -651,6 +713,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -663,7 +738,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchLocationsResponse'
-  /locations/{id}:
+  /locations/{identifier}:
     get:
       tags:
         - Discover cultural data
@@ -702,7 +777,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/manager:
+  /locations/{identifier}/manager:
     put:
       tags:
         - Maintain cultural data
@@ -732,7 +807,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/open:
+  /locations/{identifier}/open:
     post:
       tags:
         - Maintain cultural data
@@ -745,7 +820,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/close:
+  /locations/{identifier}/close:
     post:
       tags:
         - Maintain cultural data
@@ -758,7 +833,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/permanentlyClose:
+  /locations/{identifier}/permanentlyClose:
     post:
       tags:
         - Maintain cultural data
@@ -771,7 +846,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/archive:
+  /locations/{identifier}/archive:
     post:
       tags:
         - Maintain cultural data
@@ -784,7 +859,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/unarchive:
+  /locations/{identifier}/unarchive:
     post:
       tags:
         - Maintain cultural data
@@ -797,7 +872,7 @@ paths:
       responses:
         '200':
           description: OK
-  /locations/{id}/claim:
+  /locations/{identifier}/claim:
     post:
       tags:
         - Maintain cultural data
@@ -825,6 +900,18 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -880,6 +967,19 @@ paths:
     post:
       tags:
         - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -1006,6 +1106,19 @@ paths:
     get:
       tags:
         - Users
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
       security:
         - bearerAuth: []
       responses:
@@ -1125,22 +1238,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
-  /tools/eventGeneration:
-    post:
-      tags:
-        - Tools
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateEventsRequest'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenerateEventsResponse'
   /authentication/login:
     post:
       tags:
@@ -1157,6 +1254,158 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
+  /tags:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+    post:
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTagRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTagResponse'
+  /tags/{identifier}:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagResponse'
+  /tags/attractions:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+  /tags/events:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+  /tags/locations:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
+  /tags/organizations:
+    get:
+      tags:
+        - Discover cultural data
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsResponse'
   /health:
     get:
       tags:
@@ -1172,6 +1421,26 @@ paths:
     post:
       tags:
         - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              default:
+                - '2'
+                - '4'
+                - '5'
+                - '6'
+                - '7'
+                - '8'
+                - '9'
+                - '10'
+                - '11'
+                - '12'
+                - '13'
+                - '25'
+              items:
+                type: string
       responses:
         '200':
           description: OK
@@ -1180,14 +1449,45 @@ paths:
               schema:
                 type: object
                 properties:
-                  createdOrganizations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Reference'
-                  createdLocations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Reference'
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      createdOrganizations:
+                        type: array
+                        items:
+                          type: string
+                      duplicateOrganizations:
+                        type: array
+                        items:
+                          type: string
+                      createdLocations:
+                        type: array
+                        items:
+                          type: string
+                      duplicateLocations:
+                        type: array
+                        items:
+                          type: string
+                      createdEvents:
+                        type: array
+                        items:
+                          type: string
+                      duplicateEvents:
+                        type: array
+                        items:
+                          type: string
+                      createdAttractions:
+                        type: array
+                        items:
+                          type: string
+                      duplicateAttractions:
+                        type: array
+                        items:
+                          type: string
 components:
   securitySchemes:
     bearerAuth:
@@ -1932,6 +2232,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             organizations:
               type: array
               items:
@@ -2059,6 +2365,10 @@ components:
     CreateOrganizationRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Organization
         title:
           type: object
           additionalProperties:
@@ -2135,6 +2445,9 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
+        - title
     CreateOrganizationResponse:
       properties:
         success:
@@ -2175,6 +2488,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             organizations:
               type: array
               items:
@@ -2381,6 +2700,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             attractions:
               type: array
               items:
@@ -2472,6 +2797,10 @@ components:
     CreateAttractionRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Attraction
         title:
           type: object
           additionalProperties:
@@ -2518,6 +2847,9 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
+        - title
     CreateAttractionResponse:
       type: object
       properties:
@@ -2559,6 +2891,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             attractions:
               type: array
               items:
@@ -2793,6 +3131,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             locations:
               type: array
               items:
@@ -2981,6 +3325,10 @@ components:
     CreateLocationRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Location
         title:
           type: object
           additionalProperties:
@@ -3071,6 +3419,10 @@ components:
           type: array
           items:
             type: string
+        accessibility:
+          type: array
+          items:
+            type: string
         tags:
           type: array
           items:
@@ -3115,6 +3467,9 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
+        - title
     CreateLocationResponse:
       type: object
       properties:
@@ -3156,6 +3511,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             locations:
               type: array
               items:
@@ -3664,6 +4025,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             events:
               type: array
               items:
@@ -3832,6 +4199,10 @@ components:
     CreateEventRequest:
       type: object
       properties:
+        type:
+          type: string
+          enum:
+            - type.Event
         schedule:
           type: object
           properties:
@@ -3948,6 +4319,8 @@ components:
               type: string
             originObjectID:
               type: string
+      required:
+        - type
     CreateEventResponse:
       type: object
       properties:
@@ -3989,6 +4362,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             events:
               type: array
               items:
@@ -4518,6 +4897,12 @@ components:
         data:
           type: object
           properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
             users:
               type: array
               items:
@@ -4656,12 +5041,147 @@ components:
               type: string
       required:
         - success
-    GenerateEventsRequest:
+    GetTagsResponse:
       type: object
       properties:
-        textInput:
+        success:
+          type: boolean
+        message:
           type: string
-    GenerateEventsResponse:
+        data:
+          type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Tag
+                  identifier:
+                    type: string
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  metadata:
+                    allOf:
+                      - type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      - type: object
+                        properties:
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
+                required:
+                  - identifier
+                  - title
+      required:
+        - success
+    GetTagResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            tag:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Tag
+                identifier:
+                  type: string
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                metadata:
+                  allOf:
+                    - type: object
+                      properties:
+                        created:
+                          type: string
+                        updated:
+                          type: string
+                        origin:
+                          type: string
+                        originObjectID:
+                          type: string
+                        availableLanguages:
+                          type: array
+                          items:
+                            type: string
+                    - type: object
+                      properties:
+                        externalIDs:
+                          type: object
+                          additionalProperties:
+                            type: string
+              required:
+                - identifier
+                - title
+      required:
+        - success
+    CreateTagRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Tag
+        identifier:
+          type: string
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        metadata:
+          allOf:
+            - type: object
+              properties:
+                created:
+                  type: string
+                updated:
+                  type: string
+                origin:
+                  type: string
+                originObjectID:
+                  type: string
+                availableLanguages:
+                  type: array
+                  items:
+                    type: string
+            - type: object
+              properties:
+                externalIDs:
+                  type: object
+                  additionalProperties:
+                    type: string
+      required:
+        - identifier
+        - title
+    CreateTagResponse:
       properties:
         success:
           type: boolean
@@ -4672,11 +5192,43 @@ components:
         data:
           type: object
           properties:
-            attractionIdentifier:
-              type: string
-            eventsIdentifier:
-              type: array
-              items:
-                type: string
+            tag:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Tag
+                identifier:
+                  type: string
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                metadata:
+                  allOf:
+                    - type: object
+                      properties:
+                        created:
+                          type: string
+                        updated:
+                          type: string
+                        origin:
+                          type: string
+                        originObjectID:
+                          type: string
+                        availableLanguages:
+                          type: array
+                          items:
+                            type: string
+                    - type: object
+                      properties:
+                        externalIDs:
+                          type: object
+                          additionalProperties:
+                            type: string
+              required:
+                - identifier
+                - title
       required:
         - success

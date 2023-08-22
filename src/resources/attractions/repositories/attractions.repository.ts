@@ -11,15 +11,19 @@ import { Filter } from '../../../generated/models/Filter.generated';
 const log: debug.IDebugger = debug('app:attractions-repository');
 
 export interface AttractionsRepository {
-	getAttractions(limit:number, page:number) : Promise<Attraction[]>;
+	getAttractions(page:number, pageSize:number) : Promise<Attraction[]>;
 
-	getAttractionsAsReferences(limit: number, page: number): Promise<Reference[]>;
+	getAttractionsAsReferences(page:number, pageSize:number): Promise<Reference[]>;
+
+
+	searchAttractions(filter: Filter, page: number, pageSize: number): Promise<Attraction[]> ;
+
+	countAttractions(filter?: Filter): Promise<number>;
+
+
 
 	addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null>;
 
-	searchDuplicates(attraction: Attraction): Promise<Attraction[]>;
-
-	searchAttractions(filter: Filter): Promise<Attraction[]> ;
 
 	getAttractionByIdentifier(attractionId: string) : Promise<Attraction | null>;
 
@@ -31,11 +35,11 @@ export interface AttractionsRepository {
 
 	removeAttractionById(attractionId: string) :  Promise<boolean>;
 	
-	searchDuplicates(attraction: Attraction): Promise<Attraction[]>;
-
 	addExternalLink(attractionId: string, externalLink: AddExternalLinkRequest): Promise<boolean>;
 
 	removeExternalLink(attractionId: string, externalLink: RemoveExternalLinkRequest): Promise<boolean>;
+
+	
 
 }
 

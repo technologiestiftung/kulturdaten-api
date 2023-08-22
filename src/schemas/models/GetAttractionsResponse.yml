@@ -7,6 +7,12 @@ properties:
   data:
     type: object
     properties:
+      page: 
+        type: number
+      pageSize:
+        type: number
+      totalCount:
+        type: number
       attractions:
         type: array
         items:

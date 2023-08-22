@@ -23,6 +23,7 @@ export const schemaForCreateLocationRequest = {
   $id: "CreateLocationRequest.yml",
   type: "object",
   properties: {
+    type: {type: "string", enum: ["type.Location"]},
     title: {type: "object", additionalProperties: {type: "string"}},
     displayName: {type: "object", additionalProperties: {type: "string"}},
     description: {type: "object", additionalProperties: {type: "string"}},
@@ -32,12 +33,14 @@ export const schemaForCreateLocationRequest = {
     coordinates: {$ref: "Coordinates.yml"},
     openingHours: {$ref: "OpeningHours.yml"},
     inLanguages: {type: "array", items: {type: "string"}},
+    accessibility: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
     externalLinks: {type: "array", items: {$ref: "ExternalLinks.yml"}},
     manager: {$ref: "Reference.yml"},
     contact: {$ref: "Contact.yml"},
     metadata: {type: "object", properties: {origin: {type: "string"}, originObjectID: {type: "string"}}}
-  }
+  },
+  required: ["type", "title"]
 };
 
 export function validateCreateLocationRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -57,7 +60,8 @@ export function validateCreateLocationRequest(o: object): {isValid: boolean; val
 }
 
 export interface CreateLocationRequest {
-  title?: {
+  type: "type.Location";
+  title: {
     [k: string]: string;
   };
   displayName?: {
@@ -85,6 +89,7 @@ export interface CreateLocationRequest {
   coordinates?: Coordinates;
   openingHours?: OpeningHours;
   inLanguages?: string[];
+  accessibility?: string[];
   tags?: string[];
   externalLinks?: ExternalLinks[];
   manager?: Reference;

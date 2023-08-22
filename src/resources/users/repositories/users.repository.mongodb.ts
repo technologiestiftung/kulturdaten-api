@@ -33,9 +33,13 @@ export class MongoDBUsersRepository implements UsersRepository {
 		await users.insertOne(newUser);
 		return newUser.identifier;
 	}
-	async getUsers(limit: number, page: number): Promise<User[] | null> {
+	async getUsers(page:number, pageSize:number): Promise<User[] | null> {
 		const users = await this.dbConnector.users();
-		return users.find({}, { projection: { _id: 0,  password:0} }).toArray();
+		return users
+			.find({}, { projection: { _id: 0,  password:0} })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
+			.toArray();
 	}
 	async getUserByIdentifier(userId: string): Promise<User | null> {
 		const users = await this.dbConnector.users();
@@ -45,11 +49,16 @@ export class MongoDBUsersRepository implements UsersRepository {
 		if(userFields.email) userFields.email = userFields.email.toLowerCase();
 		const users = await this.dbConnector.users();
 		const result = await users.updateOne({ identifier: userId }, { $set: userFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeUserById(userId: string): Promise<boolean> {
 		const users = await this.dbConnector.users();
 		const result = await users.deleteOne({ identifier: userId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
+	}
+
+	async countUsers(): Promise<number> {
+		const users = await this.dbConnector.users();
+		return users.countDocuments();
 	}
 }

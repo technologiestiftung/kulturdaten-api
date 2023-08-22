@@ -10,11 +10,14 @@ const log: debug.IDebugger = debug('app:organizations-repository');
 
 export interface OrganizationsRepository {
 
-	getOrganizations(limit:number, page:number) : Promise<Organization[]>;
+	getOrganizations(page:number, pageSize:number) : Promise<Organization[]>;
 
-	getOrganizationsAsReferences(limit: number, page: number) : Promise<Reference[] | null>;
+	getOrganizationsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
 
-	searchOrganizations(filter: Filter): Promise<Organization[]> ;	
+	searchOrganizations(filter: Filter, page:number, pageSize:number): Promise<Organization[]> ;
+	
+	countOrganizations(filter?: Filter): Promise<number>;
+
 
 	getOrganizationByIdentifier(organizationId: string) : Promise<Organization | null>;
 

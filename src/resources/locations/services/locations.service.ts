@@ -6,6 +6,8 @@ import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationR
 import { SearchLocationsRequest } from '../../../generated/models/SearchLocationsRequest.generated';
 import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { pagination } from "../../../config/kulturdaten.config";
+import { Filter } from '../../../generated/models/Filter.generated';
 
 @Service()
 export class LocationsService{
@@ -13,21 +15,25 @@ export class LocationsService{
 	constructor(@Inject('LocationsRepository') public locationsRepository: LocationsRepository){}
 
 
-	async list(limit: number, page: number) {
-		return this.locationsRepository.getLocations(limit,page);
+	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
+		return this.locationsRepository.getLocations(page,pageSize);
 	}
 
-	async listAsReferences(limit: number, page: number) {
-		return this.locationsRepository.getLocationsAsReferences(limit,page);
+	async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
+		return this.locationsRepository.getLocationsAsReferences(page,pageSize);
 	}
 
 	async create(resource: CreateLocationRequest) : Promise<Reference | null>{
 		return this.locationsRepository.addLocation(resource);
 	}
 
-	search(searchLocationsRequest: SearchLocationsRequest) : Promise<Location[]> {
-		return this.locationsRepository.searchLocations(searchLocationsRequest.searchFilter? searchLocationsRequest.searchFilter : {});
+	search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) : Promise<Location[]> {
+		return this.locationsRepository.searchLocations(filter, page, pageSize);
 	}
+
+	async countLocations(searchFilter?: Filter): Promise<number> {
+		return this.locationsRepository.countLocations(searchFilter);
+	  }
 
 	async readById(id: string) : Promise<Location | null> {
 		return this.locationsRepository.getLocationByIdentifier(id);
@@ -80,6 +86,7 @@ export class LocationsService{
 	closeLocation(identifier: string) : Promise<boolean> {
 		return this.locationsRepository.updateOpeningStatus(identifier, "location.closed");
 	}
+
 
 
 }

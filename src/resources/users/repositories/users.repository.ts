@@ -11,7 +11,9 @@ export interface UsersRepository {
 
 	addUser(userFields: CreateUserRequest): Promise<string>;
 
-	getUsers(limit: number, page: number): Promise<User[] | null>;
+	getUsers(page:number, pageSize:number): Promise<User[] | null>;
+
+	countUsers(): Promise<number>;
 
 	getUserByIdentifier(userId: string): Promise<User | null>;
 

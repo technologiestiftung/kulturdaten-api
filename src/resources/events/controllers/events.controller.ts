@@ -25,14 +25,45 @@ export class EventsController {
 	constructor(
 		public eventsService: EventsService) { }
 
-	async listEvents(res: express.Response) {
-		const events = await this.eventsService.list(100, 0);
-		res.status(200).send(new SuccessResponseBuilder().okResponse({ events: events }).build());
+	async listEvents(res: express.Response, page: number, pageSize: number) {
+		const events = await this.eventsService.list(page, pageSize);
+		const totalCount = await this.eventsService.countEvents();
+		res.status(200).send(new SuccessResponseBuilder().okResponse(
+			{ 	
+				page: page,
+				pageSize: pageSize,
+				totalCount: totalCount,
+				events: events 
+			}).build());
 	}
 
-	async listEventsAsReference(res: express.Response<any, Record<string, any>>) {
-		const eventsReferences = await this.eventsService.listAsReferences(100, 0);
-		res.status(200).send(new SuccessResponseBuilder().okResponse({ eventsReferences: eventsReferences }).build());
+	async listEventsAsReference(res: express.Response, page: number, pageSize: number) {
+		const eventsReferences = await this.eventsService.listAsReferences(page, pageSize);
+		const totalCount = await this.eventsService.countEvents();
+		res.status(200).send(new SuccessResponseBuilder().okResponse(
+			{ 
+				page: page,
+				pageSize: pageSize,
+				totalCount: totalCount,
+				eventsReferences: eventsReferences 
+			}).build());
+	}
+
+	async searchEvents(res: express.Response, searchEventsRequest: SearchEventsRequest, page: number, pageSize: number) {
+		const filter = searchEventsRequest.searchFilter ? searchEventsRequest.searchFilter : {};
+		const events = await this.eventsService.search(filter, page, pageSize);
+		const totalCount = await this.eventsService.countEvents(filter);
+		if (events) {
+			res.status(200).send(new SuccessResponseBuilder<SearchEventsResponse>().okResponse(
+				{ 
+					page: page,
+					pageSize: pageSize,
+					totalCount: totalCount,
+					events: events 
+				}).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No events matched the search criteria").build());
+		}
 	}
 
 	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
@@ -64,14 +95,7 @@ export class EventsController {
         }
     }
 
-	async searchEvents(res: express.Response, searchEventsRequest: SearchEventsRequest) {
-		const events = await this.eventsService.search(searchEventsRequest);
-		if (events) {
-			res.status(200).send(new SuccessResponseBuilder<SearchEventsResponse>().okResponse({ events: events }).build());
-		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No events matched the search criteria").build());
-		}
-	}
+
 
 	async getEventById(res: express.Response, eventId: string) {
 		const event = await this.eventsService.readById(eventId);

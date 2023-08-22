@@ -30,6 +30,9 @@ export const schemaForGetLocationsResponse = {
     data: {
       type: "object",
       properties: {
+        page: {type: "number"},
+        pageSize: {type: "number"},
+        totalCount: {type: "number"},
         locations: {type: "array", items: {$ref: "Location.yml"}},
         locationsReferences: {type: "array", items: {$ref: "Reference.yml"}}
       }
@@ -60,6 +63,9 @@ export interface GetLocationsResponse {
   success: boolean;
   message?: string;
   data?: {
+    page?: number;
+    pageSize?: number;
+    totalCount?: number;
     locations?: Location[];
     locationsReferences?: Reference[];
   };

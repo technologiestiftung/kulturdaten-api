@@ -1,5 +1,9 @@
 type: object
 properties:
+  type: 
+    type: string
+    enum:
+      - type.Location
   title: 
     type: object
     additionalProperties:
@@ -26,6 +30,10 @@ properties:
     type: array
     items:
       type: string
+  accessibility:
+    type: array
+    items:
+      type: string 
   tags:
     type: array
     items:
@@ -45,3 +53,6 @@ properties:
         type: string
       originObjectID:
         type: string  
+required:
+  - type
+  - title

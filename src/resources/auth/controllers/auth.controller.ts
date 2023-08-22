@@ -2,6 +2,8 @@ import express from 'express';
 import debug from 'debug';
 import jwt from 'jsonwebtoken';
 import { Service } from 'typedi';
+import { LoginResponse } from '../../../generated/models/LoginResponse.generated';
+import { SuccessResponseBuilder } from '../../../common/responses/response.builders';
 
 const log: debug.IDebugger = debug('app:auth-controller');
 
@@ -18,7 +20,7 @@ export class AuthController {
 			const token = jwt.sign(req.user, jwtSecret, {
 				expiresIn: authTokenExpiresIn,
 			});
-			return res.status(200).send({ token: token, expiresIn: authTokenExpiresIn })
+			return res.status(200).send(new SuccessResponseBuilder<LoginResponse>().okResponse({ accessToken: token, expiresIn: authTokenExpiresIn }).build())
 		} else {
 			return res.status(400).send();
 		}

@@ -5,6 +5,8 @@ import { OrganizationsController } from './controllers/organizations.controller'
 import { CreateOrganizationRequest } from '../../generated/models/CreateOrganizationRequest.generated';
 import { UpdateOrganizationRequest } from '../../generated/models/UpdateOrganizationRequest.generated';
 import { SearchOrganizationsRequest } from '../../generated/models/SearchOrganizationsRequest.generated';
+import { getPagination } from '../../utils/RequestUtil';
+
 
 @Service()
 export class OrganizationsRoutes {
@@ -17,10 +19,12 @@ export class OrganizationsRoutes {
     router
       .get('/', (req: express.Request, res: express.Response) => {
         const asReference = req.query.asReference;
+        const { page, pageSize} = getPagination(req);
+
 				if (asReference) {
-          this.organizationsController.listOrganizationsAsReference(res);
+          this.organizationsController.listOrganizationsAsReference(res, page, pageSize);
         } else {
-          this.organizationsController.listOrganizations(res);
+          this.organizationsController.listOrganizations(res, page, pageSize);
         }
       })
       .post('/', (req: express.Request, res: express.Response) => {
@@ -37,8 +41,10 @@ export class OrganizationsRoutes {
 
     router
       .post('/search', (req: express.Request, res: express.Response) => {
+        const { page, pageSize} = getPagination(req);
+
         const searchOrganizationsRequest = req.body as SearchOrganizationsRequest;
-        this.organizationsController.searchOrganizations(res, searchOrganizationsRequest);
+        this.organizationsController.searchOrganizations(res, searchOrganizationsRequest, page, pageSize);
       });
 
     router

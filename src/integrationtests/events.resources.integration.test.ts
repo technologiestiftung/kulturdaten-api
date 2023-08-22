@@ -133,3 +133,24 @@ describe('Update events', () => {
   });
   
 
+  describe('Search events', () => {
+	beforeEach(async () => {
+	  await env.events.insertMany(threeDummyEvents);
+	});
+  
+	afterEach(async () => {
+	  await env.events.deleteMany();
+	});
+  
+	it('should return 2 events with tag Berlin  / POST /events/search', async () => {
+	  const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE +'/search').send({
+			"searchFilter":{"tags":{"$in":["Berlin"]}}
+		});
+
+	  expect(statusCode).toBe(200);
+	  expect(body.data.events).toHaveLength(2);
+	  expect(body.data.events[0].tags).toContain('Berlin');
+	  expect(body.data.events[1].tags).toContain('Berlin');
+	});
+  });
+  

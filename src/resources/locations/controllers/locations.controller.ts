@@ -19,21 +19,57 @@ export class LocationsController {
 	constructor(
 		public locationsService: LocationsService) { }
 
-	async listLocations(res: express.Response) {
-		const locations = await this.locationsService.list(100, 0);
+	async listLocations(res: express.Response, page: number, pageSize: number) {
+		const locations = await this.locationsService.list(page, pageSize);
+		const totalCount = await this.locationsService.countLocations();
+
 		if (locations) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ locations: locations }).build());
+			res.status(200).send(new SuccessResponseBuilder().okResponse(
+				{ 
+					page: page,
+					pageSize: pageSize,
+					totalCount: totalCount,
+					locations: locations 
+				}).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
 		}
 	}
 
-	async listLocationsAsReference(res: express.Response) {
-		const locationsReferences = await this.locationsService.listAsReferences(100, 0);
+	async listLocationsAsReference(res: express.Response, page: number, pageSize: number) {
+		const locationsReferences = await this.locationsService.listAsReferences(page, pageSize);
+		const totalCount = await this.locationsService.countLocations();
+
 		if (locationsReferences) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ locationsReferences: locationsReferences }).build());
+			res.status(200).send(new SuccessResponseBuilder().okResponse(
+				{
+					page: page,
+					pageSize: pageSize,
+					totalCount: totalCount, 
+					locationsReferences: locationsReferences 
+				}).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
+		}
+	}
+
+	async searchLocations(res: express.Response, searchLocationsRequest: SearchLocationsRequest, page: number, pageSize: number) {
+		const filter = searchLocationsRequest.searchFilter ? searchLocationsRequest.searchFilter : {};
+
+		
+		const locations = await this.locationsService.search(filter, page, pageSize);
+		const totalCount = await this.locationsService.countLocations(filter);
+
+		if (locations) {
+			res.status(200).send(new SuccessResponseBuilder<SearchLocationsResponse>().okResponse(
+				{ 
+					page: page,
+					pageSize: pageSize,
+					totalCount: totalCount,
+					locations: locations 
+				}).build());
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No locations matched the search criteria").build());
 		}
 	}
 	
@@ -74,14 +110,7 @@ export class LocationsController {
 		res.status(201).send(new SuccessResponseBuilder().okResponse({ locations: lR }).build());
 	  }
 
-	async searchLocations(res: express.Response, searchLocationsRequest: SearchLocationsRequest) {
-		const locations = await this.locationsService.search(searchLocationsRequest);
-		if (locations) {
-			res.status(200).send(new SuccessResponseBuilder<SearchLocationsResponse>().okResponse({ locations: locations }).build());
-		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No locations matched the search criteria").build());
-		}
-	}
+
 	claimLocation(res: express.Response, identifier: string, claimLocationRequest: ClaimLocationRequest) {
 		//TODO: check claim
 		this.setLocationManager(res, identifier, claimLocationRequest);

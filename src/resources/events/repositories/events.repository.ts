@@ -10,17 +10,20 @@ import { Filter } from '../../../generated/models/Filter.generated';
 const log: debug.IDebugger = debug('app:events-repository');
 
 export interface EventsRepository {
+
+	getEvents( page:number, pageSize:number) : Promise<Event[] | null>;
+
+	getEventsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
+
+	searchEvents(filter: Filter, page:number, pageSize:number): Promise<Event[]>;
+
+	countEvents(filter?: Filter): Promise<number>;
+
 	getEventReferenceByIdentifier(id: string): Promise<Reference | null>;
 
 	searchDuplicates(event: Event): Promise<Event[]>;
 
 	addEvent(createEvent: CreateEventRequest): Promise<Reference | null>;
-
-	getEvents(limit:number, page:number) : Promise<Event[] | null>;
-
-	getEventsAsReferences(limit:number, page:number) : Promise<Reference[] | null>;
-
-	searchEvents(filter: Filter): Promise<Event[]> ;
 
 
 	getEventByIdentifier(eventId: string) : Promise<Event | null>;
