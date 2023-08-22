@@ -49,7 +49,7 @@ export class TagsController {
 		if (tag) {
 		  res.status(201).send(new SuccessResponseBuilder<CreateTagResponse>().okResponse({ tag: tag }).build());
 		} else {
-		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An tag cannot be created with the data.").build());
+		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("A tag cannot be created with the data.").build());
 		}
 	}
 
