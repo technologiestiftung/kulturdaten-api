@@ -29,10 +29,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	async countEvents(filter?: Filter): Promise<number> {
 		const events = await this.dbConnector.events();
-		if (filter) {
-			return events.countDocuments(filter);
-		}
-		return events.countDocuments();
+		return events.countDocuments(filter);
 	}
 
 	async getEvents(page:number, pageSize:number): Promise<Event[] | null> {

@@ -118,10 +118,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	async countAttractions(filter?: Filter): Promise<number> {
 		const attractions = await this.dbConnector.attractions();
-		if (filter){
-			return attractions.countDocuments(filter);
-		}
-		return attractions.countDocuments();
+		return attractions.countDocuments(filter);
 	}
 
 }

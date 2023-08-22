@@ -114,10 +114,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	async countLocations(filter?: Filter): Promise<number> {
 		const locations = await this.dbConnector.locations();
-		if (filter){
-			return locations.countDocuments(filter);
-		}
-		return locations.countDocuments();
+		return locations.countDocuments(filter);
 	}
 
 }

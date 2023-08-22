@@ -104,10 +104,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async countOrganizations(filter?: Filter): Promise<number> {
 		const organizations = await this.dbConnector.organizations();
-		if(filter) {
-			return organizations.countDocuments(filter);
-		}
-		return organizations.countDocuments();
+		return organizations.countDocuments(filter);
 	}
 
 
