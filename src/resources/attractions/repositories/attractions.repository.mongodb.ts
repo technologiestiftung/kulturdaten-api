@@ -18,8 +18,6 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 	async searchAttractions(filter: Filter, page:number, pageSize:number): Promise<Attraction[]> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const attractions = await this.dbConnector.attractions();
 		return attractions
 			.find(filter, { projection: { _id: 0 } })
@@ -29,8 +27,6 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	}
 
 	async getAttractions(page:number, pageSize:number): Promise<Attraction[]> {
-			if (pageSize <= 0) {pageSize = 1;}
-			if (page <= 0) {page = 1;}
 			const attractions = await this.dbConnector.attractions();
 			return attractions
 			  .find({}, { projection: { _id: 0 } })
@@ -40,8 +36,6 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	}
 
 	async getAttractionsAsReferences(page:number, pageSize:number): Promise<Reference[]>{
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const attractions = await this.dbConnector.attractions();
 		let ar =  attractions
 			.find({}, { projection: getAttractionReferenceProjection() })

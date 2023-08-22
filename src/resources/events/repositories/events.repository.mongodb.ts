@@ -18,9 +18,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 
 
-	async searchEvents(filter: Filter, page:number, pageSize:number): Promise<Event[]> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}	
+	async searchEvents(filter: Filter, page:number, pageSize:number): Promise<Event[]> {	
 		const events = await this.dbConnector.events();
 		return events
 			.find(filter, { projection: { _id: 0 } })
@@ -38,8 +36,6 @@ export class MongoDBEventsRepository implements EventsRepository {
 	}
 
 	async getEvents(page:number, pageSize:number): Promise<Event[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const events = await this.dbConnector.events();
 		return events
 			.find({}, { projection: { _id: 0 } })
@@ -48,9 +44,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 			.toArray();
 	}
 
-	async getEventsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}	
+	async getEventsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {	
 		const events = await this.dbConnector.events();
 		let er = events
 			.find({}, { projection: getEventReferenceProjection() })

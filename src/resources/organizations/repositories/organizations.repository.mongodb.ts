@@ -16,8 +16,6 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
 	async getOrganizations(page:number, pageSize:number): Promise<Organization[]> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const organizations = await this.dbConnector.organizations();
 
 		return organizations
@@ -28,8 +26,6 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 	}
 
 	async getOrganizationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const organizations = await this.dbConnector.organizations();
 		let or = organizations
 			.find({}, { projection: getOrganizationReferenceProjection() })
@@ -40,8 +36,6 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 	}
 
 	async searchOrganizations(filter: Filter, page:number, pageSize:number): Promise<Organization[]> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const organizationsCollection = await this.dbConnector.organizations();
 		return organizationsCollection
 			.find(filter, { projection: { _id: 0 } })

@@ -18,8 +18,6 @@ export class MongoDBTagsRepository implements TagsRepository {
 
 	}
 	async getTags(page: number, pageSize: number): Promise<Tag[]> {
-		if (pageSize <= 0) { pageSize = 1; }
-		if (page <= 0) { page = 1; }
 		const tags = await this.dbConnector.tags();
 		return tags
 			.find({}, { projection: { _id: 0 } })

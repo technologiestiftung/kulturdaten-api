@@ -30,8 +30,6 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return generateLocationReference(newLocation);
 	}
 	async getLocations(page:number, pageSize:number): Promise<Location[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
 		return locations
 			.find({}, { projection: { _id: 0 } })
@@ -41,8 +39,6 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	}
 
 	async getLocationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
 		let lr = locations
 			.find({}, { projection: getLocationReferenceProjection() })
@@ -54,8 +50,6 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 
 	async searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
 		return locations
 			.find(filter, { projection: { _id: 0 } })
