@@ -12,14 +12,20 @@ export class MongoDBTagsRepository implements TagsRepository {
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 	async searchTags(filter: Filter): Promise<Tag[]> {
 
-		
+
 		const tags = await this.dbConnector.tags();
-		return Promise.resolve(tags.find(filter, { projection: { _id: 0 } }).toArray());
+		return  tags.find(filter, { projection: { _id: 0 } }).toArray();
 
 	}
-	async getTags(limit: number, page: number): Promise<Tag[]> {
+	async getTags(page: number, pageSize: number): Promise<Tag[]> {
+		if (pageSize <= 0) { pageSize = 1; }
+		if (page <= 0) { page = 1; }
 		const tags = await this.dbConnector.tags();
-		return tags.find({}, { projection: { _id: 0 } }).toArray();
+		return tags
+			.find({}, { projection: { _id: 0 } })
+			.limit(pageSize)
+			.skip((page - 1) * pageSize)
+			.toArray();
 	}
 	async getTagByIdentifier(tagId: string): Promise<Tag | null> {
 		const tags = await this.dbConnector.tags();
@@ -30,8 +36,8 @@ export class MongoDBTagsRepository implements TagsRepository {
 	async addTag(createTagRequest: CreateTagRequest): Promise<Tag | null> {
 		const tags = await this.dbConnector.tags();
 		const result = await tags.insertOne(createTagRequest);
-		
-		if(!result.acknowledged){
+
+		if (!result.acknowledged) {
 			return null;
 		}
 		return createTagRequest as Tag;

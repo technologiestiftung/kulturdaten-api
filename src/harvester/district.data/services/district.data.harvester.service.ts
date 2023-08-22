@@ -96,7 +96,7 @@ export class DistrictDataService {
 				}
 			}
 		}
-		return Promise.resolve({createdOrganizations: createdOrganizations, duplicateOrganizations: duplicateOrganizations});
+		return {createdOrganizations: createdOrganizations, duplicateOrganizations: duplicateOrganizations};
 	}
 
 	async createLocations(veranstaltungsorte: Veranstaltungsorte, barrierefreiheit: Barrierefreiheit, bezirke: Bezirke) : Promise<{ createdLocations: {[originObjectID: string]: Reference}, duplicateLocations: { [originObjectID: string]: Reference }; }> {
@@ -131,7 +131,7 @@ export class DistrictDataService {
 			}
 		}
 
-		return Promise.resolve({createdLocations: createdLocations, duplicateLocations: duplicateLocations});
+		return {createdLocations: createdLocations, duplicateLocations: duplicateLocations};
 	}
 	
 	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }, tags : Tag[]) : Promise<{ createdAttractions: {[originObjectID: string]: Reference;}, duplicateAttractions: { [originObjectID: string]: Reference; }, createdEvents: { [originObjectID: string]: Reference} , duplicateEvents: { [originObjectID: string]: Reference; }} > {
@@ -190,7 +190,7 @@ export class DistrictDataService {
 			}
 		}
 
-		return Promise.resolve({createdAttractions: createdAttractions, duplicateAttractions: duplicateAttractions, createdEvents: createdEvents, duplicateEvents: duplicateEvents});
+		return {createdAttractions: createdAttractions, duplicateAttractions: duplicateAttractions, createdEvents: createdEvents, duplicateEvents: duplicateEvents};
 	}
 
 }

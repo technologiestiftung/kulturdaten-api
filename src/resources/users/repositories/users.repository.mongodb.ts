@@ -51,12 +51,12 @@ export class MongoDBUsersRepository implements UsersRepository {
 		if(userFields.email) userFields.email = userFields.email.toLowerCase();
 		const users = await this.dbConnector.users();
 		const result = await users.updateOne({ identifier: userId }, { $set: userFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeUserById(userId: string): Promise<boolean> {
 		const users = await this.dbConnector.users();
 		const result = await users.deleteOne({ identifier: userId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
 	}
 
 	async countUsers(): Promise<number> {

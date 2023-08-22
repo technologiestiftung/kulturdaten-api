@@ -11,7 +11,7 @@ export interface TagsRepository {
 	
 	searchTags(filter: Filter): Promise<Tag[]> ;
 
-	getTags(limit:number, page:number) : Promise<Tag[]>;
+	getTags(page:number, pageSize:number) : Promise<Tag[]>;
 
 	getTagByIdentifier(tagId: string) : Promise<Tag | null>;
 

@@ -43,11 +43,11 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}
 		const organizationsCollection = await this.dbConnector.organizations();
-		return Promise.resolve(organizationsCollection
+		return organizationsCollection
 			.find(filter, { projection: { _id: 0 } })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)
-			.toArray());
+			.toArray();
 	}
 
 	async getOrganizationByIdentifier(organizationId: string): Promise<Organization | null> {
@@ -70,7 +70,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const result = await organizations.insertOne(newOrganization);
 
 		if(!result.acknowledged){
-			return Promise.resolve(null);
+			return null;
 		}
 		return {
 			referenceType: 'type.Organization',
@@ -84,20 +84,20 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const organizations = await this.dbConnector.organizations();
 
 		const result = await organizations.updateOne({ identifier: organizationId }, { $set: organizationFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	
 	async updateOrganizationActivationStatusById(identifier: string, activationStatus: Organization['activationStatus']): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.updateOne({ identifier: identifier }, { $set: { activationStatus: activationStatus } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async updateOrganizationStatusById(identifier: string, status: Organization['status']): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.updateOne({ identifier: identifier }, { $set: { status: status } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 
@@ -105,7 +105,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const organizations = await this.dbConnector.organizations();
 
 		const result = await organizations.deleteOne({ identifier: organizationId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
 	}
 
 	async countOrganizations(filter?: Filter): Promise<number> {

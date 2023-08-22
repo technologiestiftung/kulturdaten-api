@@ -22,11 +22,11 @@ export class MongoDBEventsRepository implements EventsRepository {
 		if (pageSize <= 0) {pageSize = 1;}
 		if (page <= 0) {page = 1;}	
 		const events = await this.dbConnector.events();
-		return Promise.resolve(events
+		return events
 			.find(filter, { projection: { _id: 0 } })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)
-			.toArray());
+			.toArray();
 	}
 
 	async countEvents(filter?: Filter): Promise<number> {
@@ -68,7 +68,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const result = await events.insertOne(newEvent);
 
 		if (!result.acknowledged) {
-			return Promise.resolve(null);
+			return null;
 		}
 		return generateEventReference(newEvent);
 
@@ -86,30 +86,30 @@ export class MongoDBEventsRepository implements EventsRepository {
 	async updateEventById(eventId: string, eventFields: UpdateEventRequest): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: eventFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeEventById(eventId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.deleteOne({ identifier: eventId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
 	}
 
 	async setEventStatus(eventId: string, status: Event['status']): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: { status: status } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async setScheduleStatus(eventId: string, status: Event['scheduleStatus']): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: { scheduleStatus: status } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async addEventLocation(eventId: string, locationReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId },
 			{ $push: { locations: locationReference } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeEventLocation(eventId: string, locationId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
@@ -117,13 +117,13 @@ export class MongoDBEventsRepository implements EventsRepository {
 			{ identifier: eventId },
 			{ $pull: { locations: { referenceId: locationId } } }
 		);
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async addEventAttraction(eventId: string, attractionReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId },
 			{ $push: { attractions: attractionReference } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeEventAttraction(eventId: string, attractionId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
@@ -131,23 +131,23 @@ export class MongoDBEventsRepository implements EventsRepository {
 			{ identifier: eventId },
 			{ $pull: { attractions: { referenceId: attractionId } } }
 		);
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async setEventOrganizer(eventId: string, organizerReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: { organizer: organizerReference } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async deleteEventOrganizer(eventId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $unset: { organizer: "" } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async reschedule(eventId: string, rescheduleEventRequest: RescheduleEventRequest): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: { schedule: rescheduleEventRequest, scheduleStatus: 'event.rescheduled' } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async searchDuplicates(event: Event): Promise<Event[]> {
