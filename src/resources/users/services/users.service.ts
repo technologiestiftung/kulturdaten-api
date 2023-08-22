@@ -17,7 +17,7 @@ export class UsersService{
 		return this.usersRepository.removeUserById(id);
 	}
 
-	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return this.usersRepository.getUsers(page, pageSize);
 	}
 

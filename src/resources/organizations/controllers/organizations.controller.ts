@@ -13,8 +13,6 @@ const log: debug.IDebugger = debug('app:organizations-controller');
 @Service()
 export class OrganizationsController {
 
-
-
 	constructor(public organizationsService: OrganizationsService) { }
 
 	async listOrganizations(res: express.Response, page: number, pageSize: number) {

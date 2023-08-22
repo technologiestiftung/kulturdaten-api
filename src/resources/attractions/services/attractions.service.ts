@@ -16,15 +16,15 @@ export class AttractionsService {
 
   constructor(@Inject('AttractionsRepository') public attractionsRepository: AttractionsRepository) { }
 
-  async list(page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
+  async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Attraction[]> {
     return this.attractionsRepository.getAttractions(page, pageSize);
   }
 
-  async listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) : Promise<Reference []>{
+  async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) : Promise<Reference []>{
     return this.attractionsRepository.getAttractionsAsReferences(page, pageSize);
   }
 
-  async search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Attraction[]> {
+  async search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Attraction[]> {
 		return this.attractionsRepository.searchAttractions(filter,  page, pageSize);
   }
 

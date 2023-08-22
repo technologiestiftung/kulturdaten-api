@@ -19,15 +19,15 @@ export class EventsService {
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
-	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return this.eventsRepository.getEvents(page, pageSize);
 	}
 
-	async listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return this.eventsRepository.getEventsAsReferences(page, pageSize);
 	}
 
-	async search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Event[]> {
+	async search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Event[]> {
 		return this.eventsRepository.searchEvents(filter, page, pageSize);
 	}
 

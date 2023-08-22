@@ -15,11 +15,11 @@ export class LocationsService{
 	constructor(@Inject('LocationsRepository') public locationsRepository: LocationsRepository){}
 
 
-	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return this.locationsRepository.getLocations(page,pageSize);
 	}
 
-	async listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return this.locationsRepository.getLocationsAsReferences(page,pageSize);
 	}
 
@@ -27,7 +27,7 @@ export class LocationsService{
 		return this.locationsRepository.addLocation(resource);
 	}
 
-	search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize) : Promise<Location[]> {
+	search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) : Promise<Location[]> {
 		return this.locationsRepository.searchLocations(filter, page, pageSize);
 	}
 

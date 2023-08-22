@@ -12,15 +12,15 @@ export class OrganizationsService  {
 
 	constructor(@Inject('OrganizationsRepository') public organizationsRepository: OrganizationsRepository) { }
 
-	async list(page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Organization[]> {
+	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Organization[]> {
 		return  this.organizationsRepository.getOrganizations(page, pageSize);
 	}
 
-	listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return  this.organizationsRepository.getOrganizationsAsReferences(page, pageSize);
 	}
 
-	async search(filter: Filter, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<Organization[]> {
+	async search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Organization[]> {
 		return this.organizationsRepository.searchOrganizations(filter, page, pageSize);
 	}
 

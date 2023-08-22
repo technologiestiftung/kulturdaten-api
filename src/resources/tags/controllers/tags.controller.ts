@@ -11,13 +11,10 @@ import { SearchTagsResponse } from '../../../generated/models/SearchTagsResponse
 
 @Service()
 export class TagsController {
-
-
-
-
+	
 	constructor(public tagsService: TagsService) { }
 
-	async listTags(res: express.Response) {
+	async listTags(res: express.Response, page: number, pageSize: number) {
 		const tags = await this.tagsService.list(100, 0);
 		if (tags) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse({ tags: tags }).build());
@@ -35,7 +32,7 @@ export class TagsController {
 		}
 	}
 
-	async searchTags(res: express.Response, searchTagsRequest: SearchTagsRequest) {
+	async searchTags(res: express.Response, searchTagsRequest: SearchTagsRequest, page: number, pageSize: number) {
 		const tags = await this.tagsService.search(searchTagsRequest);
 		if (tags) {
 		  res.status(200).send(new SuccessResponseBuilder<SearchTagsResponse>().okResponse({ tags: tags }).build());
