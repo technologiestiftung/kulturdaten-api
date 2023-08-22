@@ -36,7 +36,6 @@ export class MongoDBEventsRepository implements EventsRepository {
 			.find(filter, { projection: p })
 			.toArray());
 	}
-
 	async countEvents(filter?: Filter): Promise<number> {
 		const events = await this.dbConnector.events();
 		if (filter) {

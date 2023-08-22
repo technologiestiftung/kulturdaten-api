@@ -13,7 +13,7 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository, @Inject('AttractionsRepository') public attractionsRepository: AttractionsRepository) { }
 
-	async executeRequest(searchEventsRequest: SearchEventsRequest, page: number, pageSize: number): Promise<{ events: Event[]; page: number; pageSize: number; totalCount: number; }> {
+	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
 		const tags: string[] = searchEventsRequest.findEventsByAttractionTag?.tags ?? [];
 		const matchMode: string = searchEventsRequest.findEventsByAttractionTag?.matchMode ?? 'any';
 	  
@@ -30,10 +30,9 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 		  "attractions.referenceId": { $in: attractionsIdentifiers }
 		};
 	  
-		const events = await this.eventsRepository.searchEvents(attractionFilter, page, pageSize);
-		const totalCount = await this.eventsRepository.countEvents(attractionFilter);
+		const events = await this.eventsRepository.searchAllEvents(attractionFilter);
 	  
-		return { events, page, pageSize, totalCount };
+		return events;
 	  }
 	
 	public isExecutable(searchEventsRequest:SearchEventsRequest) : boolean {

@@ -10,13 +10,13 @@ import { Event } from '../../../../generated/models/Event.generated';
 export class MongoDBFilterStrategy implements EventFilterStrategy {
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
-	async executeRequest(searchEventsRequest: SearchEventsRequest, page: number, pageSize: number): Promise<{ events: Event[]; page: number; pageSize: number; totalCount: number; }> {
+	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
 		const filter = searchEventsRequest.searchFilter ? searchEventsRequest.searchFilter : {};
 		
-		let events : Event[] = await this.eventsRepository.searchEvents(filter, page, pageSize);
+		let events : Event[] = await this.eventsRepository.searchAllEvents(filter);
 		const totalCount = await this.eventsRepository.countEvents(filter);
 
-		return {events:events, page:page, pageSize:pageSize, totalCount:totalCount};
+		return events;
 	}
 	
 	public isExecutable(searchEventsRequest:SearchEventsRequest) : boolean {

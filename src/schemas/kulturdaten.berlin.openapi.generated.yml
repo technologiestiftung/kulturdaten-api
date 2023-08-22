@@ -4283,12 +4283,12 @@ components:
         - success
     SearchEventsRequest:
       type: object
-      oneOf:
-        - required:
-            - searchFilter
-        - required:
-            - findEventsByAttractionTag
       properties:
+        matchMode:
+          type: string
+          enum:
+            - any
+            - all
         searchFilter:
           type: object
           additionalProperties: true

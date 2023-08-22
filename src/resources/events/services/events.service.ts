@@ -19,7 +19,7 @@ import { EventFilterStrategy, EventFilterStrategyToken } from '../filter/events.
 export class EventsService {
 
 	public filterStrategies?: EventFilterStrategy[];
-	
+
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
 	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
@@ -30,24 +30,53 @@ export class EventsService {
 		return this.eventsRepository.getEventsAsReferences(page, pageSize);
 	}
 
-	async search(searchEventsRequest: SearchEventsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<{events:Event[], page:number, pageSize:number, totalCount:number}>  {
-		if(!this.filterStrategies){
+	async search(searchEventsRequest: SearchEventsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<{ events: Event[], page: number, pageSize: number, totalCount: number }> {
+		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}
+		let events: Event[] | null = null;
+		let matchMode: string = searchEventsRequest.matchMode ? searchEventsRequest.matchMode : 'any';
+
 		for (const strategy of this.filterStrategies) {
 			if (strategy.isExecutable(searchEventsRequest)) {
-				return await strategy.executeRequest(searchEventsRequest, page, pageSize);
+				const foundEvents = await strategy.executeRequest(searchEventsRequest);
+				
+				if (!events) {
+					events = foundEvents;
+				} else {
+					events = this.match(events, foundEvents, matchMode);
+				}
 			}
 		}
-		return Promise.resolve({events:[], page:page, pageSize:pageSize, totalCount:0});
+		if(!events) {
+			events = [];
+		}
+		return Promise.resolve({ events: [...this.paginate(events, page, pageSize)], page: page, pageSize: pageSize, totalCount: events.length });
+	}
+
+	private match(eventsA: Event[], eventsB: Event[], matchMode: string): Event[] {
+		if (matchMode === 'all') {
+			return eventsA.filter(eventA => 
+				eventsB.some(eventB => eventB.identifier === eventA.identifier)
+			);
+		} else {
+			return [...eventsA, ...eventsB];
+		}
+	}
+
+	private paginate(events: Event[], page: number, pageSize: number): Event[] {
+		const startIndex = (page - 1) * pageSize;
+		const endIndex = startIndex + pageSize;
+
+		return events.slice(startIndex, endIndex);
 	}
 
 	async countEvents(searchFilter?: Filter): Promise<number> {
 		return this.eventsRepository.countEvents(searchFilter);
-	  }
+	}
 
 
-	async create(resource: CreateEventRequest) : Promise<Reference | null> {
+	async create(resource: CreateEventRequest): Promise<Reference | null> {
 		return this.eventsRepository.addEvent(resource);
 	}
 
@@ -83,25 +112,25 @@ export class EventsService {
 	}
 
 	addEventAttraction(identifier: string, addEventAttractionRequest: AddEventAttractionRequest): Promise<boolean> {
-        const reference = {
-            referenceType: 'type.Attraction',
-            referenceId: addEventAttractionRequest.attractionIdentifier,
-            referenceLabel: addEventAttractionRequest.alternativeDisplayName
-        };
-        return this.eventsRepository.addEventAttraction(identifier, reference);
-  	}
+		const reference = {
+			referenceType: 'type.Attraction',
+			referenceId: addEventAttractionRequest.attractionIdentifier,
+			referenceLabel: addEventAttractionRequest.alternativeDisplayName
+		};
+		return this.eventsRepository.addEventAttraction(identifier, reference);
+	}
 
 	removeEventAttraction(identifier: string, removeEventAttractionRequest: RemoveEventAttractionRequest): Promise<boolean> {
 		return this.eventsRepository.removeEventAttraction(identifier, removeEventAttractionRequest.attractionIdentifier);
 	}
 
 	setEventOrganizer(identifier: string, setEventOrganizerRequest: SetEventOrganizerRequest): Promise<boolean> {
-			const reference = {
-				referenceType: 'type.Organizer',
-				referenceId: setEventOrganizerRequest.organizationIdentifier,
-				referenceLabel: setEventOrganizerRequest.alternativeDisplayName
-			};
-			return this.eventsRepository.setEventOrganizer(identifier, reference);
+		const reference = {
+			referenceType: 'type.Organizer',
+			referenceId: setEventOrganizerRequest.organizationIdentifier,
+			referenceLabel: setEventOrganizerRequest.alternativeDisplayName
+		};
+		return this.eventsRepository.setEventOrganizer(identifier, reference);
 	}
 
 	deleteEventOrganizer(identifier: string): Promise<boolean> {
