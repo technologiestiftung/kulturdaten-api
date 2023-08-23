@@ -12,8 +12,8 @@ import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrga
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
 import { pagination } from "../../../config/kulturdaten.config";
-import { Filter } from '../../../generated/models/Filter.generated';
 import { EventFilterStrategy, EventFilterStrategyToken } from '../filter/events.filter.strategy';
+import { Filter } from '../../../generated/models/Filter.generated';
 
 @Service()
 export class EventsService {
@@ -22,15 +22,15 @@ export class EventsService {
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
-	async list(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return this.eventsRepository.getEvents(page, pageSize);
 	}
 
-	async listAsReferences(page: number = 1, pageSize: number = pagination.maxPageSize) {
+	async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
 		return this.eventsRepository.getEventsAsReferences(page, pageSize);
 	}
 
-	async search(searchEventsRequest: SearchEventsRequest, page: number = 1, pageSize: number = pagination.maxPageSize): Promise<{ events: Event[], page: number, pageSize: number, totalCount: number }> {
+	async search(searchEventsRequest: SearchEventsRequest, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<{ events: Event[], page: number, pageSize: number, totalCount: number }> {
 		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}
@@ -40,7 +40,7 @@ export class EventsService {
 		for (const strategy of this.filterStrategies) {
 			if (strategy.isExecutable(searchEventsRequest)) {
 				const foundEvents = await strategy.executeRequest(searchEventsRequest);
-				
+
 				if (!events) {
 					events = foundEvents;
 				} else {
@@ -48,7 +48,7 @@ export class EventsService {
 				}
 			}
 		}
-		if(!events) {
+		if (!events) {
 			events = [];
 		}
 		return Promise.resolve({ events: [...this.paginate(events, page, pageSize)], page: page, pageSize: pageSize, totalCount: events.length });
@@ -56,7 +56,7 @@ export class EventsService {
 
 	private match(eventsA: Event[], eventsB: Event[], matchMode: string): Event[] {
 		if (matchMode === 'all') {
-			return eventsA.filter(eventA => 
+			return eventsA.filter(eventA =>
 				eventsB.some(eventB => eventB.identifier === eventA.identifier)
 			);
 		} else {
@@ -73,7 +73,8 @@ export class EventsService {
 
 	async countEvents(searchFilter?: Filter): Promise<number> {
 		return this.eventsRepository.countEvents(searchFilter);
-	}
+	  }
+
 
 
 	async create(resource: CreateEventRequest): Promise<Reference | null> {
@@ -83,8 +84,6 @@ export class EventsService {
 	duplicate(identifier: string): Promise<String> | null {
 		throw new Error('Method not implemented.');
 	}
-
-
 
 	async readById(id: string) {
 		return this.eventsRepository.getEventByIdentifier(id);

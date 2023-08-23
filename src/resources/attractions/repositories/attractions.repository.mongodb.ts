@@ -18,9 +18,6 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 	async searchAttractions(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Attraction[]> {
-		
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const attractions = await this.dbConnector.attractions();
 		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
 		return Promise.resolve(attractions
@@ -39,8 +36,6 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	} 
 
 	async getAttractions(page:number, pageSize:number): Promise<Attraction[]> {
-			if (pageSize <= 0) {pageSize = 1;}
-			if (page <= 0) {page = 1;}
 			const attractions = await this.dbConnector.attractions();
 			return attractions
 			  .find({}, { projection: { _id: 0 } })
@@ -50,8 +45,6 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	}
 
 	async getAttractionsAsReferences(page:number, pageSize:number): Promise<Reference[]>{
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const attractions = await this.dbConnector.attractions();
 		let ar =  attractions
 			.find({}, { projection: getAttractionReferenceProjection() })
@@ -70,7 +63,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const result = await attractions.insertOne(newAttraction);
 		
 		if(!result.acknowledged){
-			return Promise.resolve(null);
+			return null;
 		}
 		return generateAttractionReference(newAttraction);
 	}
@@ -89,19 +82,19 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	async updateAttractionById(attractionId: string, attractionFields: UpdateAttractionRequest): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne({ identifier: attractionId }, { $set: attractionFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async updateAttractionStatusById(attractionId: string, newStatus:  Attraction['status']): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne({ identifier: attractionId }, { $set: { status: newStatus } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async removeAttractionById(attractionId: string): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.deleteOne({ identifier: attractionId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
 	}
 
 	async searchDuplicates(attraction: Attraction): Promise<Attraction[]> {
@@ -119,7 +112,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne({ identifier: attractionId },
 			{ $push: { externalLinks: externalLink } });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 
@@ -129,15 +122,12 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 			{ identifier: attractionId },
 			{ $pull: { externalLinks: { url: externalLink } } }
 		  );
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async countAttractions(filter?: Filter): Promise<number> {
 		const attractions = await this.dbConnector.attractions();
-		if (filter){
-			return attractions.countDocuments(filter);
-		}
-		return attractions.countDocuments();
+		return attractions.countDocuments(filter);
 	}
 
 }

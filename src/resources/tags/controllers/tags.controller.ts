@@ -11,14 +11,11 @@ import { SearchTagsResponse } from '../../../generated/models/SearchTagsResponse
 
 @Service()
 export class TagsController {
-
-
-
-
+	
 	constructor(public tagsService: TagsService) { }
 
-	async listTags(res: express.Response) {
-		const tags = await this.tagsService.list(100, 0);
+	async listTags(res: express.Response, page: number, pageSize: number) {
+		const tags = await this.tagsService.list(page, pageSize);
 		if (tags) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse({ tags: tags }).build());
 		} else {
@@ -35,7 +32,7 @@ export class TagsController {
 		}
 	}
 
-	async searchTags(res: express.Response, searchTagsRequest: SearchTagsRequest) {
+	async searchTags(res: express.Response, searchTagsRequest: SearchTagsRequest, page: number, pageSize: number) {
 		const tags = await this.tagsService.search(searchTagsRequest);
 		if (tags) {
 		  res.status(200).send(new SuccessResponseBuilder<SearchTagsResponse>().okResponse({ tags: tags }).build());
@@ -49,7 +46,7 @@ export class TagsController {
 		if (tag) {
 		  res.status(201).send(new SuccessResponseBuilder<CreateTagResponse>().okResponse({ tag: tag }).build());
 		} else {
-		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An tag cannot be created with the data.").build());
+		  res.status(400).send(new ErrorResponseBuilder().badRequestResponse("A tag cannot be created with the data.").build());
 		}
 	}
 

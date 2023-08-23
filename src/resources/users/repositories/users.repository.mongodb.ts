@@ -34,8 +34,6 @@ export class MongoDBUsersRepository implements UsersRepository {
 		return newUser.identifier;
 	}
 	async getUsers(page:number, pageSize:number): Promise<User[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const users = await this.dbConnector.users();
 		return users
 			.find({}, { projection: { _id: 0,  password:0} })
@@ -51,12 +49,12 @@ export class MongoDBUsersRepository implements UsersRepository {
 		if(userFields.email) userFields.email = userFields.email.toLowerCase();
 		const users = await this.dbConnector.users();
 		const result = await users.updateOne({ identifier: userId }, { $set: userFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeUserById(userId: string): Promise<boolean> {
 		const users = await this.dbConnector.users();
 		const result = await users.deleteOne({ identifier: userId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
 	}
 
 	async countUsers(): Promise<number> {

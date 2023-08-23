@@ -11,7 +11,6 @@ import { DistrictDataMapper } from "./district.data.mapper";
 import { AttractionsService } from "../../../resources/attractions/services/attractions.service";
 import { TagsService } from "../../../resources/tags/services/tags.service";
 import { Tag } from "../../../generated/models/Tag.generated";
-import { Attraction } from "../../../generated/models/Attraction.generated";
 
 
 @Service()
@@ -35,7 +34,7 @@ export class DistrictDataService {
 			let duplicateAttractions: {[originObjectID: string]: Reference} = {};
 			let createdEvents: {[originObjectID: string]: Reference} = {};
 			let duplicateEvents: {[originObjectID: string]: Reference} = {};
-			const tags: Tag[] = await this.tagsService.list(2000, 1);
+			const tags: Tag[] = await this.tagsService.listAllTags();
 			let apiURL = process.env.DISTRICT_DATA_API_URL;
 			if(!apiURL) return [];
 	
@@ -96,7 +95,7 @@ export class DistrictDataService {
 				}
 			}
 		}
-		return Promise.resolve({createdOrganizations: createdOrganizations, duplicateOrganizations: duplicateOrganizations});
+		return {createdOrganizations: createdOrganizations, duplicateOrganizations: duplicateOrganizations};
 	}
 
 	async createLocations(veranstaltungsorte: Veranstaltungsorte, barrierefreiheit: Barrierefreiheit, bezirke: Bezirke) : Promise<{ createdLocations: {[originObjectID: string]: Reference}, duplicateLocations: { [originObjectID: string]: Reference }; }> {
@@ -131,7 +130,7 @@ export class DistrictDataService {
 			}
 		}
 
-		return Promise.resolve({createdLocations: createdLocations, duplicateLocations: duplicateLocations});
+		return {createdLocations: createdLocations, duplicateLocations: duplicateLocations};
 	}
 	
 	async createAttractionsAndEvents(events: Veranstaltungen, organizations: { [originObjectID: string]: Reference; }, locations: { [originObjectID: string]: Reference; }, tags : Tag[]) : Promise<{ createdAttractions: {[originObjectID: string]: Reference;}, duplicateAttractions: { [originObjectID: string]: Reference; }, createdEvents: { [originObjectID: string]: Reference} , duplicateEvents: { [originObjectID: string]: Reference; }} > {
@@ -149,7 +148,6 @@ export class DistrictDataService {
 				}
 			};
 			const duplicatedAttractions = await this.attractionService.search(duplicationFilter);
-			console.log("duplicatedAttractions: " + JSON.stringify(duplicateAttractions));
 			
 			if (duplicatedAttractions.length > 0) {
 				duplicateAttractions[veranstaltung.event_id] = {
@@ -190,7 +188,7 @@ export class DistrictDataService {
 			}
 		}
 
-		return Promise.resolve({createdAttractions: createdAttractions, duplicateAttractions: duplicateAttractions, createdEvents: createdEvents, duplicateEvents: duplicateEvents});
+		return {createdAttractions: createdAttractions, duplicateAttractions: duplicateAttractions, createdEvents: createdEvents, duplicateEvents: duplicateEvents};
 	}
 
 }

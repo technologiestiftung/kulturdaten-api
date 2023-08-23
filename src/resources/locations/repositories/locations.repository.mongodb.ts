@@ -25,13 +25,11 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		const result = await locations.insertOne(newLocation);
 
 		if (!result.acknowledged) {
-			return Promise.resolve(null);
+			return null;
 		}
 		return generateLocationReference(newLocation);
 	}
 	async getLocations(page:number, pageSize:number): Promise<Location[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
 		return locations
 			.find({}, { projection: { _id: 0 } })
@@ -41,8 +39,6 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	}
 
 	async getLocationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}
 		const locations = await this.dbConnector.locations();
 		let lr = locations
 			.find({}, { projection: getLocationReferenceProjection() })
@@ -88,12 +84,12 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	async updateLocationById(locationId: string, locationFields: UpdateLocationRequest): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const result = await locations.updateOne({ identifier: locationId }, { $set: locationFields });
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 	async removeLocationById(locationId: string): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const result = await locations.deleteOne({ identifier: locationId });
-		return Promise.resolve(result.deletedCount === 1);
+		return result.deletedCount === 1;
 	}
 
 
@@ -106,7 +102,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
             },
         };
         const result = await locations.updateOne(filter, updateDocument);
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	async updateStatus(identifier: string, status: Location['status']): Promise<boolean> {
@@ -118,7 +114,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
             },
         };
         const result = await locations.updateOne(filter, updateDocument);
-		return Promise.resolve(result.modifiedCount === 1);
+		return result.modifiedCount === 1;
 	}
 
 	deleteLocationManager(identifier: string): Promise<boolean> {
@@ -131,10 +127,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	async countLocations(filter?: Filter): Promise<number> {
 		const locations = await this.dbConnector.locations();
-		if (filter){
-			return locations.countDocuments(filter);
-		}
-		return locations.countDocuments();
+		return locations.countDocuments(filter);
 	}
 
 }
