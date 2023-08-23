@@ -20,19 +20,19 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	async searchAttractions(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Attraction[]> {
 		const attractions = await this.dbConnector.attractions();
 		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
-		return Promise.resolve(attractions
+		return attractions
 			.find(filter, { projection: p })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)
-			.toArray());
+			.toArray();
 	}
 
 	async searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>{
 		const attractions = await this.dbConnector.attractions();
 		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
-		return Promise.resolve(attractions
+		return attractions
 			.find(filter, { projection: p })
-			.toArray());
+			.toArray();
 	} 
 
 	async getAttractions(page:number, pageSize:number): Promise<Attraction[]> {

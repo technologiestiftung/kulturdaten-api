@@ -30,7 +30,9 @@ export class MongoDBTagsRepository implements TagsRepository {
 
 	async getAllTags(): Promise<Tag[]> {
 		const tags = await this.dbConnector.tags();
-		return tags.find({}, { projection: { _id: 0 } }).toArray();
+		return tags
+			.find({}, { projection: { _id: 0 } })
+			.toArray();
 	}
 	async getTagByIdentifier(tagId: string): Promise<Tag | null> {
 		const tags = await this.dbConnector.tags();

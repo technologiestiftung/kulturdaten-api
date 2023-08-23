@@ -39,20 +39,20 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const organizationsCollection = await this.dbConnector.organizations();
 		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
 
-		return Promise.resolve(organizationsCollection
+		return organizationsCollection
 			.find(filter, { projection: p })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)
-			.toArray());
+			.toArray();
 	}
 
 	async searchAllOrganizations(filter: Filter, projection? : object): Promise<Organization[]> {
 		const organizationsCollection = await this.dbConnector.organizations();
 		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
 
-		return Promise.resolve(organizationsCollection
+		return organizationsCollection
 			.find(filter, { projection: p })
-			.toArray());
+			.toArray();
 	}
 
 	async getOrganizationByIdentifier(organizationId: string): Promise<Organization | null> {
