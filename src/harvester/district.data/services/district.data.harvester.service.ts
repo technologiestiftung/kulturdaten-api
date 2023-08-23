@@ -35,7 +35,7 @@ export class DistrictDataService {
 			let duplicateAttractions: {[originObjectID: string]: Reference} = {};
 			let createdEvents: {[originObjectID: string]: Reference} = {};
 			let duplicateEvents: {[originObjectID: string]: Reference} = {};
-			const tags: Tag[] = await this.tagsService.list(2000, 1);
+			const tags: Tag[] = await this.tagsService.listAllTags();
 			let apiURL = process.env.DISTRICT_DATA_API_URL;
 			if(!apiURL) return [];
 	
@@ -149,7 +149,6 @@ export class DistrictDataService {
 				}
 			};
 			const duplicatedAttractions = await this.attractionService.search(duplicationFilter);
-			console.log("duplicatedAttractions: " + JSON.stringify(duplicateAttractions));
 			
 			if (duplicatedAttractions.length > 0) {
 				duplicateAttractions[veranstaltung.event_id] = {

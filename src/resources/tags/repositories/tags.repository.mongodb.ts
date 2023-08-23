@@ -27,6 +27,11 @@ export class MongoDBTagsRepository implements TagsRepository {
 			.skip((page - 1) * pageSize)
 			.toArray();
 	}
+
+	async getAllTags(): Promise<Tag[]> {
+		const tags = await this.dbConnector.tags();
+		return tags.find({}, { projection: { _id: 0 } }).toArray();
+	}
 	async getTagByIdentifier(tagId: string): Promise<Tag | null> {
 		const tags = await this.dbConnector.tags();
 		return tags.findOne({ identifier: tagId }, { projection: { _id: 0 } });

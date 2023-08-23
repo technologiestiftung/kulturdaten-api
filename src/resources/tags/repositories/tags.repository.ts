@@ -13,6 +13,8 @@ export interface TagsRepository {
 
 	getTags(page:number, pageSize:number) : Promise<Tag[]>;
 
+	getAllTags(): Promise<Tag[]>;
+
 	getTagByIdentifier(tagId: string) : Promise<Tag | null>;
 
 }
