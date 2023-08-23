@@ -11,7 +11,8 @@ export class DistrictDataMapper {
 
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
 		const v:any = veranstaltung; 
-		const tags : string[] = findTags(veranstaltung.kategorie_ids, allTags);
+		const tags : string[] = this.mapTags(veranstaltung.kategorie_ids, allTags);
+		
 		return {
 			type: "type.Attraction",
 			title: {
@@ -112,15 +113,14 @@ export class DistrictDataMapper {
 		};
 		
 	}
+
+	mapTags(kategorie_ids: { [categoryId: string]: string; }, tags: Tag[]): string[] {
+		return tags
+		  .filter(tag =>
+			tag?.metadata?.externalIDs?.bezirkskalender ? Object.keys(kategorie_ids).includes(tag.metadata.externalIDs.bezirkskalender) : false
+		  )
+		  .map(tag => tag.identifier);
+	  }
 	
-
-
 }	
 
-function findTags(kategorie_ids: { [categoryId: string]: string; }, tags: Tag[]): string[] {
-	return tags
-	  .filter(tag =>
-		tag?.metadata?.externalIDs?.bezirkskalender ? Object.keys(kategorie_ids).includes(tag.metadata.externalIDs.bezirkskalender) : false
-	  )
-	  .map(tag => tag.identifier);
-  }

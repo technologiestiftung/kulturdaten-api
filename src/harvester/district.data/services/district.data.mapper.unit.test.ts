@@ -13,6 +13,18 @@ describe('DistrictDataMapper', () => {
     mapper = new DistrictDataMapper();
   });
 
+  describe('map tags', () => {
+    it('should correctly map tags', () => {
+    const allTags = tags;
+    
+    const kategorie_ids = veranstaltung.kategorie_ids;
+
+    const resultTags = mapper.mapTags(kategorie_ids, allTags);
+
+    expect(resultTags).toEqual(['attraction.category.WeeklyMarkets']);
+    });
+  });
+
   describe('map attraction', () => {
     it('should correctly map Veranstaltung to CreateAttractionRequest', () => {
       const expectedResult: CreateAttractionRequest = {
