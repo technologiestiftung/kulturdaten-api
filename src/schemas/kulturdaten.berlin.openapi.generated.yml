@@ -109,6 +109,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateAttractionRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -127,6 +129,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/CreateAttractionRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -204,6 +208,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateAttractionRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Updated
@@ -222,6 +228,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AddExternalLinkRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -239,6 +247,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RemoveExternalLinkRequest'
+      security:
+        - bearerAuth: []
       responses:
         '204':
           description: OK
@@ -252,6 +262,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Archived
@@ -265,6 +277,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Unarchived
@@ -278,6 +292,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Published
@@ -291,6 +307,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Unpublished
@@ -331,6 +349,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateEventRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -349,6 +369,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/CreateEventRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -426,6 +448,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateEventRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -444,6 +468,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AddEventLocationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -461,6 +487,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RemoveEventLocationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '204':
           description: No Content
@@ -479,6 +507,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AddEventAttractionRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -496,6 +526,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RemoveEventAttractionRequest'
+      security:
+        - bearerAuth: []
       responses:
         '204':
           description: No Content
@@ -514,6 +546,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SetEventOrganizerRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -526,6 +560,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '204':
           description: No Content
@@ -539,6 +575,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -552,6 +590,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -570,6 +610,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RescheduleEventRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -583,6 +625,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -596,6 +640,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -609,6 +655,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -622,6 +670,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -635,6 +685,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -679,6 +731,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateLocationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -697,6 +751,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/CreateLocationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -774,6 +830,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateLocationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -792,6 +850,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SetLocationManagerRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -804,6 +864,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -817,6 +879,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -830,6 +894,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -843,6 +909,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -856,6 +924,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -869,6 +939,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -887,6 +959,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClaimLocationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -927,6 +1001,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateOrganizationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -951,6 +1027,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/CreateOrganizationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -1034,6 +1112,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateOrganizationRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -1047,6 +1127,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -1060,6 +1142,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -1073,6 +1157,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -1086,6 +1172,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -1099,6 +1187,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -1136,6 +1226,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateUserRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: OK
@@ -1286,6 +1378,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateTagRequest'
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Created
@@ -1410,6 +1504,8 @@ paths:
     get:
       tags:
         - Server
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -1441,6 +1537,8 @@ paths:
                 - '25'
               items:
                 type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK

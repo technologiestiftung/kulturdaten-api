@@ -43,7 +43,7 @@ describe('Create locations', () => {
 	});
 
 	it('should create a location and return an identifier / POST /locations', async () => {
-		const { body, statusCode } = await request(env.app).post(env.LOCATIONS_ROUTE).send(fakeCreateLocationRequest(false, { title: { de: 'New Location' } }));
+		const { body, statusCode } = await request(env.app).post(env.LOCATIONS_ROUTE).set('Authorization', `Bearer `+env.USER_TOKEN).send(fakeCreateLocationRequest(false, { title: { de: 'New Location' } }));
 	
 		expect(statusCode).toBe(201);
 	
@@ -113,7 +113,7 @@ describe('Update locations', () => {
 	});
   
 	it('should update the name of a location / PATCH /locations/existID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.LOCATIONS_ROUTE +'/LOC-12345678').send({
+	  const { body, statusCode } = await request(env.app).patch(env.LOCATIONS_ROUTE +'/LOC-12345678').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 				title: { de :'Neuer Name' }
 		  });
 
@@ -123,7 +123,7 @@ describe('Update locations', () => {
 	});
   
 	it('should return an error when an invalid ID is provided / PATCH /locations/invalidID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.LOCATIONS_ROUTE +'/invalidID').send({
+	  const { body, statusCode } = await request(env.app).patch(env.LOCATIONS_ROUTE +'/invalidID').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 			  title: { de :'Neuer Name' }
 		  });
   

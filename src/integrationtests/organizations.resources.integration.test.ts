@@ -43,7 +43,7 @@ describe('Create organizations', () => {
 	});
 
 	it('should create an organization and return an identifier / POST /organizations', async () => {
-		const { body, statusCode } = await request(env.app).post(env.ORGANIZATIONS_ROUTE).send(fakeCreateOrganizationRequest(false, { title: { de: 'New Organization' } }));
+		const { body, statusCode } = await request(env.app).post(env.ORGANIZATIONS_ROUTE).set('Authorization', `Bearer `+env.USER_TOKEN).send(fakeCreateOrganizationRequest(false, { title: { de: 'New Organization' } }));
 	
 		expect(statusCode).toBe(201);
 	
@@ -113,7 +113,7 @@ describe('Update organizations', () => {
 	});
   
 	it('should update the name of a organization / PATCH /organizations/existID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.ORGANIZATIONS_ROUTE +'/temporal-cultural-exchange-45123').send({
+	  const { body, statusCode } = await request(env.app).patch(env.ORGANIZATIONS_ROUTE +'/temporal-cultural-exchange-45123').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 				title: { de :'Neuer Name' }
 		  });
 
@@ -123,7 +123,7 @@ describe('Update organizations', () => {
 	});
   
 	it('should return an error when an invalid ID is provided / PATCH /organizations/invalidID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.ORGANIZATIONS_ROUTE +'/invalidID').send({
+	  const { body, statusCode } = await request(env.app).patch(env.ORGANIZATIONS_ROUTE +'/invalidID').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 			  title: { de :'Neuer Name' }
 		  });
   

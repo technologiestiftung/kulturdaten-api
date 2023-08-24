@@ -43,7 +43,7 @@ describe('Create events', () => {
 	});
 
 	it('should create an event and return an identifier / POST /events', async () => {
-		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE).send(fakeCreateEventRequest(false, { title: { de: 'New Event' } }));
+		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE).set('Authorization', `Bearer `+env.USER_TOKEN).send(fakeCreateEventRequest(false, { title: { de: 'New Event' } }));
 	
 		expect(statusCode).toBe(201);
 	
@@ -113,7 +113,7 @@ describe('Update events', () => {
 	});
   
 	it('should update the name of a event / PATCH /events/existID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE +'/1234-5678-9101-1121').send({
+	  const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE +'/1234-5678-9101-1121').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 				title: { de :'Neuer Name' }
 		  });
 
@@ -123,7 +123,7 @@ describe('Update events', () => {
 	});
   
 	it('should return an error when an invalid ID is provided / PATCH /events/invalidID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE +'/invalidID').send({
+	  const { body, statusCode } = await request(env.app).patch(env.EVENTS_ROUTE +'/invalidID').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 			  title: { de :'Neuer Name' }
 		  });
   

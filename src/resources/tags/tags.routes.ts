@@ -5,6 +5,7 @@ import { CreateTagRequest } from '../../generated/models/CreateTagRequest.genera
 import { fakeSearchTagsRequest } from '../../generated/faker/faker.SearchTagsRequest.generated';
 import { SearchTagsRequest } from '../../generated/models/SearchTagsRequest.generated';
 import { getPagination } from '../../utils/RequestUtil';
+import passport from 'passport';
 
 
 @Service()
@@ -17,31 +18,33 @@ export class TagsRoutes {
 
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
-					const { page, pageSize} = getPagination(req);
-					this.tagsController.listTags(res, page, pageSize);
+				const { page, pageSize } = getPagination(req);
+				this.tagsController.listTags(res, page, pageSize);
 			})
-			.post('/', (req: express.Request, res: express.Response) => {
-				const createTagRequest = req.body as CreateTagRequest;
-				this.tagsController.createTag(res, createTagRequest);
-			});
+			.post('/',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const createTagRequest = req.body as CreateTagRequest;
+					this.tagsController.createTag(res, createTagRequest);
+				});
 
 		router
 			.get('/organizations', (req: express.Request, res: express.Response) => {
-				const { page, pageSize} = getPagination(req);
+				const { page, pageSize } = getPagination(req);
 
-				const searchTagsRequest : SearchTagsRequest = {
+				const searchTagsRequest: SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "organization\\." }
 					}
 				}
 				this.tagsController.searchTags(res, searchTagsRequest, page, pageSize);
 			})
-		
+
 		router
 			.get('/attractions', (req: express.Request, res: express.Response) => {
-				const { page, pageSize} = getPagination(req);
+				const { page, pageSize } = getPagination(req);
 
-				const searchTagsRequest : SearchTagsRequest = {
+				const searchTagsRequest: SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "attraction\\." }
 					}
@@ -51,9 +54,9 @@ export class TagsRoutes {
 
 		router
 			.get('/locations', (req: express.Request, res: express.Response) => {
-				const { page, pageSize} = getPagination(req);
+				const { page, pageSize } = getPagination(req);
 
-				const searchTagsRequest : SearchTagsRequest = {
+				const searchTagsRequest: SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "location\\." }
 					}
@@ -63,9 +66,9 @@ export class TagsRoutes {
 
 		router
 			.get('/events', (req: express.Request, res: express.Response) => {
-				const { page, pageSize} = getPagination(req);
+				const { page, pageSize } = getPagination(req);
 
-				const searchTagsRequest : SearchTagsRequest = {
+				const searchTagsRequest: SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "event\\." }
 					}
@@ -76,9 +79,9 @@ export class TagsRoutes {
 		router
 			.get('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
-					this.tagsController.getTagById(res, identifier);
+				this.tagsController.getTagById(res, identifier);
 			})
-		
+
 
 		return router;
 	}

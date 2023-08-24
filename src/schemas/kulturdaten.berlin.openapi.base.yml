@@ -4,7 +4,7 @@ info:
   description: |
     Willkommen zur Kulturdaten.Berlin-API! Diese API ermöglicht es Ihnen, eine Vielzahl von Funktionen zu nutzen, um Veranstaltungen, Kulturorte, Kulturangebote und Kulturakteure in Berlin zu entdecken.
     Sind Sie Kulturakteur, können Sie bequem Ihre Veranstaltungen und Kulturorte verwalten.
-    
+
     Die API ist in mehrere Bereiche gegliedert. 
 
     - **Events, Angebote, Orte und Akteure entdecken** - Hier entdecken Sie, was kulturell in Berlin geboten wird. Viele Such- und Filtereinstellungen ermöglichen es Ihnen, nur die Kulturorte und Kulturakteure zu finden, die Sie wirklich benötigen.
@@ -47,15 +47,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -73,6 +71,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateAttractionRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -80,7 +80,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateAttractionResponse"
-  
+
   /attractions/bulk-create:
     post:
       tags:
@@ -92,6 +92,8 @@ paths:
               type: array
               items:
                 $ref: "#/components/schemas/CreateAttractionRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -113,15 +115,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       requestBody:
@@ -173,45 +173,51 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateAttractionRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Updated
 
   /attractions/{identifier}/externallinks:
-      post:
-        tags:
-          - Maintain cultural data
-        parameters:
-          - name: identifier
-            in: path
-            required: true
-            schema:
-              type: string
-        requestBody:
-         content:
+    post:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AddExternalLinkRequest"         
-        responses:
-          "200":
-            description: OK
-      delete:
-        tags:
-          - Maintain cultural data
-        parameters:
-          - name: identifier
-            in: path
-            required: true
-            schema:
-              type: string
-        requestBody:
-         content:
+              $ref: "#/components/schemas/AddExternalLinkRequest"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+        - Maintain cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RemoveExternalLinkRequest"   
-        responses:
-          "204":
-            description: OK
+              $ref: "#/components/schemas/RemoveExternalLinkRequest"
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: OK
 
   /attractions/{identifier}/archive:
     post:
@@ -223,6 +229,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Archived
@@ -237,6 +245,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Unarchived
@@ -251,6 +261,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Published
@@ -265,6 +277,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Unpublished
@@ -282,15 +296,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -308,6 +320,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateEventRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -327,6 +341,8 @@ paths:
               type: array
               items:
                 $ref: "#/components/schemas/CreateEventRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -348,15 +364,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       requestBody:
@@ -371,7 +385,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SearchEventsResponse"
-
 
   /events/{identifier}:
     get:
@@ -409,10 +422,12 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateEventRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /events/{identifier}/locations:
     put:
       tags:
@@ -428,6 +443,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AddEventLocationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -446,6 +463,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/RemoveEventLocationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: No Content
@@ -465,6 +484,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AddEventAttractionRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -483,6 +504,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/RemoveEventAttractionRequest"
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: No Content
@@ -502,6 +525,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SetEventOrganizerRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -515,6 +540,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: No Content
@@ -529,6 +556,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -543,6 +572,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -562,6 +593,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/RescheduleEventRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -576,6 +609,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -590,6 +625,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -604,6 +641,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -618,6 +657,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -632,6 +673,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -639,7 +682,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DuplicateEventResponse"
-
 
   /locations:
     get:
@@ -654,15 +696,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -680,6 +720,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateLocationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -699,6 +741,8 @@ paths:
               type: array
               items:
                 $ref: "#/components/schemas/CreateLocationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -711,7 +755,7 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/CreateLocationRequest"
-  
+
   /locations/search:
     post:
       tags:
@@ -720,15 +764,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       requestBody:
@@ -780,10 +822,12 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateLocationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /locations/{identifier}/manager:
     put:
       tags:
@@ -799,6 +843,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SetLocationManagerRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -811,10 +857,12 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /locations/{identifier}/open:
     post:
       tags:
@@ -825,10 +873,12 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /locations/{identifier}/close:
     post:
       tags:
@@ -839,10 +889,12 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /locations/{identifier}/permanentlyClose:
     post:
       tags:
@@ -853,10 +905,12 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /locations/{identifier}/archive:
     post:
       tags:
@@ -867,10 +921,12 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /locations/{identifier}/unarchive:
     post:
       tags:
@@ -881,6 +937,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -900,6 +958,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ClaimLocationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -917,15 +977,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -943,6 +1001,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateOrganizationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -968,6 +1028,8 @@ paths:
               type: array
               items:
                 $ref: "#/components/schemas/CreateOrganizationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -989,15 +1051,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       requestBody:
@@ -1055,10 +1115,12 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateOrganizationRequest"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /organizations/{identifier}/activate:
     post:
       tags:
@@ -1069,6 +1131,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1083,10 +1147,12 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
-  
+
   /organizations/{identifier}/retire:
     post:
       tags:
@@ -1097,6 +1163,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1111,6 +1179,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1125,6 +1195,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1137,15 +1209,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       security:
@@ -1165,6 +1235,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateUserRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: OK
@@ -1218,6 +1290,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateUserRequest"
+
       responses:
         "204":
           description: OK
@@ -1270,7 +1343,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/NotFoundError"
 
-
   /authentication/login:
     post:
       tags:
@@ -1288,7 +1360,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
 
-
   /tags:
     get:
       tags:
@@ -1297,15 +1368,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -1323,6 +1392,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateTagRequest"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -1357,15 +1428,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -1384,15 +1453,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -1411,15 +1478,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -1438,15 +1503,13 @@ paths:
         - name: page
           in: query
           required: false
-          description: 
-            Default value is 1
+          description: Default value is 1
           schema:
             type: number
         - name: pageSize
           in: query
           required: false
-          description: 
-            Default value is 30
+          description: Default value is 30
           schema:
             type: number
       responses:
@@ -1461,6 +1524,8 @@ paths:
     get:
       tags:
         - Server
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1475,12 +1540,28 @@ paths:
         - Admin
       requestBody:
         content:
-          application/json:    
+          application/json:
             schema:
               type: array
-              default: ['2','4','5','6','7','8','9','10','11','12','13','25']
+              default:
+                [
+                  "2",
+                  "4",
+                  "5",
+                  "6",
+                  "7",
+                  "8",
+                  "9",
+                  "10",
+                  "11",
+                  "12",
+                  "13",
+                  "25",
+                ]
               items:
                 type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1539,7 +1620,7 @@ components:
   schemas:
     Reference:
       $ref: models/Reference.yml
-      
+
     Response:
       $ref: models/Response.yml
 
@@ -1580,14 +1661,14 @@ components:
       $ref: models/GetOrganizationsResponse.yml
 
     CreateOrganizationRequest:
-      $ref: models/CreateOrganizationRequest.yml  
+      $ref: models/CreateOrganizationRequest.yml
 
     CreateOrganizationResponse:
-      $ref: models/CreateOrganizationResponse.yml 
+      $ref: models/CreateOrganizationResponse.yml
 
     SearchOrganizationsRequest:
       $ref: models/SearchOrganizationsRequest.yml
-  
+
     SearchOrganizationsResponse:
       $ref: models/SearchOrganizationsResponse.yml
 
@@ -1599,7 +1680,7 @@ components:
 
     CreateAttractionRequest:
       $ref: models/CreateAttractionRequest.yml
-    
+
     CreateAttractionResponse:
       $ref: models/CreateAttractionResponse.yml
 
@@ -1611,7 +1692,7 @@ components:
 
     GetAttractionResponse:
       $ref: models/GetAttractionResponse.yml
-    
+
     UpdateAttractionRequest:
       $ref: models/UpdateAttractionRequest.yml
 
@@ -1626,7 +1707,7 @@ components:
 
     SearchLocationsRequest:
       $ref: models/SearchLocationsRequest.yml
-    
+
     SearchLocationsResponse:
       $ref: models/SearchLocationsResponse.yml
 
@@ -1653,7 +1734,7 @@ components:
 
     SearchEventsRequest:
       $ref: models/SearchEventsRequest.yml
-      
+
     SearchEventsResponse:
       $ref: models/SearchEventsResponse.yml
 
@@ -1661,8 +1742,8 @@ components:
       $ref: models/GetEventResponse.yml
 
     UpdateEventRequest:
-      $ref: models/UpdateEventRequest.yml 
-    
+      $ref: models/UpdateEventRequest.yml
+
     AddEventLocationRequest:
       $ref: models/AddEventLocationRequest.yml
 
@@ -1683,10 +1764,10 @@ components:
 
     DuplicateEventResponse:
       $ref: models/DuplicateEventResponse.yml
-    
+
     LoginRequest:
       $ref: models/LoginRequest.yml
-    
+
     LoginResponse:
       $ref: models/LoginResponse.yml
 
@@ -1705,12 +1786,11 @@ components:
     UpdateUserRequest:
       $ref: models/UpdateUserRequest.yml
 
-    RemoveExternalLinkRequest: 
+    RemoveExternalLinkRequest:
       $ref: models/RemoveExternalLinkRequest.yml
-    
+
     CreateUserResponse:
       $ref: models/CreateUserResponse.yml
-
 
     GetTagsResponse:
       $ref: models/GetTagsResponse.yml

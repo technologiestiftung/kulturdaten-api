@@ -18,9 +18,16 @@ import { AttractionsRoutes } from "../../resources/attractions/attractions.route
 import { AttractionsController } from "../../resources/attractions/controllers/attractions.controller";
 import { MongoDBAttractionsRepository } from "../../resources/attractions/repositories/attractions.repository.mongodb";
 import { AttractionsService } from "../../resources/attractions/services/attractions.service";
+import { PermissionFlag } from "../../resources/auth/middleware/auth.permissionflag.enum";
+import * as bearerStrategy from 'passport-http-bearer';
+import passport from "passport";
+
 
 export class TestEnvironment {
 
+	ADMIN_TOKEN: string = 'ADMIN_TOKEN';
+	USER_TOKEN: string = 'USER_TOKEN';
+	WRONG_TOKEN: string = 'WRONG_TOKEN';
 
 	con!: MongoClient;
 	mongoServer!: MongoMemoryServer;
@@ -46,6 +53,7 @@ export class TestEnvironment {
 		this.con = await MongoClient.connect(this.mongoServer.getUri(), {});
 		this.connector = new MongoDBConnector(this.con);
 		this.db = this.con.db('api-db');
+		this.initPassport();
 		this.app = express();
 		this.app.use(express.json());
 
@@ -96,17 +104,50 @@ export class TestEnvironment {
 		return this;
 	}
 
+	initPassport(): TestEnvironment {
+		const ADMIN_TOKEN = this.ADMIN_TOKEN;
+		const USER_TOKEN = this.USER_TOKEN;
+		passport.use('authenticated-user',
+			new bearerStrategy.Strategy(async function verify(token, done) {
+				if(token === ADMIN_TOKEN) {
+					return done(null, {
+						id: 'adminID',
+						email: 'admin@email.de',
+						permissionFlags: PermissionFlag.ADMIN_PERMISSION
+					});
+				};
+				if(token === USER_TOKEN){
+					return done(null, {
+						id: 'userID',
+						email: 'user@email.de',
+						permissionFlags: PermissionFlag.REGISTERED_USER
+					});
+				}
+				return done(null, false);
+			})
+		);
+		return this;
+	}
+
+	withNoLoggedInUser(): TestEnvironment {
+		passport.use('authenticated-user',
+			new bearerStrategy.Strategy(async function verify(token, done) {
+					return done(null, false);
+			})
+		);
+		return this;
+	}
 
 	async stopServer() {
-        if (this.con) {
-            await this.con.close();
-        }
-        if (this.mongoServer) {
-            await this.mongoServer.stop();
-        }
-        if (this.connector) {
-            await this.connector.close();
-        }
-    }
+		if (this.con) {
+			await this.con.close();
+		}
+		if (this.mongoServer) {
+			await this.mongoServer.stop();
+		}
+		if (this.connector) {
+			await this.connector.close();
+		}
+	}
 
 }
