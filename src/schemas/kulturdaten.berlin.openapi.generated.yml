@@ -1427,18 +1427,7 @@ paths:
             schema:
               type: array
               default:
-                - '2'
-                - '4'
-                - '5'
-                - '6'
-                - '7'
-                - '8'
-                - '9'
-                - '10'
-                - '11'
-                - '12'
-                - '13'
-                - '25'
+                - '22'
               items:
                 type: string
       responses:
