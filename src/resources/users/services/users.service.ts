@@ -2,7 +2,7 @@ import { UsersRepository } from '../repositories/users.repository';
 import { Inject, Service } from 'typedi';
 import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
 import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
-import { pagination } from "../../../config/kulturdaten.config";
+import { Pagination } from '../../../common/parameters/Pagination';
 
 @Service()
 export class UsersService{
@@ -17,8 +17,8 @@ export class UsersService{
 		return this.usersRepository.removeUserById(id);
 	}
 
-	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.usersRepository.getUsers(page, pageSize);
+	async list(pagination?: Pagination) {
+		return this.usersRepository.getUsers(pagination);
 	}
 
 	async patchById(id: string, resource: UpdateUserRequest) {

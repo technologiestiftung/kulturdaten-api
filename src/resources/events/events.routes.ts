@@ -12,6 +12,7 @@ import { RemoveEventAttractionRequest } from '../../generated/models/RemoveEvent
 import { SetEventOrganizerRequest } from '../../generated/models/SetEventOrganizerRequest.generated';
 import { SearchEventsRequest } from '../../generated/models/SearchEventsRequest.generated';
 import { getPagination } from '../../utils/RequestUtil';
+import { Pagination } from '../../common/parameters/Pagination';
 
 
 const log: debug.IDebugger = debug('app:events-routes');
@@ -27,12 +28,12 @@ export class EventsRoutes {
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference;
-				const { page, pageSize} = getPagination(req);
+				const pagination: Pagination = getPagination(req);
 
 				if (asReference) {
-					this.eventsController.listEventsAsReference(res, page, pageSize);
+					this.eventsController.listEventsAsReference(res, pagination);
 				} else {
-					this.eventsController.listEvents(res, page, pageSize);
+					this.eventsController.listEvents(res, pagination);
 				}
 			})
 			.post('/', (req: express.Request, res: express.Response) => {
@@ -49,10 +50,10 @@ export class EventsRoutes {
 
 		router
 			.post('/search', (req: express.Request, res: express.Response) => {
-				const { page, pageSize} = getPagination(req);
+				const pagination: Pagination = getPagination(req);
 
 				const searchEventsRequest = req.body as SearchEventsRequest;
-				this.eventsController.searchEvents(res, searchEventsRequest, page, pageSize);
+				this.eventsController.searchEvents(res, searchEventsRequest, pagination);
 			});
 
 		router

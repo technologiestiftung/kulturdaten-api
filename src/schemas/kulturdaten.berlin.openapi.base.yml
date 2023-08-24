@@ -1293,21 +1293,6 @@ paths:
     get:
       tags:
         - Discover cultural data
-      parameters:
-        - name: page
-          in: query
-          required: false
-          description: 
-            Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: 
-            Default value is 30
-          schema:
-            type: number
       responses:
         "200":
           description: OK
@@ -1353,21 +1338,6 @@ paths:
     get:
       tags:
         - Discover cultural data
-      parameters:
-        - name: page
-          in: query
-          required: false
-          description: 
-            Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: 
-            Default value is 30
-          schema:
-            type: number
       responses:
         "200":
           description: OK
@@ -1380,21 +1350,6 @@ paths:
     get:
       tags:
         - Discover cultural data
-      parameters:
-        - name: page
-          in: query
-          required: false
-          description: 
-            Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: 
-            Default value is 30
-          schema:
-            type: number
       responses:
         "200":
           description: OK
@@ -1407,21 +1362,6 @@ paths:
     get:
       tags:
         - Discover cultural data
-      parameters:
-        - name: page
-          in: query
-          required: false
-          description: 
-            Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: 
-            Default value is 30
-          schema:
-            type: number
       responses:
         "200":
           description: OK
@@ -1434,21 +1374,6 @@ paths:
     get:
       tags:
         - Discover cultural data
-      parameters:
-        - name: page
-          in: query
-          required: false
-          description: 
-            Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: 
-            Default value is 30
-          schema:
-            type: number
       responses:
         "200":
           description: OK

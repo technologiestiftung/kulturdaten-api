@@ -4,17 +4,18 @@ import { CreateLocationRequest } from '../../../generated/models/CreateLocationR
 import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
 import { Filter } from '../../../generated/models/Filter.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 
 const log: debug.IDebugger = debug('app:locations-repository');
 
 export interface LocationsRepository {
 
-	getLocations(page:number, pageSize:number) : Promise<Location[] | null>;
+	getLocations(pagination?: Pagination) : Promise<Location[] | null>;
 
-	getLocationsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
+	getLocationsAsReferences(pagination?: Pagination) : Promise<Reference[] | null>;
 
-	searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> ;
+	searchLocations(filter?: Filter, pagination?: Pagination): Promise<Location[]> ;
 
 	countLocations(filter?: Filter): Promise<number>;
 

@@ -1,20 +1,18 @@
 import express from 'express';
 import { pagination } from '../config/kulturdaten.config';
 import debug from 'debug';
+import { Pagination } from '../common/parameters/Pagination';
 
 const log: debug.IDebugger = debug('app:request-utils');
 
-export function getPagination(req: express.Request) {
+export function getPagination(req: express.Request) : Pagination {
 	let page: number = extractFromQuery(req.query.page, pagination.defaultPage);
 	let pageSize: number = extractFromQuery(req.query.pageSize, pagination.defaultPageSize);
 
-	page = validate(page, pagination.defaultPage);
-	pageSize = validate(pageSize, pagination.defaultPageSize, pagination.maxPageSize);
+	page = adjust(page, pagination.defaultPage);
+	pageSize = adjust(pageSize, pagination.defaultPageSize, pagination.maxPageSize);
 
-	return {
-		page: page,
-		pageSize: pageSize
-	}
+	return new Pagination(page, pageSize);
 }
 
 function extractFromQuery(value: any, defaultValue: number): number {
@@ -22,7 +20,7 @@ function extractFromQuery(value: any, defaultValue: number): number {
 }
 
 
-function validate(value: number, defaultMinValue: number, defaultMaxValue?: number) : number {
+function adjust(value: number, defaultMinValue: number, defaultMaxValue?: number) : number {
 	if (value < defaultMinValue) {
 		value = defaultMinValue;
 	}

@@ -8,6 +8,8 @@ import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationR
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { generateLocationReference, getLocationReferenceProjection } from "../../../utils/ReferenceUtil";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
 
 
 @Service()
@@ -15,7 +17,32 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
+		const locations = await this.dbConnector.locations();
 
+		let query = locations.find(filter || {}, { projection: projection || MONGO_DB_DEFAULT_PROJECTION });
+	
+		if(pagination) {
+			query = query
+				.limit(pagination.pageSize)
+				.skip((pagination.page - 1) * pagination.pageSize);
+		}
+		
+		return query.toArray();
+	}
+
+	async searchLocations(filter?: Filter,  pagination?: Pagination): Promise<Location[]> {
+		return this.get(filter, undefined, pagination);
+	}
+
+	async getLocations(pagination?: Pagination): Promise<Location[] | null> {
+		return this.get(undefined, undefined, pagination);
+	}
+
+	async getLocationsAsReferences(pagination?: Pagination): Promise<Reference[] | null> {
+		return this.get(undefined, getLocationReferenceProjection(), pagination);
+
+	}
 	
 	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
 		const newLocation = createLocation as Location;
@@ -29,34 +56,10 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		}
 		return generateLocationReference(newLocation);
 	}
-	async getLocations(page:number, pageSize:number): Promise<Location[] | null> {
-		const locations = await this.dbConnector.locations();
-		return locations
-			.find({}, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
-	}
-
-	async getLocationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
-		const locations = await this.dbConnector.locations();
-		let lr = locations
-			.find({}, { projection: getLocationReferenceProjection() })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)			
-			.toArray();
-		return lr as Promise<Reference[]>;
-	}
 
 
-	async searchLocations(filter: Filter, page:number, pageSize:number): Promise<Location[]> {
-		const locations = await this.dbConnector.locations();
-		return locations
-			.find(filter, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)	
-			.toArray();
-	}
+
+
 
 	async getLocationByIdentifier(locationId: string): Promise<Location | null> {
 		const locations = await this.dbConnector.locations();

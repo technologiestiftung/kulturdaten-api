@@ -10,21 +10,17 @@ import { CreateTagRequest } from "../../../generated/models/CreateTagRequest.gen
 export class MongoDBTagsRepository implements TagsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
-	async searchTags(filter: Filter, page: number, pageSize: number): Promise<Tag[]> {
+	async searchTags(filter: Filter): Promise<Tag[]> {
 		const tags = await this.dbConnector.tags();
 		return  tags
 			.find(filter, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
 			.toArray();
 
 	}
-	async getTags(page: number, pageSize: number): Promise<Tag[]> {
+	async getTags(): Promise<Tag[]> {
 		const tags = await this.dbConnector.tags();
 		return tags
 			.find({}, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
 			.toArray();
 	}
 

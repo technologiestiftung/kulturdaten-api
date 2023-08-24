@@ -1,14 +1,13 @@
 import { Inject, Service } from "typedi";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
-import { SearchAttractionsRequest } from "../../../generated/models/SearchAttractionsRequest.generated";
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { AttractionsRepository } from "../repositories/attractions.repository";
 import { Reference } from "../../../generated/models/Reference.generated";
-import { pagination } from "../../../config/kulturdaten.config";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { Pagination } from "../../../common/parameters/Pagination";
 
 @Service()
 export class AttractionsService {
@@ -16,16 +15,16 @@ export class AttractionsService {
 
   constructor(@Inject('AttractionsRepository') public attractionsRepository: AttractionsRepository) { }
 
-  async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Attraction[]> {
-    return this.attractionsRepository.getAttractions(page, pageSize);
+  async list(pagination?: Pagination): Promise<Attraction[]> {
+    return this.attractionsRepository.getAttractions(pagination);
   }
 
-  async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) : Promise<Reference []>{
-    return this.attractionsRepository.getAttractionsAsReferences(page, pageSize);
+  async listAsReferences(pagination?: Pagination) : Promise<Reference []>{
+    return this.attractionsRepository.getAttractionsAsReferences(pagination);
   }
 
-  async search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Attraction[]> {
-		return this.attractionsRepository.searchAttractions(filter,  page, pageSize);
+  async search(filter?: Filter,  pagination?: Pagination): Promise<Attraction[]> {
+		return this.attractionsRepository.searchAttractions(filter,  pagination);
   }
 
   async countAttractions(searchFilter?: Filter): Promise<number> {

@@ -13,26 +13,27 @@ import { RescheduleEventRequest } from '../../../generated/models/RescheduleEven
 import { Reference } from '../../../generated/models/Reference.generated';
 import { pagination } from "../../../config/kulturdaten.config";
 import { Filter } from '../../../generated/models/Filter.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 @Service()
 export class EventsService {
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
-	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.eventsRepository.getEvents(page, pageSize);
+	async list(pagination?: Pagination) {
+		return this.eventsRepository.getEvents(pagination);
 	}
 
-	async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.eventsRepository.getEventsAsReferences(page, pageSize);
+	async listAsReferences(pagination?: Pagination) {
+		return this.eventsRepository.getEventsAsReferences(pagination);
 	}
 
-	async search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Event[]> {
-		return this.eventsRepository.searchEvents(filter, page, pageSize);
+	async search(filter?: Filter, pagination?: Pagination): Promise<Event[]> {
+		return this.eventsRepository.searchEvents(filter, pagination);
 	}
 
-	async countEvents(searchFilter?: Filter): Promise<number> {
-		return this.eventsRepository.countEvents(searchFilter);
+	async countEvents(filter?: Filter): Promise<number> {
+		return this.eventsRepository.countEvents(filter);
 	  }
 
 

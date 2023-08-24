@@ -14,6 +14,7 @@ import { SearchEventsResponse } from '../../../generated/models/SearchEventsResp
 import { AddEventAttractionRequest } from '../../../generated/models/AddEventAttractionRequest.generated';
 import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEventAttractionRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 const log: debug.IDebugger = debug('app:events-controller');
 
@@ -25,39 +26,39 @@ export class EventsController {
 	constructor(
 		public eventsService: EventsService) { }
 
-	async listEvents(res: express.Response, page: number, pageSize: number) {
-		const events = await this.eventsService.list(page, pageSize);
+	async listEvents(res: express.Response, pagination: Pagination) {
+		const events = await this.eventsService.list(pagination);
 		const totalCount = await this.eventsService.countEvents();
 		res.status(200).send(new SuccessResponseBuilder().okResponse(
 			{ 	
-				page: page,
-				pageSize: pageSize,
+				page: pagination.page,
+				pageSize: pagination.pageSize,
 				totalCount: totalCount,
 				events: events 
 			}).build());
 	}
 
-	async listEventsAsReference(res: express.Response, page: number, pageSize: number) {
-		const eventsReferences = await this.eventsService.listAsReferences(page, pageSize);
+	async listEventsAsReference(res: express.Response, pagination: Pagination) {
+		const eventsReferences = await this.eventsService.listAsReferences(pagination);
 		const totalCount = await this.eventsService.countEvents();
 		res.status(200).send(new SuccessResponseBuilder().okResponse(
 			{ 
-				page: page,
-				pageSize: pageSize,
+				page: pagination.page,
+				pageSize: pagination.pageSize,
 				totalCount: totalCount,
 				eventsReferences: eventsReferences 
 			}).build());
 	}
 
-	async searchEvents(res: express.Response, searchEventsRequest: SearchEventsRequest, page: number, pageSize: number) {
-		const filter = searchEventsRequest.searchFilter ? searchEventsRequest.searchFilter : {};
-		const events = await this.eventsService.search(filter, page, pageSize);
+	async searchEvents(res: express.Response, searchEventsRequest: SearchEventsRequest, pagination: Pagination) {
+		const filter = searchEventsRequest.searchFilter;
+		const events = await this.eventsService.search(filter, pagination);
 		const totalCount = await this.eventsService.countEvents(filter);
 		if (events) {
 			res.status(200).send(new SuccessResponseBuilder<SearchEventsResponse>().okResponse(
 				{ 
-					page: page,
-					pageSize: pageSize,
+					page: pagination.page,
+					pageSize: pagination.pageSize,
 					totalCount: totalCount,
 					events: events 
 				}).build());
