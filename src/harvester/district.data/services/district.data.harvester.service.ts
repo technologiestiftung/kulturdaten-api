@@ -11,7 +11,6 @@ import { DistrictDataMapper } from "./district.data.mapper";
 import { AttractionsService } from "../../../resources/attractions/services/attractions.service";
 import { TagsService } from "../../../resources/tags/services/tags.service";
 import { Tag } from "../../../generated/models/Tag.generated";
-import { Attraction } from "../../../generated/models/Attraction.generated";
 
 
 @Service()
