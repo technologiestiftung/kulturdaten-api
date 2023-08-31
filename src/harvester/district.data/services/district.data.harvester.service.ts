@@ -11,7 +11,6 @@ import { DistrictDataMapper } from "./district.data.mapper";
 import { AttractionsService } from "../../../resources/attractions/services/attractions.service";
 import { TagsService } from "../../../resources/tags/services/tags.service";
 import { Tag } from "../../../generated/models/Tag.generated";
-import { Attraction } from "../../../generated/models/Attraction.generated";
 
 
 @Service()
@@ -171,7 +170,7 @@ export class DistrictDataService {
 						'metadata.origin': 'bezirkskalender'
 					}
 				};
-				const duplicatedEvents = await this.eventService.search(duplicationFilter);
+				const {events: duplicatedEvents } = await this.eventService.search(duplicationFilter);
 				if (duplicatedEvents.length > 0) {
 					duplicateEvents[termin.id] = {
 						referenceType: duplicatedEvents[0].type,

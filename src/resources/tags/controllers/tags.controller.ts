@@ -15,7 +15,7 @@ export class TagsController {
 	constructor(public tagsService: TagsService) { }
 
 	async listTags(res: express.Response, page: number, pageSize: number) {
-		const tags = await this.tagsService.list(100, 0);
+		const tags = await this.tagsService.list(page, pageSize);
 		if (tags) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse({ tags: tags }).build());
 		} else {

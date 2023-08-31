@@ -35,12 +35,23 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		return or as Promise<Reference[]>;
 	}
 
-	async searchOrganizations(filter: Filter, page:number, pageSize:number): Promise<Organization[]> {
+	async searchOrganizations(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Organization[]> {
 		const organizationsCollection = await this.dbConnector.organizations();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
+
 		return organizationsCollection
-			.find(filter, { projection: { _id: 0 } })
+			.find(filter, { projection: p })
 			.limit(pageSize)
 			.skip((page - 1) * pageSize)
+			.toArray();
+	}
+
+	async searchAllOrganizations(filter: Filter, projection? : object): Promise<Organization[]> {
+		const organizationsCollection = await this.dbConnector.organizations();
+		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
+
+		return organizationsCollection
+			.find(filter, { projection: p })
 			.toArray();
 	}
 

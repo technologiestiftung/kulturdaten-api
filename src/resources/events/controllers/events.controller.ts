@@ -50,14 +50,12 @@ export class EventsController {
 	}
 
 	async searchEvents(res: express.Response, searchEventsRequest: SearchEventsRequest, page: number, pageSize: number) {
-		const filter = searchEventsRequest.searchFilter ? searchEventsRequest.searchFilter : {};
-		const events = await this.eventsService.search(filter, page, pageSize);
-		const totalCount = await this.eventsService.countEvents(filter);
+		const { events:events, page: rPage, pageSize: rPageSize, totalCount: totalCount } = await this.eventsService.search(searchEventsRequest, page, pageSize);
 		if (events) {
 			res.status(200).send(new SuccessResponseBuilder<SearchEventsResponse>().okResponse(
 				{ 
-					page: page,
-					pageSize: pageSize,
+					page: rPage,
+					pageSize: rPageSize,
 					totalCount: totalCount,
 					events: events 
 				}).build());

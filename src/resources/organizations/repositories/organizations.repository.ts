@@ -14,8 +14,10 @@ export interface OrganizationsRepository {
 
 	getOrganizationsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
 
-	searchOrganizations(filter: Filter, page:number, pageSize:number): Promise<Organization[]> ;
+	searchOrganizations(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Organization[]> ;
 	
+	searchAllOrganizations(filter: Filter, projection? : object): Promise<Organization[]> ;
+
 	countOrganizations(filter?: Filter): Promise<number>;
 
 
