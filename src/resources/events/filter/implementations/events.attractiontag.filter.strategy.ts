@@ -15,8 +15,8 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository, @Inject('AttractionsRepository') public attractionsRepository: AttractionsRepository) { }
 
 	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
-		const tags: string[] = searchEventsRequest.findEventsByAttractionTag?.tags ?? [];
-		const matchMode: MatchMode = searchEventsRequest.findEventsByAttractionTag?.matchMode ?? 'any';
+		const tags: string[] = searchEventsRequest.byAttractionTags?.tags ?? [];
+		const matchMode: MatchMode = searchEventsRequest.byAttractionTags?.matchMode ?? 'any';
 	  
 		const tagFilter: Filter = this.getFilterForMatchMode(matchMode, tags);
 	  
@@ -43,7 +43,7 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 	}
 	
 	public isExecutable(searchEventsRequest:SearchEventsRequest) : boolean {
-		return searchEventsRequest.findEventsByAttractionTag ? true : false;
+		return searchEventsRequest.byAttractionTags ? true : false;
 	}
 
 }

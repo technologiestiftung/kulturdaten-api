@@ -166,7 +166,7 @@ describe('Search events', () => {
 	it('should return 2 events whose attractions have the tag education  / POST /events/search', async () => {
 
 		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE + '/search').send({
-			"findEventsByAttractionTag": {
+			"byAttractionTags": {
 				"tags": [
 					"education"
 				],
@@ -186,7 +186,7 @@ describe('Search events', () => {
 	it('should return 1 event whose attractions have the tag history AND the tag  berlin-wall / POST /events/search', async () => {
 
 		const { body, statusCode } = await request(env.app).post(env.EVENTS_ROUTE + '/search').send({
-			"findEventsByAttractionTag": {
+			"byAttractionTags": {
 				"tags": [
 					"history",
 					"berlin-wall"
