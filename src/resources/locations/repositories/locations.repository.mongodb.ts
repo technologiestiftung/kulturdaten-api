@@ -20,7 +20,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const locations = await this.dbConnector.locations();
 
-		let query = locations.find(filter || {}, { projection: projection || MONGO_DB_DEFAULT_PROJECTION });
+		let query = locations.find(filter || {}, { projection: projection ? {...MONGO_DB_DEFAULT_PROJECTION, ...projection} : MONGO_DB_DEFAULT_PROJECTION });
 	
 		if(pagination) {
 			query = query
