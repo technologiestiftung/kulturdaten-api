@@ -23,7 +23,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const attractions = await this.dbConnector.attractions();
 
-		let query = attractions.find(filter || {}, { projection: projection ? {...MONGO_DB_DEFAULT_PROJECTION, ...projection} : MONGO_DB_DEFAULT_PROJECTION });
+		let query = attractions.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
 	
 		if(pagination) {
 			query = query

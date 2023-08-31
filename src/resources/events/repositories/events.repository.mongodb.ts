@@ -21,7 +21,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const events = await this.dbConnector.events();
 
-		let query = events.find(filter || {}, { projection: projection ? {...MONGO_DB_DEFAULT_PROJECTION, ...projection} : MONGO_DB_DEFAULT_PROJECTION });
+		let query = events.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
 	
 		if(pagination) {
 			query = query
