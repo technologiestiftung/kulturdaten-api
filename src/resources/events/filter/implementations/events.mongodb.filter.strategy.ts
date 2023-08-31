@@ -11,10 +11,9 @@ export class MongoDBFilterStrategy implements EventFilterStrategy {
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
-		const filter = searchEventsRequest.searchFilter ? searchEventsRequest.searchFilter : {};
+		const filter = searchEventsRequest.searchFilter || {};
 		
-		let events : Event[] = await this.eventsRepository.searchAllEvents(filter);
-		const totalCount = await this.eventsRepository.countEvents(filter);
+		const events : Event[] = await this.eventsRepository.searchAllEvents(filter);
 
 		return events;
 	}

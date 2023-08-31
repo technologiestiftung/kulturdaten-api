@@ -5,6 +5,7 @@ import { EventsRepository } from "../../repositories/events.repository";
 import { Event } from '../../../../generated/models/Event.generated';
 import { AttractionsRepository } from "../../../attractions/repositories/attractions.repository";
 import { Filter } from "../../../../generated/models/Filter.generated";
+import { MatchMode } from "../../../../generated/models/MatchMode.generated";
 
 
 
@@ -15,11 +16,9 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 
 	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
 		const tags: string[] = searchEventsRequest.findEventsByAttractionTag?.tags ?? [];
-		const matchMode: string = searchEventsRequest.findEventsByAttractionTag?.matchMode ?? 'any';
+		const matchMode: MatchMode = searchEventsRequest.findEventsByAttractionTag?.matchMode ?? 'any';
 	  
-		const tagFilter: Filter = matchMode === 'all'
-		  ? { "tags": { $all: tags } }
-		  : { "tags": { $in: tags } };
+		const tagFilter: Filter = this.getFilterForMatchMode(matchMode, tags);
 	  
 		const projection = { "identifier": 1 };
 	  
@@ -33,7 +32,15 @@ export class FindEventsByAttractionTagFilterStrategy implements EventFilterStrat
 		const events = await this.eventsRepository.searchAllEvents(attractionFilter);
 	  
 		return events;
-	  }
+	}
+
+
+	private getFilterForMatchMode(matchMode: MatchMode, tags : string[]): Filter {
+		switch (matchMode) {
+			case "all": return { "tags": { $all: tags } };
+			case "any": return { "tags": { $in: tags } };
+		}
+	}
 	
 	public isExecutable(searchEventsRequest:SearchEventsRequest) : boolean {
 		return searchEventsRequest.findEventsByAttractionTag ? true : false;
