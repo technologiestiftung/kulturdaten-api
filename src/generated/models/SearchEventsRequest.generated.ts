@@ -11,6 +11,8 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {MatchMode, schemaForMatchMode} from "./MatchMode.generated";
+
 export const schemaForSearchEventsRequest = {
   $id: "SearchEventsRequest.yml",
   type: "object",
@@ -19,7 +21,7 @@ export const schemaForSearchEventsRequest = {
     searchFilter: {type: "object", additionalProperties: true},
     findEventsByAttractionTag: {
       type: "object",
-      properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {type: "string", enum: ["any", "all"]}}
+      properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
     }
   }
 };
@@ -28,6 +30,7 @@ export function validateSearchEventsRequest(o: object): {isValid: boolean; valid
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForMatchMode, "MatchMode.yml");
 
   const validate = ajv.compile(schemaForSearchEventsRequest);
   return {isValid: validate(o), validate: validate};

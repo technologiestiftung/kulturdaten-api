@@ -14,5 +14,4 @@ properties:
         items:
           type: string
       matchMode:
-        type: string
-        enum: [any, all]
+        $ref: 'MatchMode.yml'
