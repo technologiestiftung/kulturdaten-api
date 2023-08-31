@@ -14,6 +14,7 @@ import { Reference } from '../../../generated/models/Reference.generated';
 import { pagination } from "../../../config/kulturdaten.config";
 import { EventFilterStrategy, EventFilterStrategyToken } from '../filter/events.filter.strategy';
 import { Filter } from '../../../generated/models/Filter.generated';
+import { MatchMode } from '../../../generated/models/MatchMode.generated';
 
 @Service()
 export class EventsService {
@@ -35,7 +36,7 @@ export class EventsService {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}
 		let events: Event[] | null = null;
-		let matchMode: string = searchEventsRequest.matchMode ? searchEventsRequest.matchMode : 'any';
+		let matchMode: MatchMode = searchEventsRequest.matchMode ? searchEventsRequest.matchMode : "any";
 
 		for (const strategy of this.filterStrategies) {
 			if (strategy.isExecutable(searchEventsRequest)) {
@@ -51,18 +52,29 @@ export class EventsService {
 		if (!events) {
 			events = [];
 		}
-		return Promise.resolve({ events: [...this.paginate(events, page, pageSize)], page: page, pageSize: pageSize, totalCount: events.length });
+		return { events: [...this.paginate(events, page, pageSize)], page: page, pageSize: pageSize, totalCount: events.length };
 	}
 
-	private match(eventsA: Event[], eventsB: Event[], matchMode: string): Event[] {
-		if (matchMode === 'all') {
-			return eventsA.filter(eventA =>
-				eventsB.some(eventB => eventB.identifier === eventA.identifier)
-			);
-		} else {
-			return [...eventsA, ...eventsB];
+	private match(eventsA: Event[], eventsB: Event[], matchMode: MatchMode): Event[] {
+		switch (matchMode) {
+			case "all":
+				return this.getIntersection(eventsA, eventsB);		
+			case "any":
+				return this.removeDuplicates([...eventsA, ...eventsB]);
 		}
 	}
+
+	private getIntersection(eventsA: Event[], eventsB: Event[]): Event[] {
+		return eventsA.filter(eventA =>
+			eventsB.some(eventB => eventB.identifier === eventA.identifier)
+		);
+	}
+
+	private removeDuplicates(events: Event[]): Event[] {
+		return events.filter((event, index, self) =>
+		  index === self.findIndex((e) => e.identifier === event.identifier)
+		);
+	  }
 
 	private paginate(events: Event[], page: number, pageSize: number): Event[] {
 		const startIndex = (page - 1) * pageSize;
