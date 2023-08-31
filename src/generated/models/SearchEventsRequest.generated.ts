@@ -19,7 +19,7 @@ export const schemaForSearchEventsRequest = {
   properties: {
     matchMode: {type: "string", enum: ["any", "all"]},
     searchFilter: {type: "object", additionalProperties: true},
-    findEventsByAttractionTag: {
+    byAttractionTags: {
       type: "object",
       properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
     }
@@ -41,7 +41,7 @@ export interface SearchEventsRequest {
   searchFilter?: {
     [k: string]: unknown;
   };
-  findEventsByAttractionTag?: {
+  byAttractionTags?: {
     tags?: string[];
     matchMode?: "any" | "all";
   };

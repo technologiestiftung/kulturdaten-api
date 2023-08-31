@@ -4346,7 +4346,7 @@ components:
         searchFilter:
           type: object
           additionalProperties: true
-        findEventsByAttractionTag:
+        byAttractionTags:
           type: object
           properties:
             tags:
