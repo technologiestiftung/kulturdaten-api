@@ -35,7 +35,7 @@ export class EventsService {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}
 		let events: Event[] | null = null;
-		let matchMode: string = searchEventsRequest.matchMode ? searchEventsRequest.matchMode : 'any';
+		const matchMode: string = searchEventsRequest.matchMode ? searchEventsRequest.matchMode : 'any';
 
 		for (const strategy of this.filterStrategies) {
 			if (strategy.isExecutable(searchEventsRequest)) {
