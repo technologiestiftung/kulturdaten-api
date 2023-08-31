@@ -8,7 +8,7 @@ import { Event } from '../../../generated/models/Event.generated';
  * 
  * extend the call 
  * `Container.import([<ImplementationName>, <OtherImplementations>]);`
- * in the initDependencyInjetion() method in app.ts
+ * in the initDependencyInjection() method in app.ts
  * 
  * Failure to do so may result in unresolved dependencies during runtime.
  */
