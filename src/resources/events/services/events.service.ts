@@ -55,7 +55,7 @@ export class EventsService {
 		return { events: [...this.paginate(events, page, pageSize)], page: page, pageSize: pageSize, totalCount: events.length };
 	}
 
-	private match(eventsA: Event[], eventsB: Event[], matchMode: MatchMode): Event[] {
+	match(eventsA: Event[], eventsB: Event[], matchMode: MatchMode): Event[] {
 		switch (matchMode) {
 			case "all":
 				return this.getIntersection(eventsA, eventsB);		
@@ -64,13 +64,13 @@ export class EventsService {
 		}
 	}
 
-	private getIntersection(eventsA: Event[], eventsB: Event[]): Event[] {
+	getIntersection(eventsA: Event[], eventsB: Event[]): Event[] {
 		return eventsA.filter(eventA =>
 			eventsB.some(eventB => eventB.identifier === eventA.identifier)
 		);
 	}
 
-	private removeDuplicates(events: Event[]): Event[] {
+	removeDuplicates(events: Event[]): Event[] {
 		return events.filter((event, index, self) =>
 		  index === self.findIndex((e) => e.identifier === event.identifier)
 		);
