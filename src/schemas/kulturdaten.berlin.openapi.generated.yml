@@ -743,7 +743,7 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:

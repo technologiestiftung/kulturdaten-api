@@ -25,8 +25,6 @@ export class AttractionsRoutes {
 			.get('/', (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference; 
 				const pagination: Pagination = getPagination(req);
-
-				log(JSON.stringify(pagination))
 				
 				if(asReference){
 					this.attractionsController.listAttractionsAsReference(res, pagination);
