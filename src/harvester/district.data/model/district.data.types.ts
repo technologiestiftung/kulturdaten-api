@@ -1,7 +1,3 @@
-
-
-
-
 export type Bezirksdaten = {
 	bezirke: Bezirke;
 	kategorien: Kategorien;
@@ -9,8 +5,7 @@ export type Bezirksdaten = {
 	veranstalter: VeranstalterList;
 	veranstaltungsorte: Veranstaltungsorte;
 	events: Veranstaltungen;
-}
-
+};
 
 export type Bezirke = {
 	[key: string]: {
@@ -40,8 +35,7 @@ export type Barrierefreiheit = {
 };
 
 export type VeranstalterList = {
-	[key: string]:
-	Veranstalter
+	[key: string]: Veranstalter;
 };
 
 export type Veranstalter = {
@@ -53,7 +47,7 @@ export type Veranstalter = {
 	ort: string | null;
 	telefon: string | null;
 	bezirk_id: string | null;
-}
+};
 
 export type Veranstaltungsort = {
 	id: string;
@@ -109,11 +103,9 @@ export type Veranstaltung = {
 	kategorie_ids: { [categoryId: string]: string };
 };
 
-
 export type Termine = {
-	[terminId: string]: 
-		Termin;
-}
+	[terminId: string]: Termin;
+};
 
 export type Termin = {
 	id: string;
@@ -126,7 +118,7 @@ export type Termin = {
 	uhrzeit_bis_nutzen: string | null;
 	verbleibend: string | null;
 	letztes_vorkommen: string | null;
-}
+};
 
 export type Veranstaltungen = {
 	[id: string]: Veranstaltung;

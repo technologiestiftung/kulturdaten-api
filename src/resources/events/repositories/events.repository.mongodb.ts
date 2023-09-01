@@ -1,49 +1,43 @@
 import { Inject, Service } from "typedi";
-import { MongoDBConnector } from "../../../common/services/mongodb.service";
-import { EventsRepository } from "./events.repository";
-import { generateEventID } from "../../../utils/IDUtil";
-import { Event } from "../../../generated/models/Event.generated";
-import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
-import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
-import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
-import { Reference } from "../../../generated/models/Reference.generated";
-import { Filter } from "../../../generated/models/Filter.generated";
-import { generateEventReference, getEventReferenceProjection } from "../../../utils/ReferenceUtil";
 import { Pagination } from "../../../common/parameters/Pagination";
+import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
-
+import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
+import { Event } from "../../../generated/models/Event.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
+import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
+import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
+import { generateEventID } from "../../../utils/IDUtil";
+import { generateEventReference, getEventReferenceProjection } from "../../../utils/ReferenceUtil";
+import { EventsRepository } from "./events.repository";
 
 @Service()
 export class MongoDBEventsRepository implements EventsRepository {
-
-	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
-
+	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
 
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const events = await this.dbConnector.events();
 
-		let query = events.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
-	
-		if(pagination) {
-			query = query
-				.limit(pagination.pageSize)
-				.skip((pagination.page - 1) * pagination.pageSize);
+		let query = events.find(filter || {}, {
+			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
+		});
+
+		if (pagination) {
+			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
 		}
-		
+
 		return query.toArray();
 	}
 
-
-
-	async searchEvents(filter?: Filter, pagination?: Pagination): Promise<Event[]> {	
+	async searchEvents(filter?: Filter, pagination?: Pagination): Promise<Event[]> {
 		return this.get(filter, undefined, pagination);
 	}
 
-
-	async searchAllEvents(filter: Filter, projection? : object) : Promise<Event[]> {
+	async searchAllEvents(filter: Filter, projection?: object): Promise<Event[]> {
 		return this.get(filter, projection, undefined);
 	}
-	
+
 	async countEvents(filter?: Filter): Promise<number> {
 		const events = await this.dbConnector.events();
 		return events.countDocuments(filter);
@@ -53,7 +47,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		return this.get(undefined, undefined, pagination);
 	}
 
-	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[]> {	
+	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[]> {
 		return this.get(undefined, getEventReferenceProjection(), pagination);
 	}
 
@@ -68,7 +62,6 @@ export class MongoDBEventsRepository implements EventsRepository {
 			return null;
 		}
 		return generateEventReference(newEvent);
-
 	}
 
 	async getEventByIdentifier(eventId: string): Promise<Event | null> {
@@ -91,12 +84,12 @@ export class MongoDBEventsRepository implements EventsRepository {
 		return result.deletedCount === 1;
 	}
 
-	async setEventStatus(eventId: string, status: Event['status']): Promise<boolean> {
+	async setEventStatus(eventId: string, status: Event["status"]): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: { status: status } });
 		return result.modifiedCount === 1;
 	}
-	async setScheduleStatus(eventId: string, status: Event['scheduleStatus']): Promise<boolean> {
+	async setScheduleStatus(eventId: string, status: Event["scheduleStatus"]): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne({ identifier: eventId }, { $set: { scheduleStatus: status } });
 		return result.modifiedCount === 1;
@@ -104,8 +97,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	async addEventLocation(eventId: string, locationReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId },
-			{ $push: { locations: locationReference } });
+		const result = await events.updateOne({ identifier: eventId }, { $push: { locations: locationReference } });
 		return result.modifiedCount === 1;
 	}
 	async removeEventLocation(eventId: string, locationId: string): Promise<boolean> {
@@ -118,8 +110,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 	}
 	async addEventAttraction(eventId: string, attractionReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId },
-			{ $push: { attractions: attractionReference } });
+		const result = await events.updateOne({ identifier: eventId }, { $push: { attractions: attractionReference } });
 		return result.modifiedCount === 1;
 	}
 	async removeEventAttraction(eventId: string, attractionId: string): Promise<boolean> {
@@ -143,20 +134,20 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	async reschedule(eventId: string, rescheduleEventRequest: RescheduleEventRequest): Promise<boolean> {
 		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $set: { schedule: rescheduleEventRequest, scheduleStatus: 'event.rescheduled' } });
+		const result = await events.updateOne(
+			{ identifier: eventId },
+			{ $set: { schedule: rescheduleEventRequest, scheduleStatus: "event.rescheduled" } }
+		);
 		return result.modifiedCount === 1;
 	}
 
 	async searchDuplicates(event: Event): Promise<Event[]> {
 		const events = await this.dbConnector.events();
 		const query = {
-			'origin.originId': event.metadata?.originObjectID,
-			'origin.name': event.metadata?.origin
+			"origin.originId": event.metadata?.originObjectID,
+			"origin.name": event.metadata?.origin,
 		};
 		const response = await events.find(query).toArray();
 		return response;
 	}
-
-
-
 }

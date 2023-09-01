@@ -1,22 +1,19 @@
-import express from 'express';
-import debug from 'debug';
-import { UsersService } from '../services/users.service';
+import debug from "debug";
+import express from "express";
+import { UsersService } from "../services/users.service";
 
-const log: debug.IDebugger = debug('app:users-middleware');
+const log: debug.IDebugger = debug("app:users-middleware");
 
 export class checkUsers {
-
-	static eMailIsNotExist = (usersService : UsersService) => async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-		const email = req.body.email;
-		if(await usersService.getUserByEmail(email)){
-			res.status(409).send(
-				{
-					"msg": "email is already in use",
-				  }
-			);
-		} else {
-			next();
-		}
-	}
-
+	static eMailIsNotExist =
+		(usersService: UsersService) => async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+			const email = req.body.email;
+			if (await usersService.getUserByEmail(email)) {
+				res.status(409).send({
+					msg: "email is already in use",
+				});
+			} else {
+				next();
+			}
+		};
 }

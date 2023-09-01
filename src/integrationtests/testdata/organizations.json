@@ -1,5 +1,4 @@
 [
-
 	{
 		"type": "type.Organization",
 		"identifier": "berlin-art-emporium-12345",
@@ -101,53 +100,51 @@
 	},
 
 	{
-    "type": "type.Organization",
-    "identifier": "temporal-cultural-exchange-45123",
-    "metadata": {
-        "created": "2350-01-12T10:20:00Z",
-        "updated": "2023-07-06T12:35:00Z",
-        "origin": "temporal-exchange-program-2350",
-        "originObjectID": "tep2350",
-        "availableLanguages": ["de", "en", "intergalactic"]
-    },
-    "status": "organization.published",
-    "activationStatus": "organization.active",
-    "title": {
-        "de": "Zeitreisende Kulturelle Austauschorganisation",
-        "en": "Time-Traveling Cultural Exchange Organization",
-        "intergalactic": "Tzoruk-Shi Zukal Moru-Toru"
-    },
-    "displayName": {
-        "de": "Zeitreisende Kultur",
-        "en": "Time-Traveling Culture",
-        "intergalactic": "Tzoruk Zukal"
-    },
-    "description": {
-        "de": "Eine Organisation aus dem Jahr 2350, die durch eine Zeitmaschine ins heutige Berlin gereist ist, um Menschen mit faszinierenden Kulturveranstaltungen aus der Zukunft vertraut zu machen.",
-        "en": "An organization from the year 2350 that has traveled through a time machine to present-day Berlin to acquaint people with fascinating cultural events from the future.",
-        "intergalactic": "Kruzar Shika Moruk Zuma 2350, Toru-Zima Tzoruk Berlin, Zish-Moru Gata-Zum Roshu Tzoruk-Toru."
-    },
-    "website": "https://temporal-cultural-exchange.org",
-    "inLanguages": ["de", "en", "intergalactic"],
-    "tags": ["time-travel", "culture", "future", "exchange", "Berlin", "intergalactic"],
-    "address": {
-        "streetAddress": "Zeitreisendenplatz 1",
-        "addressLocality": "Berlin",
-        "postalCode": "10179",
-        "description": "Neben dem Zeitportal"
-    },
-    "borough": "Mitte",
-    "coordinates": {
-        "latitude": "52.5219",
-        "longitude": "13.4134",
-        "coordinateSystem": "WGS84 (Decimal Degrees)"
-    },
-    "contact": {
-        "name": "Zara Xel'Naga",
-        "email": "contact@temporal-cultural-exchange.org",
-        "telephone": "+49 30 1234 5678"
-    }
-}
-
-	
+		"type": "type.Organization",
+		"identifier": "temporal-cultural-exchange-45123",
+		"metadata": {
+			"created": "2350-01-12T10:20:00Z",
+			"updated": "2023-07-06T12:35:00Z",
+			"origin": "temporal-exchange-program-2350",
+			"originObjectID": "tep2350",
+			"availableLanguages": ["de", "en", "intergalactic"]
+		},
+		"status": "organization.published",
+		"activationStatus": "organization.active",
+		"title": {
+			"de": "Zeitreisende Kulturelle Austauschorganisation",
+			"en": "Time-Traveling Cultural Exchange Organization",
+			"intergalactic": "Tzoruk-Shi Zukal Moru-Toru"
+		},
+		"displayName": {
+			"de": "Zeitreisende Kultur",
+			"en": "Time-Traveling Culture",
+			"intergalactic": "Tzoruk Zukal"
+		},
+		"description": {
+			"de": "Eine Organisation aus dem Jahr 2350, die durch eine Zeitmaschine ins heutige Berlin gereist ist, um Menschen mit faszinierenden Kulturveranstaltungen aus der Zukunft vertraut zu machen.",
+			"en": "An organization from the year 2350 that has traveled through a time machine to present-day Berlin to acquaint people with fascinating cultural events from the future.",
+			"intergalactic": "Kruzar Shika Moruk Zuma 2350, Toru-Zima Tzoruk Berlin, Zish-Moru Gata-Zum Roshu Tzoruk-Toru."
+		},
+		"website": "https://temporal-cultural-exchange.org",
+		"inLanguages": ["de", "en", "intergalactic"],
+		"tags": ["time-travel", "culture", "future", "exchange", "Berlin", "intergalactic"],
+		"address": {
+			"streetAddress": "Zeitreisendenplatz 1",
+			"addressLocality": "Berlin",
+			"postalCode": "10179",
+			"description": "Neben dem Zeitportal"
+		},
+		"borough": "Mitte",
+		"coordinates": {
+			"latitude": "52.5219",
+			"longitude": "13.4134",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"contact": {
+			"name": "Zara Xel'Naga",
+			"email": "contact@temporal-cultural-exchange.org",
+			"telephone": "+49 30 1234 5678"
+		}
+	}
 ]

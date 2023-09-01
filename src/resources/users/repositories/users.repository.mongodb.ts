@@ -1,23 +1,21 @@
 import { Inject, Service } from "typedi";
+import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
-import { UsersRepository } from "./users.repository";
-import { generateID } from "../../../utils/IDUtil";
-import { User } from "../../../generated/models/User.generated";
+import { MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
-import { Pagination } from "../../../common/parameters/Pagination";
-import { MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
-
+import { User } from "../../../generated/models/User.generated";
+import { generateID } from "../../../utils/IDUtil";
+import { UsersRepository } from "./users.repository";
 
 @Service()
 export class MongoDBUsersRepository implements UsersRepository {
-
-	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
 
 	async getUserByEmail(email: string): Promise<User | null> {
 		email = email.toLowerCase();
 		const users = await this.dbConnector.users();
-		return users.findOne({ email: email }, { projection: { _id: 0, password:0 } });
+		return users.findOne({ email: email }, { projection: { _id: 0, password: 0 } });
 	}
 	async getUserByEmailWithPassword(email: string): Promise<User | null> {
 		email = email.toLowerCase();
@@ -39,21 +37,19 @@ export class MongoDBUsersRepository implements UsersRepository {
 		const users = await this.dbConnector.users();
 
 		let query = users.find({}, { projection: MONGO_DB_USER_DEFAULT_PROJECTION });
-	
-		if(pagination) {
-			query = query
-				.limit(pagination.pageSize)
-				.skip((pagination.page - 1) * pagination.pageSize);
+
+		if (pagination) {
+			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
 		}
-		
+
 		return query.toArray();
 	}
 	async getUserByIdentifier(userId: string): Promise<User | null> {
 		const users = await this.dbConnector.users();
-		return users.findOne({ identifier: userId }, { projection: { _id: 0, password:0 } });
+		return users.findOne({ identifier: userId }, { projection: { _id: 0, password: 0 } });
 	}
 	async updateUserById(userId: string, userFields: UpdateUserRequest): Promise<boolean> {
-		if(userFields.email) userFields.email = userFields.email.toLowerCase();
+		if (userFields.email) userFields.email = userFields.email.toLowerCase();
 		const users = await this.dbConnector.users();
 		const result = await users.updateOne({ identifier: userId }, { $set: userFields });
 		return result.modifiedCount === 1;

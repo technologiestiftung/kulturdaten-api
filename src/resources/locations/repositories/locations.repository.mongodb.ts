@@ -1,37 +1,35 @@
 import { Inject, Service } from "typedi";
-import { MongoDBConnector } from "../../../common/services/mongodb.service";
-import { LocationsRepository } from "./locations.repository";
-import { generateLocationID } from "../../../utils/IDUtil";
-import { Location } from "../../../generated/models/Location.generated";
-import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
-import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
-import { Reference } from "../../../generated/models/Reference.generated";
-import { Filter } from "../../../generated/models/Filter.generated";
-import { generateLocationReference, getLocationReferenceProjection } from "../../../utils/ReferenceUtil";
 import { Pagination } from "../../../common/parameters/Pagination";
+import { MongoDBConnector } from "../../../common/services/mongodb.service";
 import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
-
+import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
+import { Location } from "../../../generated/models/Location.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
+import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
+import { generateLocationID } from "../../../utils/IDUtil";
+import { generateLocationReference, getLocationReferenceProjection } from "../../../utils/ReferenceUtil";
+import { LocationsRepository } from "./locations.repository";
 
 @Service()
 export class MongoDBLocationsRepository implements LocationsRepository {
-
-	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
 
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const locations = await this.dbConnector.locations();
 
-		let query = locations.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
-	
-		if(pagination) {
-			query = query
-				.limit(pagination.pageSize)
-				.skip((pagination.page - 1) * pagination.pageSize);
+		let query = locations.find(filter || {}, {
+			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
+		});
+
+		if (pagination) {
+			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
 		}
-		
+
 		return query.toArray();
 	}
 
-	async searchLocations(filter?: Filter,  pagination?: Pagination): Promise<Location[]> {
+	async searchLocations(filter?: Filter, pagination?: Pagination): Promise<Location[]> {
 		return this.get(filter, undefined, pagination);
 	}
 
@@ -41,9 +39,8 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	async getLocationsAsReferences(pagination?: Pagination): Promise<Reference[]> {
 		return this.get(undefined, getLocationReferenceProjection(), pagination);
-
 	}
-	
+
 	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
 		const newLocation = createLocation as Location;
 		newLocation.identifier = generateLocationID();
@@ -57,8 +54,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return generateLocationReference(newLocation);
 	}
 
-
-	async searchAllLocations(filter: Filter, projection? : object): Promise<Location[]> {
+	async searchAllLocations(filter: Filter, projection?: object): Promise<Location[]> {
 		return this.get(filter, projection, undefined);
 	}
 
@@ -83,28 +79,27 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return result.deletedCount === 1;
 	}
 
-
-	async updateOpeningStatus(identifier: string, openingStatus: Location['openingStatus']): Promise<boolean> {
+	async updateOpeningStatus(identifier: string, openingStatus: Location["openingStatus"]): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
-		const filter = { identifier: identifier }; 
-        const updateDocument = {
-            $set: {
-                "openingStatus": openingStatus
-            },
-        };
-        const result = await locations.updateOne(filter, updateDocument);
+		const filter = { identifier: identifier };
+		const updateDocument = {
+			$set: {
+				openingStatus: openingStatus,
+			},
+		};
+		const result = await locations.updateOne(filter, updateDocument);
 		return result.modifiedCount === 1;
 	}
 
-	async updateStatus(identifier: string, status: Location['status']): Promise<boolean> {
+	async updateStatus(identifier: string, status: Location["status"]): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
-		const filter = { identifier: identifier }; 
-        const updateDocument = {
-            $set: {
-                "status": status
-            },
-        };
-        const result = await locations.updateOne(filter, updateDocument);
+		const filter = { identifier: identifier };
+		const updateDocument = {
+			$set: {
+				status: status,
+			},
+		};
+		const result = await locations.updateOne(filter, updateDocument);
 		return result.modifiedCount === 1;
 	}
 
@@ -120,5 +115,4 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		const locations = await this.dbConnector.locations();
 		return locations.countDocuments(filter);
 	}
-
 }

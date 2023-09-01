@@ -1,63 +1,77 @@
-import express from 'express';
-import { OrganizationsService } from '../services/organizations.service';
-import debug from 'debug';
-import { Service } from 'typedi';
-import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
-import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrganizationRequest.generated';
-import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
-import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
-import { Reference } from '../../../generated/models/Reference.generated';
-import { Pagination } from '../../../common/parameters/Pagination';
+import debug from "debug";
+import express from "express";
+import { Service } from "typedi";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/response.builders";
+import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
+import { SearchOrganizationsRequest } from "../../../generated/models/SearchOrganizationsRequest.generated";
+import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
+import { OrganizationsService } from "../services/organizations.service";
 
-const log: debug.IDebugger = debug('app:organizations-controller');
+const log: debug.IDebugger = debug("app:organizations-controller");
 
 @Service()
 export class OrganizationsController {
-
-	constructor(public organizationsService: OrganizationsService) { }
+	constructor(public organizationsService: OrganizationsService) {}
 
 	async listOrganizations(res: express.Response, pagination: Pagination) {
 		const organizations = await this.organizationsService.list(pagination);
 		const totalCount = await this.organizationsService.countOrganizations();
 
-		res.status(200).send(new SuccessResponseBuilder().okResponse(
-			{
-				page: pagination.page,
-				pageSize: pagination.pageSize,
-				totalCount: totalCount,
-				organizations: organizations
-			}).build());
+		res.status(200).send(
+			new SuccessResponseBuilder()
+				.okResponse({
+					page: pagination.page,
+					pageSize: pagination.pageSize,
+					totalCount: totalCount,
+					organizations: organizations,
+				})
+				.build()
+		);
 	}
 
 	async listOrganizationsAsReference(res: express.Response, pagination: Pagination) {
 		const organizationsReferences = await this.organizationsService.listAsReferences(pagination);
 		const totalCount = await this.organizationsService.countOrganizations();
 
-		res.status(200).send(new SuccessResponseBuilder().okResponse(
-			{
-				page: pagination.page,
-				pageSize: pagination.pageSize,
-				totalCount: totalCount,
-				organizationsReferences: organizationsReferences
-			}).build());
+		res.status(200).send(
+			new SuccessResponseBuilder()
+				.okResponse({
+					page: pagination.page,
+					pageSize: pagination.pageSize,
+					totalCount: totalCount,
+					organizationsReferences: organizationsReferences,
+				})
+				.build()
+		);
 	}
 
-	async searchOrganizations(res: express.Response, searchOrganizationsRequest: SearchOrganizationsRequest, pagination: Pagination) {
+	async searchOrganizations(
+		res: express.Response,
+		searchOrganizationsRequest: SearchOrganizationsRequest,
+		pagination: Pagination
+	) {
 		const filter = searchOrganizationsRequest.searchFilter;
-		
+
 		const organizations = await this.organizationsService.search(filter, pagination);
 		const totalCount = await this.organizationsService.countOrganizations(filter);
 
 		if (organizations) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse(
-				{
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount, 
-					organizations: organizations 
-				}).build());
+			res.status(200).send(
+				new SuccessResponseBuilder()
+					.okResponse({
+						page: pagination.page,
+						pageSize: pagination.pageSize,
+						totalCount: totalCount,
+						organizations: organizations,
+					})
+					.build()
+			);
 		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("No organizations matched the search criteria").build());
+			res
+				.status(404)
+				.send(new ErrorResponseBuilder().notFoundResponse("No organizations matched the search criteria").build());
 		}
 	}
 
@@ -73,7 +87,9 @@ export class OrganizationsController {
 	async getOrganizationReferenceById(res: express.Response, identifier: string) {
 		const organizationReference = await this.organizationsService.readReferenceById(identifier);
 		if (organizationReference) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
+			res
+				.status(200)
+				.send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
 		}
@@ -82,30 +98,36 @@ export class OrganizationsController {
 	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
 		const organizationReference = await this.organizationsService.create(createOrganization);
 		if (organizationReference) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
+			res
+				.status(201)
+				.send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
 		} else {
-			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build());
+			res
+				.status(400)
+				.send(
+					new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build()
+				);
 		}
 	}
 
 	async createOrganizations(res: express.Response, createOrganizationsRequest: CreateOrganizationRequest[]) {
 		const organizationsReferences: Promise<Reference | null>[] = [];
-		createOrganizationsRequest.forEach(async request => {
+		createOrganizationsRequest.forEach(async (request) => {
 			organizationsReferences.push(this.organizationsService.create(request));
 		});
-		const oR = await Promise.all(organizationsReferences)
+		const oR = await Promise.all(organizationsReferences);
 
 		res.status(201).send(new SuccessResponseBuilder().okResponse({ organizations: oR }).build());
 	}
-
-
 
 	async unarchiveOrganization(res: express.Response, identifier: string) {
 		const isUnarchived = await this.organizationsService.unarchive(identifier);
 		if (isUnarchived) {
 			res.status(200).send();
 		} else {
-			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unarchive the organization").build());
+			res
+				.status(400)
+				.send(new ErrorResponseBuilder().badRequestResponse("Failed to unarchive the organization").build());
 		}
 	}
 
@@ -132,7 +154,9 @@ export class OrganizationsController {
 		if (isDeactivated) {
 			res.status(200).send();
 		} else {
-			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to deactivate the organization").build());
+			res
+				.status(400)
+				.send(new ErrorResponseBuilder().badRequestResponse("Failed to deactivate the organization").build());
 		}
 	}
 
@@ -141,11 +165,17 @@ export class OrganizationsController {
 		if (isActivated) {
 			res.status(200).send();
 		} else {
-			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to activate the organization").build());
+			res
+				.status(400)
+				.send(new ErrorResponseBuilder().badRequestResponse("Failed to activate the organization").build());
 		}
 	}
 
-	async updateOrganization(res: express.Response, identifier: string, updateOrganizationRequest: UpdateOrganizationRequest) {
+	async updateOrganization(
+		res: express.Response,
+		identifier: string,
+		updateOrganizationRequest: UpdateOrganizationRequest
+	) {
 		const isUpdated = await this.organizationsService.update(identifier, updateOrganizationRequest);
 		if (isUpdated) {
 			res.status(200).send();
@@ -153,6 +183,4 @@ export class OrganizationsController {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the organization").build());
 		}
 	}
-
-
 }

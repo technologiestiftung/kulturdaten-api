@@ -1,64 +1,60 @@
 import { Inject, Service } from "typedi";
+import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/mongodb.service";
-import { AttractionsRepository } from "./attractions.repository";
-import { generateAttractionID } from "../../../utils/IDUtil";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
+import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
-import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
-import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
-import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
-import { Reference } from "../../../generated/models/Reference.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
-import { getAttractionReferenceProjection } from "../../../utils/ReferenceUtil";
-import { generateAttractionReference } from "../../../utils/ReferenceUtil";
-import { Pagination } from "../../../common/parameters/Pagination";
-import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
-
+import { Reference } from "../../../generated/models/Reference.generated";
+import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
+import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
+import { generateAttractionID } from "../../../utils/IDUtil";
+import { generateAttractionReference, getAttractionReferenceProjection } from "../../../utils/ReferenceUtil";
+import { AttractionsRepository } from "./attractions.repository";
 
 @Service()
 export class MongoDBAttractionsRepository implements AttractionsRepository {
-
-	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
+	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
 
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const attractions = await this.dbConnector.attractions();
 
-		let query = attractions.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
-	
-		if(pagination) {
-			query = query
-				.limit(pagination.pageSize)
-				.skip((pagination.page - 1) * pagination.pageSize);
+		let query = attractions.find(filter || {}, {
+			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
+		});
+
+		if (pagination) {
+			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
 		}
-		
+
 		return query.toArray();
 	}
 
-	async searchAttractions(filter?: Filter,  pagination?: Pagination): Promise<Attraction[]> {
+	async searchAttractions(filter?: Filter, pagination?: Pagination): Promise<Attraction[]> {
 		return this.get(filter, undefined, pagination);
 	}
 
-	async searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>{
+	async searchAllAttractions(filter: Filter, projection?: object): Promise<Attraction[]> {
 		return this.get(filter, projection, undefined);
-	} 
+	}
 
 	async getAttractions(pagination?: Pagination): Promise<Attraction[]> {
 		return this.get(undefined, undefined, pagination);
 	}
 
-	async getAttractionsAsReferences(pagination?: Pagination): Promise<Reference[]>{
+	async getAttractionsAsReferences(pagination?: Pagination): Promise<Reference[]> {
 		return this.get(undefined, getAttractionReferenceProjection(), pagination);
 	}
 
-
-	async addAttraction(createAttraction: CreateAttractionRequest) : Promise<Reference | null> {
+	async addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null> {
 		const newAttraction = createAttraction as Attraction;
 		newAttraction.identifier = generateAttractionID();
 
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.insertOne(newAttraction);
-		
-		if(!result.acknowledged){
+
+		if (!result.acknowledged) {
 			return null;
 		}
 		return generateAttractionReference(newAttraction);
@@ -69,10 +65,12 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return attractions.findOne({ identifier: attractionId }, { projection: { _id: 0 } });
 	}
 
-
-	async getAttractionReferenceByIdentifier(attractionId: string) : Promise<Reference | null> {
+	async getAttractionReferenceByIdentifier(attractionId: string): Promise<Reference | null> {
 		const attractions = await this.dbConnector.attractions();
-		return attractions.findOne({ identifier: attractionId }, { projection:  getAttractionReferenceProjection()}) as Reference;
+		return attractions.findOne(
+			{ identifier: attractionId },
+			{ projection: getAttractionReferenceProjection() }
+		) as Reference;
 	}
 
 	async updateAttractionById(attractionId: string, attractionFields: UpdateAttractionRequest): Promise<boolean> {
@@ -81,7 +79,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return result.modifiedCount === 1;
 	}
 
-	async updateAttractionStatusById(attractionId: string, newStatus:  Attraction['status']): Promise<boolean> {
+	async updateAttractionStatusById(attractionId: string, newStatus: Attraction["status"]): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne({ identifier: attractionId }, { $set: { status: newStatus } });
 		return result.modifiedCount === 1;
@@ -96,28 +94,28 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	async searchDuplicates(attraction: Attraction): Promise<Attraction[]> {
 		const attractions = await this.dbConnector.attractions();
 		const query = {
-			'origin.originId': attraction.metadata?.originObjectID,
-			'origin.name': attraction.metadata?.origin
+			"origin.originId": attraction.metadata?.originObjectID,
+			"origin.name": attraction.metadata?.origin,
 		};
 		const response = await attractions.find(query).toArray();
 		return response;
 	}
 
-
 	async addExternalLink(attractionId: string, externalLink: AddExternalLinkRequest): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
-		const result = await attractions.updateOne({ identifier: attractionId },
-			{ $push: { externalLinks: externalLink } });
+		const result = await attractions.updateOne(
+			{ identifier: attractionId },
+			{ $push: { externalLinks: externalLink } }
+		);
 		return result.modifiedCount === 1;
 	}
-
 
 	async removeExternalLink(attractionId: string, externalLink: RemoveExternalLinkRequest): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne(
 			{ identifier: attractionId },
 			{ $pull: { externalLinks: { url: externalLink } } }
-		  );
+		);
 		return result.modifiedCount === 1;
 	}
 
@@ -125,5 +123,4 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		return attractions.countDocuments(filter);
 	}
-
 }

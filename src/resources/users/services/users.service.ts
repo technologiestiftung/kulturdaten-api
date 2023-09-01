@@ -1,13 +1,12 @@
-import { UsersRepository } from '../repositories/users.repository';
-import { Inject, Service } from 'typedi';
-import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
-import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
-import { Pagination } from '../../../common/parameters/Pagination';
+import { Inject, Service } from "typedi";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
+import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
+import { UsersRepository } from "../repositories/users.repository";
 
 @Service()
-export class UsersService{
-
-	constructor(@Inject('UsersRepository') public usersRepository: UsersRepository){}
+export class UsersService {
+	constructor(@Inject("UsersRepository") public usersRepository: UsersRepository) {}
 
 	async create(createUser: CreateUserRequest) {
 		return this.usersRepository.addUser(createUser);
@@ -29,18 +28,15 @@ export class UsersService{
 		return this.usersRepository.getUserByIdentifier(id);
 	}
 
-
 	async getUserByEmail(email: string) {
 		return this.usersRepository.getUserByEmail(email);
 	}
 
-	async getUserByEmailWithPassword(email: string){
+	async getUserByEmailWithPassword(email: string) {
 		return this.usersRepository.getUserByEmailWithPassword(email);
 	}
 
 	async countUsers(): Promise<number> {
 		return this.usersRepository.countUsers();
-	  }
-	
-
+	}
 }

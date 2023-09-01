@@ -1,15 +1,12 @@
-import debug from 'debug';
-import { User } from '../../../generated/models/User.generated';
-import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
-import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
-import { Pagination } from '../../../common/parameters/Pagination';
+import debug from "debug";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
+import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
+import { User } from "../../../generated/models/User.generated";
 
-
-const log: debug.IDebugger = debug('app:users-repository');
-
+const log: debug.IDebugger = debug("app:users-repository");
 
 export interface UsersRepository {
-
 	addUser(userFields: CreateUserRequest): Promise<string>;
 
 	getUsers(pagination?: Pagination): Promise<User[] | null>;

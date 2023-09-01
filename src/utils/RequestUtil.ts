@@ -1,11 +1,11 @@
-import express from 'express';
-import { pagination } from '../config/kulturdaten.config';
-import debug from 'debug';
-import { Pagination } from '../common/parameters/Pagination';
+import debug from "debug";
+import express from "express";
+import { Pagination } from "../common/parameters/Pagination";
+import { pagination } from "../config/kulturdaten.config";
 
-const log: debug.IDebugger = debug('app:request-utils');
+const log: debug.IDebugger = debug("app:request-utils");
 
-export function getPagination(req: express.Request) : Pagination {
+export function getPagination(req: express.Request): Pagination {
 	let page: number = extractFromQuery(req.query.page, pagination.defaultPage);
 	let pageSize: number = extractFromQuery(req.query.pageSize, pagination.defaultPageSize);
 
@@ -16,11 +16,10 @@ export function getPagination(req: express.Request) : Pagination {
 }
 
 function extractFromQuery(value: any, defaultValue: number): number {
-    return value ? parseInt(value as string, 10) : defaultValue;
+	return value ? parseInt(value as string, 10) : defaultValue;
 }
 
-
-function adjust(value: number, defaultMinValue: number, defaultMaxValue?: number) : number {
+function adjust(value: number, defaultMinValue: number, defaultMaxValue?: number): number {
 	if (value < defaultMinValue) {
 		value = defaultMinValue;
 	}
