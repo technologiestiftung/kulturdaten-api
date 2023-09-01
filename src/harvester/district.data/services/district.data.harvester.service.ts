@@ -44,7 +44,7 @@ export class DistrictDataService {
 				let url = apiURL + calendarID;
 				const districtData = await this.harvesterClient.fetchData(url);
 	
-				const { createdOrganizations: organizations, duplicateOrganizations: dOrganizations}  = await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
+				const { createdOrganizations: organizations, duplicateOrganizations: dOrganizations}  = await this.createOrganizations(districtData.veranstalter);
 				Object.assign(createdOrganizations, organizations);
 				Object.assign(duplicateOrganizations, dOrganizations);
 	
@@ -69,7 +69,7 @@ export class DistrictDataService {
 	}
 
 
-	async createOrganizations(veranstalter: VeranstalterList, bezirke: Bezirke) : Promise<{ createdOrganizations: {[originObjectID: string]: Reference}, duplicateOrganizations: { [originObjectID: string]: Reference }; }> {
+	async createOrganizations(veranstalter: VeranstalterList) : Promise<{ createdOrganizations: {[originObjectID: string]: Reference}, duplicateOrganizations: { [originObjectID: string]: Reference }; }> {
 		var createdOrganizations: { [originObjectID: string]: Reference } = {};
 		var duplicateOrganizations: { [originObjectID: string]: Reference } = {};
 		for (const key in veranstalter) {
@@ -168,9 +168,9 @@ export class DistrictDataService {
 		return {createdAttractions: createdAttractions, duplicateAttractions: duplicateAttractions, createdEvents: createdEvents, duplicateEvents: duplicateEvents};
 	}
 
-	private createDuplicationFilter(eventID: any) : Filter {
+	private createDuplicationFilter(eventID: string) : Filter {
 		return {
-			'metadata.originObjectID': String(eventID),
+			'metadata.originObjectID': eventID,
 			'metadata.origin': 'bezirkskalender'
 	};
 	}
