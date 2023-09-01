@@ -12,6 +12,7 @@ import { CreateAttractionResponse } from '../../../generated/models/CreateAttrac
 import { SearchAttractionsResponse } from '../../../generated/models/SearchAttractionsResponse.generated';
 import { GetAttractionResponse } from '../../../generated/models/GetAttractionResponse.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 @Service()
 export class AttractionsController {
@@ -20,42 +21,42 @@ export class AttractionsController {
   constructor(
     public attractionsService: AttractionsService) { }
 
-  async listAttractions(res: Response, page: number, pageSize: number) {
-    const attractions = await this.attractionsService.list(page, pageSize);
+  async listAttractions(res: Response, pagination: Pagination) {
+    const attractions = await this.attractionsService.list(pagination);
     const totalCount = await this.attractionsService.countAttractions();
     res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse(
       {
-        page: page,
-        pageSize: pageSize,
+        page: pagination.page,
+        pageSize: pagination.pageSize,
         totalCount: totalCount,
         attractions: attractions
       }).build());
   }
 
-  async listAttractionsAsReference(res: Response, page: number, pageSize: number) {
-    const attractionsReferences = await this.attractionsService.listAsReferences(page, pageSize);
+  async listAttractionsAsReference(res: Response, pagination: Pagination) {
+    const attractionsReferences = await this.attractionsService.listAsReferences(pagination);
     const totalCount = await this.attractionsService.countAttractions();
 
     res.status(200).send(new SuccessResponseBuilder<GetAttractionsResponse>().okResponse(
       {         
-        page: page,
-        pageSize: pageSize,
+        page: pagination.page,
+        pageSize: pagination.pageSize,
         totalCount: totalCount,
         attractionsReferences: attractionsReferences 
       }).build());
   }
 
-  public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest, page: number, pageSize: number) {
-    const filter = searchAttractionsRequest.searchFilter ? searchAttractionsRequest.searchFilter : {};
+  public async searchAttractions(res: Response, searchAttractionsRequest: SearchAttractionsRequest, pagination: Pagination) {
+    const filter = searchAttractionsRequest.searchFilter;
 
-    const attractions = await this.attractionsService.search(filter, page, pageSize);
+    const attractions = await this.attractionsService.search(filter, pagination);
     const totalCount = await this.attractionsService.countAttractions(filter);
 
     if (attractions) {
       res.status(200).send(new SuccessResponseBuilder<SearchAttractionsResponse>().okResponse(
         { 
-          page: page,
-          pageSize: pageSize,
+          page: pagination.page,
+          pageSize: pagination.pageSize,
           totalCount: totalCount,
           attractions: attractions 
         }).build());

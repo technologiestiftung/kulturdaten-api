@@ -8,6 +8,7 @@ import { ClaimLocationRequest } from '../../generated/models/ClaimLocationReques
 import { SearchLocationsRequest } from '../../generated/models/SearchLocationsRequest.generated';
 import { SetLocationManagerRequest } from '../../generated/models/SetLocationManagerRequest.generated';
 import { getPagination } from '../../utils/RequestUtil';
+import { Pagination } from '../../common/parameters/Pagination';
 
 
 const log: debug.IDebugger = debug('app:locations-routes');
@@ -24,12 +25,12 @@ export class LocationsRoutes {
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference;
-				const { page, pageSize} = getPagination(req);
+				const pagination: Pagination = getPagination(req);
 
 				if (asReference) {
-					this.locationsController.listLocationsAsReference(res, page, pageSize);
+					this.locationsController.listLocationsAsReference(res, pagination);
 				} else {
-				this.locationsController.listLocations(res, page, pageSize);
+				this.locationsController.listLocations(res, pagination);
 				}
 			})
 			.post('/', (req: express.Request, res: express.Response) => {
@@ -46,10 +47,10 @@ export class LocationsRoutes {
 
 		router
 			.post('/search', (req: express.Request, res: express.Response) => {
-				const { page, pageSize} = getPagination(req);
+				const pagination: Pagination = getPagination(req);
 
 				const searchLocationsRequest = req.body as SearchLocationsRequest;
-				this.locationsController.searchLocations(res, searchLocationsRequest, page, pageSize);
+				this.locationsController.searchLocations(res, searchLocationsRequest, pagination);
 			});
 
 		router

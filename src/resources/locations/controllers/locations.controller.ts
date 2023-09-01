@@ -10,6 +10,7 @@ import { SetLocationManagerRequest } from '../../../generated/models/SetLocation
 import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
 import { SearchLocationsResponse } from '../../../generated/models/SearchLocationsResponse.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 const log: debug.IDebugger = debug('app:locations-controller');
 
@@ -19,15 +20,15 @@ export class LocationsController {
 	constructor(
 		public locationsService: LocationsService) { }
 
-	async listLocations(res: express.Response, page: number, pageSize: number) {
-		const locations = await this.locationsService.list(page, pageSize);
+	async listLocations(res: express.Response, pagination: Pagination) {
+		const locations = await this.locationsService.list(pagination);
 		const totalCount = await this.locationsService.countLocations();
 
 		if (locations) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse(
 				{ 
-					page: page,
-					pageSize: pageSize,
+					page: pagination.page,
+					pageSize: pagination.pageSize,
 					totalCount: totalCount,
 					locations: locations 
 				}).build());
@@ -36,15 +37,15 @@ export class LocationsController {
 		}
 	}
 
-	async listLocationsAsReference(res: express.Response, page: number, pageSize: number) {
-		const locationsReferences = await this.locationsService.listAsReferences(page, pageSize);
+	async listLocationsAsReference(res: express.Response, pagination: Pagination) {
+		const locationsReferences = await this.locationsService.listAsReferences(pagination);
 		const totalCount = await this.locationsService.countLocations();
 
 		if (locationsReferences) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse(
 				{
-					page: page,
-					pageSize: pageSize,
+					page: pagination.page,
+					pageSize: pagination.pageSize,
 					totalCount: totalCount, 
 					locationsReferences: locationsReferences 
 				}).build());
@@ -53,18 +54,18 @@ export class LocationsController {
 		}
 	}
 
-	async searchLocations(res: express.Response, searchLocationsRequest: SearchLocationsRequest, page: number, pageSize: number) {
+	async searchLocations(res: express.Response, searchLocationsRequest: SearchLocationsRequest, pagination: Pagination) {
 		const filter = searchLocationsRequest.searchFilter ? searchLocationsRequest.searchFilter : {};
 
 		
-		const locations = await this.locationsService.search(filter, page, pageSize);
+		const locations = await this.locationsService.search(filter, pagination);
 		const totalCount = await this.locationsService.countLocations(filter);
 
 		if (locations) {
 			res.status(200).send(new SuccessResponseBuilder<SearchLocationsResponse>().okResponse(
 				{ 
-					page: page,
-					pageSize: pageSize,
+					page: pagination.page,
+					pageSize: pagination.pageSize,
 					totalCount: totalCount,
 					locations: locations 
 				}).build());

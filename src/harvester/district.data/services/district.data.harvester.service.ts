@@ -11,6 +11,8 @@ import { DistrictDataMapper } from "./district.data.mapper";
 import { AttractionsService } from "../../../resources/attractions/services/attractions.service";
 import { TagsService } from "../../../resources/tags/services/tags.service";
 import { Tag } from "../../../generated/models/Tag.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
+
 
 
 @Service()
@@ -43,7 +45,7 @@ export class DistrictDataService {
 				let url = apiURL + calendarID;
 				const districtData = await this.harvesterClient.fetchData(url);
 	
-				const { createdOrganizations: organizations, duplicateOrganizations: dOrganizations}  = await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
+				const { createdOrganizations: organizations, duplicateOrganizations: dOrganizations}  = await this.createOrganizations(districtData.veranstalter);
 				Object.assign(createdOrganizations, organizations);
 				Object.assign(duplicateOrganizations, dOrganizations);
 	
@@ -68,18 +70,12 @@ export class DistrictDataService {
 	}
 
 
-	async createOrganizations(veranstalter: VeranstalterList, bezirke: Bezirke) : Promise<{ createdOrganizations: {[originObjectID: string]: Reference}, duplicateOrganizations: { [originObjectID: string]: Reference }; }> {
+	async createOrganizations(veranstalter: VeranstalterList) : Promise<{ createdOrganizations: {[originObjectID: string]: Reference}, duplicateOrganizations: { [originObjectID: string]: Reference }; }> {
 		var createdOrganizations: { [originObjectID: string]: Reference } = {};
 		var duplicateOrganizations: { [originObjectID: string]: Reference } = {};
 		for (const key in veranstalter) {
 			const v = veranstalter[key];
-			const duplicationFilter = {
-				searchFilter: {
-					'metadata.originObjectID': String(v.id),
-					'metadata.origin': 'bezirkskalender'
-				}
-			};
-			const dOrganizations = await this.organizationService.search(duplicationFilter);
+			const dOrganizations = await this.organizationService.search(this.createDuplicationFilter(v.id));
 			if (dOrganizations.length > 0) {
 				duplicateOrganizations[v.id] = {
 					referenceType: dOrganizations[0].type,
@@ -104,13 +100,7 @@ export class DistrictDataService {
 
 		for (const key in veranstaltungsorte) {
 			const o = veranstaltungsorte[key];
-			const duplicationFilter = {
-				searchFilter: {
-					'metadata.originObjectID': String(o.id),
-					'metadata.origin': 'bezirkskalender'
-				}
-			};
-			const duplicatedLocations = await this.locationService.search(duplicationFilter);
+			const duplicatedLocations = await this.locationService.search(this.createDuplicationFilter(o.id));
 
 			if (duplicatedLocations.length > 0) {
 				duplicateLocations[o.id] = {
@@ -141,13 +131,7 @@ export class DistrictDataService {
 
 		for (const key in events) {
 			const veranstaltung = events[key];
-			const duplicationFilter = {
-				searchFilter: {
-					'metadata.originObjectID': String(veranstaltung.event_id),
-					'metadata.origin': 'bezirkskalender'
-				}
-			};
-			const duplicatedAttractions = await this.attractionService.search(duplicationFilter);
+			const duplicatedAttractions = await this.attractionService.search(this.createDuplicationFilter(veranstaltung.event_id));
 			
 			if (duplicatedAttractions.length > 0) {
 				duplicateAttractions[veranstaltung.event_id] = {
@@ -164,13 +148,7 @@ export class DistrictDataService {
 			}
 			for (const key in veranstaltung.termine) {
 				const termin = veranstaltung.termine[key];
-				const duplicationFilter = {
-					searchFilter: {
-						'metadata.originObjectID': String(termin.id),
-						'metadata.origin': 'bezirkskalender'
-					}
-				};
-				const {events: duplicatedEvents } = await this.eventService.search(duplicationFilter);
+				const {events: duplicatedEvents } = await this.eventService.search(this.createDuplicationFilter(termin.id));
 				if (duplicatedEvents.length > 0) {
 					duplicateEvents[termin.id] = {
 						referenceType: duplicatedEvents[0].type,
@@ -189,6 +167,13 @@ export class DistrictDataService {
 		}
 
 		return {createdAttractions: createdAttractions, duplicateAttractions: duplicateAttractions, createdEvents: createdEvents, duplicateEvents: duplicateEvents};
+	}
+
+	private createDuplicationFilter(eventID: string) : Filter {
+		return {
+			'metadata.originObjectID': eventID,
+			'metadata.origin': 'bezirkskalender'
+	};
 	}
 
 }

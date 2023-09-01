@@ -4,17 +4,18 @@ import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrgan
 import { CreateOrganizationRequest } from '../../../generated/models/CreateOrganizationRequest.generated';
 import { Filter } from '../../../generated/models/Filter.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 
 const log: debug.IDebugger = debug('app:organizations-repository');
 
 export interface OrganizationsRepository {
 
-	getOrganizations(page:number, pageSize:number) : Promise<Organization[]>;
+	getOrganizations(pagination?: Pagination) : Promise<Organization[]>;
 
-	getOrganizationsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
+	getOrganizationsAsReferences(pagination?: Pagination) : Promise<Reference[] | null>;
 
-	searchOrganizations(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Organization[]> ;
+	searchOrganizations(filter?: Filter, pagination?: Pagination): Promise<Organization[]> ;
 	
 	searchAllOrganizations(filter: Filter, projection? : object): Promise<Organization[]> ;
 

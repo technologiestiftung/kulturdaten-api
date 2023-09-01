@@ -6,22 +6,23 @@ import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrgan
 import { Reference } from '../../../generated/models/Reference.generated';
 import { pagination } from "../../../config/kulturdaten.config";
 import { Filter } from '../../../generated/models/Filter.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 @Service()
 export class OrganizationsService  {
 
 	constructor(@Inject('OrganizationsRepository') public organizationsRepository: OrganizationsRepository) { }
 
-	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Organization[]> {
-		return  this.organizationsRepository.getOrganizations(page, pageSize);
+	async list(pagination?: Pagination): Promise<Organization[]> {
+		return  this.organizationsRepository.getOrganizations(pagination);
 	}
 
-	listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return  this.organizationsRepository.getOrganizationsAsReferences(page, pageSize);
+	async listAsReferences(pagination?: Pagination) {
+		return  this.organizationsRepository.getOrganizationsAsReferences(pagination);
 	}
 
-	async search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<Organization[]> {
-		return this.organizationsRepository.searchOrganizations(filter, page, pageSize);
+	async search(filter?: Filter, pagination?: Pagination): Promise<Organization[]> {
+		return this.organizationsRepository.searchOrganizations(filter, pagination);
 	}
 
 	async create(resource: CreateOrganizationRequest): Promise<Reference | null> {

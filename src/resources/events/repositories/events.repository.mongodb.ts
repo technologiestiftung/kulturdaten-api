@@ -9,6 +9,8 @@ import { RescheduleEventRequest } from "../../../generated/models/RescheduleEven
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { generateEventReference, getEventReferenceProjection } from "../../../utils/ReferenceUtil";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
 
 
 @Service()
@@ -16,48 +18,43 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
-	async searchEvents(filter: Filter, page:number, pageSize:number, projection? : object): Promise<Event[]> {
-		if (pageSize <= 0) {pageSize = 1;}
-		if (page <= 0) {page = 1;}	
-		const events = await this.dbConnector.events();
-		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
 
-		return events
-			.find(filter, { projection: p })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
+		const events = await this.dbConnector.events();
+
+		let query = events.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
+	
+		if(pagination) {
+			query = query
+				.limit(pagination.pageSize)
+				.skip((pagination.page - 1) * pagination.pageSize);
+		}
+		
+		return query.toArray();
 	}
+
+
+
+	async searchEvents(filter?: Filter, pagination?: Pagination): Promise<Event[]> {	
+		return this.get(filter, undefined, pagination);
+	}
+
 
 	async searchAllEvents(filter: Filter, projection? : object) : Promise<Event[]> {
-		const events = await this.dbConnector.events();
-		const p = projection ? { ...projection,  _id: 0 } : {  _id: 0 };
-		return events
-			.find(filter, { projection: p })
-			.toArray();
+		return this.get(filter, projection, undefined);
 	}
+	
 	async countEvents(filter?: Filter): Promise<number> {
 		const events = await this.dbConnector.events();
 		return events.countDocuments(filter);
 	}
 
-	async getEvents(page:number, pageSize:number): Promise<Event[] | null> {
-		const events = await this.dbConnector.events();
-		return events
-			.find({}, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
+	async getEvents(pagination?: Pagination): Promise<Event[]> {
+		return this.get(undefined, undefined, pagination);
 	}
 
-	async getEventsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {	
-		const events = await this.dbConnector.events();
-		let er = events
-			.find({}, { projection: getEventReferenceProjection() })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
-		return er as Promise<Reference[]>;
+	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[]> {	
+		return this.get(undefined, getEventReferenceProjection(), pagination);
 	}
 
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {

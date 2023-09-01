@@ -6,26 +6,23 @@ import { AddExternalLinkRequest } from '../../../generated/models/AddExternalLin
 import { RemoveExternalLinkRequest } from '../../../generated/models/RemoveExternalLinkRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
 import { Filter } from '../../../generated/models/Filter.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 
 const log: debug.IDebugger = debug('app:attractions-repository');
 
 export interface AttractionsRepository {
-	getAttractions(page:number, pageSize:number) : Promise<Attraction[]>;
+	getAttractions(pagination?: Pagination) : Promise<Attraction[]>;
 
-	getAttractionsAsReferences(page:number, pageSize:number): Promise<Reference[]>;
+	getAttractionsAsReferences(pagination?: Pagination): Promise<Reference[]>;
 
-
-	searchAttractions(filter: Filter, page: number, pageSize: number, projection? : object): Promise<Attraction[]> ;
+	searchAttractions(filter?: Filter,  pagination?: Pagination): Promise<Attraction[]> ;
 
 	searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>;
 
 	countAttractions(filter?: Filter): Promise<number>;
 
-
-
 	addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null>;
-
 
 	getAttractionByIdentifier(attractionId: string) : Promise<Attraction | null>;
 

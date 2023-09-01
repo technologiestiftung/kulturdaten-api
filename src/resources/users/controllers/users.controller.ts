@@ -7,6 +7,7 @@ import { UpdateUserPasswordRequest } from '../../../generated/models/UpdateUserP
 import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
 import { CreateUserRequest } from '../../../generated/models/CreateUserRequest.generated';
 import { UpdateUserRequest } from '../../../generated/models/UpdateUserRequest.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 const log: debug.IDebugger = debug('app:users-controller');
 
@@ -17,15 +18,15 @@ export class UsersController {
 	constructor(
 		public usersService: UsersService){}
 
-	async listUsers(res: express.Response, page: number, pageSize: number) {
-		const users = await this.usersService.list(page, pageSize);
+	async listUsers(res: express.Response, pagination: Pagination) {
+		const users = await this.usersService.list(pagination);
 		const totalCount = await this.usersService.countUsers();
 
 		if (users) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse(
 				{ 
-					page: page,
-					pageSize: pageSize,
+					page: pagination.page,
+					pageSize: pagination.pageSize,
 					totalCount: totalCount,
 					users: users 
 				}).build());

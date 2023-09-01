@@ -11,10 +11,11 @@ import { RemoveEventAttractionRequest } from '../../../generated/models/RemoveEv
 import { SetEventOrganizerRequest } from '../../../generated/models/SetEventOrganizerRequest.generated';
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
-import { pagination } from "../../../config/kulturdaten.config";
 import { EventFilterStrategy, EventFilterStrategyToken } from '../filter/events.filter.strategy';
 import { Filter } from '../../../generated/models/Filter.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 import { MatchMode } from '../../../generated/models/MatchMode.generated';
+
 
 @Service()
 export class EventsService {
@@ -23,15 +24,15 @@ export class EventsService {
 
 	constructor(@Inject('EventsRepository') public eventsRepository: EventsRepository) { }
 
-	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.eventsRepository.getEvents(page, pageSize);
+	async list(pagination?: Pagination) {
+		return this.eventsRepository.getEvents(pagination);
 	}
 
-	async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.eventsRepository.getEventsAsReferences(page, pageSize);
+	async listAsReferences(pagination?: Pagination) {
+		return this.eventsRepository.getEventsAsReferences(pagination);
 	}
 
-	async search(searchEventsRequest: SearchEventsRequest, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize): Promise<{ events: Event[], page: number, pageSize: number, totalCount: number }> {
+	async search(searchEventsRequest: SearchEventsRequest, pagination?: Pagination): Promise<{ events: Event[], pagination?: Pagination, totalCount: number }> {
 		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}
@@ -52,7 +53,7 @@ export class EventsService {
 		if (!events) {
 			events = [];
 		}
-		return { events: [...this.paginate(events, page, pageSize)], page: page, pageSize: pageSize, totalCount: events.length };
+		return { events: pagination?  [...this.paginate(events, pagination.page, pagination.pageSize)] : events, pagination: pagination, totalCount: events.length };
 	}
 
 	match(eventsA: Event[], eventsB: Event[], matchMode: MatchMode): Event[] {
@@ -83,8 +84,8 @@ export class EventsService {
 		return events.slice(startIndex, endIndex);
 	}
 
-	async countEvents(searchFilter?: Filter): Promise<number> {
-		return this.eventsRepository.countEvents(searchFilter);
+	async countEvents(filter?: Filter): Promise<number> {
+		return this.eventsRepository.countEvents(filter);
 	  }
 
 

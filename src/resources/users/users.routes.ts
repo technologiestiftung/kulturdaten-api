@@ -10,6 +10,7 @@ import { UpdateUserRequest } from '../../generated/models/UpdateUserRequest.gene
 import { UsersService } from './services/users.service';
 import { UpdateUserPasswordRequest } from '../../generated/models/UpdateUserPasswordRequest.generated';
 import { getPagination } from '../../utils/RequestUtil';
+import { Pagination } from '../../common/parameters/Pagination';
 
 
 const log: debug.IDebugger = debug('app:users-routes');
@@ -29,9 +30,9 @@ export class UsersRoutes {
 				passport.authenticate('authenticated-user', { session: false }),
 				permit.authorizesAsAdmin(),
 				(req: express.Request, res: express.Response) => {
-					const { page, pageSize} = getPagination(req);
+					const pagination: Pagination = getPagination(req);
 
-					this.usersController.listUsers(res, page, pageSize);
+					this.usersController.listUsers(res, pagination);
 				})
 			.post(
 				'/',
