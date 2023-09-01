@@ -43,7 +43,10 @@ describe('Create attractions', () => {
 	});
 
 	it('should create a attraction and return a identifier / POST /attractions', async () => {
-		const { body, statusCode } = await request(env.app).post(env.ATTRACTIONS_ROUTE).send(fakeCreateAttractionRequest(false, { title: { de: 'New Attraction' } }));
+		const { body, statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE)
+			.set('Authorization', `Bearer `+env.USER_TOKEN)
+			.send(fakeCreateAttractionRequest(false, { title: { de: 'New Attraction' } }));
 
 		expect(statusCode).toBe(201);
 
@@ -112,7 +115,7 @@ describe('Update attractions', () => {
 	});
   
 	it('should update the name of a attraction / PATCH /attractions/existID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.ATTRACTIONS_ROUTE +'/skywalkers-observatory-12345').send({
+	  const { body, statusCode } = await request(env.app).patch(env.ATTRACTIONS_ROUTE +'/skywalkers-observatory-12345').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 				title: { de :'Neuer Name' }
 		  });
 
@@ -122,7 +125,7 @@ describe('Update attractions', () => {
 	});
   
 	it('should return an error when an invalid ID is provided / PATCH /attractions/invalidID', async () => {
-	  const { body, statusCode } = await request(env.app).patch(env.ATTRACTIONS_ROUTE +'/invalidID').send({
+	  const { body, statusCode } = await request(env.app).patch(env.ATTRACTIONS_ROUTE +'/invalidID').set('Authorization', `Bearer `+env.USER_TOKEN).send({
 			  title: { de :'Neuer Name' }
 		  });
   

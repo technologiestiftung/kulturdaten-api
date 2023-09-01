@@ -3,7 +3,6 @@ import express, { Router } from 'express';
 import { Service } from 'typedi';
 import { HealthController } from './controllers/health.controller';
 
-
 const log: debug.IDebugger = debug('app:health-routes');
 
 @Service()

@@ -5,7 +5,7 @@ import { CreateTagRequest } from '../../generated/models/CreateTagRequest.genera
 import { fakeSearchTagsRequest } from '../../generated/faker/faker.SearchTagsRequest.generated';
 import { SearchTagsRequest } from '../../generated/models/SearchTagsRequest.generated';
 import { getPagination } from '../../utils/RequestUtil';
-import { Pagination } from '../../common/parameters/Pagination';
+import passport from 'passport';
 
 
 @Service()
@@ -20,10 +20,12 @@ export class TagsRoutes {
 			.get('/', (req: express.Request, res: express.Response) => {
 					this.tagsController.listTags(res);
 			})
-			.post('/', (req: express.Request, res: express.Response) => {
-				const createTagRequest = req.body as CreateTagRequest;
-				this.tagsController.createTag(res, createTagRequest);
-			});
+			.post('/',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const createTagRequest = req.body as CreateTagRequest;
+					this.tagsController.createTag(res, createTagRequest);
+				});
 
 		router
 			.get('/organizations', (req: express.Request, res: express.Response) => {
@@ -34,7 +36,7 @@ export class TagsRoutes {
 				}
 				this.tagsController.searchTags(res, searchTagsRequest);
 			})
-		
+
 		router
 			.get('/attractions', (req: express.Request, res: express.Response) => {
 				const searchTagsRequest : SearchTagsRequest = {
@@ -68,9 +70,9 @@ export class TagsRoutes {
 		router
 			.get('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
-					this.tagsController.getTagById(res, identifier);
+				this.tagsController.getTagById(res, identifier);
 			})
-		
+
 
 		return router;
 	}

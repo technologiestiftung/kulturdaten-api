@@ -36,6 +36,8 @@ export class UsersRoutes {
 				})
 			.post(
 				'/',
+				passport.authenticate('authenticated-user', { session: false }),
+				permit.authorizesAsAdmin(),
 				checkUsers.eMailIsNotExist(this.usersService),
 				(req: express.Request, res: express.Response) => {
 					const createUser = req.body as CreateUserRequest;

@@ -13,6 +13,7 @@ import { SetEventOrganizerRequest } from '../../generated/models/SetEventOrganiz
 import { SearchEventsRequest } from '../../generated/models/SearchEventsRequest.generated';
 import { getPagination } from '../../utils/RequestUtil';
 import { Pagination } from '../../common/parameters/Pagination';
+import passport from 'passport';
 
 
 const log: debug.IDebugger = debug('app:events-routes');
@@ -36,17 +37,21 @@ export class EventsRoutes {
 					this.eventsController.listEvents(res, pagination);
 				}
 			})
-			.post('/', (req: express.Request, res: express.Response) => {
-				const createEventRequest = req.body as CreateEventRequest;
-				this.eventsController.createEvent(res, createEventRequest);
-			});
+			.post('/',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const createEventRequest = req.body as CreateEventRequest;
+					this.eventsController.createEvent(res, createEventRequest);
+				});
 
 		router
-			.post('/bulk-create', (req: express.Request, res: express.Response) => {
-				const createEventsRequest = req.body as CreateEventRequest[];
-				
-				this.eventsController.createEvents(res, createEventsRequest);
-			});	
+			.post('/bulk-create',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const createEventsRequest = req.body as CreateEventRequest[];
+
+					this.eventsController.createEvents(res, createEventsRequest);
+				});
 
 		router
 			.post('/search', (req: express.Request, res: express.Response) => {
@@ -60,97 +65,127 @@ export class EventsRoutes {
 			.get('/:identifier', (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const asReference = req.query.asReference;
-				if(asReference) {
+				if (asReference) {
 					this.eventsController.getEventReferenceById(res, identifier);
 				} else {
 					this.eventsController.getEventById(res, identifier);
 				}
 			})
-			.patch('/:identifier', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				const updateEventRequest = req.body as UpdateEventRequest;
-				this.eventsController.updateEvent(res, identifier, updateEventRequest);
-			});
+			.patch('/:identifier',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const updateEventRequest = req.body as UpdateEventRequest;
+					this.eventsController.updateEvent(res, identifier, updateEventRequest);
+				});
 
 		router
-			.put('/:identifier/locations', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				const addEventLocationRequest = req.body as AddEventLocationRequest;
-				this.eventsController.addEventLocation(res, identifier, addEventLocationRequest);
-			})
-			.delete('/:identifier/locations', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				const removeEventLocationRequest = req.body as RemoveEventLocationRequest;
-				this.eventsController.removeEventLocation(res, identifier, removeEventLocationRequest);
-			});
+			.put('/:identifier/locations',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const addEventLocationRequest = req.body as AddEventLocationRequest;
+					this.eventsController.addEventLocation(res, identifier, addEventLocationRequest);
+				})
+			.delete('/:identifier/locations',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const removeEventLocationRequest = req.body as RemoveEventLocationRequest;
+					this.eventsController.removeEventLocation(res, identifier, removeEventLocationRequest);
+				});
 
 		router
-			.put('/:identifier/attractions', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				const addEventAttractionRequest = req.body as AddEventAttractionRequest;
-				this.eventsController.addEventAttraction(res, identifier, addEventAttractionRequest);
-			})
-			.delete('/:identifier/attractions', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				const removeEventAttractionRequest = req.body as RemoveEventAttractionRequest;
-				this.eventsController.removeEventAttraction(res, identifier, removeEventAttractionRequest);
-			});
+			.put('/:identifier/attractions',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const addEventAttractionRequest = req.body as AddEventAttractionRequest;
+					this.eventsController.addEventAttraction(res, identifier, addEventAttractionRequest);
+				})
+			.delete('/:identifier/attractions',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const removeEventAttractionRequest = req.body as RemoveEventAttractionRequest;
+					this.eventsController.removeEventAttraction(res, identifier, removeEventAttractionRequest);
+				});
 
 		router
-			.put('/:identifier/organizer', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				const setEventOrganizerRequest = req.body as SetEventOrganizerRequest;
-				this.eventsController.setEventOrganizer(res, identifier, setEventOrganizerRequest);
-			})
-			.delete('/:identifier/organizer', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.deleteEventOrganizer(res, identifier);
-			});
+			.put('/:identifier/organizer',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const setEventOrganizerRequest = req.body as SetEventOrganizerRequest;
+					this.eventsController.setEventOrganizer(res, identifier, setEventOrganizerRequest);
+				})
+			.delete('/:identifier/organizer',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.deleteEventOrganizer(res, identifier);
+				});
 
 		router
-			.post('/:identifier/publish', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.publishEvent(res, identifier);
-			})
-			.post('/:identifier/unpublish', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.unpublishEvent(res, identifier);
-			});
+			.post('/:identifier/publish',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.publishEvent(res, identifier);
+				})
+			.post('/:identifier/unpublish',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.unpublishEvent(res, identifier);
+				});
 
 		router
-			.post('/:identifier/reschedule', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				const rescheduleEventRequest = req.body as RescheduleEventRequest;
-				this.eventsController.rescheduleEvent(res, identifier, rescheduleEventRequest);
-			});
+			.post('/:identifier/reschedule',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					const rescheduleEventRequest = req.body as RescheduleEventRequest;
+					this.eventsController.rescheduleEvent(res, identifier, rescheduleEventRequest);
+				});
 
 		router
-			.post('/:identifier/postpone', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.postponeEvent(res, identifier);
-			});
+			.post('/:identifier/postpone',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.postponeEvent(res, identifier);
+				});
 
 		router
-			.post('/:identifier/cancel', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.cancelEvent(res, identifier);
-			});
+			.post('/:identifier/cancel',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.cancelEvent(res, identifier);
+				});
 
 		router
-			.post('/:identifier/archive', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.archiveEvent(res, identifier);
-			})
-			.post('/:identifier/unarchive', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.unarchiveEvent(res, identifier);
-			});
+			.post('/:identifier/archive',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.archiveEvent(res, identifier);
+				})
+			.post('/:identifier/unarchive',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.unarchiveEvent(res, identifier);
+				});
 
 		router
-			.post('/:identifier/duplicate', (req: express.Request, res: express.Response) => {
-				const identifier = req.params.identifier;
-				this.eventsController.duplicateEvent(res, identifier);
-			});
+			.post('/:identifier/duplicate',
+				passport.authenticate('authenticated-user', { session: false }),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.eventsController.duplicateEvent(res, identifier);
+				});
 
 		return router;
 	}
