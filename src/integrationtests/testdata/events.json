@@ -51,11 +51,11 @@
 		],
 		"attractions": [
 		  {
-			"referenceType": "Band",
-			"referenceId": "AB-1234",
+			"referenceType": "type.Attraction",
+			"referenceId": "temporal-cultural-gateway-67890",
 			"referenceLabel": {
-			  "de": "Die Berliner Band",
-			  "en": "The Berlin Band"
+				"en": "Temporal Cultural Gateway",
+				"de": "Zeitkulturelles Tor"
 			}
 		  }
 		],
@@ -226,14 +226,14 @@
 		  }
 		],
 		"attractions": [
-		  {
-			"referenceType": "Company",
-			"referenceId": "CP-1234",
-			"referenceLabel": {
-			  "de": "Tech Innovators GmbH",
-			  "en": "Tech Innovators Inc."
-			}
-		  }
+			{
+				"referenceType": "type.Attraction",
+				"referenceId": "berlin-wall-vr-experience-12345",
+				"referenceLabel": {
+				  "en": "Berlin Wall VR Experience",
+				  "de": "Berliner Mauer VR Erlebnis"
+				}
+			  }
 		],
 		"organizer": {
 		  "referenceType": "Organization",

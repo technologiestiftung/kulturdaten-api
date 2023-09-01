@@ -1,6 +1,17 @@
 type: object
 properties:
+  matchMode:
+    type: string
+    enum: [any, all]
   searchFilter:
     type: object
     additionalProperties: true
- 
+  byAttractionTags:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: string
+      matchMode:
+        $ref: 'MatchMode.yml'

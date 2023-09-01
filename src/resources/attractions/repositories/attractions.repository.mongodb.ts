@@ -38,6 +38,10 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return this.get(filter, undefined, pagination);
 	}
 
+	async searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>{
+		return this.get(filter, projection, undefined);
+	} 
+
 	async getAttractions(pagination?: Pagination): Promise<Attraction[]> {
 		return this.get(undefined, undefined, pagination);
 	}

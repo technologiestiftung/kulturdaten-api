@@ -14,6 +14,7 @@ import { Tag } from "../../../generated/models/Tag.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 
 
+
 @Service()
 export class DistrictDataService {
 
@@ -147,7 +148,7 @@ export class DistrictDataService {
 			}
 			for (const key in veranstaltung.termine) {
 				const termin = veranstaltung.termine[key];
-				const duplicatedEvents = await this.eventService.search(this.createDuplicationFilter(termin.id));
+				const {events: duplicatedEvents } = await this.eventService.search(this.createDuplicationFilter(termin.id));
 				if (duplicatedEvents.length > 0) {
 					duplicateEvents[termin.id] = {
 						referenceType: duplicatedEvents[0].type,

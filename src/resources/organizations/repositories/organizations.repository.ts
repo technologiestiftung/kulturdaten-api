@@ -17,6 +17,8 @@ export interface OrganizationsRepository {
 
 	searchOrganizations(filter?: Filter, pagination?: Pagination): Promise<Organization[]> ;
 	
+	searchAllOrganizations(filter: Filter, projection? : object): Promise<Organization[]> ;
+
 	countOrganizations(filter?: Filter): Promise<number>;
 
 

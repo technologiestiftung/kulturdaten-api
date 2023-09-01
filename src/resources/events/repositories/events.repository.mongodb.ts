@@ -18,6 +18,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
+
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const events = await this.dbConnector.events();
 
@@ -32,21 +33,27 @@ export class MongoDBEventsRepository implements EventsRepository {
 		return query.toArray();
 	}
 
+
+
 	async searchEvents(filter?: Filter, pagination?: Pagination): Promise<Event[]> {	
 		return this.get(filter, undefined, pagination);
-
 	}
 
+
+	async searchAllEvents(filter: Filter, projection? : object) : Promise<Event[]> {
+		return this.get(filter, projection, undefined);
+	}
+	
 	async countEvents(filter?: Filter): Promise<number> {
 		const events = await this.dbConnector.events();
 		return events.countDocuments(filter);
 	}
 
-	async getEvents(pagination?: Pagination): Promise<Event[] | null> {
+	async getEvents(pagination?: Pagination): Promise<Event[]> {
 		return this.get(undefined, undefined, pagination);
 	}
 
-	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[] | null> {	
+	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[]> {	
 		return this.get(undefined, getEventReferenceProjection(), pagination);
 	}
 

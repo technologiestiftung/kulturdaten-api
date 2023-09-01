@@ -16,15 +16,13 @@ export interface AttractionsRepository {
 
 	getAttractionsAsReferences(pagination?: Pagination): Promise<Reference[]>;
 
-
 	searchAttractions(filter?: Filter,  pagination?: Pagination): Promise<Attraction[]> ;
+
+	searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>;
 
 	countAttractions(filter?: Filter): Promise<number>;
 
-
-
 	addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null>;
-
 
 	getAttractionByIdentifier(attractionId: string) : Promise<Attraction | null>;
 

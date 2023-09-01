@@ -12,12 +12,14 @@ const log: debug.IDebugger = debug('app:events-repository');
 
 export interface EventsRepository {
 
-	getEvents( pagination?: Pagination) : Promise<Event[] | null>;
+	getEvents( pagination?: Pagination) : Promise<Event[]>;
 
-	getEventsAsReferences(pagination?: Pagination) : Promise<Reference[] | null>;
+	getEventsAsReferences(pagination?: Pagination) : Promise<Reference[]>;
 
 	searchEvents(filter?: Filter, pagination?: Pagination): Promise<Event[]>;
 
+	searchAllEvents(filter: Filter, projection? : object) : Promise<Event[]>;
+	
 	countEvents(filter?: Filter): Promise<number>;
 
 	getEventReferenceByIdentifier(id: string): Promise<Reference | null>;

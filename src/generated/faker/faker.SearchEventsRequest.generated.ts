@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { SearchEventsRequest, schemaForSearchEventsRequest } from "../models/SearchEventsRequest.generated";
 
+	import { schemaForMatchMode } from '../models/MatchMode.generated';
 
 	export function fakeSearchEventsRequest(useExamples: boolean, specifiedPropertiesForSearchEventsRequest: object = {}): SearchEventsRequest {
 		const schema = schemaForSearchEventsRequest as Schema;
 		const refs : Schema[] = [
+			schemaForMatchMode as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

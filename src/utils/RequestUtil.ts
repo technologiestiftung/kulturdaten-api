@@ -9,8 +9,8 @@ export function getPagination(req: express.Request) : Pagination {
 	let page: number = extractFromQuery(req.query.page, pagination.defaultPage);
 	let pageSize: number = extractFromQuery(req.query.pageSize, pagination.defaultPageSize);
 
-	page = adjust(page, pagination.defaultPage);
-	pageSize = adjust(pageSize, pagination.defaultPageSize, pagination.maxPageSize);
+	page = adjust(page, 1);
+	pageSize = adjust(pageSize, 1, pagination.maxPageSize);
 
 	return new Pagination(page, pageSize);
 }

@@ -11,11 +11,13 @@ const log: debug.IDebugger = debug('app:locations-repository');
 
 export interface LocationsRepository {
 
-	getLocations(pagination?: Pagination) : Promise<Location[] | null>;
+	getLocations(pagination?: Pagination) : Promise<Location[]>;
 
-	getLocationsAsReferences(pagination?: Pagination) : Promise<Reference[] | null>;
+	getLocationsAsReferences(pagination?: Pagination) : Promise<Reference[]>;
 
 	searchLocations(filter?: Filter, pagination?: Pagination): Promise<Location[]> ;
+
+	searchAllLocations(filter: Filter, projection? : object): Promise<Location[]> ;
 
 	countLocations(filter?: Filter): Promise<number>;
 

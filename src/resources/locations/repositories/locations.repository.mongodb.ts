@@ -35,11 +35,11 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return this.get(filter, undefined, pagination);
 	}
 
-	async getLocations(pagination?: Pagination): Promise<Location[] | null> {
+	async getLocations(pagination?: Pagination): Promise<Location[]> {
 		return this.get(undefined, undefined, pagination);
 	}
 
-	async getLocationsAsReferences(pagination?: Pagination): Promise<Reference[] | null> {
+	async getLocationsAsReferences(pagination?: Pagination): Promise<Reference[]> {
 		return this.get(undefined, getLocationReferenceProjection(), pagination);
 
 	}
@@ -58,8 +58,9 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	}
 
 
-
-
+	async searchAllLocations(filter: Filter, projection? : object): Promise<Location[]> {
+		return this.get(filter, projection, undefined);
+	}
 
 	async getLocationByIdentifier(locationId: string): Promise<Location | null> {
 		const locations = await this.dbConnector.locations();
