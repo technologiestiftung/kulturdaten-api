@@ -1,9 +1,7 @@
 import debug from 'debug';
-import passport from 'passport';
 import express, { Router } from 'express';
 import { Service } from 'typedi';
 import { HealthController } from './controllers/health.controller';
-
 
 const log: debug.IDebugger = debug('app:health-routes');
 
@@ -19,7 +17,6 @@ export class HealthRoutes {
 		router
 			.get(
 				'/',
-				passport.authenticate('authenticated-user', { session: false }),
 				(req, res) => {
 					this.healthController.checkHealth(req, res);
 				})
