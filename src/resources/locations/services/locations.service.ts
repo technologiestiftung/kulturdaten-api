@@ -3,11 +3,10 @@ import { Location } from '../../../generated/models/Location.generated';
 import { Inject, Service } from 'typedi';
 import { CreateLocationRequest } from '../../../generated/models/CreateLocationRequest.generated';
 import { UpdateLocationRequest } from '../../../generated/models/UpdateLocationRequest.generated';
-import { SearchLocationsRequest } from '../../../generated/models/SearchLocationsRequest.generated';
 import { SetLocationManagerRequest } from '../../../generated/models/SetLocationManagerRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
-import { pagination } from "../../../config/kulturdaten.config";
 import { Filter } from '../../../generated/models/Filter.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 @Service()
 export class LocationsService{
@@ -15,20 +14,20 @@ export class LocationsService{
 	constructor(@Inject('LocationsRepository') public locationsRepository: LocationsRepository){}
 
 
-	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.locationsRepository.getLocations(page,pageSize);
+	async list(pagination?: Pagination) {
+		return this.locationsRepository.getLocations(pagination);
 	}
 
-	async listAsReferences(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.locationsRepository.getLocationsAsReferences(page,pageSize);
+	async listAsReferences(pagination?: Pagination) {
+		return this.locationsRepository.getLocationsAsReferences(pagination);
 	}
 
 	async create(resource: CreateLocationRequest) : Promise<Reference | null>{
 		return this.locationsRepository.addLocation(resource);
 	}
 
-	search(filter: Filter, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) : Promise<Location[]> {
-		return this.locationsRepository.searchLocations(filter, page, pageSize);
+	search(filter: Filter, pagination?: Pagination) : Promise<Location[]> {
+		return this.locationsRepository.searchLocations(filter, pagination);
 	}
 
 	async countLocations(searchFilter?: Filter): Promise<number> {

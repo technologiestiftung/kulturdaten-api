@@ -5,18 +5,21 @@ import { UpdateEventRequest } from '../../../generated/models/UpdateEventRequest
 import { RescheduleEventRequest } from '../../../generated/models/RescheduleEventRequest.generated';
 import { Reference } from '../../../generated/models/Reference.generated';
 import { Filter } from '../../../generated/models/Filter.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 
 const log: debug.IDebugger = debug('app:events-repository');
 
 export interface EventsRepository {
 
-	getEvents( page:number, pageSize:number) : Promise<Event[] | null>;
+	getEvents( pagination?: Pagination) : Promise<Event[]>;
 
-	getEventsAsReferences(page:number, pageSize:number) : Promise<Reference[] | null>;
+	getEventsAsReferences(pagination?: Pagination) : Promise<Reference[]>;
 
-	searchEvents(filter: Filter, page:number, pageSize:number): Promise<Event[]>;
+	searchEvents(filter?: Filter, pagination?: Pagination): Promise<Event[]>;
 
+	searchAllEvents(filter: Filter, projection? : object) : Promise<Event[]>;
+	
 	countEvents(filter?: Filter): Promise<number>;
 
 	getEventReferenceByIdentifier(id: string): Promise<Reference | null>;

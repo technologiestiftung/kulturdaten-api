@@ -8,6 +8,8 @@ import { CreateOrganizationRequest } from "../../../generated/models/CreateOrgan
 import { Filter } from "../../../generated/models/Filter.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { generateOrganizationReference, getOrganizationReferenceProjection } from "../../../utils/ReferenceUtil";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
 
 
 @Service()
@@ -15,33 +17,35 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
 
-	async getOrganizations(page:number, pageSize:number): Promise<Organization[]> {
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const organizations = await this.dbConnector.organizations();
 
-		return organizations
-			.find({}, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
+		let query = organizations.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
+	
+		if(pagination) {
+			query = query
+				.limit(pagination.pageSize)
+				.skip((pagination.page - 1) * pagination.pageSize);
+		}
+		
+		return query.toArray();
+	}
+	
+	async searchOrganizations(filter: Filter, pagination?: Pagination): Promise<Organization[]> {
+		return this.get(filter, undefined, pagination);
 	}
 
-	async getOrganizationsAsReferences(page:number, pageSize:number): Promise<Reference[] | null> {
-		const organizations = await this.dbConnector.organizations();
-		let or = organizations
-			.find({}, { projection: getOrganizationReferenceProjection() })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
-		return or as Promise<Reference[]>;
+	async getOrganizations(pagination?: Pagination): Promise<Organization[]> {
+		return this.get(undefined, undefined, pagination);
 	}
 
-	async searchOrganizations(filter: Filter, page:number, pageSize:number): Promise<Organization[]> {
-		const organizationsCollection = await this.dbConnector.organizations();
-		return organizationsCollection
-			.find(filter, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
+	async getOrganizationsAsReferences(pagination?: Pagination): Promise<Reference[]> {
+		return this.get(undefined, getOrganizationReferenceProjection(), pagination);
+	}
+
+
+	async searchAllOrganizations(filter: Filter, projection? : object): Promise<Organization[]> {
+		return this.get(filter, projection, undefined);
 	}
 
 	async getOrganizationByIdentifier(organizationId: string): Promise<Organization | null> {

@@ -5,6 +5,8 @@ import { generateID } from "../../../utils/IDUtil";
 import { User } from "../../../generated/models/User.generated";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
 
 
 @Service()
@@ -33,13 +35,18 @@ export class MongoDBUsersRepository implements UsersRepository {
 		await users.insertOne(newUser);
 		return newUser.identifier;
 	}
-	async getUsers(page:number, pageSize:number): Promise<User[] | null> {
+	async getUsers(pagination?: Pagination): Promise<User[] | null> {
 		const users = await this.dbConnector.users();
-		return users
-			.find({}, { projection: { _id: 0,  password:0} })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
+
+		let query = users.find({}, { projection: MONGO_DB_USER_DEFAULT_PROJECTION });
+	
+		if(pagination) {
+			query = query
+				.limit(pagination.pageSize)
+				.skip((pagination.page - 1) * pagination.pageSize);
+		}
+		
+		return query.toArray();
 	}
 	async getUserByIdentifier(userId: string): Promise<User | null> {
 		const users = await this.dbConnector.users();

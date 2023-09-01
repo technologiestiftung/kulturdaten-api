@@ -7,6 +7,7 @@ import { UpdateOrganizationRequest } from '../../../generated/models/UpdateOrgan
 import { SearchOrganizationsRequest } from '../../../generated/models/SearchOrganizationsRequest.generated';
 import { ErrorResponseBuilder, SuccessResponseBuilder } from '../../../common/responses/response.builders';
 import { Reference } from '../../../generated/models/Reference.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 const log: debug.IDebugger = debug('app:organizations-controller');
 
@@ -15,43 +16,43 @@ export class OrganizationsController {
 
 	constructor(public organizationsService: OrganizationsService) { }
 
-	async listOrganizations(res: express.Response, page: number, pageSize: number) {
-		const organizations = await this.organizationsService.list(page, pageSize);
+	async listOrganizations(res: express.Response, pagination: Pagination) {
+		const organizations = await this.organizationsService.list(pagination);
 		const totalCount = await this.organizationsService.countOrganizations();
 
 		res.status(200).send(new SuccessResponseBuilder().okResponse(
 			{
-				page: page,
-				pageSize: pageSize,
+				page: pagination.page,
+				pageSize: pagination.pageSize,
 				totalCount: totalCount,
 				organizations: organizations
 			}).build());
 	}
 
-	async listOrganizationsAsReference(res: express.Response, page: number, pageSize: number) {
-		const organizationsReferences = await this.organizationsService.listAsReferences(page, pageSize);
+	async listOrganizationsAsReference(res: express.Response, pagination: Pagination) {
+		const organizationsReferences = await this.organizationsService.listAsReferences(pagination);
 		const totalCount = await this.organizationsService.countOrganizations();
 
 		res.status(200).send(new SuccessResponseBuilder().okResponse(
 			{
-				page: page,
-				pageSize: pageSize,
+				page: pagination.page,
+				pageSize: pagination.pageSize,
 				totalCount: totalCount,
 				organizationsReferences: organizationsReferences
 			}).build());
 	}
 
-	async searchOrganizations(res: express.Response, searchOrganizationsRequest: SearchOrganizationsRequest, page: number, pageSize: number) {
-		const filter = searchOrganizationsRequest.searchFilter ? searchOrganizationsRequest.searchFilter : {};
+	async searchOrganizations(res: express.Response, searchOrganizationsRequest: SearchOrganizationsRequest, pagination: Pagination) {
+		const filter = searchOrganizationsRequest.searchFilter;
 		
-		const organizations = await this.organizationsService.search(filter, page, pageSize);
+		const organizations = await this.organizationsService.search(filter, pagination);
 		const totalCount = await this.organizationsService.countOrganizations(filter);
 
 		if (organizations) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse(
 				{
-					page: page,
-					pageSize: pageSize,
+					page: pagination.page,
+					pageSize: pagination.pageSize,
 					totalCount: totalCount, 
 					organizations: organizations 
 				}).build());

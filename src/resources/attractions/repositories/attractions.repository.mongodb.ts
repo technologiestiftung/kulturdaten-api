@@ -11,38 +11,43 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { getAttractionReferenceProjection } from "../../../utils/ReferenceUtil";
 import { generateAttractionReference } from "../../../utils/ReferenceUtil";
+import { Pagination } from "../../../common/parameters/Pagination";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/kulturdaten.config";
 
 
 @Service()
 export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	constructor(@Inject('DBClient') private dbConnector: MongoDBConnector) { }
-	async searchAttractions(filter: Filter, page:number, pageSize:number): Promise<Attraction[]> {
+
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const attractions = await this.dbConnector.attractions();
-		return attractions
-			.find(filter, { projection: { _id: 0 } })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray();
+
+		let query = attractions.find(filter || {}, { projection: projection ? {...projection, ...MONGO_DB_DEFAULT_PROJECTION} : MONGO_DB_DEFAULT_PROJECTION });
+	
+		if(pagination) {
+			query = query
+				.limit(pagination.pageSize)
+				.skip((pagination.page - 1) * pagination.pageSize);
+		}
+		
+		return query.toArray();
 	}
 
-	async getAttractions(page:number, pageSize:number): Promise<Attraction[]> {
-			const attractions = await this.dbConnector.attractions();
-			return attractions
-			  .find({}, { projection: { _id: 0 } })
-			  .limit(pageSize)
-			  .skip((page - 1) * pageSize)
-			  .toArray();
+	async searchAttractions(filter?: Filter,  pagination?: Pagination): Promise<Attraction[]> {
+		return this.get(filter, undefined, pagination);
 	}
 
-	async getAttractionsAsReferences(page:number, pageSize:number): Promise<Reference[]>{
-		const attractions = await this.dbConnector.attractions();
-		let ar =  attractions
-			.find({}, { projection: getAttractionReferenceProjection() })
-			.limit(pageSize)
-			.skip((page - 1) * pageSize)
-			.toArray() ;
-		return ar as Promise<Reference[]>;
+	async searchAllAttractions(filter: Filter, projection? : object) : Promise<Attraction[]>{
+		return this.get(filter, projection, undefined);
+	} 
+
+	async getAttractions(pagination?: Pagination): Promise<Attraction[]> {
+		return this.get(undefined, undefined, pagination);
+	}
+
+	async getAttractionsAsReferences(pagination?: Pagination): Promise<Reference[]>{
+		return this.get(undefined, getAttractionReferenceProjection(), pagination);
 	}
 
 

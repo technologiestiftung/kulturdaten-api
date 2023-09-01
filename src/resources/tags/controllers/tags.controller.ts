@@ -7,6 +7,7 @@ import { CreateTagResponse } from '../../../generated/models/CreateTagResponse.g
 import { GetTagResponse } from '../../../generated/models/GetTagResponse.generated';
 import { SearchTagsRequest } from '../../../generated/models/SearchTagsRequest.generated';
 import { SearchTagsResponse } from '../../../generated/models/SearchTagsResponse.generated';
+import { Pagination } from '../../../common/parameters/Pagination';
 
 
 @Service()
@@ -14,8 +15,8 @@ export class TagsController {
 	
 	constructor(public tagsService: TagsService) { }
 
-	async listTags(res: express.Response, page: number, pageSize: number) {
-		const tags = await this.tagsService.list(100, 0);
+	async listTags(res: express.Response) {
+		const tags = await this.tagsService.list();
 		if (tags) {
 			res.status(200).send(new SuccessResponseBuilder().okResponse({ tags: tags }).build());
 		} else {
@@ -32,7 +33,7 @@ export class TagsController {
 		}
 	}
 
-	async searchTags(res: express.Response, searchTagsRequest: SearchTagsRequest, page: number, pageSize: number) {
+	async searchTags(res: express.Response, searchTagsRequest: SearchTagsRequest) {
 		const tags = await this.tagsService.search(searchTagsRequest);
 		if (tags) {
 		  res.status(200).send(new SuccessResponseBuilder<SearchTagsResponse>().okResponse({ tags: tags }).build());

@@ -1,11 +1,11 @@
 import { Service } from 'typedi';
-import { Response } from 'express';
 import express, { Router } from 'express';
 import { OrganizationsController } from './controllers/organizations.controller';
 import { CreateOrganizationRequest } from '../../generated/models/CreateOrganizationRequest.generated';
 import { UpdateOrganizationRequest } from '../../generated/models/UpdateOrganizationRequest.generated';
 import { SearchOrganizationsRequest } from '../../generated/models/SearchOrganizationsRequest.generated';
 import { getPagination } from '../../utils/RequestUtil';
+import { Pagination } from '../../common/parameters/Pagination';
 import passport from 'passport';
 
 
@@ -20,12 +20,12 @@ export class OrganizationsRoutes {
     router
       .get('/', (req: express.Request, res: express.Response) => {
         const asReference = req.query.asReference;
-        const { page, pageSize} = getPagination(req);
+        const pagination: Pagination = getPagination(req);
 
 				if (asReference) {
-          this.organizationsController.listOrganizationsAsReference(res, page, pageSize);
+          this.organizationsController.listOrganizationsAsReference(res, pagination);
         } else {
-          this.organizationsController.listOrganizations(res, page, pageSize);
+          this.organizationsController.listOrganizations(res, pagination);
         }
       })
       .post('/', 	
@@ -46,10 +46,10 @@ export class OrganizationsRoutes {
 
     router
       .post('/search', (req: express.Request, res: express.Response) => {
-        const { page, pageSize} = getPagination(req);
+        const pagination: Pagination = getPagination(req);
 
         const searchOrganizationsRequest = req.body as SearchOrganizationsRequest;
-        this.organizationsController.searchOrganizations(res, searchOrganizationsRequest, page, pageSize);
+        this.organizationsController.searchOrganizations(res, searchOrganizationsRequest, pagination);
       });
 
     router

@@ -18,6 +18,13 @@ import { AttractionsRoutes } from "../../resources/attractions/attractions.route
 import { AttractionsController } from "../../resources/attractions/controllers/attractions.controller";
 import { MongoDBAttractionsRepository } from "../../resources/attractions/repositories/attractions.repository.mongodb";
 import { AttractionsService } from "../../resources/attractions/services/attractions.service";
+import { FindEventsByAttractionTagFilterStrategy } from "../../resources/events/filter/implementations/events.attractiontag.filter.strategy";
+import { MongoDBFilterStrategy } from "../../resources/events/filter/implementations/events.mongodb.filter.strategy";
+import { Container } from "typedi";
+import { EventsRepository } from "../../resources/events/repositories/events.repository";
+import { LocationsRepository } from "../../resources/locations/repositories/locations.repository";
+import { AttractionsRepository } from "../../resources/attractions/repositories/attractions.repository";
+import { OrganizationsRepository } from "../../resources/organizations/repositories/organizations.repository";
 import { PermissionFlag } from "../../resources/auth/middleware/auth.permissionflag.enum";
 import * as bearerStrategy from 'passport-http-bearer';
 import passport from "passport";
@@ -35,15 +42,31 @@ export class TestEnvironment {
 	app!: express.Application;
 	db!: Db;
 
+	eventsRepository! : EventsRepository;
+	eventsService! : EventsService;	
+	eventsController! : EventsController;
+	eventsRoutes! : EventsRoutes;
 	events!: Collection;
 	EVENTS_ROUTE = '/events';
 
+	locationsRepository!: LocationsRepository;
+	locationsService!: LocationsService;
+	locationsController!: LocationsController;
+	locationsRoutes!: LocationsRoutes;
 	locations!: Collection;
 	LOCATIONS_ROUTE = '/locations';
 
+	organizationsRepository! : OrganizationsRepository;
+	organizationsService! : OrganizationsService;
+	organizationsController! : OrganizationsController;
+	organizationsRoutes! : OrganizationsRoutes;
 	organizations!: Collection;
 	ORGANIZATIONS_ROUTE = '/organizations';
 
+	attractionsRepository! : AttractionsRepository;
+	attractionsService! : AttractionsService;
+	attractionsController! : AttractionsController;
+	attractionsRoutes! : AttractionsRoutes;
 	attractions!: Collection;
 	ATTRACTIONS_ROUTE = '/attractions';
 
@@ -61,45 +84,45 @@ export class TestEnvironment {
 	}
 
 	withEventsRoutes(): TestEnvironment {
-		const eventsRepository = new MongoDBEventsRepository(this.connector);
-		const eventsService = new EventsService(eventsRepository);
-		const eventsController = new EventsController(eventsService);
-		const eventsRoutes = new EventsRoutes(eventsController);
+		this.eventsRepository = new MongoDBEventsRepository(this.connector);
+		this.eventsService = new EventsService(this.eventsRepository);	
+		this.eventsController = new EventsController(this.eventsService);
+		this.eventsRoutes = new EventsRoutes(this.eventsController);
 		this.events = this.db.collection('events');
-		this.app.use(this.EVENTS_ROUTE, eventsRoutes.getRouter());
-
+		this.app.use(this.EVENTS_ROUTE, this.eventsRoutes.getRouter());
+		
 		return this;
 	}
 
 	withLocationsRoutes(): TestEnvironment {
-		const locationsRepository = new MongoDBLocationsRepository(this.connector);
-		const locationsService = new LocationsService(locationsRepository);
-		const locationsController = new LocationsController(locationsService);
-		const locationsRoutes = new LocationsRoutes(locationsController);
+		this.locationsRepository = new MongoDBLocationsRepository(this.connector);
+		this.locationsService = new LocationsService(this.locationsRepository);
+		this.locationsController = new LocationsController(this.locationsService);
+		this.locationsRoutes = new LocationsRoutes(this.locationsController);
 		this.locations = this.db.collection('locations');
-		this.app.use(this.LOCATIONS_ROUTE, locationsRoutes.getRouter());
+		this.app.use(this.LOCATIONS_ROUTE, this.locationsRoutes.getRouter());
 
 		return this;
 	}
 
 	withOrganizationsRoutes(): TestEnvironment {
-		const organizationsRepository = new MongoDBOrganizationsRepository(this.connector);
-		const organizationsService = new OrganizationsService(organizationsRepository);
-		const organizationsController = new OrganizationsController(organizationsService);
-		const organizationsRoutes = new OrganizationsRoutes(organizationsController);
+		this.organizationsRepository = new MongoDBOrganizationsRepository(this.connector);
+		this.organizationsService = new OrganizationsService(this.organizationsRepository);
+		this.organizationsController = new OrganizationsController(this.organizationsService);
+		this.organizationsRoutes = new OrganizationsRoutes(this.organizationsController);
 		this.organizations = this.db.collection('organizations');
-		this.app.use(this.ORGANIZATIONS_ROUTE, organizationsRoutes.getRouter());
+		this.app.use(this.ORGANIZATIONS_ROUTE, this.organizationsRoutes.getRouter());
 
 		return this;
 	}
 
 	withAttractionsRoutes(): TestEnvironment {
-		const attractionsRepository = new MongoDBAttractionsRepository(this.connector);
-		const attractionsService = new AttractionsService(attractionsRepository);
-		const attractionsController = new AttractionsController(attractionsService);
-		const attractionsRoutes = new AttractionsRoutes(attractionsController);
+		this.attractionsRepository = new MongoDBAttractionsRepository(this.connector);
+		this.attractionsService = new AttractionsService(this.attractionsRepository);
+		this.attractionsController = new AttractionsController(this.attractionsService);
+		this.attractionsRoutes = new AttractionsRoutes(this.attractionsController);
 		this.attractions = this.db.collection('attractions');
-		this.app.use(this.ATTRACTIONS_ROUTE, attractionsRoutes.getRouter());
+		this.app.use(this.ATTRACTIONS_ROUTE, this.attractionsRoutes.getRouter());
 
 		return this;
 	}

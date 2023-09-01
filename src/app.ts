@@ -31,11 +31,12 @@ import { LocationsRoutes } from './resources/locations/locations.routes';
 import { MongoDBLocationsRepository } from './resources/locations/repositories/locations.repository.mongodb';
 import { MongoClient } from 'mongodb';
 import { HarvesterRoutes } from './harvester/harvester.routes';
-import { LocationsService } from './resources/locations/services/locations.service';
 import { AttractionsRoutes } from './resources/attractions/attractions.routes';
 import { MongoDBAttractionsRepository } from './resources/attractions/repositories/attractions.repository.mongodb';
 import { MongoDBTagsRepository } from './resources/tags/repositories/tags.repository.mongodb';
 import { TagsRoutes } from './resources/tags/tags.routes';
+import { MongoDBFilterStrategy } from './resources/events/filter/implementations/events.mongodb.filter.strategy';
+import { FindEventsByAttractionTagFilterStrategy } from './resources/events/filter/implementations/events.attractiontag.filter.strategy';
 
 const log: debug.IDebugger = debug('app:main');
 
@@ -47,8 +48,8 @@ export class KulturdatenBerlinApp {
 	public openAPISpec: string = 'src/schemas/kulturdaten.berlin.openapi.generated.yml';
 	public runningMessage = `Server running at ${ip.address()}:${this.port}`;
 	public documentationMessage = `You can find the api documentation at ${ip.address()}:${this.port}/api/docs/`
-	public dataBaseClient : MongoClient | null = null;
-	
+	public dataBaseClient: MongoClient | null = null;
+
 	public async start() {
 		await this.ini();
 		this.registerRoutes();
@@ -63,11 +64,11 @@ export class KulturdatenBerlinApp {
 		await this.initDependencyInjection();
 		this.initLogger();
 		this.initAuthStrategies();
- 		this.registerDefaultMiddleware();
+		this.registerDefaultMiddleware();
 		this.registerOpenApi();
 		this.registerStatusChecks();
 		this.registerErrorHandler();
-		
+
 	}
 
 	public registerRoutes() {
@@ -84,7 +85,7 @@ export class KulturdatenBerlinApp {
 
 	private initDataBaseConnection() {
 		const uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
-		this.dataBaseClient =  new MongoClient(uri);
+		this.dataBaseClient = new MongoClient(uri);
 		const cl = this.dataBaseClient;
 		process.on('exit', async function () {
 			console.log('Connection to MongoDB terminated.');
@@ -95,22 +96,34 @@ export class KulturdatenBerlinApp {
 
 	private async initDependencyInjection() {
 		// TODO: make all Dependency Injections visible
-		if(this.dataBaseClient) {
+		if (this.dataBaseClient) {
 			const mongoDBConnector = new MongoDBConnector(this.dataBaseClient);
 			await mongoDBConnector.initIndex();
 			Container.set('Database', mongoDBConnector);
-		} 
+		}
 		Container.set('OrganizationsRepository', new MongoDBOrganizationsRepository(Container.get('Database')));
+		Container.import([]);
+		
 		Container.set('UsersRepository', new MongoDBUsersRepository(Container.get('Database')));
+		Container.import([]);
+
 		Container.set('EventsRepository', new MongoDBEventsRepository(Container.get('Database')));
+		Container.import([MongoDBFilterStrategy, FindEventsByAttractionTagFilterStrategy]);
+
 		Container.set('LocationsRepository', new MongoDBLocationsRepository(Container.get('Database')));
+		Container.import([]);
+
 		Container.set('AttractionsRepository', new MongoDBAttractionsRepository(Container.get('Database')));
+		Container.import([]);
+
 		Container.set('TagsRepository', new MongoDBTagsRepository(Container.get('Database')));
+		Container.import([]);
+
+
 
 	}
 
-
-
+	
 	private initLogger() {
 		const loggerOptions: expressWinston.LoggerOptions = {
 			transports: [new winston.transports.Console()],
@@ -171,7 +184,7 @@ export class KulturdatenBerlinApp {
 		this.app.use('/api/organizations', organizationsRoute.getRouter());
 	}
 
-	registerAttractionsRoutes() {
+	private registerAttractionsRoutes() {
 		const attractionsRoute = Container.get(AttractionsRoutes);
 		this.app.use('/api/attractions', attractionsRoute.getRouter());
 	}
@@ -196,7 +209,7 @@ export class KulturdatenBerlinApp {
 		this.app.use('/api/tags', tagsRoute.getRouter());
 	}
 
-	registerHarvesterRoutes() {
+	private registerHarvesterRoutes() {
 		const harvesterRoute = Container.get(HarvesterRoutes);
 		this.app.use('/api/admin/harvest/baevents-bezirkskalender', harvesterRoute.getRouter());
 	}
@@ -208,4 +221,3 @@ const kulturdatenBerlin = new KulturdatenBerlinApp(app);
 kulturdatenBerlin.start();
 
 
-  

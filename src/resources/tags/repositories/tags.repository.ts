@@ -9,9 +9,9 @@ const log: debug.IDebugger = debug('app:locations-repository');
 export interface TagsRepository {
 	addTag(createTagRequest: CreateTagRequest): PromiseLike<Tag | null>;
 	
-	searchTags(filter: Filter, page:number, pageSize:number): Promise<Tag[]> ;
+	searchTags(filter?: Filter): Promise<Tag[]> ;
 
-	getTags(page:number, pageSize:number) : Promise<Tag[]>;
+	getTags() : Promise<Tag[]>;
 
 	getAllTags(): Promise<Tag[]>;
 

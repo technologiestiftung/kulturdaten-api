@@ -14,16 +14,16 @@ export class TagsService{
 
 	constructor(@Inject('TagsRepository') public tagsRepository: TagsRepository){}
 
-	async list(page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) {
-		return this.tagsRepository.getTags(page,pageSize);
+	async list() {
+		return this.tagsRepository.getTags();
 	}
 
 	async listAllTags(): Promise<Tag[]> {
 		return this.tagsRepository.getAllTags();
 	}
 
-	search(searchTagsRequest: SearchTagsRequest, page: number = pagination.defaultPage, pageSize: number = pagination.defaultPageSize) : Promise<Tag[]> {
-		return this.tagsRepository.searchTags(searchTagsRequest.searchFilter? searchTagsRequest.searchFilter : {}, page, pageSize);
+	search(searchTagsRequest: SearchTagsRequest) : Promise<Tag[]> {
+		return this.tagsRepository.searchTags(searchTagsRequest.searchFilter);
 	}
 
 	async readById(id: string) : Promise<Tag | null> {

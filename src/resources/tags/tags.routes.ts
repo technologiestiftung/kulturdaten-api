@@ -18,8 +18,7 @@ export class TagsRoutes {
 
 		router
 			.get('/', (req: express.Request, res: express.Response) => {
-				const { page, pageSize } = getPagination(req);
-				this.tagsController.listTags(res, page, pageSize);
+					this.tagsController.listTags(res);
 			})
 			.post('/',
 				passport.authenticate('authenticated-user', { session: false }),
@@ -30,50 +29,42 @@ export class TagsRoutes {
 
 		router
 			.get('/organizations', (req: express.Request, res: express.Response) => {
-				const { page, pageSize } = getPagination(req);
-
-				const searchTagsRequest: SearchTagsRequest = {
+				const searchTagsRequest : SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "organization\\." }
 					}
 				}
-				this.tagsController.searchTags(res, searchTagsRequest, page, pageSize);
+				this.tagsController.searchTags(res, searchTagsRequest);
 			})
 
 		router
 			.get('/attractions', (req: express.Request, res: express.Response) => {
-				const { page, pageSize } = getPagination(req);
-
-				const searchTagsRequest: SearchTagsRequest = {
+				const searchTagsRequest : SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "attraction\\." }
 					}
 				}
-				this.tagsController.searchTags(res, searchTagsRequest, page, pageSize);
+				this.tagsController.searchTags(res, searchTagsRequest);
 			})
 
 		router
 			.get('/locations', (req: express.Request, res: express.Response) => {
-				const { page, pageSize } = getPagination(req);
-
-				const searchTagsRequest: SearchTagsRequest = {
+				const searchTagsRequest : SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "location\\." }
 					}
 				}
-				this.tagsController.searchTags(res, searchTagsRequest, page, pageSize);
+				this.tagsController.searchTags(res, searchTagsRequest);
 			})
 
 		router
 			.get('/events', (req: express.Request, res: express.Response) => {
-				const { page, pageSize } = getPagination(req);
-
-				const searchTagsRequest: SearchTagsRequest = {
+				const searchTagsRequest : SearchTagsRequest = {
 					searchFilter: {
 						identifier: { $regex: "event\\." }
 					}
 				}
-				this.tagsController.searchTags(res, searchTagsRequest, page, pageSize);
+				this.tagsController.searchTags(res, searchTagsRequest);
 			})
 
 		router
