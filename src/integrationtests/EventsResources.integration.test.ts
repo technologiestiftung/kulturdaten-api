@@ -7,7 +7,7 @@ import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 
 import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
 import { FindEventsByMongoDBFilterStrategy } from "../resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
-
+import { FindInTheFutureEventsFilterStrategy } from "../resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 import threeDummyAttractions from "./testdata/attractions.json";
 import threeDummyEvents from "./testdata/events.json";
 
@@ -144,9 +144,12 @@ describe("Search events", () => {
 	beforeEach(async () => {
 		await env.events.insertMany(threeDummyEvents);
 		await env.attractions.insertMany(threeDummyAttractions);
+		const findInTheFutureStrategy = new FindInTheFutureEventsFilterStrategy(env.eventsRepository);
+		findInTheFutureStrategy.today = () => "2023-08-11";
 		env.eventsService.filterStrategies = [
 			new FindEventsByMongoDBFilterStrategy(env.eventsRepository),
 			new FindEventsByAttractionTagFilterStrategy(env.eventsRepository, env.attractionsRepository),
+			findInTheFutureStrategy,
 		];
 	});
 
@@ -199,5 +202,27 @@ describe("Search events", () => {
 		expect(statusCode).toBe(200);
 		expect(body.data.events).toHaveLength(1);
 		expect(body.data.events[0].attractions[0].referenceId).toContain("berlin-wall-vr-experience-12345");
+	});
+
+	it("should return today's event (2023-08-11) and tomorrow's event / POST /events/search/", async () => {
+		const { body, statusCode } = await request(env.app)
+			.post(env.EVENTS_ROUTE + "/search")
+			.send({
+				inTheFuture: true,
+			});
+
+		expect(statusCode).toBe(200);
+		expect(body.data.events).toHaveLength(2);
+	});
+
+	it("should return all events / POST /events/search/", async () => {
+		const { body, statusCode } = await request(env.app)
+			.post(env.EVENTS_ROUTE + "/search")
+			.send({
+				inTheFuture: false,
+			});
+
+		expect(statusCode).toBe(200);
+		expect(body.data.events).toHaveLength(3);
 	});
 });

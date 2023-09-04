@@ -22,7 +22,8 @@ export const schemaForSearchEventsRequest = {
     byAttractionTags: {
       type: "object",
       properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
-    }
+    },
+    inTheFuture: {type: "boolean"}
   }
 };
 
@@ -45,4 +46,5 @@ export interface SearchEventsRequest {
     tags?: string[];
     matchMode?: "any" | "all";
   };
+  inTheFuture?: boolean;
 }

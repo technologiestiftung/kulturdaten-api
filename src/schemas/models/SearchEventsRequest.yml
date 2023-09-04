@@ -15,3 +15,5 @@ properties:
           type: string
       matchMode:
         $ref: 'MatchMode.yml'
+  inTheFuture:
+    type: boolean
