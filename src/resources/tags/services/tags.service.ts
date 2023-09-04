@@ -1,18 +1,12 @@
 import { Inject, Service } from "typedi";
-import { TagsRepository } from "../repositories/tags.repository";
+import { CreateTagRequest } from "../../../generated/models/CreateTagRequest.generated";
 import { SearchTagsRequest } from "../../../generated/models/SearchTagsRequest.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
-import { CreateTagRequest } from "../../../generated/models/CreateTagRequest.generated";
-import { pagination } from "../../../config/kulturdaten.config";
-
-
-
+import { TagsRepository } from "../repositories/TagsRepository";
 
 @Service()
-export class TagsService{
-
-
-	constructor(@Inject('TagsRepository') public tagsRepository: TagsRepository){}
+export class TagsService {
+	constructor(@Inject("TagsRepository") public tagsRepository: TagsRepository) {}
 
 	async list() {
 		return this.tagsRepository.getTags();
@@ -22,17 +16,15 @@ export class TagsService{
 		return this.tagsRepository.getAllTags();
 	}
 
-	search(searchTagsRequest: SearchTagsRequest) : Promise<Tag[]> {
+	search(searchTagsRequest: SearchTagsRequest): Promise<Tag[]> {
 		return this.tagsRepository.searchTags(searchTagsRequest.searchFilter);
 	}
 
-	async readById(id: string) : Promise<Tag | null> {
+	async readById(id: string): Promise<Tag | null> {
 		return this.tagsRepository.getTagByIdentifier(id);
 	}
 
-	async create(createTagRequest: CreateTagRequest) : Promise<Tag | null> {
+	async create(createTagRequest: CreateTagRequest): Promise<Tag | null> {
 		return this.tagsRepository.addTag(createTagRequest);
 	}
-
-
 }

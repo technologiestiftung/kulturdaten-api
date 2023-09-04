@@ -8,15 +8,8 @@
 			"de": "Der fliegende Garten ist ein schwebender Ort voller exotischer Pflanzen und Bäume. Er dient als Bühne für Freiluftkonzerte und bietet ein einzigartiges Erlebnis unter dem Berliner Himmel.",
 			"en": "The Flying Garden is a hovering place filled with exotic plants and trees. It serves as a stage for open-air concerts and offers a unique experience under the Berlin sky."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Freiluft",
-			"Konzerte",
-			"Fantasie"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Freiluft", "Konzerte", "Fantasie"],
 		"address": {
 			"streetAddress": "Himmelweg 1",
 			"addressLocality": "Berlin",
@@ -49,15 +42,8 @@
 			"de": "Der Spiegelsaal der Wünsche ist ein mystischer Ort, in dem die Spiegel die Träume und Wünsche der Besucher reflektieren. Er ist ein Veranstaltungsort für kulturelle Events und Ausstellungen.",
 			"en": "The Mirror Hall of Wishes is a mystical place where mirrors reflect the dreams and wishes of visitors. It is a venue for cultural events and exhibitions."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Kunst",
-			"Ausstellungen",
-			"Fantasie"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Kunst", "Ausstellungen", "Fantasie"],
 		"address": {
 			"streetAddress": "Traumstraße 7",
 			"addressLocality": "Berlin",
@@ -90,15 +76,8 @@
 			"de": "Die Unterwasseroper ist ein einzigartiger Veranstaltungsort, an dem Aufführungen unter Wasser stattfinden. Die Besucher können die Vorstellungen durch speziell angefertigte Glaswände betrachten.",
 			"en": "The Underwater Opera is a unique venue where performances take place under water. Visitors can view the performances through specially made glass walls."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Musik",
-			"Unterwasser",
-			"Fantasie"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Musik", "Unterwasser", "Fantasie"],
 		"address": {
 			"streetAddress": "Ozeanstraße 5",
 			"addressLocality": "Berlin",
@@ -131,15 +110,8 @@
 			"de": "Der schwebende Zirkus ist ein magischer Ort, an dem artistische Darbietungen in der Luft stattfinden. Dieser fantastische Ort bietet ein ganz neues Niveau an Zirkusperformances.",
 			"en": "The Floating Circus is a magical place where acrobatic performances take place in the air. This fantastic place offers a whole new level of circus performances."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Zirkus",
-			"Performances",
-			"Fantasie"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Zirkus", "Performances", "Fantasie"],
 		"address": {
 			"streetAddress": "Wolkenweg 3",
 			"addressLocality": "Berlin",
@@ -172,15 +144,8 @@
 			"de": "Das Labyrinth der Geschichten ist ein märchenhafter Ort, an dem Geschichtenerzähler und Literaturveranstaltungen zu Hause sind. Jeder Raum enthält eine neue Geschichte, die darauf wartet, entdeckt zu werden.",
 			"en": "The Labyrinth of Stories is a fairy-tale place where storytellers and literature events are at home. Every room contains a new story waiting to be discovered."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Literatur",
-			"Geschichten",
-			"Fantasie"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Literatur", "Geschichten", "Fantasie"],
 		"address": {
 			"streetAddress": "Erzählerweg 9",
 			"addressLocality": "Berlin",
@@ -213,14 +178,8 @@
 			"de": "Ein schwimmendes Amphitheater auf der Spree, das spektakuläre Wasser- und Lichtshows bietet.",
 			"en": "A floating amphitheater on the Spree River offering spectacular water and light shows."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Theater",
-			"Amphitheater"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Theater", "Amphitheater"],
 		"address": {
 			"streetAddress": "Stralauer Allee 1",
 			"addressLocality": "Berlin",
@@ -253,14 +212,8 @@
 			"de": "Ein futuristisches Veranstaltungszentrum auf einer erweiterten Plattform des Berliner Fernsehturms.",
 			"en": "A futuristic event center on an extended platform of the Berlin Television Tower."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Veranstaltungszentrum",
-			"Fernsehturm"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Veranstaltungszentrum", "Fernsehturm"],
 		"address": {
 			"streetAddress": "Panoramastraße 1A",
 			"addressLocality": "Berlin",
@@ -293,14 +246,8 @@
 			"de": "Ein urbaner Gartenveranstaltungsort, der unter dem Schatten des Brandenburger Tors thront.",
 			"en": "An urban garden event venue thriving under the shadow of the Brandenburg Gate."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Urbaner Garten",
-			"Veranstaltungsort im Freien"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Urbaner Garten", "Veranstaltungsort im Freien"],
 		"address": {
 			"streetAddress": "Pariser Platz 1",
 			"addressLocality": "Berlin",
@@ -333,14 +280,8 @@
 			"de": "Ein luxuriöser Veranstaltungsort auf der Spitze eines fiktiven Wolkenkratzers in Charlottenburg.",
 			"en": "A luxurious event venue on top of a fictional skyscraper in Charlottenburg."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Klub",
-			"Wolkenkratzer"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Klub", "Wolkenkratzer"],
 		"address": {
 			"streetAddress": "Hardenbergstraße 28",
 			"addressLocality": "Berlin",
@@ -373,14 +314,8 @@
 			"de": "Eine geheime Bar in den historischen Tunneln unter Kreuzberg für exklusive Veranstaltungen.",
 			"en": "A secret bar located in the historic tunnels under Kreuzberg for exclusive events."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Bar",
-			"Untergrund"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Bar", "Untergrund"],
 		"address": {
 			"streetAddress": "Mariannenstraße 47",
 			"addressLocality": "Berlin",
@@ -413,14 +348,8 @@
 			"de": "Ein eleganter Pavillon für Veranstaltungen und Zusammenkünfte mitten im grünen Herzen von Pankow.",
 			"en": "An elegant pavilion for events and gatherings in the green heart of Pankow."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Pavillon",
-			"Park"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Pavillon", "Park"],
 		"address": {
 			"streetAddress": "Schönholzer Straße 10",
 			"addressLocality": "Berlin",
@@ -453,14 +382,8 @@
 			"de": "Ein imaginäres Observatorium in Spandau, wo Sie die Sterne während spezieller Nächte betrachten können.",
 			"en": "An imaginary observatory in Spandau where you can gaze at the stars during special nights."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Observatorium",
-			"Sternenbeobachtung"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Observatorium", "Sternenbeobachtung"],
 		"address": {
 			"streetAddress": "Breite Straße 32",
 			"addressLocality": "Berlin",
@@ -493,14 +416,8 @@
 			"de": "Ein futuristischer Veranstaltungsort für Technologie und Innovation im pulsierenden Herzen von Neukölln.",
 			"en": "A futuristic venue for technology and innovation in the vibrant heart of Neukölln."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Technologie",
-			"Innovation"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Technologie", "Innovation"],
 		"address": {
 			"streetAddress": "Karl-Marx-Straße 50",
 			"addressLocality": "Berlin",
@@ -533,14 +450,8 @@
 			"de": "Ein spektakulärer Veranstaltungsort in einem fiktiven Tempel im historischen Tempelhofer Feld.",
 			"en": "A spectacular venue in a fictional temple in the historic Tempelhof Field."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Tempel",
-			"Veranstaltungsort"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Tempel", "Veranstaltungsort"],
 		"address": {
 			"streetAddress": "Tempelhofer Damm 45",
 			"addressLocality": "Berlin",
@@ -573,14 +484,8 @@
 			"de": "Ein zauberhafter Veranstaltungsort in einem imaginären Garten voller Lichter und Farben in Marzahn.",
 			"en": "A magical venue in an imaginary garden full of lights and colors in Marzahn."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Garten",
-			"Lichter"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Garten", "Lichter"],
 		"address": {
 			"streetAddress": "Märkische Allee 410",
 			"addressLocality": "Berlin",
@@ -613,14 +518,8 @@
 			"de": "Ein Veranstaltungsort in den Wolken, angesiedelt in einem fiktiven Turm über Treptow.",
 			"en": "An event venue in the clouds, set in a fictional tower above Treptow."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Turm",
-			"Veranstaltungsort"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Turm", "Veranstaltungsort"],
 		"address": {
 			"streetAddress": "Elsenstraße 15",
 			"addressLocality": "Berlin",
@@ -653,14 +552,8 @@
 			"de": "Ein blendender Veranstaltungsort für Performances und Ausstellungen im lebendigen Lichtenberg.",
 			"en": "A dazzling venue for performances and exhibitions in vibrant Lichtenberg."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Performances",
-			"Ausstellungen"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Performances", "Ausstellungen"],
 		"address": {
 			"streetAddress": "Möllendorffstraße 6",
 			"addressLocality": "Berlin",
@@ -693,14 +586,8 @@
 			"de": "Ein opulenter Palast der Musik im Herzen von Mitte, spezialisiert auf Live-Konzerte aller Genres.",
 			"en": "An opulent palace of music in the heart of Mitte, specializing in live concerts of all genres."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Musik",
-			"Konzerte"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Musik", "Konzerte"],
 		"address": {
 			"streetAddress": "Rosa-Luxemburg-Straße 20",
 			"addressLocality": "Berlin",
@@ -733,14 +620,8 @@
 			"de": "Das ultimative Ziel für Popmusik-Liebhaber, bietet live Performances von aufstrebenden und etablierten Künstlern.",
 			"en": "The ultimate destination for pop music lovers, featuring live performances by upcoming and established artists."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Popmusik",
-			"Konzerte"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Popmusik", "Konzerte"],
 		"address": {
 			"streetAddress": "Breite Straße 38",
 			"addressLocality": "Berlin",
@@ -773,14 +654,8 @@
 			"de": "Ein atemberaubender Veranstaltungsort für klassische Musik und Opern im Herzen von Charlottenburg.",
 			"en": "A breathtaking venue for classical music and operas in the heart of Charlottenburg."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Klassische Musik",
-			"Oper"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Klassische Musik", "Oper"],
 		"address": {
 			"streetAddress": "Kurfürstendamm 216",
 			"addressLocality": "Berlin",
@@ -813,14 +688,8 @@
 			"de": "Ein einzigartiger Ort für Musikfestivals und Großveranstaltungen im trendigen Friedrichshain.",
 			"en": "A unique venue for music festivals and large events in trendy Friedrichshain."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Festival",
-			"Veranstaltungen"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Festival", "Veranstaltungen"],
 		"address": {
 			"streetAddress": "Warschauer Straße 90",
 			"addressLocality": "Berlin",
@@ -853,14 +722,8 @@
 			"de": "Ein massives Stadion für Musikveranstaltungen und Konzerte in Spandau, das für seine hervorragende Akustik bekannt ist.",
 			"en": "A massive stadium for music events and concerts in Spandau, known for its excellent acoustics."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Stadion",
-			"Konzerte"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Stadion", "Konzerte"],
 		"address": {
 			"streetAddress": "Seegefelder Straße 20",
 			"addressLocality": "Berlin",
@@ -893,14 +756,8 @@
 			"de": "Ein kreativer Ort für Poetry Slam und literarische Veranstaltungen in der charmanten Wilmersdorfer Gegend.",
 			"en": "A creative space for poetry slams and literary events in the charming Wilmersdorf area."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Poetry Slam",
-			"Literatur"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Poetry Slam", "Literatur"],
 		"address": {
 			"streetAddress": "Fehrbelliner Pl. 4",
 			"addressLocality": "Berlin",
@@ -933,14 +790,8 @@
 			"de": "Ein Universum der Worte und Gedichte im historischen Tempelhof, das regelmäßig Poetry Slam-Events veranstaltet.",
 			"en": "A universe of words and poems in historic Tempelhof, regularly hosting poetry slam events."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Poetry Slam",
-			"Gedichte"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Poetry Slam", "Gedichte"],
 		"address": {
 			"streetAddress": "Tempelhofer Damm 227",
 			"addressLocality": "Berlin",
@@ -973,14 +824,8 @@
 			"de": "Ein Schatz an Tönen und Wörtern in Treptow, ein idealer Ort für inspirierende Poetry Slam-Veranstaltungen.",
 			"en": "A trove of tones and words in Treptow, an ideal place for inspiring poetry slam events."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Poetry Slam",
-			"Inspiration"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Poetry Slam", "Inspiration"],
 		"address": {
 			"streetAddress": "Elsenstraße 52",
 			"addressLocality": "Berlin",
@@ -1013,14 +858,8 @@
 			"de": "Ein lebendiger Ort für Dichter und Wortkünstler im Herzen von Neukölln, der einen sicheren Raum für Poetry Slams bietet.",
 			"en": "A vibrant space for poets and word artists in the heart of Neukölln, providing a safe haven for poetry slams."
 		},
-		"inLanguages": [
-			"de",
-			"en"
-		],
-		"tags": [
-			"Poetry Slam",
-			"Dichtung"
-		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Poetry Slam", "Dichtung"],
 		"address": {
 			"streetAddress": "Karl-Marx-Straße 95",
 			"addressLocality": "Berlin",

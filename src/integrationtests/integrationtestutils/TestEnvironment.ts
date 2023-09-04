@@ -1,40 +1,35 @@
-import { MongoClient, Collection, Db } from "mongodb";
-import { MongoDBConnector } from "../../common/services/mongodb.service";
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import express from 'express';
-import { EventsController } from "../../resources/events/controllers/events.controller";
-import { EventsRoutes } from "../../resources/events/events.routes";
-import { MongoDBEventsRepository } from "../../resources/events/repositories/events.repository.mongodb";
-import { EventsService } from "../../resources/events/services/events.service";
-import { LocationsController } from "../../resources/locations/controllers/locations.controller";
-import { LocationsRoutes } from "../../resources/locations/locations.routes";
-import { LocationsService } from "../../resources/locations/services/locations.service";
-import { MongoDBLocationsRepository } from "../../resources/locations/repositories/locations.repository.mongodb";
-import { OrganizationsController } from "../../resources/organizations/controllers/organizations.controller";
-import { OrganizationsRoutes } from "../../resources/organizations/organizations.routes";
-import { MongoDBOrganizationsRepository } from "../../resources/organizations/repositories/organizations.repository.mongodb";
-import { OrganizationsService } from "../../resources/organizations/services/organizations.service";
-import { AttractionsRoutes } from "../../resources/attractions/attractions.routes";
-import { AttractionsController } from "../../resources/attractions/controllers/attractions.controller";
-import { MongoDBAttractionsRepository } from "../../resources/attractions/repositories/attractions.repository.mongodb";
-import { AttractionsService } from "../../resources/attractions/services/attractions.service";
-import { FindEventsByAttractionTagFilterStrategy } from "../../resources/events/filter/implementations/events.attractiontag.filter.strategy";
-import { MongoDBFilterStrategy } from "../../resources/events/filter/implementations/events.mongodb.filter.strategy";
-import { Container } from "typedi";
-import { EventsRepository } from "../../resources/events/repositories/events.repository";
-import { LocationsRepository } from "../../resources/locations/repositories/locations.repository";
-import { AttractionsRepository } from "../../resources/attractions/repositories/attractions.repository";
-import { OrganizationsRepository } from "../../resources/organizations/repositories/organizations.repository";
-import { PermissionFlag } from "../../resources/auth/middleware/auth.permissionflag.enum";
-import * as bearerStrategy from 'passport-http-bearer';
+import express from "express";
+import { Collection, Db, MongoClient } from "mongodb";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import passport from "passport";
-
+import * as bearerStrategy from "passport-http-bearer";
+import { MongoDBConnector } from "../../common/services/MongoDBConnector";
+import { AttractionsRoutes } from "../../resources/attractions/AttractionsRoutes";
+import { AttractionsController } from "../../resources/attractions/controllers/AttractionsController";
+import { AttractionsRepository } from "../../resources/attractions/repositories/AttractionsRepository";
+import { MongoDBAttractionsRepository } from "../../resources/attractions/repositories/MongoDBAttractionsRepository";
+import { AttractionsService } from "../../resources/attractions/services/AttractionsService";
+import { PermissionFlag } from "../../resources/auth/middleware/PermissionFlag";
+import { EventsRoutes } from "../../resources/events/EventsRoutes";
+import { EventsController } from "../../resources/events/controllers/EventsController";
+import { EventsRepository } from "../../resources/events/repositories/EventsRepository";
+import { MongoDBEventsRepository } from "../../resources/events/repositories/MongoDBEventsRepository";
+import { EventsService } from "../../resources/events/services/EventsService";
+import { LocationsRoutes } from "../../resources/locations/LocationsRoutes";
+import { LocationsController } from "../../resources/locations/controllers/LocationsController";
+import { LocationsRepository } from "../../resources/locations/repositories/LocationsRepository";
+import { MongoDBLocationsRepository } from "../../resources/locations/repositories/MongoDBLocationsRepository";
+import { LocationsService } from "../../resources/locations/services/LocationsService";
+import { OrganizationsRoutes } from "../../resources/organizations/OrganizationsRoutes";
+import { OrganizationsController } from "../../resources/organizations/controllers/OrganizationsController";
+import { MongoDBOrganizationsRepository } from "../../resources/organizations/repositories/MongoDBOrganizationsRepository";
+import { OrganizationsRepository } from "../../resources/organizations/repositories/OrganizationsRepository";
+import { OrganizationsService } from "../../resources/organizations/services/OrganizationsService";
 
 export class TestEnvironment {
-
-	ADMIN_TOKEN: string = 'ADMIN_TOKEN';
-	USER_TOKEN: string = 'USER_TOKEN';
-	WRONG_TOKEN: string = 'WRONG_TOKEN';
+	ADMIN_TOKEN: string = "ADMIN_TOKEN";
+	USER_TOKEN: string = "USER_TOKEN";
+	WRONG_TOKEN: string = "WRONG_TOKEN";
 
 	con!: MongoClient;
 	mongoServer!: MongoMemoryServer;
@@ -42,40 +37,40 @@ export class TestEnvironment {
 	app!: express.Application;
 	db!: Db;
 
-	eventsRepository! : EventsRepository;
-	eventsService! : EventsService;	
-	eventsController! : EventsController;
-	eventsRoutes! : EventsRoutes;
+	eventsRepository!: EventsRepository;
+	eventsService!: EventsService;
+	eventsController!: EventsController;
+	eventsRoutes!: EventsRoutes;
 	events!: Collection;
-	EVENTS_ROUTE = '/events';
+	EVENTS_ROUTE = "/events";
 
 	locationsRepository!: LocationsRepository;
 	locationsService!: LocationsService;
 	locationsController!: LocationsController;
 	locationsRoutes!: LocationsRoutes;
 	locations!: Collection;
-	LOCATIONS_ROUTE = '/locations';
+	LOCATIONS_ROUTE = "/locations";
 
-	organizationsRepository! : OrganizationsRepository;
-	organizationsService! : OrganizationsService;
-	organizationsController! : OrganizationsController;
-	organizationsRoutes! : OrganizationsRoutes;
+	organizationsRepository!: OrganizationsRepository;
+	organizationsService!: OrganizationsService;
+	organizationsController!: OrganizationsController;
+	organizationsRoutes!: OrganizationsRoutes;
 	organizations!: Collection;
-	ORGANIZATIONS_ROUTE = '/organizations';
+	ORGANIZATIONS_ROUTE = "/organizations";
 
-	attractionsRepository! : AttractionsRepository;
-	attractionsService! : AttractionsService;
-	attractionsController! : AttractionsController;
-	attractionsRoutes! : AttractionsRoutes;
+	attractionsRepository!: AttractionsRepository;
+	attractionsService!: AttractionsService;
+	attractionsController!: AttractionsController;
+	attractionsRoutes!: AttractionsRoutes;
 	attractions!: Collection;
-	ATTRACTIONS_ROUTE = '/attractions';
+	ATTRACTIONS_ROUTE = "/attractions";
 
 	async startServer(): Promise<TestEnvironment> {
 		this.mongoServer = await MongoMemoryServer.create();
 		process.env.MONGO_URI = this.mongoServer.getUri();
 		this.con = await MongoClient.connect(this.mongoServer.getUri(), {});
 		this.connector = new MongoDBConnector(this.con);
-		this.db = this.con.db('api-db');
+		this.db = this.con.db("api-db");
 		this.initPassport();
 		this.app = express();
 		this.app.use(express.json());
@@ -85,12 +80,12 @@ export class TestEnvironment {
 
 	withEventsRoutes(): TestEnvironment {
 		this.eventsRepository = new MongoDBEventsRepository(this.connector);
-		this.eventsService = new EventsService(this.eventsRepository);	
+		this.eventsService = new EventsService(this.eventsRepository);
 		this.eventsController = new EventsController(this.eventsService);
 		this.eventsRoutes = new EventsRoutes(this.eventsController);
-		this.events = this.db.collection('events');
+		this.events = this.db.collection("events");
 		this.app.use(this.EVENTS_ROUTE, this.eventsRoutes.getRouter());
-		
+
 		return this;
 	}
 
@@ -99,7 +94,7 @@ export class TestEnvironment {
 		this.locationsService = new LocationsService(this.locationsRepository);
 		this.locationsController = new LocationsController(this.locationsService);
 		this.locationsRoutes = new LocationsRoutes(this.locationsController);
-		this.locations = this.db.collection('locations');
+		this.locations = this.db.collection("locations");
 		this.app.use(this.LOCATIONS_ROUTE, this.locationsRoutes.getRouter());
 
 		return this;
@@ -110,7 +105,7 @@ export class TestEnvironment {
 		this.organizationsService = new OrganizationsService(this.organizationsRepository);
 		this.organizationsController = new OrganizationsController(this.organizationsService);
 		this.organizationsRoutes = new OrganizationsRoutes(this.organizationsController);
-		this.organizations = this.db.collection('organizations');
+		this.organizations = this.db.collection("organizations");
 		this.app.use(this.ORGANIZATIONS_ROUTE, this.organizationsRoutes.getRouter());
 
 		return this;
@@ -121,7 +116,7 @@ export class TestEnvironment {
 		this.attractionsService = new AttractionsService(this.attractionsRepository);
 		this.attractionsController = new AttractionsController(this.attractionsService);
 		this.attractionsRoutes = new AttractionsRoutes(this.attractionsController);
-		this.attractions = this.db.collection('attractions');
+		this.attractions = this.db.collection("attractions");
 		this.app.use(this.ATTRACTIONS_ROUTE, this.attractionsRoutes.getRouter());
 
 		return this;
@@ -130,20 +125,21 @@ export class TestEnvironment {
 	initPassport(): TestEnvironment {
 		const ADMIN_TOKEN = this.ADMIN_TOKEN;
 		const USER_TOKEN = this.USER_TOKEN;
-		passport.use('authenticated-user',
+		passport.use(
+			"authenticated-user",
 			new bearerStrategy.Strategy(async function verify(token, done) {
-				if(token === ADMIN_TOKEN) {
+				if (token === ADMIN_TOKEN) {
 					return done(null, {
-						id: 'adminID',
-						email: 'admin@email.de',
-						permissionFlags: PermissionFlag.ADMIN_PERMISSION
+						id: "adminID",
+						email: "admin@email.de",
+						permissionFlags: PermissionFlag.ADMIN_PERMISSION,
 					});
-				};
-				if(token === USER_TOKEN){
+				}
+				if (token === USER_TOKEN) {
 					return done(null, {
-						id: 'userID',
-						email: 'user@email.de',
-						permissionFlags: PermissionFlag.REGISTERED_USER
+						id: "userID",
+						email: "user@email.de",
+						permissionFlags: PermissionFlag.REGISTERED_USER,
 					});
 				}
 				return done(null, false);
@@ -153,9 +149,10 @@ export class TestEnvironment {
 	}
 
 	withNoLoggedInUser(): TestEnvironment {
-		passport.use('authenticated-user',
+		passport.use(
+			"authenticated-user",
 			new bearerStrategy.Strategy(async function verify(token, done) {
-					return done(null, false);
+				return done(null, false);
 			})
 		);
 		return this;
@@ -172,5 +169,4 @@ export class TestEnvironment {
 			await this.connector.close();
 		}
 	}
-
 }

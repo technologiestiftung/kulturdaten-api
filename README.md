@@ -19,8 +19,8 @@ Die Kulturdatenbank ist ein Projekt der Technologiestiftung Berlin (<https://www
 
 ## Prerequisites
 
--   Install a Node version according to the version specified in `.nvmrc` (e.g. with `nvm install` or `nvm use`)
--   Install [MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/)
+- Install a Node version according to the version specified in `.nvmrc` (e.g. with `nvm install` or `nvm use`)
+- Install [MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/)
 
 ## Installation
 
@@ -37,7 +37,7 @@ tbd...
 npm run debug
 ```
 
-tbd... 
+tbd...
 
 ## Tests
 

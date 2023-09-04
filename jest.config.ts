@@ -30,7 +30,6 @@ export default {
 	//   "/node_modules/"
 	// ],
 
-
 	// Indicates which provider should be used to instrument code for coverage
 	coverageProvider: "v8",
 
@@ -139,7 +138,7 @@ export default {
 	// setupFilesAfterEnv: [],
 
 	// The number of seconds after which a test is considered as slow and reported as such in the results.
-	 slowTestThreshold: 5,
+	slowTestThreshold: 5,
 
 	// A list of paths to snapshot serializer modules Jest should use for snapshot testing
 	// snapshotSerializers: [],
@@ -195,7 +194,6 @@ export default {
 	// watchman: true,
 };
 
-
 process.env = Object.assign(process.env, {
-	JWT_SECRET: 'test-secret'
+	JWT_SECRET: "test-secret",
 });

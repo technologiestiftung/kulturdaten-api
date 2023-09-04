@@ -3,260 +3,259 @@
 		"type": "type.Event",
 		"identifier": "1234-5678-9101-1121",
 		"metadata": {
-		  "created": "2023-07-05T10:00:00Z",
-		  "updated": "2023-07-05T12:00:00Z",
-		  "origin": "Berlin",
-		  "originObjectID": "ABCD-1234-EFGH-5678",
-		  "availableLanguages": ["de", "en"]
+			"created": "2023-07-05T10:00:00Z",
+			"updated": "2023-07-05T12:00:00Z",
+			"origin": "Berlin",
+			"originObjectID": "ABCD-1234-EFGH-5678",
+			"availableLanguages": ["de", "en"]
 		},
 		"status": "event.published",
 		"scheduleStatus": "event.scheduled",
 		"schedule": {
-		  "startDate": "2023-08-10",
-		  "startTime": "18:00",
-		  "permanentOpening": false,
-		  "doorTime": "17:00",
-		  "endDate": "2023-08-10",
-		  "endTime": "21:00"
+			"startDate": "2023-08-10",
+			"startTime": "18:00",
+			"permanentOpening": false,
+			"doorTime": "17:00",
+			"endDate": "2023-08-10",
+			"endTime": "21:00"
 		},
 		"title": {
-		  "de": "Konzert in Berlin",
-		  "en": "Concert in Berlin"
+			"de": "Konzert in Berlin",
+			"en": "Concert in Berlin"
 		},
 		"displayName": {
-		  "de": "Großes Konzert",
-		  "en": "Big Concert"
+			"de": "Großes Konzert",
+			"en": "Big Concert"
 		},
 		"description": {
-		  "de": "Erleben Sie eine großartige Nacht voller Musik in Berlin.",
-		  "en": "Experience a great night of music in Berlin."
+			"de": "Erleben Sie eine großartige Nacht voller Musik in Berlin.",
+			"en": "Experience a great night of music in Berlin."
 		},
 		"pleaseNote": {
-		  "de": "Bitte seien Sie pünktlich.",
-		  "en": "Please be on time."
+			"de": "Bitte seien Sie pünktlich.",
+			"en": "Please be on time."
 		},
 		"website": "https://example.com/berlin-concert",
 		"inLanguages": ["de", "en"],
 		"family": false,
 		"tags": ["Musik", "Konzert"],
 		"locations": [
-		  {
-			"referenceType": "Venue",
-			"referenceId": "5678",
-			"referenceLabel": {
-			  "de": "Berlin Konzerthalle",
-			  "en": "Berlin Concert Hall"
+			{
+				"referenceType": "Venue",
+				"referenceId": "5678",
+				"referenceLabel": {
+					"de": "Berlin Konzerthalle",
+					"en": "Berlin Concert Hall"
+				}
 			}
-		  }
 		],
 		"attractions": [
-		  {
-			"referenceType": "type.Attraction",
-			"referenceId": "temporal-cultural-gateway-67890",
-			"referenceLabel": {
-				"en": "Temporal Cultural Gateway",
-				"de": "Zeitkulturelles Tor"
+			{
+				"referenceType": "type.Attraction",
+				"referenceId": "temporal-cultural-gateway-67890",
+				"referenceLabel": {
+					"en": "Temporal Cultural Gateway",
+					"de": "Zeitkulturelles Tor"
+				}
 			}
-		  }
 		],
 		"organizer": {
-		  "referenceType": "Organization",
-		  "referenceId": "ORG-123",
-		  "referenceLabel": {
-			"de": "Berliner Musikgesellschaft",
-			"en": "Berlin Music Society"
-		  }
+			"referenceType": "Organization",
+			"referenceId": "ORG-123",
+			"referenceLabel": {
+				"de": "Berliner Musikgesellschaft",
+				"en": "Berlin Music Society"
+			}
 		},
 		"contact": {
-		  "name": "Hans Müller",
-		  "email": "hans.mueller@example.com",
-		  "telephone": "+49 30 1234567"
+			"name": "Hans Müller",
+			"email": "hans.mueller@example.com",
+			"telephone": "+49 30 1234567"
 		},
 		"admission": {
-		  "note": {
-			"de": "Tickets im Voraus kaufen.",
-			"en": "Purchase tickets in advance."
-		  },
-		  "ticketType": "ticketType.ticketRequired",
-		  "registrationType": "registrationType.noRegistrationRequired",
-		  "admissionLink": "https://example.com/berlin-concert/tickets"
+			"note": {
+				"de": "Tickets im Voraus kaufen.",
+				"en": "Purchase tickets in advance."
+			},
+			"ticketType": "ticketType.ticketRequired",
+			"registrationType": "registrationType.noRegistrationRequired",
+			"admissionLink": "https://example.com/berlin-concert/tickets"
 		}
-	  },
+	},
 
-	  {
+	{
 		"type": "type.Event",
 		"identifier": "4321-8765-0123-4567",
 		"metadata": {
-		  "created": "2023-07-05T14:00:00Z",
-		  "updated": "2023-07-05T16:00:00Z",
-		  "origin": "Berlin",
-		  "originObjectID": "WXYZ-9876-IJKL-5432",
-		  "availableLanguages": ["de", "en", "fr"]
+			"created": "2023-07-05T14:00:00Z",
+			"updated": "2023-07-05T16:00:00Z",
+			"origin": "Berlin",
+			"originObjectID": "WXYZ-9876-IJKL-5432",
+			"availableLanguages": ["de", "en", "fr"]
 		},
 		"status": "event.published",
 		"scheduleStatus": "event.scheduled",
 		"schedule": {
-		  "startDate": "2023-09-01",
-		  "startTime": "20:00",
-		  "permanentOpening": false,
-		  "doorTime": "19:00",
-		  "endDate": "2023-09-01",
-		  "endTime": "23:00"
+			"startDate": "2023-09-01",
+			"startTime": "20:00",
+			"permanentOpening": false,
+			"doorTime": "19:00",
+			"endDate": "2023-09-01",
+			"endTime": "23:00"
 		},
 		"title": {
-		  "de": "Filmfestival in Berlin",
-		  "en": "Film Festival in Berlin",
-		  "fr": "Festival de film à Berlin"
+			"de": "Filmfestival in Berlin",
+			"en": "Film Festival in Berlin",
+			"fr": "Festival de film à Berlin"
 		},
 		"displayName": {
-		  "de": "Berlin Filmfest",
-		  "en": "Berlin Filmfest",
-		  "fr": "Berlin Filmfest"
+			"de": "Berlin Filmfest",
+			"en": "Berlin Filmfest",
+			"fr": "Berlin Filmfest"
 		},
 		"description": {
-		  "de": "Genießen Sie eine Auswahl an herausragenden Filmen beim Berlin Filmfestival.",
-		  "en": "Enjoy a selection of outstanding movies at the Berlin Film Festival.",
-		  "fr": "Profitez d'une sélection de films exceptionnels au Festival de film de Berlin."
+			"de": "Genießen Sie eine Auswahl an herausragenden Filmen beim Berlin Filmfestival.",
+			"en": "Enjoy a selection of outstanding movies at the Berlin Film Festival.",
+			"fr": "Profitez d'une sélection de films exceptionnels au Festival de film de Berlin."
 		},
 		"pleaseNote": {
-		  "de": "Bitte bringen Sie Ihre Eintrittskarte mit.",
-		  "en": "Please bring your admission ticket.",
-		  "fr": "Veuillez apporter votre billet d'entrée."
+			"de": "Bitte bringen Sie Ihre Eintrittskarte mit.",
+			"en": "Please bring your admission ticket.",
+			"fr": "Veuillez apporter votre billet d'entrée."
 		},
 		"website": "https://example.com/berlin-filmfestival",
 		"inLanguages": ["de", "en", "fr"],
 		"family": true,
 		"tags": ["Film", "Festival", "Berlin"],
 		"locations": [
-		  {
-			"referenceType": "Venue",
-			"referenceId": "9876",
-			"referenceLabel": {
-			  "de": "Berlin Filmpalast",
-			  "en": "Berlin Film Palace",
-			  "fr": "Palais du film de Berlin"
+			{
+				"referenceType": "Venue",
+				"referenceId": "9876",
+				"referenceLabel": {
+					"de": "Berlin Filmpalast",
+					"en": "Berlin Film Palace",
+					"fr": "Palais du film de Berlin"
+				}
 			}
-		  }
 		],
 		"attractions": [
-		  {
-			"referenceType": "Movie",
-			"referenceId": "MV-5678",
-			"referenceLabel": {
-			  "de": "Ein schöner Film",
-			  "en": "A Beautiful Movie",
-			  "fr": "Un beau film"
+			{
+				"referenceType": "Movie",
+				"referenceId": "MV-5678",
+				"referenceLabel": {
+					"de": "Ein schöner Film",
+					"en": "A Beautiful Movie",
+					"fr": "Un beau film"
+				}
 			}
-		  }
 		],
 		"organizer": {
-		  "referenceType": "Organization",
-		  "referenceId": "ORG-789",
-		  "referenceLabel": {
-			"de": "Berliner Filmverband",
-			"en": "Berlin Film Association",
-			"fr": "Association du film de Berlin"
-		  }
+			"referenceType": "Organization",
+			"referenceId": "ORG-789",
+			"referenceLabel": {
+				"de": "Berliner Filmverband",
+				"en": "Berlin Film Association",
+				"fr": "Association du film de Berlin"
+			}
 		},
 		"contact": {
-		  "name": "Maria Schmidt",
-		  "email": "maria.schmidt@example.com",
-		  "telephone": "+49 30 7654321"
+			"name": "Maria Schmidt",
+			"email": "maria.schmidt@example.com",
+			"telephone": "+49 30 7654321"
 		},
 		"admission": {
-		  "note": {
-			"de": "Tickets können online erworben werden.",
-			"en": "Tickets can be purchased online.",
-			"fr": "Les billets peuvent être achetés en ligne."
-		  },
-		  "ticketType": "ticketType.ticketRequired",
-		  "registrationType": "registrationType.noRegistrationRequired",
-		  "admissionLink": "https://example.com/berlin-filmfestival/tickets"
+			"note": {
+				"de": "Tickets können online erworben werden.",
+				"en": "Tickets can be purchased online.",
+				"fr": "Les billets peuvent être achetés en ligne."
+			},
+			"ticketType": "ticketType.ticketRequired",
+			"registrationType": "registrationType.noRegistrationRequired",
+			"admissionLink": "https://example.com/berlin-filmfestival/tickets"
 		}
-	  },
+	},
 
-	  {
+	{
 		"type": "type.Event",
 		"identifier": "7890-1234-5678-9012",
 		"metadata": {
-		  "created": "2023-07-06T08:00:00Z",
-		  "updated": "2023-07-06T10:00:00Z",
-		  "origin": "Berlin",
-		  "originObjectID": "MNOP-4321-QRST-8765",
-		  "availableLanguages": ["de", "en"]
+			"created": "2023-07-06T08:00:00Z",
+			"updated": "2023-07-06T10:00:00Z",
+			"origin": "Berlin",
+			"originObjectID": "MNOP-4321-QRST-8765",
+			"availableLanguages": ["de", "en"]
 		},
 		"status": "event.published",
 		"scheduleStatus": "event.scheduled",
 		"schedule": {
-		  "startDate": "2023-10-15",
-		  "startTime": "10:00",
-		  "permanentOpening": false,
-		  "doorTime": "09:30",
-		  "endDate": "2023-10-15",
-		  "endTime": "16:00"
+			"startDate": "2023-10-15",
+			"startTime": "10:00",
+			"permanentOpening": false,
+			"doorTime": "09:30",
+			"endDate": "2023-10-15",
+			"endTime": "16:00"
 		},
 		"title": {
-		  "de": "Technologie Expo in Berlin",
-		  "en": "Technology Expo in Berlin"
+			"de": "Technologie Expo in Berlin",
+			"en": "Technology Expo in Berlin"
 		},
 		"displayName": {
-		  "de": "TechExpo Berlin",
-		  "en": "TechExpo Berlin"
+			"de": "TechExpo Berlin",
+			"en": "TechExpo Berlin"
 		},
 		"description": {
-		  "de": "Besuchen Sie die Technologie Expo in Berlin und entdecken Sie die neuesten Trends und Innovationen in der Technologiebranche.",
-		  "en": "Visit the Technology Expo in Berlin and discover the latest trends and innovations in the technology industry."
+			"de": "Besuchen Sie die Technologie Expo in Berlin und entdecken Sie die neuesten Trends und Innovationen in der Technologiebranche.",
+			"en": "Visit the Technology Expo in Berlin and discover the latest trends and innovations in the technology industry."
 		},
 		"pleaseNote": {
-		  "de": "Bitte tragen Sie eine Maske und halten Sie den Sicherheitsabstand ein.",
-		  "en": "Please wear a mask and maintain social distancing."
+			"de": "Bitte tragen Sie eine Maske und halten Sie den Sicherheitsabstand ein.",
+			"en": "Please wear a mask and maintain social distancing."
 		},
 		"website": "https://example.com/techexpo-berlin",
 		"inLanguages": ["de", "en"],
 		"family": false,
 		"tags": ["Technologie", "Expo", "Berlin"],
 		"locations": [
-		  {
-			"referenceType": "Venue",
-			"referenceId": "8765",
-			"referenceLabel": {
-			  "de": "Berlin Messezentrum",
-			  "en": "Berlin Exhibition Center"
+			{
+				"referenceType": "Venue",
+				"referenceId": "8765",
+				"referenceLabel": {
+					"de": "Berlin Messezentrum",
+					"en": "Berlin Exhibition Center"
+				}
 			}
-		  }
 		],
 		"attractions": [
 			{
 				"referenceType": "type.Attraction",
 				"referenceId": "berlin-wall-vr-experience-12345",
 				"referenceLabel": {
-				  "en": "Berlin Wall VR Experience",
-				  "de": "Berliner Mauer VR Erlebnis"
+					"en": "Berlin Wall VR Experience",
+					"de": "Berliner Mauer VR Erlebnis"
 				}
-			  }
+			}
 		],
 		"organizer": {
-		  "referenceType": "Organization",
-		  "referenceId": "ORG-456",
-		  "referenceLabel": {
-			"de": "Deutsche Technologie Verein",
-			"en": "German Technology Association"
-		  }
+			"referenceType": "Organization",
+			"referenceId": "ORG-456",
+			"referenceLabel": {
+				"de": "Deutsche Technologie Verein",
+				"en": "German Technology Association"
+			}
 		},
 		"contact": {
-		  "name": "Johann Weber",
-		  "email": "johann.weber@example.com",
-		  "telephone": "+49 30 9876543"
+			"name": "Johann Weber",
+			"email": "johann.weber@example.com",
+			"telephone": "+49 30 9876543"
 		},
 		"admission": {
-		  "note": {
-			"de": "Tickets sind an der Tür erhältlich.",
-			"en": "Tickets are available at the door."
-		  },
-		  "ticketType": "ticketType.ticketRequired",
-		  "registrationType": "registrationType.registrationDesired",
-		  "admissionLink": "https://example.com/techexpo-berlin/tickets"
+			"note": {
+				"de": "Tickets sind an der Tür erhältlich.",
+				"en": "Tickets are available at the door."
+			},
+			"ticketType": "ticketType.ticketRequired",
+			"registrationType": "registrationType.registrationDesired",
+			"admissionLink": "https://example.com/techexpo-berlin/tickets"
 		}
-	  }
-
+	}
 ]
