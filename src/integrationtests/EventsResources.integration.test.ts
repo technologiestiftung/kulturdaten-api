@@ -5,8 +5,9 @@ import { validateEvent } from "../generated/models/Event.generated";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 
-import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/events.attractiontag.filter.strategy";
-import { MongoDBFilterStrategy } from "../resources/events/filter/implementations/events.mongodb.filter.strategy";
+import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
+import { FindEventsByMongoDBFilterStrategy } from "../resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
+
 import threeDummyAttractions from "./testdata/attractions.json";
 import threeDummyEvents from "./testdata/events.json";
 
@@ -144,7 +145,7 @@ describe("Search events", () => {
 		await env.events.insertMany(threeDummyEvents);
 		await env.attractions.insertMany(threeDummyAttractions);
 		env.eventsService.filterStrategies = [
-			new MongoDBFilterStrategy(env.eventsRepository),
+			new FindEventsByMongoDBFilterStrategy(env.eventsRepository),
 			new FindEventsByAttractionTagFilterStrategy(env.eventsRepository, env.attractionsRepository),
 		];
 	});
