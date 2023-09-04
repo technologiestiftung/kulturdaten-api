@@ -2,7 +2,7 @@ import { Inject, Service } from "typedi";
 import { CreateTagRequest } from "../../../generated/models/CreateTagRequest.generated";
 import { SearchTagsRequest } from "../../../generated/models/SearchTagsRequest.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
-import { TagsRepository } from "../repositories/tags.repository";
+import { TagsRepository } from "../repositories/TagsRepository";
 
 @Service()
 export class TagsService {

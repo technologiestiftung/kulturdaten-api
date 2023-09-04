@@ -16,27 +16,27 @@ import swaggerUi from "swagger-ui-express";
 import Container from "typedi";
 import * as winston from "winston";
 import YAML from "yamljs";
-import { MongoDBConnector } from "./common/services/mongodb.service";
-import { HarvesterRoutes } from "./harvester/harvester.routes";
-import { AttractionsRoutes } from "./resources/attractions/attractions.routes";
-import { MongoDBAttractionsRepository } from "./resources/attractions/repositories/attractions.repository.mongodb";
-import { AuthRoutes } from "./resources/auth/auth.routes";
-import { AuthBearerJWT } from "./resources/auth/strategies/auth.strategy.bearerjwt";
-import { AuthPassword } from "./resources/auth/strategies/auth.strategy.password";
-import { EventsRoutes } from "./resources/events/events.routes";
-import { FindEventsByAttractionTagFilterStrategy } from "./resources/events/filter/implementations/events.attractiontag.filter.strategy";
-import { MongoDBFilterStrategy } from "./resources/events/filter/implementations/events.mongodb.filter.strategy";
-import { MongoDBEventsRepository } from "./resources/events/repositories/events.repository.mongodb";
-import { HealthRoutes } from "./resources/health/health.routes";
-import { LocationsRoutes } from "./resources/locations/locations.routes";
-import { MongoDBLocationsRepository } from "./resources/locations/repositories/locations.repository.mongodb";
-import { OrganizationsRoutes } from "./resources/organizations/organizations.routes";
-import { MongoDBOrganizationsRepository } from "./resources/organizations/repositories/organizations.repository.mongodb";
-import { MongoDBTagsRepository } from "./resources/tags/repositories/tags.repository.mongodb";
+import { MongoDBConnector } from "./common/services/MongoDBConnector";
+import { HarvesterRoutes } from "./harvester/HarvesterRoutes";
+import { AttractionsRoutes } from "./resources/attractions/AttractionsRoutes";
+import { MongoDBAttractionsRepository } from "./resources/attractions/repositories/MongoDBAttractionsRepository";
+import { AuthRoutes } from "./resources/auth/AuthRoutes";
+import { AuthBearerJWTStrategy } from "./resources/auth/strategies/AuthBearerJWTStrategy";
+import { AuthPasswordStrategy } from "./resources/auth/strategies/AuthPasswordStrategy";
+import { EventsRoutes } from "./resources/events/EventsRoutes";
+import { FindEventsByAttractionTagFilterStrategy } from "./resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
+import { FindEventsByMongoDBFilterStrategy } from "./resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
+import { MongoDBEventsRepository } from "./resources/events/repositories/MongoDBEventsRepository";
+import { HealthRoutes } from "./resources/health/HealthRoutes";
+import { LocationsRoutes } from "./resources/locations/LocationsRoutes";
+import { MongoDBLocationsRepository } from "./resources/locations/repositories/MongoDBLocationsRepository";
+import { OrganizationsRoutes } from "./resources/organizations/OrganizationsRoutes";
+import { MongoDBOrganizationsRepository } from "./resources/organizations/repositories/MongoDBOrganizationsRepository";
+import { MongoDBTagsRepository } from "./resources/tags/repositories/MongoDBTagsRepository";
 import { TagsRoutes } from "./resources/tags/tags.routes";
-import { MongoDBUsersRepository } from "./resources/users/repositories/users.repository.mongodb";
-import { UsersService } from "./resources/users/services/users.service";
-import { UsersRoutes } from "./resources/users/users.routes";
+import { UsersRoutes } from "./resources/users/UsersRoutes";
+import { MongoDBUsersRepository } from "./resources/users/repositories/MongoDBUsersRepository";
+import { UsersService } from "./resources/users/services/UsersService";
 
 const log: debug.IDebugger = debug("app:main");
 
@@ -105,7 +105,7 @@ export class KulturdatenBerlinApp {
 		Container.import([]);
 
 		Container.set("EventsRepository", new MongoDBEventsRepository(Container.get("Database")));
-		Container.import([MongoDBFilterStrategy, FindEventsByAttractionTagFilterStrategy]);
+		Container.import([FindEventsByMongoDBFilterStrategy, FindEventsByAttractionTagFilterStrategy]);
 
 		Container.set("LocationsRepository", new MongoDBLocationsRepository(Container.get("Database")));
 		Container.import([]);
@@ -133,8 +133,8 @@ export class KulturdatenBerlinApp {
 	}
 
 	private initAuthStrategies() {
-		passport.use("password", AuthPassword.getStrategy(Container.get(UsersService)));
-		passport.use("authenticated-user", AuthBearerJWT.getStrategy());
+		passport.use("password", AuthPasswordStrategy.getStrategy(Container.get(UsersService)));
+		passport.use("authenticated-user", AuthBearerJWTStrategy.getStrategy());
 	}
 
 	private registerDefaultMiddleware() {

@@ -3,7 +3,7 @@ import passport from "passport";
 import { Service } from "typedi";
 import { CreateTagRequest } from "../../generated/models/CreateTagRequest.generated";
 import { SearchTagsRequest } from "../../generated/models/SearchTagsRequest.generated";
-import { TagsController } from "./controllers/tags.controller";
+import { TagsController } from "./controllers/TagsController";
 
 @Service()
 export class TagsRoutes {

@@ -1,7 +1,7 @@
 import debug from "debug";
 import express from "express";
 import { Pagination } from "../common/parameters/Pagination";
-import { pagination } from "../config/kulturdaten.config";
+import { pagination } from "../config/Config";
 
 const log: debug.IDebugger = debug("app:request-utils");
 
