@@ -1,5 +1,16 @@
 type: object
 properties:
+  matchMode:
+    $ref: "MatchMode.yml"
   searchFilter:
     type: object
     additionalProperties: true
+  byAccessibilityTags:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: string
+      matchMode:
+        $ref: "MatchMode.yml"

@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { SearchLocationsRequest, schemaForSearchLocationsRequest } from "../models/SearchLocationsRequest.generated";
 
+	import { schemaForMatchMode } from '../models/MatchMode.generated';
 
 	export function fakeSearchLocationsRequest(useExamples: boolean, specifiedPropertiesForSearchLocationsRequest: object = {}): SearchLocationsRequest {
 		const schema = schemaForSearchLocationsRequest as Schema;
 		const refs : Schema[] = [
+			schemaForMatchMode as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);
