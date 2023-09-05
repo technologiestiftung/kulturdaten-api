@@ -213,6 +213,8 @@ describe("Search events", () => {
 
 		expect(statusCode).toBe(200);
 		expect(body.data.events).toHaveLength(2);
+		expect(body.data.events[0].identifier).toBe("4321-8765-0123-4567");
+		expect(body.data.events[1].identifier).toBe("7890-1234-5678-9012");
 	});
 
 	it("should return all events / POST /events/search/", async () => {
