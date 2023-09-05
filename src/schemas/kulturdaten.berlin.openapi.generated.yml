@@ -1917,6 +1917,10 @@ components:
           type: array
           items:
             type: string
+        accessibility:
+          type: array
+          items:
+            type: string
         externalLinks:
           type: array
           items:
@@ -3296,6 +3300,10 @@ components:
                     type: array
                     items:
                       type: string
+                  accessibility:
+                    type: array
+                    items:
+                      type: string
                   externalLinks:
                     type: array
                     items:
@@ -3520,9 +3528,26 @@ components:
     SearchLocationsRequest:
       type: object
       properties:
+        matchMode:
+          type: string
+          enum:
+            - any
+            - all
         searchFilter:
           type: object
           additionalProperties: true
+        byAccessibilityTags:
+          type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
+            matchMode:
+              type: string
+              enum:
+                - any
+                - all
     SearchLocationsResponse:
       type: object
       properties:
@@ -3673,6 +3698,10 @@ components:
                     items:
                       type: string
                   tags:
+                    type: array
+                    items:
+                      type: string
+                  accessibility:
                     type: array
                     items:
                       type: string
@@ -3866,6 +3895,10 @@ components:
                   items:
                     type: string
                 tags:
+                  type: array
+                  items:
+                    type: string
+                accessibility:
                   type: array
                   items:
                     type: string

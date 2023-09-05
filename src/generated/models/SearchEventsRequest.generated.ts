@@ -17,7 +17,7 @@ export const schemaForSearchEventsRequest = {
   $id: "SearchEventsRequest.yml",
   type: "object",
   properties: {
-    matchMode: {type: "string", enum: ["any", "all"]},
+    matchMode: {$ref: "MatchMode.yml"},
     searchFilter: {type: "object", additionalProperties: true},
     byAttractionTags: {
       type: "object",
