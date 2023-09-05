@@ -6,16 +6,18 @@ import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 
 import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
+import { FindEventsByLocationAccessibilityFilterStrategy } from "../resources/events/filter/implementations/FindEventsByLocationAccessibilityFilterStrategy";
 import { FindEventsByMongoDBFilterStrategy } from "../resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
 import { FindInTheFutureEventsFilterStrategy } from "../resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 import threeDummyAttractions from "./testdata/attractions.json";
-import threeDummyEvents from "./testdata/events.json";
+import dummyEvents from "./testdata/events.json";
+import dummyLocations from "./testdata/locations.json";
 
 let env!: TestEnvironment;
 
 beforeAll(async () => {
 	env = new TestEnvironment();
-	(await env.startServer()).withEventsRoutes().withAttractionsRoutes();
+	(await env.startServer()).withEventsRoutes().withAttractionsRoutes().withLocationsRoutes();
 });
 
 afterAll(async () => {
@@ -24,7 +26,7 @@ afterAll(async () => {
 
 describe("Validate testData", () => {
 	beforeEach(async () => {
-		await env.events.insertMany(threeDummyEvents);
+		await env.events.insertMany(dummyEvents);
 	});
 
 	afterEach(async () => {
@@ -62,7 +64,7 @@ describe("Create events", () => {
 
 describe("Read events", () => {
 	beforeEach(async () => {
-		await env.events.insertMany(threeDummyEvents);
+		await env.events.insertMany(dummyEvents);
 	});
 
 	afterEach(async () => {
@@ -73,7 +75,7 @@ describe("Read events", () => {
 		const { body, statusCode } = await request(env.app).get(env.EVENTS_ROUTE);
 
 		expect(statusCode).toBe(200);
-		expect(body.data.events).toHaveLength(3);
+		expect(body.data.events).toHaveLength(4);
 		for (const o of body.data.events) {
 			expect(validateEvent(o).isValid).toBe(true);
 		}
@@ -107,7 +109,7 @@ describe("Read events", () => {
 
 describe("Update events", () => {
 	beforeEach(async () => {
-		await env.events.insertMany(threeDummyEvents);
+		await env.events.insertMany(dummyEvents);
 	});
 
 	afterEach(async () => {
@@ -142,13 +144,15 @@ describe("Update events", () => {
 
 describe("Search events", () => {
 	beforeEach(async () => {
-		await env.events.insertMany(threeDummyEvents);
+		await env.events.insertMany(dummyEvents);
 		await env.attractions.insertMany(threeDummyAttractions);
+		await env.locations.insertMany(dummyLocations);
 		const findInTheFutureStrategy = new FindInTheFutureEventsFilterStrategy(env.eventsRepository);
 		findInTheFutureStrategy.today = () => "2023-08-11";
 		env.eventsService.filterStrategies = [
 			new FindEventsByMongoDBFilterStrategy(env.eventsRepository),
 			new FindEventsByAttractionTagFilterStrategy(env.eventsRepository, env.attractionsRepository),
+			new FindEventsByLocationAccessibilityFilterStrategy(env.eventsRepository, env.locationsRepository),
 			findInTheFutureStrategy,
 		];
 	});
@@ -156,6 +160,7 @@ describe("Search events", () => {
 	afterEach(async () => {
 		await env.events.deleteMany();
 		await env.attractions.deleteMany();
+		await env.locations.deleteMany();
 	});
 
 	it("should return 2 events with tag Berlin  / POST /events/search", async () => {
@@ -204,6 +209,21 @@ describe("Search events", () => {
 		expect(body.data.events[0].attractions[0].referenceId).toContain("berlin-wall-vr-experience-12345");
 	});
 
+	it("should return 1 event whose location is accessible with a wheelchair / POST /events/search", async () => {
+		const { body, statusCode } = await request(env.app)
+			.post(env.EVENTS_ROUTE + "/search")
+			.send({
+				byLocationAccessibility: {
+					accessibility: ["Rollstuhlgerecht"],
+					matchMode: "all",
+				},
+			});
+
+		expect(statusCode).toBe(200);
+		expect(body.data.events).toHaveLength(1);
+		expect(body.data.events[0].identifier).toContain("1337-1234-5678-9012");
+	});
+
 	it("should return today's event (2023-08-11) and tomorrow's event / POST /events/search/", async () => {
 		const { body, statusCode } = await request(env.app)
 			.post(env.EVENTS_ROUTE + "/search")
@@ -225,6 +245,6 @@ describe("Search events", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		expect(body.data.events).toHaveLength(3);
+		expect(body.data.events).toHaveLength(4);
 	});
 });

@@ -61,6 +61,7 @@
 		],
 		"inLanguages": ["de", "en"],
 		"tags": ["Museum", "Geschichte", "Berlin"],
+		"accessibility": [],
 		"externalLinks": [
 			[
 				{
@@ -145,6 +146,7 @@
 		],
 		"inLanguages": ["de", "en"],
 		"tags": ["Park", "Erholung", "Berlin", "Bühne"],
+		"accessibility": [],
 		"externalLinks": [
 			[
 				{
@@ -222,6 +224,7 @@
 		],
 		"inLanguages": ["de", "en"],
 		"tags": ["Bühne", "Konzerte", "Theater", "U-Bahn", "Berlin"],
+		"accessibility": [],
 		"externalLinks": [
 			[
 				{
@@ -242,6 +245,77 @@
 			"name": "Lena Schmidt",
 			"email": "lena.schmidt@example.com",
 			"telephone": "+49 30 12345679"
+		}
+	},
+	{
+		"type": "type.Location",
+		"identifier": "LOC-BL123",
+		"metadata": {
+			"created": "2023-01-06T12:00:00Z",
+			"updated": "2023-01-06T14:00:00Z",
+			"origin": "Berlin",
+			"originObjectID": "mystery-import",
+			"availableLanguages": ["de", "en"]
+		},
+		"status": "location.published",
+		"title": {
+			"de": "Blackland",
+			"en": "Blackland"
+		},
+		"displayName": {
+			"de": "Blackland",
+			"en": "Blackland"
+		},
+		"description": {
+			"de": "",
+			"en": ""
+		},
+		"website": "https://example.com/blackland",
+		"address": {
+			"streetAddress": "Lilli Henoch Straße 1",
+			"addressLocality": "Berlin",
+			"postalCode": "10405",
+			"description": ""
+		},
+		"borough": "Pankow",
+		"coordinates": {
+			"latitude": "52.539574",
+			"longitude": "13.436049",
+			"coordinateSystem": "WGS84 (Decimal Degrees)"
+		},
+		"openingStatus": "location.opened",
+		"openingHours": [
+			{
+				"closes": "23:00",
+				"dayOfWeek": "Friday",
+				"opens": "20:00",
+				"validFrom": "2023-01-01",
+				"validThrough": "2023-12-31"
+			},
+			{
+				"closes": "23:00",
+				"dayOfWeek": "Saturday",
+				"opens": "20:00",
+				"validFrom": "2023-01-01",
+				"validThrough": "2023-12-31"
+			}
+		],
+		"inLanguages": ["de", "en"],
+		"tags": ["Konzerte", "Berlin"],
+		"accessibility": ["Rollstuhlgerecht"],
+		"externalLinks": [],
+		"manager": {
+			"referenceType": "Organization",
+			"referenceId": "MAN-XYZ",
+			"referenceLabel": {
+				"de": "Blackland GmbH",
+				"en": "Blackland GmbH"
+			}
+		},
+		"contact": {
+			"name": "Karina Krawall",
+			"email": "karina.krawall@example.com",
+			"telephone": "+49 30 234235"
 		}
 	}
 ]

@@ -5,7 +5,7 @@ import { validateLocation } from "../generated/models/Location.generated";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { LOCATION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 
-import threeDummyLocations from "./testdata/locations.json";
+import dummyLocations from "./testdata/locations.json";
 
 let env!: TestEnvironment;
 
@@ -20,7 +20,7 @@ afterAll(async () => {
 
 describe("Validate testData", () => {
 	beforeEach(async () => {
-		await env.locations.insertMany(threeDummyLocations);
+		await env.locations.insertMany(dummyLocations);
 	});
 
 	afterEach(async () => {
@@ -58,7 +58,7 @@ describe("Create locations", () => {
 
 describe("Read locations", () => {
 	beforeEach(async () => {
-		await env.locations.insertMany(threeDummyLocations);
+		await env.locations.insertMany(dummyLocations);
 	});
 
 	afterEach(async () => {
@@ -69,7 +69,7 @@ describe("Read locations", () => {
 		const { body, statusCode } = await request(env.app).get(env.LOCATIONS_ROUTE);
 
 		expect(statusCode).toBe(200);
-		expect(body.data.locations).toHaveLength(3);
+		expect(body.data.locations).toHaveLength(4);
 		for (const o of body.data.locations) {
 			expect(validateLocation(o).isValid).toBe(true);
 		}
@@ -103,7 +103,7 @@ describe("Read locations", () => {
 
 describe("Update locations", () => {
 	beforeEach(async () => {
-		await env.locations.insertMany(threeDummyLocations);
+		await env.locations.insertMany(dummyLocations);
 	});
 
 	afterEach(async () => {
@@ -138,7 +138,7 @@ describe("Update locations", () => {
 
 describe("Search locations", () => {
 	beforeEach(async () => {
-		await env.locations.insertMany(threeDummyLocations);
+		await env.locations.insertMany(dummyLocations);
 	});
 
 	afterEach(async () => {

@@ -69,7 +69,7 @@ describe("Read attractions", () => {
 		const { body, statusCode } = await request(env.app).get(env.ATTRACTIONS_ROUTE);
 
 		expect(statusCode).toBe(200);
-		expect(body.data.attractions).toHaveLength(3);
+		expect(body.data.attractions).toHaveLength(4);
 		for (const o of body.data.attractions) {
 			expect(validateAttraction(o).isValid).toBe(true);
 		}
