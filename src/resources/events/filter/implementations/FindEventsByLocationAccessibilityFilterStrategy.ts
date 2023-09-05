@@ -20,10 +20,10 @@ export class FindEventsByLocationAccessibilityFilterStrategy implements EventFil
 		const matchMode: MatchMode = byLocationAccessibility.matchMode ?? "any";
 		const accessibilityFilter = this.getFilterForMatchMode(matchMode, accessibility);
 		const projection = { identifier: 1 };
-		const attractions = await this.locationsRepository.searchAllLocations(accessibilityFilter, projection);
-		const attractionsIdentifiers = attractions.map((attraction) => attraction.identifier);
+		const locations = await this.locationsRepository.searchAllLocations(accessibilityFilter, projection);
+		const attractionsIdentifiers = locations.map((location) => location.identifier);
 		const eventsFilter: Filter = {
-			"attractions.referenceId": { $in: attractionsIdentifiers },
+			"locations.referenceId": { $in: attractionsIdentifiers },
 		};
 		const events = await this.eventsRepository.searchAllEvents(eventsFilter);
 		return events;
