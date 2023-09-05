@@ -96,11 +96,11 @@
 		"status": "event.published",
 		"scheduleStatus": "event.scheduled",
 		"schedule": {
-			"startDate": "2023-09-01",
+			"startDate": "2023-08-11",
 			"startTime": "20:00",
 			"permanentOpening": false,
 			"doorTime": "19:00",
-			"endDate": "2023-09-01",
+			"endDate": "2023-08-11",
 			"endTime": "23:00"
 		},
 		"title": {
@@ -188,11 +188,11 @@
 		"status": "event.published",
 		"scheduleStatus": "event.scheduled",
 		"schedule": {
-			"startDate": "2023-10-15",
+			"startDate": "2023-08-12",
 			"startTime": "10:00",
 			"permanentOpening": false,
 			"doorTime": "09:30",
-			"endDate": "2023-10-15",
+			"endDate": "2023-08-12",
 			"endTime": "16:00"
 		},
 		"title": {

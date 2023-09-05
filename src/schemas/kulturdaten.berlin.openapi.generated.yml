@@ -4391,6 +4391,8 @@ components:
               enum:
                 - any
                 - all
+        inTheFuture:
+          type: boolean
     SearchEventsResponse:
       type: object
       properties:

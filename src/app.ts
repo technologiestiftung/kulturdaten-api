@@ -37,6 +37,7 @@ import { TagsRoutes } from "./resources/tags/tags.routes";
 import { UsersRoutes } from "./resources/users/UsersRoutes";
 import { MongoDBUsersRepository } from "./resources/users/repositories/MongoDBUsersRepository";
 import { UsersService } from "./resources/users/services/UsersService";
+import { FindInTheFutureEventsFilterStrategy } from "./resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 
 const log: debug.IDebugger = debug("app:main");
 
@@ -105,7 +106,11 @@ export class KulturdatenBerlinApp {
 		Container.import([]);
 
 		Container.set("EventsRepository", new MongoDBEventsRepository(Container.get("Database")));
-		Container.import([FindEventsByMongoDBFilterStrategy, FindEventsByAttractionTagFilterStrategy]);
+		Container.import([
+			FindEventsByMongoDBFilterStrategy,
+			FindEventsByAttractionTagFilterStrategy,
+			FindInTheFutureEventsFilterStrategy,
+		]);
 
 		Container.set("LocationsRepository", new MongoDBLocationsRepository(Container.get("Database")));
 		Container.import([]);
