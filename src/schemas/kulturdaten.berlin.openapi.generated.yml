@@ -4391,6 +4391,18 @@ components:
               enum:
                 - any
                 - all
+        byLocationAccessibility:
+          type: object
+          properties:
+            accessibility:
+              type: array
+              items:
+                type: string
+            matchMode:
+              type: string
+              enum:
+                - any
+                - all
         inTheFuture:
           type: boolean
     SearchEventsResponse:

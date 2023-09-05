@@ -15,5 +15,14 @@ properties:
           type: string
       matchMode:
         $ref: "MatchMode.yml"
+  byLocationAccessibility:
+    type: object
+    properties:
+      accessibility:
+        type: array
+        items:
+          type: string
+      matchMode:
+        $ref: "MatchMode.yml"
   inTheFuture:
     type: boolean
