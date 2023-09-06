@@ -1,7 +1,5 @@
 type: object
 properties:
-  matchMode:
-    $ref: "MatchMode.yml"
   searchFilter:
     type: object
     additionalProperties: true

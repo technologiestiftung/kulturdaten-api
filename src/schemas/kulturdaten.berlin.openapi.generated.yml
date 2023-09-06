@@ -3524,11 +3524,6 @@ components:
     SearchLocationsRequest:
       type: object
       properties:
-        matchMode:
-          type: string
-          enum:
-            - any
-            - all
         searchFilter:
           type: object
           additionalProperties: true
