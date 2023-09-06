@@ -76,6 +76,7 @@
 		"@types/jsonwebtoken": "^9.0.1",
 		"@types/slug": "^5.0.3",
 		"@types/supertest": "^2.0.12",
+		"@types/validator": "^13.11.1",
 		"jest": "^29.4.3",
 		"json-schema-faker": "^0.5.0-rcv.46",
 		"json-schema-to-typescript": "^13.0.0",

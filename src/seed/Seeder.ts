@@ -6,6 +6,7 @@ import * as argon2 from "argon2";
 import { Command } from "commander";
 import tagsJSON from "./tags.json";
 import accessibilityTagsJSON from "./accessibility.json";
+import validator from "validator";
 
 var mongoClient: MongoClient;
 var mongoDBConnector: MongoDBConnector;
@@ -131,19 +132,23 @@ async function addAdmin(email: string, password: string) {
 
 async function addUserWithPermission(email: string, password: string, permission: PermissionFlag) {
 	const hashedPassword = await argon2.hash(password);
-	const user = {
-		email: email.toLowerCase(),
-		password: hashedPassword,
-		permissionFlags: permission,
-		identifier: generateID(),
-	};
-	const users = await mongoDBConnector.users();
-	const result = await users.insertOne(user);
-
-	if (result.acknowledged) {
-		console.log(`User ${user.email} with identifier ${user.identifier} added`);
+	if(validator.isEmail(email)){
+		const user = {
+			email: email.toLowerCase(),
+			password: hashedPassword,
+			permissionFlags: permission,
+			identifier: generateID(),
+		};
+		const users = await mongoDBConnector.users();
+		const result = await users.insertOne(user);
+	
+		if (result.acknowledged) {
+			console.log(`User ${user.email} with identifier ${user.identifier} added`);
+		} else {
+			console.log(`Warning: No user with identifier with email ${user.email} added`);
+		}
 	} else {
-		console.log(`Warning: No user with identifier with email ${user.email} added`);
+		console.log("Email is not valid: No user added");
 	}
 }
 
