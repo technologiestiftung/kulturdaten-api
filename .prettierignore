@@ -1,8 +1,9 @@
-node_modules
+/.github
+/.vscode
+/node_modules
+/coverage
+/dist
+/src/generated
+.all-contributorsrc 
 package.json
 package-lock.json
-/src/generated
-/src/schemas
-/dist/
-/.github/
-/.vscode/
