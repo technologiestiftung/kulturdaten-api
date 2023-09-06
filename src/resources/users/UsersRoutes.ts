@@ -22,7 +22,7 @@ export class UsersRoutes {
 	) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get(

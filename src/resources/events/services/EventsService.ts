@@ -93,7 +93,7 @@ export class EventsService {
 		return this.eventsRepository.addEvent(resource);
 	}
 
-	duplicate(identifier: string): Promise<String> | null {
+	duplicate(identifier: string): Promise<string> | null {
 		throw new Error("Method not implemented.");
 	}
 

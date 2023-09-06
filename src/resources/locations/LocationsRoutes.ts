@@ -18,7 +18,7 @@ export class LocationsRoutes {
 	constructor(public locationsController: LocationsController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get("/", (req: express.Request, res: express.Response) => {

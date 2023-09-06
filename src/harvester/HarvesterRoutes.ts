@@ -12,7 +12,7 @@ export class HarvesterRoutes {
 	constructor(public districtDataHarvestersController: DistrictDataHarvestersController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router.post(
 			"/",

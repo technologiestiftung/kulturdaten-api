@@ -22,7 +22,7 @@ export class EventsRoutes {
 	constructor(public eventsController: EventsController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get("/", (req: express.Request, res: express.Response) => {

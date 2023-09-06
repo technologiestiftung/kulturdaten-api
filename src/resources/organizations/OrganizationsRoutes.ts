@@ -13,7 +13,7 @@ export class OrganizationsRoutes {
 	constructor(public organizationsController: OrganizationsController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get("/", (req: express.Request, res: express.Response) => {

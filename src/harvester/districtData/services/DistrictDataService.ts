@@ -33,21 +33,21 @@ export class DistrictDataService {
 	) {}
 
 	async harvestDistrictData(calendarIDs: string[]): Promise<{ [originObjectID: string]: any }> {
-		let createdOrganizations: { [originObjectID: string]: Reference } = {};
-		let duplicateOrganizations: { [originObjectID: string]: Reference } = {};
-		let createdLocations: { [originObjectID: string]: Reference } = {};
-		let duplicateLocations: { [originObjectID: string]: Reference } = {};
-		let createdAttractions: { [originObjectID: string]: Reference } = {};
-		let duplicateAttractions: { [originObjectID: string]: Reference } = {};
-		let createdEvents: { [originObjectID: string]: Reference } = {};
-		let duplicateEvents: { [originObjectID: string]: Reference } = {};
+		const createdOrganizations: { [originObjectID: string]: Reference } = {};
+		const duplicateOrganizations: { [originObjectID: string]: Reference } = {};
+		const createdLocations: { [originObjectID: string]: Reference } = {};
+		const duplicateLocations: { [originObjectID: string]: Reference } = {};
+		const createdAttractions: { [originObjectID: string]: Reference } = {};
+		const duplicateAttractions: { [originObjectID: string]: Reference } = {};
+		const createdEvents: { [originObjectID: string]: Reference } = {};
+		const duplicateEvents: { [originObjectID: string]: Reference } = {};
 		const tags: Tag[] = await this.tagsService.listAllTags();
-		let apiURL = process.env.DISTRICT_DATA_API_URL;
+		const apiURL = process.env.DISTRICT_DATA_API_URL;
 		if (!apiURL) return [];
 
 		for (const calendarID of calendarIDs) {
 			try {
-				let url = apiURL + calendarID;
+				const url = apiURL + calendarID;
 				const districtData = await this.harvesterClient.fetchData(url);
 
 				const { createdOrganizations: organizations, duplicateOrganizations: dOrganizations } =
@@ -99,8 +99,8 @@ export class DistrictDataService {
 		createdOrganizations: { [originObjectID: string]: Reference };
 		duplicateOrganizations: { [originObjectID: string]: Reference };
 	}> {
-		var createdOrganizations: { [originObjectID: string]: Reference } = {};
-		var duplicateOrganizations: { [originObjectID: string]: Reference } = {};
+		const createdOrganizations: { [originObjectID: string]: Reference } = {};
+		const duplicateOrganizations: { [originObjectID: string]: Reference } = {};
 		for (const key in veranstalter) {
 			const v = veranstalter[key];
 			const dOrganizations = await this.organizationService.search(this.createDuplicationFilter(v.id));
@@ -130,8 +130,8 @@ export class DistrictDataService {
 		createdLocations: { [originObjectID: string]: Reference };
 		duplicateLocations: { [originObjectID: string]: Reference };
 	}> {
-		var createdLocations: { [originObjectID: string]: Reference } = {};
-		var duplicateLocations: { [originObjectID: string]: Reference } = {};
+		const createdLocations: { [originObjectID: string]: Reference } = {};
+		const duplicateLocations: { [originObjectID: string]: Reference } = {};
 
 		for (const key in veranstaltungsorte) {
 			const o = veranstaltungsorte[key];
@@ -170,10 +170,10 @@ export class DistrictDataService {
 		createdEvents: { [originObjectID: string]: Reference };
 		duplicateEvents: { [originObjectID: string]: Reference };
 	}> {
-		var createdAttractions: { [originObjectID: string]: Reference } = {};
-		var duplicateAttractions: { [originObjectID: string]: Reference } = {};
-		var createdEvents: { [originObjectID: string]: Reference } = {};
-		var duplicateEvents: { [originObjectID: string]: Reference } = {};
+		const createdAttractions: { [originObjectID: string]: Reference } = {};
+		const duplicateAttractions: { [originObjectID: string]: Reference } = {};
+		const createdEvents: { [originObjectID: string]: Reference } = {};
+		const duplicateEvents: { [originObjectID: string]: Reference } = {};
 
 		for (const key in events) {
 			const veranstaltung = events[key];

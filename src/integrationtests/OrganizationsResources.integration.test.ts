@@ -50,7 +50,7 @@ describe("Create organizations", () => {
 
 		const newOrganizationID = body.data.organizationReference.referenceId;
 		expect(newOrganizationID).toMatch(ORGANIZATION_IDENTIFIER_REG_EX);
-		let loc = await env.organizations.findOne({ identifier: newOrganizationID });
+		const loc = await env.organizations.findOne({ identifier: newOrganizationID });
 
 		expect(loc?.title.de).toBe("New Organization");
 	});
@@ -121,7 +121,7 @@ describe("Update organizations", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		let loc = await env.organizations.findOne({ identifier: "temporal-cultural-exchange-45123" });
+		const loc = await env.organizations.findOne({ identifier: "temporal-cultural-exchange-45123" });
 		expect(loc?.title.de).toBe("Neuer Name");
 	});
 

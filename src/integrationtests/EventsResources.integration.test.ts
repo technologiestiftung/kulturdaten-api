@@ -54,7 +54,7 @@ describe("Create events", () => {
 
 		const newEventID = body.data.eventReference.referenceId;
 		expect(newEventID).toMatch(EVENT_IDENTIFIER_REG_EX);
-		let loc = await env.events.findOne({ identifier: newEventID });
+		const loc = await env.events.findOne({ identifier: newEventID });
 
 		expect(loc?.title.de).toBe("New Event");
 	});
@@ -123,7 +123,7 @@ describe("Update events", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		let loc = await env.events.findOne({ identifier: "1234-5678-9101-1121" });
+		const loc = await env.events.findOne({ identifier: "1234-5678-9101-1121" });
 		expect(loc?.title.de).toBe("Neuer Name");
 	});
 

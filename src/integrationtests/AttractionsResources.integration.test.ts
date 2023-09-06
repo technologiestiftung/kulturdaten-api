@@ -50,7 +50,7 @@ describe("Create attractions", () => {
 
 		const newAttractionID = body.data.attractionReference.referenceId;
 		expect(newAttractionID).toMatch(ATTRACTION_IDENTIFIER_REG_EX);
-		let loc = await env.attractions.findOne({ identifier: newAttractionID });
+		const loc = await env.attractions.findOne({ identifier: newAttractionID });
 
 		expect(loc?.title.de).toBe("New Attraction");
 	});
@@ -119,7 +119,7 @@ describe("Update attractions", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		let loc = await env.attractions.findOne({ identifier: "skywalkers-observatory-12345" });
+		const loc = await env.attractions.findOne({ identifier: "skywalkers-observatory-12345" });
 		expect(loc?.title.de).toBe("Neuer Name");
 	});
 

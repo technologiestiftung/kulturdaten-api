@@ -18,7 +18,7 @@ export class AttractionsRoutes {
 	constructor(public attractionsController: AttractionsController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get("/", (req: express.Request, res: express.Response) => {
