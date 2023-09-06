@@ -6,16 +6,14 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# Kulturdaten.berlin
+# Über kulturdaten.berlin
 
-**Berlins Kulturdaten – zentral auffindbar, vielfältig vernetzt.**
-<img src="./media/verpackung.png" align="right" width="300">
+**Wir machen Berlins kulturelle Vielfalt sichtbar | kulturdaten.berlin.**
 
-Was? Wann? Wer? Wo? Mit wem? Wie viele? Für wen? Wie lange? Um im Web gefunden zu werden, müssen Kulturschaffende ihr Programm an vielen Stellen mühsam händisch einpflegen. Mit der Plattform kulturdaten.berlin wollen wir diesen Prozess radikal vereinfachen!
+Das Internet bietet einerseits zwar viele Möglichkeiten, sich über Berlins vielfältige Kulturszene zu informieren, andererseits fehlt es jedoch noch an einem zentralen Überblick über alle kulturellen Einrichtungen und Veranstaltungen der Stadt. Mit kulturdaten.berlin wollen wir die Grundlage dafür schaffen, die Vielfalt der Berliner Kultur einfacher entdecken zu können – von schönen, kleinen Veranstaltungen im Kiez bis zu großen Kulturproduktionen. Über unsere Datenschnittstelle können z.B. Veranstaltungsportale im Handumdrehen genau die Daten beziehen, die sie für ihren jeweiligen Spartenfokus benötigen
+kulturdaten.berlin basiert auf den Prinzipien Open Data und Open Source, d.h. der Quellcode ist offen und die Kulturdaten der Plattform sind für alle über eine API frei und einfach zugänglich, z.B. um diese für eigene Anwendungen zu nutzen. Ob eine App speziell für barrierefreie Kulturerlebnisse oder den Ausbau einer Kiez-Website mit Konzerttipps in der Nachbarschaft: Wir öffnen Berlins Kulturdaten zur Nachnutzung für alle mit frischen Ideen.
 
-Die Kulturdatenbank Berlin bietet eine Schnittstelle um berlins Kulturdaten zentral zu speichern und zu verwalten. Er dient auch dazu, diese Daten verschiedenen Akteuren frei verfügbar zu machen.
-
-Die Kulturdatenbank ist ein Projekt der Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), gefördert von der Senatsverwaltung für Kultur und Europa Berlin und durchgeführt von kulturB digital (<https://kultur-b-digital.de>).
+kulturdaten.berlin ist ein Projekt der Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), gefördert von der Senatsverwaltung für Kultur und Gesellschaftlichen Zusammenhalt.
 
 ## Prerequisites
 
@@ -74,9 +72,8 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## Content Licensing
 
-Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3.0/de/).
+Text and content available as [CC BY](https://creativecommons.org/licenses/by/3.0/de/).
 
-Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
 
 ## Credits
 
