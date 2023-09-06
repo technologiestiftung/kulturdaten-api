@@ -18,7 +18,7 @@ export class AuthRoutes {
 			passport.authenticate("password", { session: false }),
 			(req: express.Request, res: express.Response) => {
 				this.authController.createAuthToken(req, res);
-			}
+			},
 		);
 
 		return router;

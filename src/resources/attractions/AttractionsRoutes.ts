@@ -37,7 +37,7 @@ export class AttractionsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const createAttractionRequest = req.body as CreateAttractionRequest;
 					this.attractionsController.createAttraction(res, createAttractionRequest);
-				}
+				},
 			);
 
 		router.post(
@@ -47,7 +47,7 @@ export class AttractionsRoutes {
 				const createAttractionRequest = req.body as CreateAttractionRequest[];
 
 				this.attractionsController.createAttractions(res, createAttractionRequest);
-			}
+			},
 		);
 
 		router.post("/search", (req: express.Request, res: express.Response) => {
@@ -74,7 +74,7 @@ export class AttractionsRoutes {
 					const identifier = req.params.identifier;
 					const updateAttractionRequest = req.body as UpdateAttractionRequest;
 					this.attractionsController.updateAttraction(res, identifier, updateAttractionRequest);
-				}
+				},
 			);
 
 		router
@@ -85,7 +85,7 @@ export class AttractionsRoutes {
 					const identifier = req.params.identifier;
 					const addExternalLinkRequest = req.body as AddExternalLinkRequest;
 					this.attractionsController.addExternalLink(res, identifier, addExternalLinkRequest);
-				}
+				},
 			)
 			.delete(
 				"/:identifier/externallinks",
@@ -94,7 +94,7 @@ export class AttractionsRoutes {
 					const identifier = req.params.identifier;
 					const removeExternalLinkRequest = req.body as RemoveExternalLinkRequest;
 					this.attractionsController.removeExternalLink(res, identifier, removeExternalLinkRequest);
-				}
+				},
 			);
 
 		router
@@ -104,7 +104,7 @@ export class AttractionsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.archiveAttraction(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/unarchive",
@@ -112,7 +112,7 @@ export class AttractionsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.unarchiveAttraction(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/publish",
@@ -120,7 +120,7 @@ export class AttractionsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.publishAttraction(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/unpublish",
@@ -128,7 +128,7 @@ export class AttractionsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.unpublishAttraction(res, identifier);
-				}
+				},
 			);
 
 		return router;

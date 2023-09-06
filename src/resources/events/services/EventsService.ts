@@ -32,7 +32,7 @@ export class EventsService {
 
 	async search(
 		searchEventsRequest: SearchEventsRequest,
-		pagination?: Pagination
+		pagination?: Pagination,
 	): Promise<{ events: Event[]; pagination?: Pagination; totalCount: number }> {
 		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
@@ -133,7 +133,7 @@ export class EventsService {
 
 	removeEventAttraction(
 		identifier: string,
-		removeEventAttractionRequest: RemoveEventAttractionRequest
+		removeEventAttractionRequest: RemoveEventAttractionRequest,
 	): Promise<boolean> {
 		return this.eventsRepository.removeEventAttraction(identifier, removeEventAttractionRequest.attractionIdentifier);
 	}

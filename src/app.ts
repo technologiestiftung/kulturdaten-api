@@ -128,7 +128,7 @@ export class KulturdatenBerlinApp {
 			format: winston.format.combine(
 				winston.format.json(),
 				winston.format.prettyPrint(),
-				winston.format.colorize({ level: true })
+				winston.format.colorize({ level: true }),
 			),
 		};
 		if (!process.env.DEBUG) {
@@ -165,7 +165,7 @@ export class KulturdatenBerlinApp {
 				apiSpec: this.openAPISpec,
 				validateRequests: true,
 				validateResponses: true,
-			})
+			}),
 		);
 	}
 

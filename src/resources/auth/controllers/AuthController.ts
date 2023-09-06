@@ -24,7 +24,7 @@ export class AuthController {
 				.send(
 					new SuccessResponseBuilder<LoginResponse>()
 						.okResponse({ accessToken: token, expiresIn: authTokenExpiresIn })
-						.build()
+						.build(),
 				);
 		} else {
 			return res.status(400).send();

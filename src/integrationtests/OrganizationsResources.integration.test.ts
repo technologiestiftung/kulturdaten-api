@@ -93,7 +93,7 @@ describe("Read organizations", () => {
 
 	it("should return a single organization / GET /organizations/existID", async () => {
 		const { body, statusCode } = await request(env.app).get(
-			env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123"
+			env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123",
 		);
 
 		expect(statusCode).toBe(200);

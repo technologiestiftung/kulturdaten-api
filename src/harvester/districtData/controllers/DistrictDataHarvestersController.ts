@@ -23,7 +23,7 @@ export class DistrictDataHarvestersController {
 					createdAttractions: this.buildRefIDs(createdItems.createdAttractions),
 					duplicateAttractions: this.buildRefIDs(createdItems.duplicateAttractions),
 				})
-				.build()
+				.build(),
 		);
 	}
 

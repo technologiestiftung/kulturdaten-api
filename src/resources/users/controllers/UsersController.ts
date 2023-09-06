@@ -28,7 +28,7 @@ export class UsersController {
 						totalCount: totalCount,
 						users: users,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Users not found").build());
@@ -77,7 +77,7 @@ export class UsersController {
 	updateUserPassword(
 		res: express.Response<any, Record<string, any>>,
 		identifier: string,
-		updatePasswordRequest: UpdateUserPasswordRequest
+		updatePasswordRequest: UpdateUserPasswordRequest,
 	) {
 		throw new Error("Method not implemented.");
 	}
