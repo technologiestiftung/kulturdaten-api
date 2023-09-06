@@ -19,7 +19,7 @@ export const schemaForSearchLocationsRequest = {
   properties: {
     matchMode: {$ref: "MatchMode.yml"},
     searchFilter: {type: "object", additionalProperties: true},
-    byAccessibilityTags: {
+    byTags: {
       type: "object",
       properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
     }
@@ -41,7 +41,7 @@ export interface SearchLocationsRequest {
   searchFilter?: {
     [k: string]: unknown;
   };
-  byAccessibilityTags?: {
+  byTags?: {
     tags?: string[];
     matchMode?: "any" | "all";
   };

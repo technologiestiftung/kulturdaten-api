@@ -6,7 +6,7 @@ import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 
 import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
-import { FindEventsByLocationAccessibilityFilterStrategy } from "../resources/events/filter/implementations/FindEventsByLocationAccessibilityFilterStrategy";
+import { FindEventsByLocationTagsFilterStrategy } from "../resources/events/filter/implementations/FindEventsByLocationTagsFilterStrategy";
 import { FindEventsByMongoDBFilterStrategy } from "../resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
 import { FindInTheFutureEventsFilterStrategy } from "../resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 import threeDummyAttractions from "./testdata/attractions.json";
@@ -152,7 +152,7 @@ describe("Search events", () => {
 		env.eventsService.filterStrategies = [
 			new FindEventsByMongoDBFilterStrategy(env.eventsRepository),
 			new FindEventsByAttractionTagFilterStrategy(env.eventsRepository, env.attractionsRepository),
-			new FindEventsByLocationAccessibilityFilterStrategy(env.eventsRepository, env.locationsRepository),
+			new FindEventsByLocationTagsFilterStrategy(env.eventsRepository, env.locationsRepository),
 			findInTheFutureStrategy,
 		];
 	});
@@ -213,8 +213,8 @@ describe("Search events", () => {
 		const { body, statusCode } = await request(env.app)
 			.post(env.EVENTS_ROUTE + "/search")
 			.send({
-				byLocationAccessibility: {
-					accessibility: ["location.accessibility.WheelchairAccessible"],
+				byLocationTags: {
+					tags: ["location.accessibility.WheelchairAccessible"],
 					matchMode: "all",
 				},
 			});

@@ -23,9 +23,9 @@ export const schemaForSearchEventsRequest = {
       type: "object",
       properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
     },
-    byLocationAccessibility: {
+    byLocationTags: {
       type: "object",
-      properties: {accessibility: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
+      properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
     },
     inTheFuture: {type: "boolean"}
   }
@@ -50,8 +50,8 @@ export interface SearchEventsRequest {
     tags?: string[];
     matchMode?: "any" | "all";
   };
-  byLocationAccessibility?: {
-    accessibility?: string[];
+  byLocationTags?: {
+    tags?: string[];
     matchMode?: "any" | "all";
   };
   inTheFuture?: boolean;

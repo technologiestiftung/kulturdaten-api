@@ -1,7 +1,7 @@
 type: object
 properties:
   matchMode:
-    $ref: 'MatchMode.yml'
+    $ref: "MatchMode.yml"
   searchFilter:
     type: object
     additionalProperties: true
@@ -14,10 +14,10 @@ properties:
           type: string
       matchMode:
         $ref: "MatchMode.yml"
-  byLocationAccessibility:
+  byLocationTags:
     type: object
     properties:
-      accessibility:
+      tags:
         type: array
         items:
           type: string

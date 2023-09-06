@@ -3532,7 +3532,7 @@ components:
         searchFilter:
           type: object
           additionalProperties: true
-        byAccessibilityTags:
+        byTags:
           type: object
           properties:
             tags:
@@ -4420,10 +4420,10 @@ components:
               enum:
                 - any
                 - all
-        byLocationAccessibility:
+        byLocationTags:
           type: object
           properties:
-            accessibility:
+            tags:
               type: array
               items:
                 type: string

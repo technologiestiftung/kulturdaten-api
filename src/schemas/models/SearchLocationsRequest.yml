@@ -5,7 +5,7 @@ properties:
   searchFilter:
     type: object
     additionalProperties: true
-  byAccessibilityTags:
+  byTags:
     type: object
     properties:
       tags:

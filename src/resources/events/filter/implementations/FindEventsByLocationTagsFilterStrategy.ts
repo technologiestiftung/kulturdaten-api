@@ -8,17 +8,17 @@ import { EventsRepository } from "../../repositories/EventsRepository";
 import { EventFilterStrategy, EventFilterStrategyToken } from "../EventFilterStrategy";
 
 @Service({ id: EventFilterStrategyToken, multiple: true })
-export class FindEventsByLocationAccessibilityFilterStrategy implements EventFilterStrategy {
+export class FindEventsByLocationTagsFilterStrategy implements EventFilterStrategy {
 	constructor(
 		@Inject("EventsRepository") public eventsRepository: EventsRepository,
 		@Inject("LocationsRepository") public locationsRepository: LocationsRepository
 	) {}
 
 	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
-		const byLocationAccessibility = searchEventsRequest.byLocationAccessibility!;
-		const accessibility = byLocationAccessibility.accessibility ?? [];
-		const matchMode: MatchMode = byLocationAccessibility.matchMode ?? "any";
-		const accessibilityFilter = this.getFilterForMatchMode(matchMode, accessibility);
+		const byLocationTags = searchEventsRequest.byLocationTags!;
+		const tags = byLocationTags.tags ?? [];
+		const matchMode: MatchMode = byLocationTags.matchMode ?? "any";
+		const accessibilityFilter = this.getFilterForMatchMode(matchMode, tags);
 		const projection = { identifier: 1 };
 		const locations = await this.locationsRepository.searchAllLocations(accessibilityFilter, projection);
 		const attractionsIdentifiers = locations.map((location) => location.identifier);
@@ -29,16 +29,16 @@ export class FindEventsByLocationAccessibilityFilterStrategy implements EventFil
 		return events;
 	}
 
-	private getFilterForMatchMode(matchMode: MatchMode, accessibility: string[]): Filter {
+	private getFilterForMatchMode(matchMode: MatchMode, tags: string[]): Filter {
 		switch (matchMode) {
 			case "all":
-				return { tags: { $all: accessibility } };
+				return { tags: { $all: tags } };
 			case "any":
-				return { tags: { $in: accessibility } };
+				return { tags: { $in: tags } };
 		}
 	}
 
 	public isExecutable(searchEventsRequest: SearchEventsRequest): boolean {
-		return searchEventsRequest.byLocationAccessibility ? true : false;
+		return searchEventsRequest.byLocationTags ? true : false;
 	}
 }
