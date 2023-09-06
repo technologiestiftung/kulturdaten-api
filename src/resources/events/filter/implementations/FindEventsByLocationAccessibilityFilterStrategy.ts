@@ -32,9 +32,9 @@ export class FindEventsByLocationAccessibilityFilterStrategy implements EventFil
 	private getFilterForMatchMode(matchMode: MatchMode, accessibility: string[]): Filter {
 		switch (matchMode) {
 			case "all":
-				return { accessibility: { $all: accessibility } };
+				return { tags: { $all: accessibility } };
 			case "any":
-				return { accessibility: { $in: accessibility } };
+				return { tags: { $in: accessibility } };
 		}
 	}
 
