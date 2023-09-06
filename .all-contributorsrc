@@ -11,6 +11,33 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "ThorstenDiekhof",
+      "name": "Thorsten Diekhof",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121924163?v=4",
+      "profile": "https://github.com/ThorstenDiekhof",
+      "contributions": [
+        "code",
+        "ideas",
+        "review",
+        "doc",
+        "test",
+        "infra"
+      ]
+    },
+    {
+      "login": "herrherrmann",
+      "name": "Sebastian Herrmann",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6429568?v=4",
+      "profile": "https://herrherrmann.net",
+      "contributions": [
+        "code",
+        "ideas",
+        "review",
+        "test",
+        "infra"
+      ]
+    },
+    {
       "login": "ZenVega",
       "name": "Urs Schmidt",
       "avatar_url": "https://avatars.githubusercontent.com/u/50147356?v=4",
@@ -31,21 +58,7 @@
         "ideas",
         "review"
       ]
-      },
-      {
-      "login": "ThorstenDiekhof",
-      "name": "Thorsten Diekhof",
-      "avatar_url": "https://avatars.githubusercontent.com/u/121924163?v=4",
-      "profile": "https://github.com/ThorstenDiekhof",
-      "contributions": [
-        "code",
-        "ideas",
-        "review",
-        "doc",
-        "test",
-        "infra"
-      ]
-    }
+      }
   ],
   "contributorsPerLine": 7,
   "skipCi": true,
