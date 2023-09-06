@@ -1,0 +1,8 @@
+/node_modules
+/coverage
+/dist/
+/.github/
+/.vscode/
+/src/generated/
+package.json
+package-lock.json
