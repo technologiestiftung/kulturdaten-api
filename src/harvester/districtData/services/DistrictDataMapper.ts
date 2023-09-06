@@ -114,6 +114,7 @@ export class DistrictDataMapper {
 		const accessibilityTags: string[] | undefined = veranstaltungsort.barrierefreiheit
 			? this.mapAccessibilityTags(veranstaltungsort.barrierefreiheit, allTags)
 			: undefined;
+
 		let boroughOfLocation: Borough | null = null;
 		if (veranstaltungsort.bezirk_id && bezirke[veranstaltungsort.bezirk_id].DE) {
 			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
