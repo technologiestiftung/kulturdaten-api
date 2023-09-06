@@ -3532,18 +3532,6 @@ components:
         searchFilter:
           type: object
           additionalProperties: true
-        byTags:
-          type: object
-          properties:
-            tags:
-              type: array
-              items:
-                type: string
-            matchMode:
-              type: string
-              enum:
-                - any
-                - all
     SearchLocationsResponse:
       type: object
       properties:

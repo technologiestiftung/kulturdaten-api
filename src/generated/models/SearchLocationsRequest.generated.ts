@@ -16,14 +16,7 @@ import {MatchMode, schemaForMatchMode} from "./MatchMode.generated";
 export const schemaForSearchLocationsRequest = {
   $id: "SearchLocationsRequest.yml",
   type: "object",
-  properties: {
-    matchMode: {$ref: "MatchMode.yml"},
-    searchFilter: {type: "object", additionalProperties: true},
-    byTags: {
-      type: "object",
-      properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
-    }
-  }
+  properties: {matchMode: {$ref: "MatchMode.yml"}, searchFilter: {type: "object", additionalProperties: true}}
 };
 
 export function validateSearchLocationsRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
@@ -40,9 +33,5 @@ export interface SearchLocationsRequest {
   matchMode?: "any" | "all";
   searchFilter?: {
     [k: string]: unknown;
-  };
-  byTags?: {
-    tags?: string[];
-    matchMode?: "any" | "all";
   };
 }

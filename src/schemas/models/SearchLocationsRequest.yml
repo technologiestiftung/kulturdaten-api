@@ -5,12 +5,3 @@ properties:
   searchFilter:
     type: object
     additionalProperties: true
-  byTags:
-    type: object
-    properties:
-      tags:
-        type: array
-        items:
-          type: string
-      matchMode:
-        $ref: "MatchMode.yml"
