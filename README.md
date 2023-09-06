@@ -35,11 +35,11 @@ tbd...
 npm run debug
 ```
 
-tbd...
-
 ## Tests
 
-tbd...
+```shell
+npm test
+```
 
 ## Production Build
 
