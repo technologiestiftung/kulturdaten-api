@@ -1,10 +1,10 @@
 type: object
 properties:
-  organizationIdentifier: 
+  organizationIdentifier:
     type: string
   alternativeDisplayName:
     type: object
     additionalProperties:
-      type: string 
+      type: string
 required:
   - organizationIdentifier

@@ -7,7 +7,7 @@ properties:
   origin:
     type: string
   originObjectID:
-    type: string  
+    type: string
   availableLanguages:
     type: array
     items:

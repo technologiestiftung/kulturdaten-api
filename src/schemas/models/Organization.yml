@@ -2,14 +2,14 @@ type: object
 required:
   - identifier
 properties:
-  type: 
+  type:
     type: string
     enum:
       - type.Organization
   identifier:
     type: string
   metadata:
-    $ref: 'Metadata.yml'
+    $ref: "Metadata.yml"
   status:
     type: string
     enum:
@@ -22,10 +22,10 @@ properties:
       - organization.active
       - organization.inactive
       - organization.retired
-  title: 
+  title:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   displayName:
     type: object
     additionalProperties:
@@ -33,7 +33,7 @@ properties:
   description:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   website:
     type: string
   inLanguages:
@@ -43,12 +43,12 @@ properties:
   tags:
     type: array
     items:
-      type: string 
+      type: string
   address:
-    $ref: 'Address.yml'
+    $ref: "Address.yml"
   borough:
-    $ref: 'Borough.yml'
+    $ref: "Borough.yml"
   coordinates:
-    $ref: 'Coordinates.yml'
+    $ref: "Coordinates.yml"
   contact:
-    $ref: 'Contact.yml'
+    $ref: "Contact.yml"

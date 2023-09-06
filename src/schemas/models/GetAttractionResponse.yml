@@ -8,8 +8,8 @@ properties:
     type: object
     properties:
       attraction:
-        $ref: 'Attraction.yml'
+        $ref: "Attraction.yml"
       attractionReference:
-        $ref: 'Reference.yml'
+        $ref: "Reference.yml"
 required:
   - success

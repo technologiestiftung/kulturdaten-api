@@ -8,7 +8,7 @@ properties:
   data:
     type: object
     properties:
-      tag: 
-        $ref: 'Tag.yml'
+      tag:
+        $ref: "Tag.yml"
 required:
   - success

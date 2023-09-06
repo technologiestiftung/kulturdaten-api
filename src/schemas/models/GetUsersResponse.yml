@@ -7,7 +7,7 @@ properties:
   data:
     type: object
     properties:
-      page: 
+      page:
         type: number
       pageSize:
         type: number
@@ -16,6 +16,6 @@ properties:
       users:
         type: array
         items:
-          $ref: 'User.yml'
+          $ref: "User.yml"
 required:
   - success

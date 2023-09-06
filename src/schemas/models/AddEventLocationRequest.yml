@@ -1,8 +1,8 @@
 type: object
 properties:
-  locationIdentifier: 
+  locationIdentifier:
     type: string
   alternativeDisplayName:
     type: object
     additionalProperties:
-      type: string 
+      type: string

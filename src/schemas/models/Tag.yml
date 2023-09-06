@@ -6,13 +6,13 @@ properties:
       - type.Tag
   identifier:
     type: string
-  title: 
+  title:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   metadata:
     allOf:
-      - $ref: 'Metadata.yml'
+      - $ref: "Metadata.yml"
       - type: object
         properties:
           externalIDs:

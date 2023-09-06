@@ -8,8 +8,8 @@ properties:
     type: object
     properties:
       event:
-        $ref: 'Event.yml'
+        $ref: "Event.yml"
       eventReference:
-        $ref: 'Reference.yml'
+        $ref: "Reference.yml"
 required:
   - success

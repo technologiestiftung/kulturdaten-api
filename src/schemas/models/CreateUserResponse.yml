@@ -8,7 +8,7 @@ properties:
   data:
     type: object
     properties:
-      userIdentifier: 
+      userIdentifier:
         type: string
 required:
   - success
