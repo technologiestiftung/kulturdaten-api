@@ -61,7 +61,6 @@
 		],
 		"inLanguages": ["de", "en"],
 		"tags": ["Museum", "Geschichte", "Berlin"],
-		"accessibility": [],
 		"externalLinks": [
 			[
 				{
@@ -146,7 +145,6 @@
 		],
 		"inLanguages": ["de", "en"],
 		"tags": ["Park", "Erholung", "Berlin", "Bühne"],
-		"accessibility": [],
 		"externalLinks": [
 			[
 				{
@@ -224,7 +222,6 @@
 		],
 		"inLanguages": ["de", "en"],
 		"tags": ["Bühne", "Konzerte", "Theater", "U-Bahn", "Berlin"],
-		"accessibility": [],
 		"externalLinks": [
 			[
 				{
@@ -302,7 +299,6 @@
 		],
 		"inLanguages": ["de", "en"],
 		"tags": ["Konzerte", "Berlin"],
-		"accessibility": ["Rollstuhlgerecht"],
 		"externalLinks": [],
 		"manager": {
 			"referenceType": "Organization",

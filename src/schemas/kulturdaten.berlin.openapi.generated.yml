@@ -3449,10 +3449,6 @@ components:
           type: array
           items:
             type: string
-        accessibility:
-          type: array
-          items:
-            type: string
         tags:
           type: array
           items:
