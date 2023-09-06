@@ -111,7 +111,7 @@ describe("Update locations", () => {
 	});
 
 	it("should update the name of a location / PATCH /locations/existID", async () => {
-		const { body, statusCode } = await request(env.app)
+		const { statusCode } = await request(env.app)
 			.patch(env.LOCATIONS_ROUTE + "/LOC-12345678")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({

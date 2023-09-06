@@ -93,6 +93,7 @@ export class EventsService {
 		return this.eventsRepository.addEvent(resource);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	duplicate(identifier: string): Promise<string> | null {
 		throw new Error("Method not implemented.");
 	}

@@ -115,7 +115,7 @@ describe("Update events", () => {
 	});
 
 	it("should update the name of a event / PATCH /events/existID", async () => {
-		const { body, statusCode } = await request(env.app)
+		const { statusCode } = await request(env.app)
 			.patch(env.EVENTS_ROUTE + "/1234-5678-9101-1121")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({

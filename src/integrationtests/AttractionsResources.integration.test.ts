@@ -111,7 +111,7 @@ describe("Update attractions", () => {
 	});
 
 	it("should update the name of a attraction / PATCH /attractions/existID", async () => {
-		const { body, statusCode } = await request(env.app)
+		const { statusCode } = await request(env.app)
 			.patch(env.ATTRACTIONS_ROUTE + "/skywalkers-observatory-12345")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({

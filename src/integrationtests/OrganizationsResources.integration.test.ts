@@ -113,7 +113,7 @@ describe("Update organizations", () => {
 	});
 
 	it("should update the name of a organization / PATCH /organizations/existID", async () => {
-		const { body, statusCode } = await request(env.app)
+		const { statusCode } = await request(env.app)
 			.patch(env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({

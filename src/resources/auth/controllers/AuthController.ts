@@ -7,8 +7,7 @@ import { LoginResponse } from "../../../generated/models/LoginResponse.generated
 
 const log: debug.IDebugger = debug("app:auth-controller");
 
-// @ts-expect-error
-const jwtSecret: string = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET!;
 
 const authTokenExpiresIn = process.env.AUTH_TOKEN_EXPIRES_IN || "1m";
 

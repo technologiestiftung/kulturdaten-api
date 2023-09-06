@@ -75,9 +75,11 @@ export class UsersController {
 	}
 
 	updateUserPassword(
+		/* eslint-disable @typescript-eslint/no-unused-vars */
 		res: express.Response<any, Record<string, any>>,
 		identifier: string,
 		updatePasswordRequest: UpdateUserPasswordRequest,
+		/* eslint-enable @typescript-eslint/no-unused-vars */
 	) {
 		throw new Error("Method not implemented.");
 	}
