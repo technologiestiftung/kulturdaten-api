@@ -1,5 +1,4 @@
-{
-	"tags": [
+[
 		{
             "type": "type.Tag",
             "identifier": "location.accessibility.WheelchairAccessible",
@@ -183,4 +182,4 @@
 
 
 	]
-}
+
