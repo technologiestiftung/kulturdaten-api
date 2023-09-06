@@ -18,7 +18,10 @@
       "contributions": [
         "code",
         "ideas",
-        "review"
+        "review",
+        "doc",
+        "test",
+        "infra"
       ]
     }
   ],
