@@ -1,5 +1,5 @@
 {
-  "projectName": "template-default",
+  "projectName": "kulturdaten.berlin",
   "projectOwner": "technologiestiftung",
   "repoType": "github",
   "repoHost": "https://github.com",
@@ -10,7 +10,22 @@
   "commit": true,
   "commitConvention": "angular",
   "contributors": [
+    {
+      "login": "ThorstenDiekhof",
+      "name": "Thorsten Diekhof",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121924163?v=4",
+      "profile": "https://github.com/ThorstenDiekhof",
+      "contributions": [
+        "code",
+        "ideas",
+        "review",
+        "doc",
+        "test",
+        "infra"
+      ]
+    }
   ],
   "contributorsPerLine": 7,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
