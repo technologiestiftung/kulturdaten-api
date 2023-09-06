@@ -21,6 +21,30 @@
         "review",
         "test"
       ]
+    },
+    {
+      "login": "BugBoomBang",
+      "name": "Simon Scholler",
+      "avatar_url": "https://avatars.githubusercontent.com/u/30436389?v=4",
+      "profile": "https://github.com/BugBoomBang",
+      "contributions": [
+        "ideas",
+        "review"
+      ]
+      },
+      {
+      "login": "ThorstenDiekhof",
+      "name": "Thorsten Diekhof",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121924163?v=4",
+      "profile": "https://github.com/ThorstenDiekhof",
+      "contributions": [
+        "code",
+        "ideas",
+        "review",
+        "doc",
+        "test",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
