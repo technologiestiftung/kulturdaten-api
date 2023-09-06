@@ -1,5 +1,5 @@
 {
-  "projectName": "template-default",
+  "projectName": "kulturdaten.berlin",
   "projectOwner": "technologiestiftung",
   "repoType": "github",
   "repoHost": "https://github.com",
@@ -10,7 +10,18 @@
   "commit": true,
   "commitConvention": "angular",
   "contributors": [
+    {
+      "login": "BugBoomBang",
+      "name": "Simon Scholler",
+      "avatar_url": "https://avatars.githubusercontent.com/u/30436389?v=4",
+      "profile": "https://github.com/BugBoomBang",
+      "contributions": [
+        "ideas",
+        "review"
+      ]
+    }
   ],
   "contributorsPerLine": 7,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
