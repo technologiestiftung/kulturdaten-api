@@ -19,6 +19,20 @@
         "ideas",
         "review"
       ]
+      },
+      {
+      "login": "ThorstenDiekhof",
+      "name": "Thorsten Diekhof",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121924163?v=4",
+      "profile": "https://github.com/ThorstenDiekhof",
+      "contributions": [
+        "code",
+        "ideas",
+        "review",
+        "doc",
+        "test",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
