@@ -11,6 +11,18 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "ZenVega",
+      "name": "Urs Schmidt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50147356?v=4",
+      "profile": "https://github.com/ZenVega",
+      "contributions": [
+        "code",
+        "ideas",
+        "review",
+        "test"
+      ]
+    },
+    {
       "login": "BugBoomBang",
       "name": "Simon Scholler",
       "avatar_url": "https://avatars.githubusercontent.com/u/30436389?v=4",
