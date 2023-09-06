@@ -1,17 +1,12 @@
-import * as dotenv from "dotenv";
-import "reflect-metadata";
-dotenv.config();
-
-import express from "express";
-import ip from "ip";
-
-import debug from "debug";
-
 import cors from "cors";
+import * as dotenv from "dotenv";
+import express from "express";
 import * as OpenApiValidator from "express-openapi-validator";
 import * as expressWinston from "express-winston";
+import ip from "ip";
 import { MongoClient } from "mongodb";
 import passport from "passport";
+import "reflect-metadata";
 import swaggerUi from "swagger-ui-express";
 import Container from "typedi";
 import * as winston from "winston";
@@ -26,6 +21,7 @@ import { AuthPasswordStrategy } from "./resources/auth/strategies/AuthPasswordSt
 import { EventsRoutes } from "./resources/events/EventsRoutes";
 import { FindEventsByAttractionTagFilterStrategy } from "./resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
 import { FindEventsByMongoDBFilterStrategy } from "./resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
+import { FindInTheFutureEventsFilterStrategy } from "./resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 import { MongoDBEventsRepository } from "./resources/events/repositories/MongoDBEventsRepository";
 import { HealthRoutes } from "./resources/health/HealthRoutes";
 import { LocationsRoutes } from "./resources/locations/LocationsRoutes";
@@ -37,9 +33,8 @@ import { TagsRoutes } from "./resources/tags/tags.routes";
 import { UsersRoutes } from "./resources/users/UsersRoutes";
 import { MongoDBUsersRepository } from "./resources/users/repositories/MongoDBUsersRepository";
 import { UsersService } from "./resources/users/services/UsersService";
-import { FindInTheFutureEventsFilterStrategy } from "./resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 
-const log: debug.IDebugger = debug("app:main");
+dotenv.config();
 
 export class KulturdatenBerlinApp {
 	constructor(public app: express.Application) {}
