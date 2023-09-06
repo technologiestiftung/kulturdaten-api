@@ -303,7 +303,8 @@
 			}
 		],
 		"inLanguages": ["de", "en"],
-		"tags": ["attraction.category.Music", "location.accessibility.WheelchairAccessible"],
+		"accessibility": ["location.accessibility.WheelchairAccessible"],
+		"tags": ["attraction.category.Music"],
 		"externalLinks": [],
 		"manager": {
 			"referenceType": "Organization",

@@ -4403,7 +4403,7 @@ components:
               enum:
                 - any
                 - all
-        byLocationTags:
+        byLocationAccessibilityTags:
           type: object
           properties:
             tags:

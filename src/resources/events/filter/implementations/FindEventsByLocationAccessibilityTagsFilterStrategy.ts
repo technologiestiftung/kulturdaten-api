@@ -8,16 +8,16 @@ import { EventsRepository } from "../../repositories/EventsRepository";
 import { EventFilterStrategy, EventFilterStrategyToken } from "../EventFilterStrategy";
 
 @Service({ id: EventFilterStrategyToken, multiple: true })
-export class FindEventsByLocationTagsFilterStrategy implements EventFilterStrategy {
+export class FindEventsByLocationAccessibilityTagsFilterStrategy implements EventFilterStrategy {
 	constructor(
 		@Inject("EventsRepository") public eventsRepository: EventsRepository,
 		@Inject("LocationsRepository") public locationsRepository: LocationsRepository
 	) {}
 
 	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
-		const byLocationTags = searchEventsRequest.byLocationTags!;
-		const tags = byLocationTags.tags ?? [];
-		const matchMode: MatchMode = byLocationTags.matchMode ?? "any";
+		const byLocationAccessibilityTags = searchEventsRequest.byLocationAccessibilityTags!;
+		const tags = byLocationAccessibilityTags.tags ?? [];
+		const matchMode: MatchMode = byLocationAccessibilityTags.matchMode ?? "any";
 		const accessibilityFilter = this.getFilterForMatchMode(matchMode, tags);
 		const projection = { identifier: 1 };
 		const locations = await this.locationsRepository.searchAllLocations(accessibilityFilter, projection);
@@ -32,13 +32,13 @@ export class FindEventsByLocationTagsFilterStrategy implements EventFilterStrate
 	private getFilterForMatchMode(matchMode: MatchMode, tags: string[]): Filter {
 		switch (matchMode) {
 			case "all":
-				return { tags: { $all: tags } };
+				return { accessibility: { $all: tags } };
 			case "any":
-				return { tags: { $in: tags } };
+				return { accessibility: { $in: tags } };
 		}
 	}
 
 	public isExecutable(searchEventsRequest: SearchEventsRequest): boolean {
-		return searchEventsRequest.byLocationTags ? true : false;
+		return searchEventsRequest.byLocationAccessibilityTags ? true : false;
 	}
 }

@@ -20,7 +20,7 @@ import { AuthBearerJWTStrategy } from "./resources/auth/strategies/AuthBearerJWT
 import { AuthPasswordStrategy } from "./resources/auth/strategies/AuthPasswordStrategy";
 import { EventsRoutes } from "./resources/events/EventsRoutes";
 import { FindEventsByAttractionTagFilterStrategy } from "./resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
-import { FindEventsByLocationTagsFilterStrategy } from "./resources/events/filter/implementations/FindEventsByLocationTagsFilterStrategy";
+import { FindEventsByLocationAccessibilityTagsFilterStrategy } from "./resources/events/filter/implementations/FindEventsByLocationAccessibilityTagsFilterStrategy";
 import { FindEventsByMongoDBFilterStrategy } from "./resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
 import { FindInTheFutureEventsFilterStrategy } from "./resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 import { MongoDBEventsRepository } from "./resources/events/repositories/MongoDBEventsRepository";
@@ -105,7 +105,7 @@ export class KulturdatenBerlinApp {
 		Container.import([
 			FindEventsByMongoDBFilterStrategy,
 			FindEventsByAttractionTagFilterStrategy,
-			FindEventsByLocationTagsFilterStrategy,
+			FindEventsByLocationAccessibilityTagsFilterStrategy,
 			FindInTheFutureEventsFilterStrategy,
 		]);
 
