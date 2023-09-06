@@ -6,6 +6,7 @@
 	"scripts": {
 		"format": "prettier --write .",
 		"lint": "eslint .",
+		"typecheck": "tsc --noEmit",
 		"dev": "./node_modules/nodemon/bin/nodemon.js --inspect",
 		"start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
 		"debug": "export DEBUG=* && npm run dev",
