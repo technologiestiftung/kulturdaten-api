@@ -6,14 +6,14 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# Über kulturdaten.berlin
+# About kulturdaten.berlin
 
-**Wir machen Berlins kulturelle Vielfalt sichtbar | kulturdaten.berlin.**
+**We make Berlin’s cultural diversity visible**
 
-Das Internet bietet einerseits zwar viele Möglichkeiten, sich über Berlins vielfältige Kulturszene zu informieren, andererseits fehlt es jedoch noch an einem zentralen Überblick über alle kulturellen Einrichtungen und Veranstaltungen der Stadt. Mit kulturdaten.berlin wollen wir die Grundlage dafür schaffen, die Vielfalt der Berliner Kultur einfacher entdecken zu können – von schönen, kleinen Veranstaltungen im Kiez bis zu großen Kulturproduktionen. Über unsere Datenschnittstelle können z.B. Veranstaltungsportale im Handumdrehen genau die Daten beziehen, die sie für ihren jeweiligen Spartenfokus benötigen
-kulturdaten.berlin basiert auf den Prinzipien Open Data und Open Source, d.h. der Quellcode ist offen und die Kulturdaten der Plattform sind für alle über eine API frei und einfach zugänglich, z.B. um diese für eigene Anwendungen zu nutzen. Ob eine App speziell für barrierefreie Kulturerlebnisse oder den Ausbau einer Kiez-Website mit Konzerttipps in der Nachbarschaft: Wir öffnen Berlins Kulturdaten zur Nachnutzung für alle mit frischen Ideen.
+On the one hand, the internet offers many ways to find out about Berlin’s diverse cultural scene, but on the other hand, there is still a lack of a central overview of all the city’s cultural institutions and events. With kulturdaten.berlin, we want to create the basis for making it easier to discover the diversity of Berlin’s culture - from nice, small events in the neighborhood to major cultural productions. Via our data interface, event portals, for example, can obtain exactly the data they need for their particular sector focus in no time at all.
+kulturdaten.berlin is based on the principles of open data and open source. That means, the source code is open and the cultural data of the platform will be freely and easily accessible to all via an API, e.g. to use it for own applications. Whether it’s an app specifically for barrier-free cultural experiences or a website with concert tips in the neighborhood: we open up Berlin’s cultural data for subsequent use to anyone with fresh ideas.
 
-kulturdaten.berlin ist ein Projekt der Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), gefördert von der Senatsverwaltung für Kultur und Gesellschaftlichen Zusammenhalt.
+kulturdaten.berlin is a project of the Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), funded by the Senate Department for Culture and Social Cohesion.
 
 ## Prerequisites
 
