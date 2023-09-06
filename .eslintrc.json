@@ -9,5 +9,8 @@
 		"ecmaVersion": "latest",
 		"sourceType": "module"
 	},
-	"rules": { "prettier/prettier": "warn" }
+	"rules": {
+		"prettier/prettier": "warn",
+		"@typescript-eslint/no-explicit-any": "off"
+	}
 }
