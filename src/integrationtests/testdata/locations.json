@@ -60,7 +60,7 @@
 			}
 		],
 		"inLanguages": ["de", "en"],
-		"tags": ["Museum", "Geschichte", "Berlin"],
+		"tags": ["attraction.category.Art", "attraction.category.Education", "attraction.category.Exhibitions"],
 		"externalLinks": [
 			[
 				{
@@ -144,7 +144,7 @@
 			}
 		],
 		"inLanguages": ["de", "en"],
-		"tags": ["Park", "Erholung", "Berlin", "Bühne"],
+		"tags": ["attraction.category.Recreation", "attraction.category.Stages"],
 		"externalLinks": [
 			[
 				{
@@ -221,7 +221,12 @@
 			}
 		],
 		"inLanguages": ["de", "en"],
-		"tags": ["Bühne", "Konzerte", "Theater", "U-Bahn", "Berlin"],
+		"tags": [
+			"attraction.category.Stages",
+			"attraction.category.Music",
+			"attraction.category.Festivals",
+			"attraction.category.Dance"
+		],
 		"externalLinks": [
 			[
 				{
@@ -298,7 +303,7 @@
 			}
 		],
 		"inLanguages": ["de", "en"],
-		"tags": ["Konzerte", "Berlin"],
+		"tags": ["attraction.category.Music", "location.accessibility.WheelchairAccessible"],
 		"externalLinks": [],
 		"manager": {
 			"referenceType": "Organization",

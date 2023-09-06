@@ -145,16 +145,16 @@ describe("Search locations", () => {
 		await env.locations.deleteMany();
 	});
 
-	it("should return 2 locations with tag Bühne  / POST /locations/search", async () => {
+	it("should return 2 locations with tag attraction.category.Stages  / POST /locations/search", async () => {
 		const { body, statusCode } = await request(env.app)
 			.post(env.LOCATIONS_ROUTE + "/search")
 			.send({
-				searchFilter: { tags: { $in: ["Bühne"] } },
+				searchFilter: { tags: { $in: ["attraction.category.Stages"] } },
 			});
 
 		expect(statusCode).toBe(200);
 		expect(body.data.locations).toHaveLength(2);
-		expect(body.data.locations[0].tags).toContain("Bühne");
-		expect(body.data.locations[1].tags).toContain("Bühne");
+		expect(body.data.locations[0].tags).toContain("attraction.category.Stages");
+		expect(body.data.locations[1].tags).toContain("attraction.category.Stages");
 	});
 });

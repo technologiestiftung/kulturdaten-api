@@ -214,7 +214,7 @@ describe("Search events", () => {
 			.post(env.EVENTS_ROUTE + "/search")
 			.send({
 				byLocationAccessibility: {
-					accessibility: ["Rollstuhlgerecht"],
+					accessibility: ["location.accessibility.WheelchairAccessible"],
 					matchMode: "all",
 				},
 			});
