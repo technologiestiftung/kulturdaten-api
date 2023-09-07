@@ -1,5 +1,5 @@
 {
-	"name": "kdb-api",
+	"name": "kulturdaten-api",
 	"version": "1.0.0",
 	"description": "Wir machen die kulturelle Vielfalt Berlins sichtbar. Dabei hilft ein zentrales Repository für alle Kulturdaten Berlins.",
 	"main": "src/app.js",
@@ -23,7 +23,7 @@
 		"kdb",
 		"tsb"
 	],
-	"author": "Thorsten Diekhof",
+	"author": "Technologiestiftung Berlin",
 	"license": "MIT",
 	"dependencies": {
 		"@types/ip": "^1.1.0",
