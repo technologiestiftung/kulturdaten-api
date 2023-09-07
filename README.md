@@ -6,30 +6,28 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# Kulturdaten.berlin
 
-**Berlins Kulturdaten – zentral auffindbar, vielfältig vernetzt.**
-<img src="./media/verpackung.png" align="right" width="300">
+# About kulturdaten.berlin
 
-Was? Wann? Wer? Wo? Mit wem? Wie viele? Für wen? Wie lange? Um im Web gefunden zu werden, müssen Kulturschaffende ihr Programm an vielen Stellen mühsam händisch einpflegen. Mit der Plattform kulturdaten.berlin wollen wir diesen Prozess radikal vereinfachen!
+**We make Berlin’s cultural diversity visible**
 
-Die Kulturdatenbank Berlin bietet eine Schnittstelle um berlins Kulturdaten zentral zu speichern und zu verwalten. Er dient auch dazu, diese Daten verschiedenen Akteuren frei verfügbar zu machen.
+On the one hand, the internet offers many ways to find out about Berlin’s diverse cultural scene, but on the other hand, there is still a lack of a central overview of all the city’s cultural institutions and events. With kulturdaten.berlin, we want to create the basis for making it easier to discover the diversity of Berlin’s culture - from nice, small events in the neighborhood to major cultural productions. Via our data interface, event portals, for example, can obtain exactly the data they need for their particular sector focus in no time at all.
+kulturdaten.berlin is based on the principles of open data and open source. That means, the source code is open and the cultural data of the platform will be freely and easily accessible to all via an API, e.g. to use it for own applications. Whether it’s an app specifically for barrier-free cultural experiences or a website with concert tips in the neighborhood: we open up Berlin’s cultural data for subsequent use to anyone with fresh ideas.
 
-Die Kulturdatenbank ist ein Projekt der Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), gefördert von der Senatsverwaltung für Kultur und Europa Berlin und durchgeführt von kulturB digital (<https://kultur-b-digital.de>).
+kulturdaten.berlin is a project of the Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), funded by the Senate Department for Culture and Social Cohesion.
+
 
 ## Prerequisites
 
 - Install a Node version according to the version specified in `.nvmrc` (e.g. with `nvm install` or `nvm use`)
 - Install [MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/)
 
+
 ## Installation
 
 1. Install packages with `npm install`
 2. Create an `.env` in the root directory and fill it with values (see `.env.example` for inspiration)
 
-## Usage or Deployment
-
-tbd...
 
 ## Development
 
@@ -37,7 +35,6 @@ tbd...
 npm run debug
 ```
 
-tbd...
 
 ## More commands
 
@@ -52,6 +49,7 @@ npm run lint
 npm run typecheck
 ```
 
+
 ## Tests
 
 Run all tests with Jest:
@@ -60,11 +58,13 @@ Run all tests with Jest:
 npm test
 ```
 
+
 ## Production Build
 
 ```shell
 npm start
 ```
+
 
 ## Initializing an empty database
 
@@ -74,9 +74,11 @@ The `Seeder.ts` script assists in initializing your database. Use the `-t` or `-
 npm run seed -- --tags --admin admin@example.com:password123
 ```
 
+
 ## Contributing
 
 Before you create a pull request, write an issue so we can discuss your changes.
+
 
 ## Contributors
 
@@ -103,11 +105,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
+
 ## Content Licensing
 
-Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3.0/de/).
+Text and content available as [CC BY](https://creativecommons.org/licenses/by/3.0/de/).
 
-Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
 
 ## Credits
 
@@ -117,7 +119,14 @@ Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
       Made by <a href="https://www.technologiestiftung-berlin.de/">
         <br />
         <br />
-        <img width="150" src="https://citylab-berlin.org/wp-content/uploads/2021/05/tsb.svg" />
+        <img width="150" src="https://logos.citylab-berlin.org/logo-tsb-outline.svg" />
+      </a>
+    </td>
+    <td>
+      Supported by: <a src="https://www.berlin.de/sen/kultur/en/">
+        <br />
+        <br />
+        <img width="120" src="https://logos.citylab-berlin.org/logo-berlin-senkueu-en.svg" />
       </a>
     </td>
   </tr>
