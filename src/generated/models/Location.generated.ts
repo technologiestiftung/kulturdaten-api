@@ -40,6 +40,7 @@ export const schemaForLocation = {
     openingHours: {$ref: "OpeningHours.yml"},
     inLanguages: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
+    accessibility: {type: "array", items: {type: "string"}},
     externalLinks: {type: "array", items: {$ref: "ExternalLinks.yml"}},
     manager: {$ref: "Reference.yml"},
     contact: {$ref: "Contact.yml"}
@@ -98,6 +99,7 @@ export interface Location {
   openingHours?: OpeningHours;
   inLanguages?: string[];
   tags?: string[];
+  accessibility?: string[];
   externalLinks?: ExternalLinks[];
   manager?: Reference;
   contact?: Contact;

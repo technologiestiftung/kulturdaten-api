@@ -52,6 +52,10 @@ properties:
     type: array
     items:
       type: string
+  accessibility:
+    type: array
+    items:
+      type: string
   externalLinks:
     type: array
     items:

@@ -59,6 +59,7 @@ export class DistrictDataService {
 					districtData.veranstaltungsorte,
 					districtData.barrierefreiheit,
 					districtData.bezirke,
+					tags,
 				);
 				Object.assign(createdLocations, locations);
 				Object.assign(duplicateLocations, dLocations);
@@ -126,6 +127,7 @@ export class DistrictDataService {
 		veranstaltungsorte: Veranstaltungsorte,
 		barrierefreiheit: Barrierefreiheit,
 		bezirke: Bezirke,
+		tags: Tag[],
 	): Promise<{
 		createdLocations: { [originObjectID: string]: Reference };
 		duplicateLocations: { [originObjectID: string]: Reference };
@@ -146,7 +148,7 @@ export class DistrictDataService {
 						: duplicatedLocations[0].title,
 				};
 			} else {
-				const createLocationRequest = this.mapper.mapLocation(o, barrierefreiheit, bezirke);
+				const createLocationRequest = this.mapper.mapLocation(o, barrierefreiheit, bezirke, tags);
 
 				const createdLocationReference = await this.locationService.create(createLocationRequest);
 

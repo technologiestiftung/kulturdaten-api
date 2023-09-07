@@ -17,9 +17,13 @@ export const schemaForSearchEventsRequest = {
   $id: "SearchEventsRequest.yml",
   type: "object",
   properties: {
-    matchMode: {type: "string", enum: ["any", "all"]},
+    matchMode: {$ref: "MatchMode.yml"},
     searchFilter: {type: "object", additionalProperties: true},
     byAttractionTags: {
+      type: "object",
+      properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
+    },
+    byLocationAccessibilityTags: {
       type: "object",
       properties: {tags: {type: "array", items: {type: "string"}}, matchMode: {$ref: "MatchMode.yml"}}
     },
@@ -43,6 +47,10 @@ export interface SearchEventsRequest {
     [k: string]: unknown;
   };
   byAttractionTags?: {
+    tags?: string[];
+    matchMode?: "any" | "all";
+  };
+  byLocationAccessibilityTags?: {
     tags?: string[];
     matchMode?: "any" | "all";
   };

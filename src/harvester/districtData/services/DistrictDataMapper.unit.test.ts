@@ -20,7 +20,7 @@ describe("DistrictDataMapper", () => {
 
 			const kategorie_ids = veranstaltung.kategorie_ids;
 
-			const resultTags = mapper.mapTags(kategorie_ids, allTags);
+			const resultTags = mapper.mapCategoryTags(kategorie_ids, allTags);
 
 			expect(resultTags).toEqual(["attraction.category.WeeklyMarkets"]);
 		});

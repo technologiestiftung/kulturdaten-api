@@ -20,6 +20,7 @@ import { AuthBearerJWTStrategy } from "./resources/auth/strategies/AuthBearerJWT
 import { AuthPasswordStrategy } from "./resources/auth/strategies/AuthPasswordStrategy";
 import { EventsRoutes } from "./resources/events/EventsRoutes";
 import { FindEventsByAttractionTagFilterStrategy } from "./resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
+import { FindEventsByLocationAccessibilityTagsFilterStrategy } from "./resources/events/filter/implementations/FindEventsByLocationAccessibilityTagsFilterStrategy";
 import { FindEventsByMongoDBFilterStrategy } from "./resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
 import { FindInTheFutureEventsFilterStrategy } from "./resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 import { MongoDBEventsRepository } from "./resources/events/repositories/MongoDBEventsRepository";
@@ -104,6 +105,7 @@ export class KulturdatenBerlinApp {
 		Container.import([
 			FindEventsByMongoDBFilterStrategy,
 			FindEventsByAttractionTagFilterStrategy,
+			FindEventsByLocationAccessibilityTagsFilterStrategy,
 			FindInTheFutureEventsFilterStrategy,
 		]);
 
@@ -143,7 +145,8 @@ export class KulturdatenBerlinApp {
 	}
 
 	private registerErrorHandler() {
-		this.app.use((err: any, req: express.Request, res: express.Response) => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
 			res.status(err.status || 500).json({
 				message: err.message,
 				errors: err.errors,

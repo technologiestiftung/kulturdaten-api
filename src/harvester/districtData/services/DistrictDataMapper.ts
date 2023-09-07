@@ -17,7 +17,7 @@ import {
 export class DistrictDataMapper {
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
 		const v: any = veranstaltung;
-		const tags: string[] = this.mapTags(veranstaltung.kategorie_ids, allTags);
+		const tags: string[] = this.mapCategoryTags(veranstaltung.kategorie_ids, allTags);
 
 		return {
 			type: "type.Attraction",
@@ -109,12 +109,12 @@ export class DistrictDataMapper {
 		veranstaltungsort: Veranstaltungsort,
 		barrierefreiheit: Barrierefreiheit,
 		bezirke: Bezirke,
+		allTags: Tag[],
 	): CreateLocationRequest {
-		const accessibilityDescriptionStrings: string[] | null = veranstaltungsort.barrierefreiheit
-			? Object.keys(veranstaltungsort.barrierefreiheit).map(
-					(barrierefreiheitsId) => barrierefreiheit[barrierefreiheitsId].name,
-			  )
-			: null;
+		const accessibilityTags: string[] | undefined = veranstaltungsort.barrierefreiheit
+			? this.mapAccessibilityTags(veranstaltungsort.barrierefreiheit, allTags)
+			: undefined;
+
 		let boroughOfLocation: Borough | null = null;
 		if (veranstaltungsort.bezirk_id && bezirke[veranstaltungsort.bezirk_id].DE) {
 			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
@@ -129,7 +129,7 @@ export class DistrictDataMapper {
 				...(veranstaltungsort.ort && { addressLocality: veranstaltungsort.ort }),
 			},
 			...(veranstaltungsort.telefon && { contact: { telephone: veranstaltungsort.telefon } }),
-			...(accessibilityDescriptionStrings && { accessibility: accessibilityDescriptionStrings }),
+			...(accessibilityTags && { accessibility: accessibilityTags }),
 			...(boroughOfLocation && { borough: boroughOfLocation }),
 			metadata: {
 				origin: "bezirkskalender",
@@ -138,11 +138,21 @@ export class DistrictDataMapper {
 		};
 	}
 
-	mapTags(kategorie_ids: { [categoryId: string]: string }, tags: Tag[]): string[] {
+	mapCategoryTags(kategorie_ids: { [categoryId: string]: string }, tags: Tag[]): string[] {
 		return tags
 			.filter((tag) =>
 				tag?.metadata?.externalIDs?.bezirkskalender
 					? Object.keys(kategorie_ids).includes(tag.metadata.externalIDs.bezirkskalender)
+					: false,
+			)
+			.map((tag) => tag.identifier);
+	}
+
+	mapAccessibilityTags(barrierefreiheit_ids: { [key: string]: number }, tags: Tag[]): string[] {
+		return tags
+			.filter((tag) =>
+				tag?.metadata?.externalIDs?.bezirkskalenderBarrierefreiheit
+					? Object.keys(barrierefreiheit_ids).includes(tag.metadata.externalIDs.bezirkskalenderBarrierefreiheit)
 					: false,
 			)
 			.map((tag) => tag.identifier);
