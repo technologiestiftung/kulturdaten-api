@@ -64,7 +64,7 @@ async function main() {
 		.option("-t, --tags", "If no tags are present, the default tags will be written to the DB")
 		.option(
 			"-a, --admin <mailAndPassword>",
-			"If no admin is present in the DB, an admin with the provided email and password will be created. Format: email:password (e.g. admin@example.com:password123)."
+			"If no admin is present in the DB, an admin with the provided email and password will be created. Format: email:password (e.g. admin@example.com:password123).",
 		);
 
 	program.parse(process.argv);
@@ -104,7 +104,7 @@ async function initDatabase() {
 		console.log("Connection to database established.");
 	} catch (error) {
 		throw new Error(
-			"An error occurred while establishing a connection to MongoDB. Please check the connection settings and try again."
+			"An error occurred while establishing a connection to MongoDB. Please check the connection settings and try again.",
 		);
 	}
 }
@@ -145,7 +145,7 @@ async function addUserWithPermission(email: string, password: string, permission
 		console.log("Email is not valid: No user added");
 		return;
 	}
-	
+
 	const hashedPassword = await argon2.hash(password);
 	const user = {
 		email: email.toLowerCase(),
