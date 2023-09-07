@@ -102,9 +102,10 @@ async function initDatabase() {
 		await mongoDBConnector.initIndex();
 
 		console.log("Connection to database established.");
-
 	} catch (error) {
-		throw new Error("An error occurred while establishing a connection to MongoDB. Please check the connection settings and try again.");
+		throw new Error(
+			"An error occurred while establishing a connection to MongoDB. Please check the connection settings and try again."
+		);
 	}
 }
 
@@ -140,24 +141,25 @@ async function addAdmin(email: string, password: string) {
 }
 
 async function addUserWithPermission(email: string, password: string, permission: PermissionFlag) {
-	const hashedPassword = await argon2.hash(password);
-	if (validator.isEmail(email)) {
-		const user = {
-			email: email.toLowerCase(),
-			password: hashedPassword,
-			permissionFlags: permission,
-			identifier: generateID(),
-		};
-		const users = await mongoDBConnector.users();
-		const result = await users.insertOne(user);
-
-		if (result.acknowledged) {
-			console.log(`User ${user.email} with identifier ${user.identifier} added`);
-		} else {
-			console.log(`Warning: No user with identifier with email ${user.email} added`);
-		}
-	} else {
+	if (!validator.isEmail(email)) {
 		console.log("Email is not valid: No user added");
+		return;
+	}
+	
+	const hashedPassword = await argon2.hash(password);
+	const user = {
+		email: email.toLowerCase(),
+		password: hashedPassword,
+		permissionFlags: permission,
+		identifier: generateID(),
+	};
+	const users = await mongoDBConnector.users();
+	const result = await users.insertOne(user);
+
+	if (result.acknowledged) {
+		console.log(`User ${user.email} with identifier ${user.identifier} added`);
+	} else {
+		console.log(`Warning: No user with identifier with email ${user.email} added`);
 	}
 }
 
