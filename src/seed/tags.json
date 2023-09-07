@@ -1,5 +1,4 @@
-{
-	"tags": [
+[
 		{
 			"type": "type.Tag",
 			"identifier": "attraction.category.InformationEvents",
@@ -361,4 +360,3 @@
 			}
 		}
 	]
-}

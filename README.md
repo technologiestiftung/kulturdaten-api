@@ -47,6 +47,14 @@ tbd...
 npm start
 ```
 
+## Initializing an empty database
+
+The `Seeder.ts` script assists in initializing your database. Use the `-t` or `--tags` flag to add predefined tags. To set up an admin user, utilize the `-a` or `--admin` flag followed by the credentials in the format `email:password`. Both operations can be performed simultaneously in one command. For example:
+
+```shell
+npm run seed -- --tags --admin admin@example.com:password123
+```
+
 ## Contributing
 
 Before you create a pull request, write an issue so we can discuss your changes.
