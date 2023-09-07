@@ -1,57 +1,60 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import { MongoClient } from "mongodb";
 import { MongoDBConnector } from "../common/services/MongoDBConnector";
 import { PermissionFlag } from "../resources/auth/middleware/PermissionFlag";
 import { generateID } from "../utils/IDUtil";
 import * as argon2 from "argon2";
 import { Command } from "commander";
-import tagsJSON from "./tags.json";
-import accessibilityTagsJSON from "./accessibility.json";
+import tagsJSON from "../seed/tags.json";
+import accessibilityTagsJSON from "../seed/accessibility.json";
 import validator from "validator";
 
-var mongoClient: MongoClient;
-var mongoDBConnector: MongoDBConnector;
+let mongoClient: MongoClient;
+let mongoDBConnector: MongoDBConnector;
 
 /**
  * Database Initialization Script
- * 
+ *
  * ---------------------------
  * Accessing Help:
  * ---------------------------
  * To view a list of available commands and their descriptions, use the `-h` or `--help` flag.
- * Example: 
+ * Example:
  *  npm run seed -- -h
- * 
+ *
  * ---------------------------
  * Adding Tags:
  * ---------------------------
  * To add tags to the database, utilize the `-t` or `--tags` flag.
- * Example: 
+ * Example:
  *  npm run seed -- --tags
- * 
+ *
  * ---------------------------
  * Creating an Admin User:
  * ---------------------------
- * To introduce an admin user to the database, apply the `-a` or `--admin` flag. 
+ * To introduce an admin user to the database, apply the `-a` or `--admin` flag.
  * This should be followed by the user's email and password, structured as `email:password`.
- * Example: 
+ * Example:
  *  npm run seed -- --admin admin@example.com:password123
- * 
+ *
  * ---------------------------
  * Combined Usage:
  * ---------------------------
  * It's possible to leverage both functionalities within a single command execution.
  * Example:
  *  npm run seed -- --tags --admin admin@example.com:password123
- * 
+ *
  * ---------------------------
  * Important Note on Script Behavior:
  * ---------------------------
- * This script is designed to populate only empty collections within the database. 
+ * This script is designed to populate only empty collections within the database.
  * If a collection already contains data, the script will skip adding new entries to prevent duplicates or unintended overwrites.
- * 
- * For security reasons, especially with admin user creation, this behavior ensures that no admin user can be programmatically added 
+ *
+ * For security reasons, especially with admin user creation, this behavior ensures that no admin user can be programmatically added
  * if there are already existing users in the system. This minimizes the risk of unauthorized admin creation or potential misuse.
- * 
+ *
  */
 
 async function main() {
@@ -68,40 +71,46 @@ async function main() {
 
 	const options = program.opts();
 
-	await initDatabase();
+	try {
+		await initDatabase();
 
-	if (options.admin) {
-		await handleAdminCreation(options.admin);
-	}
+		if (options.admin) {
+			await handleAdminCreation(options.admin);
+		}
 
-	if (options.tags) {
-		await handleTagInsertion();
-	}
+		if (options.tags) {
+			await handleTagInsertion();
+		}
 
-	if (mongoClient) {
-		await mongoClient.close();
-		console.log("Connection to MongoDB closed.");
+		if (mongoClient) {
+			await mongoClient.close();
+			console.log("Connection to MongoDB closed.");
+		}
+	} catch (error: any) {
+		await mongoClient?.close();
+		console.error("The script ended with an error.", error?.message ? error.message : "");
 	}
 }
 
 async function initDatabase() {
 	const uri = process.env.MONGO_URI || "mongodb://localhost:27017";
-	mongoClient = new MongoClient(uri);
 
-	mongoDBConnector = new MongoDBConnector(mongoClient);
-	await mongoDBConnector.initIndex();
+	try {
+		mongoClient = new MongoClient(uri);
 
-	if (!mongoDBConnector) {
-		console.log("MongoDb not reachable");
-		return;
-	} else {
+		mongoDBConnector = new MongoDBConnector(mongoClient);
+		await mongoDBConnector.initIndex();
+
 		console.log("Connection to database established.");
-	}	
+
+	} catch (error) {
+		throw new Error("An error occurred while establishing a connection to MongoDB. Please check the connection settings and try again.");
+	}
 }
 
 async function areTagsAvailable() {
-	const tags  = await mongoDBConnector.tags();
-	return await tags.countDocuments() > 0;
+	const tags = await mongoDBConnector.tags();
+	return (await tags.countDocuments()) > 0;
 }
 
 async function addTags() {
@@ -113,11 +122,11 @@ async function addAccessibilityTags() {
 }
 
 async function addTagsToDatabase(tagsData: typeof tagsJSON | typeof accessibilityTagsJSON, logMessage: string) {
-    const db  = await mongoDBConnector.getDatabase();
-    const tags = db.collection('tags');
-    await tags.insertMany(tagsData);
+	const db = await mongoDBConnector.getDatabase();
+	const tags = db.collection("tags");
+	await tags.insertMany(tagsData);
 
-    console.log(logMessage);
+	console.log(logMessage);
 }
 
 async function isAdminUserPresent() {
@@ -132,7 +141,7 @@ async function addAdmin(email: string, password: string) {
 
 async function addUserWithPermission(email: string, password: string, permission: PermissionFlag) {
 	const hashedPassword = await argon2.hash(password);
-	if(validator.isEmail(email)){
+	if (validator.isEmail(email)) {
 		const user = {
 			email: email.toLowerCase(),
 			password: hashedPassword,
@@ -141,7 +150,7 @@ async function addUserWithPermission(email: string, password: string, permission
 		};
 		const users = await mongoDBConnector.users();
 		const result = await users.insertOne(user);
-	
+
 		if (result.acknowledged) {
 			console.log(`User ${user.email} with identifier ${user.identifier} added`);
 		} else {
@@ -157,7 +166,7 @@ async function handleAdminCreation(option: string) {
 		console.log("There is already an admin in the database. Therefore, no new admin can be created.");
 		return;
 	}
-	
+
 	const [mail, password] = option.split(":");
 	await addAdmin(mail, password);
 }
@@ -167,7 +176,7 @@ async function handleTagInsertion() {
 		console.log("There are already tags in the database. Therefore, no new tags can be created.");
 		return;
 	}
-	
+
 	await addTags();
 	await addAccessibilityTags();
 }

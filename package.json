@@ -14,7 +14,7 @@
 		"merge-openapi": "swagger-merger -i ./src/schemas/kulturdaten.berlin.openapi.base.yml -o ./src/schemas/kulturdaten.berlin.openapi.generated.yml",
 		"generate": "tsc && npm run merge-openapi && npm run schema-to-interface",
 		"prepare-build": "tsc && npm run schema-to-interface && npm run merge-openapi && npm run test",
-		"seed": "tsc && node --unhandled-rejections=strict ./dist/seed/Seeder.js"
+		"seed": "tsc && node --unhandled-rejections=strict ./dist/scripts/seeder.js"
 	},
 	"keywords": [
 		"kdb",
