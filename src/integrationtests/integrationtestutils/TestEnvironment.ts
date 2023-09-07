@@ -143,7 +143,7 @@ export class TestEnvironment {
 					});
 				}
 				return done(null, false);
-			})
+			}),
 		);
 		return this;
 	}
@@ -153,7 +153,7 @@ export class TestEnvironment {
 			"authenticated-user",
 			new bearerStrategy.Strategy(async function verify(token, done) {
 				return done(null, false);
-			})
+			}),
 		);
 		return this;
 	}

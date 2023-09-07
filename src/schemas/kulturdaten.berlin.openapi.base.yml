@@ -1478,7 +1478,7 @@ paths:
           application/json:
             schema:
               type: array
-              default: ['22']
+              default: ["22"]
               items:
                 type: string
       security:

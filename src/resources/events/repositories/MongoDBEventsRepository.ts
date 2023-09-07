@@ -104,7 +104,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne(
 			{ identifier: eventId },
-			{ $pull: { locations: { referenceId: locationId } } }
+			{ $pull: { locations: { referenceId: locationId } } },
 		);
 		return result.modifiedCount === 1;
 	}
@@ -117,7 +117,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne(
 			{ identifier: eventId },
-			{ $pull: { attractions: { referenceId: attractionId } } }
+			{ $pull: { attractions: { referenceId: attractionId } } },
 		);
 		return result.modifiedCount === 1;
 	}
@@ -136,7 +136,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne(
 			{ identifier: eventId },
-			{ $set: { schedule: rescheduleEventRequest, scheduleStatus: "event.rescheduled" } }
+			{ $set: { schedule: rescheduleEventRequest, scheduleStatus: "event.rescheduled" } },
 		);
 		return result.modifiedCount === 1;
 	}

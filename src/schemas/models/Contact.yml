@@ -5,4 +5,4 @@ properties:
   email:
     type: string
   telephone:
-    type: string 
+    type: string

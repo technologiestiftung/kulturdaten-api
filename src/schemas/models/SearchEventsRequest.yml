@@ -1,8 +1,7 @@
 type: object
 properties:
   matchMode:
-    type: string
-    enum: [any, all]
+    $ref: "MatchMode.yml"
   searchFilter:
     type: object
     additionalProperties: true
@@ -14,6 +13,15 @@ properties:
         items:
           type: string
       matchMode:
-        $ref: 'MatchMode.yml'
+        $ref: "MatchMode.yml"
+  byLocationAccessibilityTags:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: string
+      matchMode:
+        $ref: "MatchMode.yml"
   inTheFuture:
     type: boolean

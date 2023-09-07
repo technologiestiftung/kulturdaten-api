@@ -257,5 +257,89 @@
 			"registrationType": "registrationType.registrationDesired",
 			"admissionLink": "https://example.com/techexpo-berlin/tickets"
 		}
+	},
+
+	{
+		"type": "type.Event",
+		"identifier": "1337-1234-5678-9012",
+		"metadata": {
+			"created": "2023-02-03T08:00:00Z",
+			"updated": "2023-02-03T10:00:00Z",
+			"origin": "Berlin",
+			"originObjectID": "DFGH-4321-QRST-8765",
+			"availableLanguages": ["de", "en"]
+		},
+		"status": "event.published",
+		"scheduleStatus": "event.scheduled",
+		"schedule": {
+			"startDate": "2023-05-05",
+			"startTime": "20:00",
+			"permanentOpening": false,
+			"doorTime": "19:00",
+			"endDate": "2023-05-05",
+			"endTime": "23:00"
+		},
+		"title": {
+			"de": "Metal Gig 5000",
+			"en": "Metal Gig 5000"
+		},
+		"displayName": {
+			"de": "Metal Gig 5000",
+			"en": "Metal Gig 5000"
+		},
+		"description": {
+			"de": "5000 Bands an einem Abend!",
+			"en": "5000 bands in one night!"
+		},
+		"pleaseNote": {
+			"de": "",
+			"en": ""
+		},
+		"website": "https://example.com/metal-gig-5000",
+		"inLanguages": ["de", "en"],
+		"family": false,
+		"tags": ["konzert"],
+		"locations": [
+			{
+				"referenceType": "Venue",
+				"referenceId": "LOC-BL123",
+				"referenceLabel": {
+					"de": "Blackland",
+					"en": "Blackland"
+				}
+			}
+		],
+		"attractions": [
+			{
+				"referenceType": "type.Attraction",
+				"referenceId": "metal-gig-5000",
+				"referenceLabel": {
+					"de": "Metal Gig 5000",
+					"en": "Metal Gig 5000"
+				}
+			}
+		],
+		"organizer": {
+			"referenceType": "Organization",
+			"referenceId": "ORG-987",
+			"referenceLabel": {
+				"de": "Blackland GmbH",
+				"en": "Blackland GmbH"
+			}
+		},
+		"contact": {
+			"name": "Karina Krawall",
+			"email": "karina.krawall@example.com",
+			"telephone": "+49 30 234235"
+		},
+		"admission": {
+			"note": {
+				"de": "Tickets sind an der Tür erhältlich.",
+				"en": "Tickets are available at the door."
+			},
+			"ticketType": "ticketType.ticketRequired",
+			"registrationType": "registrationType.registrationDesired",
+			"admissionLink": "https://example.com/metal-gig-5000/tickets"
+		}
 	}
 ]

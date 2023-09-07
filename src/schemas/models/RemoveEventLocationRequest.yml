@@ -3,4 +3,4 @@ properties:
   locationIdentifier:
     type: string
 required:
-  - locationIdentifier    
+  - locationIdentifier

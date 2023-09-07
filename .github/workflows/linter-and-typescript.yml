@@ -1,0 +1,24 @@
+name: Linter & TypeScript
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  linter-and-typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Install Dependencies
+        run: npm install
+      - name: Run ESLint
+        run: npm run lint
+      - name: Run TypeScript compiler
+        run: npm run typecheck

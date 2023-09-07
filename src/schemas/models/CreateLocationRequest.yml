@@ -1,13 +1,13 @@
 type: object
 properties:
-  type: 
+  type:
     type: string
     enum:
       - type.Location
-  title: 
+  title:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   displayName:
     type: object
     additionalProperties:
@@ -15,44 +15,40 @@ properties:
   description:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   website:
     type: string
   address:
-    $ref: 'Address.yml'
+    $ref: "Address.yml"
   borough:
-    $ref: 'Borough.yml'
+    $ref: "Borough.yml"
   coordinates:
-    $ref: 'Coordinates.yml'
+    $ref: "Coordinates.yml"
   openingHours:
-    $ref: 'OpeningHours.yml'
+    $ref: "OpeningHours.yml"
   inLanguages:
     type: array
     items:
       type: string
-  accessibility:
-    type: array
-    items:
-      type: string 
   tags:
     type: array
     items:
-      type: string 
+      type: string
   externalLinks:
     type: array
-    items: 
-      $ref: 'ExternalLinks.yml'
+    items:
+      $ref: "ExternalLinks.yml"
   manager:
-    $ref: 'Reference.yml'
+    $ref: "Reference.yml"
   contact:
-    $ref: 'Contact.yml'
+    $ref: "Contact.yml"
   metadata:
     type: object
     properties:
       origin:
         type: string
       originObjectID:
-        type: string  
+        type: string
 required:
   - type
   - title

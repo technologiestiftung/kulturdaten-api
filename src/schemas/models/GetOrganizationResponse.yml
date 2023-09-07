@@ -8,8 +8,8 @@ properties:
     type: object
     properties:
       organization:
-        $ref: 'Organization.yml'
+        $ref: "Organization.yml"
       organizationReference:
-        $ref: 'Reference.yml'
+        $ref: "Reference.yml"
 required:
   - success

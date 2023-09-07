@@ -8,6 +8,6 @@ properties:
     type: object
     properties:
       user:
-        $ref: 'User.yml'
+        $ref: "User.yml"
 required:
   - success

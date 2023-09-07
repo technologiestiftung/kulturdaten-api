@@ -12,7 +12,7 @@ export class HarvesterRoutes {
 	constructor(public districtDataHarvestersController: DistrictDataHarvestersController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router.post(
 			"/",
@@ -21,7 +21,7 @@ export class HarvesterRoutes {
 			(req: express.Request, res: express.Response) => {
 				const calendarIDs = req.body as string[];
 				this.districtDataHarvestersController.harvest(res, calendarIDs);
-			}
+			},
 		);
 
 		return router;

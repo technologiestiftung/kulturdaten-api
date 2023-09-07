@@ -136,5 +136,38 @@
 				"url": "https://www.visitberlin.de/en/berlin-history"
 			}
 		]
+	},
+	{
+		"type": "type.Attraction",
+		"identifier": "metal-gig-5000",
+		"metadata": {
+			"created": "2023-09-05T16:00:00Z",
+			"updated": "2023-09-05T16:20:00Z",
+			"origin": "",
+			"originObjectID": "",
+			"availableLanguages": ["en", "de"]
+		},
+		"status": "attraction.published",
+		"title": {
+			"de": "Metal Gig 5000",
+			"en": "Metal Gig 5000"
+		},
+		"displayName": {
+			"de": "Metal Gig 5000",
+			"en": "Metal Gig 5000"
+		},
+		"description": {
+			"de": "5000 Bands an einem Abend!",
+			"en": "5000 bands in one night!"
+		},
+		"pleaseNote": {
+			"de": "",
+			"en": ""
+		},
+		"website": "https://example.com/metal-gig-5000",
+		"inLanguages": ["en", "de"],
+		"family": true,
+		"tags": ["konzert"],
+		"externalLinks": []
 	}
 ]

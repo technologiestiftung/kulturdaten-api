@@ -1,9 +1,9 @@
 type: object
 properties:
-  title: 
+  title:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   displayName:
     type: object
     additionalProperties:
@@ -11,11 +11,11 @@ properties:
   description:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   pleaseNote:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   website:
     type: string
   inLanguages:
@@ -27,8 +27,8 @@ properties:
   tags:
     type: array
     items:
-      type: string 
+      type: string
   contact:
-    $ref: 'Contact.yml'
+    $ref: "Contact.yml"
   admission:
-    $ref: 'Admission.yml'
+    $ref: "Admission.yml"

@@ -2,9 +2,9 @@ type: object
 properties:
   referenceType:
     type: string
-  referenceId: 
+  referenceId:
     type: string
   referenceLabel:
     type: object
     additionalProperties:
-      type: string 
+      type: string

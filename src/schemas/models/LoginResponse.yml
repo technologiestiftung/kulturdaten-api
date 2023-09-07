@@ -12,6 +12,6 @@ properties:
       expiresIn:
         type: string
       user:
-        $ref: 'User.yml'
+        $ref: "User.yml"
 required:
   - success

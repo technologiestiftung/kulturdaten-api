@@ -22,7 +22,7 @@ export class EventsRoutes {
 	constructor(public eventsController: EventsController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get("/", (req: express.Request, res: express.Response) => {
@@ -41,7 +41,7 @@ export class EventsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const createEventRequest = req.body as CreateEventRequest;
 					this.eventsController.createEvent(res, createEventRequest);
-				}
+				},
 			);
 
 		router.post(
@@ -51,7 +51,7 @@ export class EventsRoutes {
 				const createEventsRequest = req.body as CreateEventRequest[];
 
 				this.eventsController.createEvents(res, createEventsRequest);
-			}
+			},
 		);
 
 		router.post("/search", (req: express.Request, res: express.Response) => {
@@ -78,7 +78,7 @@ export class EventsRoutes {
 					const identifier = req.params.identifier;
 					const updateEventRequest = req.body as UpdateEventRequest;
 					this.eventsController.updateEvent(res, identifier, updateEventRequest);
-				}
+				},
 			);
 
 		router
@@ -89,7 +89,7 @@ export class EventsRoutes {
 					const identifier = req.params.identifier;
 					const addEventLocationRequest = req.body as AddEventLocationRequest;
 					this.eventsController.addEventLocation(res, identifier, addEventLocationRequest);
-				}
+				},
 			)
 			.delete(
 				"/:identifier/locations",
@@ -98,7 +98,7 @@ export class EventsRoutes {
 					const identifier = req.params.identifier;
 					const removeEventLocationRequest = req.body as RemoveEventLocationRequest;
 					this.eventsController.removeEventLocation(res, identifier, removeEventLocationRequest);
-				}
+				},
 			);
 
 		router
@@ -109,7 +109,7 @@ export class EventsRoutes {
 					const identifier = req.params.identifier;
 					const addEventAttractionRequest = req.body as AddEventAttractionRequest;
 					this.eventsController.addEventAttraction(res, identifier, addEventAttractionRequest);
-				}
+				},
 			)
 			.delete(
 				"/:identifier/attractions",
@@ -118,7 +118,7 @@ export class EventsRoutes {
 					const identifier = req.params.identifier;
 					const removeEventAttractionRequest = req.body as RemoveEventAttractionRequest;
 					this.eventsController.removeEventAttraction(res, identifier, removeEventAttractionRequest);
-				}
+				},
 			);
 
 		router
@@ -129,7 +129,7 @@ export class EventsRoutes {
 					const identifier = req.params.identifier;
 					const setEventOrganizerRequest = req.body as SetEventOrganizerRequest;
 					this.eventsController.setEventOrganizer(res, identifier, setEventOrganizerRequest);
-				}
+				},
 			)
 			.delete(
 				"/:identifier/organizer",
@@ -137,7 +137,7 @@ export class EventsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.deleteEventOrganizer(res, identifier);
-				}
+				},
 			);
 
 		router
@@ -147,7 +147,7 @@ export class EventsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.publishEvent(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/unpublish",
@@ -155,7 +155,7 @@ export class EventsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.unpublishEvent(res, identifier);
-				}
+				},
 			);
 
 		router.post(
@@ -165,7 +165,7 @@ export class EventsRoutes {
 				const identifier = req.params.identifier;
 				const rescheduleEventRequest = req.body as RescheduleEventRequest;
 				this.eventsController.rescheduleEvent(res, identifier, rescheduleEventRequest);
-			}
+			},
 		);
 
 		router.post(
@@ -174,7 +174,7 @@ export class EventsRoutes {
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.eventsController.postponeEvent(res, identifier);
-			}
+			},
 		);
 
 		router.post(
@@ -183,7 +183,7 @@ export class EventsRoutes {
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.eventsController.cancelEvent(res, identifier);
-			}
+			},
 		);
 
 		router
@@ -193,7 +193,7 @@ export class EventsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.archiveEvent(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/unarchive",
@@ -201,7 +201,7 @@ export class EventsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.unarchiveEvent(res, identifier);
-				}
+				},
 			);
 
 		router.post(
@@ -210,7 +210,7 @@ export class EventsRoutes {
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.eventsController.duplicateEvent(res, identifier);
-			}
+			},
 		);
 
 		return router;

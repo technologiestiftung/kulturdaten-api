@@ -27,7 +27,7 @@ export class OrganizationsController {
 					totalCount: totalCount,
 					organizations: organizations,
 				})
-				.build()
+				.build(),
 		);
 	}
 
@@ -43,14 +43,14 @@ export class OrganizationsController {
 					totalCount: totalCount,
 					organizationsReferences: organizationsReferences,
 				})
-				.build()
+				.build(),
 		);
 	}
 
 	async searchOrganizations(
 		res: express.Response,
 		searchOrganizationsRequest: SearchOrganizationsRequest,
-		pagination: Pagination
+		pagination: Pagination,
 	) {
 		const filter = searchOrganizationsRequest.searchFilter;
 
@@ -66,7 +66,7 @@ export class OrganizationsController {
 						totalCount: totalCount,
 						organizations: organizations,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res
@@ -105,7 +105,7 @@ export class OrganizationsController {
 			res
 				.status(400)
 				.send(
-					new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build()
+					new ErrorResponseBuilder().badRequestResponse("An organization cannot be created with the data.").build(),
 				);
 		}
 	}
@@ -174,7 +174,7 @@ export class OrganizationsController {
 	async updateOrganization(
 		res: express.Response,
 		identifier: string,
-		updateOrganizationRequest: UpdateOrganizationRequest
+		updateOrganizationRequest: UpdateOrganizationRequest,
 	) {
 		const isUpdated = await this.organizationsService.update(identifier, updateOrganizationRequest);
 		if (isUpdated) {

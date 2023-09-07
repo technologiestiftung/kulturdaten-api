@@ -103,10 +103,12 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return result.modifiedCount === 1;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	deleteLocationManager(identifier: string): Promise<boolean> {
 		throw new Error("Method not implemented.");
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	setLocationManager(identifier: string, reference: Reference): Promise<boolean> {
 		throw new Error("Method not implemented.");
 	}

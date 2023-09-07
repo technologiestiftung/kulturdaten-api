@@ -31,7 +31,7 @@ export class LocationsController {
 						totalCount: totalCount,
 						locations: locations,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
@@ -51,7 +51,7 @@ export class LocationsController {
 						totalCount: totalCount,
 						locationsReferences: locationsReferences,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
@@ -73,7 +73,7 @@ export class LocationsController {
 						totalCount: totalCount,
 						locations: locations,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res
@@ -177,7 +177,7 @@ export class LocationsController {
 	async setLocationManager(
 		res: express.Response,
 		identifier: string,
-		setLocationManagerRequest: SetLocationManagerRequest
+		setLocationManagerRequest: SetLocationManagerRequest,
 	) {
 		const isSet = await this.locationsService.setLocationManager(identifier, setLocationManagerRequest);
 		if (isSet) {

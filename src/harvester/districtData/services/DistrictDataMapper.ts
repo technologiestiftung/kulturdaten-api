@@ -17,7 +17,7 @@ import {
 export class DistrictDataMapper {
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
 		const v: any = veranstaltung;
-		const tags: string[] = this.mapTags(veranstaltung.kategorie_ids, allTags);
+		const tags: string[] = this.mapCategoryTags(veranstaltung.kategorie_ids, allTags);
 
 		return {
 			type: "type.Attraction",
@@ -48,7 +48,7 @@ export class DistrictDataMapper {
 			},
 			...(veranstaltung.event_homepage ? { website: veranstaltung.event_homepage } : {}),
 			inLanguages: ["de", "en", "fr", "ru", "tr"].filter(
-				(lang) => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`]
+				(lang) => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`],
 			),
 			family: veranstaltung.event_ist_gratis === "true" ? true : false, // Annahme: Wenn das Event gratis ist, ist es familienfreundlich
 			tags: tags,
@@ -71,7 +71,7 @@ export class DistrictDataMapper {
 		veranstaltung: Veranstaltung,
 		attractionReference: Reference,
 		locationReference: Reference,
-		organizerReference: Reference
+		organizerReference: Reference,
 	): CreateEventRequest {
 		return {
 			type: "type.Event",
@@ -108,13 +108,13 @@ export class DistrictDataMapper {
 	mapLocation(
 		veranstaltungsort: Veranstaltungsort,
 		barrierefreiheit: Barrierefreiheit,
-		bezirke: Bezirke
+		bezirke: Bezirke,
+		allTags: Tag[],
 	): CreateLocationRequest {
-		const accessibilityDescriptionStrings: string[] | null = veranstaltungsort.barrierefreiheit
-			? Object.keys(veranstaltungsort.barrierefreiheit).map(
-					(barrierefreiheitsId) => barrierefreiheit[barrierefreiheitsId].name
-			  )
-			: null;
+		const accessibilityTags: string[] | undefined = veranstaltungsort.barrierefreiheit
+			? this.mapAccessibilityTags(veranstaltungsort.barrierefreiheit, allTags)
+			: undefined;
+
 		let boroughOfLocation: Borough | null = null;
 		if (veranstaltungsort.bezirk_id && bezirke[veranstaltungsort.bezirk_id].DE) {
 			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
@@ -129,7 +129,7 @@ export class DistrictDataMapper {
 				...(veranstaltungsort.ort && { addressLocality: veranstaltungsort.ort }),
 			},
 			...(veranstaltungsort.telefon && { contact: { telephone: veranstaltungsort.telefon } }),
-			...(accessibilityDescriptionStrings && { accessibility: accessibilityDescriptionStrings }),
+			...(accessibilityTags && { accessibility: accessibilityTags }),
 			...(boroughOfLocation && { borough: boroughOfLocation }),
 			metadata: {
 				origin: "bezirkskalender",
@@ -138,12 +138,22 @@ export class DistrictDataMapper {
 		};
 	}
 
-	mapTags(kategorie_ids: { [categoryId: string]: string }, tags: Tag[]): string[] {
+	mapCategoryTags(kategorie_ids: { [categoryId: string]: string }, tags: Tag[]): string[] {
 		return tags
 			.filter((tag) =>
 				tag?.metadata?.externalIDs?.bezirkskalender
 					? Object.keys(kategorie_ids).includes(tag.metadata.externalIDs.bezirkskalender)
-					: false
+					: false,
+			)
+			.map((tag) => tag.identifier);
+	}
+
+	mapAccessibilityTags(barrierefreiheit_ids: { [key: string]: number }, tags: Tag[]): string[] {
+		return tags
+			.filter((tag) =>
+				tag?.metadata?.externalIDs?.bezirkskalenderBarrierefreiheit
+					? Object.keys(barrierefreiheit_ids).includes(tag.metadata.externalIDs.bezirkskalenderBarrierefreiheit)
+					: false,
 			)
 			.map((tag) => tag.identifier);
 	}

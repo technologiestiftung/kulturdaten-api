@@ -2,14 +2,14 @@ type: object
 required:
   - identifier
 properties:
-  type: 
+  type:
     type: string
     enum:
       - type.Event
   identifier:
     type: string
   metadata:
-    $ref: 'Metadata.yml'
+    $ref: "Metadata.yml"
   status:
     type: string
     enum:
@@ -24,11 +24,11 @@ properties:
       - event.rescheduled
       - event.scheduled
   schedule:
-    $ref: 'Schedule.yml'
-  title: 
+    $ref: "Schedule.yml"
+  title:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   displayName:
     type: object
     additionalProperties:
@@ -36,11 +36,11 @@ properties:
   description:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   pleaseNote:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   website:
     type: string
   inLanguages:
@@ -52,18 +52,18 @@ properties:
   tags:
     type: array
     items:
-      type: string 
+      type: string
   locations:
     type: array
     items:
-      $ref: 'Reference.yml'
+      $ref: "Reference.yml"
   attractions:
     type: array
     items:
-      $ref: 'Reference.yml'
+      $ref: "Reference.yml"
   organizer:
-    $ref: 'Reference.yml'
+    $ref: "Reference.yml"
   contact:
-    $ref: 'Contact.yml'
+    $ref: "Contact.yml"
   admission:
-    $ref: 'Admission.yml'
+    $ref: "Admission.yml"

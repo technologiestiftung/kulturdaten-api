@@ -1,8 +1,8 @@
 type: object
 properties:
-  attractionIdentifier: 
+  attractionIdentifier:
     type: string
   alternativeDisplayName:
     type: object
     additionalProperties:
-      type: string 
+      type: string

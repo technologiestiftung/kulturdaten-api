@@ -22,7 +22,7 @@ export class TagsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const createTagRequest = req.body as CreateTagRequest;
 					this.tagsController.createTag(res, createTagRequest);
-				}
+				},
 			);
 
 		router.get("/organizations", (req: express.Request, res: express.Response) => {

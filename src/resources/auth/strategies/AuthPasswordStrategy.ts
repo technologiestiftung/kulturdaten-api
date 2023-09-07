@@ -14,7 +14,7 @@ export class AuthPasswordStrategy {
 			this.strategy = new localStrategy.Strategy({ usernameField: "email" }, async function verify(
 				username,
 				password,
-				done
+				done,
 			) {
 				try {
 					const user: any = await usersService.getUserByEmailWithPassword(username);

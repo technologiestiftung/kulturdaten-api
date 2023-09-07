@@ -4,7 +4,7 @@ properties:
     type: string
   longitude:
     type: string
-  coordinateSystem: 
+  coordinateSystem:
     type: string
-    enum: 
-    - WGS84 (Decimal Degrees)
+    enum:
+      - WGS84 (Decimal Degrees)

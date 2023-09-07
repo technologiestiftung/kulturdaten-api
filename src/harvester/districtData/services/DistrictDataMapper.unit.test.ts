@@ -20,7 +20,7 @@ describe("DistrictDataMapper", () => {
 
 			const kategorie_ids = veranstaltung.kategorie_ids;
 
-			const resultTags = mapper.mapTags(kategorie_ids, allTags);
+			const resultTags = mapper.mapCategoryTags(kategorie_ids, allTags);
 
 			expect(resultTags).toEqual(["attraction.category.WeeklyMarkets"]);
 		});
@@ -98,7 +98,7 @@ describe("DistrictDataMapper", () => {
 				veranstaltung,
 				{ referenceId: "a_1" },
 				{ referenceId: "l_1" },
-				{ referenceId: "o_1" }
+				{ referenceId: "o_1" },
 			);
 
 			expect(result).toEqual(expectedResult);
@@ -112,7 +112,7 @@ describe("DistrictDataMapper", () => {
 				veranstaltung,
 				{ referenceId: "a_1" },
 				{ referenceId: "l_1" },
-				{ referenceId: "o_1" }
+				{ referenceId: "o_1" },
 			);
 
 			const { isValid } = validateCreateEventRequest(result);

@@ -18,7 +18,7 @@ export class LocationsRoutes {
 	constructor(public locationsController: LocationsController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get("/", (req: express.Request, res: express.Response) => {
@@ -37,7 +37,7 @@ export class LocationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const createLocationRequest = req.body as CreateLocationRequest;
 					this.locationsController.createLocation(res, createLocationRequest);
-				}
+				},
 			);
 
 		router.post(
@@ -47,7 +47,7 @@ export class LocationsRoutes {
 				const createLocationsRequest = req.body as CreateLocationRequest[];
 
 				this.locationsController.createLocations(res, createLocationsRequest);
-			}
+			},
 		);
 
 		router.post("/search", (req: express.Request, res: express.Response) => {
@@ -74,7 +74,7 @@ export class LocationsRoutes {
 					const identifier = req.params.identifier;
 					const updateLocationRequest = req.body as UpdateLocationRequest;
 					this.locationsController.updateLocation(res, identifier, updateLocationRequest);
-				}
+				},
 			);
 
 		router
@@ -85,7 +85,7 @@ export class LocationsRoutes {
 					const identifier = req.params.identifier;
 					const setLocationManagerRequest = req.body as SetLocationManagerRequest;
 					this.locationsController.setLocationManager(res, identifier, setLocationManagerRequest);
-				}
+				},
 			)
 			.delete(
 				"/:identifier/manager",
@@ -93,7 +93,7 @@ export class LocationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.deleteLocationManager(res, identifier);
-				}
+				},
 			);
 
 		router
@@ -103,7 +103,7 @@ export class LocationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.openLocation(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/close",
@@ -111,7 +111,7 @@ export class LocationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.closeLocation(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/permanentlyClose",
@@ -119,7 +119,7 @@ export class LocationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.permanentlyCloseLocation(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/archive",
@@ -127,7 +127,7 @@ export class LocationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.archiveLocation(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/unarchive",
@@ -135,7 +135,7 @@ export class LocationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.unarchiveLocation(res, identifier);
-				}
+				},
 			);
 
 		router.post(
@@ -145,7 +145,7 @@ export class LocationsRoutes {
 				const identifier = req.params.identifier;
 				const claimLocationRequest = req.body as ClaimLocationRequest;
 				this.locationsController.claimLocation(res, identifier, claimLocationRequest);
-			}
+			},
 		);
 
 		return router;
