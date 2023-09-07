@@ -87,7 +87,14 @@ Text and content available as [CC BY](https://creativecommons.org/licenses/by/3.
       Made by <a href="https://www.technologiestiftung-berlin.de/">
         <br />
         <br />
-        <img width="150" src="https://citylab-berlin.org/wp-content/uploads/2021/05/tsb.svg" />
+        <img width="150" src="https://logos.citylab-berlin.org/logo-tsb-outline.svg" />
+      </a>
+    </td>
+    <td>
+      Supported by: <a src="https://www.berlin.de/sen/kultur/en/">
+        <br />
+        <br />
+        <img width="120" src="https://logos.citylab-berlin.org/logo-berlin-senkueu-en.svg" />
       </a>
     </td>
   </tr>
