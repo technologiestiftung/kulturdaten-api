@@ -69,7 +69,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		return attractions.findOne(
 			{ identifier: attractionId },
-			{ projection: getAttractionReferenceProjection() }
+			{ projection: getAttractionReferenceProjection() },
 		) as Reference;
 	}
 
@@ -105,7 +105,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne(
 			{ identifier: attractionId },
-			{ $push: { externalLinks: externalLink } }
+			{ $push: { externalLinks: externalLink } },
 		);
 		return result.modifiedCount === 1;
 	}
@@ -114,7 +114,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne(
 			{ identifier: attractionId },
-			{ $pull: { externalLinks: { url: externalLink } } }
+			{ $pull: { externalLinks: { url: externalLink } } },
 		);
 		return result.modifiedCount === 1;
 	}

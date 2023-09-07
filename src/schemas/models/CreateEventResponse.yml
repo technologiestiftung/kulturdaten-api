@@ -9,7 +9,7 @@ properties:
   data:
     type: object
     properties:
-      eventReference: 
-        $ref: 'Reference.yml'
+      eventReference:
+        $ref: "Reference.yml"
 required:
   - success

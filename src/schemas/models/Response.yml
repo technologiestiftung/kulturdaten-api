@@ -7,6 +7,6 @@ properties:
   data:
     type: object
   error:
-    $ref: 'Error.yml'
+    $ref: "Error.yml"
 required:
   - success

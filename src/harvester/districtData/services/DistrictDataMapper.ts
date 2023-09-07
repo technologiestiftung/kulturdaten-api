@@ -48,7 +48,7 @@ export class DistrictDataMapper {
 			},
 			...(veranstaltung.event_homepage ? { website: veranstaltung.event_homepage } : {}),
 			inLanguages: ["de", "en", "fr", "ru", "tr"].filter(
-				(lang) => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`]
+				(lang) => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`],
 			),
 			family: veranstaltung.event_ist_gratis === "true" ? true : false, // Annahme: Wenn das Event gratis ist, ist es familienfreundlich
 			tags: tags,
@@ -71,7 +71,7 @@ export class DistrictDataMapper {
 		veranstaltung: Veranstaltung,
 		attractionReference: Reference,
 		locationReference: Reference,
-		organizerReference: Reference
+		organizerReference: Reference,
 	): CreateEventRequest {
 		return {
 			type: "type.Event",
@@ -108,11 +108,11 @@ export class DistrictDataMapper {
 	mapLocation(
 		veranstaltungsort: Veranstaltungsort,
 		barrierefreiheit: Barrierefreiheit,
-		bezirke: Bezirke
+		bezirke: Bezirke,
 	): CreateLocationRequest {
 		const accessibilityDescriptionStrings: string[] | null = veranstaltungsort.barrierefreiheit
 			? Object.keys(veranstaltungsort.barrierefreiheit).map(
-					(barrierefreiheitsId) => barrierefreiheit[barrierefreiheitsId].name
+					(barrierefreiheitsId) => barrierefreiheit[barrierefreiheitsId].name,
 			  )
 			: null;
 		let boroughOfLocation: Borough | null = null;
@@ -143,7 +143,7 @@ export class DistrictDataMapper {
 			.filter((tag) =>
 				tag?.metadata?.externalIDs?.bezirkskalender
 					? Object.keys(kategorie_ids).includes(tag.metadata.externalIDs.bezirkskalender)
-					: false
+					: false,
 			)
 			.map((tag) => tag.identifier);
 	}

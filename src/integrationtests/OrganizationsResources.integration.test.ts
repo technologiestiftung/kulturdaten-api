@@ -50,7 +50,7 @@ describe("Create organizations", () => {
 
 		const newOrganizationID = body.data.organizationReference.referenceId;
 		expect(newOrganizationID).toMatch(ORGANIZATION_IDENTIFIER_REG_EX);
-		let loc = await env.organizations.findOne({ identifier: newOrganizationID });
+		const loc = await env.organizations.findOne({ identifier: newOrganizationID });
 
 		expect(loc?.title.de).toBe("New Organization");
 	});
@@ -93,7 +93,7 @@ describe("Read organizations", () => {
 
 	it("should return a single organization / GET /organizations/existID", async () => {
 		const { body, statusCode } = await request(env.app).get(
-			env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123"
+			env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123",
 		);
 
 		expect(statusCode).toBe(200);
@@ -113,7 +113,7 @@ describe("Update organizations", () => {
 	});
 
 	it("should update the name of a organization / PATCH /organizations/existID", async () => {
-		const { body, statusCode } = await request(env.app)
+		const { statusCode } = await request(env.app)
 			.patch(env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
@@ -121,7 +121,7 @@ describe("Update organizations", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		let loc = await env.organizations.findOne({ identifier: "temporal-cultural-exchange-45123" });
+		const loc = await env.organizations.findOne({ identifier: "temporal-cultural-exchange-45123" });
 		expect(loc?.title.de).toBe("Neuer Name");
 	});
 

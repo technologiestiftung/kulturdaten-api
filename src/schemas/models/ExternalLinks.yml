@@ -1,10 +1,10 @@
 type: array
-items: 
+items:
   type: object
   properties:
-    displayName: 
+    displayName:
       type: string
     url:
       type: string
   required:
-    - url    
+    - url

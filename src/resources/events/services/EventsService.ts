@@ -32,7 +32,7 @@ export class EventsService {
 
 	async search(
 		searchEventsRequest: SearchEventsRequest,
-		pagination?: Pagination
+		pagination?: Pagination,
 	): Promise<{ events: Event[]; pagination?: Pagination; totalCount: number }> {
 		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
@@ -93,7 +93,8 @@ export class EventsService {
 		return this.eventsRepository.addEvent(resource);
 	}
 
-	duplicate(identifier: string): Promise<String> | null {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	duplicate(identifier: string): Promise<string> | null {
 		throw new Error("Method not implemented.");
 	}
 
@@ -133,7 +134,7 @@ export class EventsService {
 
 	removeEventAttraction(
 		identifier: string,
-		removeEventAttractionRequest: RemoveEventAttractionRequest
+		removeEventAttractionRequest: RemoveEventAttractionRequest,
 	): Promise<boolean> {
 		return this.eventsRepository.removeEventAttraction(identifier, removeEventAttractionRequest.attractionIdentifier);
 	}

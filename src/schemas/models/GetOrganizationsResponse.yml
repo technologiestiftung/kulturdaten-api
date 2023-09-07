@@ -7,7 +7,7 @@ properties:
   data:
     type: object
     properties:
-      page: 
+      page:
         type: number
       pageSize:
         type: number
@@ -16,10 +16,10 @@ properties:
       organizations:
         type: array
         items:
-          $ref: 'Organization.yml'
+          $ref: "Organization.yml"
       organizationsReferences:
         type: array
         items:
-          $ref: 'Reference.yml'
+          $ref: "Reference.yml"
 required:
   - success

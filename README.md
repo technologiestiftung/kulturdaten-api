@@ -1,7 +1,9 @@
 ![](https://img.shields.io/badge/Built%20with%20%E2%9D%A4%EF%B8%8F-at%20Technologiestiftung%20Berlin-blue)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # Kulturdaten.berlin
@@ -37,9 +39,26 @@ npm run debug
 
 tbd...
 
+## More commands
+
+```shell
+# Format all code with Prettier
+npm run format
+
+# Lint all code with ESLint
+npm run lint
+
+# Run the TypeScript compiler to find any TypeScript errors
+npm run typecheck
+```
+
 ## Tests
 
-tbd...
+Run all tests with Jest:
+
+```shell
+npm test
+```
 
 ## Production Build
 

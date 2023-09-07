@@ -13,7 +13,7 @@ export class OrganizationsRoutes {
 	constructor(public organizationsController: OrganizationsController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get("/", (req: express.Request, res: express.Response) => {
@@ -32,7 +32,7 @@ export class OrganizationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const createOrganizationRequest = req.body as CreateOrganizationRequest;
 					this.organizationsController.createOrganization(res, createOrganizationRequest);
-				}
+				},
 			);
 
 		router.post(
@@ -42,7 +42,7 @@ export class OrganizationsRoutes {
 				const createOrganizationsRequest = req.body as CreateOrganizationRequest[];
 
 				this.organizationsController.createOrganizations(res, createOrganizationsRequest);
-			}
+			},
 		);
 
 		router.post("/search", (req: express.Request, res: express.Response) => {
@@ -69,7 +69,7 @@ export class OrganizationsRoutes {
 					const identifier = req.params.identifier;
 					const updateOrganizationRequest = req.body as UpdateOrganizationRequest;
 					this.organizationsController.updateOrganization(res, identifier, updateOrganizationRequest);
-				}
+				},
 			);
 
 		router
@@ -79,7 +79,7 @@ export class OrganizationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.activateOrganization(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/deactivate",
@@ -87,7 +87,7 @@ export class OrganizationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.deactivateOrganization(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/retire",
@@ -95,7 +95,7 @@ export class OrganizationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.retireOrganization(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/archive",
@@ -103,7 +103,7 @@ export class OrganizationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.archiveOrganization(res, identifier);
-				}
+				},
 			)
 			.post(
 				"/:identifier/unarchive",
@@ -111,7 +111,7 @@ export class OrganizationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.unarchiveOrganization(res, identifier);
-				}
+				},
 			);
 
 		return router;

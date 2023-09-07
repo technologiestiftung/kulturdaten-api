@@ -2,24 +2,24 @@ type: object
 required:
   - identifier
 properties:
-  type: 
+  type:
     type: string
     enum:
       - type.Attraction
   identifier:
     type: string
   metadata:
-    $ref: 'Metadata.yml'
+    $ref: "Metadata.yml"
   status:
     type: string
     enum:
       - attraction.published
       - attraction.unpublished
       - attraction.archived
-  title: 
+  title:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   displayName:
     type: object
     additionalProperties:
@@ -27,11 +27,11 @@ properties:
   description:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   pleaseNote:
     type: object
     additionalProperties:
-      type: string 
+      type: string
   website:
     type: string
   inLanguages:
@@ -43,6 +43,6 @@ properties:
   tags:
     type: array
     items:
-      type: string 
+      type: string
   externalLinks:
-    $ref: 'ExternalLinks.yml'
+    $ref: "ExternalLinks.yml"

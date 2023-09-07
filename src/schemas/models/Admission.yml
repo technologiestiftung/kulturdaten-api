@@ -4,16 +4,16 @@ properties:
     type: object
     additionalProperties:
       type: string
-  ticketType: 
+  ticketType:
     type: string
     enum:
       - ticketType.ticketRequired
       - ticketType.freeOfCharge
   registrationType:
     type: string
-    enum: 
+    enum:
       - registrationType.registrationRequired
       - registrationType.noRegistrationRequired
       - registrationType.registrationDesired
-  admissionLink: 
-    type: string 
+  admissionLink:
+    type: string

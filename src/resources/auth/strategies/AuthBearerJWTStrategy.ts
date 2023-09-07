@@ -5,8 +5,7 @@ import * as bearerStrategy from "passport-http-bearer";
 
 const log: debug.IDebugger = debug("app:auth-passport-strategy");
 
-// @ts-expect-error
-let jwtSecret: string = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET!;
 
 export class AuthBearerJWTStrategy {
 	static strategy: Strategy;

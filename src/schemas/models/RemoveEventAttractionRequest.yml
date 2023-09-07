@@ -3,4 +3,4 @@ properties:
   attractionIdentifier:
     type: string
 required:
-  - attractionIdentifier    
+  - attractionIdentifier

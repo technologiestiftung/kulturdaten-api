@@ -28,7 +28,7 @@ export class UsersController {
 						totalCount: totalCount,
 						users: users,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Users not found").build());
@@ -75,9 +75,11 @@ export class UsersController {
 	}
 
 	updateUserPassword(
+		/* eslint-disable @typescript-eslint/no-unused-vars */
 		res: express.Response<any, Record<string, any>>,
 		identifier: string,
-		updatePasswordRequest: UpdateUserPasswordRequest
+		updatePasswordRequest: UpdateUserPasswordRequest,
+		/* eslint-enable @typescript-eslint/no-unused-vars */
 	) {
 		throw new Error("Method not implemented.");
 	}

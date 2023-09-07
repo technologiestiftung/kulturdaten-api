@@ -29,7 +29,7 @@ export class AttractionsController {
 					totalCount: totalCount,
 					attractions: attractions,
 				})
-				.build()
+				.build(),
 		);
 	}
 
@@ -45,14 +45,14 @@ export class AttractionsController {
 					totalCount: totalCount,
 					attractionsReferences: attractionsReferences,
 				})
-				.build()
+				.build(),
 		);
 	}
 
 	public async searchAttractions(
 		res: Response,
 		searchAttractionsRequest: SearchAttractionsRequest,
-		pagination: Pagination
+		pagination: Pagination,
 	) {
 		const filter = searchAttractionsRequest.searchFilter;
 
@@ -68,7 +68,7 @@ export class AttractionsController {
 						totalCount: totalCount,
 						attractions: attractions,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res
@@ -85,7 +85,7 @@ export class AttractionsController {
 				.send(
 					new SuccessResponseBuilder<CreateAttractionResponse>()
 						.okResponse({ attractionReference: attractionReference })
-						.build()
+						.build(),
 				);
 		} else {
 			res
@@ -123,7 +123,7 @@ export class AttractionsController {
 				.send(
 					new SuccessResponseBuilder<GetAttractionResponse>()
 						.okResponse({ attractionReference: attractionReference })
-						.build()
+						.build(),
 				);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
@@ -133,7 +133,7 @@ export class AttractionsController {
 	public async updateAttraction(
 		res: Response,
 		identifier: string,
-		updateAttractionRequest: UpdateAttractionRequest
+		updateAttractionRequest: UpdateAttractionRequest,
 	): Promise<void> {
 		const isUpdated = await this.attractionsService.update(identifier, updateAttractionRequest);
 		if (isUpdated) {
@@ -146,7 +146,7 @@ export class AttractionsController {
 	public async addExternalLink(
 		res: Response,
 		identifier: string,
-		addExternalLinkRequest: AddExternalLinkRequest
+		addExternalLinkRequest: AddExternalLinkRequest,
 	): Promise<void> {
 		const isAdded = await this.attractionsService.addExternalLink(identifier, addExternalLinkRequest);
 		if (isAdded) {
@@ -161,7 +161,7 @@ export class AttractionsController {
 	public async removeExternalLink(
 		res: Response,
 		identifier: string,
-		removeExternalLinkRequest: RemoveExternalLinkRequest
+		removeExternalLinkRequest: RemoveExternalLinkRequest,
 	): Promise<void> {
 		const isRemoved = await this.attractionsService.removeExternalLink(identifier, removeExternalLinkRequest);
 		if (isRemoved) {
@@ -170,7 +170,7 @@ export class AttractionsController {
 			res
 				.status(400)
 				.send(
-					new ErrorResponseBuilder().badRequestResponse("Failed to remove external link from the attraction").build()
+					new ErrorResponseBuilder().badRequestResponse("Failed to remove external link from the attraction").build(),
 				);
 		}
 	}

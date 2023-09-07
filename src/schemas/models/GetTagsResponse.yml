@@ -10,6 +10,6 @@ properties:
       tags:
         type: array
         items:
-          $ref: 'Tag.yml'
+          $ref: "Tag.yml"
 required:
   - success

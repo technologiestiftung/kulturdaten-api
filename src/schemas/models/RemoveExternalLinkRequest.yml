@@ -3,4 +3,4 @@ properties:
   url:
     type: string
 required:
-  - url    
+  - url

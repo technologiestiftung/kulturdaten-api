@@ -7,10 +7,9 @@ import { LoginResponse } from "../../../generated/models/LoginResponse.generated
 
 const log: debug.IDebugger = debug("app:auth-controller");
 
-// @ts-expect-error
-let jwtSecret: string = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET!;
 
-let authTokenExpiresIn = process.env.AUTH_TOKEN_EXPIRES_IN || "1m";
+const authTokenExpiresIn = process.env.AUTH_TOKEN_EXPIRES_IN || "1m";
 
 @Service()
 export class AuthController {
@@ -24,7 +23,7 @@ export class AuthController {
 				.send(
 					new SuccessResponseBuilder<LoginResponse>()
 						.okResponse({ accessToken: token, expiresIn: authTokenExpiresIn })
-						.build()
+						.build(),
 				);
 		} else {
 			return res.status(400).send();

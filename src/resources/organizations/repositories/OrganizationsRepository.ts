@@ -29,7 +29,7 @@ export interface OrganizationsRepository {
 
 	updateOrganizationActivationStatusById(
 		identifier: string,
-		activationStatus: Organization["activationStatus"]
+		activationStatus: Organization["activationStatus"],
 	): Promise<boolean>;
 
 	updateOrganizationStatusById(identifier: string, status: Organization["status"]): Promise<boolean>;

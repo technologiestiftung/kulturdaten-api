@@ -50,7 +50,7 @@ describe("Create locations", () => {
 
 		const newLocationID = body.data.locationReference.referenceId;
 		expect(newLocationID).toMatch(LOCATION_IDENTIFIER_REG_EX);
-		let loc = await env.locations.findOne({ identifier: newLocationID });
+		const loc = await env.locations.findOne({ identifier: newLocationID });
 
 		expect(loc?.title.de).toBe("New Location");
 	});
@@ -111,7 +111,7 @@ describe("Update locations", () => {
 	});
 
 	it("should update the name of a location / PATCH /locations/existID", async () => {
-		const { body, statusCode } = await request(env.app)
+		const { statusCode } = await request(env.app)
 			.patch(env.LOCATIONS_ROUTE + "/LOC-12345678")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
@@ -119,7 +119,7 @@ describe("Update locations", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		let loc = await env.locations.findOne({ identifier: "LOC-12345678" });
+		const loc = await env.locations.findOne({ identifier: "LOC-12345678" });
 		expect(loc?.title.de).toBe("Neuer Name");
 	});
 

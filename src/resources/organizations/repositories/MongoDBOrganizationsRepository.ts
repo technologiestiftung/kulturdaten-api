@@ -55,7 +55,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const organizations = await this.dbConnector.organizations();
 		return organizations.findOne(
 			{ identifier: identifier },
-			{ projection: getOrganizationReferenceProjection() }
+			{ projection: getOrganizationReferenceProjection() },
 		) as Reference;
 	}
 
@@ -78,7 +78,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async updateOrganizationById(
 		organizationId: string,
-		organizationFields: UpdateOrganizationRequest
+		organizationFields: UpdateOrganizationRequest,
 	): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
 
@@ -88,12 +88,12 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async updateOrganizationActivationStatusById(
 		identifier: string,
-		activationStatus: Organization["activationStatus"]
+		activationStatus: Organization["activationStatus"],
 	): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.updateOne(
 			{ identifier: identifier },
-			{ $set: { activationStatus: activationStatus } }
+			{ $set: { activationStatus: activationStatus } },
 		);
 		return result.modifiedCount === 1;
 	}

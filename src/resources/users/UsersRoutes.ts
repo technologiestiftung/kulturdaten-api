@@ -16,10 +16,13 @@ const log: debug.IDebugger = debug("app:users-routes");
 
 @Service()
 export class UsersRoutes {
-	constructor(public usersController: UsersController, public usersService: UsersService) {}
+	constructor(
+		public usersController: UsersController,
+		public usersService: UsersService,
+	) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router
 			.get(
@@ -30,7 +33,7 @@ export class UsersRoutes {
 					const pagination: Pagination = getPagination(req);
 
 					this.usersController.listUsers(res, pagination);
-				}
+				},
 			)
 			.post(
 				"/",
@@ -40,7 +43,7 @@ export class UsersRoutes {
 				(req: express.Request, res: express.Response) => {
 					const createUser = req.body as CreateUserRequest;
 					this.usersController.createUser(res, createUser);
-				}
+				},
 			);
 
 		router
@@ -51,7 +54,7 @@ export class UsersRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.usersController.getUserById(res, identifier);
-				}
+				},
 			)
 			.delete(
 				"/:identifier",
@@ -60,7 +63,7 @@ export class UsersRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.usersController.removeUser(res, identifier);
-				}
+				},
 			)
 			.patch(
 				"/:identifier",
@@ -71,7 +74,7 @@ export class UsersRoutes {
 					const identifier = req.params.identifier;
 					const patchUser = req.body as UpdateUserRequest;
 					this.usersController.patch(res, identifier, patchUser);
-				}
+				},
 			);
 
 		router.patch("/:identifier/updatePassword", (req: express.Request, res: express.Response) => {

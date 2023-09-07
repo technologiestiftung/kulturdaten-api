@@ -33,7 +33,7 @@ export class EventsController {
 					totalCount: totalCount,
 					events: events,
 				})
-				.build()
+				.build(),
 		);
 	}
 
@@ -48,7 +48,7 @@ export class EventsController {
 					totalCount: totalCount,
 					eventsReferences: eventsReferences,
 				})
-				.build()
+				.build(),
 		);
 	}
 
@@ -67,7 +67,7 @@ export class EventsController {
 						totalCount: totalCount,
 						events: events,
 					})
-					.build()
+					.build(),
 			);
 		} else {
 			res
@@ -147,7 +147,7 @@ export class EventsController {
 	async removeEventLocation(
 		res: express.Response,
 		identifier: string,
-		removeEventLocationRequest: RemoveEventLocationRequest
+		removeEventLocationRequest: RemoveEventLocationRequest,
 	) {
 		const isRemoved = await this.eventsService.removeEventLocation(identifier, removeEventLocationRequest);
 		if (isRemoved) {
@@ -162,7 +162,7 @@ export class EventsController {
 	async addEventAttraction(
 		res: express.Response,
 		identifier: string,
-		addEventAttractionRequest: AddEventAttractionRequest
+		addEventAttractionRequest: AddEventAttractionRequest,
 	) {
 		const isAdded = await this.eventsService.addEventAttraction(identifier, addEventAttractionRequest);
 		if (isAdded) {
@@ -177,7 +177,7 @@ export class EventsController {
 	async removeEventAttraction(
 		res: express.Response,
 		identifier: string,
-		removeEventAttractionRequest: RemoveEventAttractionRequest
+		removeEventAttractionRequest: RemoveEventAttractionRequest,
 	) {
 		const isRemoved = await this.eventsService.removeEventAttraction(identifier, removeEventAttractionRequest);
 		if (isRemoved) {
@@ -192,7 +192,7 @@ export class EventsController {
 	async setEventOrganizer(
 		res: express.Response,
 		identifier: string,
-		setEventOrganizerRequest: SetEventOrganizerRequest
+		setEventOrganizerRequest: SetEventOrganizerRequest,
 	) {
 		const isSet = await this.eventsService.setEventOrganizer(identifier, setEventOrganizerRequest);
 		if (isSet) {
@@ -272,7 +272,7 @@ export class EventsController {
 	public async rescheduleEvent(
 		res: express.Response,
 		identifier: string,
-		rescheduleEventRequest: RescheduleEventRequest
+		rescheduleEventRequest: RescheduleEventRequest,
 	): Promise<void> {
 		const isRescheduled = await this.eventsService.reschedule(identifier, rescheduleEventRequest);
 		if (isRescheduled) {

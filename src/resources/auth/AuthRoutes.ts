@@ -11,14 +11,14 @@ export class AuthRoutes {
 	constructor(public authController: AuthController) {}
 
 	public getRouter(): Router {
-		let router = express.Router();
+		const router = express.Router();
 
 		router.post(
 			"/login",
 			passport.authenticate("password", { session: false }),
 			(req: express.Request, res: express.Response) => {
 				this.authController.createAuthToken(req, res);
-			}
+			},
 		);
 
 		return router;
