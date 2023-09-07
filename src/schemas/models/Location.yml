@@ -51,7 +51,7 @@ properties:
   tags:
     type: array
     items:
-      type: string 
+      type: string
   accessibility:
     type: array
     items:
