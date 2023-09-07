@@ -1,364 +1,362 @@
-{
-	"tags": [
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.InformationEvents",
-			"title": {
-				"de": "Infoveranstaltungen",
-				"en": "Information Events",
-				"fr": "Événements d'information",
-				"es": "Eventos de información",
-				"it": "Eventi informativi",
-				"uk": "Інформаційні заходи",
-				"ru": "Информационные мероприятия"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "121"
-				}
-			}
+[
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.InformationEvents",
+		"title": {
+			"de": "Infoveranstaltungen",
+			"en": "Information Events",
+			"fr": "Événements d'information",
+			"es": "Eventos de información",
+			"it": "Eventi informativi",
+			"uk": "Інформаційні заходи",
+			"ru": "Информационные мероприятия"
 		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Conferences",
-			"title": {
-				"de": "Konferenzen, Messen",
-				"en": "Conferences, Trade Shows",
-				"fr": "Conférences, Salons",
-				"es": "Conferencias, Ferias",
-				"it": "Conferenze, Mostre",
-				"uk": "Конференції, Виставки",
-				"ru": "Конференции, Выставки"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "120"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Education",
-			"title": {
-				"de": "Bildung, Schule",
-				"en": "Education, School",
-				"fr": "Éducation, École",
-				"es": "Educación, Escuela",
-				"it": "Educazione, Scuola",
-				"uk": "Освіта, Школа",
-				"ru": "Образование, Школа"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "118"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Art",
-			"title": {
-				"de": "Kunst, Kultur",
-				"en": "Art, Culture",
-				"fr": "Art, Culture",
-				"es": "Arte, Cultura",
-				"it": "Arte, Cultura",
-				"uk": "Мистецтво, Культура",
-				"ru": "Искусство, Культура"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "180"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Police",
-			"title": {
-				"de": "Polizei",
-				"en": "Police",
-				"fr": "Police",
-				"es": "Policía",
-				"it": "Polizia",
-				"uk": "Поліція",
-				"ru": "Полиция"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "94"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Exhibitions",
-			"title": {
-				"de": "Ausstellungen",
-				"en": "Exhibitions",
-				"fr": "Expositions",
-				"es": "Exposiciones",
-				"it": "Esposizioni",
-				"uk": "Виставки",
-				"ru": "Выставки"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "1"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Stages",
-			"title": {
-				"de": "Bühnen, Filme",
-				"en": "Stages, Movies",
-				"fr": "Scènes, Films",
-				"es": "Escenarios, Películas",
-				"it": "Palcoscenici, Film",
-				"uk": "Сцени, Фільми",
-				"ru": "Сцены, Фильмы"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "10"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Festivals",
-			"title": {
-				"de": "Feste, Events",
-				"en": "Festivals, Events",
-				"fr": "Fêtes, Événements",
-				"es": "Festivales, Eventos",
-				"it": "Feste, Eventi",
-				"uk": "Свята, Події",
-				"ru": "Праздники, События"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "2"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Women",
-			"title": {
-				"de": "Frauen",
-				"en": "Women",
-				"fr": "Femmes",
-				"es": "Mujeres",
-				"it": "Donne",
-				"uk": "Жінки",
-				"ru": "Женщины"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "17"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Health",
-			"title": {
-				"de": "Gesundheit, Umwelt",
-				"en": "Health, Environment",
-				"fr": "Santé, Environnement",
-				"es": "Salud, Medio Ambiente",
-				"it": "Salute, Ambiente",
-				"uk": "Здоров'я, Довкілля",
-				"ru": "Здоровье, Окружающая среда"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "19"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Children",
-			"title": {
-				"de": "Kinder, Jugendliche",
-				"en": "Children, Adolescents",
-				"fr": "Enfants, Adolescents",
-				"es": "Niños, Adolescentes",
-				"it": "Bambini, Adolescenti",
-				"uk": "Діти, Підлітки",
-				"ru": "Дети, Подростки"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "3"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Lectures",
-			"title": {
-				"de": "Lesungen, Vorträge",
-				"en": "Readings, Lectures",
-				"fr": "Lectures, Conférences",
-				"es": "Lecturas, Charlas",
-				"it": "Letture, Conferenze",
-				"uk": "Читання, Лекції",
-				"ru": "Чтения, Лекции"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "4"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Music",
-			"title": {
-				"de": "Musik, Konzerte",
-				"en": "Music, Concerts",
-				"fr": "Musique, Concerts",
-				"es": "Música, Conciertos",
-				"it": "Musica, Concerti",
-				"uk": "Музика, Концерти",
-				"ru": "Музыка, Концерты"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "5"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Politics",
-			"title": {
-				"de": "Politik, Bürgerservice",
-				"en": "Politics, Citizen Services",
-				"fr": "Politique, Services aux citoyens",
-				"es": "Política, Servicios al ciudadano",
-				"it": "Politica, Servizi ai cittadini",
-				"uk": "Політика, Служби громадянам",
-				"ru": "Политика, Услуги гражданам"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "7"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Walks",
-			"title": {
-				"de": "Spaziergänge, Ausflüge",
-				"en": "Walks, Excursions",
-				"fr": "Promenades, Excursions",
-				"es": "Paseos, Excursiones",
-				"it": "Passeggiate, Escursioni",
-				"uk": "Прогулянки, Екскурсії",
-				"ru": "Прогулки, Экскурсии"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "21"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Seniors",
-			"title": {
-				"de": "Senioren",
-				"en": "Seniors",
-				"fr": "Aînés",
-				"es": "Personas mayores",
-				"it": "Anziani",
-				"uk": "Пенсіонери",
-				"ru": "Пожилые люди"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "223"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Recreation",
-			"title": {
-				"de": "Freizeit, Sport",
-				"en": "Recreation, Sport",
-				"fr": "Loisirs, Sport",
-				"es": "Recreación, Deporte",
-				"it": "Ricreazione, Sport",
-				"uk": "Дозвілля, Спорт",
-				"ru": "Досуг, Спорт"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "9"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.Dance",
-			"title": {
-				"de": "Tanz, Theater",
-				"en": "Dance, Theater",
-				"fr": "Danse, Théâtre",
-				"es": "Danza, Teatro",
-				"it": "Danza, Teatro",
-				"uk": "Танець, Театр",
-				"ru": "Танец, Театр"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "42"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.WeeklyMarkets",
-			"title": {
-				"de": "Wochen- und Flohmärkte",
-				"en": "Weekly and Flea Markets",
-				"fr": "Marchés hebdomadaires et aux puces",
-				"es": "Mercados semanales y de pulgas",
-				"it": "Mercati settimanali e delle pulci",
-				"uk": "Щотижневі та блошині ринки",
-				"ru": "Еженедельные и блошиные рынки"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "34"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "attraction.category.ChristmasTime",
-			"title": {
-				"de": "Weihnachtszeit, Jahreswechsel",
-				"en": "Christmas Time, New Year's Eve",
-				"fr": "Temps de Noël, Réveillon du Nouvel An",
-				"es": "Navidad, Nochevieja",
-				"it": "Natale, Capodanno",
-				"uk": "Різдвяний час, Новий рік",
-				"ru": "Рождественское время, Новый год"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalender": "32"
-				}
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "121"
 			}
 		}
-	]
-}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Conferences",
+		"title": {
+			"de": "Konferenzen, Messen",
+			"en": "Conferences, Trade Shows",
+			"fr": "Conférences, Salons",
+			"es": "Conferencias, Ferias",
+			"it": "Conferenze, Mostre",
+			"uk": "Конференції, Виставки",
+			"ru": "Конференции, Выставки"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "120"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Education",
+		"title": {
+			"de": "Bildung, Schule",
+			"en": "Education, School",
+			"fr": "Éducation, École",
+			"es": "Educación, Escuela",
+			"it": "Educazione, Scuola",
+			"uk": "Освіта, Школа",
+			"ru": "Образование, Школа"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "118"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Art",
+		"title": {
+			"de": "Kunst, Kultur",
+			"en": "Art, Culture",
+			"fr": "Art, Culture",
+			"es": "Arte, Cultura",
+			"it": "Arte, Cultura",
+			"uk": "Мистецтво, Культура",
+			"ru": "Искусство, Культура"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "180"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Police",
+		"title": {
+			"de": "Polizei",
+			"en": "Police",
+			"fr": "Police",
+			"es": "Policía",
+			"it": "Polizia",
+			"uk": "Поліція",
+			"ru": "Полиция"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "94"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Exhibitions",
+		"title": {
+			"de": "Ausstellungen",
+			"en": "Exhibitions",
+			"fr": "Expositions",
+			"es": "Exposiciones",
+			"it": "Esposizioni",
+			"uk": "Виставки",
+			"ru": "Выставки"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "1"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Stages",
+		"title": {
+			"de": "Bühnen, Filme",
+			"en": "Stages, Movies",
+			"fr": "Scènes, Films",
+			"es": "Escenarios, Películas",
+			"it": "Palcoscenici, Film",
+			"uk": "Сцени, Фільми",
+			"ru": "Сцены, Фильмы"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "10"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Festivals",
+		"title": {
+			"de": "Feste, Events",
+			"en": "Festivals, Events",
+			"fr": "Fêtes, Événements",
+			"es": "Festivales, Eventos",
+			"it": "Feste, Eventi",
+			"uk": "Свята, Події",
+			"ru": "Праздники, События"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "2"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Women",
+		"title": {
+			"de": "Frauen",
+			"en": "Women",
+			"fr": "Femmes",
+			"es": "Mujeres",
+			"it": "Donne",
+			"uk": "Жінки",
+			"ru": "Женщины"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "17"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Health",
+		"title": {
+			"de": "Gesundheit, Umwelt",
+			"en": "Health, Environment",
+			"fr": "Santé, Environnement",
+			"es": "Salud, Medio Ambiente",
+			"it": "Salute, Ambiente",
+			"uk": "Здоров'я, Довкілля",
+			"ru": "Здоровье, Окружающая среда"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "19"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Children",
+		"title": {
+			"de": "Kinder, Jugendliche",
+			"en": "Children, Adolescents",
+			"fr": "Enfants, Adolescents",
+			"es": "Niños, Adolescentes",
+			"it": "Bambini, Adolescenti",
+			"uk": "Діти, Підлітки",
+			"ru": "Дети, Подростки"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "3"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Lectures",
+		"title": {
+			"de": "Lesungen, Vorträge",
+			"en": "Readings, Lectures",
+			"fr": "Lectures, Conférences",
+			"es": "Lecturas, Charlas",
+			"it": "Letture, Conferenze",
+			"uk": "Читання, Лекції",
+			"ru": "Чтения, Лекции"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "4"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Music",
+		"title": {
+			"de": "Musik, Konzerte",
+			"en": "Music, Concerts",
+			"fr": "Musique, Concerts",
+			"es": "Música, Conciertos",
+			"it": "Musica, Concerti",
+			"uk": "Музика, Концерти",
+			"ru": "Музыка, Концерты"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "5"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Politics",
+		"title": {
+			"de": "Politik, Bürgerservice",
+			"en": "Politics, Citizen Services",
+			"fr": "Politique, Services aux citoyens",
+			"es": "Política, Servicios al ciudadano",
+			"it": "Politica, Servizi ai cittadini",
+			"uk": "Політика, Служби громадянам",
+			"ru": "Политика, Услуги гражданам"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "7"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Walks",
+		"title": {
+			"de": "Spaziergänge, Ausflüge",
+			"en": "Walks, Excursions",
+			"fr": "Promenades, Excursions",
+			"es": "Paseos, Excursiones",
+			"it": "Passeggiate, Escursioni",
+			"uk": "Прогулянки, Екскурсії",
+			"ru": "Прогулки, Экскурсии"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "21"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Seniors",
+		"title": {
+			"de": "Senioren",
+			"en": "Seniors",
+			"fr": "Aînés",
+			"es": "Personas mayores",
+			"it": "Anziani",
+			"uk": "Пенсіонери",
+			"ru": "Пожилые люди"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "223"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Recreation",
+		"title": {
+			"de": "Freizeit, Sport",
+			"en": "Recreation, Sport",
+			"fr": "Loisirs, Sport",
+			"es": "Recreación, Deporte",
+			"it": "Ricreazione, Sport",
+			"uk": "Дозвілля, Спорт",
+			"ru": "Досуг, Спорт"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "9"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.Dance",
+		"title": {
+			"de": "Tanz, Theater",
+			"en": "Dance, Theater",
+			"fr": "Danse, Théâtre",
+			"es": "Danza, Teatro",
+			"it": "Danza, Teatro",
+			"uk": "Танець, Театр",
+			"ru": "Танец, Театр"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "42"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.WeeklyMarkets",
+		"title": {
+			"de": "Wochen- und Flohmärkte",
+			"en": "Weekly and Flea Markets",
+			"fr": "Marchés hebdomadaires et aux puces",
+			"es": "Mercados semanales y de pulgas",
+			"it": "Mercati settimanali e delle pulci",
+			"uk": "Щотижневі та блошині ринки",
+			"ru": "Еженедельные и блошиные рынки"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "34"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "attraction.category.ChristmasTime",
+		"title": {
+			"de": "Weihnachtszeit, Jahreswechsel",
+			"en": "Christmas Time, New Year's Eve",
+			"fr": "Temps de Noël, Réveillon du Nouvel An",
+			"es": "Navidad, Nochevieja",
+			"it": "Natale, Capodanno",
+			"uk": "Різдвяний час, Новий рік",
+			"ru": "Рождественское время, Новый год"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalender": "32"
+			}
+		}
+	}
+]

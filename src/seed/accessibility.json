@@ -1,184 +1,182 @@
-{
-	"tags": [
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.WheelchairAccessible",
-			"title": {
-				"de": "Rollstuhlgerecht",
-				"en": "Wheelchair accessible",
-				"fr": "Accessible en fauteuil roulant",
-				"es": "Accesible en silla de ruedas",
-				"it": "Accessibile in sedia a rotelle",
-				"uk": "Доступно для інвалідів на візках",
-				"ru": "Доступно для инвалидов на колясках",
-				"tr": "Tekerlekli sandalye ile erişilebilir",
-				"ar": "متاحة لمستخدمي الكراسي المتحركة"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "1"
-				}
-			}
+[
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.WheelchairAccessible",
+		"title": {
+			"de": "Rollstuhlgerecht",
+			"en": "Wheelchair accessible",
+			"fr": "Accessible en fauteuil roulant",
+			"es": "Accesible en silla de ruedas",
+			"it": "Accessibile in sedia a rotelle",
+			"uk": "Доступно для інвалідів на візках",
+			"ru": "Доступно для инвалидов на колясках",
+			"tr": "Tekerlekli sandalye ile erişilebilir",
+			"ar": "متاحة لمستخدمي الكراسي المتحركة"
 		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.WC_DIN_18024",
-			"title": {
-				"de": "WC nach DIN 18024",
-				"en": "Toilet according to DIN 18024",
-				"fr": "Toilette selon DIN 18024",
-				"es": "Aseo según DIN 18024",
-				"it": "Toilette secondo DIN 18024",
-				"uk": "Туалет за DIN 18024",
-				"ru": "Туалет по DIN 18024",
-				"tr": "DIN 18024'e göre tuvalet",
-				"ar": "مرحاض وفقًا لـ DIN 18024"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "2"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.DifficultForWheelchair",
-			"title": {
-				"de": "Für Rollstuhlfahrer/innen erschwert zugänglich",
-				"en": "Difficult access for wheelchair users",
-				"fr": "Accès difficile pour les utilisateurs de fauteuils roulants",
-				"es": "Acceso difícil para usuarios de sillas de ruedas",
-				"it": "Accesso difficile per gli utenti di sedie a rotelle",
-				"uk": "Важкий доступ для користувачів інвалідних візків",
-				"ru": "Сложный доступ для пользователей инвалидных колясок",
-				"tr": "Tekerlekli sandalye kullanıcıları için zor erişim",
-				"ar": "وصول صعب لمستخدمي الكراسي المتحركة"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "3"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.Elevator",
-			"title": {
-				"de": "Fahrstuhl",
-				"en": "Elevator",
-				"fr": "Ascenseur",
-				"es": "Ascensor",
-				"it": "Ascensore",
-				"uk": "Ліфт",
-				"ru": "Лифт",
-				"tr": "Asansör",
-				"ar": "مصعد"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "4"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.NotForWheelchair",
-			"title": {
-				"de": "Für Rollstuhlfahrer/innen nicht zugänglich",
-				"en": "Not accessible for wheelchair users",
-				"fr": "Non accessible aux utilisateurs de fauteuils roulants",
-				"es": "No accesible para usuarios de sillas de ruedas",
-				"it": "Non accessibile per gli utenti di sedie a rotelle",
-				"uk": "Недоступно для користувачів інвалідних візків",
-				"ru": "Недоступно для пользователей инвалидных колясок",
-				"tr": "Tekerlekli sandalye kullanıcıları için erişilemez",
-				"ar": "غير متاحة لمستخدمي الكراسي المتحركة"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "5"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.DisabledParking",
-			"title": {
-				"de": "Behindertenparkplatz",
-				"en": "Disabled parking",
-				"fr": "Parking pour personnes handicapées",
-				"es": "Estacionamiento para discapacitados",
-				"it": "Parcheggio per disabili",
-				"uk": "Парковка для інвалідів",
-				"ru": "Парковка для инвалидов",
-				"tr": "Engelliler için otopark",
-				"ar": "موقف سيارات للأشخاص ذوي الإعاقة"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "6"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.InductiveHearingAid",
-			"title": {
-				"de": "Höranlage indukTiv",
-				"en": "Inductive hearing aid",
-				"fr": "Aide auditive inductive",
-				"es": "Ayuda auditiva inductiva",
-				"it": "Apparecchio acustico induttivo",
-				"uk": "Індуктивний слуховий апарат",
-				"ru": "Индуктивный слуховой аппарат",
-				"tr": "Endüktif işitme cihazı",
-				"ar": "جهاز السمع التحريضي"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "7"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.InfraredHearingAid",
-			"title": {
-				"de": "Höranlage Infrarot",
-				"en": "Infrared hearing aid",
-				"fr": "Aide auditive infrarouge",
-				"es": "Ayuda auditiva por infrarrojos",
-				"it": "Apparecchio acustico a infrarossi",
-				"uk": "Інфрачервоний слуховий апарат",
-				"ru": "Инфракрасный слуховой аппарат",
-				"tr": "Kızılötesi işitme cihazı",
-				"ar": "جهاز السمع بالأشعة تحت الحمراء"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "8"
-				}
-			}
-		},
-		{
-			"type": "type.Tag",
-			"identifier": "location.accessibility.RadioHearingAid",
-			"title": {
-				"de": "Höranlage Funk",
-				"en": "Radio hearing aid",
-				"fr": "Aide auditive radio",
-				"es": "Ayuda auditiva por radiofrecuencia",
-				"it": "Apparecchio acustico radiofonico",
-				"uk": "Радіо слуховий апарат",
-				"ru": "Радио слуховой аппарат",
-				"tr": "Radyo işitme cihazı",
-				"ar": "جهاز السمع الراديوي"
-			},
-			"metadata": {
-				"externalIDs": {
-					"bezirkskalenderBarrierefreiheit": "9"
-				}
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "1"
 			}
 		}
-	]
-}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.WC_DIN_18024",
+		"title": {
+			"de": "WC nach DIN 18024",
+			"en": "Toilet according to DIN 18024",
+			"fr": "Toilette selon DIN 18024",
+			"es": "Aseo según DIN 18024",
+			"it": "Toilette secondo DIN 18024",
+			"uk": "Туалет за DIN 18024",
+			"ru": "Туалет по DIN 18024",
+			"tr": "DIN 18024'e göre tuvalet",
+			"ar": "مرحاض وفقًا لـ DIN 18024"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "2"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.DifficultForWheelchair",
+		"title": {
+			"de": "Für Rollstuhlfahrer/innen erschwert zugänglich",
+			"en": "Difficult access for wheelchair users",
+			"fr": "Accès difficile pour les utilisateurs de fauteuils roulants",
+			"es": "Acceso difícil para usuarios de sillas de ruedas",
+			"it": "Accesso difficile per gli utenti di sedie a rotelle",
+			"uk": "Важкий доступ для користувачів інвалідних візків",
+			"ru": "Сложный доступ для пользователей инвалидных колясок",
+			"tr": "Tekerlekli sandalye kullanıcıları için zor erişim",
+			"ar": "وصول صعب لمستخدمي الكراسي المتحركة"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "3"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.Elevator",
+		"title": {
+			"de": "Fahrstuhl",
+			"en": "Elevator",
+			"fr": "Ascenseur",
+			"es": "Ascensor",
+			"it": "Ascensore",
+			"uk": "Ліфт",
+			"ru": "Лифт",
+			"tr": "Asansör",
+			"ar": "مصعد"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "4"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.NotForWheelchair",
+		"title": {
+			"de": "Für Rollstuhlfahrer/innen nicht zugänglich",
+			"en": "Not accessible for wheelchair users",
+			"fr": "Non accessible aux utilisateurs de fauteuils roulants",
+			"es": "No accesible para usuarios de sillas de ruedas",
+			"it": "Non accessibile per gli utenti di sedie a rotelle",
+			"uk": "Недоступно для користувачів інвалідних візків",
+			"ru": "Недоступно для пользователей инвалидных колясок",
+			"tr": "Tekerlekli sandalye kullanıcıları için erişilemez",
+			"ar": "غير متاحة لمستخدمي الكراسي المتحركة"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "5"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.DisabledParking",
+		"title": {
+			"de": "Behindertenparkplatz",
+			"en": "Disabled parking",
+			"fr": "Parking pour personnes handicapées",
+			"es": "Estacionamiento para discapacitados",
+			"it": "Parcheggio per disabili",
+			"uk": "Парковка для інвалідів",
+			"ru": "Парковка для инвалидов",
+			"tr": "Engelliler için otopark",
+			"ar": "موقف سيارات للأشخاص ذوي الإعاقة"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "6"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.InductiveHearingAid",
+		"title": {
+			"de": "Höranlage indukTiv",
+			"en": "Inductive hearing aid",
+			"fr": "Aide auditive inductive",
+			"es": "Ayuda auditiva inductiva",
+			"it": "Apparecchio acustico induttivo",
+			"uk": "Індуктивний слуховий апарат",
+			"ru": "Индуктивный слуховой аппарат",
+			"tr": "Endüktif işitme cihazı",
+			"ar": "جهاز السمع التحريضي"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "7"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.InfraredHearingAid",
+		"title": {
+			"de": "Höranlage Infrarot",
+			"en": "Infrared hearing aid",
+			"fr": "Aide auditive infrarouge",
+			"es": "Ayuda auditiva por infrarrojos",
+			"it": "Apparecchio acustico a infrarossi",
+			"uk": "Інфрачервоний слуховий апарат",
+			"ru": "Инфракрасный слуховой аппарат",
+			"tr": "Kızılötesi işitme cihazı",
+			"ar": "جهاز السمع بالأشعة تحت الحمراء"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "8"
+			}
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "location.accessibility.RadioHearingAid",
+		"title": {
+			"de": "Höranlage Funk",
+			"en": "Radio hearing aid",
+			"fr": "Aide auditive radio",
+			"es": "Ayuda auditiva por radiofrecuencia",
+			"it": "Apparecchio acustico radiofonico",
+			"uk": "Радіо слуховий апарат",
+			"ru": "Радио слуховой аппарат",
+			"tr": "Radyo işitme cihazı",
+			"ar": "جهاز السمع الراديوي"
+		},
+		"metadata": {
+			"externalIDs": {
+				"bezirkskalenderBarrierefreiheit": "9"
+			}
+		}
+	}
+]
