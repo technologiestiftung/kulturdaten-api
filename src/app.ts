@@ -145,7 +145,8 @@ export class KulturdatenBerlinApp {
 	}
 
 	private registerErrorHandler() {
-		this.app.use((err: any, req: express.Request, res: express.Response) => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
 			res.status(err.status || 500).json({
 				message: err.message,
 				errors: err.errors,
