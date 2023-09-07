@@ -11,7 +11,7 @@ import { EventFilterStrategy, EventFilterStrategyToken } from "../EventFilterStr
 export class FindEventsByLocationAccessibilityTagsFilterStrategy implements EventFilterStrategy {
 	constructor(
 		@Inject("EventsRepository") public eventsRepository: EventsRepository,
-		@Inject("LocationsRepository") public locationsRepository: LocationsRepository
+		@Inject("LocationsRepository") public locationsRepository: LocationsRepository,
 	) {}
 
 	async executeRequest(searchEventsRequest: SearchEventsRequest): Promise<Event[]> {
