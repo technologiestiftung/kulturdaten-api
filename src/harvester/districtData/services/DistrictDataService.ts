@@ -1,4 +1,12 @@
 import { Service } from "typedi";
+import { Filter } from "../../../generated/models/Filter.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
+import { Tag } from "../../../generated/models/Tag.generated";
+import { AttractionsService } from "../../../resources/attractions/services/AttractionsService";
+import { EventsService } from "../../../resources/events/services/EventsService";
+import { LocationsService } from "../../../resources/locations/services/LocationsService";
+import { OrganizationsService } from "../../../resources/organizations/services/OrganizationsService";
+import { TagsService } from "../../../resources/tags/services/tags.service";
 import { HarvesterClient } from "../../client/HarvesterClient";
 import {
 	Barrierefreiheit,
@@ -8,15 +16,6 @@ import {
 	Veranstaltungen,
 	Veranstaltungsorte,
 } from "../model/Bezirksdaten";
-
-import { Filter } from "../../../generated/models/Filter.generated";
-import { Reference } from "../../../generated/models/Reference.generated";
-import { Tag } from "../../../generated/models/Tag.generated";
-import { AttractionsService } from "../../../resources/attractions/services/AttractionsService";
-import { EventsService } from "../../../resources/events/services/EventsService";
-import { LocationsService } from "../../../resources/locations/services/LocationsService";
-import { OrganizationsService } from "../../../resources/organizations/services/OrganizationsService";
-import { TagsService } from "../../../resources/tags/services/tags.service";
 import { DistrictDataMapper } from "./DistrictDataMapper";
 
 type ReferenceMap = { [originObjectID: string]: Reference };
