@@ -1,5 +1,4 @@
 import { Service } from "typedi";
-import { Filter } from "../../../generated/models/Filter.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
 import { AttractionsService } from "../../../resources/attractions/services/AttractionsService";
@@ -241,9 +240,9 @@ export class DistrictDataService {
 		};
 	}
 
-	private createDuplicationFilter(eventID: string): Filter {
+	private createDuplicationFilter(originalID: number) {
 		return {
-			"metadata.originObjectID": eventID,
+			"metadata.originObjectID": String(originalID),
 			"metadata.origin": "bezirkskalender",
 		};
 	}
