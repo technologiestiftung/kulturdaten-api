@@ -97,38 +97,38 @@ export class DistrictDataService {
 		}
 
 		return {
-			createdOrganizations: createdOrganizations,
-			duplicateOrganizations: duplicateOrganizations,
-			createdLocations: createdLocations,
-			duplicateLocations: duplicateLocations,
-			createdAttractions: createdAttractions,
-			duplicateAttractions: duplicateAttractions,
-			createdEvents: createdEvents,
-			duplicateEvents: duplicateEvents,
+			createdOrganizations,
+			duplicateOrganizations,
+			createdLocations,
+			duplicateLocations,
+			createdAttractions,
+			duplicateAttractions,
+			createdEvents,
+			duplicateEvents,
 		};
 	}
 
-	async createOrganizations(veranstalter: VeranstalterList): Promise<{
+	async createOrganizations(veranstalterList: VeranstalterList): Promise<{
 		createdOrganizations: ReferenceMap;
 		duplicateOrganizations: ReferenceMap;
 	}> {
 		const createdOrganizations: ReferenceMap = {};
 		const duplicateOrganizations: ReferenceMap = {};
-		for (const key in veranstalter) {
-			const v = veranstalter[key];
-			const dOrganizations = await this.organizationService.search(this.createDuplicationFilter(v.id));
+		for (const key in veranstalterList) {
+			const veranstalter = veranstalterList[key];
+			const dOrganizations = await this.organizationService.search(this.createDuplicationFilter(veranstalter.id));
 			if (dOrganizations.length > 0) {
-				duplicateOrganizations[v.id] = {
+				duplicateOrganizations[veranstalter.id] = {
 					referenceType: dOrganizations[0].type,
 					referenceId: dOrganizations[0].identifier,
 					referenceLabel: dOrganizations[0].displayName ? dOrganizations[0].displayName : dOrganizations[0].title,
 				};
 			} else {
-				const createOrganizationRequests = this.mapper.mapOrganisation(v);
+				const createOrganizationRequests = this.mapper.mapOrganisation(veranstalter);
 				const createdOrganizationReference = await this.organizationService.create(createOrganizationRequests);
 
 				if (createdOrganizationReference) {
-					createdOrganizations[v.id] = createdOrganizationReference;
+					createdOrganizations[veranstalter.id] = createdOrganizationReference;
 				}
 			}
 		}
@@ -148,11 +148,11 @@ export class DistrictDataService {
 		const duplicateLocations: ReferenceMap = {};
 
 		for (const key in veranstaltungsorte) {
-			const o = veranstaltungsorte[key];
-			const duplicatedLocations = await this.locationService.search(this.createDuplicationFilter(o.id));
+			const veranstaltungsort = veranstaltungsorte[key];
+			const duplicatedLocations = await this.locationService.search(this.createDuplicationFilter(veranstaltungsort.id));
 
 			if (duplicatedLocations.length > 0) {
-				duplicateLocations[o.id] = {
+				duplicateLocations[veranstaltungsort.id] = {
 					referenceType: duplicatedLocations[0].type,
 					referenceId: duplicatedLocations[0].identifier,
 					referenceLabel: duplicatedLocations[0].displayName
@@ -160,17 +160,14 @@ export class DistrictDataService {
 						: duplicatedLocations[0].title,
 				};
 			} else {
-				const createLocationRequest = this.mapper.mapLocation(o, barrierefreiheit, bezirke, tags);
-
+				const createLocationRequest = this.mapper.mapLocation(veranstaltungsort, barrierefreiheit, bezirke, tags);
 				const createdLocationReference = await this.locationService.create(createLocationRequest);
-
 				if (createdLocationReference) {
-					createdLocations[o.id] = createdLocationReference;
+					createdLocations[veranstaltungsort.id] = createdLocationReference;
 				}
 			}
 		}
-
-		return { createdLocations: createdLocations, duplicateLocations: duplicateLocations };
+		return { createdLocations, duplicateLocations };
 	}
 
 	async createAttractionsAndEvents(
@@ -238,10 +235,10 @@ export class DistrictDataService {
 		}
 
 		return {
-			createdAttractions: createdAttractions,
-			duplicateAttractions: duplicateAttractions,
-			createdEvents: createdEvents,
-			duplicateEvents: duplicateEvents,
+			createdAttractions,
+			duplicateAttractions,
+			createdEvents,
+			duplicateEvents,
 		};
 	}
 
