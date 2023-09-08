@@ -115,7 +115,8 @@ export class DistrictDataService {
 		const duplicateOrganizations: ReferenceMap = {};
 		for (const key in veranstalterList) {
 			const veranstalter = veranstalterList[key];
-			const dOrganizations = await this.organizationService.search(this.createDuplicationFilter(veranstalter.id));
+			const filter = this.createDuplicationFilter(veranstalter.id);
+			const dOrganizations = await this.organizationService.search(filter);
 			if (dOrganizations.length > 0) {
 				duplicateOrganizations[veranstalter.id] = {
 					referenceType: dOrganizations[0].type,
@@ -148,7 +149,8 @@ export class DistrictDataService {
 
 		for (const key in veranstaltungsorte) {
 			const veranstaltungsort = veranstaltungsorte[key];
-			const duplicatedLocations = await this.locationService.search(this.createDuplicationFilter(veranstaltungsort.id));
+			const filter = this.createDuplicationFilter(veranstaltungsort.id);
+			const duplicatedLocations = await this.locationService.search(filter);
 
 			if (duplicatedLocations.length > 0) {
 				duplicateLocations[veranstaltungsort.id] = {
@@ -187,9 +189,8 @@ export class DistrictDataService {
 
 		for (const key in events) {
 			const veranstaltung = events[key];
-			const duplicatedAttractions = await this.attractionService.search(
-				this.createDuplicationFilter(veranstaltung.event_id),
-			);
+			const filter = this.createDuplicationFilter(veranstaltung.event_id);
+			const duplicatedAttractions = await this.attractionService.search(filter);
 
 			if (duplicatedAttractions.length > 0) {
 				duplicateAttractions[veranstaltung.event_id] = {
