@@ -1,5 +1,5 @@
 import cors from "cors";
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import express from "express";
 import * as OpenApiValidator from "express-openapi-validator";
 import * as expressWinston from "express-winston";
@@ -34,8 +34,6 @@ import { TagsRoutes } from "./resources/tags/tags.routes";
 import { UsersRoutes } from "./resources/users/UsersRoutes";
 import { MongoDBUsersRepository } from "./resources/users/repositories/MongoDBUsersRepository";
 import { UsersService } from "./resources/users/services/UsersService";
-
-dotenv.config();
 
 export class KulturdatenBerlinApp {
 	constructor(public app: express.Application) {}
