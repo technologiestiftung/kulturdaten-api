@@ -8,6 +8,7 @@ import { Tag } from "../../../generated/models/Tag.generated";
 import {
 	Barrierefreiheit,
 	Bezirke,
+	KategorieIds,
 	Termin,
 	Veranstalter,
 	Veranstaltung,
@@ -138,7 +139,7 @@ export class DistrictDataMapper {
 		};
 	}
 
-	mapCategoryTags(kategorie_ids: { [categoryId: string]: string }, tags: Tag[]): string[] {
+	mapCategoryTags(kategorie_ids: KategorieIds, tags: Tag[]): string[] {
 		return tags
 			.filter((tag) =>
 				tag?.metadata?.externalIDs?.bezirkskalender
