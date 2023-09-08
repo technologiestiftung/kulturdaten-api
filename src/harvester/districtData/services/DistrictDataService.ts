@@ -55,8 +55,7 @@ export class DistrictDataService {
 		const createdEvents: ReferenceMap = {};
 		const duplicateEvents: ReferenceMap = {};
 		const tags: Tag[] = await this.tagsService.listAllTags();
-		const apiURL = process.env.DISTRICT_DATA_API_URL;
-		if (!apiURL) return [];
+		const apiURL = process.env.DISTRICT_DATA_API_URL!;
 
 		for (const calendarID of calendarIDs) {
 			try {
