@@ -1,14 +1,13 @@
 import request from "supertest";
-
 import { fakeCreateEventRequest } from "../generated/faker/faker.CreateEventRequest.generated";
-import { validateEvent } from "../generated/models/Event.generated";
-import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
-import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
-
+import { Event, validateEvent } from "../generated/models/Event.generated";
 import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
 import { FindEventsByLocationAccessibilityTagsFilterStrategy } from "../resources/events/filter/implementations/FindEventsByLocationAccessibilityTagsFilterStrategy";
 import { FindEventsByMongoDBFilterStrategy } from "../resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
 import { FindInTheFutureEventsFilterStrategy } from "../resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
+import { getStartDateAsISO } from "../utils/DateTimeUtil";
+import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
+import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 import threeDummyAttractions from "./testdata/attractions.json";
 import dummyEvents from "./testdata/events.json";
 import dummyLocations from "./testdata/locations.json";
@@ -79,6 +78,23 @@ describe("Read events", () => {
 		for (const o of body.data.events) {
 			expect(validateEvent(o).isValid).toBe(true);
 		}
+	});
+
+	it("should sort by events their start date and time / GET /events", async () => {
+		const { body, statusCode } = await request(env.app).get(env.EVENTS_ROUTE);
+		const events: Event[] = body.data.events;
+
+		expect(statusCode).toBe(200);
+		events.forEach((event, index) => {
+			if (index === 0) {
+				return;
+			}
+			const previousEvent = events[index - 1];
+			const isoString = getStartDateAsISO(event);
+			const previousIsoString = getStartDateAsISO(previousEvent);
+			const isStartLaterOrEqual = previousIsoString <= isoString;
+			expect(isStartLaterOrEqual).toBe(true);
+		});
 	});
 
 	it("should return a empty list / GET /events", async () => {
