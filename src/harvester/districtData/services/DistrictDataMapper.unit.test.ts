@@ -122,7 +122,7 @@ describe("DistrictDataMapper", () => {
 	});
 });
 
-export const tags: Tag[] = [
+const tags: Tag[] = [
 	{
 		type: "type.Tag",
 		identifier: "attraction.category.InformationEvents",
@@ -365,7 +365,7 @@ export const tags: Tag[] = [
 	},
 ];
 
-export const termin: Termin = {
+const termin: Termin = {
 	id: 847205,
 	veranstaltung: 177851,
 	tag_von: "2023-10-08",
@@ -378,7 +378,7 @@ export const termin: Termin = {
 	letztes_vorkommen: "2023-10-08",
 };
 
-export const veranstaltung: Veranstaltung = {
+const veranstaltung: Veranstaltung = {
 	event_id: 177851,
 	event_titel_de: "Baby-und Kindertrödel",
 	event_titel_en: "",
