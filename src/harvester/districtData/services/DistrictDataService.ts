@@ -19,6 +19,19 @@ import { OrganizationsService } from "../../../resources/organizations/services/
 import { TagsService } from "../../../resources/tags/services/tags.service";
 import { DistrictDataMapper } from "./DistrictDataMapper";
 
+type ReferenceMap = { [originObjectID: string]: Reference };
+
+type HarvestResult = {
+	createdOrganizations: ReferenceMap;
+	duplicateOrganizations: ReferenceMap;
+	createdLocations: ReferenceMap;
+	duplicateLocations: ReferenceMap;
+	createdAttractions: ReferenceMap;
+	duplicateAttractions: ReferenceMap;
+	createdEvents: ReferenceMap;
+	duplicateEvents: ReferenceMap;
+};
+
 @Service()
 export class DistrictDataService {
 	private mapper: DistrictDataMapper = new DistrictDataMapper();
@@ -32,15 +45,15 @@ export class DistrictDataService {
 		public tagsService: TagsService,
 	) {}
 
-	async harvestDistrictData(calendarIDs: string[]): Promise<{ [originObjectID: string]: any }> {
-		const createdOrganizations: { [originObjectID: string]: Reference } = {};
-		const duplicateOrganizations: { [originObjectID: string]: Reference } = {};
-		const createdLocations: { [originObjectID: string]: Reference } = {};
-		const duplicateLocations: { [originObjectID: string]: Reference } = {};
-		const createdAttractions: { [originObjectID: string]: Reference } = {};
-		const duplicateAttractions: { [originObjectID: string]: Reference } = {};
-		const createdEvents: { [originObjectID: string]: Reference } = {};
-		const duplicateEvents: { [originObjectID: string]: Reference } = {};
+	async harvestDistrictData(calendarIDs: string[]): Promise<HarvestResult> {
+		const createdOrganizations: ReferenceMap = {};
+		const duplicateOrganizations: ReferenceMap = {};
+		const createdLocations: ReferenceMap = {};
+		const duplicateLocations: ReferenceMap = {};
+		const createdAttractions: ReferenceMap = {};
+		const duplicateAttractions: ReferenceMap = {};
+		const createdEvents: ReferenceMap = {};
+		const duplicateEvents: ReferenceMap = {};
 		const tags: Tag[] = await this.tagsService.listAllTags();
 		const apiURL = process.env.DISTRICT_DATA_API_URL;
 		if (!apiURL) return [];
@@ -97,11 +110,11 @@ export class DistrictDataService {
 	}
 
 	async createOrganizations(veranstalter: VeranstalterList): Promise<{
-		createdOrganizations: { [originObjectID: string]: Reference };
-		duplicateOrganizations: { [originObjectID: string]: Reference };
+		createdOrganizations: ReferenceMap;
+		duplicateOrganizations: ReferenceMap;
 	}> {
-		const createdOrganizations: { [originObjectID: string]: Reference } = {};
-		const duplicateOrganizations: { [originObjectID: string]: Reference } = {};
+		const createdOrganizations: ReferenceMap = {};
+		const duplicateOrganizations: ReferenceMap = {};
 		for (const key in veranstalter) {
 			const v = veranstalter[key];
 			const dOrganizations = await this.organizationService.search(this.createDuplicationFilter(v.id));
@@ -129,11 +142,11 @@ export class DistrictDataService {
 		bezirke: Bezirke,
 		tags: Tag[],
 	): Promise<{
-		createdLocations: { [originObjectID: string]: Reference };
-		duplicateLocations: { [originObjectID: string]: Reference };
+		createdLocations: ReferenceMap;
+		duplicateLocations: ReferenceMap;
 	}> {
-		const createdLocations: { [originObjectID: string]: Reference } = {};
-		const duplicateLocations: { [originObjectID: string]: Reference } = {};
+		const createdLocations: ReferenceMap = {};
+		const duplicateLocations: ReferenceMap = {};
 
 		for (const key in veranstaltungsorte) {
 			const o = veranstaltungsorte[key];
@@ -163,19 +176,19 @@ export class DistrictDataService {
 
 	async createAttractionsAndEvents(
 		events: Veranstaltungen,
-		organizations: { [originObjectID: string]: Reference },
-		locations: { [originObjectID: string]: Reference },
+		organizations: ReferenceMap,
+		locations: ReferenceMap,
 		tags: Tag[],
 	): Promise<{
-		createdAttractions: { [originObjectID: string]: Reference };
-		duplicateAttractions: { [originObjectID: string]: Reference };
-		createdEvents: { [originObjectID: string]: Reference };
-		duplicateEvents: { [originObjectID: string]: Reference };
+		createdAttractions: ReferenceMap;
+		duplicateAttractions: ReferenceMap;
+		createdEvents: ReferenceMap;
+		duplicateEvents: ReferenceMap;
 	}> {
-		const createdAttractions: { [originObjectID: string]: Reference } = {};
-		const duplicateAttractions: { [originObjectID: string]: Reference } = {};
-		const createdEvents: { [originObjectID: string]: Reference } = {};
-		const duplicateEvents: { [originObjectID: string]: Reference } = {};
+		const createdAttractions: ReferenceMap = {};
+		const duplicateAttractions: ReferenceMap = {};
+		const createdEvents: ReferenceMap = {};
+		const duplicateEvents: ReferenceMap = {};
 
 		for (const key in events) {
 			const veranstaltung = events[key];

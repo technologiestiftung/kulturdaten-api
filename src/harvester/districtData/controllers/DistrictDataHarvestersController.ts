@@ -9,19 +9,19 @@ export class DistrictDataHarvestersController {
 	constructor(public service: DistrictDataService) {}
 
 	async harvest(res: Response, calendarIDs: string[]) {
-		const createdItems = await this.service.harvestDistrictData(calendarIDs);
+		const harvestResult = await this.service.harvestDistrictData(calendarIDs);
 
 		res.status(200).send(
 			new SuccessResponseBuilder()
 				.okResponse({
-					createdOrganizations: this.buildRefIDs(createdItems.createdOrganizations),
-					duplicateOrganizations: this.buildRefIDs(createdItems.duplicateOrganizations),
-					createdLocations: this.buildRefIDs(createdItems.createdLocations),
-					duplicateLocations: this.buildRefIDs(createdItems.duplicateLocations),
-					createdEvents: this.buildRefIDs(createdItems.createdEvents),
-					duplicateEvents: this.buildRefIDs(createdItems.duplicateEvents),
-					createdAttractions: this.buildRefIDs(createdItems.createdAttractions),
-					duplicateAttractions: this.buildRefIDs(createdItems.duplicateAttractions),
+					createdOrganizations: this.buildRefIDs(harvestResult.createdOrganizations),
+					duplicateOrganizations: this.buildRefIDs(harvestResult.duplicateOrganizations),
+					createdLocations: this.buildRefIDs(harvestResult.createdLocations),
+					duplicateLocations: this.buildRefIDs(harvestResult.duplicateLocations),
+					createdEvents: this.buildRefIDs(harvestResult.createdEvents),
+					duplicateEvents: this.buildRefIDs(harvestResult.duplicateEvents),
+					createdAttractions: this.buildRefIDs(harvestResult.createdAttractions),
+					duplicateAttractions: this.buildRefIDs(harvestResult.duplicateAttractions),
 				})
 				.build(),
 		);
