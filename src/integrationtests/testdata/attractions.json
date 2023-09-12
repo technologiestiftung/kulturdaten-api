@@ -36,7 +36,6 @@
 		},
 		"website": "https://skywalkers-observatory.com",
 		"inLanguages": ["en", "de", "es", "fr"],
-		"family": true,
 		"tags": ["space", "observatory", "VR", "telescopes", "interstellar", "dimensions", "education"],
 		"externalLinks": [
 			{
@@ -82,7 +81,6 @@
 		},
 		"website": "https://temporal-cultural-gateway.org",
 		"inLanguages": ["en", "de", "intergalactic"],
-		"family": true,
 		"tags": ["time-travel", "culture", "temporal", "interstellar", "education", "history", "futuristic"],
 		"externalLinks": [
 			{
@@ -124,7 +122,6 @@
 		},
 		"website": "https://berlin-wall-vr-experience.de",
 		"inLanguages": ["en", "de"],
-		"family": true,
 		"tags": ["berlin", "history", "berlin-wall", "virtual-reality", "education"],
 		"externalLinks": [
 			{
@@ -166,7 +163,6 @@
 		},
 		"website": "https://example.com/metal-gig-5000",
 		"inLanguages": ["en", "de"],
-		"family": true,
 		"tags": ["konzert"],
 		"externalLinks": []
 	}

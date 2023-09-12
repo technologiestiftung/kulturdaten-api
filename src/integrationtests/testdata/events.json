@@ -37,7 +37,6 @@
 		},
 		"website": "https://example.com/berlin-concert",
 		"inLanguages": ["de", "en"],
-		"family": false,
 		"tags": ["Musik", "Konzert"],
 		"locations": [
 			{
@@ -125,7 +124,6 @@
 		},
 		"website": "https://example.com/berlin-filmfestival",
 		"inLanguages": ["de", "en", "fr"],
-		"family": true,
 		"tags": ["Film", "Festival", "Berlin"],
 		"locations": [
 			{
@@ -213,7 +211,6 @@
 		},
 		"website": "https://example.com/techexpo-berlin",
 		"inLanguages": ["de", "en"],
-		"family": false,
 		"tags": ["Technologie", "Expo", "Berlin"],
 		"locations": [
 			{
@@ -297,7 +294,6 @@
 		},
 		"website": "https://example.com/metal-gig-5000",
 		"inLanguages": ["de", "en"],
-		"family": false,
 		"tags": ["konzert"],
 		"locations": [
 			{

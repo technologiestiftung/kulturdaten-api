@@ -8,6 +8,7 @@ import { Tag } from "../../../generated/models/Tag.generated";
 import {
 	Barrierefreiheit,
 	Bezirke,
+	KategorieIds,
 	Termin,
 	Veranstalter,
 	Veranstaltung,
@@ -50,7 +51,6 @@ export class DistrictDataMapper {
 			inLanguages: ["de", "en", "fr", "ru", "tr"].filter(
 				(lang) => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`],
 			),
-			family: veranstaltung.event_ist_gratis === "true" ? true : false, // Annahme: Wenn das Event gratis ist, ist es familienfreundlich
 			tags: tags,
 			...(veranstaltung.event_homepage
 				? {
@@ -88,7 +88,7 @@ export class DistrictDataMapper {
 				origin: "bezirkskalender",
 				originObjectID: String(termin.id),
 			},
-			...(veranstaltung.event_ist_gratis && { admission: { ticketType: "ticketType.freeOfCharge" } }),
+			...(veranstaltung.event_ist_gratis === 1 && { admission: { ticketType: "ticketType.freeOfCharge" } }),
 		};
 	}
 
@@ -138,7 +138,7 @@ export class DistrictDataMapper {
 		};
 	}
 
-	mapCategoryTags(kategorie_ids: { [categoryId: string]: string }, tags: Tag[]): string[] {
+	mapCategoryTags(kategorie_ids: KategorieIds, tags: Tag[]): string[] {
 		return tags
 			.filter((tag) =>
 				tag?.metadata?.externalIDs?.bezirkskalender
