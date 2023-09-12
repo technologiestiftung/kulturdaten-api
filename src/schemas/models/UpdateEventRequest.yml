@@ -22,8 +22,6 @@ properties:
     type: array
     items:
       type: string
-  family:
-    type: boolean
   tags:
     type: array
     items:

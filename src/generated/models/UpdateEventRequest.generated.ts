@@ -24,7 +24,6 @@ export const schemaForUpdateEventRequest = {
     pleaseNote: {type: "object", additionalProperties: {type: "string"}},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
-    family: {type: "boolean"},
     tags: {type: "array", items: {type: "string"}},
     contact: {$ref: "Contact.yml"},
     admission: {$ref: "Admission.yml"}
@@ -57,7 +56,6 @@ export interface UpdateEventRequest {
   };
   website?: string;
   inLanguages?: string[];
-  family?: boolean;
   tags?: string[];
   contact?: Contact;
   admission?: Admission;

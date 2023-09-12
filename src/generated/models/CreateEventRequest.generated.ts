@@ -28,7 +28,6 @@ export const schemaForCreateEventRequest = {
     pleaseNote: {type: "object", additionalProperties: {type: "string"}},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
-    family: {type: "boolean"},
     tags: {type: "array", items: {type: "string"}},
     locations: {type: "array", items: {$ref: "Reference.yml"}},
     attractions: {type: "array", items: {$ref: "Reference.yml"}},
@@ -70,7 +69,6 @@ export interface CreateEventRequest {
   };
   website?: string;
   inLanguages?: string[];
-  family?: boolean;
   tags?: string[];
   locations?: Reference[];
   attractions?: Reference[];

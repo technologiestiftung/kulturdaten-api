@@ -23,7 +23,6 @@ export const schemaForUpdateAttractionRequest = {
     pleaseNote: {type: "object", additionalProperties: {type: "string"}},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
-    family: {type: "boolean"},
     tags: {type: "array", items: {type: "string"}},
     externalLinks: {$ref: "ExternalLinks.yml"}
   }
@@ -54,7 +53,6 @@ export interface UpdateAttractionRequest {
   };
   website?: string;
   inLanguages?: string[];
-  family?: boolean;
   tags?: string[];
   externalLinks?: ExternalLinks;
 }

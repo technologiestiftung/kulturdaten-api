@@ -45,7 +45,6 @@ describe("DistrictDataMapper", () => {
 				},
 				website: "http://www.nachbarschaftsetage.de",
 				inLanguages: ["de"],
-				family: true,
 				tags: ["attraction.category.WeeklyMarkets"],
 				externalLinks: [
 					{

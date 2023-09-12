@@ -1642,8 +1642,6 @@ components:
           type: array
           items:
             type: string
-        family:
-          type: boolean
         tags:
           type: array
           items:
@@ -1768,8 +1766,6 @@ components:
           type: array
           items:
             type: string
-        family:
-          type: boolean
         tags:
           type: array
           items:
@@ -2788,8 +2784,6 @@ components:
                     type: array
                     items:
                       type: string
-                  family:
-                    type: boolean
                   tags:
                     type: array
                     items:
@@ -2849,8 +2843,6 @@ components:
           type: array
           items:
             type: string
-        family:
-          type: boolean
         tags:
           type: array
           items:
@@ -2979,8 +2971,6 @@ components:
                     type: array
                     items:
                       type: string
-                  family:
-                    type: boolean
                   tags:
                     type: array
                     items:
@@ -3075,8 +3065,6 @@ components:
                   type: array
                   items:
                     type: string
-                family:
-                  type: boolean
                 tags:
                   type: array
                   items:
@@ -3130,8 +3118,6 @@ components:
           type: array
           items:
             type: string
-        family:
-          type: boolean
         tags:
           type: array
           items:
@@ -4143,8 +4129,6 @@ components:
                     type: array
                     items:
                       type: string
-                  family:
-                    type: boolean
                   tags:
                     type: array
                     items:
@@ -4274,8 +4258,6 @@ components:
           type: array
           items:
             type: string
-        family:
-          type: boolean
         tags:
           type: array
           items:
@@ -4511,8 +4493,6 @@ components:
                     type: array
                     items:
                       type: string
-                  family:
-                    type: boolean
                   tags:
                     type: array
                     items:
@@ -4684,8 +4664,6 @@ components:
                   type: array
                   items:
                     type: string
-                family:
-                  type: boolean
                 tags:
                   type: array
                   items:
@@ -4794,8 +4772,6 @@ components:
           type: array
           items:
             type: string
-        family:
-          type: boolean
         tags:
           type: array
           items:
