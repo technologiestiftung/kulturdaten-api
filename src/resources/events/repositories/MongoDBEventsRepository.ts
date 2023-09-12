@@ -16,11 +16,12 @@ import { EventsRepository } from "./EventsRepository";
 export class MongoDBEventsRepository implements EventsRepository {
 	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
 
-	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<Event[]> {
 		const events = await this.dbConnector.events();
-
-		let query = events.find(filter || {}, {
-			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
+		const mergedProjection = { ...projection, ...MONGO_DB_DEFAULT_PROJECTION };
+		let query = events.find(filter || {}, { projection: mergedProjection }).sort({
+			"schedule.startDate": 1,
+			"schedule.startTime": 1,
 		});
 
 		if (pagination) {
@@ -48,7 +49,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 	}
 
 	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[]> {
-		return this.get(undefined, getEventReferenceProjection(), pagination);
+		return this.get(undefined, getEventReferenceProjection(), pagination) as Promise<Reference[]>;
 	}
 
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {
