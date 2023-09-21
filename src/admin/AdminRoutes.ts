@@ -5,17 +5,17 @@ import { Service } from "typedi";
 import { Permit } from "../resources/auth/middleware/Permit";
 import { DistrictDataHarvestersController } from "./districtData/controllers/DistrictDataHarvestersController";
 
-const log: debug.IDebugger = debug("app:harvester-routes");
+const log: debug.IDebugger = debug("app:admin-routes");
 
 @Service()
-export class HarvesterRoutes {
+export class AdminRoutes {
 	constructor(public districtDataHarvestersController: DistrictDataHarvestersController) {}
 
 	public getRouter(): Router {
 		const router = express.Router();
 
 		router.post(
-			"/",
+			"/harvest/baevents-bezirkskalender",
 			passport.authenticate("authenticated-user", { session: false }),
 			Permit.authorizesAsAdmin(),
 			(req: express.Request, res: express.Response) => {

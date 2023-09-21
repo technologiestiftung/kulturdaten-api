@@ -11,8 +11,8 @@ import swaggerUi from "swagger-ui-express";
 import Container from "typedi";
 import * as winston from "winston";
 import YAML from "yamljs";
+import { AdminRoutes } from "./admin/AdminRoutes";
 import { MongoDBConnector } from "./common/services/MongoDBConnector";
-import { HarvesterRoutes } from "./harvester/HarvesterRoutes";
 import { AttractionsRoutes } from "./resources/attractions/AttractionsRoutes";
 import { MongoDBAttractionsRepository } from "./resources/attractions/repositories/MongoDBAttractionsRepository";
 import { AuthRoutes } from "./resources/auth/AuthRoutes";
@@ -71,7 +71,7 @@ export class KulturdatenBerlinApp {
 		this.registerEventsRoutes();
 		this.registerLocationsRoutes();
 		this.registerTagsRoutes();
-		this.registerHarvesterRoutes();
+		this.registerAdminRoutes();
 		this.registerAttractionsRoutes();
 	}
 
@@ -209,9 +209,9 @@ export class KulturdatenBerlinApp {
 		this.app.use("/api/tags", tagsRoute.getRouter());
 	}
 
-	private registerHarvesterRoutes() {
-		const harvesterRoute = Container.get(HarvesterRoutes);
-		this.app.use("/api/admin/harvest/baevents-bezirkskalender", harvesterRoute.getRouter());
+	private registerAdminRoutes() {
+		const adminRoutes = Container.get(AdminRoutes);
+		this.app.use("/api/admin", adminRoutes.getRouter());
 	}
 }
 
