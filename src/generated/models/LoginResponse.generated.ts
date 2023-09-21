@@ -21,6 +21,7 @@ export const schemaForLoginResponse = {
     message: {type: "string"},
     data: {
       type: "object",
+      required: ["accessToken", "expiresIn", "user"],
       properties: {accessToken: {type: "string"}, expiresIn: {type: "string"}, user: {$ref: "User.yml"}}
     }
   },
@@ -41,8 +42,8 @@ export interface LoginResponse {
   success: boolean;
   message?: string;
   data?: {
-    accessToken?: string;
-    expiresIn?: string;
-    user?: User;
+    accessToken: string;
+    expiresIn: string;
+    user: User;
   };
 }
