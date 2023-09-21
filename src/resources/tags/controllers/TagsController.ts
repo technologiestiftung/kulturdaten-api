@@ -24,7 +24,7 @@ export class TagsController {
 	async getTagById(res: express.Response, identifier: string) {
 		const tag = await this.tagsService.readById(identifier);
 		if (tag) {
-			res.status(200).send(new SuccessResponseBuilder<GetTagResponse>().okResponse({ attraction: tag }).build());
+			res.status(200).send(new SuccessResponseBuilder<GetTagResponse>().okResponse({ tag }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Tag not found").build());
 		}
