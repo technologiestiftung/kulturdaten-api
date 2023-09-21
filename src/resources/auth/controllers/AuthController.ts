@@ -17,7 +17,7 @@ const authTokenExpiresIn = process.env.AUTH_TOKEN_EXPIRES_IN || "1m";
 export class AuthController {
 	constructor(public usersService: UsersService) {}
 
-	async createAuthToken(req: express.Request, res: express.Response) {
+	async login(req: express.Request, res: express.Response) {
 		if (req.user) {
 			const requestUser = req.user as User;
 			const email = requestUser.email;
