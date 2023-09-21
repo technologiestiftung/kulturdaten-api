@@ -1470,8 +1470,8 @@ paths:
                 $ref: "#/components/schemas/HealthResponse"
 
   /admin/attractions:
-    description: Returns a list of paginated attractions with their metadata and related events.
     get:
+      description: Returns a list of paginated attractions with their metadata and related events.
       tags:
         - Admin
       parameters:
@@ -1494,6 +1494,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetAdminAttractionsResponse"
+  /admin/attractions/{identifier}:
+    get:
+      description: Returns an attraction with its metadata and related events.
+      tags:
+        - Admin
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAdminAttractionResponse"
 
   /admin/harvest/baevents-bezirkskalender:
     post:
@@ -1753,6 +1771,9 @@ components:
 
     CreateTagResponse:
       $ref: models/CreateTagResponse.yml
+
+    GetAdminAttractionResponse:
+      $ref: models/GetAdminAttractionResponse.yml
 
     GetAdminAttractionsResponse:
       $ref: models/GetAdminAttractionsResponse.yml

@@ -29,15 +29,25 @@ export class AdminRoutes {
 			},
 		);
 
-		router.get(
-			"/attractions",
-			passport.authenticate("authenticated-user", { session: false }),
-			Permit.authorizesAsAdmin(),
-			(req: express.Request, res: express.Response) => {
-				const pagination = getPagination(req);
-				this.attractionsController.listAttractionsForAdmins(res, pagination);
-			},
-		);
+		router
+			.get(
+				"/attractions",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesAsAdmin(),
+				(req: express.Request, res: express.Response) => {
+					const pagination = getPagination(req);
+					this.attractionsController.listAttractionsForAdmins(res, pagination);
+				},
+			)
+			.get(
+				"/attractions/:identifier",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesAsAdmin(),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.attractionsController.getAttractionByIdForAdmins(res, identifier);
+				},
+			);
 
 		return router;
 	}

@@ -5,6 +5,7 @@ import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/re
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
 import { CreateAttractionResponse } from "../../../generated/models/CreateAttractionResponse.generated";
+import { GetAdminAttractionResponse } from "../../../generated/models/GetAdminAttractionResponse.generated";
 import { GetAdminAttractionsResponse } from "../../../generated/models/GetAdminAttractionsResponse.generated";
 import { GetAttractionResponse } from "../../../generated/models/GetAttractionResponse.generated";
 import { GetAttractionsResponse } from "../../../generated/models/GetAttractionsResponse.generated";
@@ -143,6 +144,21 @@ export class AttractionsController {
 				);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
+		}
+	}
+
+	async getAttractionByIdForAdmins(res: Response, identifier: string) {
+		const adminAttraction = await this.attractionsService.readByIdForAdmins(identifier);
+		if (adminAttraction) {
+			res.status(200).send(
+				new SuccessResponseBuilder<GetAdminAttractionResponse>()
+					.okResponse({
+						attraction: adminAttraction,
+					})
+					.build(),
+			);
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Admin attraction not found").build());
 		}
 	}
 

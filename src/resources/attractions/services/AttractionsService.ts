@@ -61,6 +61,14 @@ export class AttractionsService {
 		return this.attractionsRepository.getAttractionByIdentifier(attractionId);
 	}
 
+	async readByIdForAdmins(attractionId: any): Promise<AdminAttraction | null> {
+		const attraction = await this.attractionsRepository.getAttractionByIdentifier(attractionId);
+		if (!attraction) {
+			return null;
+		}
+		return this.createAdminAttraction(attraction);
+	}
+
 	async readReferenceById(attractionId: any): Promise<Reference | null> {
 		return this.attractionsRepository.getAttractionReferenceByIdentifier(attractionId);
 	}
