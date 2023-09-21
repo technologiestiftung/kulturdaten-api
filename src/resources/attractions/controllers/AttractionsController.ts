@@ -5,6 +5,7 @@ import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/re
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
 import { CreateAttractionResponse } from "../../../generated/models/CreateAttractionResponse.generated";
+import { GetAdminAttractionsResponse } from "../../../generated/models/GetAdminAttractionsResponse.generated";
 import { GetAttractionResponse } from "../../../generated/models/GetAttractionResponse.generated";
 import { GetAttractionsResponse } from "../../../generated/models/GetAttractionsResponse.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
@@ -44,6 +45,21 @@ export class AttractionsController {
 					pageSize: pagination.pageSize,
 					totalCount: totalCount,
 					attractionsReferences: attractionsReferences,
+				})
+				.build(),
+		);
+	}
+
+	async listAttractionsForAdmins(res: Response, pagination: Pagination) {
+		const adminAttractions = await this.attractionsService.listForAdmins(pagination);
+		const totalCount = await this.attractionsService.countAttractions();
+		res.status(200).send(
+			new SuccessResponseBuilder<GetAdminAttractionsResponse>()
+				.okResponse({
+					page: pagination.page,
+					pageSize: pagination.pageSize,
+					totalCount,
+					attractions: adminAttractions,
 				})
 				.build(),
 		);

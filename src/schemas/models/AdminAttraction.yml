@@ -1,0 +1,55 @@
+type: object
+required:
+  - type
+  - identifier
+  - metadata
+  - status
+  - title
+  - events
+properties:
+  type:
+    type: string
+    enum:
+      - type.Attraction
+  identifier:
+    type: string
+  metadata:
+    $ref: "Metadata.yml"
+  status:
+    type: string
+    enum:
+      - attraction.published
+      - attraction.unpublished
+      - attraction.archived
+  title:
+    type: object
+    additionalProperties:
+      type: string
+  displayName:
+    type: object
+    additionalProperties:
+      type: string
+  description:
+    type: object
+    additionalProperties:
+      type: string
+  pleaseNote:
+    type: object
+    additionalProperties:
+      type: string
+  website:
+    type: string
+  inLanguages:
+    type: array
+    items:
+      type: string
+  tags:
+    type: array
+    items:
+      type: string
+  events:
+    type: array
+    items:
+      $ref: "Event.yml"
+  externalLinks:
+    $ref: "ExternalLinks.yml"
