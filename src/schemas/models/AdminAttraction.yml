@@ -3,7 +3,6 @@ required:
   - type
   - identifier
   - metadata
-  - status
   - title
   - events
 properties:

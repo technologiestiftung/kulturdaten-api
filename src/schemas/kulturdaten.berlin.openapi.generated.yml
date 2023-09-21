@@ -1745,7 +1745,6 @@ components:
         - type
         - identifier
         - metadata
-        - status
         - title
         - events
       properties:
@@ -1967,7 +1966,6 @@ components:
         - type
         - identifier
         - metadata
-        - status
         - title
       properties:
         type:
@@ -2989,7 +2987,6 @@ components:
                   - type
                   - identifier
                   - metadata
-                  - status
                   - title
                 properties:
                   type:
@@ -3180,7 +3177,6 @@ components:
                   - type
                   - identifier
                   - metadata
-                  - status
                   - title
                 properties:
                   type:
@@ -3278,7 +3274,6 @@ components:
                 - type
                 - identifier
                 - metadata
-                - status
                 - title
               properties:
                 type:
@@ -5567,7 +5562,6 @@ components:
                   - type
                   - identifier
                   - metadata
-                  - status
                   - title
                   - events
                 properties:

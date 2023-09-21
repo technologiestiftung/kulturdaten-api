@@ -22,7 +22,7 @@ import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
 export const schemaForAdminAttraction = {
   $id: "AdminAttraction.yml",
   type: "object",
-  required: ["type", "identifier", "metadata", "status", "title", "events"],
+  required: ["type", "identifier", "metadata", "title", "events"],
   properties: {
     type: {type: "string", enum: ["type.Attraction"]},
     identifier: {type: "string"},
@@ -60,7 +60,7 @@ export interface AdminAttraction {
   type: "type.Attraction";
   identifier: string;
   metadata: Metadata;
-  status: "attraction.published" | "attraction.unpublished" | "attraction.archived";
+  status?: "attraction.published" | "attraction.unpublished" | "attraction.archived";
   title: {
     [k: string]: string;
   };

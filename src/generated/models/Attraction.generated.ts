@@ -17,7 +17,7 @@ import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
 export const schemaForAttraction = {
   $id: "Attraction.yml",
   type: "object",
-  required: ["type", "identifier", "metadata", "status", "title"],
+  required: ["type", "identifier", "metadata", "title"],
   properties: {
     type: {type: "string", enum: ["type.Attraction"]},
     identifier: {type: "string"},
@@ -49,7 +49,7 @@ export interface Attraction {
   type: "type.Attraction";
   identifier: string;
   metadata: Metadata;
-  status: "attraction.published" | "attraction.unpublished" | "attraction.archived";
+  status?: "attraction.published" | "attraction.unpublished" | "attraction.archived";
   title: {
     [k: string]: string;
   };
