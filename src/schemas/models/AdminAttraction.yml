@@ -4,6 +4,7 @@ required:
   - identifier
   - metadata
   - title
+  - events
 properties:
   type:
     type: string
@@ -45,5 +46,9 @@ properties:
     type: array
     items:
       type: string
+  events:
+    type: array
+    items:
+      $ref: "Event.yml"
   externalLinks:
     $ref: "ExternalLinks.yml"

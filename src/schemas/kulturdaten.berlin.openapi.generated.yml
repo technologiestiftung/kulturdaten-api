@@ -1448,6 +1448,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthResponse"
+  /admin/attractions:
+    get:
+      description: >-
+        Returns a list of paginated attractions with their metadata and related
+        events.
+      tags:
+        - Admin
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Default value is 1
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          required: false
+          description: Default value is 30
+          schema:
+            type: number
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAdminAttractionsResponse"
+  /admin/attractions/{identifier}:
+    get:
+      description: Returns an attraction with its metadata and related events.
+      tags:
+        - Admin
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAdminAttractionResponse"
   /admin/harvest/baevents-bezirkskalender:
     post:
       tags:
@@ -1712,10 +1757,234 @@ components:
                 - registrationType.registrationDesired
             admissionLink:
               type: string
+    AdminAttraction:
+      type: object
+      required:
+        - type
+        - identifier
+        - metadata
+        - title
+        - events
+      properties:
+        type:
+          type: string
+          enum:
+            - type.Attraction
+        identifier:
+          type: string
+        metadata:
+          type: object
+          properties:
+            created:
+              type: string
+            updated:
+              type: string
+            origin:
+              type: string
+            originObjectID:
+              type: string
+            availableLanguages:
+              type: array
+              items:
+                type: string
+        status:
+          type: string
+          enum:
+            - attraction.published
+            - attraction.unpublished
+            - attraction.archived
+        title:
+          type: object
+          additionalProperties:
+            type: string
+        displayName:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        pleaseNote:
+          type: object
+          additionalProperties:
+            type: string
+        website:
+          type: string
+        inLanguages:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: object
+            required:
+              - identifier
+            properties:
+              type:
+                type: string
+                enum:
+                  - type.Event
+              identifier:
+                type: string
+              metadata:
+                type: object
+                properties:
+                  created:
+                    type: string
+                  updated:
+                    type: string
+                  origin:
+                    type: string
+                  originObjectID:
+                    type: string
+                  availableLanguages:
+                    type: array
+                    items:
+                      type: string
+              status:
+                type: string
+                enum:
+                  - event.published
+                  - event.unpublished
+                  - event.archived
+              scheduleStatus:
+                type: string
+                enum:
+                  - event.cancelled
+                  - event.postponed
+                  - event.rescheduled
+                  - event.scheduled
+              schedule:
+                type: object
+                properties:
+                  startDate:
+                    type: string
+                  startTime:
+                    type: string
+                  permanentOpening:
+                    type: boolean
+                  doorTime:
+                    type: string
+                  endDate:
+                    type: string
+                  endTime:
+                    type: string
+              title:
+                type: object
+                additionalProperties:
+                  type: string
+              displayName:
+                type: object
+                additionalProperties:
+                  type: string
+              description:
+                type: object
+                additionalProperties:
+                  type: string
+              pleaseNote:
+                type: object
+                additionalProperties:
+                  type: string
+              website:
+                type: string
+              inLanguages:
+                type: array
+                items:
+                  type: string
+              tags:
+                type: array
+                items:
+                  type: string
+              locations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    referenceType:
+                      type: string
+                    referenceId:
+                      type: string
+                    referenceLabel:
+                      type: object
+                      additionalProperties:
+                        type: string
+              attractions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    referenceType:
+                      type: string
+                    referenceId:
+                      type: string
+                    referenceLabel:
+                      type: object
+                      additionalProperties:
+                        type: string
+              organizer:
+                type: object
+                properties:
+                  referenceType:
+                    type: string
+                  referenceId:
+                    type: string
+                  referenceLabel:
+                    type: object
+                    additionalProperties:
+                      type: string
+              contact:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  telephone:
+                    type: string
+              admission:
+                type: object
+                properties:
+                  note:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  ticketType:
+                    type: string
+                    enum:
+                      - ticketType.ticketRequired
+                      - ticketType.freeOfCharge
+                  registrationType:
+                    type: string
+                    enum:
+                      - registrationType.registrationRequired
+                      - registrationType.noRegistrationRequired
+                      - registrationType.registrationDesired
+                  admissionLink:
+                    type: string
+        externalLinks:
+          type: array
+          items:
+            type: object
+            properties:
+              displayName:
+                type: string
+              url:
+                type: string
+            required:
+              - url
     Attraction:
       type: object
       required:
+        - type
         - identifier
+        - metadata
+        - title
       properties:
         type:
           type: string
@@ -2733,7 +3002,10 @@ components:
               items:
                 type: object
                 required:
+                  - type
                   - identifier
+                  - metadata
+                  - title
                 properties:
                   type:
                     type: string
@@ -2920,7 +3192,10 @@ components:
               items:
                 type: object
                 required:
+                  - type
                   - identifier
+                  - metadata
+                  - title
                 properties:
                   type:
                     type: string
@@ -3014,7 +3289,10 @@ components:
             attraction:
               type: object
               required:
+                - type
                 - identifier
+                - metadata
+                - title
               properties:
                 type:
                   type: string
@@ -5273,3 +5551,483 @@ components:
                 - title
       required:
         - success
+    GetAdminAttractionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            attraction:
+              type: object
+              required:
+                - type
+                - identifier
+                - metadata
+                - title
+                - events
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - type.Attraction
+                identifier:
+                  type: string
+                metadata:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                    updated:
+                      type: string
+                    origin:
+                      type: string
+                    originObjectID:
+                      type: string
+                    availableLanguages:
+                      type: array
+                      items:
+                        type: string
+                status:
+                  type: string
+                  enum:
+                    - attraction.published
+                    - attraction.unpublished
+                    - attraction.archived
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                displayName:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                pleaseNote:
+                  type: object
+                  additionalProperties:
+                    type: string
+                website:
+                  type: string
+                inLanguages:
+                  type: array
+                  items:
+                    type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+                events:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - identifier
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - type.Event
+                      identifier:
+                        type: string
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
+                        type: string
+                        enum:
+                          - event.published
+                          - event.unpublished
+                          - event.archived
+                      scheduleStatus:
+                        type: string
+                        enum:
+                          - event.cancelled
+                          - event.postponed
+                          - event.rescheduled
+                          - event.scheduled
+                      schedule:
+                        type: object
+                        properties:
+                          startDate:
+                            type: string
+                          startTime:
+                            type: string
+                          permanentOpening:
+                            type: boolean
+                          doorTime:
+                            type: string
+                          endDate:
+                            type: string
+                          endTime:
+                            type: string
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      pleaseNote:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      website:
+                        type: string
+                      inLanguages:
+                        type: array
+                        items:
+                          type: string
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                      locations:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            referenceType:
+                              type: string
+                            referenceId:
+                              type: string
+                            referenceLabel:
+                              type: object
+                              additionalProperties:
+                                type: string
+                      attractions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            referenceType:
+                              type: string
+                            referenceId:
+                              type: string
+                            referenceLabel:
+                              type: object
+                              additionalProperties:
+                                type: string
+                      organizer:
+                        type: object
+                        properties:
+                          referenceType:
+                            type: string
+                          referenceId:
+                            type: string
+                          referenceLabel:
+                            type: object
+                            additionalProperties:
+                              type: string
+                      contact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          telephone:
+                            type: string
+                      admission:
+                        type: object
+                        properties:
+                          note:
+                            type: object
+                            additionalProperties:
+                              type: string
+                          ticketType:
+                            type: string
+                            enum:
+                              - ticketType.ticketRequired
+                              - ticketType.freeOfCharge
+                          registrationType:
+                            type: string
+                            enum:
+                              - registrationType.registrationRequired
+                              - registrationType.noRegistrationRequired
+                              - registrationType.registrationDesired
+                          admissionLink:
+                            type: string
+                externalLinks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      displayName:
+                        type: string
+                      url:
+                        type: string
+                    required:
+                      - url
+      required:
+        - success
+    GetAdminAttractionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          required:
+            - page
+            - pageSize
+            - totalCount
+            - attractions
+          properties:
+            page:
+              type: number
+            pageSize:
+              type: number
+            totalCount:
+              type: number
+            attractions:
+              type: array
+              items:
+                type: object
+                required:
+                  - type
+                  - identifier
+                  - metadata
+                  - title
+                  - events
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Attraction
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      origin:
+                        type: string
+                      originObjectID:
+                        type: string
+                      availableLanguages:
+                        type: array
+                        items:
+                          type: string
+                  status:
+                    type: string
+                    enum:
+                      - attraction.published
+                      - attraction.unpublished
+                      - attraction.archived
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  displayName:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  pleaseNote:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  website:
+                    type: string
+                  inLanguages:
+                    type: array
+                    items:
+                      type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  events:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - identifier
+                      properties:
+                        type:
+                          type: string
+                          enum:
+                            - type.Event
+                        identifier:
+                          type: string
+                        metadata:
+                          type: object
+                          properties:
+                            created:
+                              type: string
+                            updated:
+                              type: string
+                            origin:
+                              type: string
+                            originObjectID:
+                              type: string
+                            availableLanguages:
+                              type: array
+                              items:
+                                type: string
+                        status:
+                          type: string
+                          enum:
+                            - event.published
+                            - event.unpublished
+                            - event.archived
+                        scheduleStatus:
+                          type: string
+                          enum:
+                            - event.cancelled
+                            - event.postponed
+                            - event.rescheduled
+                            - event.scheduled
+                        schedule:
+                          type: object
+                          properties:
+                            startDate:
+                              type: string
+                            startTime:
+                              type: string
+                            permanentOpening:
+                              type: boolean
+                            doorTime:
+                              type: string
+                            endDate:
+                              type: string
+                            endTime:
+                              type: string
+                        title:
+                          type: object
+                          additionalProperties:
+                            type: string
+                        displayName:
+                          type: object
+                          additionalProperties:
+                            type: string
+                        description:
+                          type: object
+                          additionalProperties:
+                            type: string
+                        pleaseNote:
+                          type: object
+                          additionalProperties:
+                            type: string
+                        website:
+                          type: string
+                        inLanguages:
+                          type: array
+                          items:
+                            type: string
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                        locations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              referenceType:
+                                type: string
+                              referenceId:
+                                type: string
+                              referenceLabel:
+                                type: object
+                                additionalProperties:
+                                  type: string
+                        attractions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              referenceType:
+                                type: string
+                              referenceId:
+                                type: string
+                              referenceLabel:
+                                type: object
+                                additionalProperties:
+                                  type: string
+                        organizer:
+                          type: object
+                          properties:
+                            referenceType:
+                              type: string
+                            referenceId:
+                              type: string
+                            referenceLabel:
+                              type: object
+                              additionalProperties:
+                                type: string
+                        contact:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            email:
+                              type: string
+                            telephone:
+                              type: string
+                        admission:
+                          type: object
+                          properties:
+                            note:
+                              type: object
+                              additionalProperties:
+                                type: string
+                            ticketType:
+                              type: string
+                              enum:
+                                - ticketType.ticketRequired
+                                - ticketType.freeOfCharge
+                            registrationType:
+                              type: string
+                              enum:
+                                - registrationType.registrationRequired
+                                - registrationType.noRegistrationRequired
+                                - registrationType.registrationDesired
+                            admissionLink:
+                              type: string
+                  externalLinks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        displayName:
+                          type: string
+                        url:
+                          type: string
+                      required:
+                        - url
+      required:
+        - success
+        - data

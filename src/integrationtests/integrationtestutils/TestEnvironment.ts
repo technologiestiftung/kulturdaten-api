@@ -113,7 +113,7 @@ export class TestEnvironment {
 
 	withAttractionsRoutes(): TestEnvironment {
 		this.attractionsRepository = new MongoDBAttractionsRepository(this.connector);
-		this.attractionsService = new AttractionsService(this.attractionsRepository);
+		this.attractionsService = new AttractionsService(this.attractionsRepository, this.eventsRepository);
 		this.attractionsController = new AttractionsController(this.attractionsService);
 		this.attractionsRoutes = new AttractionsRoutes(this.attractionsController);
 		this.attractions = this.db.collection("attractions");

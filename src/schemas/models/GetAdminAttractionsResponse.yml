@@ -1,0 +1,27 @@
+type: object
+properties:
+  success:
+    type: boolean
+  message:
+    type: string
+  data:
+    type: object
+    required:
+      - page
+      - pageSize
+      - totalCount
+      - attractions
+    properties:
+      page:
+        type: number
+      pageSize:
+        type: number
+      totalCount:
+        type: number
+      attractions:
+        type: array
+        items:
+          $ref: "AdminAttraction.yml"
+required:
+  - success
+  - data
