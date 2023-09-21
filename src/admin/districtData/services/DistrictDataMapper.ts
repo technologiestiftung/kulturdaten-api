@@ -17,9 +17,6 @@ import {
 
 export class DistrictDataMapper {
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
-		const v: any = veranstaltung;
-		const tags: string[] = this.mapCategoryTags(veranstaltung.kategorie_ids, allTags);
-
 		return {
 			type: "type.Attraction",
 			title: {
@@ -48,10 +45,8 @@ export class DistrictDataMapper {
 				originObjectID: String(veranstaltung.event_id),
 			},
 			...(veranstaltung.event_homepage ? { website: veranstaltung.event_homepage } : {}),
-			inLanguages: ["de", "en", "fr", "ru", "tr"].filter(
-				(lang) => v[`event_titel_${lang}`] || v[`event_beschreibung_${lang}`],
-			),
-			tags: tags,
+			inLanguages: this.getInLanguages(veranstaltung),
+			tags: this.mapCategoryTags(veranstaltung.kategorie_ids, allTags),
 			...(veranstaltung.event_homepage
 				? {
 						externalLinks: [
@@ -64,6 +59,29 @@ export class DistrictDataMapper {
 				  }
 				: {}),
 		};
+	}
+
+	private getInLanguages(veranstaltung: Veranstaltung): Array<string> {
+		type LanguageLookup = {
+			langCode: string;
+			fields: (keyof Veranstaltung)[];
+		};
+		const languageLookups: Array<LanguageLookup> = [
+			{ langCode: "de", fields: ["event_titel_de", "event_beschreibung_de"] },
+			{ langCode: "en", fields: ["event_titel_en", "event_beschreibung_en"] },
+			{ langCode: "fr", fields: ["event_titel_fr", "event_beschreibung_fr"] },
+			{ langCode: "ru", fields: ["event_titel_ru", "event_beschreibung_ru"] },
+			{ langCode: "tr", fields: ["event_titel_tr", "event_beschreibung_tr"] },
+		];
+		return languageLookups
+			.map(({ fields, langCode }) => {
+				const hasContent = !!fields.find((field) => !!veranstaltung[field]);
+				if (hasContent) {
+					return langCode;
+				}
+				return null;
+			})
+			.filter(Boolean) as string[];
 	}
 
 	mapEvent(
