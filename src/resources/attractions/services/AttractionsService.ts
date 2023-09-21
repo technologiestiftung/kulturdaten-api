@@ -29,18 +29,20 @@ export class AttractionsService {
 	async listForAdmins(pagination?: Pagination): Promise<AdminAttraction[]> {
 		const attractions = await this.attractionsRepository.getAttractions(pagination);
 		const attractionsWithEvents = await Promise.all(
-			attractions.map(async (attraction) => {
-				const events = await this.eventsRepository.searchAllEvents({
-					"attractions.referenceId": attraction.identifier,
-				});
-				const adminAttraction: AdminAttraction = {
-					...attraction,
-					events,
-				};
-				return adminAttraction;
-			}),
+			attractions.map((attraction) => this.createAdminAttraction(attraction)),
 		);
 		return attractionsWithEvents;
+	}
+
+	private async createAdminAttraction(attraction: Attraction): Promise<AdminAttraction> {
+		const events = await this.eventsRepository.searchAllEvents({
+			"attractions.referenceId": attraction.identifier,
+		});
+		const adminAttraction: AdminAttraction = {
+			...attraction,
+			events,
+		};
+		return adminAttraction;
 	}
 
 	async search(filter?: Filter, pagination?: Pagination): Promise<Attraction[]> {
