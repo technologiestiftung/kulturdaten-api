@@ -6,6 +6,10 @@ properties:
     type: string
   data:
     type: object
+    required:
+      - accessToken
+      - expiresIn
+      - user
     properties:
       accessToken:
         type: string
