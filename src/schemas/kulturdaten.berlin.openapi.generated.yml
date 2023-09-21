@@ -1715,7 +1715,11 @@ components:
     Attraction:
       type: object
       required:
+        - type
         - identifier
+        - metadata
+        - status
+        - title
       properties:
         type:
           type: string
@@ -2733,7 +2737,11 @@ components:
               items:
                 type: object
                 required:
+                  - type
                   - identifier
+                  - metadata
+                  - status
+                  - title
                 properties:
                   type:
                     type: string
@@ -2920,7 +2928,11 @@ components:
               items:
                 type: object
                 required:
+                  - type
                   - identifier
+                  - metadata
+                  - status
+                  - title
                 properties:
                   type:
                     type: string
@@ -3014,7 +3026,11 @@ components:
             attraction:
               type: object
               required:
+                - type
                 - identifier
+                - metadata
+                - status
+                - title
               properties:
                 type:
                   type: string

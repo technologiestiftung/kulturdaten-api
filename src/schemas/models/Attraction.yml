@@ -1,6 +1,10 @@
 type: object
 required:
+  - type
   - identifier
+  - metadata
+  - status
+  - title
 properties:
   type:
     type: string
