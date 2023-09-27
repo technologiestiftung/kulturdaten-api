@@ -30,6 +30,10 @@ kulturdaten.berlin is a project of the Technologiestiftung Berlin (<https://www.
 ## Development
 
 ```shell
+# Local development server
+npm run dev
+
+# Local development server in debug mode
 npm run debug
 ```
 
@@ -37,6 +41,9 @@ npm run debug
 ## More commands
 
 ```shell
+# Re-generate all OpenAPI schema files
+npm run generate
+
 # Format all code with Prettier
 npm run format
 
