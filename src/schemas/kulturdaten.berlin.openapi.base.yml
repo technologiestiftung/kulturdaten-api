@@ -768,7 +768,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -789,7 +789,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -808,7 +808,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -824,7 +824,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -840,7 +840,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -856,7 +856,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -872,7 +872,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -888,7 +888,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -904,7 +904,7 @@ paths:
       tags:
         - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
