@@ -8,20 +8,18 @@ import * as yaml from 'js-yaml';
 
 async function generate() {
 	const directoryPath = './src/schemas/models';
-
-	let schemaFiles = await readdir(directoryPath);
+	const schemaFiles = await readdir(directoryPath);
 	schemaFiles.forEach(async function (file) {
 		const { name } = parse(file);
-
-		await generateInterface(name);
+		await generateInterface(name, directoryPath);
 		console.log(`generate interface for ${file}`);
-		await generateFaker(name);
+		await generateFaker(name, directoryPath);
 		console.log(`generate test faker for ${file}`);
 	});
 
 }
 
-async function generateInterface(className: string, rootDirectory: string = './src/schemas/models') {
+async function generateInterface(className: string, rootDirectory: string) {
 	const options = (baseFile: string, dependencies: { imports: string, ajvSchema: string }, schema: string, schemaName: string) => {
 		return {
 			bannerComment: `/* eslint-disable */
@@ -114,7 +112,7 @@ function generateImportsAndAjvSchemeForDependency(dependencies: string[]) {
 }
 
 
-async function generateFaker(className: string, rootDirectory: string = './src/schemas/models') {
+async function generateFaker(className: string, rootDirectory: string) {
 
 	const parsedDependencies = await findDependencies(className, rootDirectory);
 
@@ -181,7 +179,4 @@ function generateFakerImportForDependency(dependency: string) {
 	return dependency ? `import { schemaFor${dependency} } from '../models/${dependency}.generated';` : '';
 }
 
-
-
 generate();
-
