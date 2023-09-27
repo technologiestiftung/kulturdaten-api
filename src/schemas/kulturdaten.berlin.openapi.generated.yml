@@ -1,76 +1,112 @@
 openapi: 3.0.3
 info:
-  title: API Kulturdaten.Berlin
+  title: kulturdaten.berlin API
   description: >
-    Willkommen zur Kulturdaten.Berlin-API! Diese API ermöglicht es Ihnen, eine
-    Vielzahl von Funktionen zu nutzen, um Veranstaltungen, Kulturorte,
-    Kulturangebote und Kulturakteure in Berlin zu entdecken.
-
-    Sind Sie Kulturakteur, können Sie bequem Ihre Veranstaltungen und Kulturorte
-    verwalten.
+    *We make Berlin’s cultural diversity visible*
 
 
-    Die API ist in mehrere Bereiche gegliedert. 
+    This API provides access to reading and writing data about Berlin’s cultural
+    locations, events, and more. Expand the routes below to see the available
+    endpoints, send example requests, etc.
 
 
-    - **Events, Angebote, Orte und Akteure entdecken** - Hier entdecken Sie, was
-    kulturell in Berlin geboten wird. Viele Such- und Filtereinstellungen
-    ermöglichen es Ihnen, nur die Kulturorte und Kulturakteure zu finden, die
-    Sie wirklich benötigen.
-
-    - **Nutzer verwalten** - Für viele Funktionen dieser API müssen Sie als
-    Nutzer registriert sein. Hier können Sie sich registrieren und ihre
-    Nutzerdaten verwalten. 
-
-    - **Akteure verwalten** - Kulturaktuere betreiben Kulturorte und/oder bieten
-    Kulrutveranstaltungen an. Hier können Sie Akteure anlegen, diese verwalten
-    und anderen Nutzern Rechte geben, dies auch zu tun.
-
-    - **Orte verwalten** - Hier spielt die Musik. Kulturorte sind die Orte, an
-    denen Kulturveranstaltungen stattfinden. Hier können Sie als Akteur Orte
-    anlegen und diese verwalten. Auch können Sie anderen Nutzern Rechte geben,
-    dies auch zu tun. 
-
-    - **Angebote verwalten** - Bei einer Veranstaltung wird immer etwas
-    angeboten. Was dies ist, beschreibt das Angebot - ein Konzert, eine
-    Ausstellung oder eine Lesung. Hier können Sie als Akteur Angebote anlegen
-    und diese verwalten.
-
-    - **Events verwalten** - Eine Veranstaltung beantwortet die Frage: Was
-    (Angbot) findet wann (Termin), wo (Ort), von wem (Aktuer) und unter welchen
-    Umständen statt? Hier können Sie als Aktuer Veranstaltungen anlegen und
-    verwalten.
+    ⚠️ Please note that the API and its documentation are currently **work in
+    progress and subject to change**.
 
 
-
-    Um die API zu verwenden, benötigen Sie einen JWT (JSON Web Token), den Sie
-    durch einen login Request erhalten können. Senden Sie bei jedem API-Aufruf
-    den JWT im Header als Bearer-Token.
+    ## Entities
 
 
-    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu
-    einem Event:
+    - **Attraction**: A specific cultural happening, e.g. a concert, a play, or
+    a reading.
+
+    - **Location**: A geographical location, e.g. a theatre, a museum, or a
+    library.
+
+    - **Event**: An (or multiple) attraction(s) at a certain time at a certain
+    (or multiple) location(s).
+
+    - **Organization**: An organization that manages their content (attractions,
+    locations, and events).
+
+    - **User**: A user of the platform, e.g. admins or organization members.
+
+    - **Tag**: A descriptive tag that can be assigned to attractions, locations,
+    events, and organizations.
 
 
-    ```
+    ## Authentication
 
-    GET /api/events/{identifier}
 
-    Headers:
-      Authorization: Bearer {Ihr JWT}
+    If you want to use the API to *manage* (i.e. create or update) cultural
+    data, you need a user account with admin permissions. An initial admin user
+    can be created with the [seed
+    script](https://github.com/technologiestiftung/kulturdaten-api#initializing-an-empty-database).
 
+
+    Once you have the user account, you can send a login request:
+
+
+    ```shell
+
+    curl -X "POST" "http://localhost:3000/api/authentication/login" \  
+      -H \'Accept: application/json\' \  
+      -H \'Content-Type: application/json\' \  
+      -d $\'{ "email": "admin@example.com", "password": "plain-text-password" }\'
     ```
 
 
-    In der Antwort erhalten Sie detaillierte Informationen zum Event,
-    einschließlich Titel, Beschreibung, Datum und Veranstaltungsort.
+    The response of that login request contains a JWT (JSON Web Token) in the
+    `data.accessToken` field. Store it and send it along as an `Authorization`
+    header in the following requests, e.g.:
 
 
-    Sie können auch die API-Dokumentation für weitere Informationen und
-    Beispiele zu jedem Endpunkt konsultieren.
+    ```shell
+
+    curl -X "POST" "http://localhost:3000/api/admin/{some-admin-route}" \
+      -H \'Accept: application/json\' \
+      -H \'Content-Type: application/json\' \
+      -H \'Authorization: Bearer {accessToken}\' \
+      -d $\'{}\'
+    ```
+
+
+    ## Contact
+
+
+    Please get in touch if you have any questions or feedback:
+    [kontakt@kulturdaten.berlin](mailto:kontakt@kulturdaten.berlin)
+
+
+    The source code and more information can be found on GitHub:
+    <https://github.com/technologiestiftung/kulturdaten-api>
   version: 1.0.0
+  contact:
+    name: kulturdaten.berlin
+    url: https://www.kulturdaten.berlin/
+  license:
+    name: MIT
+    url: https://github.com/technologiestiftung/kulturdaten-api/LICENSE
 servers:
+  - url: /api/
+    description: This server
   - url: http://localhost:3000/api/
+    description: Local development server
+  - url: https://api-v2.kulturdaten.berlin/api/
+    description: Production server
+tags:
+  - name: Discover cultural data
+    description: Read data (attractions, events, etc.). No authentication required.
+  - name: Manage cultural data
+    description: Create and update data. All routes require authentication via JWT.
+  - name: Users
+    description: Manage users, reset your password, etc.
+  - name: Authentication
+    description: Log in with a user account.
+  - name: Admin
+    description: Manage data globally, or import third-party data.
+  - name: Server
+    description: Server-related routes, like health checks.
 paths:
   /attractions:
     get:
