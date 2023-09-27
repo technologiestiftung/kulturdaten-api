@@ -7,7 +7,7 @@ import ip from "ip";
 import { MongoClient } from "mongodb";
 import passport from "passport";
 import "reflect-metadata";
-import swaggerUi from "swagger-ui-express";
+import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
 import Container from "typedi";
 import * as winston from "winston";
 import YAML from "yamljs";
@@ -154,7 +154,10 @@ export class KulturdatenBerlinApp {
 
 	private registerOpenApi() {
 		const swaggerDocument = YAML.load(this.openAPISpec);
-		this.app.use(`/api/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+		const swaggerUIOptions: SwaggerUiOptions = {
+			customCss: ".swagger-ui .info { margin: 20px 0 0 0 }",
+		};
+		this.app.use(`/api/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerUIOptions));
 		this.app.use(`/api/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
 		this.app.use(
 			OpenApiValidator.middleware({
