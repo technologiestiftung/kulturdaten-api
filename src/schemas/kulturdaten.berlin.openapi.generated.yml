@@ -113,9 +113,9 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - $ref: "#/components/parameters/asReference"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -325,9 +325,9 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - $ref: "#/components/parameters/asReference"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -679,9 +679,9 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - $ref: "#/components/parameters/asReference"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -921,9 +921,9 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - $ref: "#/components/parameters/asReference"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
