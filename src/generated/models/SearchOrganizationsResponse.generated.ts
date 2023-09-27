@@ -14,6 +14,7 @@ import addFormats from "ajv-formats";
 import {GetOrganizationsResponse, schemaForGetOrganizationsResponse} from "./GetOrganizationsResponse.generated";
 import {Organization, schemaForOrganization} from "./Organization.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Address, schemaForAddress} from "./Address.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {Coordinates, schemaForCoordinates} from "./Coordinates.generated";
@@ -32,6 +33,7 @@ export function validateSearchOrganizationsResponse(o: object): {isValid: boolea
   ajv.addSchema(schemaForGetOrganizationsResponse, "GetOrganizationsResponse.yml");
   ajv.addSchema(schemaForOrganization, "Organization.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForAddress, "Address.yml");
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForCoordinates, "Coordinates.yml");

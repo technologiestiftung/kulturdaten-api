@@ -13,6 +13,7 @@ import addFormats from "ajv-formats";
 
 import {Location, schemaForLocation} from "./Location.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Address, schemaForAddress} from "./Address.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {Coordinates, schemaForCoordinates} from "./Coordinates.generated";
@@ -47,6 +48,7 @@ export function validateGetLocationsResponse(o: object): {isValid: boolean; vali
   ajv.addKeyword("example");
   ajv.addSchema(schemaForLocation, "Location.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForAddress, "Address.yml");
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForCoordinates, "Coordinates.yml");

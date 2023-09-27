@@ -12,11 +12,13 @@
 	import { CreateEventResponse, schemaForCreateEventResponse } from "../models/CreateEventResponse.generated";
 
 	import { schemaForReference } from '../models/Reference.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeCreateEventResponse(useExamples: boolean, specifiedPropertiesForCreateEventResponse: object = {}): CreateEventResponse {
 		const schema = schemaForCreateEventResponse as Schema;
 		const refs : Schema[] = [
 			schemaForReference as Schema,
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

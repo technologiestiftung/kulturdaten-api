@@ -7,9 +7,7 @@ properties:
   identifier:
     type: string
   title:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   metadata:
     allOf:
       - $ref: "Metadata.yml"

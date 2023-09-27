@@ -11,6 +11,7 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { CreateOrganizationRequest, schemaForCreateOrganizationRequest } from "../models/CreateOrganizationRequest.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForAddress } from '../models/Address.generated';
 	import { schemaForBorough } from '../models/Borough.generated';
 	import { schemaForCoordinates } from '../models/Coordinates.generated';
@@ -19,6 +20,7 @@
 	export function fakeCreateOrganizationRequest(useExamples: boolean, specifiedPropertiesForCreateOrganizationRequest: object = {}): CreateOrganizationRequest {
 		const schema = schemaForCreateOrganizationRequest as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 			schemaForAddress as Schema,
 			schemaForBorough as Schema,
 			schemaForCoordinates as Schema,

@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { AddEventLocationRequest, schemaForAddEventLocationRequest } from "../models/AddEventLocationRequest.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeAddEventLocationRequest(useExamples: boolean, specifiedPropertiesForAddEventLocationRequest: object = {}): AddEventLocationRequest {
 		const schema = schemaForAddEventLocationRequest as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

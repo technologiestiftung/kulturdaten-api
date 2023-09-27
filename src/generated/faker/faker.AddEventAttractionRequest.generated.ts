@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { AddEventAttractionRequest, schemaForAddEventAttractionRequest } from "../models/AddEventAttractionRequest.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeAddEventAttractionRequest(useExamples: boolean, specifiedPropertiesForAddEventAttractionRequest: object = {}): AddEventAttractionRequest {
 		const schema = schemaForAddEventAttractionRequest as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

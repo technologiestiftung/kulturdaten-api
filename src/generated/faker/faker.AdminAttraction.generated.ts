@@ -12,6 +12,7 @@
 	import { AdminAttraction, schemaForAdminAttraction } from "../models/AdminAttraction.generated";
 
 	import { schemaForMetadata } from '../models/Metadata.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForEvent } from '../models/Event.generated';
 	import { schemaForSchedule } from '../models/Schedule.generated';
 	import { schemaForReference } from '../models/Reference.generated';
@@ -23,6 +24,7 @@
 		const schema = schemaForAdminAttraction as Schema;
 		const refs : Schema[] = [
 			schemaForMetadata as Schema,
+			schemaForTranslatableField as Schema,
 			schemaForEvent as Schema,
 			schemaForSchedule as Schema,
 			schemaForReference as Schema,

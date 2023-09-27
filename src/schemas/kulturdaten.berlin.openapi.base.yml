@@ -1821,3 +1821,6 @@ components:
 
     GetAdminAttractionsResponse:
       $ref: models/GetAdminAttractionsResponse.yml
+
+    TranslatableField:
+      $ref: models/TranslatableField.yml

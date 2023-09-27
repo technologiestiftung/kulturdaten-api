@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { Reference, schemaForReference } from "../models/Reference.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeReference(useExamples: boolean, specifiedPropertiesForReference: object = {}): Reference {
 		const schema = schemaForReference as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

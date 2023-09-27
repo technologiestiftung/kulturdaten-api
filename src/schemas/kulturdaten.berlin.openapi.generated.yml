@@ -1613,6 +1613,12 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
     Response:
       type: object
       properties:
@@ -1709,18 +1715,42 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         pleaseNote:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -1744,6 +1774,12 @@ components:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
         attractions:
           type: array
           items:
@@ -1757,6 +1793,12 @@ components:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
         organizer:
           type: object
           properties:
@@ -1768,6 +1810,12 @@ components:
               type: object
               additionalProperties:
                 type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
         contact:
           type: object
           properties:
@@ -1784,6 +1832,12 @@ components:
               type: object
               additionalProperties:
                 type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
             ticketType:
               type: string
               enum:
@@ -1837,18 +1891,42 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         pleaseNote:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -1919,18 +1997,42 @@ components:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
               displayName:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
               description:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
               pleaseNote:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
               website:
                 type: string
               inLanguages:
@@ -1954,6 +2056,12 @@ components:
                       type: object
                       additionalProperties:
                         type: string
+                      description: >-
+                        A string that can be translated into multiple languages,
+                        e.g. { "de": "Konzert", "en": "concert" }
+                      example:
+                        de: Konzert
+                        en: concert
               attractions:
                 type: array
                 items:
@@ -1967,6 +2075,12 @@ components:
                       type: object
                       additionalProperties:
                         type: string
+                      description: >-
+                        A string that can be translated into multiple languages,
+                        e.g. { "de": "Konzert", "en": "concert" }
+                      example:
+                        de: Konzert
+                        en: concert
               organizer:
                 type: object
                 properties:
@@ -1978,6 +2092,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
               contact:
                 type: object
                 properties:
@@ -1994,6 +2114,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   ticketType:
                     type: string
                     enum:
@@ -2057,18 +2183,42 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         pleaseNote:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -2126,14 +2276,32 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         address:
@@ -2250,6 +2418,12 @@ components:
               type: object
               additionalProperties:
                 type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
         contact:
           type: object
           properties:
@@ -2301,14 +2475,32 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -2475,14 +2667,32 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 displayName:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 description:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 website:
                   type: string
                 inLanguages:
@@ -2551,6 +2761,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     GetOrganizationsResponse:
@@ -2613,14 +2829,32 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   inLanguages:
@@ -2691,6 +2925,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     CreateOrganizationRequest:
@@ -2704,14 +2944,32 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -2801,6 +3059,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     SearchOrganizationsRequest:
@@ -2869,14 +3133,32 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   inLanguages:
@@ -2947,6 +3229,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     UpdateOrganizationRequest:
@@ -2956,14 +3244,32 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -3078,18 +3384,42 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   pleaseNote:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   inLanguages:
@@ -3124,6 +3454,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     CreateAttractionRequest:
@@ -3137,18 +3473,42 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         pleaseNote:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -3203,6 +3563,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     SearchAttractionsRequest:
@@ -3268,18 +3634,42 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   pleaseNote:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   inLanguages:
@@ -3314,6 +3704,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     GetAttractionResponse:
@@ -3365,18 +3761,42 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 displayName:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 description:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 pleaseNote:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 website:
                   type: string
                 inLanguages:
@@ -3409,6 +3829,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     UpdateAttractionRequest:
@@ -3418,18 +3844,42 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         pleaseNote:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -3505,14 +3955,32 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   address:
@@ -3632,6 +4100,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                   contact:
                     type: object
                     properties:
@@ -3654,6 +4128,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     CreateLocationRequest:
@@ -3667,14 +4147,32 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         address:
@@ -3781,6 +4279,12 @@ components:
               type: object
               additionalProperties:
                 type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
         contact:
           type: object
           properties:
@@ -3823,6 +4327,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     SearchLocationsRequest:
@@ -3885,14 +4395,32 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   address:
@@ -4012,6 +4540,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                   contact:
                     type: object
                     properties:
@@ -4034,6 +4568,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     GetLocationResponse:
@@ -4082,14 +4622,32 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 displayName:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 description:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 website:
                   type: string
                 address:
@@ -4209,6 +4767,12 @@ components:
                       type: object
                       additionalProperties:
                         type: string
+                      description: >-
+                        A string that can be translated into multiple languages,
+                        e.g. { "de": "Konzert", "en": "concert" }
+                      example:
+                        de: Konzert
+                        en: concert
                 contact:
                   type: object
                   properties:
@@ -4229,6 +4793,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     UpdateLocationRequest:
@@ -4238,14 +4808,32 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         address:
@@ -4325,6 +4913,12 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
       required:
         - organizationIdentifier
     ClaimLocationRequest:
@@ -4429,18 +5023,42 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   pleaseNote:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   inLanguages:
@@ -4464,6 +5082,12 @@ components:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                   attractions:
                     type: array
                     items:
@@ -4477,6 +5101,12 @@ components:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                   organizer:
                     type: object
                     properties:
@@ -4488,6 +5118,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                   contact:
                     type: object
                     properties:
@@ -4504,6 +5140,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                       ticketType:
                         type: string
                         enum:
@@ -4530,6 +5172,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     CreateEventRequest:
@@ -4558,18 +5206,42 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         pleaseNote:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -4593,6 +5265,12 @@ components:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
         attractions:
           type: array
           items:
@@ -4606,6 +5284,12 @@ components:
                 type: object
                 additionalProperties:
                   type: string
+                description: >-
+                  A string that can be translated into multiple languages, e.g.
+                  { "de": "Konzert", "en": "concert" }
+                example:
+                  de: Konzert
+                  en: concert
         organizer:
           type: object
           properties:
@@ -4617,6 +5301,12 @@ components:
               type: object
               additionalProperties:
                 type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
         contact:
           type: object
           properties:
@@ -4633,6 +5323,12 @@ components:
               type: object
               additionalProperties:
                 type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
             ticketType:
               type: string
               enum:
@@ -4678,6 +5374,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     SearchEventsRequest:
@@ -4793,18 +5495,42 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   pleaseNote:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   inLanguages:
@@ -4828,6 +5554,12 @@ components:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                   attractions:
                     type: array
                     items:
@@ -4841,6 +5573,12 @@ components:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                   organizer:
                     type: object
                     properties:
@@ -4852,6 +5590,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                   contact:
                     type: object
                     properties:
@@ -4868,6 +5612,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                       ticketType:
                         type: string
                         enum:
@@ -4894,6 +5644,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
       required:
         - success
     GetEventResponse:
@@ -4964,18 +5720,42 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 displayName:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 description:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 pleaseNote:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 website:
                   type: string
                 inLanguages:
@@ -4999,6 +5779,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                 attractions:
                   type: array
                   items:
@@ -5012,6 +5798,12 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                 organizer:
                   type: object
                   properties:
@@ -5023,6 +5815,12 @@ components:
                       type: object
                       additionalProperties:
                         type: string
+                      description: >-
+                        A string that can be translated into multiple languages,
+                        e.g. { "de": "Konzert", "en": "concert" }
+                      example:
+                        de: Konzert
+                        en: concert
                 contact:
                   type: object
                   properties:
@@ -5039,6 +5837,12 @@ components:
                       type: object
                       additionalProperties:
                         type: string
+                      description: >-
+                        A string that can be translated into multiple languages,
+                        e.g. { "de": "Konzert", "en": "concert" }
+                      example:
+                        de: Konzert
+                        en: concert
                     ticketType:
                       type: string
                       enum:
@@ -5063,6 +5867,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
       required:
         - success
     UpdateEventRequest:
@@ -5072,18 +5882,42 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         displayName:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         description:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         pleaseNote:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         website:
           type: string
         inLanguages:
@@ -5110,6 +5944,12 @@ components:
               type: object
               additionalProperties:
                 type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
             ticketType:
               type: string
               enum:
@@ -5132,6 +5972,12 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
     RemoveEventLocationRequest:
       type: object
       properties:
@@ -5148,6 +5994,12 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
     RemoveEventAttractionRequest:
       type: object
       properties:
@@ -5164,6 +6016,12 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
     RescheduleEventRequest:
       type: object
       properties:
@@ -5429,6 +6287,12 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   metadata:
                     allOf:
                       - type: object
@@ -5479,6 +6343,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 metadata:
                   allOf:
                     - type: object
@@ -5519,6 +6389,12 @@ components:
           type: object
           additionalProperties:
             type: string
+          description: >-
+            A string that can be translated into multiple languages, e.g. {
+            "de": "Konzert", "en": "concert" }
+          example:
+            de: Konzert
+            en: concert
         metadata:
           allOf:
             - type: object
@@ -5568,6 +6444,12 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 metadata:
                   allOf:
                     - type: object
@@ -5645,18 +6527,42 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 displayName:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 description:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 pleaseNote:
                   type: object
                   additionalProperties:
                     type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
                 website:
                   type: string
                 inLanguages:
@@ -5727,18 +6633,42 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                       displayName:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                       description:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                       pleaseNote:
                         type: object
                         additionalProperties:
                           type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
                       website:
                         type: string
                       inLanguages:
@@ -5762,6 +6692,13 @@ components:
                               type: object
                               additionalProperties:
                                 type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
                       attractions:
                         type: array
                         items:
@@ -5775,6 +6712,13 @@ components:
                               type: object
                               additionalProperties:
                                 type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
                       organizer:
                         type: object
                         properties:
@@ -5786,6 +6730,13 @@ components:
                             type: object
                             additionalProperties:
                               type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
                       contact:
                         type: object
                         properties:
@@ -5802,6 +6753,13 @@ components:
                             type: object
                             additionalProperties:
                               type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
                           ticketType:
                             type: string
                             enum:
@@ -5891,18 +6849,42 @@ components:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   displayName:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   description:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   pleaseNote:
                     type: object
                     additionalProperties:
                       type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
                   website:
                     type: string
                   inLanguages:
@@ -5973,18 +6955,42 @@ components:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                         displayName:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                         description:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                         pleaseNote:
                           type: object
                           additionalProperties:
                             type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
                         website:
                           type: string
                         inLanguages:
@@ -6008,6 +7014,13 @@ components:
                                 type: object
                                 additionalProperties:
                                   type: string
+                                description: >-
+                                  A string that can be translated into multiple
+                                  languages, e.g. { "de": "Konzert", "en":
+                                  "concert" }
+                                example:
+                                  de: Konzert
+                                  en: concert
                         attractions:
                           type: array
                           items:
@@ -6021,6 +7034,13 @@ components:
                                 type: object
                                 additionalProperties:
                                   type: string
+                                description: >-
+                                  A string that can be translated into multiple
+                                  languages, e.g. { "de": "Konzert", "en":
+                                  "concert" }
+                                example:
+                                  de: Konzert
+                                  en: concert
                         organizer:
                           type: object
                           properties:
@@ -6032,6 +7052,13 @@ components:
                               type: object
                               additionalProperties:
                                 type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
                         contact:
                           type: object
                           properties:
@@ -6048,6 +7075,13 @@ components:
                               type: object
                               additionalProperties:
                                 type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
                             ticketType:
                               type: string
                               enum:
@@ -6075,3 +7109,13 @@ components:
       required:
         - success
         - data
+    TranslatableField:
+      type: object
+      additionalProperties:
+        type: string
+      description: >-
+        A string that can be translated into multiple languages, e.g. { "de":
+        "Konzert", "en": "concert" }
+      example:
+        de: Konzert
+        en: concert

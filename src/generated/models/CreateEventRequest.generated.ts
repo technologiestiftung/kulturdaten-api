@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Schedule, schemaForSchedule} from "./Schedule.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 import {Contact, schemaForContact} from "./Contact.generated";
 import {Admission, schemaForAdmission} from "./Admission.generated";
@@ -22,10 +23,10 @@ export const schemaForCreateEventRequest = {
   properties: {
     type: {type: "string", enum: ["type.Event"]},
     schedule: {$ref: "Schedule.yml"},
-    title: {type: "object", additionalProperties: {type: "string"}},
-    displayName: {type: "object", additionalProperties: {type: "string"}},
-    description: {type: "object", additionalProperties: {type: "string"}},
-    pleaseNote: {type: "object", additionalProperties: {type: "string"}},
+    title: {$ref: "TranslatableField.yml"},
+    displayName: {$ref: "TranslatableField.yml"},
+    description: {$ref: "TranslatableField.yml"},
+    pleaseNote: {$ref: "TranslatableField.yml"},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
@@ -44,6 +45,7 @@ export function validateCreateEventRequest(o: object): {isValid: boolean; valida
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForSchedule, "Schedule.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
   ajv.addSchema(schemaForContact, "Contact.yml");
   ajv.addSchema(schemaForAdmission, "Admission.yml");
@@ -55,18 +57,10 @@ export function validateCreateEventRequest(o: object): {isValid: boolean; valida
 export interface CreateEventRequest {
   type: "type.Event";
   schedule?: Schedule;
-  title?: {
-    [k: string]: string;
-  };
-  displayName?: {
-    [k: string]: string;
-  };
-  description?: {
-    [k: string]: string;
-  };
-  pleaseNote?: {
-    [k: string]: string;
-  };
+  title?: TranslatableField;
+  displayName?: TranslatableField;
+  description?: TranslatableField;
+  pleaseNote?: TranslatableField;
   website?: string;
   inLanguages?: string[];
   tags?: string[];

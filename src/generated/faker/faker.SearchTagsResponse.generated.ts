@@ -13,6 +13,7 @@
 
 	import { schemaForGetTagsResponse } from '../models/GetTagsResponse.generated';
 	import { schemaForTag } from '../models/Tag.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 
 	export function fakeSearchTagsResponse(useExamples: boolean, specifiedPropertiesForSearchTagsResponse: object = {}): SearchTagsResponse {
@@ -20,6 +21,7 @@
 		const refs : Schema[] = [
 			schemaForGetTagsResponse as Schema,
 			schemaForTag as Schema,
+			schemaForTranslatableField as Schema,
 			schemaForMetadata as Schema,
 
 		];

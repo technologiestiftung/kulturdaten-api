@@ -12,11 +12,13 @@
 	import { CreateOrganizationResponse, schemaForCreateOrganizationResponse } from "../models/CreateOrganizationResponse.generated";
 
 	import { schemaForReference } from '../models/Reference.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeCreateOrganizationResponse(useExamples: boolean, specifiedPropertiesForCreateOrganizationResponse: object = {}): CreateOrganizationResponse {
 		const schema = schemaForCreateOrganizationResponse as Schema;
 		const refs : Schema[] = [
 			schemaForReference as Schema,
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

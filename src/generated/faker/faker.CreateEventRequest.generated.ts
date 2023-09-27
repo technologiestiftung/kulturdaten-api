@@ -12,6 +12,7 @@
 	import { CreateEventRequest, schemaForCreateEventRequest } from "../models/CreateEventRequest.generated";
 
 	import { schemaForSchedule } from '../models/Schedule.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForReference } from '../models/Reference.generated';
 	import { schemaForContact } from '../models/Contact.generated';
 	import { schemaForAdmission } from '../models/Admission.generated';
@@ -20,6 +21,7 @@
 		const schema = schemaForCreateEventRequest as Schema;
 		const refs : Schema[] = [
 			schemaForSchedule as Schema,
+			schemaForTranslatableField as Schema,
 			schemaForReference as Schema,
 			schemaForContact as Schema,
 			schemaForAdmission as Schema,

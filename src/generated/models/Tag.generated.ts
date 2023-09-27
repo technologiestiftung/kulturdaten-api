@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 
 export const schemaForTag = {
@@ -19,7 +20,7 @@ export const schemaForTag = {
   properties: {
     type: {type: "string", enum: ["type.Tag"]},
     identifier: {type: "string"},
-    title: {type: "object", additionalProperties: {type: "string"}},
+    title: {$ref: "TranslatableField.yml"},
     metadata: {
       allOf: [
         {$ref: "Metadata.yml"},
@@ -34,6 +35,7 @@ export function validateTag(o: object): {isValid: boolean; validate: ValidateFun
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
 
   const validate = ajv.compile(schemaForTag);
@@ -43,9 +45,7 @@ export function validateTag(o: object): {isValid: boolean; validate: ValidateFun
 export interface Tag {
   type?: "type.Tag";
   identifier: string;
-  title: {
-    [k: string]: string;
-  };
+  title: TranslatableField;
   metadata?: Metadata & {
     externalIDs?: {
       [k: string]: string;

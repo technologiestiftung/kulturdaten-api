@@ -11,11 +11,13 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
+
 export const schemaForAdmission = {
   $id: "Admission.yml",
   type: "object",
   properties: {
-    note: {type: "object", additionalProperties: {type: "string"}},
+    note: {$ref: "TranslatableField.yml"},
     ticketType: {type: "string", enum: ["ticketType.ticketRequired", "ticketType.freeOfCharge"]},
     registrationType: {
       type: "string",
@@ -33,15 +35,14 @@ export function validateAdmission(o: object): {isValid: boolean; validate: Valid
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
 
   const validate = ajv.compile(schemaForAdmission);
   return {isValid: validate(o), validate: validate};
 }
 
 export interface Admission {
-  note?: {
-    [k: string]: string;
-  };
+  note?: TranslatableField;
   ticketType?: "ticketType.ticketRequired" | "ticketType.freeOfCharge";
   registrationType?:
     | "registrationType.registrationRequired"

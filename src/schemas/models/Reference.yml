@@ -5,6 +5,4 @@ properties:
   referenceId:
     type: string
   referenceLabel:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"

@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
 
 export const schemaForCreateAttractionRequest = {
@@ -18,10 +19,10 @@ export const schemaForCreateAttractionRequest = {
   type: "object",
   properties: {
     type: {type: "string", enum: ["type.Attraction"]},
-    title: {type: "object", additionalProperties: {type: "string"}},
-    displayName: {type: "object", additionalProperties: {type: "string"}},
-    description: {type: "object", additionalProperties: {type: "string"}},
-    pleaseNote: {type: "object", additionalProperties: {type: "string"}},
+    title: {$ref: "TranslatableField.yml"},
+    displayName: {$ref: "TranslatableField.yml"},
+    description: {$ref: "TranslatableField.yml"},
+    pleaseNote: {$ref: "TranslatableField.yml"},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
@@ -35,6 +36,7 @@ export function validateCreateAttractionRequest(o: object): {isValid: boolean; v
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForExternalLinks, "ExternalLinks.yml");
 
   const validate = ajv.compile(schemaForCreateAttractionRequest);
@@ -43,18 +45,10 @@ export function validateCreateAttractionRequest(o: object): {isValid: boolean; v
 
 export interface CreateAttractionRequest {
   type: "type.Attraction";
-  title: {
-    [k: string]: string;
-  };
-  displayName?: {
-    [k: string]: string;
-  };
-  description?: {
-    [k: string]: string;
-  };
-  pleaseNote?: {
-    [k: string]: string;
-  };
+  title: TranslatableField;
+  displayName?: TranslatableField;
+  description?: TranslatableField;
+  pleaseNote?: TranslatableField;
   website?: string;
   inLanguages?: string[];
   tags?: string[];

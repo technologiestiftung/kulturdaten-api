@@ -13,6 +13,7 @@
 
 	import { schemaForOrganization } from '../models/Organization.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForAddress } from '../models/Address.generated';
 	import { schemaForBorough } from '../models/Borough.generated';
 	import { schemaForCoordinates } from '../models/Coordinates.generated';
@@ -24,6 +25,7 @@
 		const refs : Schema[] = [
 			schemaForOrganization as Schema,
 			schemaForMetadata as Schema,
+			schemaForTranslatableField as Schema,
 			schemaForAddress as Schema,
 			schemaForBorough as Schema,
 			schemaForCoordinates as Schema,

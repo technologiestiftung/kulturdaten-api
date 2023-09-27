@@ -11,12 +11,14 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { UpdateEventRequest, schemaForUpdateEventRequest } from "../models/UpdateEventRequest.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForContact } from '../models/Contact.generated';
 	import { schemaForAdmission } from '../models/Admission.generated';
 
 	export function fakeUpdateEventRequest(useExamples: boolean, specifiedPropertiesForUpdateEventRequest: object = {}): UpdateEventRequest {
 		const schema = schemaForUpdateEventRequest as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 			schemaForContact as Schema,
 			schemaForAdmission as Schema,
 

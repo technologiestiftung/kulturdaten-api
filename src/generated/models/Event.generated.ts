@@ -13,6 +13,7 @@ import addFormats from "ajv-formats";
 
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {Schedule, schemaForSchedule} from "./Schedule.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 import {Contact, schemaForContact} from "./Contact.generated";
 import {Admission, schemaForAdmission} from "./Admission.generated";
@@ -31,10 +32,10 @@ export const schemaForEvent = {
       enum: ["event.cancelled", "event.postponed", "event.rescheduled", "event.scheduled"]
     },
     schedule: {$ref: "Schedule.yml"},
-    title: {type: "object", additionalProperties: {type: "string"}},
-    displayName: {type: "object", additionalProperties: {type: "string"}},
-    description: {type: "object", additionalProperties: {type: "string"}},
-    pleaseNote: {type: "object", additionalProperties: {type: "string"}},
+    title: {$ref: "TranslatableField.yml"},
+    displayName: {$ref: "TranslatableField.yml"},
+    description: {$ref: "TranslatableField.yml"},
+    pleaseNote: {$ref: "TranslatableField.yml"},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
@@ -52,6 +53,7 @@ export function validateEvent(o: object): {isValid: boolean; validate: ValidateF
   ajv.addKeyword("example");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForSchedule, "Schedule.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
   ajv.addSchema(schemaForContact, "Contact.yml");
   ajv.addSchema(schemaForAdmission, "Admission.yml");
@@ -67,18 +69,10 @@ export interface Event {
   status?: "event.published" | "event.unpublished" | "event.archived";
   scheduleStatus?: "event.cancelled" | "event.postponed" | "event.rescheduled" | "event.scheduled";
   schedule?: Schedule;
-  title?: {
-    [k: string]: string;
-  };
-  displayName?: {
-    [k: string]: string;
-  };
-  description?: {
-    [k: string]: string;
-  };
-  pleaseNote?: {
-    [k: string]: string;
-  };
+  title?: TranslatableField;
+  displayName?: TranslatableField;
+  description?: TranslatableField;
+  pleaseNote?: TranslatableField;
   website?: string;
   inLanguages?: string[];
   tags?: string[];

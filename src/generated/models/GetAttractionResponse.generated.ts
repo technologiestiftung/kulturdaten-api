@@ -13,6 +13,7 @@ import addFormats from "ajv-formats";
 
 import {Attraction, schemaForAttraction} from "./Attraction.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 
@@ -36,6 +37,7 @@ export function validateGetAttractionResponse(o: object): {isValid: boolean; val
   ajv.addKeyword("example");
   ajv.addSchema(schemaForAttraction, "Attraction.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForExternalLinks, "ExternalLinks.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
 

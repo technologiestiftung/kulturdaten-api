@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Address, schemaForAddress} from "./Address.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {Coordinates, schemaForCoordinates} from "./Coordinates.generated";
@@ -20,9 +21,9 @@ export const schemaForUpdateOrganizationRequest = {
   $id: "UpdateOrganizationRequest.yml",
   type: "object",
   properties: {
-    title: {type: "object", additionalProperties: {type: "string"}},
-    displayName: {type: "object", additionalProperties: {type: "string"}},
-    description: {type: "object", additionalProperties: {type: "string"}},
+    title: {$ref: "TranslatableField.yml"},
+    displayName: {$ref: "TranslatableField.yml"},
+    description: {$ref: "TranslatableField.yml"},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
@@ -37,6 +38,7 @@ export function validateUpdateOrganizationRequest(o: object): {isValid: boolean;
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForAddress, "Address.yml");
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForCoordinates, "Coordinates.yml");
@@ -47,15 +49,9 @@ export function validateUpdateOrganizationRequest(o: object): {isValid: boolean;
 }
 
 export interface UpdateOrganizationRequest {
-  title?: {
-    [k: string]: string;
-  };
-  displayName?: {
-    [k: string]: string;
-  };
-  description?: {
-    [k: string]: string;
-  };
+  title?: TranslatableField;
+  displayName?: TranslatableField;
+  description?: TranslatableField;
   website?: string;
   inLanguages?: string[];
   tags?: string[];

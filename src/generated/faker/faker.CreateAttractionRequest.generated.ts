@@ -11,11 +11,13 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { CreateAttractionRequest, schemaForCreateAttractionRequest } from "../models/CreateAttractionRequest.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForExternalLinks } from '../models/ExternalLinks.generated';
 
 	export function fakeCreateAttractionRequest(useExamples: boolean, specifiedPropertiesForCreateAttractionRequest: object = {}): CreateAttractionRequest {
 		const schema = schemaForCreateAttractionRequest as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 			schemaForExternalLinks as Schema,
 
 		];

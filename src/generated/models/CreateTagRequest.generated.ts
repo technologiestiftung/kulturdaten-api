@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Tag, schemaForTag} from "./Tag.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 
 export const schemaForCreateTagRequest = {$id: "CreateTagRequest.yml", $ref: "Tag.yml"};
@@ -21,6 +22,7 @@ export function validateCreateTagRequest(o: object): {isValid: boolean; validate
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForTag, "Tag.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
 
   const validate = ajv.compile(schemaForCreateTagRequest);
@@ -30,9 +32,7 @@ export function validateCreateTagRequest(o: object): {isValid: boolean; validate
 export interface CreateTagRequest {
   type?: "type.Tag";
   identifier: string;
-  title: {
-    [k: string]: string;
-  };
+  title: TranslatableField;
   metadata?: Metadata & {
     externalIDs?: {
       [k: string]: string;

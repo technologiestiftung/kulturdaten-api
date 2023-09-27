@@ -14,6 +14,7 @@ import addFormats from "ajv-formats";
 import {GetAttractionsResponse, schemaForGetAttractionsResponse} from "./GetAttractionsResponse.generated";
 import {Attraction, schemaForAttraction} from "./Attraction.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {ExternalLinks, schemaForExternalLinks} from "./ExternalLinks.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 
@@ -29,6 +30,7 @@ export function validateSearchAttractionsResponse(o: object): {isValid: boolean;
   ajv.addSchema(schemaForGetAttractionsResponse, "GetAttractionsResponse.yml");
   ajv.addSchema(schemaForAttraction, "Attraction.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForExternalLinks, "ExternalLinks.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
 

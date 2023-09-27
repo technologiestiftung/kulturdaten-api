@@ -15,6 +15,7 @@ import {GetEventsResponse, schemaForGetEventsResponse} from "./GetEventsResponse
 import {Event, schemaForEvent} from "./Event.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {Schedule, schemaForSchedule} from "./Schedule.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
 import {Contact, schemaForContact} from "./Contact.generated";
 import {Admission, schemaForAdmission} from "./Admission.generated";
@@ -29,6 +30,7 @@ export function validateSearchEventsResponse(o: object): {isValid: boolean; vali
   ajv.addSchema(schemaForEvent, "Event.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForSchedule, "Schedule.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
   ajv.addSchema(schemaForContact, "Contact.yml");
   ajv.addSchema(schemaForAdmission, "Admission.yml");

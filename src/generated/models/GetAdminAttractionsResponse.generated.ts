@@ -13,6 +13,7 @@ import addFormats from "ajv-formats";
 
 import {AdminAttraction, schemaForAdminAttraction} from "./AdminAttraction.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Event, schemaForEvent} from "./Event.generated";
 import {Schedule, schemaForSchedule} from "./Schedule.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
@@ -46,6 +47,7 @@ export function validateGetAdminAttractionsResponse(o: object): {isValid: boolea
   ajv.addKeyword("example");
   ajv.addSchema(schemaForAdminAttraction, "AdminAttraction.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForEvent, "Event.yml");
   ajv.addSchema(schemaForSchedule, "Schedule.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");

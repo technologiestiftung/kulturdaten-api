@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Reference, schemaForReference} from "./Reference.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 
 export const schemaForCreateOrganizationResponse = {
   $id: "CreateOrganizationResponse.yml",
@@ -28,6 +29,7 @@ export function validateCreateOrganizationResponse(o: object): {isValid: boolean
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForReference, "Reference.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
 
   const validate = ajv.compile(schemaForCreateOrganizationResponse);
   return {isValid: validate(o), validate: validate};

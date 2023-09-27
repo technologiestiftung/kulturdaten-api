@@ -12,11 +12,13 @@
 	import { CreateAttractionResponse, schemaForCreateAttractionResponse } from "../models/CreateAttractionResponse.generated";
 
 	import { schemaForReference } from '../models/Reference.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeCreateAttractionResponse(useExamples: boolean, specifiedPropertiesForCreateAttractionResponse: object = {}): CreateAttractionResponse {
 		const schema = schemaForCreateAttractionResponse as Schema;
 		const refs : Schema[] = [
 			schemaForReference as Schema,
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

@@ -13,6 +13,7 @@ import addFormats from "ajv-formats";
 
 import {GetTagsResponse, schemaForGetTagsResponse} from "./GetTagsResponse.generated";
 import {Tag, schemaForTag} from "./Tag.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 
 export const schemaForSearchTagsResponse = {$id: "SearchTagsResponse.yml", $ref: "GetTagsResponse.yml"};
@@ -23,6 +24,7 @@ export function validateSearchTagsResponse(o: object): {isValid: boolean; valida
   ajv.addKeyword("example");
   ajv.addSchema(schemaForGetTagsResponse, "GetTagsResponse.yml");
   ajv.addSchema(schemaForTag, "Tag.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
 
   const validate = ajv.compile(schemaForSearchTagsResponse);

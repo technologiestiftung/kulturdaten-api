@@ -17,17 +17,11 @@ properties:
       - location.unpublished
       - location.archived
   title:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   displayName:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   description:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   website:
     type: string
   address:

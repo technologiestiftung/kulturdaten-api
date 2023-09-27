@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { SetLocationManagerRequest, schemaForSetLocationManagerRequest } from "../models/SetLocationManagerRequest.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeSetLocationManagerRequest(useExamples: boolean, specifiedPropertiesForSetLocationManagerRequest: object = {}): SetLocationManagerRequest {
 		const schema = schemaForSetLocationManagerRequest as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

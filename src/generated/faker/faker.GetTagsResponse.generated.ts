@@ -12,12 +12,14 @@
 	import { GetTagsResponse, schemaForGetTagsResponse } from "../models/GetTagsResponse.generated";
 
 	import { schemaForTag } from '../models/Tag.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 
 	export function fakeGetTagsResponse(useExamples: boolean, specifiedPropertiesForGetTagsResponse: object = {}): GetTagsResponse {
 		const schema = schemaForGetTagsResponse as Schema;
 		const refs : Schema[] = [
 			schemaForTag as Schema,
+			schemaForTranslatableField as Schema,
 			schemaForMetadata as Schema,
 
 		];

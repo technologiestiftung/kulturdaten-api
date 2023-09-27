@@ -13,6 +13,7 @@
 
 	import { schemaForAttraction } from '../models/Attraction.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForExternalLinks } from '../models/ExternalLinks.generated';
 	import { schemaForReference } from '../models/Reference.generated';
 
@@ -21,6 +22,7 @@
 		const refs : Schema[] = [
 			schemaForAttraction as Schema,
 			schemaForMetadata as Schema,
+			schemaForTranslatableField as Schema,
 			schemaForExternalLinks as Schema,
 			schemaForReference as Schema,
 

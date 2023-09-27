@@ -11,19 +11,19 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
+
 export const schemaForAddEventLocationRequest = {
   $id: "AddEventLocationRequest.yml",
   type: "object",
-  properties: {
-    locationIdentifier: {type: "string"},
-    alternativeDisplayName: {type: "object", additionalProperties: {type: "string"}}
-  }
+  properties: {locationIdentifier: {type: "string"}, alternativeDisplayName: {$ref: "TranslatableField.yml"}}
 };
 
 export function validateAddEventLocationRequest(o: object): {isValid: boolean; validate: ValidateFunction} {
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
 
   const validate = ajv.compile(schemaForAddEventLocationRequest);
   return {isValid: validate(o), validate: validate};
@@ -31,7 +31,5 @@ export function validateAddEventLocationRequest(o: object): {isValid: boolean; v
 
 export interface AddEventLocationRequest {
   locationIdentifier?: string;
-  alternativeDisplayName?: {
-    [k: string]: string;
-  };
+  alternativeDisplayName?: TranslatableField;
 }

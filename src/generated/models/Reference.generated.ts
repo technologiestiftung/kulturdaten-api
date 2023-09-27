@@ -11,13 +11,15 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
+
 export const schemaForReference = {
   $id: "Reference.yml",
   type: "object",
   properties: {
     referenceType: {type: "string"},
     referenceId: {type: "string"},
-    referenceLabel: {type: "object", additionalProperties: {type: "string"}}
+    referenceLabel: {$ref: "TranslatableField.yml"}
   }
 };
 
@@ -25,6 +27,7 @@ export function validateReference(o: object): {isValid: boolean; validate: Valid
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
 
   const validate = ajv.compile(schemaForReference);
   return {isValid: validate(o), validate: validate};
@@ -33,7 +36,5 @@ export function validateReference(o: object): {isValid: boolean; validate: Valid
 export interface Reference {
   referenceType?: string;
   referenceId?: string;
-  referenceLabel?: {
-    [k: string]: string;
-  };
+  referenceLabel?: TranslatableField;
 }

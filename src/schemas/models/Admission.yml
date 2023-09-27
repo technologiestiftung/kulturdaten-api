@@ -1,9 +1,7 @@
 type: object
 properties:
   note:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   ticketType:
     type: string
     enum:

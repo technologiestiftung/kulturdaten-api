@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { Admission, schemaForAdmission } from "../models/Admission.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeAdmission(useExamples: boolean, specifiedPropertiesForAdmission: object = {}): Admission {
 		const schema = schemaForAdmission as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

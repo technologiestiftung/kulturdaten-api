@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Event, schemaForEvent} from "./Event.generated";
 import {Schedule, schemaForSchedule} from "./Schedule.generated";
 import {Reference, schemaForReference} from "./Reference.generated";
@@ -28,10 +29,10 @@ export const schemaForAdminAttraction = {
     identifier: {type: "string"},
     metadata: {$ref: "Metadata.yml"},
     status: {type: "string", enum: ["attraction.published", "attraction.unpublished", "attraction.archived"]},
-    title: {type: "object", additionalProperties: {type: "string"}},
-    displayName: {type: "object", additionalProperties: {type: "string"}},
-    description: {type: "object", additionalProperties: {type: "string"}},
-    pleaseNote: {type: "object", additionalProperties: {type: "string"}},
+    title: {$ref: "TranslatableField.yml"},
+    displayName: {$ref: "TranslatableField.yml"},
+    description: {$ref: "TranslatableField.yml"},
+    pleaseNote: {$ref: "TranslatableField.yml"},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
@@ -45,6 +46,7 @@ export function validateAdminAttraction(o: object): {isValid: boolean; validate:
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForEvent, "Event.yml");
   ajv.addSchema(schemaForSchedule, "Schedule.yml");
   ajv.addSchema(schemaForReference, "Reference.yml");
@@ -61,18 +63,10 @@ export interface AdminAttraction {
   identifier: string;
   metadata: Metadata;
   status?: "attraction.published" | "attraction.unpublished" | "attraction.archived";
-  title: {
-    [k: string]: string;
-  };
-  displayName?: {
-    [k: string]: string;
-  };
-  description?: {
-    [k: string]: string;
-  };
-  pleaseNote?: {
-    [k: string]: string;
-  };
+  title: TranslatableField;
+  displayName?: TranslatableField;
+  description?: TranslatableField;
+  pleaseNote?: TranslatableField;
   website?: string;
   inLanguages?: string[];
   tags?: string[];

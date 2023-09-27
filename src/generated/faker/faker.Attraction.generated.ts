@@ -12,12 +12,14 @@
 	import { Attraction, schemaForAttraction } from "../models/Attraction.generated";
 
 	import { schemaForMetadata } from '../models/Metadata.generated';
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForExternalLinks } from '../models/ExternalLinks.generated';
 
 	export function fakeAttraction(useExamples: boolean, specifiedPropertiesForAttraction: object = {}): Attraction {
 		const schema = schemaForAttraction as Schema;
 		const refs : Schema[] = [
 			schemaForMetadata as Schema,
+			schemaForTranslatableField as Schema,
 			schemaForExternalLinks as Schema,
 
 		];

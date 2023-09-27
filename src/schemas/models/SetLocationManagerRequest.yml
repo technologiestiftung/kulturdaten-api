@@ -3,8 +3,6 @@ properties:
   organizationIdentifier:
     type: string
   alternativeDisplayName:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
 required:
   - organizationIdentifier

@@ -11,10 +11,12 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { SetEventOrganizerRequest, schemaForSetEventOrganizerRequest } from "../models/SetEventOrganizerRequest.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 
 	export function fakeSetEventOrganizerRequest(useExamples: boolean, specifiedPropertiesForSetEventOrganizerRequest: object = {}): SetEventOrganizerRequest {
 		const schema = schemaForSetEventOrganizerRequest as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);

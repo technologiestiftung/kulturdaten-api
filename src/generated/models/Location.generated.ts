@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
+import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
 import {Address, schemaForAddress} from "./Address.generated";
 import {Borough, schemaForBorough} from "./Borough.generated";
 import {Coordinates, schemaForCoordinates} from "./Coordinates.generated";
@@ -29,9 +30,9 @@ export const schemaForLocation = {
     identifier: {type: "string"},
     metadata: {$ref: "Metadata.yml"},
     status: {type: "string", enum: ["location.published", "location.unpublished", "location.archived"]},
-    title: {type: "object", additionalProperties: {type: "string"}},
-    displayName: {type: "object", additionalProperties: {type: "string"}},
-    description: {type: "object", additionalProperties: {type: "string"}},
+    title: {$ref: "TranslatableField.yml"},
+    displayName: {$ref: "TranslatableField.yml"},
+    description: {$ref: "TranslatableField.yml"},
     website: {type: "string"},
     address: {$ref: "Address.yml"},
     borough: {$ref: "Borough.yml"},
@@ -52,6 +53,7 @@ export function validateLocation(o: object): {isValid: boolean; validate: Valida
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
+  ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
   ajv.addSchema(schemaForAddress, "Address.yml");
   ajv.addSchema(schemaForBorough, "Borough.yml");
   ajv.addSchema(schemaForCoordinates, "Coordinates.yml");
@@ -69,15 +71,9 @@ export interface Location {
   identifier: string;
   metadata?: Metadata;
   status?: "location.published" | "location.unpublished" | "location.archived";
-  title?: {
-    [k: string]: string;
-  };
-  displayName?: {
-    [k: string]: string;
-  };
-  description?: {
-    [k: string]: string;
-  };
+  title?: TranslatableField;
+  displayName?: TranslatableField;
+  description?: TranslatableField;
   website?: string;
   address?: Address;
   borough?:

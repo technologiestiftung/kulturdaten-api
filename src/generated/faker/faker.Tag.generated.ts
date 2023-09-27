@@ -11,11 +11,13 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { Tag, schemaForTag } from "../models/Tag.generated";
 
+	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 
 	export function fakeTag(useExamples: boolean, specifiedPropertiesForTag: object = {}): Tag {
 		const schema = schemaForTag as Schema;
 		const refs : Schema[] = [
+			schemaForTranslatableField as Schema,
 			schemaForMetadata as Schema,
 
 		];
