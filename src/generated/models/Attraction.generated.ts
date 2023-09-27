@@ -24,10 +24,10 @@ export const schemaForAttraction = {
     identifier: {type: "string"},
     metadata: {$ref: "Metadata.yml"},
     status: {type: "string", enum: ["attraction.published", "attraction.unpublished", "attraction.archived"]},
-    title: {$ref: "TranslatableField.yml"},
+    title: {$ref: "TranslatableField.yml", example: {de: "Konzert", en: "concert"}},
     displayName: {$ref: "TranslatableField.yml"},
-    description: {$ref: "TranslatableField.yml"},
-    pleaseNote: {$ref: "TranslatableField.yml"},
+    description: {$ref: "TranslatableField.yml", example: {de: "Eine Beschreibung", en: "Some description"}},
+    pleaseNote: {$ref: "TranslatableField.yml", example: {de: "Achtung, laute Geräusche", en: "Warning, loud noises"}},
     website: {type: "string"},
     inLanguages: {type: "array", items: {type: "string"}},
     tags: {type: "array", items: {type: "string"}},
@@ -53,9 +53,9 @@ export interface Attraction {
   metadata: Metadata;
   status?: "attraction.published" | "attraction.unpublished" | "attraction.archived";
   title: TranslatableField;
-  displayName?: TranslatableField;
-  description?: TranslatableField;
-  pleaseNote?: TranslatableField;
+  displayName?: TranslatableField1;
+  description?: TranslatableField2;
+  pleaseNote?: TranslatableField3;
   website?: string;
   inLanguages?: string[];
   tags?: string[];

@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {GetOrganizationsResponse, schemaForGetOrganizationsResponse} from "./GetOrganizationsResponse.generated";
+import {Pagination, schemaForPagination} from "./Pagination.generated";
 import {Organization, schemaForOrganization} from "./Organization.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
@@ -31,6 +32,7 @@ export function validateSearchOrganizationsResponse(o: object): {isValid: boolea
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForGetOrganizationsResponse, "GetOrganizationsResponse.yml");
+  ajv.addSchema(schemaForPagination, "Pagination.yml");
   ajv.addSchema(schemaForOrganization, "Organization.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
@@ -47,10 +49,7 @@ export function validateSearchOrganizationsResponse(o: object): {isValid: boolea
 export interface SearchOrganizationsResponse {
   success: boolean;
   message?: string;
-  data?: {
-    page?: number;
-    pageSize?: number;
-    totalCount?: number;
+  data?: Pagination & {
     organizations?: Organization[];
     organizationsReferences?: Reference[];
   };

@@ -12,6 +12,7 @@
 	import { SearchEventsResponse, schemaForSearchEventsResponse } from "../models/SearchEventsResponse.generated";
 
 	import { schemaForGetEventsResponse } from '../models/GetEventsResponse.generated';
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForEvent } from '../models/Event.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForSchedule } from '../models/Schedule.generated';
@@ -24,6 +25,7 @@
 		const schema = schemaForSearchEventsResponse as Schema;
 		const refs : Schema[] = [
 			schemaForGetEventsResponse as Schema,
+			schemaForPagination as Schema,
 			schemaForEvent as Schema,
 			schemaForMetadata as Schema,
 			schemaForSchedule as Schema,

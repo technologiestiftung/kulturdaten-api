@@ -12,6 +12,7 @@
 	import { SearchLocationsResponse, schemaForSearchLocationsResponse } from "../models/SearchLocationsResponse.generated";
 
 	import { schemaForGetLocationsResponse } from '../models/GetLocationsResponse.generated';
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForLocation } from '../models/Location.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
@@ -27,6 +28,7 @@
 		const schema = schemaForSearchLocationsResponse as Schema;
 		const refs : Schema[] = [
 			schemaForGetLocationsResponse as Schema,
+			schemaForPagination as Schema,
 			schemaForLocation as Schema,
 			schemaForMetadata as Schema,
 			schemaForTranslatableField as Schema,

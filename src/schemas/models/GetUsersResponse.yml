@@ -5,17 +5,13 @@ properties:
   message:
     type: string
   data:
-    type: object
-    properties:
-      page:
-        type: number
-      pageSize:
-        type: number
-      totalCount:
-        type: number
-      users:
-        type: array
-        items:
-          $ref: "User.yml"
+    allOf:
+      - $ref: "Pagination.yml"
+      - type: object
+        properties:
+          users:
+            type: array
+            items:
+              $ref: "User.yml"
 required:
   - success

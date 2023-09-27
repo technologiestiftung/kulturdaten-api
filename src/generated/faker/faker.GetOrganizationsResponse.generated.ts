@@ -11,6 +11,7 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { GetOrganizationsResponse, schemaForGetOrganizationsResponse } from "../models/GetOrganizationsResponse.generated";
 
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForOrganization } from '../models/Organization.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
@@ -23,6 +24,7 @@
 	export function fakeGetOrganizationsResponse(useExamples: boolean, specifiedPropertiesForGetOrganizationsResponse: object = {}): GetOrganizationsResponse {
 		const schema = schemaForGetOrganizationsResponse as Schema;
 		const refs : Schema[] = [
+			schemaForPagination as Schema,
 			schemaForOrganization as Schema,
 			schemaForMetadata as Schema,
 			schemaForTranslatableField as Schema,

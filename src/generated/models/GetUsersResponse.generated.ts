@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Pagination, schemaForPagination} from "./Pagination.generated";
 import {User, schemaForUser} from "./User.generated";
 
 export const schemaForGetUsersResponse = {
@@ -20,13 +21,10 @@ export const schemaForGetUsersResponse = {
     success: {type: "boolean"},
     message: {type: "string"},
     data: {
-      type: "object",
-      properties: {
-        page: {type: "number"},
-        pageSize: {type: "number"},
-        totalCount: {type: "number"},
-        users: {type: "array", items: {$ref: "User.yml"}}
-      }
+      allOf: [
+        {$ref: "Pagination.yml"},
+        {type: "object", properties: {users: {type: "array", items: {$ref: "User.yml"}}}}
+      ]
     }
   },
   required: ["success"]
@@ -36,6 +34,7 @@ export function validateGetUsersResponse(o: object): {isValid: boolean; validate
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForPagination, "Pagination.yml");
   ajv.addSchema(schemaForUser, "User.yml");
 
   const validate = ajv.compile(schemaForGetUsersResponse);
@@ -45,10 +44,7 @@ export function validateGetUsersResponse(o: object): {isValid: boolean; validate
 export interface GetUsersResponse {
   success: boolean;
   message?: string;
-  data?: {
-    page?: number;
-    pageSize?: number;
-    totalCount?: number;
+  data?: Pagination & {
     users?: User[];
   };
 }

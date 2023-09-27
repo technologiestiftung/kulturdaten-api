@@ -11,6 +11,7 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { GetEventsResponse, schemaForGetEventsResponse } from "../models/GetEventsResponse.generated";
 
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForEvent } from '../models/Event.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForSchedule } from '../models/Schedule.generated';
@@ -22,6 +23,7 @@
 	export function fakeGetEventsResponse(useExamples: boolean, specifiedPropertiesForGetEventsResponse: object = {}): GetEventsResponse {
 		const schema = schemaForGetEventsResponse as Schema;
 		const refs : Schema[] = [
+			schemaForPagination as Schema,
 			schemaForEvent as Schema,
 			schemaForMetadata as Schema,
 			schemaForSchedule as Schema,

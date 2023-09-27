@@ -12,6 +12,7 @@
 	import { SearchOrganizationsResponse, schemaForSearchOrganizationsResponse } from "../models/SearchOrganizationsResponse.generated";
 
 	import { schemaForGetOrganizationsResponse } from '../models/GetOrganizationsResponse.generated';
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForOrganization } from '../models/Organization.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
@@ -25,6 +26,7 @@
 		const schema = schemaForSearchOrganizationsResponse as Schema;
 		const refs : Schema[] = [
 			schemaForGetOrganizationsResponse as Schema,
+			schemaForPagination as Schema,
 			schemaForOrganization as Schema,
 			schemaForMetadata as Schema,
 			schemaForTranslatableField as Schema,

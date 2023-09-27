@@ -2207,8 +2207,8 @@ components:
             A string that can be translated into multiple languages, e.g. {
             "de": "Konzert", "en": "concert" }
           example:
-            de: Konzert
-            en: concert
+            de: Eine Beschreibung
+            en: Some description
         pleaseNote:
           type: object
           additionalProperties:
@@ -2217,8 +2217,8 @@ components:
             A string that can be translated into multiple languages, e.g. {
             "de": "Konzert", "en": "concert" }
           example:
-            de: Konzert
-            en: concert
+            de: Achtung, laute Geräusche
+            en: Warning, loud noises
         website:
           type: string
         inLanguages:
@@ -2777,160 +2777,174 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            organizations:
-              type: array
-              items:
-                type: object
-                required:
-                  - identifier
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Organization
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                organizations:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - identifier
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Organization
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - organization.published
+                          - organization.unpublished
+                          - organization.archived
+                      activationStatus:
                         type: string
-                      availableLanguages:
+                        enum:
+                          - organization.active
+                          - organization.inactive
+                          - organization.retired
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      website:
+                        type: string
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - organization.published
-                      - organization.unpublished
-                      - organization.archived
-                  activationStatus:
-                    type: string
-                    enum:
-                      - organization.active
-                      - organization.inactive
-                      - organization.retired
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  address:
-                    type: object
-                    properties:
-                      streetAddress:
-                        type: string
-                      addressLocality:
-                        type: string
-                      postalCode:
-                        type: string
-                      description:
-                        type: string
-                  borough:
-                    type: string
-                    enum:
-                      - Mitte
-                      - Friedrichshain-Kreuzberg
-                      - Pankow
-                      - Charlottenburg-Wilmersdorf
-                      - Spandau
-                      - Steglitz-Zehlendorf
-                      - Tempelhof-Schöneberg
-                      - Neukölln
-                      - Treptow-Köpenick
-                      - Marzahn-Hellersdorf
-                      - Lichtenberg
-                      - Reinickendorf
-                      - außerhalb
-                  coordinates:
-                    type: object
-                    properties:
-                      latitude:
-                        type: string
-                      longitude:
-                        type: string
-                      coordinateSystem:
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                      address:
+                        type: object
+                        properties:
+                          streetAddress:
+                            type: string
+                          addressLocality:
+                            type: string
+                          postalCode:
+                            type: string
+                          description:
+                            type: string
+                      borough:
                         type: string
                         enum:
-                          - WGS84 (Decimal Degrees)
-                  contact:
+                          - Mitte
+                          - Friedrichshain-Kreuzberg
+                          - Pankow
+                          - Charlottenburg-Wilmersdorf
+                          - Spandau
+                          - Steglitz-Zehlendorf
+                          - Tempelhof-Schöneberg
+                          - Neukölln
+                          - Treptow-Köpenick
+                          - Marzahn-Hellersdorf
+                          - Lichtenberg
+                          - Reinickendorf
+                          - außerhalb
+                      coordinates:
+                        type: object
+                        properties:
+                          latitude:
+                            type: string
+                          longitude:
+                            type: string
+                          coordinateSystem:
+                            type: string
+                            enum:
+                              - WGS84 (Decimal Degrees)
+                      contact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          telephone:
+                            type: string
+                organizationsReferences:
+                  type: array
+                  items:
                     type: object
                     properties:
-                      name:
+                      referenceType:
                         type: string
-                      email:
+                      referenceId:
                         type: string
-                      telephone:
-                        type: string
-            organizationsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
       required:
         - success
     CreateOrganizationRequest:
@@ -3081,160 +3095,174 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            organizations:
-              type: array
-              items:
-                type: object
-                required:
-                  - identifier
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Organization
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                organizations:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - identifier
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Organization
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - organization.published
+                          - organization.unpublished
+                          - organization.archived
+                      activationStatus:
                         type: string
-                      availableLanguages:
+                        enum:
+                          - organization.active
+                          - organization.inactive
+                          - organization.retired
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      website:
+                        type: string
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - organization.published
-                      - organization.unpublished
-                      - organization.archived
-                  activationStatus:
-                    type: string
-                    enum:
-                      - organization.active
-                      - organization.inactive
-                      - organization.retired
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  address:
-                    type: object
-                    properties:
-                      streetAddress:
-                        type: string
-                      addressLocality:
-                        type: string
-                      postalCode:
-                        type: string
-                      description:
-                        type: string
-                  borough:
-                    type: string
-                    enum:
-                      - Mitte
-                      - Friedrichshain-Kreuzberg
-                      - Pankow
-                      - Charlottenburg-Wilmersdorf
-                      - Spandau
-                      - Steglitz-Zehlendorf
-                      - Tempelhof-Schöneberg
-                      - Neukölln
-                      - Treptow-Köpenick
-                      - Marzahn-Hellersdorf
-                      - Lichtenberg
-                      - Reinickendorf
-                      - außerhalb
-                  coordinates:
-                    type: object
-                    properties:
-                      latitude:
-                        type: string
-                      longitude:
-                        type: string
-                      coordinateSystem:
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                      address:
+                        type: object
+                        properties:
+                          streetAddress:
+                            type: string
+                          addressLocality:
+                            type: string
+                          postalCode:
+                            type: string
+                          description:
+                            type: string
+                      borough:
                         type: string
                         enum:
-                          - WGS84 (Decimal Degrees)
-                  contact:
+                          - Mitte
+                          - Friedrichshain-Kreuzberg
+                          - Pankow
+                          - Charlottenburg-Wilmersdorf
+                          - Spandau
+                          - Steglitz-Zehlendorf
+                          - Tempelhof-Schöneberg
+                          - Neukölln
+                          - Treptow-Köpenick
+                          - Marzahn-Hellersdorf
+                          - Lichtenberg
+                          - Reinickendorf
+                          - außerhalb
+                      coordinates:
+                        type: object
+                        properties:
+                          latitude:
+                            type: string
+                          longitude:
+                            type: string
+                          coordinateSystem:
+                            type: string
+                            enum:
+                              - WGS84 (Decimal Degrees)
+                      contact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          telephone:
+                            type: string
+                organizationsReferences:
+                  type: array
+                  items:
                     type: object
                     properties:
-                      name:
+                      referenceType:
                         type: string
-                      email:
+                      referenceId:
                         type: string
-                      telephone:
-                        type: string
-            organizationsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
       required:
         - success
     UpdateOrganizationRequest:
@@ -3335,131 +3363,145 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            attractions:
-              type: array
-              items:
-                type: object
-                required:
-                  - type
-                  - identifier
-                  - metadata
-                  - title
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Attraction
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                attractions:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Attraction
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - attraction.published
+                          - attraction.unpublished
+                          - attraction.archived
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Eine Beschreibung
+                          en: Some description
+                      pleaseNote:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Achtung, laute Geräusche
+                          en: Warning, loud noises
+                      website:
                         type: string
-                      availableLanguages:
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - attraction.published
-                      - attraction.unpublished
-                      - attraction.archived
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  pleaseNote:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  externalLinks:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        displayName:
+                      tags:
+                        type: array
+                        items:
                           type: string
-                        url:
-                          type: string
-                      required:
-                        - url
-            attractionsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
+                      externalLinks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            displayName:
+                              type: string
+                            url:
+                              type: string
+                          required:
+                            - url
+                attractionsReferences:
+                  type: array
+                  items:
                     type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
       required:
         - success
     CreateAttractionRequest:
@@ -3585,131 +3627,145 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            attractions:
-              type: array
-              items:
-                type: object
-                required:
-                  - type
-                  - identifier
-                  - metadata
-                  - title
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Attraction
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                attractions:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Attraction
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - attraction.published
+                          - attraction.unpublished
+                          - attraction.archived
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Eine Beschreibung
+                          en: Some description
+                      pleaseNote:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Achtung, laute Geräusche
+                          en: Warning, loud noises
+                      website:
                         type: string
-                      availableLanguages:
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - attraction.published
-                      - attraction.unpublished
-                      - attraction.archived
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  pleaseNote:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  externalLinks:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        displayName:
+                      tags:
+                        type: array
+                        items:
                           type: string
-                        url:
-                          type: string
-                      required:
-                        - url
-            attractionsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
+                      externalLinks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            displayName:
+                              type: string
+                            url:
+                              type: string
+                          required:
+                            - url
+                attractionsReferences:
+                  type: array
+                  items:
                     type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
+                    properties:
+                      referenceType:
+                        type: string
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
       required:
         - success
     GetAttractionResponse:
@@ -3785,8 +3841,8 @@ components:
                     A string that can be translated into multiple languages,
                     e.g. { "de": "Konzert", "en": "concert" }
                   example:
-                    de: Konzert
-                    en: concert
+                    de: Eine Beschreibung
+                    en: Some description
                 pleaseNote:
                   type: object
                   additionalProperties:
@@ -3795,8 +3851,8 @@ components:
                     A string that can be translated into multiple languages,
                     e.g. { "de": "Konzert", "en": "concert" }
                   example:
-                    de: Konzert
-                    en: concert
+                    de: Achtung, laute Geräusche
+                    en: Warning, loud noises
                 website:
                   type: string
                 inLanguages:
@@ -3909,187 +3965,230 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            locations:
-              type: array
-              items:
-                type: object
-                required:
-                  - identifier
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Location
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                locations:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - identifier
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Location
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - location.published
+                          - location.unpublished
+                          - location.archived
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      website:
                         type: string
-                      availableLanguages:
+                      address:
+                        type: object
+                        properties:
+                          streetAddress:
+                            type: string
+                          addressLocality:
+                            type: string
+                          postalCode:
+                            type: string
+                          description:
+                            type: string
+                      borough:
+                        type: string
+                        enum:
+                          - Mitte
+                          - Friedrichshain-Kreuzberg
+                          - Pankow
+                          - Charlottenburg-Wilmersdorf
+                          - Spandau
+                          - Steglitz-Zehlendorf
+                          - Tempelhof-Schöneberg
+                          - Neukölln
+                          - Treptow-Köpenick
+                          - Marzahn-Hellersdorf
+                          - Lichtenberg
+                          - Reinickendorf
+                          - außerhalb
+                      coordinates:
+                        type: object
+                        properties:
+                          latitude:
+                            type: string
+                          longitude:
+                            type: string
+                          coordinateSystem:
+                            type: string
+                            enum:
+                              - WGS84 (Decimal Degrees)
+                      openingStatus:
+                        type: string
+                        enum:
+                          - location.opened
+                          - location.closed
+                          - location.permanentlyClosed
+                      openingHours:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            closes:
+                              type: string
+                              description: >-
+                                The closing hour of the place or service on the
+                                given day(s) of the week.
+                            dayOfWeek:
+                              type: string
+                              enum:
+                                - Monday
+                                - Tuesday
+                                - Wednesday
+                                - Thursday
+                                - Friday
+                                - Saturday
+                                - Sunday
+                              description: >-
+                                The day of the week for which these opening
+                                hours are valid.
+                            opens:
+                              type: string
+                              description: >-
+                                The opening hour of the place or service on the
+                                given day(s) of the week.
+                            validFrom:
+                              type: string
+                              description: The date when the item becomes valid.
+                            validThrough:
+                              type: string
+                              description: >-
+                                The date after when the item is not valid. For
+                                example the end of an offer, salary period, or a
+                                period of opening hours.
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - location.published
-                      - location.unpublished
-                      - location.archived
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  address:
-                    type: object
-                    properties:
-                      streetAddress:
-                        type: string
-                      addressLocality:
-                        type: string
-                      postalCode:
-                        type: string
-                      description:
-                        type: string
-                  borough:
-                    type: string
-                    enum:
-                      - Mitte
-                      - Friedrichshain-Kreuzberg
-                      - Pankow
-                      - Charlottenburg-Wilmersdorf
-                      - Spandau
-                      - Steglitz-Zehlendorf
-                      - Tempelhof-Schöneberg
-                      - Neukölln
-                      - Treptow-Köpenick
-                      - Marzahn-Hellersdorf
-                      - Lichtenberg
-                      - Reinickendorf
-                      - außerhalb
-                  coordinates:
-                    type: object
-                    properties:
-                      latitude:
-                        type: string
-                      longitude:
-                        type: string
-                      coordinateSystem:
-                        type: string
-                        enum:
-                          - WGS84 (Decimal Degrees)
-                  openingStatus:
-                    type: string
-                    enum:
-                      - location.opened
-                      - location.closed
-                      - location.permanentlyClosed
-                  openingHours:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        closes:
+                      tags:
+                        type: array
+                        items:
                           type: string
-                          description: >-
-                            The closing hour of the place or service on the
-                            given day(s) of the week.
-                        dayOfWeek:
+                      accessibility:
+                        type: array
+                        items:
                           type: string
-                          enum:
-                            - Monday
-                            - Tuesday
-                            - Wednesday
-                            - Thursday
-                            - Friday
-                            - Saturday
-                            - Sunday
-                          description: >-
-                            The day of the week for which these opening hours
-                            are valid.
-                        opens:
-                          type: string
-                          description: >-
-                            The opening hour of the place or service on the
-                            given day(s) of the week.
-                        validFrom:
-                          type: string
-                          description: The date when the item becomes valid.
-                        validThrough:
-                          type: string
-                          description: >-
-                            The date after when the item is not valid. For
-                            example the end of an offer, salary period, or a
-                            period of opening hours.
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  accessibility:
-                    type: array
-                    items:
-                      type: string
-                  externalLinks:
-                    type: array
-                    items:
-                      type: array
-                      items:
+                      externalLinks:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              displayName:
+                                type: string
+                              url:
+                                type: string
+                            required:
+                              - url
+                      manager:
                         type: object
                         properties:
-                          displayName:
+                          referenceType:
                             type: string
-                          url:
+                          referenceId:
                             type: string
-                        required:
-                          - url
-                  manager:
+                          referenceLabel:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                      contact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          telephone:
+                            type: string
+                locationsReferences:
+                  type: array
+                  items:
                     type: object
                     properties:
                       referenceType:
@@ -4106,34 +4205,6 @@ components:
                         example:
                           de: Konzert
                           en: concert
-                  contact:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      email:
-                        type: string
-                      telephone:
-                        type: string
-            locationsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
       required:
         - success
     CreateLocationRequest:
@@ -4349,187 +4420,230 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            locations:
-              type: array
-              items:
-                type: object
-                required:
-                  - identifier
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Location
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                locations:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - identifier
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Location
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - location.published
+                          - location.unpublished
+                          - location.archived
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      website:
                         type: string
-                      availableLanguages:
+                      address:
+                        type: object
+                        properties:
+                          streetAddress:
+                            type: string
+                          addressLocality:
+                            type: string
+                          postalCode:
+                            type: string
+                          description:
+                            type: string
+                      borough:
+                        type: string
+                        enum:
+                          - Mitte
+                          - Friedrichshain-Kreuzberg
+                          - Pankow
+                          - Charlottenburg-Wilmersdorf
+                          - Spandau
+                          - Steglitz-Zehlendorf
+                          - Tempelhof-Schöneberg
+                          - Neukölln
+                          - Treptow-Köpenick
+                          - Marzahn-Hellersdorf
+                          - Lichtenberg
+                          - Reinickendorf
+                          - außerhalb
+                      coordinates:
+                        type: object
+                        properties:
+                          latitude:
+                            type: string
+                          longitude:
+                            type: string
+                          coordinateSystem:
+                            type: string
+                            enum:
+                              - WGS84 (Decimal Degrees)
+                      openingStatus:
+                        type: string
+                        enum:
+                          - location.opened
+                          - location.closed
+                          - location.permanentlyClosed
+                      openingHours:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            closes:
+                              type: string
+                              description: >-
+                                The closing hour of the place or service on the
+                                given day(s) of the week.
+                            dayOfWeek:
+                              type: string
+                              enum:
+                                - Monday
+                                - Tuesday
+                                - Wednesday
+                                - Thursday
+                                - Friday
+                                - Saturday
+                                - Sunday
+                              description: >-
+                                The day of the week for which these opening
+                                hours are valid.
+                            opens:
+                              type: string
+                              description: >-
+                                The opening hour of the place or service on the
+                                given day(s) of the week.
+                            validFrom:
+                              type: string
+                              description: The date when the item becomes valid.
+                            validThrough:
+                              type: string
+                              description: >-
+                                The date after when the item is not valid. For
+                                example the end of an offer, salary period, or a
+                                period of opening hours.
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - location.published
-                      - location.unpublished
-                      - location.archived
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  address:
-                    type: object
-                    properties:
-                      streetAddress:
-                        type: string
-                      addressLocality:
-                        type: string
-                      postalCode:
-                        type: string
-                      description:
-                        type: string
-                  borough:
-                    type: string
-                    enum:
-                      - Mitte
-                      - Friedrichshain-Kreuzberg
-                      - Pankow
-                      - Charlottenburg-Wilmersdorf
-                      - Spandau
-                      - Steglitz-Zehlendorf
-                      - Tempelhof-Schöneberg
-                      - Neukölln
-                      - Treptow-Köpenick
-                      - Marzahn-Hellersdorf
-                      - Lichtenberg
-                      - Reinickendorf
-                      - außerhalb
-                  coordinates:
-                    type: object
-                    properties:
-                      latitude:
-                        type: string
-                      longitude:
-                        type: string
-                      coordinateSystem:
-                        type: string
-                        enum:
-                          - WGS84 (Decimal Degrees)
-                  openingStatus:
-                    type: string
-                    enum:
-                      - location.opened
-                      - location.closed
-                      - location.permanentlyClosed
-                  openingHours:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        closes:
+                      tags:
+                        type: array
+                        items:
                           type: string
-                          description: >-
-                            The closing hour of the place or service on the
-                            given day(s) of the week.
-                        dayOfWeek:
+                      accessibility:
+                        type: array
+                        items:
                           type: string
-                          enum:
-                            - Monday
-                            - Tuesday
-                            - Wednesday
-                            - Thursday
-                            - Friday
-                            - Saturday
-                            - Sunday
-                          description: >-
-                            The day of the week for which these opening hours
-                            are valid.
-                        opens:
-                          type: string
-                          description: >-
-                            The opening hour of the place or service on the
-                            given day(s) of the week.
-                        validFrom:
-                          type: string
-                          description: The date when the item becomes valid.
-                        validThrough:
-                          type: string
-                          description: >-
-                            The date after when the item is not valid. For
-                            example the end of an offer, salary period, or a
-                            period of opening hours.
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  accessibility:
-                    type: array
-                    items:
-                      type: string
-                  externalLinks:
-                    type: array
-                    items:
-                      type: array
-                      items:
+                      externalLinks:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              displayName:
+                                type: string
+                              url:
+                                type: string
+                            required:
+                              - url
+                      manager:
                         type: object
                         properties:
-                          displayName:
+                          referenceType:
                             type: string
-                          url:
+                          referenceId:
                             type: string
-                        required:
-                          - url
-                  manager:
+                          referenceLabel:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                      contact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          telephone:
+                            type: string
+                locationsReferences:
+                  type: array
+                  items:
                     type: object
                     properties:
                       referenceType:
@@ -4546,34 +4660,6 @@ components:
                         example:
                           de: Konzert
                           en: concert
-                  contact:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      email:
-                        type: string
-                      telephone:
-                        type: string
-            locationsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
       required:
         - success
     GetLocationResponse:
@@ -4955,159 +5041,231 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            events:
-              type: array
-              items:
-                type: object
-                required:
-                  - identifier
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Event
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                events:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - identifier
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Event
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - event.published
+                          - event.unpublished
+                          - event.archived
+                      scheduleStatus:
                         type: string
-                      availableLanguages:
+                        enum:
+                          - event.cancelled
+                          - event.postponed
+                          - event.rescheduled
+                          - event.scheduled
+                      schedule:
+                        type: object
+                        properties:
+                          startDate:
+                            type: string
+                          startTime:
+                            type: string
+                          permanentOpening:
+                            type: boolean
+                          doorTime:
+                            type: string
+                          endDate:
+                            type: string
+                          endTime:
+                            type: string
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      pleaseNote:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      website:
+                        type: string
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - event.published
-                      - event.unpublished
-                      - event.archived
-                  scheduleStatus:
-                    type: string
-                    enum:
-                      - event.cancelled
-                      - event.postponed
-                      - event.rescheduled
-                      - event.scheduled
-                  schedule:
-                    type: object
-                    properties:
-                      startDate:
-                        type: string
-                      startTime:
-                        type: string
-                      permanentOpening:
-                        type: boolean
-                      doorTime:
-                        type: string
-                      endDate:
-                        type: string
-                      endTime:
-                        type: string
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  pleaseNote:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  locations:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        referenceType:
+                      tags:
+                        type: array
+                        items:
                           type: string
-                        referenceId:
-                          type: string
-                        referenceLabel:
+                      locations:
+                        type: array
+                        items:
                           type: object
-                          additionalProperties:
-                            type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                  attractions:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        referenceType:
-                          type: string
-                        referenceId:
-                          type: string
-                        referenceLabel:
+                          properties:
+                            referenceType:
+                              type: string
+                            referenceId:
+                              type: string
+                            referenceLabel:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                      attractions:
+                        type: array
+                        items:
                           type: object
-                          additionalProperties:
+                          properties:
+                            referenceType:
+                              type: string
+                            referenceId:
+                              type: string
+                            referenceLabel:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                      organizer:
+                        type: object
+                        properties:
+                          referenceType:
                             type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                  organizer:
+                          referenceId:
+                            type: string
+                          referenceLabel:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                      contact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          telephone:
+                            type: string
+                      admission:
+                        type: object
+                        properties:
+                          note:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                          ticketType:
+                            type: string
+                            enum:
+                              - ticketType.ticketRequired
+                              - ticketType.freeOfCharge
+                          registrationType:
+                            type: string
+                            enum:
+                              - registrationType.registrationRequired
+                              - registrationType.noRegistrationRequired
+                              - registrationType.registrationDesired
+                          admissionLink:
+                            type: string
+                eventsReferences:
+                  type: array
+                  items:
                     type: object
                     properties:
                       referenceType:
@@ -5124,60 +5282,6 @@ components:
                         example:
                           de: Konzert
                           en: concert
-                  contact:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      email:
-                        type: string
-                      telephone:
-                        type: string
-                  admission:
-                    type: object
-                    properties:
-                      note:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      ticketType:
-                        type: string
-                        enum:
-                          - ticketType.ticketRequired
-                          - ticketType.freeOfCharge
-                      registrationType:
-                        type: string
-                        enum:
-                          - registrationType.registrationRequired
-                          - registrationType.noRegistrationRequired
-                          - registrationType.registrationDesired
-                      admissionLink:
-                        type: string
-            eventsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
       required:
         - success
     CreateEventRequest:
@@ -5427,159 +5531,231 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            events:
-              type: array
-              items:
-                type: object
-                required:
-                  - identifier
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Event
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                events:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - identifier
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Event
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - event.published
+                          - event.unpublished
+                          - event.archived
+                      scheduleStatus:
                         type: string
-                      availableLanguages:
+                        enum:
+                          - event.cancelled
+                          - event.postponed
+                          - event.rescheduled
+                          - event.scheduled
+                      schedule:
+                        type: object
+                        properties:
+                          startDate:
+                            type: string
+                          startTime:
+                            type: string
+                          permanentOpening:
+                            type: boolean
+                          doorTime:
+                            type: string
+                          endDate:
+                            type: string
+                          endTime:
+                            type: string
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      pleaseNote:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      website:
+                        type: string
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - event.published
-                      - event.unpublished
-                      - event.archived
-                  scheduleStatus:
-                    type: string
-                    enum:
-                      - event.cancelled
-                      - event.postponed
-                      - event.rescheduled
-                      - event.scheduled
-                  schedule:
-                    type: object
-                    properties:
-                      startDate:
-                        type: string
-                      startTime:
-                        type: string
-                      permanentOpening:
-                        type: boolean
-                      doorTime:
-                        type: string
-                      endDate:
-                        type: string
-                      endTime:
-                        type: string
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  pleaseNote:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  locations:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        referenceType:
+                      tags:
+                        type: array
+                        items:
                           type: string
-                        referenceId:
-                          type: string
-                        referenceLabel:
+                      locations:
+                        type: array
+                        items:
                           type: object
-                          additionalProperties:
-                            type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                  attractions:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        referenceType:
-                          type: string
-                        referenceId:
-                          type: string
-                        referenceLabel:
+                          properties:
+                            referenceType:
+                              type: string
+                            referenceId:
+                              type: string
+                            referenceLabel:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                      attractions:
+                        type: array
+                        items:
                           type: object
-                          additionalProperties:
+                          properties:
+                            referenceType:
+                              type: string
+                            referenceId:
+                              type: string
+                            referenceLabel:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                      organizer:
+                        type: object
+                        properties:
+                          referenceType:
                             type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                  organizer:
+                          referenceId:
+                            type: string
+                          referenceLabel:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                      contact:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          email:
+                            type: string
+                          telephone:
+                            type: string
+                      admission:
+                        type: object
+                        properties:
+                          note:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                          ticketType:
+                            type: string
+                            enum:
+                              - ticketType.ticketRequired
+                              - ticketType.freeOfCharge
+                          registrationType:
+                            type: string
+                            enum:
+                              - registrationType.registrationRequired
+                              - registrationType.noRegistrationRequired
+                              - registrationType.registrationDesired
+                          admissionLink:
+                            type: string
+                eventsReferences:
+                  type: array
+                  items:
                     type: object
                     properties:
                       referenceType:
@@ -5596,60 +5772,6 @@ components:
                         example:
                           de: Konzert
                           en: concert
-                  contact:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      email:
-                        type: string
-                      telephone:
-                        type: string
-                  admission:
-                    type: object
-                    properties:
-                      note:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      ticketType:
-                        type: string
-                        enum:
-                          - ticketType.ticketRequired
-                          - ticketType.freeOfCharge
-                      registrationType:
-                        type: string
-                        enum:
-                          - registrationType.registrationRequired
-                          - registrationType.noRegistrationRequired
-                          - registrationType.registrationDesired
-                      admissionLink:
-                        type: string
-            eventsReferences:
-              type: array
-              items:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
       required:
         - success
     GetEventResponse:
@@ -6116,43 +6238,57 @@ components:
         message:
           type: string
         data:
-          type: object
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            users:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - User
-                  identifier:
-                    type: string
-                  email:
-                    type: string
-                  password:
-                    type: string
-                  firstName:
-                    type: string
-                  lastName:
-                    type: string
-                  createdAt:
-                    type: string
-                  updatedAt:
-                    type: string
-                  permissionFlags:
-                    type: number
-                required:
-                  - identifier
-                  - email
-                  - permissionFlags
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              properties:
+                users:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - User
+                      identifier:
+                        type: string
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      permissionFlags:
+                        type: number
+                    required:
+                      - identifier
+                      - email
+                      - permissionFlags
       required:
         - success
     CreateUserRequest:
@@ -6794,318 +6930,333 @@ components:
         message:
           type: string
         data:
-          type: object
-          required:
-            - page
-            - pageSize
-            - totalCount
-            - attractions
-          properties:
-            page:
-              type: number
-            pageSize:
-              type: number
-            totalCount:
-              type: number
-            attractions:
-              type: array
-              items:
-                type: object
-                required:
-                  - type
-                  - identifier
-                  - metadata
-                  - title
-                  - events
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - type.Attraction
-                  identifier:
-                    type: string
-                  metadata:
+          allOf:
+            - type: object
+              description: Metadata for paginated lists.
+              properties:
+                page:
+                  type: number
+                  description: The current page, starting with 1
+                  example: 1
+                pageSize:
+                  type: number
+                  description: The number of items per page
+                  example: 30
+                totalCount:
+                  type: number
+                  description: The total number of items
+                  example: 105
+              required:
+                - page
+                - pageSize
+                - totalCount
+            - type: object
+              required:
+                - attractions
+              properties:
+                attractions:
+                  type: array
+                  items:
                     type: object
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                      - events
                     properties:
-                      created:
+                      type:
                         type: string
-                      updated:
+                        enum:
+                          - type.Attraction
+                      identifier:
                         type: string
-                      origin:
+                      metadata:
+                        type: object
+                        properties:
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          origin:
+                            type: string
+                          originObjectID:
+                            type: string
+                          availableLanguages:
+                            type: array
+                            items:
+                              type: string
+                      status:
                         type: string
-                      originObjectID:
+                        enum:
+                          - attraction.published
+                          - attraction.unpublished
+                          - attraction.archived
+                      title:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      displayName:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      description:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      pleaseNote:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      website:
                         type: string
-                      availableLanguages:
+                      inLanguages:
                         type: array
                         items:
                           type: string
-                  status:
-                    type: string
-                    enum:
-                      - attraction.published
-                      - attraction.unpublished
-                      - attraction.archived
-                  title:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  displayName:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  description:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  pleaseNote:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  website:
-                    type: string
-                  inLanguages:
-                    type: array
-                    items:
-                      type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  events:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - identifier
-                      properties:
-                        type:
+                      tags:
+                        type: array
+                        items:
                           type: string
-                          enum:
-                            - type.Event
-                        identifier:
-                          type: string
-                        metadata:
+                      events:
+                        type: array
+                        items:
                           type: object
+                          required:
+                            - identifier
                           properties:
-                            created:
+                            type:
                               type: string
-                            updated:
+                              enum:
+                                - type.Event
+                            identifier:
                               type: string
-                            origin:
+                            metadata:
+                              type: object
+                              properties:
+                                created:
+                                  type: string
+                                updated:
+                                  type: string
+                                origin:
+                                  type: string
+                                originObjectID:
+                                  type: string
+                                availableLanguages:
+                                  type: array
+                                  items:
+                                    type: string
+                            status:
                               type: string
-                            originObjectID:
+                              enum:
+                                - event.published
+                                - event.unpublished
+                                - event.archived
+                            scheduleStatus:
                               type: string
-                            availableLanguages:
+                              enum:
+                                - event.cancelled
+                                - event.postponed
+                                - event.rescheduled
+                                - event.scheduled
+                            schedule:
+                              type: object
+                              properties:
+                                startDate:
+                                  type: string
+                                startTime:
+                                  type: string
+                                permanentOpening:
+                                  type: boolean
+                                doorTime:
+                                  type: string
+                                endDate:
+                                  type: string
+                                endTime:
+                                  type: string
+                            title:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                            displayName:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                            description:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                            pleaseNote:
+                              type: object
+                              additionalProperties:
+                                type: string
+                              description: >-
+                                A string that can be translated into multiple
+                                languages, e.g. { "de": "Konzert", "en":
+                                "concert" }
+                              example:
+                                de: Konzert
+                                en: concert
+                            website:
+                              type: string
+                            inLanguages:
                               type: array
                               items:
                                 type: string
-                        status:
-                          type: string
-                          enum:
-                            - event.published
-                            - event.unpublished
-                            - event.archived
-                        scheduleStatus:
-                          type: string
-                          enum:
-                            - event.cancelled
-                            - event.postponed
-                            - event.rescheduled
-                            - event.scheduled
-                        schedule:
-                          type: object
-                          properties:
-                            startDate:
-                              type: string
-                            startTime:
-                              type: string
-                            permanentOpening:
-                              type: boolean
-                            doorTime:
-                              type: string
-                            endDate:
-                              type: string
-                            endTime:
-                              type: string
-                        title:
-                          type: object
-                          additionalProperties:
-                            type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                        displayName:
-                          type: object
-                          additionalProperties:
-                            type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                        description:
-                          type: object
-                          additionalProperties:
-                            type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                        pleaseNote:
-                          type: object
-                          additionalProperties:
-                            type: string
-                          description: >-
-                            A string that can be translated into multiple
-                            languages, e.g. { "de": "Konzert", "en": "concert" }
-                          example:
-                            de: Konzert
-                            en: concert
-                        website:
-                          type: string
-                        inLanguages:
-                          type: array
-                          items:
-                            type: string
-                        tags:
-                          type: array
-                          items:
-                            type: string
-                        locations:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              referenceType:
+                            tags:
+                              type: array
+                              items:
                                 type: string
-                              referenceId:
-                                type: string
-                              referenceLabel:
+                            locations:
+                              type: array
+                              items:
                                 type: object
-                                additionalProperties:
-                                  type: string
-                                description: >-
-                                  A string that can be translated into multiple
-                                  languages, e.g. { "de": "Konzert", "en":
-                                  "concert" }
-                                example:
-                                  de: Konzert
-                                  en: concert
-                        attractions:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              referenceType:
-                                type: string
-                              referenceId:
-                                type: string
-                              referenceLabel:
+                                properties:
+                                  referenceType:
+                                    type: string
+                                  referenceId:
+                                    type: string
+                                  referenceLabel:
+                                    type: object
+                                    additionalProperties:
+                                      type: string
+                                    description: >-
+                                      A string that can be translated into
+                                      multiple languages, e.g. { "de":
+                                      "Konzert", "en": "concert" }
+                                    example:
+                                      de: Konzert
+                                      en: concert
+                            attractions:
+                              type: array
+                              items:
                                 type: object
-                                additionalProperties:
+                                properties:
+                                  referenceType:
+                                    type: string
+                                  referenceId:
+                                    type: string
+                                  referenceLabel:
+                                    type: object
+                                    additionalProperties:
+                                      type: string
+                                    description: >-
+                                      A string that can be translated into
+                                      multiple languages, e.g. { "de":
+                                      "Konzert", "en": "concert" }
+                                    example:
+                                      de: Konzert
+                                      en: concert
+                            organizer:
+                              type: object
+                              properties:
+                                referenceType:
                                   type: string
-                                description: >-
-                                  A string that can be translated into multiple
-                                  languages, e.g. { "de": "Konzert", "en":
-                                  "concert" }
-                                example:
-                                  de: Konzert
-                                  en: concert
-                        organizer:
-                          type: object
-                          properties:
-                            referenceType:
-                              type: string
-                            referenceId:
-                              type: string
-                            referenceLabel:
+                                referenceId:
+                                  type: string
+                                referenceLabel:
+                                  type: object
+                                  additionalProperties:
+                                    type: string
+                                  description: >-
+                                    A string that can be translated into
+                                    multiple languages, e.g. { "de": "Konzert",
+                                    "en": "concert" }
+                                  example:
+                                    de: Konzert
+                                    en: concert
+                            contact:
                               type: object
-                              additionalProperties:
-                                type: string
-                              description: >-
-                                A string that can be translated into multiple
-                                languages, e.g. { "de": "Konzert", "en":
-                                "concert" }
-                              example:
-                                de: Konzert
-                                en: concert
-                        contact:
-                          type: object
-                          properties:
-                            name:
-                              type: string
-                            email:
-                              type: string
-                            telephone:
-                              type: string
-                        admission:
-                          type: object
-                          properties:
-                            note:
+                              properties:
+                                name:
+                                  type: string
+                                email:
+                                  type: string
+                                telephone:
+                                  type: string
+                            admission:
                               type: object
-                              additionalProperties:
-                                type: string
-                              description: >-
-                                A string that can be translated into multiple
-                                languages, e.g. { "de": "Konzert", "en":
-                                "concert" }
-                              example:
-                                de: Konzert
-                                en: concert
-                            ticketType:
+                              properties:
+                                note:
+                                  type: object
+                                  additionalProperties:
+                                    type: string
+                                  description: >-
+                                    A string that can be translated into
+                                    multiple languages, e.g. { "de": "Konzert",
+                                    "en": "concert" }
+                                  example:
+                                    de: Konzert
+                                    en: concert
+                                ticketType:
+                                  type: string
+                                  enum:
+                                    - ticketType.ticketRequired
+                                    - ticketType.freeOfCharge
+                                registrationType:
+                                  type: string
+                                  enum:
+                                    - registrationType.registrationRequired
+                                    - registrationType.noRegistrationRequired
+                                    - registrationType.registrationDesired
+                                admissionLink:
+                                  type: string
+                      externalLinks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            displayName:
                               type: string
-                              enum:
-                                - ticketType.ticketRequired
-                                - ticketType.freeOfCharge
-                            registrationType:
+                            url:
                               type: string
-                              enum:
-                                - registrationType.registrationRequired
-                                - registrationType.noRegistrationRequired
-                                - registrationType.registrationDesired
-                            admissionLink:
-                              type: string
-                  externalLinks:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        displayName:
-                          type: string
-                        url:
-                          type: string
-                      required:
-                        - url
+                          required:
+                            - url
       required:
         - success
         - data

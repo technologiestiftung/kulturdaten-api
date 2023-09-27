@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Pagination, schemaForPagination} from "./Pagination.generated";
 import {Location, schemaForLocation} from "./Location.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
@@ -29,14 +30,16 @@ export const schemaForGetLocationsResponse = {
     success: {type: "boolean"},
     message: {type: "string"},
     data: {
-      type: "object",
-      properties: {
-        page: {type: "number"},
-        pageSize: {type: "number"},
-        totalCount: {type: "number"},
-        locations: {type: "array", items: {$ref: "Location.yml"}},
-        locationsReferences: {type: "array", items: {$ref: "Reference.yml"}}
-      }
+      allOf: [
+        {$ref: "Pagination.yml"},
+        {
+          type: "object",
+          properties: {
+            locations: {type: "array", items: {$ref: "Location.yml"}},
+            locationsReferences: {type: "array", items: {$ref: "Reference.yml"}}
+          }
+        }
+      ]
     }
   },
   required: ["success"]
@@ -46,6 +49,7 @@ export function validateGetLocationsResponse(o: object): {isValid: boolean; vali
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForPagination, "Pagination.yml");
   ajv.addSchema(schemaForLocation, "Location.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
@@ -64,10 +68,7 @@ export function validateGetLocationsResponse(o: object): {isValid: boolean; vali
 export interface GetLocationsResponse {
   success: boolean;
   message?: string;
-  data?: {
-    page?: number;
-    pageSize?: number;
-    totalCount?: number;
+  data?: Pagination & {
     locations?: Location[];
     locationsReferences?: Reference[];
   };

@@ -11,6 +11,7 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { GetLocationsResponse, schemaForGetLocationsResponse } from "../models/GetLocationsResponse.generated";
 
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForLocation } from '../models/Location.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
@@ -25,6 +26,7 @@
 	export function fakeGetLocationsResponse(useExamples: boolean, specifiedPropertiesForGetLocationsResponse: object = {}): GetLocationsResponse {
 		const schema = schemaForGetLocationsResponse as Schema;
 		const refs : Schema[] = [
+			schemaForPagination as Schema,
 			schemaForLocation as Schema,
 			schemaForMetadata as Schema,
 			schemaForTranslatableField as Schema,

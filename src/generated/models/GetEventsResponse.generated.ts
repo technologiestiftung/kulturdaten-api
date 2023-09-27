@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Pagination, schemaForPagination} from "./Pagination.generated";
 import {Event, schemaForEvent} from "./Event.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {Schedule, schemaForSchedule} from "./Schedule.generated";
@@ -26,14 +27,16 @@ export const schemaForGetEventsResponse = {
     success: {type: "boolean"},
     message: {type: "string"},
     data: {
-      type: "object",
-      properties: {
-        page: {type: "number"},
-        pageSize: {type: "number"},
-        totalCount: {type: "number"},
-        events: {type: "array", items: {$ref: "Event.yml"}},
-        eventsReferences: {type: "array", items: {$ref: "Reference.yml"}}
-      }
+      allOf: [
+        {$ref: "Pagination.yml"},
+        {
+          type: "object",
+          properties: {
+            events: {type: "array", items: {$ref: "Event.yml"}},
+            eventsReferences: {type: "array", items: {$ref: "Reference.yml"}}
+          }
+        }
+      ]
     }
   },
   required: ["success"]
@@ -43,6 +46,7 @@ export function validateGetEventsResponse(o: object): {isValid: boolean; validat
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForPagination, "Pagination.yml");
   ajv.addSchema(schemaForEvent, "Event.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForSchedule, "Schedule.yml");
@@ -58,10 +62,7 @@ export function validateGetEventsResponse(o: object): {isValid: boolean; validat
 export interface GetEventsResponse {
   success: boolean;
   message?: string;
-  data?: {
-    page?: number;
-    pageSize?: number;
-    totalCount?: number;
+  data?: Pagination & {
     events?: Event[];
     eventsReferences?: Reference[];
   };

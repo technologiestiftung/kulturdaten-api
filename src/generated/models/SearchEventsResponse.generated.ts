@@ -12,6 +12,7 @@ import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
 import {GetEventsResponse, schemaForGetEventsResponse} from "./GetEventsResponse.generated";
+import {Pagination, schemaForPagination} from "./Pagination.generated";
 import {Event, schemaForEvent} from "./Event.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {Schedule, schemaForSchedule} from "./Schedule.generated";
@@ -27,6 +28,7 @@ export function validateSearchEventsResponse(o: object): {isValid: boolean; vali
   addFormats(ajv);
   ajv.addKeyword("example");
   ajv.addSchema(schemaForGetEventsResponse, "GetEventsResponse.yml");
+  ajv.addSchema(schemaForPagination, "Pagination.yml");
   ajv.addSchema(schemaForEvent, "Event.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForSchedule, "Schedule.yml");
@@ -42,10 +44,7 @@ export function validateSearchEventsResponse(o: object): {isValid: boolean; vali
 export interface SearchEventsResponse {
   success: boolean;
   message?: string;
-  data?: {
-    page?: number;
-    pageSize?: number;
-    totalCount?: number;
+  data?: Pagination & {
     events?: Event[];
     eventsReferences?: Reference[];
   };

@@ -1,0 +1,19 @@
+type: object
+description: Metadata for paginated lists.
+properties:
+  page:
+    type: number
+    description: The current page, starting with 1
+    example: 1
+  pageSize:
+    type: number
+    description: The number of items per page
+    example: 30
+  totalCount:
+    type: number
+    description: The total number of items
+    example: 105
+required:
+  - page
+  - pageSize
+  - totalCount

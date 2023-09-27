@@ -12,6 +12,7 @@
 	import { SearchAttractionsResponse, schemaForSearchAttractionsResponse } from "../models/SearchAttractionsResponse.generated";
 
 	import { schemaForGetAttractionsResponse } from '../models/GetAttractionsResponse.generated';
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForAttraction } from '../models/Attraction.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
@@ -22,6 +23,7 @@
 		const schema = schemaForSearchAttractionsResponse as Schema;
 		const refs : Schema[] = [
 			schemaForGetAttractionsResponse as Schema,
+			schemaForPagination as Schema,
 			schemaForAttraction as Schema,
 			schemaForMetadata as Schema,
 			schemaForTranslatableField as Schema,

@@ -21,12 +21,21 @@ properties:
       - attraction.archived
   title:
     $ref: "TranslatableField.yml"
+    example:
+      de: Konzert
+      en: concert
   displayName:
     $ref: "TranslatableField.yml"
   description:
     $ref: "TranslatableField.yml"
+    example:
+      de: Eine Beschreibung
+      en: Some description
   pleaseNote:
     $ref: "TranslatableField.yml"
+    example:
+      de: Achtung, laute Geräusche
+      en: Warning, loud noises
   website:
     type: string
   inLanguages:

@@ -11,6 +11,7 @@
 import Ajv, {ValidateFunction} from "ajv";
 import addFormats from "ajv-formats";
 
+import {Pagination, schemaForPagination} from "./Pagination.generated";
 import {Organization, schemaForOrganization} from "./Organization.generated";
 import {Metadata, schemaForMetadata} from "./Metadata.generated";
 import {TranslatableField, schemaForTranslatableField} from "./TranslatableField.generated";
@@ -27,14 +28,16 @@ export const schemaForGetOrganizationsResponse = {
     success: {type: "boolean"},
     message: {type: "string"},
     data: {
-      type: "object",
-      properties: {
-        page: {type: "number"},
-        pageSize: {type: "number"},
-        totalCount: {type: "number"},
-        organizations: {type: "array", items: {$ref: "Organization.yml"}},
-        organizationsReferences: {type: "array", items: {$ref: "Reference.yml"}}
-      }
+      allOf: [
+        {$ref: "Pagination.yml"},
+        {
+          type: "object",
+          properties: {
+            organizations: {type: "array", items: {$ref: "Organization.yml"}},
+            organizationsReferences: {type: "array", items: {$ref: "Reference.yml"}}
+          }
+        }
+      ]
     }
   },
   required: ["success"]
@@ -44,6 +47,7 @@ export function validateGetOrganizationsResponse(o: object): {isValid: boolean; 
   const ajv = new Ajv();
   addFormats(ajv);
   ajv.addKeyword("example");
+  ajv.addSchema(schemaForPagination, "Pagination.yml");
   ajv.addSchema(schemaForOrganization, "Organization.yml");
   ajv.addSchema(schemaForMetadata, "Metadata.yml");
   ajv.addSchema(schemaForTranslatableField, "TranslatableField.yml");
@@ -60,10 +64,7 @@ export function validateGetOrganizationsResponse(o: object): {isValid: boolean; 
 export interface GetOrganizationsResponse {
   success: boolean;
   message?: string;
-  data?: {
-    page?: number;
-    pageSize?: number;
-    totalCount?: number;
+  data?: Pagination & {
     organizations?: Organization[];
     organizationsReferences?: Reference[];
   };

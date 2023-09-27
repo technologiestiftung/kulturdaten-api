@@ -11,6 +11,7 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { GetAdminAttractionsResponse, schemaForGetAdminAttractionsResponse } from "../models/GetAdminAttractionsResponse.generated";
 
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForAdminAttraction } from '../models/AdminAttraction.generated';
 	import { schemaForMetadata } from '../models/Metadata.generated';
 	import { schemaForTranslatableField } from '../models/TranslatableField.generated';
@@ -24,6 +25,7 @@
 	export function fakeGetAdminAttractionsResponse(useExamples: boolean, specifiedPropertiesForGetAdminAttractionsResponse: object = {}): GetAdminAttractionsResponse {
 		const schema = schemaForGetAdminAttractionsResponse as Schema;
 		const refs : Schema[] = [
+			schemaForPagination as Schema,
 			schemaForAdminAttraction as Schema,
 			schemaForMetadata as Schema,
 			schemaForTranslatableField as Schema,

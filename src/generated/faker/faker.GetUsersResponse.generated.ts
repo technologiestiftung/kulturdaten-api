@@ -11,11 +11,13 @@
 	import { JSONSchemaFaker, Schema } from 'json-schema-faker';
 	import { GetUsersResponse, schemaForGetUsersResponse } from "../models/GetUsersResponse.generated";
 
+	import { schemaForPagination } from '../models/Pagination.generated';
 	import { schemaForUser } from '../models/User.generated';
 
 	export function fakeGetUsersResponse(useExamples: boolean, specifiedPropertiesForGetUsersResponse: object = {}): GetUsersResponse {
 		const schema = schemaForGetUsersResponse as Schema;
 		const refs : Schema[] = [
+			schemaForPagination as Schema,
 			schemaForUser as Schema,
 
 		];
