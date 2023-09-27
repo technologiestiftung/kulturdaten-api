@@ -1,7 +1,7 @@
 import { writeFileSync, readFileSync } from "fs";
 import { readdir } from "fs/promises";
 import { parse } from "path";
-import { compile, JSONSchema } from "json-schema-to-typescript";
+import { compile, JSONSchema, Options } from "json-schema-to-typescript";
 import * as yaml from "js-yaml";
 
 // TODO: Refactor young padawan.
@@ -24,7 +24,7 @@ async function generateInterface(className: string, rootDirectory: string) {
 		dependencies: { imports: string; ajvSchema: string },
 		schema: string,
 		schemaName: string,
-	) => {
+	): Partial<Options> => {
 		return {
 			bannerComment: `/* eslint-disable */
 		/**
