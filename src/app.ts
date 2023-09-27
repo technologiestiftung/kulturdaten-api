@@ -156,6 +156,9 @@ export class KulturdatenBerlinApp {
 		const swaggerDocument = YAML.load(this.openAPISpec);
 		const swaggerUIOptions: SwaggerUiOptions = {
 			customCss: ".swagger-ui .info { margin: 20px 0 0 0 }",
+			swaggerOptions: {
+				docExpansion: "none",
+			},
 		};
 		this.app.use(`/api/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerUIOptions));
 		this.app.use(`/api/specs/kulturdaten.berlin.openApi.yml`, express.static(this.openAPISpec));
