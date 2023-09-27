@@ -103,7 +103,7 @@ paths:
                 $ref: "#/components/schemas/GetAttractionsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -121,7 +121,7 @@ paths:
   /attractions/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -196,7 +196,7 @@ paths:
                 $ref: "#/components/schemas/GetAttractionResponse"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -216,7 +216,7 @@ paths:
   /attractions/{identifier}/externallinks:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -235,7 +235,7 @@ paths:
           description: OK
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -255,7 +255,7 @@ paths:
   /attractions/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -270,7 +270,7 @@ paths:
   /attractions/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -285,7 +285,7 @@ paths:
   /attractions/{identifier}/publish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -300,7 +300,7 @@ paths:
   /attractions/{identifier}/unpublish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -343,7 +343,7 @@ paths:
                 $ref: "#/components/schemas/GetEventsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -361,7 +361,7 @@ paths:
   /events/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -436,7 +436,7 @@ paths:
                 $ref: "#/components/schemas/GetEventResponse"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -456,7 +456,7 @@ paths:
   /events/{identifier}/locations:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -475,7 +475,7 @@ paths:
           description: OK
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -495,7 +495,7 @@ paths:
   /events/{identifier}/attractions:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -514,7 +514,7 @@ paths:
           description: OK
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -534,7 +534,7 @@ paths:
   /events/{identifier}/organizer:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -553,7 +553,7 @@ paths:
           description: OK
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -568,7 +568,7 @@ paths:
   /events/{identifier}/publish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -583,7 +583,7 @@ paths:
   /events/{identifier}/unpublish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -598,7 +598,7 @@ paths:
   /events/{identifier}/reschedule:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -618,7 +618,7 @@ paths:
   /events/{identifier}/postpone:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -633,7 +633,7 @@ paths:
   /events/{identifier}/cancel:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -648,7 +648,7 @@ paths:
   /events/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -663,7 +663,7 @@ paths:
   /events/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -678,7 +678,7 @@ paths:
   /events/{identifier}/duplicate:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -725,7 +725,7 @@ paths:
                 $ref: "#/components/schemas/GetLocationsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -743,7 +743,7 @@ paths:
   /locations/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -818,7 +818,7 @@ paths:
                 $ref: "#/components/schemas/GetLocationResponse"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -838,7 +838,7 @@ paths:
   /locations/{identifier}/manager:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -857,7 +857,7 @@ paths:
           description: OK
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -872,7 +872,7 @@ paths:
   /locations/{identifier}/open:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -887,7 +887,7 @@ paths:
   /locations/{identifier}/close:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -902,7 +902,7 @@ paths:
   /locations/{identifier}/permanentlyClose:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -917,7 +917,7 @@ paths:
   /locations/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -932,7 +932,7 @@ paths:
   /locations/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -947,7 +947,7 @@ paths:
   /locations/{identifier}/claim:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: id
           in: path
@@ -995,7 +995,7 @@ paths:
                 $ref: "#/components/schemas/GetOrganizationsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -1019,7 +1019,7 @@ paths:
   /organizations/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -1100,7 +1100,7 @@ paths:
                 $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1120,7 +1120,7 @@ paths:
   /organizations/{identifier}/activate:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1135,7 +1135,7 @@ paths:
   /organizations/{identifier}/deactivate:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1150,7 +1150,7 @@ paths:
   /organizations/{identifier}/retire:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1165,7 +1165,7 @@ paths:
   /organizations/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1180,7 +1180,7 @@ paths:
   /organizations/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
