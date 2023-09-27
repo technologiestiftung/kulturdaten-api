@@ -8,16 +8,15 @@
 		"lint": "eslint .",
 		"typecheck": "tsc --noEmit",
 		"dev": "./node_modules/nodemon/bin/nodemon.js --inspect",
-		"start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
+		"start": "ts-node ./src/app.ts",
 		"debug": "export DEBUG=* && npm run dev",
 		"test": "jest --testPathPattern='test' --detectOpenHandles",
 		"unit-test": "jest --testPathPattern='unit.test' --detectOpenHandles",
 		"integration-test": "jest --testPathPattern='integration.test' --detectOpenHandles",
-		"schema-to-interface": "rimraf src/generated/models/* && rimraf src/generated/faker/* && node ./dist/generated/generator.schema.to.interface.js",
+		"schema-to-interface": "rimraf src/generated/models/* && rimraf src/generated/faker/* && ts-node ./src/generated/generator.schema.to.interface.ts",
 		"merge-openapi": "swagger-merger -i ./src/schemas/kulturdaten.berlin.openapi.base.yml -o ./src/schemas/kulturdaten.berlin.openapi.generated.yml",
-		"generate": "tsc && npm run merge-openapi && npm run schema-to-interface",
-		"prepare-build": "tsc && npm run schema-to-interface && npm run merge-openapi && npm run test",
-		"seed": "tsc && node --unhandled-rejections=strict ./dist/scripts/seeder.js"
+		"generate": "npm run merge-openapi && npm run schema-to-interface",
+		"seed": "ts-node ./src/scripts/seeder.ts"
 	},
 	"keywords": [
 		"kdb",
