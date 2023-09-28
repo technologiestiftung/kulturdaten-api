@@ -1,6 +1,6 @@
 import { Metadata } from "../generated/models/Metadata.generated";
 
-export function getCurrentTimestamp() {
+function getCurrentTimestamp() {
 	return new Date().toISOString();
 }
 
