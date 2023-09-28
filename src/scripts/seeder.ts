@@ -1,15 +1,17 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { MongoClient } from "mongodb";
-import { MongoDBConnector } from "../common/services/MongoDBConnector";
-import { PermissionFlag } from "../resources/auth/middleware/PermissionFlag";
-import { generateID } from "../utils/IDUtil";
 import * as argon2 from "argon2";
 import { Command } from "commander";
-import tagsJSON from "../seed/tags.json";
-import accessibilityTagsJSON from "../seed/accessibility.json";
+import { MongoClient } from "mongodb";
 import validator from "validator";
+import { MongoDBConnector } from "../common/services/MongoDBConnector";
+import { User } from "../generated/models/User.generated";
+import { PermissionFlag } from "../resources/auth/middleware/PermissionFlag";
+import accessibilityTagsJSON from "../seed/accessibility.json";
+import tagsJSON from "../seed/tags.json";
+import { generateID } from "../utils/IDUtil";
+import { createMetadata } from "../utils/MetadataUtil";
 
 let mongoClient: MongoClient;
 let mongoDBConnector: MongoDBConnector;
@@ -147,11 +149,15 @@ async function addUserWithPermission(email: string, password: string, permission
 	}
 
 	const hashedPassword = await argon2.hash(password);
-	const user = {
+	const metadata = createMetadata();
+	const user: User = {
+		type: "User",
 		email: email.toLowerCase(),
 		password: hashedPassword,
 		permissionFlags: permission,
 		identifier: generateID(),
+		createdAt: metadata.created,
+		updatedAt: metadata.updated,
 	};
 	const users = await mongoDBConnector.users();
 	const result = await users.insertOne(user);
