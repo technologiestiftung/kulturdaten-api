@@ -2,6 +2,7 @@ type: object
 properties:
   streetAddress:
     type: string
+    description: Street address (street name and house number)
     example: Beispielstraße 1
   addressLocality:
     type: string

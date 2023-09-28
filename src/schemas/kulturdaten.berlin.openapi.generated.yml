@@ -1747,6 +1747,9 @@ components:
                 en: concert
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -2086,6 +2089,9 @@ components:
                       en: concert
               contact:
                 type: object
+                description: >-
+                  A person that is connected to and/or responsible for the
+                  referenced entity.
                 properties:
                   name:
                     type: string
@@ -2334,6 +2340,7 @@ components:
           properties:
             streetAddress:
               type: string
+              description: Street address (street name and house number)
               example: Beispielstraße 1
             addressLocality:
               type: string
@@ -2470,6 +2477,7 @@ components:
           description: The managing person of this location.
         contact:
           type: object
+          description: The main contact person of this location.
           properties:
             name:
               type: string
@@ -2483,7 +2491,6 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
-          description: The main contact person of this location.
     Organization:
       type: object
       required:
@@ -2565,8 +2572,13 @@ components:
             en: concert
         website:
           type: string
+          example: https://example.com/
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -2578,6 +2590,7 @@ components:
           properties:
             streetAddress:
               type: string
+              description: Street address (street name and house number)
               example: Beispielstraße 1
             addressLocality:
               type: string
@@ -2622,6 +2635,9 @@ components:
                 - WGS84 (Decimal Degrees)
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -2787,8 +2803,13 @@ components:
                     en: concert
                 website:
                   type: string
+                  example: https://example.com/
                 inLanguages:
                   type: array
+                  description: List of languages this object is available in.
+                  example:
+                    - de
+                    - en
                   items:
                     type: string
                 tags:
@@ -2800,6 +2821,7 @@ components:
                   properties:
                     streetAddress:
                       type: string
+                      description: Street address (street name and house number)
                       example: Beispielstraße 1
                     addressLocality:
                       type: string
@@ -2844,6 +2866,9 @@ components:
                         - WGS84 (Decimal Degrees)
                 contact:
                   type: object
+                  description: >-
+                    A person that is connected to and/or responsible for the
+                    referenced entity.
                   properties:
                     name:
                       type: string
@@ -2995,8 +3020,13 @@ components:
                           en: concert
                       website:
                         type: string
+                        example: https://example.com/
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
@@ -3008,6 +3038,7 @@ components:
                         properties:
                           streetAddress:
                             type: string
+                            description: Street address (street name and house number)
                             example: Beispielstraße 1
                           addressLocality:
                             type: string
@@ -3052,6 +3083,9 @@ components:
                               - WGS84 (Decimal Degrees)
                       contact:
                         type: object
+                        description: >-
+                          A person that is connected to and/or responsible for
+                          the referenced entity.
                         properties:
                           name:
                             type: string
@@ -3138,6 +3172,7 @@ components:
           properties:
             streetAddress:
               type: string
+              description: Street address (street name and house number)
               example: Beispielstraße 1
             addressLocality:
               type: string
@@ -3182,6 +3217,9 @@ components:
                 - WGS84 (Decimal Degrees)
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -3360,8 +3398,13 @@ components:
                           en: concert
                       website:
                         type: string
+                        example: https://example.com/
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
@@ -3373,6 +3416,7 @@ components:
                         properties:
                           streetAddress:
                             type: string
+                            description: Street address (street name and house number)
                             example: Beispielstraße 1
                           addressLocality:
                             type: string
@@ -3417,6 +3461,9 @@ components:
                               - WGS84 (Decimal Degrees)
                       contact:
                         type: object
+                        description: >-
+                          A person that is connected to and/or responsible for
+                          the referenced entity.
                         properties:
                           name:
                             type: string
@@ -3499,6 +3546,7 @@ components:
           properties:
             streetAddress:
               type: string
+              description: Street address (street name and house number)
               example: Beispielstraße 1
             addressLocality:
               type: string
@@ -3543,6 +3591,9 @@ components:
                 - WGS84 (Decimal Degrees)
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -4353,6 +4404,7 @@ components:
                         properties:
                           streetAddress:
                             type: string
+                            description: Street address (street name and house number)
                             example: Beispielstraße 1
                           addressLocality:
                             type: string
@@ -4493,6 +4545,7 @@ components:
                         description: The managing person of this location.
                       contact:
                         type: object
+                        description: The main contact person of this location.
                         properties:
                           name:
                             type: string
@@ -4506,7 +4559,6 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
-                        description: The main contact person of this location.
                 locationsReferences:
                   type: array
                   items:
@@ -4572,6 +4624,7 @@ components:
           properties:
             streetAddress:
               type: string
+              description: Street address (street name and house number)
               example: Beispielstraße 1
             addressLocality:
               type: string
@@ -4693,6 +4746,9 @@ components:
                 en: concert
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -4872,6 +4928,7 @@ components:
                         properties:
                           streetAddress:
                             type: string
+                            description: Street address (street name and house number)
                             example: Beispielstraße 1
                           addressLocality:
                             type: string
@@ -5012,6 +5069,7 @@ components:
                         description: The managing person of this location.
                       contact:
                         type: object
+                        description: The main contact person of this location.
                         properties:
                           name:
                             type: string
@@ -5025,7 +5083,6 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
-                        description: The main contact person of this location.
                 locationsReferences:
                   type: array
                   items:
@@ -5142,6 +5199,7 @@ components:
                   properties:
                     streetAddress:
                       type: string
+                      description: Street address (street name and house number)
                       example: Beispielstraße 1
                     addressLocality:
                       type: string
@@ -5281,6 +5339,7 @@ components:
                   description: The managing person of this location.
                 contact:
                   type: object
+                  description: The main contact person of this location.
                   properties:
                     name:
                       type: string
@@ -5294,7 +5353,6 @@ components:
                       type: string
                       description: Phone number of the contact person.
                       example: +49 30 12345678
-                  description: The main contact person of this location.
             locationReference:
               type: object
               properties:
@@ -5354,6 +5412,7 @@ components:
           properties:
             streetAddress:
               type: string
+              description: Street address (street name and house number)
               example: Beispielstraße 1
             addressLocality:
               type: string
@@ -5422,6 +5481,9 @@ components:
                 - url
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -5718,6 +5780,9 @@ components:
                               en: concert
                       contact:
                         type: object
+                        description: >-
+                          A person that is connected to and/or responsible for
+                          the referenced entity.
                         properties:
                           name:
                             type: string
@@ -5932,6 +5997,9 @@ components:
                 en: concert
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -6290,6 +6358,9 @@ components:
                               en: concert
                       contact:
                         type: object
+                        description: >-
+                          A person that is connected to and/or responsible for
+                          the referenced entity.
                         properties:
                           name:
                             type: string
@@ -6566,6 +6637,9 @@ components:
                         en: concert
                 contact:
                   type: object
+                  description: >-
+                    A person that is connected to and/or responsible for the
+                    referenced entity.
                   properties:
                     name:
                       type: string
@@ -6681,6 +6755,9 @@ components:
             type: string
         contact:
           type: object
+          description: >-
+            A person that is connected to and/or responsible for the referenced
+            entity.
           properties:
             name:
               type: string
@@ -7635,6 +7712,9 @@ components:
                               en: concert
                       contact:
                         type: object
+                        description: >-
+                          A person that is connected to and/or responsible for
+                          the referenced entity.
                         properties:
                           name:
                             type: string
@@ -8050,6 +8130,9 @@ components:
                                     en: concert
                             contact:
                               type: object
+                              description: >-
+                                A person that is connected to and/or responsible
+                                for the referenced entity.
                               properties:
                                 name:
                                   type: string

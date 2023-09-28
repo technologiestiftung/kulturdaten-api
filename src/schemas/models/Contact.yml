@@ -1,4 +1,5 @@
 type: object
+description: A person that is connected to and/or responsible for the referenced entity.
 properties:
   name:
     type: string
