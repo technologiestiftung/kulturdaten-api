@@ -8,6 +8,7 @@ import { Organization } from "../../../generated/models/Organization.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
 import { generateOrganizationID } from "../../../utils/IDUtil";
+import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { getOrganizationReferenceProjection } from "../../../utils/ReferenceUtil";
 import { OrganizationsRepository } from "./OrganizationsRepository";
 
@@ -17,11 +18,9 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const organizations = await this.dbConnector.organizations();
-
 		let query = organizations.find(filter || {}, {
 			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
 		});
-
 		if (pagination) {
 			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
 		}
@@ -47,7 +46,6 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async getOrganizationByIdentifier(organizationId: string): Promise<Organization | null> {
 		const organizations = await this.dbConnector.organizations();
-
 		return organizations.findOne({ identifier: organizationId }, { projection: { _id: 0 } });
 	}
 
@@ -60,12 +58,13 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 	}
 
 	async addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null> {
-		const newOrganization = createOrganization as Organization;
-		newOrganization.identifier = generateOrganizationID();
-
+		const newOrganization: Organization = {
+			...createOrganization,
+			identifier: generateOrganizationID(),
+			metadata: createMetadata(createOrganization.metadata),
+		};
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.insertOne(newOrganization);
-
 		if (!result.acknowledged) {
 			return null;
 		}
@@ -81,8 +80,15 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		organizationFields: UpdateOrganizationRequest,
 	): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
-
-		const result = await organizations.updateOne({ identifier: organizationId }, { $set: organizationFields });
+		const result = await organizations.updateOne(
+			{ identifier: organizationId },
+			{
+				$set: {
+					...organizationFields,
+					...getUpdatedMetadata(),
+				},
+			},
+		);
 		return result.modifiedCount === 1;
 	}
 
@@ -93,20 +99,32 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.updateOne(
 			{ identifier: identifier },
-			{ $set: { activationStatus: activationStatus } },
+			{
+				$set: {
+					activationStatus,
+					...getUpdatedMetadata(),
+				},
+			},
 		);
 		return result.modifiedCount === 1;
 	}
 
 	async updateOrganizationStatusById(identifier: string, status: Organization["status"]): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
-		const result = await organizations.updateOne({ identifier: identifier }, { $set: { status: status } });
+		const result = await organizations.updateOne(
+			{ identifier: identifier },
+			{
+				$set: {
+					status,
+					...getUpdatedMetadata(),
+				},
+			},
+		);
 		return result.modifiedCount === 1;
 	}
 
 	async removeOrganizationById(organizationId: string): Promise<boolean> {
 		const organizations = await this.dbConnector.organizations();
-
 		const result = await organizations.deleteOne({ identifier: organizationId });
 		return result.deletedCount === 1;
 	}
