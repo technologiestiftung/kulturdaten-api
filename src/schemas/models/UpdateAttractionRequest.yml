@@ -11,9 +11,7 @@ properties:
   website:
     type: string
   inLanguages:
-    type: array
-    items:
-      type: string
+    $ref: "Languages.yml"
   tags:
     type: array
     items:

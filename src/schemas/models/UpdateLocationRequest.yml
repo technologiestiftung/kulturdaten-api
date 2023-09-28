@@ -15,9 +15,7 @@ properties:
   coordinates:
     $ref: "Coordinates.yml"
   inLanguages:
-    type: array
-    items:
-      type: string
+    $ref: "Languages.yml"
   tags:
     type: array
     items:

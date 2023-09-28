@@ -1882,6 +1882,10 @@ components:
           type: string
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -3161,6 +3165,10 @@ components:
           type: string
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -3535,6 +3543,10 @@ components:
           type: string
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -3831,6 +3843,10 @@ components:
           type: string
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -4265,6 +4281,10 @@ components:
           type: string
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -4705,6 +4725,10 @@ components:
                   of an offer, salary period, or a period of opening hours.
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -5457,6 +5481,10 @@ components:
                 - WGS84 (Decimal Degrees)
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -5934,6 +5962,10 @@ components:
           type: string
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -6747,6 +6779,10 @@ components:
           type: string
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -7496,6 +7532,10 @@ components:
                   type: string
                 inLanguages:
                   type: array
+                  description: List of languages this object is available in.
+                  example:
+                    - de
+                    - en
                   items:
                     type: string
                 tags:
@@ -7906,6 +7946,10 @@ components:
                         type: string
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
