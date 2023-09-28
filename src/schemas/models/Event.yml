@@ -35,10 +35,9 @@ properties:
     $ref: "TranslatableField.yml"
   website:
     type: string
+    example: https://example.com/
   inLanguages:
-    type: array
-    items:
-      type: string
+    $ref: "Languages.yml"
   tags:
     type: array
     items:

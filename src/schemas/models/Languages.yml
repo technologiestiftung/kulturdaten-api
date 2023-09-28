@@ -1,0 +1,5 @@
+type: array
+description: List of languages this object is available in.
+example: ["de", "en"]
+items:
+  type: string

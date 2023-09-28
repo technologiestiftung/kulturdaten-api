@@ -1605,16 +1605,36 @@ components:
           properties:
             startDate:
               type: string
+              description: >-
+                The date (year, month, day) the event starts, in timezone
+                Europe/Berlin.
+              example: "2023-09-08"
             startTime:
               type: string
+              description: The time the event starts, in timezone Europe/Berlin.
+              example: "20:00:00"
             permanentOpening:
               type: boolean
+              description: >-
+                Indicates whether the event is permanently open (and has no end
+                date/time).
+              example: false
             doorTime:
               type: string
+              description: >-
+                The time that guests can enter the venue, in timezone
+                Europe/Berlin.
+              example: "19:00:00"
             endDate:
               type: string
+              description: >-
+                The date (year, month, day) the event ends, in timezone
+                Europe/Berlin.
+              example: "2023-09-08"
             endTime:
               type: string
+              description: The time the event end, in timezone Europe/Berlin.
+              example: "22:00"
         title:
           type: object
           additionalProperties:
@@ -1657,8 +1677,13 @@ components:
             en: concert
         website:
           type: string
+          example: https://example.com/
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -1725,12 +1750,19 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
         admission:
           type: object
+          description: Information about the admission to the event/attraction.
           properties:
             note:
               type: object
@@ -1755,6 +1787,7 @@ components:
                 - registrationType.registrationDesired
             admissionLink:
               type: string
+              example: https://example.com/
     AdminAttraction:
       type: object
       required:
@@ -1911,16 +1944,36 @@ components:
                 properties:
                   startDate:
                     type: string
+                    description: >-
+                      The date (year, month, day) the event starts, in timezone
+                      Europe/Berlin.
+                    example: "2023-09-08"
                   startTime:
                     type: string
+                    description: The time the event starts, in timezone Europe/Berlin.
+                    example: "20:00:00"
                   permanentOpening:
                     type: boolean
+                    description: >-
+                      Indicates whether the event is permanently open (and has
+                      no end date/time).
+                    example: false
                   doorTime:
                     type: string
+                    description: >-
+                      The time that guests can enter the venue, in timezone
+                      Europe/Berlin.
+                    example: "19:00:00"
                   endDate:
                     type: string
+                    description: >-
+                      The date (year, month, day) the event ends, in timezone
+                      Europe/Berlin.
+                    example: "2023-09-08"
                   endTime:
                     type: string
+                    description: The time the event end, in timezone Europe/Berlin.
+                    example: "22:00"
               title:
                 type: object
                 additionalProperties:
@@ -1963,8 +2016,13 @@ components:
                   en: concert
               website:
                 type: string
+                example: https://example.com/
               inLanguages:
                 type: array
+                description: List of languages this object is available in.
+                example:
+                  - de
+                  - en
                 items:
                   type: string
               tags:
@@ -2031,12 +2089,19 @@ components:
                 properties:
                   name:
                     type: string
+                    description: Full name of the contact person.
+                    example: Jane Doe
                   email:
                     type: string
+                    description: Email address of the contact person.
+                    example: someone@example.com
                   telephone:
                     type: string
+                    description: Phone number of the contact person.
+                    example: +49 30 12345678
               admission:
                 type: object
+                description: Information about the admission to the event/attraction.
                 properties:
                   note:
                     type: object
@@ -2061,6 +2126,7 @@ components:
                       - registrationType.registrationDesired
                   admissionLink:
                     type: string
+                    example: https://example.com/
         externalLinks:
           type: array
           description: Links to external resources related to this object.
@@ -2390,10 +2456,16 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
     Organization:
       type: object
       required:
@@ -2526,10 +2598,16 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
     User:
       type: object
       properties:
@@ -2733,10 +2811,16 @@ components:
                   properties:
                     name:
                       type: string
+                      description: Full name of the contact person.
+                      example: Jane Doe
                     email:
                       type: string
+                      description: Email address of the contact person.
+                      example: someone@example.com
                     telephone:
                       type: string
+                      description: Phone number of the contact person.
+                      example: +49 30 12345678
             organizationReference:
               type: object
               properties:
@@ -2926,10 +3010,16 @@ components:
                         properties:
                           name:
                             type: string
+                            description: Full name of the contact person.
+                            example: Jane Doe
                           email:
                             type: string
+                            description: Email address of the contact person.
+                            example: someone@example.com
                           telephone:
                             type: string
+                            description: Phone number of the contact person.
+                            example: +49 30 12345678
                 organizationsReferences:
                   type: array
                   items:
@@ -3041,10 +3131,16 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
         metadata:
           type: object
           properties:
@@ -3261,10 +3357,16 @@ components:
                         properties:
                           name:
                             type: string
+                            description: Full name of the contact person.
+                            example: Jane Doe
                           email:
                             type: string
+                            description: Email address of the contact person.
+                            example: someone@example.com
                           telephone:
                             type: string
+                            description: Phone number of the contact person.
+                            example: +49 30 12345678
                 organizationsReferences:
                   type: array
                   items:
@@ -3372,10 +3474,16 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
     GetAttractionsResponse:
       type: object
       properties:
@@ -4299,10 +4407,16 @@ components:
                         properties:
                           name:
                             type: string
+                            description: Full name of the contact person.
+                            example: Jane Doe
                           email:
                             type: string
+                            description: Email address of the contact person.
+                            example: someone@example.com
                           telephone:
                             type: string
+                            description: Phone number of the contact person.
+                            example: +49 30 12345678
                 locationsReferences:
                   type: array
                   items:
@@ -4481,10 +4595,16 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
         metadata:
           type: object
           properties:
@@ -4777,10 +4897,16 @@ components:
                         properties:
                           name:
                             type: string
+                            description: Full name of the contact person.
+                            example: Jane Doe
                           email:
                             type: string
+                            description: Email address of the contact person.
+                            example: someone@example.com
                           telephone:
                             type: string
+                            description: Phone number of the contact person.
+                            example: +49 30 12345678
                 locationsReferences:
                   type: array
                   items:
@@ -5022,10 +5148,16 @@ components:
                   properties:
                     name:
                       type: string
+                      description: Full name of the contact person.
+                      example: Jane Doe
                     email:
                       type: string
+                      description: Email address of the contact person.
+                      example: someone@example.com
                     telephone:
                       type: string
+                      description: Phone number of the contact person.
+                      example: +49 30 12345678
             locationReference:
               type: object
               properties:
@@ -5147,10 +5279,16 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
     SetLocationManagerRequest:
       type: object
       properties:
@@ -5287,16 +5425,38 @@ components:
                         properties:
                           startDate:
                             type: string
+                            description: >-
+                              The date (year, month, day) the event starts, in
+                              timezone Europe/Berlin.
+                            example: "2023-09-08"
                           startTime:
                             type: string
+                            description: >-
+                              The time the event starts, in timezone
+                              Europe/Berlin.
+                            example: "20:00:00"
                           permanentOpening:
                             type: boolean
+                            description: >-
+                              Indicates whether the event is permanently open
+                              (and has no end date/time).
+                            example: false
                           doorTime:
                             type: string
+                            description: >-
+                              The time that guests can enter the venue, in
+                              timezone Europe/Berlin.
+                            example: "19:00:00"
                           endDate:
                             type: string
+                            description: >-
+                              The date (year, month, day) the event ends, in
+                              timezone Europe/Berlin.
+                            example: "2023-09-08"
                           endTime:
                             type: string
+                            description: The time the event end, in timezone Europe/Berlin.
+                            example: "22:00"
                       title:
                         type: object
                         additionalProperties:
@@ -5339,8 +5499,13 @@ components:
                           en: concert
                       website:
                         type: string
+                        example: https://example.com/
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
@@ -5410,12 +5575,21 @@ components:
                         properties:
                           name:
                             type: string
+                            description: Full name of the contact person.
+                            example: Jane Doe
                           email:
                             type: string
+                            description: Email address of the contact person.
+                            example: someone@example.com
                           telephone:
                             type: string
+                            description: Phone number of the contact person.
+                            example: +49 30 12345678
                       admission:
                         type: object
+                        description: >-
+                          Information about the admission to the
+                          event/attraction.
                         properties:
                           note:
                             type: object
@@ -5441,6 +5615,7 @@ components:
                               - registrationType.registrationDesired
                           admissionLink:
                             type: string
+                            example: https://example.com/
                 eventsReferences:
                   type: array
                   items:
@@ -5474,16 +5649,36 @@ components:
           properties:
             startDate:
               type: string
+              description: >-
+                The date (year, month, day) the event starts, in timezone
+                Europe/Berlin.
+              example: "2023-09-08"
             startTime:
               type: string
+              description: The time the event starts, in timezone Europe/Berlin.
+              example: "20:00:00"
             permanentOpening:
               type: boolean
+              description: >-
+                Indicates whether the event is permanently open (and has no end
+                date/time).
+              example: false
             doorTime:
               type: string
+              description: >-
+                The time that guests can enter the venue, in timezone
+                Europe/Berlin.
+              example: "19:00:00"
             endDate:
               type: string
+              description: >-
+                The date (year, month, day) the event ends, in timezone
+                Europe/Berlin.
+              example: "2023-09-08"
             endTime:
               type: string
+              description: The time the event end, in timezone Europe/Berlin.
+              example: "22:00"
         title:
           type: object
           additionalProperties:
@@ -5594,12 +5789,19 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
         admission:
           type: object
+          description: Information about the admission to the event/attraction.
           properties:
             note:
               type: object
@@ -5624,6 +5826,7 @@ components:
                 - registrationType.registrationDesired
             admissionLink:
               type: string
+              example: https://example.com/
         metadata:
           type: object
           properties:
@@ -5794,16 +5997,38 @@ components:
                         properties:
                           startDate:
                             type: string
+                            description: >-
+                              The date (year, month, day) the event starts, in
+                              timezone Europe/Berlin.
+                            example: "2023-09-08"
                           startTime:
                             type: string
+                            description: >-
+                              The time the event starts, in timezone
+                              Europe/Berlin.
+                            example: "20:00:00"
                           permanentOpening:
                             type: boolean
+                            description: >-
+                              Indicates whether the event is permanently open
+                              (and has no end date/time).
+                            example: false
                           doorTime:
                             type: string
+                            description: >-
+                              The time that guests can enter the venue, in
+                              timezone Europe/Berlin.
+                            example: "19:00:00"
                           endDate:
                             type: string
+                            description: >-
+                              The date (year, month, day) the event ends, in
+                              timezone Europe/Berlin.
+                            example: "2023-09-08"
                           endTime:
                             type: string
+                            description: The time the event end, in timezone Europe/Berlin.
+                            example: "22:00"
                       title:
                         type: object
                         additionalProperties:
@@ -5846,8 +6071,13 @@ components:
                           en: concert
                       website:
                         type: string
+                        example: https://example.com/
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
@@ -5917,12 +6147,21 @@ components:
                         properties:
                           name:
                             type: string
+                            description: Full name of the contact person.
+                            example: Jane Doe
                           email:
                             type: string
+                            description: Email address of the contact person.
+                            example: someone@example.com
                           telephone:
                             type: string
+                            description: Phone number of the contact person.
+                            example: +49 30 12345678
                       admission:
                         type: object
+                        description: >-
+                          Information about the admission to the
+                          event/attraction.
                         properties:
                           note:
                             type: object
@@ -5948,6 +6187,7 @@ components:
                               - registrationType.registrationDesired
                           admissionLink:
                             type: string
+                            example: https://example.com/
                 eventsReferences:
                   type: array
                   items:
@@ -6038,16 +6278,36 @@ components:
                   properties:
                     startDate:
                       type: string
+                      description: >-
+                        The date (year, month, day) the event starts, in
+                        timezone Europe/Berlin.
+                      example: "2023-09-08"
                     startTime:
                       type: string
+                      description: The time the event starts, in timezone Europe/Berlin.
+                      example: "20:00:00"
                     permanentOpening:
                       type: boolean
+                      description: >-
+                        Indicates whether the event is permanently open (and has
+                        no end date/time).
+                      example: false
                     doorTime:
                       type: string
+                      description: >-
+                        The time that guests can enter the venue, in timezone
+                        Europe/Berlin.
+                      example: "19:00:00"
                     endDate:
                       type: string
+                      description: >-
+                        The date (year, month, day) the event ends, in timezone
+                        Europe/Berlin.
+                      example: "2023-09-08"
                     endTime:
                       type: string
+                      description: The time the event end, in timezone Europe/Berlin.
+                      example: "22:00"
                 title:
                   type: object
                   additionalProperties:
@@ -6090,8 +6350,13 @@ components:
                     en: concert
                 website:
                   type: string
+                  example: https://example.com/
                 inLanguages:
                   type: array
+                  description: List of languages this object is available in.
+                  example:
+                    - de
+                    - en
                   items:
                     type: string
                 tags:
@@ -6158,12 +6423,19 @@ components:
                   properties:
                     name:
                       type: string
+                      description: Full name of the contact person.
+                      example: Jane Doe
                     email:
                       type: string
+                      description: Email address of the contact person.
+                      example: someone@example.com
                     telephone:
                       type: string
+                      description: Phone number of the contact person.
+                      example: +49 30 12345678
                 admission:
                   type: object
+                  description: Information about the admission to the event/attraction.
                   properties:
                     note:
                       type: object
@@ -6188,6 +6460,7 @@ components:
                         - registrationType.registrationDesired
                     admissionLink:
                       type: string
+                      example: https://example.com/
             eventReference:
               type: object
               properties:
@@ -6265,12 +6538,19 @@ components:
           properties:
             name:
               type: string
+              description: Full name of the contact person.
+              example: Jane Doe
             email:
               type: string
+              description: Email address of the contact person.
+              example: someone@example.com
             telephone:
               type: string
+              description: Phone number of the contact person.
+              example: +49 30 12345678
         admission:
           type: object
+          description: Information about the admission to the event/attraction.
           properties:
             note:
               type: object
@@ -6295,6 +6575,7 @@ components:
                 - registrationType.registrationDesired
             admissionLink:
               type: string
+              example: https://example.com/
     AddEventLocationRequest:
       type: object
       properties:
@@ -7061,16 +7342,38 @@ components:
                         properties:
                           startDate:
                             type: string
+                            description: >-
+                              The date (year, month, day) the event starts, in
+                              timezone Europe/Berlin.
+                            example: "2023-09-08"
                           startTime:
                             type: string
+                            description: >-
+                              The time the event starts, in timezone
+                              Europe/Berlin.
+                            example: "20:00:00"
                           permanentOpening:
                             type: boolean
+                            description: >-
+                              Indicates whether the event is permanently open
+                              (and has no end date/time).
+                            example: false
                           doorTime:
                             type: string
+                            description: >-
+                              The time that guests can enter the venue, in
+                              timezone Europe/Berlin.
+                            example: "19:00:00"
                           endDate:
                             type: string
+                            description: >-
+                              The date (year, month, day) the event ends, in
+                              timezone Europe/Berlin.
+                            example: "2023-09-08"
                           endTime:
                             type: string
+                            description: The time the event end, in timezone Europe/Berlin.
+                            example: "22:00"
                       title:
                         type: object
                         additionalProperties:
@@ -7113,8 +7416,13 @@ components:
                           en: concert
                       website:
                         type: string
+                        example: https://example.com/
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
@@ -7184,12 +7492,21 @@ components:
                         properties:
                           name:
                             type: string
+                            description: Full name of the contact person.
+                            example: Jane Doe
                           email:
                             type: string
+                            description: Email address of the contact person.
+                            example: someone@example.com
                           telephone:
                             type: string
+                            description: Phone number of the contact person.
+                            example: +49 30 12345678
                       admission:
                         type: object
+                        description: >-
+                          Information about the admission to the
+                          event/attraction.
                         properties:
                           note:
                             type: object
@@ -7215,6 +7532,7 @@ components:
                               - registrationType.registrationDesired
                           admissionLink:
                             type: string
+                            example: https://example.com/
                 externalLinks:
                   type: array
                   description: Links to external resources related to this object.
@@ -7433,16 +7751,40 @@ components:
                               properties:
                                 startDate:
                                   type: string
+                                  description: >-
+                                    The date (year, month, day) the event
+                                    starts, in timezone Europe/Berlin.
+                                  example: "2023-09-08"
                                 startTime:
                                   type: string
+                                  description: >-
+                                    The time the event starts, in timezone
+                                    Europe/Berlin.
+                                  example: "20:00:00"
                                 permanentOpening:
                                   type: boolean
+                                  description: >-
+                                    Indicates whether the event is permanently
+                                    open (and has no end date/time).
+                                  example: false
                                 doorTime:
                                   type: string
+                                  description: >-
+                                    The time that guests can enter the venue, in
+                                    timezone Europe/Berlin.
+                                  example: "19:00:00"
                                 endDate:
                                   type: string
+                                  description: >-
+                                    The date (year, month, day) the event ends,
+                                    in timezone Europe/Berlin.
+                                  example: "2023-09-08"
                                 endTime:
                                   type: string
+                                  description: >-
+                                    The time the event end, in timezone
+                                    Europe/Berlin.
+                                  example: "22:00"
                             title:
                               type: object
                               additionalProperties:
@@ -7489,8 +7831,13 @@ components:
                                 en: concert
                             website:
                               type: string
+                              example: https://example.com/
                             inLanguages:
                               type: array
+                              description: List of languages this object is available in.
+                              example:
+                                - de
+                                - en
                               items:
                                 type: string
                             tags:
@@ -7560,12 +7907,21 @@ components:
                               properties:
                                 name:
                                   type: string
+                                  description: Full name of the contact person.
+                                  example: Jane Doe
                                 email:
                                   type: string
+                                  description: Email address of the contact person.
+                                  example: someone@example.com
                                 telephone:
                                   type: string
+                                  description: Phone number of the contact person.
+                                  example: +49 30 12345678
                             admission:
                               type: object
+                              description: >-
+                                Information about the admission to the
+                                event/attraction.
                               properties:
                                 note:
                                   type: object
@@ -7591,6 +7947,7 @@ components:
                                     - registrationType.registrationDesired
                                 admissionLink:
                                   type: string
+                                  example: https://example.com/
                       externalLinks:
                         type: array
                         description: Links to external resources related to this object.

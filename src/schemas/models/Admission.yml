@@ -1,4 +1,5 @@
 type: object
+description: Information about the admission to the event/attraction.
 properties:
   note:
     $ref: "TranslatableField.yml"
@@ -15,3 +16,4 @@ properties:
       - registrationType.registrationDesired
   admissionLink:
     type: string
+    example: https://example.com/

@@ -42,11 +42,7 @@ properties:
     type: string
     example: https://example.com/
   inLanguages:
-    type: array
-    description: List of languages this object is available in.
-    example: ["de", "en"]
-    items:
-      type: string
+    $ref: "Languages.yml"
   tags:
     type: array
     description: List of tags for this attraction.
