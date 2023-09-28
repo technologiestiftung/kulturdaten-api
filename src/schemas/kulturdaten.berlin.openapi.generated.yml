@@ -1566,14 +1566,25 @@ components:
           properties:
             created:
               type: string
+              description: The date and time the object was created (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             updated:
               type: string
+              description: The date and time the object was last updated (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             origin:
               type: string
+              description: The source of this object.
+              example: bezirkskalender
             originObjectID:
               type: string
+              description: The original ID of this object in the original system.
             availableLanguages:
               type: array
+              description: List of languages this object is available in.
+              example:
+                - de
+                - en
               items:
                 type: string
         status:
@@ -1764,14 +1775,25 @@ components:
           properties:
             created:
               type: string
+              description: The date and time the object was created (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             updated:
               type: string
+              description: The date and time the object was last updated (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             origin:
               type: string
+              description: The source of this object.
+              example: bezirkskalender
             originObjectID:
               type: string
+              description: The original ID of this object in the original system.
             availableLanguages:
               type: array
+              description: List of languages this object is available in.
+              example:
+                - de
+                - en
               items:
                 type: string
         status:
@@ -1848,14 +1870,27 @@ components:
                 properties:
                   created:
                     type: string
+                    description: The date and time the object was created (ISO timestamp).
+                    example: "2011-10-05T14:48:00.000Z"
                   updated:
                     type: string
+                    description: >-
+                      The date and time the object was last updated (ISO
+                      timestamp).
+                    example: "2011-10-05T14:48:00.000Z"
                   origin:
                     type: string
+                    description: The source of this object.
+                    example: bezirkskalender
                   originObjectID:
                     type: string
+                    description: The original ID of this object in the original system.
                   availableLanguages:
                     type: array
+                    description: List of languages this object is available in.
+                    example:
+                      - de
+                      - en
                     items:
                       type: string
               status:
@@ -2056,14 +2091,25 @@ components:
           properties:
             created:
               type: string
+              description: The date and time the object was created (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             updated:
               type: string
+              description: The date and time the object was last updated (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             origin:
               type: string
+              description: The source of this object.
+              example: bezirkskalender
             originObjectID:
               type: string
+              description: The original ID of this object in the original system.
             availableLanguages:
               type: array
+              description: List of languages this object is available in.
+              example:
+                - de
+                - en
               items:
                 type: string
         status:
@@ -2149,14 +2195,25 @@ components:
           properties:
             created:
               type: string
+              description: The date and time the object was created (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             updated:
               type: string
+              description: The date and time the object was last updated (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             origin:
               type: string
+              description: The source of this object.
+              example: bezirkskalender
             originObjectID:
               type: string
+              description: The original ID of this object in the original system.
             availableLanguages:
               type: array
+              description: List of languages this object is available in.
+              example:
+                - de
+                - en
               items:
                 type: string
         status:
@@ -2342,14 +2399,25 @@ components:
           properties:
             created:
               type: string
+              description: The date and time the object was created (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             updated:
               type: string
+              description: The date and time the object was last updated (ISO timestamp).
+              example: "2011-10-05T14:48:00.000Z"
             origin:
               type: string
+              description: The source of this object.
+              example: bezirkskalender
             originObjectID:
               type: string
+              description: The original ID of this object in the original system.
             availableLanguages:
               type: array
+              description: List of languages this object is available in.
+              example:
+                - de
+                - en
               items:
                 type: string
         status:
@@ -2534,14 +2602,29 @@ components:
                   properties:
                     created:
                       type: string
+                      description: >-
+                        The date and time the object was created (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     updated:
                       type: string
+                      description: >-
+                        The date and time the object was last updated (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     origin:
                       type: string
+                      description: The source of this object.
+                      example: bezirkskalender
                     originObjectID:
                       type: string
+                      description: The original ID of this object in the original system.
                     availableLanguages:
                       type: array
+                      description: List of languages this object is available in.
+                      example:
+                        - de
+                        - en
                       items:
                         type: string
                 status:
@@ -2710,14 +2793,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -3028,14 +3128,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -3299,14 +3416,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -3563,14 +3697,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -3690,14 +3841,29 @@ components:
                   properties:
                     created:
                       type: string
+                      description: >-
+                        The date and time the object was created (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     updated:
                       type: string
+                      description: >-
+                        The date and time the object was last updated (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     origin:
                       type: string
+                      description: The source of this object.
+                      example: bezirkskalender
                     originObjectID:
                       type: string
+                      description: The original ID of this object in the original system.
                     availableLanguages:
                       type: array
+                      description: List of languages this object is available in.
+                      example:
+                        - de
+                        - en
                       items:
                         type: string
                 status:
@@ -3898,14 +4064,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -4353,14 +4536,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -4581,14 +4781,29 @@ components:
                   properties:
                     created:
                       type: string
+                      description: >-
+                        The date and time the object was created (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     updated:
                       type: string
+                      description: >-
+                        The date and time the object was last updated (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     origin:
                       type: string
+                      description: The source of this object.
+                      example: bezirkskalender
                     originObjectID:
                       type: string
+                      description: The original ID of this object in the original system.
                     availableLanguages:
                       type: array
+                      description: List of languages this object is available in.
+                      example:
+                        - de
+                        - en
                       items:
                         type: string
                 status:
@@ -4974,14 +5189,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -5464,14 +5696,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -5693,14 +5942,29 @@ components:
                   properties:
                     created:
                       type: string
+                      description: >-
+                        The date and time the object was created (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     updated:
                       type: string
+                      description: >-
+                        The date and time the object was last updated (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     origin:
                       type: string
+                      description: The source of this object.
+                      example: bezirkskalender
                     originObjectID:
                       type: string
+                      description: The original ID of this object in the original system.
                     availableLanguages:
                       type: array
+                      description: List of languages this object is available in.
+                      example:
+                        - de
+                        - en
                       items:
                         type: string
                 status:
@@ -6328,14 +6592,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       - type: object
@@ -6384,14 +6665,31 @@ components:
                       properties:
                         created:
                           type: string
+                          description: >-
+                            The date and time the object was created (ISO
+                            timestamp).
+                          example: "2011-10-05T14:48:00.000Z"
                         updated:
                           type: string
+                          description: >-
+                            The date and time the object was last updated (ISO
+                            timestamp).
+                          example: "2011-10-05T14:48:00.000Z"
                         origin:
                           type: string
+                          description: The source of this object.
+                          example: bezirkskalender
                         originObjectID:
                           type: string
+                          description: >-
+                            The original ID of this object in the original
+                            system.
                         availableLanguages:
                           type: array
+                          description: List of languages this object is available in.
+                          example:
+                            - de
+                            - en
                           items:
                             type: string
                     - type: object
@@ -6430,14 +6728,27 @@ components:
               properties:
                 created:
                   type: string
+                  description: The date and time the object was created (ISO timestamp).
+                  example: "2011-10-05T14:48:00.000Z"
                 updated:
                   type: string
+                  description: >-
+                    The date and time the object was last updated (ISO
+                    timestamp).
+                  example: "2011-10-05T14:48:00.000Z"
                 origin:
                   type: string
+                  description: The source of this object.
+                  example: bezirkskalender
                 originObjectID:
                   type: string
+                  description: The original ID of this object in the original system.
                 availableLanguages:
                   type: array
+                  description: List of languages this object is available in.
+                  example:
+                    - de
+                    - en
                   items:
                     type: string
             - type: object
@@ -6485,14 +6796,31 @@ components:
                       properties:
                         created:
                           type: string
+                          description: >-
+                            The date and time the object was created (ISO
+                            timestamp).
+                          example: "2011-10-05T14:48:00.000Z"
                         updated:
                           type: string
+                          description: >-
+                            The date and time the object was last updated (ISO
+                            timestamp).
+                          example: "2011-10-05T14:48:00.000Z"
                         origin:
                           type: string
+                          description: The source of this object.
+                          example: bezirkskalender
                         originObjectID:
                           type: string
+                          description: >-
+                            The original ID of this object in the original
+                            system.
                         availableLanguages:
                           type: array
+                          description: List of languages this object is available in.
+                          example:
+                            - de
+                            - en
                           items:
                             type: string
                     - type: object
@@ -6536,14 +6864,29 @@ components:
                   properties:
                     created:
                       type: string
+                      description: >-
+                        The date and time the object was created (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     updated:
                       type: string
+                      description: >-
+                        The date and time the object was last updated (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
                     origin:
                       type: string
+                      description: The source of this object.
+                      example: bezirkskalender
                     originObjectID:
                       type: string
+                      description: The original ID of this object in the original system.
                     availableLanguages:
                       type: array
+                      description: List of languages this object is available in.
+                      example:
+                        - de
+                        - en
                       items:
                         type: string
                 status:
@@ -6620,14 +6963,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -6869,14 +7229,31 @@ components:
                         properties:
                           created:
                             type: string
+                            description: >-
+                              The date and time the object was created (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           updated:
                             type: string
+                            description: >-
+                              The date and time the object was last updated (ISO
+                              timestamp).
+                            example: "2011-10-05T14:48:00.000Z"
                           origin:
                             type: string
+                            description: The source of this object.
+                            example: bezirkskalender
                           originObjectID:
                             type: string
+                            description: >-
+                              The original ID of this object in the original
+                              system.
                           availableLanguages:
                             type: array
+                            description: List of languages this object is available in.
+                            example:
+                              - de
+                              - en
                             items:
                               type: string
                       status:
@@ -6953,14 +7330,33 @@ components:
                               properties:
                                 created:
                                   type: string
+                                  description: >-
+                                    The date and time the object was created
+                                    (ISO timestamp).
+                                  example: "2011-10-05T14:48:00.000Z"
                                 updated:
                                   type: string
+                                  description: >-
+                                    The date and time the object was last
+                                    updated (ISO timestamp).
+                                  example: "2011-10-05T14:48:00.000Z"
                                 origin:
                                   type: string
+                                  description: The source of this object.
+                                  example: bezirkskalender
                                 originObjectID:
                                   type: string
+                                  description: >-
+                                    The original ID of this object in the
+                                    original system.
                                 availableLanguages:
                                   type: array
+                                  description: >-
+                                    List of languages this object is available
+                                    in.
+                                  example:
+                                    - de
+                                    - en
                                   items:
                                     type: string
                             status:
