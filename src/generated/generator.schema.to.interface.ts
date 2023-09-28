@@ -1,8 +1,8 @@
-import { writeFileSync, readFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { readdir } from "fs/promises";
-import { parse } from "path";
-import { compile, JSONSchema, Options } from "json-schema-to-typescript";
 import * as yaml from "js-yaml";
+import { JSONSchema, Options, compile } from "json-schema-to-typescript";
+import { parse } from "path";
 
 // TODO: Refactor young padawan.
 
@@ -19,14 +19,13 @@ async function generate() {
 }
 
 async function generateInterface(className: string, rootDirectory: string) {
-	const options = (
+	const getOptions = (
 		baseFile: string,
 		dependencies: { imports: string; ajvSchema: string },
 		schema: string,
 		schemaName: string,
-	): Partial<Options> => {
-		return {
-			bannerComment: `/* eslint-disable */
+	): Partial<Options> => ({
+		bannerComment: `/* eslint-disable */
 		/**
 		 * This file was automatically generated.
 		 * DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file.
@@ -52,29 +51,24 @@ async function generateInterface(className: string, rootDirectory: string) {
 			return {isValid: validate(o), validate: validate};
 		  }
 		`,
-			additionalProperties: false,
-			cwd: rootDirectory,
-			declareExternallyReferenced: false,
-		};
-	};
+		additionalProperties: false,
+		cwd: rootDirectory,
+		declareExternallyReferenced: false,
+	});
 	const schemaPath = `${rootDirectory}/${className}.yml`;
 	const schemaYaml = readFileSync(schemaPath, "utf8");
-	const schemaObject = await yaml.load(schemaYaml);
+	const schema = (await yaml.load(schemaYaml)) as JSONSchema;
 
 	const parsedDependencies = await findDependencies(className, rootDirectory);
 	const dependencies = generateImportsAndAjvSchemeForDependency(parsedDependencies);
-	let schemaDef = {
+	const schemaDef = {
 		$id: `${className}.yml`,
-		...(schemaObject as object),
+		...schema,
 	};
-	const targetType = await compile(
-		schemaObject as JSONSchema,
-		className,
-		options(schemaPath, dependencies, JSON.stringify(schemaDef), className),
-	);
+	const options = getOptions(schemaPath, dependencies, JSON.stringify(schemaDef), className);
+	const result = await compile(schema, className, options);
 	const targetPath = `./src/generated/models/${className}.generated.ts`;
-
-	writeFileSync(targetPath, targetType);
+	writeFileSync(targetPath, result);
 }
 
 async function findDependencies(file: string, rootDirectory: string): Promise<string[]> {
