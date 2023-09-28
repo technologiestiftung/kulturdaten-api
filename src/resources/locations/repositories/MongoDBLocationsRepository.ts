@@ -8,6 +8,7 @@ import { Location } from "../../../generated/models/Location.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
 import { generateLocationID } from "../../../utils/IDUtil";
+import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { generateLocationReference, getLocationReferenceProjection } from "../../../utils/ReferenceUtil";
 import { LocationsRepository } from "./LocationsRepository";
 
@@ -17,15 +18,12 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const locations = await this.dbConnector.locations();
-
 		let query = locations.find(filter || {}, {
 			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
 		});
-
 		if (pagination) {
 			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
 		}
-
 		return query.toArray();
 	}
 
@@ -42,12 +40,13 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 	}
 
 	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
-		const newLocation = createLocation as Location;
-		newLocation.identifier = generateLocationID();
-
 		const locations = await this.dbConnector.locations();
+		const newLocation: Location = {
+			...createLocation,
+			identifier: generateLocationID(),
+			metadata: createMetadata(createLocation.metadata),
+		};
 		const result = await locations.insertOne(newLocation);
-
 		if (!result.acknowledged) {
 			return null;
 		}
@@ -70,9 +69,18 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	async updateLocationById(locationId: string, locationFields: UpdateLocationRequest): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
-		const result = await locations.updateOne({ identifier: locationId }, { $set: locationFields });
+		const result = await locations.updateOne(
+			{ identifier: locationId },
+			{
+				$set: {
+					...locationFields,
+					...getUpdatedMetadata(),
+				},
+			},
+		);
 		return result.modifiedCount === 1;
 	}
+
 	async removeLocationById(locationId: string): Promise<boolean> {
 		const locations = await this.dbConnector.locations();
 		const result = await locations.deleteOne({ identifier: locationId });
@@ -84,7 +92,8 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		const filter = { identifier: identifier };
 		const updateDocument = {
 			$set: {
-				openingStatus: openingStatus,
+				openingStatus,
+				...getUpdatedMetadata(),
 			},
 		};
 		const result = await locations.updateOne(filter, updateDocument);
@@ -96,7 +105,8 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		const filter = { identifier: identifier };
 		const updateDocument = {
 			$set: {
-				status: status,
+				status,
+				...getUpdatedMetadata(),
 			},
 		};
 		const result = await locations.updateOne(filter, updateDocument);
