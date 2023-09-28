@@ -1,3 +1,4 @@
+import { MatchKeysAndValues } from "mongodb";
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/MongoDBConnector";
@@ -9,6 +10,7 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 import { generateEventID } from "../../../utils/IDUtil";
+import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { generateEventReference, getEventReferenceProjection } from "../../../utils/ReferenceUtil";
 import { EventsRepository } from "./EventsRepository";
 
@@ -53,12 +55,13 @@ export class MongoDBEventsRepository implements EventsRepository {
 	}
 
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {
-		const newEvent = createEvent as Event;
-		newEvent.identifier = generateEventID();
-
+		const newEvent: Event = {
+			...createEvent,
+			identifier: generateEventID(),
+			metadata: createMetadata(createEvent.metadata),
+		};
 		const events = await this.dbConnector.events();
 		const result = await events.insertOne(newEvent);
-
 		if (!result.acknowledged) {
 			return null;
 		}
@@ -74,11 +77,25 @@ export class MongoDBEventsRepository implements EventsRepository {
 		const events = await this.dbConnector.events();
 		return events.findOne({ identifier: eventId }, { projection: getEventReferenceProjection() }) as Reference;
 	}
-	async updateEventById(eventId: string, eventFields: UpdateEventRequest): Promise<boolean> {
+
+	private async saveUpdatedEvent(eventId: string, updatedEvent: MatchKeysAndValues<Event>) {
 		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $set: eventFields });
+		return await events.updateOne(
+			{ identifier: eventId },
+			{
+				$set: {
+					...updatedEvent,
+					...getUpdatedMetadata(),
+				},
+			},
+		);
+	}
+
+	async updateEventById(eventId: string, updateRequest: UpdateEventRequest): Promise<boolean> {
+		const result = await this.saveUpdatedEvent(eventId, updateRequest);
 		return result.modifiedCount === 1;
 	}
+
 	async removeEventById(eventId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.deleteOne({ identifier: eventId });
@@ -86,59 +103,84 @@ export class MongoDBEventsRepository implements EventsRepository {
 	}
 
 	async setEventStatus(eventId: string, status: Event["status"]): Promise<boolean> {
-		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $set: { status: status } });
+		const result = await this.saveUpdatedEvent(eventId, { status });
 		return result.modifiedCount === 1;
 	}
 	async setScheduleStatus(eventId: string, status: Event["scheduleStatus"]): Promise<boolean> {
-		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $set: { scheduleStatus: status } });
+		const result = await this.saveUpdatedEvent(eventId, { scheduleStatus: status });
 		return result.modifiedCount === 1;
 	}
 
 	async addEventLocation(eventId: string, locationReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $push: { locations: locationReference } });
+		const result = await events.updateOne(
+			{ identifier: eventId },
+			{
+				$push: { locations: locationReference },
+				$set: getUpdatedMetadata(),
+			},
+		);
 		return result.modifiedCount === 1;
 	}
+
 	async removeEventLocation(eventId: string, locationId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne(
 			{ identifier: eventId },
-			{ $pull: { locations: { referenceId: locationId } } },
+			{
+				$pull: { locations: { referenceId: locationId } },
+				$set: getUpdatedMetadata(),
+			},
 		);
 		return result.modifiedCount === 1;
 	}
+
 	async addEventAttraction(eventId: string, attractionReference: Reference): Promise<boolean> {
 		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $push: { attractions: attractionReference } });
+		const result = await events.updateOne(
+			{ identifier: eventId },
+			{
+				$push: { attractions: attractionReference },
+				$set: getUpdatedMetadata(),
+			},
+		);
 		return result.modifiedCount === 1;
 	}
+
 	async removeEventAttraction(eventId: string, attractionId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
 		const result = await events.updateOne(
 			{ identifier: eventId },
-			{ $pull: { attractions: { referenceId: attractionId } } },
+			{
+				$pull: { attractions: { referenceId: attractionId } },
+				$set: getUpdatedMetadata(),
+			},
 		);
 		return result.modifiedCount === 1;
 	}
+
 	async setEventOrganizer(eventId: string, organizerReference: Reference): Promise<boolean> {
-		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $set: { organizer: organizerReference } });
+		const result = await this.saveUpdatedEvent(eventId, { organizer: organizerReference });
 		return result.modifiedCount === 1;
 	}
+
 	async deleteEventOrganizer(eventId: string): Promise<boolean> {
 		const events = await this.dbConnector.events();
-		const result = await events.updateOne({ identifier: eventId }, { $unset: { organizer: "" } });
+		const result = await events.updateOne(
+			{ identifier: eventId },
+			{
+				$unset: { organizer: "" },
+				$set: getUpdatedMetadata(),
+			},
+		);
 		return result.modifiedCount === 1;
 	}
 
 	async reschedule(eventId: string, rescheduleEventRequest: RescheduleEventRequest): Promise<boolean> {
-		const events = await this.dbConnector.events();
-		const result = await events.updateOne(
-			{ identifier: eventId },
-			{ $set: { schedule: rescheduleEventRequest, scheduleStatus: "event.rescheduled" } },
-		);
+		const result = await this.saveUpdatedEvent(eventId, {
+			schedule: rescheduleEventRequest,
+			scheduleStatus: "event.rescheduled",
+		});
 		return result.modifiedCount === 1;
 	}
 

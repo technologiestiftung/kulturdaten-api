@@ -1,17 +1,26 @@
 import { Metadata } from "../generated/models/Metadata.generated";
 
-function formatDate(date: Date) {
-	return date.toISOString();
+export function getCurrentTimestamp() {
+	return new Date().toISOString();
+}
+
+/**
+ * To be used in a MongoDB update operation (e.g. via $set).
+ */
+export function getUpdatedMetadata() {
+	return {
+		"metadata.updated": getCurrentTimestamp(),
+	};
 }
 
 /**
  * Creates a valid metadata object with timestamps for new and upated entities.
  */
 export function createMetadata(existingMetadata?: Partial<Metadata>): Metadata {
-	const createdDate = formatDate(new Date());
+	const currentTimestamp = getCurrentTimestamp();
 	return {
 		...existingMetadata,
-		created: existingMetadata?.created || createdDate,
-		updated: createdDate,
+		created: existingMetadata?.created || currentTimestamp,
+		updated: currentTimestamp,
 	};
 }

@@ -1,4 +1,7 @@
 type: object
+required:
+  - created
+  - updated
 properties:
   created:
     type: string
@@ -6,7 +9,7 @@ properties:
     example: "2011-10-05T14:48:00.000Z"
   updated:
     type: string
-    description: The date and time the object was last updated (ISO timestamp).
+    description: The date and time the object was last updated (ISO timestamp). Is identical to created date after first creation.
     example: "2011-10-05T14:48:00.000Z"
   origin:
     type: string
