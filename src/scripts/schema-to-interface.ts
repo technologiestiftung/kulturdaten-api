@@ -75,7 +75,7 @@ async function generateInterface(className: string, rootDirectory: string) {
  * example: "displayName?: TranslatableField1;" -> "displayName?: TranslatableField;"
  */
 function cleanUpInterfaceNames(input: string) {
-	const regex = /(\s?\S+:\s*[a-z]+)(\d+)(;)/gi;
+	const regex = /(\s?\S+:\s*[a-z]+)(\d+)(\[?\]?;)/gi;
 	return input.replace(regex, "$1$3");
 }
 
