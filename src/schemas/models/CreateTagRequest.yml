@@ -1,1 +1,11 @@
-$ref: "Tag.yml"
+type: object
+properties:
+  title:
+    $ref: "TranslatableField.yml"
+  metadata:
+    type: object
+    properties:
+      externalIDs:
+        type: object
+required:
+  - title
