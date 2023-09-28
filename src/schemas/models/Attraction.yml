@@ -21,6 +21,7 @@ properties:
       - attraction.archived
   title:
     $ref: "TranslatableField.yml"
+    description: The main title of the attraction.
     example:
       de: Konzert
       en: concert
@@ -33,17 +34,22 @@ properties:
       en: Some description
   pleaseNote:
     $ref: "TranslatableField.yml"
+    description: Any important information for the attendees of the attraction.
     example:
       de: Achtung, laute Geräusche
       en: Warning, loud noises
   website:
     type: string
+    example: https://example.com/
   inLanguages:
     type: array
+    description: List of languages this object is available in.
+    example: ["de", "en"]
     items:
       type: string
   tags:
     type: array
+    description: List of tags for this attraction.
     items:
       type: string
   externalLinks:

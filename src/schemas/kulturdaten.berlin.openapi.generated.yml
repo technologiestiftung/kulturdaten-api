@@ -2063,13 +2063,16 @@ components:
                     type: string
         externalLinks:
           type: array
+          description: Links to external resources related to this object.
           items:
             type: object
             properties:
               displayName:
                 type: string
+                example: Website
               url:
                 type: string
+                example: https://example.com/
             required:
               - url
     Attraction:
@@ -2122,9 +2125,7 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: >-
-            A string that can be translated into multiple languages, e.g. {
-            "de": "Konzert", "en": "concert" }
+          description: The main title of the attraction.
           example:
             de: Konzert
             en: concert
@@ -2152,31 +2153,38 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: >-
-            A string that can be translated into multiple languages, e.g. {
-            "de": "Konzert", "en": "concert" }
+          description: Any important information for the attendees of the attraction.
           example:
             de: Achtung, laute Geräusche
             en: Warning, loud noises
         website:
           type: string
+          example: https://example.com/
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
           type: array
+          description: List of tags for this attraction.
           items:
             type: string
         externalLinks:
           type: array
+          description: Links to external resources related to this object.
           items:
             type: object
             properties:
               displayName:
                 type: string
+                example: Website
               url:
                 type: string
+                example: https://example.com/
             required:
               - url
     Location:
@@ -2348,13 +2356,16 @@ components:
           type: array
           items:
             type: array
+            description: Links to external resources related to this object.
             items:
               type: object
               properties:
                 displayName:
                   type: string
+                  example: Website
                 url:
                   type: string
+                  example: https://example.com/
               required:
                 - url
         manager:
@@ -3453,9 +3464,7 @@ components:
                         type: object
                         additionalProperties:
                           type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        description: The main title of the attraction.
                         example:
                           de: Konzert
                           en: concert
@@ -3484,30 +3493,39 @@ components:
                         additionalProperties:
                           type: string
                         description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                          Any important information for the attendees of the
+                          attraction.
                         example:
                           de: Achtung, laute Geräusche
                           en: Warning, loud noises
                       website:
                         type: string
+                        example: https://example.com/
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
                         type: array
+                        description: List of tags for this attraction.
                         items:
                           type: string
                       externalLinks:
                         type: array
+                        description: Links to external resources related to this object.
                         items:
                           type: object
                           properties:
                             displayName:
                               type: string
+                              example: Website
                             url:
                               type: string
+                              example: https://example.com/
                           required:
                             - url
                 attractionsReferences:
@@ -3590,13 +3608,16 @@ components:
             type: string
         externalLinks:
           type: array
+          description: Links to external resources related to this object.
           items:
             type: object
             properties:
               displayName:
                 type: string
+                example: Website
               url:
                 type: string
+                example: https://example.com/
             required:
               - url
         metadata:
@@ -3734,9 +3755,7 @@ components:
                         type: object
                         additionalProperties:
                           type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        description: The main title of the attraction.
                         example:
                           de: Konzert
                           en: concert
@@ -3765,30 +3784,39 @@ components:
                         additionalProperties:
                           type: string
                         description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                          Any important information for the attendees of the
+                          attraction.
                         example:
                           de: Achtung, laute Geräusche
                           en: Warning, loud noises
                       website:
                         type: string
+                        example: https://example.com/
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
                         type: array
+                        description: List of tags for this attraction.
                         items:
                           type: string
                       externalLinks:
                         type: array
+                        description: Links to external resources related to this object.
                         items:
                           type: object
                           properties:
                             displayName:
                               type: string
+                              example: Website
                             url:
                               type: string
+                              example: https://example.com/
                           required:
                             - url
                 attractionsReferences:
@@ -3876,9 +3904,7 @@ components:
                   type: object
                   additionalProperties:
                     type: string
-                  description: >-
-                    A string that can be translated into multiple languages,
-                    e.g. { "de": "Konzert", "en": "concert" }
+                  description: The main title of the attraction.
                   example:
                     de: Konzert
                     en: concert
@@ -3907,30 +3933,39 @@ components:
                   additionalProperties:
                     type: string
                   description: >-
-                    A string that can be translated into multiple languages,
-                    e.g. { "de": "Konzert", "en": "concert" }
+                    Any important information for the attendees of the
+                    attraction.
                   example:
                     de: Achtung, laute Geräusche
                     en: Warning, loud noises
                 website:
                   type: string
+                  example: https://example.com/
                 inLanguages:
                   type: array
+                  description: List of languages this object is available in.
+                  example:
+                    - de
+                    - en
                   items:
                     type: string
                 tags:
                   type: array
+                  description: List of tags for this attraction.
                   items:
                     type: string
                 externalLinks:
                   type: array
+                  description: Links to external resources related to this object.
                   items:
                     type: object
                     properties:
                       displayName:
                         type: string
+                        example: Website
                       url:
                         type: string
+                        example: https://example.com/
                     required:
                       - url
             attractionReference:
@@ -4007,13 +4042,16 @@ components:
             type: string
         externalLinks:
           type: array
+          description: Links to external resources related to this object.
           items:
             type: object
             properties:
               displayName:
                 type: string
+                example: Website
               url:
                 type: string
+                example: https://example.com/
             required:
               - url
     GetLocationsResponse:
@@ -4226,13 +4264,16 @@ components:
                         type: array
                         items:
                           type: array
+                          description: Links to external resources related to this object.
                           items:
                             type: object
                             properties:
                               displayName:
                                 type: string
+                                example: Website
                               url:
                                 type: string
+                                example: https://example.com/
                             required:
                               - url
                       manager:
@@ -4406,13 +4447,16 @@ components:
           type: array
           items:
             type: array
+            description: Links to external resources related to this object.
             items:
               type: object
               properties:
                 displayName:
                   type: string
+                  example: Website
                 url:
                   type: string
+                  example: https://example.com/
               required:
                 - url
         manager:
@@ -4698,13 +4742,16 @@ components:
                         type: array
                         items:
                           type: array
+                          description: Links to external resources related to this object.
                           items:
                             type: object
                             properties:
                               displayName:
                                 type: string
+                                example: Website
                               url:
                                 type: string
+                                example: https://example.com/
                             required:
                               - url
                       manager:
@@ -4941,13 +4988,16 @@ components:
                   type: array
                   items:
                     type: array
+                    description: Links to external resources related to this object.
                     items:
                       type: object
                       properties:
                         displayName:
                           type: string
+                          example: Website
                         url:
                           type: string
+                          example: https://example.com/
                       required:
                         - url
                 manager:
@@ -5080,13 +5130,16 @@ components:
           type: array
           items:
             type: array
+            description: Links to external resources related to this object.
             items:
               type: object
               properties:
                 displayName:
                   type: string
+                  example: Website
                 url:
                   type: string
+                  example: https://example.com/
               required:
                 - url
         contact:
@@ -7164,13 +7217,16 @@ components:
                             type: string
                 externalLinks:
                   type: array
+                  description: Links to external resources related to this object.
                   items:
                     type: object
                     properties:
                       displayName:
                         type: string
+                        example: Website
                       url:
                         type: string
+                        example: https://example.com/
                     required:
                       - url
       required:
@@ -7537,13 +7593,16 @@ components:
                                   type: string
                       externalLinks:
                         type: array
+                        description: Links to external resources related to this object.
                         items:
                           type: object
                           properties:
                             displayName:
                               type: string
+                              example: Website
                             url:
                               type: string
+                              example: https://example.com/
                           required:
                             - url
       required:
