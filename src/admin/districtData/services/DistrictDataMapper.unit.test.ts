@@ -4,6 +4,7 @@ import {
 } from "../../../generated/models/CreateAttractionRequest.generated";
 import { CreateEventRequest, validateCreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
+import { getCurrentTimestamp } from "../../../utils/MetadataUtil";
 import { Termin, Veranstaltung } from "../model/Bezirksdaten";
 import { DistrictDataMapper } from "./DistrictDataMapper";
 
@@ -121,6 +122,8 @@ describe("DistrictDataMapper", () => {
 	});
 });
 
+const currentTimestamp = getCurrentTimestamp();
+
 const tags: Tag[] = [
 	{
 		type: "type.Tag",
@@ -129,6 +132,8 @@ const tags: Tag[] = [
 			de: "Infoveranstaltungen",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "121",
 			},
@@ -141,6 +146,8 @@ const tags: Tag[] = [
 			de: "Konferenzen, Messen",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "120",
 			},
@@ -153,6 +160,8 @@ const tags: Tag[] = [
 			de: "Bildung, Schule",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "118",
 			},
@@ -165,6 +174,8 @@ const tags: Tag[] = [
 			de: "Kunst, Kultur",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "180",
 			},
@@ -177,6 +188,8 @@ const tags: Tag[] = [
 			de: "Polizei",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "94",
 			},
@@ -189,6 +202,8 @@ const tags: Tag[] = [
 			de: "Ausstellungen",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "1",
 			},
@@ -201,6 +216,8 @@ const tags: Tag[] = [
 			de: "Bühnen, Filme",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "10",
 			},
@@ -213,6 +230,8 @@ const tags: Tag[] = [
 			de: "Feste, Events",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "2",
 			},
@@ -225,6 +244,8 @@ const tags: Tag[] = [
 			de: "Frauen",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "17",
 			},
@@ -237,6 +258,8 @@ const tags: Tag[] = [
 			de: "Gesundheit, Umwelt",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "19",
 			},
@@ -249,6 +272,8 @@ const tags: Tag[] = [
 			de: "Kinder, Jugendliche",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "3",
 			},
@@ -261,6 +286,8 @@ const tags: Tag[] = [
 			de: "Lesungen, Vorträge",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "4",
 			},
@@ -273,6 +300,8 @@ const tags: Tag[] = [
 			de: "Musik, Konzerte",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "5",
 			},
@@ -285,6 +314,8 @@ const tags: Tag[] = [
 			de: "Politik, Bürgerservice",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "7",
 			},
@@ -297,6 +328,8 @@ const tags: Tag[] = [
 			de: "Spaziergänge, Ausflüge",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "21",
 			},
@@ -309,6 +342,8 @@ const tags: Tag[] = [
 			de: "Senioren",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "223",
 			},
@@ -321,6 +356,8 @@ const tags: Tag[] = [
 			de: "Freizeit, Sport",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "9",
 			},
@@ -333,6 +370,8 @@ const tags: Tag[] = [
 			de: "Tanz, Theater",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "42",
 			},
@@ -345,6 +384,8 @@ const tags: Tag[] = [
 			de: "Wochen- und Flohmärkte",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "34",
 			},
@@ -357,6 +398,8 @@ const tags: Tag[] = [
 			de: "Weihnachtszeit, Jahreswechsel",
 		},
 		metadata: {
+			created: currentTimestamp,
+			updated: currentTimestamp,
 			externalIDs: {
 				bezirkskalender: "32",
 			},
