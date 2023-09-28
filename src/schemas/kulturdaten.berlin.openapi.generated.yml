@@ -2328,19 +2328,27 @@ components:
             en: concert
         website:
           type: string
+          example: https://example.com/
         address:
           type: object
           properties:
             streetAddress:
               type: string
+              example: Beispielstraße 1
             addressLocality:
               type: string
+              example: Berlin
             postalCode:
               type: string
+              example: 12345
             description:
               type: string
+              example: Main hall
         borough:
           type: string
+          description: >-
+            The Berlin district (or "außerhalb", if the event happens outside of
+            Berlin).
           enum:
             - Mitte
             - Friedrichshain-Kreuzberg
@@ -2360,8 +2368,10 @@ components:
           properties:
             latitude:
               type: string
+              example: "52.521008"
             longitude:
               type: string
+              example: "13.405954"
             coordinateSystem:
               type: string
               enum:
@@ -2382,6 +2392,7 @@ components:
                 description: >-
                   The closing hour of the place or service on the given day(s)
                   of the week.
+                example: "22:00"
               dayOfWeek:
                 type: string
                 enum:
@@ -2398,6 +2409,7 @@ components:
                 description: >-
                   The opening hour of the place or service on the given day(s)
                   of the week.
+                example: "12:00"
               validFrom:
                 type: string
                 description: The date when the item becomes valid.
@@ -2408,6 +2420,10 @@ components:
                   of an offer, salary period, or a period of opening hours.
         inLanguages:
           type: array
+          description: List of languages this object is available in.
+          example:
+            - de
+            - en
           items:
             type: string
         tags:
@@ -2451,6 +2467,7 @@ components:
               example:
                 de: Konzert
                 en: concert
+          description: The managing person of this location.
         contact:
           type: object
           properties:
@@ -2466,6 +2483,7 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          description: The main contact person of this location.
     Organization:
       type: object
       required:
@@ -2560,14 +2578,21 @@ components:
           properties:
             streetAddress:
               type: string
+              example: Beispielstraße 1
             addressLocality:
               type: string
+              example: Berlin
             postalCode:
               type: string
+              example: 12345
             description:
               type: string
+              example: Main hall
         borough:
           type: string
+          description: >-
+            The Berlin district (or "außerhalb", if the event happens outside of
+            Berlin).
           enum:
             - Mitte
             - Friedrichshain-Kreuzberg
@@ -2587,8 +2612,10 @@ components:
           properties:
             latitude:
               type: string
+              example: "52.521008"
             longitude:
               type: string
+              example: "13.405954"
             coordinateSystem:
               type: string
               enum:
@@ -2773,14 +2800,21 @@ components:
                   properties:
                     streetAddress:
                       type: string
+                      example: Beispielstraße 1
                     addressLocality:
                       type: string
+                      example: Berlin
                     postalCode:
                       type: string
+                      example: 12345
                     description:
                       type: string
+                      example: Main hall
                 borough:
                   type: string
+                  description: >-
+                    The Berlin district (or "außerhalb", if the event happens
+                    outside of Berlin).
                   enum:
                     - Mitte
                     - Friedrichshain-Kreuzberg
@@ -2800,8 +2834,10 @@ components:
                   properties:
                     latitude:
                       type: string
+                      example: "52.521008"
                     longitude:
                       type: string
+                      example: "13.405954"
                     coordinateSystem:
                       type: string
                       enum:
@@ -2972,14 +3008,21 @@ components:
                         properties:
                           streetAddress:
                             type: string
+                            example: Beispielstraße 1
                           addressLocality:
                             type: string
+                            example: Berlin
                           postalCode:
                             type: string
+                            example: 12345
                           description:
                             type: string
+                            example: Main hall
                       borough:
                         type: string
+                        description: >-
+                          The Berlin district (or "außerhalb", if the event
+                          happens outside of Berlin).
                         enum:
                           - Mitte
                           - Friedrichshain-Kreuzberg
@@ -2999,8 +3042,10 @@ components:
                         properties:
                           latitude:
                             type: string
+                            example: "52.521008"
                           longitude:
                             type: string
+                            example: "13.405954"
                           coordinateSystem:
                             type: string
                             enum:
@@ -3093,14 +3138,21 @@ components:
           properties:
             streetAddress:
               type: string
+              example: Beispielstraße 1
             addressLocality:
               type: string
+              example: Berlin
             postalCode:
               type: string
+              example: 12345
             description:
               type: string
+              example: Main hall
         borough:
           type: string
+          description: >-
+            The Berlin district (or "außerhalb", if the event happens outside of
+            Berlin).
           enum:
             - Mitte
             - Friedrichshain-Kreuzberg
@@ -3120,8 +3172,10 @@ components:
           properties:
             latitude:
               type: string
+              example: "52.521008"
             longitude:
               type: string
+              example: "13.405954"
             coordinateSystem:
               type: string
               enum:
@@ -3319,14 +3373,21 @@ components:
                         properties:
                           streetAddress:
                             type: string
+                            example: Beispielstraße 1
                           addressLocality:
                             type: string
+                            example: Berlin
                           postalCode:
                             type: string
+                            example: 12345
                           description:
                             type: string
+                            example: Main hall
                       borough:
                         type: string
+                        description: >-
+                          The Berlin district (or "außerhalb", if the event
+                          happens outside of Berlin).
                         enum:
                           - Mitte
                           - Friedrichshain-Kreuzberg
@@ -3346,8 +3407,10 @@ components:
                         properties:
                           latitude:
                             type: string
+                            example: "52.521008"
                           longitude:
                             type: string
+                            example: "13.405954"
                           coordinateSystem:
                             type: string
                             enum:
@@ -3436,14 +3499,21 @@ components:
           properties:
             streetAddress:
               type: string
+              example: Beispielstraße 1
             addressLocality:
               type: string
+              example: Berlin
             postalCode:
               type: string
+              example: 12345
             description:
               type: string
+              example: Main hall
         borough:
           type: string
+          description: >-
+            The Berlin district (or "außerhalb", if the event happens outside of
+            Berlin).
           enum:
             - Mitte
             - Friedrichshain-Kreuzberg
@@ -3463,8 +3533,10 @@ components:
           properties:
             latitude:
               type: string
+              example: "52.521008"
             longitude:
               type: string
+              example: "13.405954"
             coordinateSystem:
               type: string
               enum:
@@ -4275,19 +4347,27 @@ components:
                           en: concert
                       website:
                         type: string
+                        example: https://example.com/
                       address:
                         type: object
                         properties:
                           streetAddress:
                             type: string
+                            example: Beispielstraße 1
                           addressLocality:
                             type: string
+                            example: Berlin
                           postalCode:
                             type: string
+                            example: 12345
                           description:
                             type: string
+                            example: Main hall
                       borough:
                         type: string
+                        description: >-
+                          The Berlin district (or "außerhalb", if the event
+                          happens outside of Berlin).
                         enum:
                           - Mitte
                           - Friedrichshain-Kreuzberg
@@ -4307,8 +4387,10 @@ components:
                         properties:
                           latitude:
                             type: string
+                            example: "52.521008"
                           longitude:
                             type: string
+                            example: "13.405954"
                           coordinateSystem:
                             type: string
                             enum:
@@ -4329,6 +4411,7 @@ components:
                               description: >-
                                 The closing hour of the place or service on the
                                 given day(s) of the week.
+                              example: "22:00"
                             dayOfWeek:
                               type: string
                               enum:
@@ -4347,6 +4430,7 @@ components:
                               description: >-
                                 The opening hour of the place or service on the
                                 given day(s) of the week.
+                              example: "12:00"
                             validFrom:
                               type: string
                               description: The date when the item becomes valid.
@@ -4358,6 +4442,10 @@ components:
                                 period of opening hours.
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
@@ -4402,6 +4490,7 @@ components:
                             example:
                               de: Konzert
                               en: concert
+                        description: The managing person of this location.
                       contact:
                         type: object
                         properties:
@@ -4417,6 +4506,7 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        description: The main contact person of this location.
                 locationsReferences:
                   type: array
                   items:
@@ -4482,14 +4572,21 @@ components:
           properties:
             streetAddress:
               type: string
+              example: Beispielstraße 1
             addressLocality:
               type: string
+              example: Berlin
             postalCode:
               type: string
+              example: 12345
             description:
               type: string
+              example: Main hall
         borough:
           type: string
+          description: >-
+            The Berlin district (or "außerhalb", if the event happens outside of
+            Berlin).
           enum:
             - Mitte
             - Friedrichshain-Kreuzberg
@@ -4509,8 +4606,10 @@ components:
           properties:
             latitude:
               type: string
+              example: "52.521008"
             longitude:
               type: string
+              example: "13.405954"
             coordinateSystem:
               type: string
               enum:
@@ -4525,6 +4624,7 @@ components:
                 description: >-
                   The closing hour of the place or service on the given day(s)
                   of the week.
+                example: "22:00"
               dayOfWeek:
                 type: string
                 enum:
@@ -4541,6 +4641,7 @@ components:
                 description: >-
                   The opening hour of the place or service on the given day(s)
                   of the week.
+                example: "12:00"
               validFrom:
                 type: string
                 description: The date when the item becomes valid.
@@ -4765,19 +4866,27 @@ components:
                           en: concert
                       website:
                         type: string
+                        example: https://example.com/
                       address:
                         type: object
                         properties:
                           streetAddress:
                             type: string
+                            example: Beispielstraße 1
                           addressLocality:
                             type: string
+                            example: Berlin
                           postalCode:
                             type: string
+                            example: 12345
                           description:
                             type: string
+                            example: Main hall
                       borough:
                         type: string
+                        description: >-
+                          The Berlin district (or "außerhalb", if the event
+                          happens outside of Berlin).
                         enum:
                           - Mitte
                           - Friedrichshain-Kreuzberg
@@ -4797,8 +4906,10 @@ components:
                         properties:
                           latitude:
                             type: string
+                            example: "52.521008"
                           longitude:
                             type: string
+                            example: "13.405954"
                           coordinateSystem:
                             type: string
                             enum:
@@ -4819,6 +4930,7 @@ components:
                               description: >-
                                 The closing hour of the place or service on the
                                 given day(s) of the week.
+                              example: "22:00"
                             dayOfWeek:
                               type: string
                               enum:
@@ -4837,6 +4949,7 @@ components:
                               description: >-
                                 The opening hour of the place or service on the
                                 given day(s) of the week.
+                              example: "12:00"
                             validFrom:
                               type: string
                               description: The date when the item becomes valid.
@@ -4848,6 +4961,10 @@ components:
                                 period of opening hours.
                       inLanguages:
                         type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
                         items:
                           type: string
                       tags:
@@ -4892,6 +5009,7 @@ components:
                             example:
                               de: Konzert
                               en: concert
+                        description: The managing person of this location.
                       contact:
                         type: object
                         properties:
@@ -4907,6 +5025,7 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        description: The main contact person of this location.
                 locationsReferences:
                   type: array
                   items:
@@ -5017,19 +5136,27 @@ components:
                     en: concert
                 website:
                   type: string
+                  example: https://example.com/
                 address:
                   type: object
                   properties:
                     streetAddress:
                       type: string
+                      example: Beispielstraße 1
                     addressLocality:
                       type: string
+                      example: Berlin
                     postalCode:
                       type: string
+                      example: 12345
                     description:
                       type: string
+                      example: Main hall
                 borough:
                   type: string
+                  description: >-
+                    The Berlin district (or "außerhalb", if the event happens
+                    outside of Berlin).
                   enum:
                     - Mitte
                     - Friedrichshain-Kreuzberg
@@ -5049,8 +5176,10 @@ components:
                   properties:
                     latitude:
                       type: string
+                      example: "52.521008"
                     longitude:
                       type: string
+                      example: "13.405954"
                     coordinateSystem:
                       type: string
                       enum:
@@ -5071,6 +5200,7 @@ components:
                         description: >-
                           The closing hour of the place or service on the given
                           day(s) of the week.
+                        example: "22:00"
                       dayOfWeek:
                         type: string
                         enum:
@@ -5089,6 +5219,7 @@ components:
                         description: >-
                           The opening hour of the place or service on the given
                           day(s) of the week.
+                        example: "12:00"
                       validFrom:
                         type: string
                         description: The date when the item becomes valid.
@@ -5100,6 +5231,10 @@ components:
                           opening hours.
                 inLanguages:
                   type: array
+                  description: List of languages this object is available in.
+                  example:
+                    - de
+                    - en
                   items:
                     type: string
                 tags:
@@ -5143,6 +5278,7 @@ components:
                       example:
                         de: Konzert
                         en: concert
+                  description: The managing person of this location.
                 contact:
                   type: object
                   properties:
@@ -5158,6 +5294,7 @@ components:
                       type: string
                       description: Phone number of the contact person.
                       example: +49 30 12345678
+                  description: The main contact person of this location.
             locationReference:
               type: object
               properties:
@@ -5217,14 +5354,21 @@ components:
           properties:
             streetAddress:
               type: string
+              example: Beispielstraße 1
             addressLocality:
               type: string
+              example: Berlin
             postalCode:
               type: string
+              example: 12345
             description:
               type: string
+              example: Main hall
         borough:
           type: string
+          description: >-
+            The Berlin district (or "außerhalb", if the event happens outside of
+            Berlin).
           enum:
             - Mitte
             - Friedrichshain-Kreuzberg
@@ -5244,8 +5388,10 @@ components:
           properties:
             latitude:
               type: string
+              example: "52.521008"
             longitude:
               type: string
+              example: "13.405954"
             coordinateSystem:
               type: string
               enum:

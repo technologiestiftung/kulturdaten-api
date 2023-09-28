@@ -2,8 +2,10 @@ type: object
 properties:
   latitude:
     type: string
+    example: "52.521008"
   longitude:
     type: string
+    example: "13.405954"
   coordinateSystem:
     type: string
     enum:

@@ -24,6 +24,7 @@ properties:
     $ref: "TranslatableField.yml"
   website:
     type: string
+    example: https://example.com/
   address:
     $ref: "Address.yml"
   borough:
@@ -39,9 +40,7 @@ properties:
   openingHours:
     $ref: "OpeningHours.yml"
   inLanguages:
-    type: array
-    items:
-      type: string
+    $ref: "Languages.yml"
   tags:
     type: array
     items:
@@ -56,5 +55,7 @@ properties:
       $ref: "ExternalLinks.yml"
   manager:
     $ref: "Reference.yml"
+    description: The managing person of this location.
   contact:
     $ref: "Contact.yml"
+    description: The main contact person of this location.

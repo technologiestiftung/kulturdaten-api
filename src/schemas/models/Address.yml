@@ -2,9 +2,13 @@ type: object
 properties:
   streetAddress:
     type: string
+    example: Beispielstraße 1
   addressLocality:
     type: string
+    example: Berlin
   postalCode:
     type: string
+    example: 12345
   description:
     type: string
+    example: Main hall
