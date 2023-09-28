@@ -1,10 +1,8 @@
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { readdir } from "fs/promises";
 import * as yaml from "js-yaml";
 import { JSONSchema, Options, compile } from "json-schema-to-typescript";
 import { parse } from "path";
-
-// TODO: Refactor young padawan.
 
 async function generate() {
 	const directoryPath = "./src/schemas/models";
@@ -67,7 +65,8 @@ async function generateInterface(className: string, rootDirectory: string) {
 	};
 	const options = getOptions(schemaPath, dependencies, JSON.stringify(schemaDef), className);
 	const result = await compile(schema, className, options);
-	const targetPath = `./src/generated/models/${className}.generated.ts`;
+	const targetFolder = createFolder("./src/generated/models");
+	const targetPath = `${targetFolder}/${className}.generated.ts`;
 	writeFileSync(targetPath, cleanUpInterfaceNames(result));
 }
 
@@ -157,8 +156,8 @@ ${dependencies.refs}
 		return return${className}s;
 	}
 	`;
-
-	const targetPath = `./src/generated/faker/faker.${className}.generated.ts`;
+	const targetFolder = createFolder("./src/generated/faker");
+	const targetPath = `${targetFolder}/faker.${className}.generated.ts`;
 	writeFileSync(targetPath, faker);
 }
 
@@ -180,6 +179,16 @@ function generateFakerSchemaRefForDependency(dependency: string) {
 
 function generateFakerImportForDependency(dependency: string) {
 	return dependency ? `import { schemaFor${dependency} } from '../models/${dependency}.generated';` : "";
+}
+
+/**
+ * Creates the folder with the given path, if it does not exist yet.
+ */
+function createFolder(folderPath: string) {
+	if (!existsSync(folderPath)) {
+		mkdirSync(folderPath, { recursive: true });
+	}
+	return folderPath;
 }
 
 generate();

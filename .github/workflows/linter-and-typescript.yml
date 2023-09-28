@@ -18,6 +18,8 @@ jobs:
           cache: 'npm'
       - name: Install Dependencies
         run: npm install
+      - name: Generate OpenAPI schema files
+        run: npm run generate
       - name: Run ESLint
         run: npm run lint
       - name: Run TypeScript compiler
