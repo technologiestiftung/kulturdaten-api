@@ -68,7 +68,16 @@ async function generateInterface(className: string, rootDirectory: string) {
 	const options = getOptions(schemaPath, dependencies, JSON.stringify(schemaDef), className);
 	const result = await compile(schema, className, options);
 	const targetPath = `./src/generated/models/${className}.generated.ts`;
-	writeFileSync(targetPath, result);
+	writeFileSync(targetPath, cleanUpInterfaceNames(result));
+}
+
+/**
+ * Removes the extra numbers from interface names.
+ * example: "displayName?: TranslatableField1;" -> "displayName?: TranslatableField;"
+ */
+function cleanUpInterfaceNames(input: string) {
+	const regex = /(\s?\S+:\s*[a-z]+)(\d+)(;)/gi;
+	return input.replace(regex, "$1$3");
 }
 
 async function findDependencies(file: string, rootDirectory: string): Promise<string[]> {

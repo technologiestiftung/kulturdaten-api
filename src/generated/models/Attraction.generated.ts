@@ -53,9 +53,9 @@ export interface Attraction {
   metadata: Metadata;
   status?: "attraction.published" | "attraction.unpublished" | "attraction.archived";
   title: TranslatableField;
-  displayName?: TranslatableField1;
-  description?: TranslatableField2;
-  pleaseNote?: TranslatableField3;
+  displayName?: TranslatableField;
+  description?: TranslatableField;
+  pleaseNote?: TranslatableField;
   website?: string;
   inLanguages?: string[];
   tags?: string[];
