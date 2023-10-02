@@ -8,7 +8,7 @@ export function generateAttractionReference(attraction: Attraction): Reference {
 	return {
 		referenceType: attraction.type ? attraction.type : "type.Attraction",
 		referenceId: attraction.identifier,
-		referenceLabel: attraction.displayName ? attraction.displayName : attraction.title,
+		referenceLabel: attraction.title,
 	};
 }
 
@@ -25,7 +25,7 @@ export function generateLocationReference(location: Location): Reference {
 	return {
 		referenceType: location.type ? location.type : "type.Location",
 		referenceId: location.identifier,
-		referenceLabel: location.displayName ? location.displayName : location.title,
+		referenceLabel: location.title,
 	};
 }
 
@@ -42,7 +42,7 @@ export function generateOrganizationReference(organization: Organization): Refer
 	return {
 		referenceType: organization.type ? organization.type : "type.Organization",
 		referenceId: organization.identifier,
-		referenceLabel: organization.displayName ? organization.displayName : organization.title,
+		referenceLabel: organization.title,
 	};
 }
 

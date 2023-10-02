@@ -121,7 +121,7 @@ export class DistrictDataService {
 				duplicateOrganizations[veranstalter.id] = {
 					referenceType: dOrganizations[0].type,
 					referenceId: dOrganizations[0].identifier,
-					referenceLabel: dOrganizations[0].displayName ? dOrganizations[0].displayName : dOrganizations[0].title,
+					referenceLabel: dOrganizations[0].title,
 				};
 			} else {
 				const createOrganizationRequests = this.mapper.mapOrganisation(veranstalter);
@@ -156,9 +156,7 @@ export class DistrictDataService {
 				duplicateLocations[veranstaltungsort.id] = {
 					referenceType: duplicatedLocations[0].type,
 					referenceId: duplicatedLocations[0].identifier,
-					referenceLabel: duplicatedLocations[0].displayName
-						? duplicatedLocations[0].displayName
-						: duplicatedLocations[0].title,
+					referenceLabel: duplicatedLocations[0].title,
 				};
 			} else {
 				const createLocationRequest = this.mapper.mapLocation(veranstaltungsort, barrierefreiheit, bezirke, tags);
@@ -196,9 +194,7 @@ export class DistrictDataService {
 				duplicateAttractions[veranstaltung.event_id] = {
 					referenceType: duplicatedAttractions[0].type,
 					referenceId: duplicatedAttractions[0].identifier,
-					referenceLabel: duplicatedAttractions[0].displayName
-						? duplicatedAttractions[0].displayName
-						: duplicatedAttractions[0].title,
+					referenceLabel: duplicatedAttractions[0].title,
 				};
 			} else {
 				const createAttractionRequest = this.mapper.mapAttraction(veranstaltung, tags);
@@ -217,9 +213,7 @@ export class DistrictDataService {
 					duplicateEvents[termin.id] = {
 						referenceType: duplicatedEvents[0].type,
 						referenceId: duplicatedEvents[0].identifier,
-						referenceLabel: duplicatedEvents[0].displayName
-							? duplicatedEvents[0].displayName
-							: duplicatedEvents[0].title,
+						referenceLabel: duplicatedEvents[0].title,
 					};
 				} else {
 					const createEventRequest = this.mapper.mapEvent(

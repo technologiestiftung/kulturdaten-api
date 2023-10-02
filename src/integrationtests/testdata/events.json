@@ -23,10 +23,6 @@
 			"de": "Konzert in Berlin",
 			"en": "Concert in Berlin"
 		},
-		"displayName": {
-			"de": "Großes Konzert",
-			"en": "Big Concert"
-		},
 		"description": {
 			"de": "Erleben Sie eine großartige Nacht voller Musik in Berlin.",
 			"en": "Experience a great night of music in Berlin."
@@ -106,11 +102,6 @@
 			"de": "Filmfestival in Berlin",
 			"en": "Film Festival in Berlin",
 			"fr": "Festival de film à Berlin"
-		},
-		"displayName": {
-			"de": "Berlin Filmfest",
-			"en": "Berlin Filmfest",
-			"fr": "Berlin Filmfest"
 		},
 		"description": {
 			"de": "Genießen Sie eine Auswahl an herausragenden Filmen beim Berlin Filmfestival.",
@@ -197,10 +188,6 @@
 			"de": "Technologie Expo in Berlin",
 			"en": "Technology Expo in Berlin"
 		},
-		"displayName": {
-			"de": "TechExpo Berlin",
-			"en": "TechExpo Berlin"
-		},
 		"description": {
 			"de": "Besuchen Sie die Technologie Expo in Berlin und entdecken Sie die neuesten Trends und Innovationen in der Technologiebranche.",
 			"en": "Visit the Technology Expo in Berlin and discover the latest trends and innovations in the technology industry."
@@ -277,10 +264,6 @@
 			"endTime": "23:00"
 		},
 		"title": {
-			"de": "Metal Gig 5000",
-			"en": "Metal Gig 5000"
-		},
-		"displayName": {
 			"de": "Metal Gig 5000",
 			"en": "Metal Gig 5000"
 		},

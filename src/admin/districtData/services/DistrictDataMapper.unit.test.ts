@@ -34,9 +34,6 @@ describe("DistrictDataMapper", () => {
 				title: {
 					de: "Baby-und Kindertrödel",
 				},
-				displayName: {
-					de: "Baby-und Kindertrödel",
-				},
 				description: {
 					de: "Unser Trödelmarkt bietet Gelegenheit, Spielzeug, Kinderwagen, Babybekleidung und vieles andere zu verkaufen oder günstig zu erwerben.\r\nWir stellen Tische (200 cm x 40 cm) und Bänke.\r\n\r\n\r\nOrt: Höfe der Fabrik Osloer Straße",
 				},

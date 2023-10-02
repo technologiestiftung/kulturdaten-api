@@ -16,11 +16,6 @@
 			"en": "Berlin Art Emporium",
 			"fr": "Emporium d'Art de Berlin"
 		},
-		"displayName": {
-			"de": "Kunst-Basar",
-			"en": "Art Emporium",
-			"fr": "Emporium d'Art"
-		},
 		"description": {
 			"de": "Ein lebendiger Ort, der Künstlern Raum bietet, ihre Werke auszustellen und zu verkaufen. Workshops und Events finden regelmäßig statt.",
 			"en": "A vibrant space for artists to showcase and sell their work. Regular workshops and events are held.",
@@ -64,12 +59,6 @@
 			"en": "Berlin Literary Café",
 			"es": "Café Literario de Berlín",
 			"ru": "Литературное кафе Берлина"
-		},
-		"displayName": {
-			"de": "Literaturcafé",
-			"en": "Literary Café",
-			"es": "Café Literario",
-			"ru": "Литературное кафе"
 		},
 		"description": {
 			"de": "Ein gemütliches Café, in dem Literaturbegeisterte zusammenkommen, um Bücher zu lesen, zu diskutieren und an Lesungen teilzunehmen.",
@@ -115,11 +104,6 @@
 			"de": "Zeitreisende Kulturelle Austauschorganisation",
 			"en": "Time-Traveling Cultural Exchange Organization",
 			"intergalactic": "Tzoruk-Shi Zukal Moru-Toru"
-		},
-		"displayName": {
-			"de": "Zeitreisende Kultur",
-			"en": "Time-Traveling Culture",
-			"intergalactic": "Tzoruk Zukal"
 		},
 		"description": {
 			"de": "Eine Organisation aus dem Jahr 2350, die durch eine Zeitmaschine ins heutige Berlin gereist ist, um Menschen mit faszinierenden Kulturveranstaltungen aus der Zukunft vertraut zu machen.",

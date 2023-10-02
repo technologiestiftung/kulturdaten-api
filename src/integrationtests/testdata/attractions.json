@@ -16,12 +16,6 @@
 			"es": "Observatorio de Skywalker",
 			"fr": "Observatoire de Skywalker"
 		},
-		"displayName": {
-			"en": "Skywalker's Observatory",
-			"de": "Skywalkers Observatorium",
-			"es": "Observatorio de Skywalker",
-			"fr": "Observatoire de Skywalker"
-		},
 		"description": {
 			"en": "Skywalker's Observatory is a state-of-the-art space observatory floating above Earth. It allows visitors to experience space like never before. Equipped with the latest telescopes and VR technologies, you can explore the galaxies, walk on distant planets, and even glimpse into other dimensions.",
 			"de": "Das Skywalkers Observatorium ist ein hochmodernes Weltraumobservatorium, das über der Erde schwebt. Es ermöglicht Besuchern, den Weltraum wie nie zuvor zu erleben. Ausgestattet mit den neuesten Teleskopen und VR-Technologien, können Sie die Galaxien erkunden, auf fernen Planeten spazieren gehen und sogar in andere Dimensionen blicken.",
@@ -60,11 +54,6 @@
 		},
 		"status": "attraction.published",
 		"title": {
-			"en": "Temporal Cultural Gateway",
-			"de": "Zeitkulturelles Tor",
-			"intergalactic": "Toru-Kiru Zima"
-		},
-		"displayName": {
 			"en": "Temporal Cultural Gateway",
 			"de": "Zeitkulturelles Tor",
 			"intergalactic": "Toru-Kiru Zima"
@@ -108,10 +97,6 @@
 			"en": "Berlin Wall VR Experience",
 			"de": "Berliner Mauer VR Erlebnis"
 		},
-		"displayName": {
-			"en": "Berlin Wall VR Experience",
-			"de": "Berliner Mauer VR Erlebnis"
-		},
 		"description": {
 			"en": "Step into history with the Berlin Wall VR Experience. Witness the Berlin Wall as it stood in 1961, and be a part of the events that led to its fall in 1989. This immersive virtual reality experience allows you to walk along the Wall, interact with historical figures, and gain a deeper understanding of the history of Berlin.",
 			"de": "Tauchen Sie ein in die Geschichte mit dem Berliner Mauer VR Erlebnis. Erleben Sie die Berliner Mauer, wie sie 1961 stand, und nehmen Sie teil an den Ereignissen, die 1989 zu ihrem Fall führten. Diese immersive Virtual-Reality-Erfahrung ermöglicht es Ihnen, entlang der Mauer zu laufen, mit historischen Persönlichkeiten zu interagieren und ein tieferes Verständnis für die Geschichte Berlins zu erlangen."
@@ -146,10 +131,6 @@
 		},
 		"status": "attraction.published",
 		"title": {
-			"de": "Metal Gig 5000",
-			"en": "Metal Gig 5000"
-		},
-		"displayName": {
 			"de": "Metal Gig 5000",
 			"en": "Metal Gig 5000"
 		},
