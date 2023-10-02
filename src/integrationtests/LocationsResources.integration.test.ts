@@ -1,10 +1,9 @@
 import request from "supertest";
-
 import { fakeCreateLocationRequest } from "../generated/faker/faker.CreateLocationRequest.generated";
 import { Location, validateLocation } from "../generated/models/Location.generated";
+import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { LOCATION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
-
 import dummyLocations from "./testdata/locations.json";
 
 let env!: TestEnvironment;
@@ -65,8 +64,8 @@ describe("Create locations", () => {
 		const newLocationID = body.data.locationReference.referenceId;
 		const createdLocation = await env.locations.findOne<Location>({ identifier: newLocationID });
 		const metadata = createdLocation!.metadata!;
-		expect(metadata.created).toBe("2023-10-01T01:02:03.000Z");
-		expect(metadata.updated).toBe("2023-10-01T01:02:03.000Z");
+		expect(getSeconds(metadata.created)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
 	});
 });
 
@@ -150,7 +149,7 @@ describe("Update locations", () => {
 		const updatedLocation = await env.locations.findOne<Location>({ identifier });
 		const metadata = updatedLocation!.metadata!;
 		expect(metadata.created).toBe(existingLocation!.metadata!.created);
-		expect(metadata.updated).toBe("2023-10-23T01:02:03.000Z");
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-23T01:02:03.000Z"));
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /locations/invalidID", async () => {

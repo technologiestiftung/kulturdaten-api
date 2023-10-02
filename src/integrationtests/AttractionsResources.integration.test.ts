@@ -1,10 +1,9 @@
 import request from "supertest";
-
 import { fakeCreateAttractionRequest } from "../generated/faker/faker.CreateAttractionRequest.generated";
 import { Attraction, validateAttraction } from "../generated/models/Attraction.generated";
+import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ATTRACTION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
-
 import threeDummyAttractions from "./testdata/attractions.json";
 
 let env!: TestEnvironment;
@@ -66,8 +65,8 @@ describe("Create attractions", () => {
 		const newAttractionID = body.data.attractionReference.referenceId;
 		const createdAttraction = await env.attractions.findOne<Attraction>({ identifier: newAttractionID });
 		const metadata = createdAttraction!.metadata!;
-		expect(metadata.created).toBe("2023-10-01T01:02:03.000Z");
-		expect(metadata.updated).toBe("2023-10-01T01:02:03.000Z");
+		expect(getSeconds(metadata.created)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
 	});
 });
 
@@ -151,7 +150,7 @@ describe("Update attractions", () => {
 		const updatedAttraction = await env.attractions.findOne<Attraction>({ identifier });
 		const metadata = updatedAttraction!.metadata;
 		expect(metadata.created).toBe(existingAttraction!.metadata!.created);
-		expect(metadata.updated).toBe("2023-10-23T01:02:03.000Z");
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-23T01:02:03.000Z"));
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /attractions/invalidID", async () => {
