@@ -3,7 +3,6 @@
 /node_modules
 /coverage
 /dist
-/src/generated
 .all-contributorsrc 
 package.json
 package-lock.json

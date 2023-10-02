@@ -1,4 +1,5 @@
 type: string
+description: The Berlin district (or "außerhalb", if the event happens outside of Berlin).
 enum:
   - Mitte
   - Friedrichshain-Kreuzberg

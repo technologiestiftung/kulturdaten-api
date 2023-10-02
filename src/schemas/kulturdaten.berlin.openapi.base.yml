@@ -1,61 +1,87 @@
 openapi: 3.0.3
 info:
-  title: API Kulturdaten.Berlin
+  title: kulturdaten.berlin API
   description: |
-    Willkommen zur Kulturdaten.Berlin-API! Diese API ermöglicht es Ihnen, eine Vielzahl von Funktionen zu nutzen, um Veranstaltungen, Kulturorte, Kulturangebote und Kulturakteure in Berlin zu entdecken.
-    Sind Sie Kulturakteur, können Sie bequem Ihre Veranstaltungen und Kulturorte verwalten.
+    *We make Berlin’s cultural diversity visible*
 
-    Die API ist in mehrere Bereiche gegliedert. 
+    This API provides access to reading and writing data about Berlin’s cultural locations, events, and more. Expand the routes below to see the available endpoints, send example requests, etc.
 
-    - **Events, Angebote, Orte und Akteure entdecken** - Hier entdecken Sie, was kulturell in Berlin geboten wird. Viele Such- und Filtereinstellungen ermöglichen es Ihnen, nur die Kulturorte und Kulturakteure zu finden, die Sie wirklich benötigen.
-    - **Nutzer verwalten** - Für viele Funktionen dieser API müssen Sie als Nutzer registriert sein. Hier können Sie sich registrieren und ihre Nutzerdaten verwalten. 
-    - **Akteure verwalten** - Kulturaktuere betreiben Kulturorte und/oder bieten Kulrutveranstaltungen an. Hier können Sie Akteure anlegen, diese verwalten und anderen Nutzern Rechte geben, dies auch zu tun.
-    - **Orte verwalten** - Hier spielt die Musik. Kulturorte sind die Orte, an denen Kulturveranstaltungen stattfinden. Hier können Sie als Akteur Orte anlegen und diese verwalten. Auch können Sie anderen Nutzern Rechte geben, dies auch zu tun. 
-    - **Angebote verwalten** - Bei einer Veranstaltung wird immer etwas angeboten. Was dies ist, beschreibt das Angebot - ein Konzert, eine Ausstellung oder eine Lesung. Hier können Sie als Akteur Angebote anlegen und diese verwalten.
-    - **Events verwalten** - Eine Veranstaltung beantwortet die Frage: Was (Angbot) findet wann (Termin), wo (Ort), von wem (Aktuer) und unter welchen Umständen statt? Hier können Sie als Aktuer Veranstaltungen anlegen und verwalten.
+    ⚠️ Please note that the API and its documentation are currently **work in progress and subject to change**.
 
+    ## Entities
 
-    Um die API zu verwenden, benötigen Sie einen JWT (JSON Web Token), den Sie durch einen login Request erhalten können. Senden Sie bei jedem API-Aufruf den JWT im Header als Bearer-Token.
+    - **Attraction**: A specific cultural happening, e.g. a concert, a play, or a reading.
+    - **Location**: A geographical location, e.g. a theatre, a museum, or a library.
+    - **Event**: An (or multiple) attraction(s) at a certain time at a certain (or multiple) location(s).
+    - **Organization**: An organization that manages their content (attractions, locations, and events).
+    - **User**: A user of the platform, e.g. admins or organization members.
+    - **Tag**: A descriptive tag that can be assigned to attractions, locations, events, and organizations.
 
-    Hier ist ein Beispiel für einen API-Aufruf zum Abrufen von Informationen zu einem Event:
+    ## Authentication
 
+    If you want to use the API to *manage* (i.e. create or update) cultural data, you need a user account with admin permissions. An initial admin user can be created with the [seed script](https://github.com/technologiestiftung/kulturdaten-api#initializing-an-empty-database).
+
+    Once you have the user account, you can send a login request:
+
+    ```shell
+    curl -X "POST" "http://localhost:3000/api/authentication/login" \  
+      -H \'Accept: application/json\' \  
+      -H \'Content-Type: application/json\' \  
+      -d $\'{ "email": "admin@example.com", "password": "plain-text-password" }\'
     ```
-    GET /api/events/{identifier}
-    Headers:
-      Authorization: Bearer {Ihr JWT}
 
+    The response of that login request contains a JWT (JSON Web Token) in the `data.accessToken` field. Store it and send it along as an `Authorization` header in the following requests, e.g.:
+
+    ```shell
+    curl -X "POST" "http://localhost:3000/api/admin/{some-admin-route}" \
+      -H \'Accept: application/json\' \
+      -H \'Content-Type: application/json\' \
+      -H \'Authorization: Bearer {accessToken}\' \
+      -d $\'{}\'
     ```
 
-    In der Antwort erhalten Sie detaillierte Informationen zum Event, einschließlich Titel, Beschreibung, Datum und Veranstaltungsort.
+    ## Contact
 
-    Sie können auch die API-Dokumentation für weitere Informationen und Beispiele zu jedem Endpunkt konsultieren.
+    Please get in touch if you have any questions or feedback: [kontakt@kulturdaten.berlin](mailto:kontakt@kulturdaten.berlin)
+
+    The source code and more information can be found on GitHub: <https://github.com/technologiestiftung/kulturdaten-api>
 
   version: "1.0.0"
+  contact:
+    name: kulturdaten.berlin
+    url: https://www.kulturdaten.berlin/
+  license:
+    name: MIT
+    url: https://github.com/technologiestiftung/kulturdaten-api/LICENSE
 servers:
+  - url: /api/
+    description: This server
   - url: http://localhost:3000/api/
+    description: Local development server
+  - url: https://api-v2.kulturdaten.berlin/api/
+    description: Production server
+tags:
+  - name: Discover cultural data
+    description: Read data (attractions, events, etc.). No authentication required.
+  - name: Manage cultural data
+    description: Create and update data. All routes require authentication via JWT.
+  - name: Users
+    description: Manage users, reset your password, etc.
+  - name: Authentication
+    description: Log in with a user account.
+  - name: Admin
+    description: Manage data globally, or import third-party data.
+  - name: Server
+    description: Server-related routes, like health checks.
 paths:
   /attractions:
     get:
       tags:
         - Discover cultural data
       parameters:
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -65,7 +91,7 @@ paths:
                 $ref: "#/components/schemas/GetAttractionsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -84,7 +110,7 @@ paths:
   /attractions/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -112,18 +138,8 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
       requestBody:
         content:
           application/json:
@@ -147,11 +163,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -161,7 +173,7 @@ paths:
                 $ref: "#/components/schemas/GetAttractionResponse"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -182,7 +194,7 @@ paths:
   /attractions/{identifier}/externallinks:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -201,7 +213,7 @@ paths:
           description: OK
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -222,7 +234,7 @@ paths:
   /attractions/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -238,7 +250,7 @@ paths:
   /attractions/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -254,7 +266,7 @@ paths:
   /attractions/{identifier}/publish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -270,7 +282,7 @@ paths:
   /attractions/{identifier}/unpublish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -288,23 +300,9 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -314,7 +312,7 @@ paths:
                 $ref: "#/components/schemas/GetEventsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -333,7 +331,7 @@ paths:
   /events/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -361,18 +359,8 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
       requestBody:
         content:
           application/json:
@@ -396,11 +384,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -410,7 +394,7 @@ paths:
                 $ref: "#/components/schemas/GetEventResponse"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -431,7 +415,7 @@ paths:
   /events/{identifier}/locations:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -451,7 +435,7 @@ paths:
 
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -472,7 +456,7 @@ paths:
   /events/{identifier}/attractions:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -492,7 +476,7 @@ paths:
 
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -513,7 +497,7 @@ paths:
   /events/{identifier}/organizer:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -533,7 +517,7 @@ paths:
 
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -549,7 +533,7 @@ paths:
   /events/{identifier}/publish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -565,7 +549,7 @@ paths:
   /events/{identifier}/unpublish:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -581,7 +565,7 @@ paths:
   /events/{identifier}/reschedule:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -602,7 +586,7 @@ paths:
   /events/{identifier}/postpone:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -618,7 +602,7 @@ paths:
   /events/{identifier}/cancel:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -634,7 +618,7 @@ paths:
   /events/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -650,7 +634,7 @@ paths:
   /events/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -666,7 +650,7 @@ paths:
   /events/{identifier}/duplicate:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -688,23 +672,9 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -714,7 +684,7 @@ paths:
                 $ref: "#/components/schemas/GetLocationsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -733,7 +703,7 @@ paths:
   /locations/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -761,18 +731,8 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
       requestBody:
         content:
           application/json:
@@ -796,11 +756,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -810,9 +766,9 @@ paths:
                 $ref: "#/components/schemas/GetLocationResponse"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -831,9 +787,9 @@ paths:
   /locations/{identifier}/manager:
     put:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -850,9 +806,9 @@ paths:
           description: OK
     delete:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -866,9 +822,9 @@ paths:
   /locations/{identifier}/open:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -882,9 +838,9 @@ paths:
   /locations/{identifier}/close:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -898,9 +854,9 @@ paths:
   /locations/{identifier}/permanentlyClose:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -914,9 +870,9 @@ paths:
   /locations/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -930,9 +886,9 @@ paths:
   /locations/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -946,9 +902,9 @@ paths:
   /locations/{identifier}/claim:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
-        - name: id
+        - name: identifier
           in: path
           required: true
           schema:
@@ -969,23 +925,9 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -995,7 +937,7 @@ paths:
                 $ref: "#/components/schemas/GetOrganizationsResponse"
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -1020,7 +962,7 @@ paths:
   /organizations/bulk-create:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       requestBody:
         content:
           application/json:
@@ -1048,18 +990,8 @@ paths:
       tags:
         - Discover cultural data
       parameters:
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
       requestBody:
         content:
           application/json:
@@ -1083,11 +1015,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: asReference
-          in: query
-          required: false
-          schema:
-            type: boolean
+        - $ref: "#/components/parameters/asReference"
       responses:
         "200":
           description: OK
@@ -1103,7 +1031,7 @@ paths:
                 $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1124,7 +1052,7 @@ paths:
   /organizations/{identifier}/activate:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1140,7 +1068,7 @@ paths:
   /organizations/{identifier}/deactivate:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1156,7 +1084,7 @@ paths:
   /organizations/{identifier}/retire:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1172,7 +1100,7 @@ paths:
   /organizations/{identifier}/archive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1188,7 +1116,7 @@ paths:
   /organizations/{identifier}/unarchive:
     post:
       tags:
-        - Maintain cultural data
+        - Manage cultural data
       parameters:
         - name: identifier
           in: path
@@ -1206,18 +1134,8 @@ paths:
       tags:
         - Users
       parameters:
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
       security:
         - bearerAuth: []
       responses:
@@ -1475,18 +1393,10 @@ paths:
       tags:
         - Admin
       parameters:
-        - name: page
-          in: query
-          required: false
-          description: Default value is 1
-          schema:
-            type: number
-        - name: pageSize
-          in: query
-          required: false
-          description: Default value is 30
-          schema:
-            type: number
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pageSize"
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1505,6 +1415,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: OK
@@ -1581,6 +1493,32 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  parameters:
+    asReference:
+      name: asReference
+      description: Return references instead of full objects
+      in: query
+      required: false
+      example: false
+      schema:
+        type: boolean
+    page:
+      name: page
+      description: Default value is 1
+      in: query
+      required: false
+      example: 1
+      schema:
+        type: number
+    pageSize:
+      name: pageSize
+      description: Default value is 30
+      in: query
+      required: false
+      example: 30
+      schema:
+        type: number
 
   schemas:
     Reference:
@@ -1777,3 +1715,6 @@ components:
 
     GetAdminAttractionsResponse:
       $ref: models/GetAdminAttractionsResponse.yml
+
+    TranslatableField:
+      $ref: models/TranslatableField.yml

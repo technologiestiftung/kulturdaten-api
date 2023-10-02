@@ -1,8 +1,15 @@
 type: object
+description: A person that is connected to and/or responsible for the referenced entity.
 properties:
   name:
     type: string
+    description: Full name of the contact person.
+    example: Jane Doe
   email:
     type: string
+    description: Email address of the contact person.
+    example: someone@example.com
   telephone:
     type: string
+    description: Phone number of the contact person.
+    example: +49 30 12345678

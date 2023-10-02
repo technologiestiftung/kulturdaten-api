@@ -5,6 +5,7 @@ items:
     closes:
       type: string
       description: The closing hour of the place or service on the given day(s) of the week.
+      example: "22:00"
     dayOfWeek:
       type: string
       enum: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
@@ -12,6 +13,7 @@ items:
     opens:
       type: string
       description: The opening hour of the place or service on the given day(s) of the week.
+      example: "12:00"
     validFrom:
       type: string
       description: The date when the item becomes valid.

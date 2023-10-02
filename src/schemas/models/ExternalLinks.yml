@@ -1,10 +1,13 @@
 type: array
+description: Links to external resources related to this object.
 items:
   type: object
   properties:
     displayName:
       type: string
+      example: Website
     url:
       type: string
+      example: https://example.com/
   required:
     - url

@@ -5,21 +5,17 @@ properties:
   message:
     type: string
   data:
-    type: object
-    properties:
-      page:
-        type: number
-      pageSize:
-        type: number
-      totalCount:
-        type: number
-      events:
-        type: array
-        items:
-          $ref: "Event.yml"
-      eventsReferences:
-        type: array
-        items:
-          $ref: "Reference.yml"
+    allOf:
+      - $ref: "Pagination.yml"
+      - type: object
+        properties:
+          events:
+            type: array
+            items:
+              $ref: "Event.yml"
+          eventsReferences:
+            type: array
+            items:
+              $ref: "Reference.yml"
 required:
   - success

@@ -20,29 +20,32 @@ properties:
       - attraction.unpublished
       - attraction.archived
   title:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
+    description: The main title of the attraction.
+    example:
+      de: Konzert
+      en: concert
   displayName:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   description:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
+    example:
+      de: Eine Beschreibung
+      en: Some description
   pleaseNote:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
+    description: Any important information for the attendees of the attraction.
+    example:
+      de: Achtung, laute Geräusche
+      en: Warning, loud noises
   website:
     type: string
+    example: https://example.com/
   inLanguages:
-    type: array
-    items:
-      type: string
+    $ref: "Languages.yml"
   tags:
     type: array
+    description: List of tags for this attraction.
     items:
       type: string
   externalLinks:

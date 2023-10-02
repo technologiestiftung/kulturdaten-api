@@ -23,23 +23,16 @@ properties:
       - organization.inactive
       - organization.retired
   title:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   displayName:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   description:
-    type: object
-    additionalProperties:
-      type: string
+    $ref: "TranslatableField.yml"
   website:
     type: string
+    example: https://example.com/
   inLanguages:
-    type: array
-    items:
-      type: string
+    $ref: "Languages.yml"
   tags:
     type: array
     items:

@@ -24,12 +24,17 @@ kulturdaten.berlin is a project of the Technologiestiftung Berlin (<https://www.
 ## Installation
 
 1. Install packages with `npm install`
-2. Create an `.env` in the root directory and fill it with values (see `.env.example` for inspiration)
+2. Generate OpenAPI schema files in `/src/generated` with `npm run generate`
+3. Create an `.env` in the root directory and fill it with values (see `.env.example` for inspiration)
 
 
 ## Development
 
 ```shell
+# Local development server
+npm run dev
+
+# Local development server in debug mode
 npm run debug
 ```
 
@@ -37,6 +42,9 @@ npm run debug
 ## More commands
 
 ```shell
+# Re-generate all OpenAPI schema files
+npm run generate
+
 # Format all code with Prettier
 npm run format
 

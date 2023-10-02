@@ -2,13 +2,25 @@ type: object
 properties:
   startDate:
     type: string
+    description: The date (year, month, day) the event starts, in timezone Europe/Berlin.
+    example: "2023-09-08"
   startTime:
     type: string
+    description: The time the event starts, in timezone Europe/Berlin.
+    example: "20:00:00"
   permanentOpening:
     type: boolean
+    description: Indicates whether the event is permanently open (and has no end date/time).
+    example: false
   doorTime:
     type: string
+    description: The time that guests can enter the venue, in timezone Europe/Berlin.
+    example: "19:00:00"
   endDate:
     type: string
+    description: The date (year, month, day) the event ends, in timezone Europe/Berlin.
+    example: "2023-09-08"
   endTime:
     type: string
+    description: The time the event end, in timezone Europe/Berlin.
+    example: "22:00"
