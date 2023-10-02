@@ -72,7 +72,7 @@ async function generateInterface(className: string, rootDirectory: string) {
 
 /**
  * Removes the extra numbers from interface names.
- * example: "displayName?: TranslatableField1;" -> "displayName?: TranslatableField;"
+ * example: "title?: TranslatableField1;" -> "title?: TranslatableField;"
  */
 function cleanUpInterfaceNames(input: string) {
 	const regex = /(\s?\S+:\s*[a-z]+)(\d+)(\[?\]?;)/gi;

@@ -26,13 +26,6 @@ export class DistrictDataMapper {
 				...(veranstaltung.event_titel_ru && { ru: veranstaltung.event_titel_ru }),
 				...(veranstaltung.event_titel_tr && { tr: veranstaltung.event_titel_tr }),
 			},
-			displayName: {
-				...(veranstaltung.event_titel_de && { de: veranstaltung.event_titel_de }),
-				...(veranstaltung.event_titel_en && { en: veranstaltung.event_titel_en }),
-				...(veranstaltung.event_titel_fr && { fr: veranstaltung.event_titel_fr }),
-				...(veranstaltung.event_titel_ru && { ru: veranstaltung.event_titel_ru }),
-				...(veranstaltung.event_titel_tr && { tr: veranstaltung.event_titel_tr }),
-			},
 			description: {
 				...(veranstaltung.event_beschreibung_de && { de: veranstaltung.event_beschreibung_de }),
 				...(veranstaltung.event_beschreibung_en && { en: veranstaltung.event_beschreibung_en }),
@@ -52,7 +45,6 @@ export class DistrictDataMapper {
 						externalLinks: [
 							{
 								...(veranstaltung.event_homepagename ? { displayName: veranstaltung.event_homepagename } : {}),
-
 								url: veranstaltung.event_homepage,
 							},
 						],
@@ -114,7 +106,6 @@ export class DistrictDataMapper {
 		return {
 			type: "type.Organization",
 			title: { de: veranstalter.name },
-			displayName: { de: veranstalter.name },
 			inLanguages: ["de"],
 			metadata: {
 				origin: "bezirkskalender",

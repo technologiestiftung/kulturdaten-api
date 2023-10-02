@@ -27,8 +27,6 @@ properties:
     $ref: "Schedule.yml"
   title:
     $ref: "TranslatableField.yml"
-  displayName:
-    $ref: "TranslatableField.yml"
   description:
     $ref: "TranslatableField.yml"
   pleaseNote:

@@ -6,8 +6,6 @@ properties:
       - type.Location
   title:
     $ref: "TranslatableField.yml"
-  displayName:
-    $ref: "TranslatableField.yml"
   description:
     $ref: "TranslatableField.yml"
   website:

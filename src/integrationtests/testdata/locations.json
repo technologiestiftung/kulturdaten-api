@@ -14,10 +14,6 @@
 			"de": "Berliner Historisches Museum",
 			"en": "Berlin Historical Museum"
 		},
-		"displayName": {
-			"de": "Historisches Museum",
-			"en": "Historical Museum"
-		},
 		"description": {
 			"de": "Das Berliner Historische Museum bietet Einblicke in die Geschichte der Stadt Berlin.",
 			"en": "The Berlin Historical Museum offers insights into the history of the city of Berlin."
@@ -97,10 +93,6 @@
 		"title": {
 			"de": "Berliner Tiergarten",
 			"en": "Berlin Tiergarten"
-		},
-		"displayName": {
-			"de": "Tiergarten",
-			"en": "Tiergarten"
 		},
 		"description": {
 			"de": "Der Berliner Tiergarten ist einer der größten und bekanntesten Parks in Berlin, ideal für Spaziergänge, Picknicks und Erholung.",
@@ -182,10 +174,6 @@
 			"de": "U-Schacht Bühne",
 			"en": "U-Shaft Stage"
 		},
-		"displayName": {
-			"de": "U-Schacht Bühne",
-			"en": "U-Shaft Stage"
-		},
 		"description": {
 			"de": "Die U-Schacht Bühne ist ein einzigartiger Veranstaltungsort in einem alten U-Bahn-Schacht in Berlin. Hier finden kleine Konzerte, Theateraufführungen und andere Veranstaltungen statt.",
 			"en": "The U-Shaft Stage is a unique venue located in an old subway shaft in Berlin. It hosts small concerts, theater performances, and other events."
@@ -261,10 +249,6 @@
 		},
 		"status": "location.published",
 		"title": {
-			"de": "Blackland",
-			"en": "Blackland"
-		},
-		"displayName": {
 			"de": "Blackland",
 			"en": "Blackland"
 		},

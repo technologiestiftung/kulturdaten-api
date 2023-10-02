@@ -71,7 +71,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		return {
 			referenceType: "type.Organization",
 			referenceId: newOrganization.identifier,
-			referenceLabel: newOrganization.displayName ? newOrganization.displayName : newOrganization.title,
+			referenceLabel: newOrganization.title,
 		};
 	}
 
