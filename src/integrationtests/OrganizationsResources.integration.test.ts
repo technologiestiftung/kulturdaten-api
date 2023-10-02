@@ -1,7 +1,7 @@
 import request from "supertest";
 
 import { fakeCreateOrganizationRequest } from "../generated/faker/faker.CreateOrganizationRequest.generated";
-import { validateOrganization } from "../generated/models/Organization.generated";
+import { Organization, validateOrganization } from "../generated/models/Organization.generated";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ORGANIZATION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 
@@ -12,10 +12,12 @@ let env!: TestEnvironment;
 beforeAll(async () => {
 	env = new TestEnvironment();
 	(await env.startServer()).withOrganizationsRoutes();
+	jest.useFakeTimers({ advanceTimers: true });
 });
 
 afterAll(async () => {
 	await env.stopServer();
+	jest.useRealTimers();
 });
 
 describe("Validate testData", () => {
@@ -50,9 +52,21 @@ describe("Create organizations", () => {
 
 		const newOrganizationID = body.data.organizationReference.referenceId;
 		expect(newOrganizationID).toMatch(ORGANIZATION_IDENTIFIER_REG_EX);
-		const loc = await env.organizations.findOne({ identifier: newOrganizationID });
+		const createdOrganization = await env.organizations.findOne<Organization>({ identifier: newOrganizationID });
+		expect(createdOrganization!.title!.de).toBe("New Organization");
+	});
 
-		expect(loc?.title.de).toBe("New Organization");
+	it("should create default metadata with a started and updated timestamp / POST /organizations", async () => {
+		jest.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
+		const { body } = await request(env.app)
+			.post(env.ORGANIZATIONS_ROUTE)
+			.set("Authorization", `Bearer ` + env.USER_TOKEN)
+			.send(fakeCreateOrganizationRequest(false, { title: { de: "New Organization" } }));
+		const newOrganizationID = body.data.organizationReference.referenceId;
+		const createdOrganization = await env.organizations.findOne<Organization>({ identifier: newOrganizationID });
+		const metadata = createdOrganization!.metadata!;
+		expect(metadata.created).toBe("2023-10-01T01:02:03.000Z");
+		expect(metadata.updated).toBe("2023-10-01T01:02:03.000Z");
 	});
 });
 
@@ -113,16 +127,33 @@ describe("Update organizations", () => {
 	});
 
 	it("should update the name of a organization / PATCH /organizations/existID", async () => {
+		const identifier = "temporal-cultural-exchange-45123";
 		const { statusCode } = await request(env.app)
-			.patch(env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123")
+			.patch(env.ORGANIZATIONS_ROUTE + "/" + identifier)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
 				title: { de: "Neuer Name" },
 			});
 
 		expect(statusCode).toBe(200);
-		const loc = await env.organizations.findOne({ identifier: "temporal-cultural-exchange-45123" });
-		expect(loc?.title.de).toBe("Neuer Name");
+		const updatedOrganization = await env.organizations.findOne<Organization>({ identifier });
+		expect(updatedOrganization!.title!.de).toBe("Neuer Name");
+	});
+
+	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /organizations/existID", async () => {
+		const identifier = "temporal-cultural-exchange-45123";
+		const existingOrganization = await env.organizations.findOne<Organization>({ identifier });
+		jest.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
+		await request(env.app)
+			.patch(env.ORGANIZATIONS_ROUTE + "/" + identifier)
+			.set("Authorization", `Bearer ` + env.USER_TOKEN)
+			.send({
+				title: { de: "Neuer Name" },
+			});
+		const updatedOrganization = await env.organizations.findOne<Organization>({ identifier });
+		const metadata = updatedOrganization!.metadata!;
+		expect(metadata.created).toBe(existingOrganization!.metadata!.created);
+		expect(metadata.updated).toBe("2023-10-23T01:02:03.000Z");
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /organizations/invalidID", async () => {
