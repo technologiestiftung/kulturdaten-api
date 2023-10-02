@@ -6,7 +6,6 @@ import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/re
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../../generated/models/AddEventLocationRequest.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
-import { Reference } from "../../../generated/models/Reference.generated";
 import { RemoveEventAttractionRequest } from "../../../generated/models/RemoveEventAttractionRequest.generated";
 import { RemoveEventLocationRequest } from "../../../generated/models/RemoveEventLocationRequest.generated";
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
@@ -87,14 +86,10 @@ export class EventsController {
 		}
 	}
 
-	async createEvents(res: express.Response, createEventRequest: CreateEventRequest[]) {
-		const eventsReferences: Promise<Reference | null>[] = [];
-		createEventRequest.forEach(async (request) => {
-			eventsReferences.push(this.eventsService.create(request));
-		});
-		const eR = await Promise.all(eventsReferences);
-
-		res.status(201).send(new SuccessResponseBuilder().okResponse({ events: eR }).build());
+	async createEvents(res: express.Response, createEventRequests: CreateEventRequest[]) {
+		const promises = createEventRequests.map(async (request) => this.eventsService.create(request));
+		const eventReferences = await Promise.all(promises);
+		res.status(201).send(new SuccessResponseBuilder().okResponse({ events: eventReferences }).build());
 	}
 
 	public async duplicateEvent(res: express.Response, identifier: string): Promise<void> {

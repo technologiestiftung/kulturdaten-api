@@ -17,10 +17,12 @@ let env!: TestEnvironment;
 beforeAll(async () => {
 	env = new TestEnvironment();
 	(await env.startServer()).withEventsRoutes().withAttractionsRoutes().withLocationsRoutes();
+	jest.useFakeTimers({ advanceTimers: true });
 });
 
 afterAll(async () => {
 	await env.stopServer();
+	jest.useRealTimers();
 });
 
 describe("Validate testData", () => {
@@ -55,9 +57,21 @@ describe("Create events", () => {
 
 		const newEventID = body.data.eventReference.referenceId;
 		expect(newEventID).toMatch(EVENT_IDENTIFIER_REG_EX);
-		const loc = await env.events.findOne({ identifier: newEventID });
+		const createdEvent = await env.events.findOne<Event>({ identifier: newEventID });
+		expect(createdEvent!.title!.de).toBe("New Event");
+	});
 
-		expect(loc?.title.de).toBe("New Event");
+	it("should create default metadata with a started and updated timestamp / POST /events", async () => {
+		jest.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
+		const { body } = await request(env.app)
+			.post(env.EVENTS_ROUTE)
+			.set("Authorization", `Bearer ` + env.USER_TOKEN)
+			.send(fakeCreateEventRequest(false, { title: { de: "New Event" } }));
+		const newEventID = body.data.eventReference.referenceId;
+		const createdEvent = await env.events.findOne<Event>({ identifier: newEventID });
+		const metadata = createdEvent!.metadata!;
+		expect(metadata.created).toBe("2023-10-01T01:02:03.000Z");
+		expect(metadata.updated).toBe("2023-10-01T01:02:03.000Z");
 	});
 });
 
@@ -141,8 +155,24 @@ describe("Update events", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		const loc = await env.events.findOne({ identifier: "1234-5678-9101-1121" });
-		expect(loc?.title.de).toBe("Neuer Name");
+		const updatedEvent = await env.events.findOne<Event>({ identifier: "1234-5678-9101-1121" });
+		expect(updatedEvent!.title!.de).toBe("Neuer Name");
+	});
+
+	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /events/existID", async () => {
+		const identifier = "1234-5678-9101-1121";
+		const existingEvent = await env.events.findOne<Event>({ identifier });
+		jest.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
+		await request(env.app)
+			.patch(env.EVENTS_ROUTE + "/" + identifier)
+			.set("Authorization", `Bearer ` + env.USER_TOKEN)
+			.send({
+				title: { de: "Neuer Name" },
+			});
+		const updatedEvent = await env.events.findOne<Event>({ identifier });
+		const metadata = updatedEvent!.metadata!;
+		expect(metadata.created).toBe(existingEvent!.metadata!.created);
+		expect(metadata.updated).toBe("2023-10-23T01:02:03.000Z");
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /events/invalidID", async () => {

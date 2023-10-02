@@ -26,3 +26,7 @@ export function generateOrganizationID(): string {
 export function generateUserID(): string {
 	return "U_" + generateID();
 }
+
+export function generateTagID(): string {
+	return "T_" + generateID();
+}

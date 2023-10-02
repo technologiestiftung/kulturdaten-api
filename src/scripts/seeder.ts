@@ -1,15 +1,18 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { MongoClient } from "mongodb";
-import { MongoDBConnector } from "../common/services/MongoDBConnector";
-import { PermissionFlag } from "../resources/auth/middleware/PermissionFlag";
-import { generateID } from "../utils/IDUtil";
 import * as argon2 from "argon2";
 import { Command } from "commander";
-import tagsJSON from "../seed/tags.json";
-import accessibilityTagsJSON from "../seed/accessibility.json";
+import { MongoClient } from "mongodb";
 import validator from "validator";
+import { MongoDBConnector } from "../common/services/MongoDBConnector";
+import { Tag } from "../generated/models/Tag.generated";
+import { User } from "../generated/models/User.generated";
+import { PermissionFlag } from "../resources/auth/middleware/PermissionFlag";
+import accessibilityTagsJSON from "../seed/accessibility.json";
+import tagsJSON from "../seed/tags.json";
+import { generateID } from "../utils/IDUtil";
+import { createMetadata } from "../utils/MetadataUtil";
 
 let mongoClient: MongoClient;
 let mongoDBConnector: MongoDBConnector;
@@ -125,7 +128,15 @@ async function addAccessibilityTags() {
 async function addTagsToDatabase(tagsData: typeof tagsJSON | typeof accessibilityTagsJSON, logMessage: string) {
 	const db = await mongoDBConnector.getDatabase();
 	const tags = db.collection("tags");
-	await tags.insertMany(tagsData);
+	const tagsToAdd: Tag[] = tagsData.map((tag) => ({
+		...tag,
+		type: "type.Tag",
+		metadata: {
+			...tag.metadata,
+			...createMetadata(),
+		},
+	}));
+	await tags.insertMany(tagsToAdd);
 
 	console.log(logMessage);
 }
@@ -147,11 +158,15 @@ async function addUserWithPermission(email: string, password: string, permission
 	}
 
 	const hashedPassword = await argon2.hash(password);
-	const user = {
+	const metadata = createMetadata();
+	const user: User = {
+		type: "User",
 		email: email.toLowerCase(),
 		password: hashedPassword,
 		permissionFlags: permission,
 		identifier: generateID(),
+		createdAt: metadata.created,
+		updatedAt: metadata.updated,
 	};
 	const users = await mongoDBConnector.users();
 	const result = await users.insertOne(user);

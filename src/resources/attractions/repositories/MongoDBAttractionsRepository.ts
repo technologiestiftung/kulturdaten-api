@@ -10,6 +10,7 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
 import { generateAttractionID } from "../../../utils/IDUtil";
+import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { generateAttractionReference, getAttractionReferenceProjection } from "../../../utils/ReferenceUtil";
 import { AttractionsRepository } from "./AttractionsRepository";
 
@@ -19,15 +20,12 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
 		const attractions = await this.dbConnector.attractions();
-
 		let query = attractions.find(filter || {}, {
 			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
 		});
-
 		if (pagination) {
 			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
 		}
-
 		return query.toArray();
 	}
 
@@ -48,12 +46,13 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	}
 
 	async addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null> {
-		const newAttraction = createAttraction as Attraction;
-		newAttraction.identifier = generateAttractionID();
-
+		const newAttraction: Attraction = {
+			...createAttraction,
+			identifier: generateAttractionID(),
+			metadata: createMetadata(createAttraction.metadata),
+		};
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.insertOne(newAttraction);
-
 		if (!result.acknowledged) {
 			return null;
 		}
@@ -75,13 +74,29 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	async updateAttractionById(attractionId: string, attractionFields: UpdateAttractionRequest): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
-		const result = await attractions.updateOne({ identifier: attractionId }, { $set: attractionFields });
+		const result = await attractions.updateOne(
+			{ identifier: attractionId },
+			{
+				$set: {
+					...attractionFields,
+					...getUpdatedMetadata(),
+				},
+			},
+		);
 		return result.modifiedCount === 1;
 	}
 
 	async updateAttractionStatusById(attractionId: string, newStatus: Attraction["status"]): Promise<boolean> {
 		const attractions = await this.dbConnector.attractions();
-		const result = await attractions.updateOne({ identifier: attractionId }, { $set: { status: newStatus } });
+		const result = await attractions.updateOne(
+			{ identifier: attractionId },
+			{
+				$set: {
+					status: newStatus,
+					...getUpdatedMetadata(),
+				},
+			},
+		);
 		return result.modifiedCount === 1;
 	}
 
@@ -105,7 +120,10 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne(
 			{ identifier: attractionId },
-			{ $push: { externalLinks: externalLink } },
+			{
+				$push: { externalLinks: externalLink },
+				$set: getUpdatedMetadata(),
+			},
 		);
 		return result.modifiedCount === 1;
 	}
@@ -114,7 +132,10 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.updateOne(
 			{ identifier: attractionId },
-			{ $pull: { externalLinks: { url: externalLink } } },
+			{
+				$pull: { externalLinks: { url: externalLink } },
+				$set: getUpdatedMetadata(),
+			},
 		);
 		return result.modifiedCount === 1;
 	}

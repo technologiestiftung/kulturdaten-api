@@ -1,7 +1,7 @@
 import request from "supertest";
 
 import { fakeCreateAttractionRequest } from "../generated/faker/faker.CreateAttractionRequest.generated";
-import { validateAttraction } from "../generated/models/Attraction.generated";
+import { Attraction, validateAttraction } from "../generated/models/Attraction.generated";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ATTRACTION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 
@@ -12,10 +12,12 @@ let env!: TestEnvironment;
 beforeAll(async () => {
 	env = new TestEnvironment();
 	(await env.startServer()).withAttractionsRoutes();
+	jest.useFakeTimers({ advanceTimers: true });
 });
 
 afterAll(async () => {
 	await env.stopServer();
+	jest.useRealTimers();
 });
 
 describe("Validate testData", () => {
@@ -50,9 +52,22 @@ describe("Create attractions", () => {
 
 		const newAttractionID = body.data.attractionReference.referenceId;
 		expect(newAttractionID).toMatch(ATTRACTION_IDENTIFIER_REG_EX);
-		const loc = await env.attractions.findOne({ identifier: newAttractionID });
+		const createdAttraction = await env.attractions.findOne<Attraction>({ identifier: newAttractionID });
 
-		expect(loc?.title.de).toBe("New Attraction");
+		expect(createdAttraction?.title.de).toBe("New Attraction");
+	});
+
+	it("should create default metadata with a started and updated timestamp", async () => {
+		jest.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
+		const { body } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE)
+			.set("Authorization", `Bearer ` + env.USER_TOKEN)
+			.send(fakeCreateAttractionRequest(false, { title: { de: "New Attraction" } }));
+		const newAttractionID = body.data.attractionReference.referenceId;
+		const createdAttraction = await env.attractions.findOne<Attraction>({ identifier: newAttractionID });
+		const metadata = createdAttraction!.metadata!;
+		expect(metadata.created).toBe("2023-10-01T01:02:03.000Z");
+		expect(metadata.updated).toBe("2023-10-01T01:02:03.000Z");
 	});
 });
 
@@ -119,8 +134,24 @@ describe("Update attractions", () => {
 			});
 
 		expect(statusCode).toBe(200);
-		const loc = await env.attractions.findOne({ identifier: "skywalkers-observatory-12345" });
-		expect(loc?.title.de).toBe("Neuer Name");
+		const updatedAttraction = await env.attractions.findOne<Attraction>({ identifier: "skywalkers-observatory-12345" });
+		expect(updatedAttraction?.title.de).toBe("Neuer Name");
+	});
+
+	it("should keep the created timestamp and update the updated timestamp of an attraction / PATCH /attractions/existID", async () => {
+		const identifier = "skywalkers-observatory-12345";
+		const existingAttraction = await env.attractions.findOne<Attraction>({ identifier });
+		jest.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
+		await request(env.app)
+			.patch(env.ATTRACTIONS_ROUTE + "/" + identifier)
+			.set("Authorization", `Bearer ` + env.USER_TOKEN)
+			.send({
+				title: { de: "Neuer Name" },
+			});
+		const updatedAttraction = await env.attractions.findOne<Attraction>({ identifier });
+		const metadata = updatedAttraction!.metadata;
+		expect(metadata.created).toBe(existingAttraction!.metadata!.created);
+		expect(metadata.updated).toBe("2023-10-23T01:02:03.000Z");
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /attractions/invalidID", async () => {
