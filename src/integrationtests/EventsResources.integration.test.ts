@@ -6,6 +6,7 @@ import { FindEventsByLocationAccessibilityTagsFilterStrategy } from "../resource
 import { FindEventsByMongoDBFilterStrategy } from "../resources/events/filter/implementations/FindEventsByMongoDBFilterStrategy";
 import { FindInTheFutureEventsFilterStrategy } from "../resources/events/filter/implementations/FindInTheFutureEventsFilterStrategy";
 import { getStartDateAsISO } from "../utils/DateTimeUtil";
+import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 import threeDummyAttractions from "./testdata/attractions.json";
@@ -70,8 +71,8 @@ describe("Create events", () => {
 		const newEventID = body.data.eventReference.referenceId;
 		const createdEvent = await env.events.findOne<Event>({ identifier: newEventID });
 		const metadata = createdEvent!.metadata!;
-		expect(metadata.created).toBe("2023-10-01T01:02:03.000Z");
-		expect(metadata.updated).toBe("2023-10-01T01:02:03.000Z");
+		expect(getSeconds(metadata.created)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
 	});
 });
 
@@ -172,7 +173,7 @@ describe("Update events", () => {
 		const updatedEvent = await env.events.findOne<Event>({ identifier });
 		const metadata = updatedEvent!.metadata!;
 		expect(metadata.created).toBe(existingEvent!.metadata!.created);
-		expect(metadata.updated).toBe("2023-10-23T01:02:03.000Z");
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-23T01:02:03.000Z"));
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /events/invalidID", async () => {

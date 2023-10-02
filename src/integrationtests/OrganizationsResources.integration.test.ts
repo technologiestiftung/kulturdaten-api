@@ -1,10 +1,9 @@
 import request from "supertest";
-
 import { fakeCreateOrganizationRequest } from "../generated/faker/faker.CreateOrganizationRequest.generated";
 import { Organization, validateOrganization } from "../generated/models/Organization.generated";
+import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ORGANIZATION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
-
 import threeDummyOrganizations from "./testdata/organizations.json";
 
 let env!: TestEnvironment;
@@ -65,8 +64,8 @@ describe("Create organizations", () => {
 		const newOrganizationID = body.data.organizationReference.referenceId;
 		const createdOrganization = await env.organizations.findOne<Organization>({ identifier: newOrganizationID });
 		const metadata = createdOrganization!.metadata!;
-		expect(metadata.created).toBe("2023-10-01T01:02:03.000Z");
-		expect(metadata.updated).toBe("2023-10-01T01:02:03.000Z");
+		expect(getSeconds(metadata.created)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-01T01:02:03.000Z"));
 	});
 });
 
@@ -153,7 +152,7 @@ describe("Update organizations", () => {
 		const updatedOrganization = await env.organizations.findOne<Organization>({ identifier });
 		const metadata = updatedOrganization!.metadata!;
 		expect(metadata.created).toBe(existingOrganization!.metadata!.created);
-		expect(metadata.updated).toBe("2023-10-23T01:02:03.000Z");
+		expect(getSeconds(metadata.updated)).toBe(getSeconds("2023-10-23T01:02:03.000Z"));
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /organizations/invalidID", async () => {

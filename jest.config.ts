@@ -1,9 +1,10 @@
+import type { Config } from "jest";
+
 /*
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
-
-export default {
+const config: Config = {
 	// All imported modules in your tests should be mocked automatically
 	// automock: false,
 
@@ -197,3 +198,5 @@ export default {
 process.env = Object.assign(process.env, {
 	JWT_SECRET: "test-secret",
 });
+
+export default config;
