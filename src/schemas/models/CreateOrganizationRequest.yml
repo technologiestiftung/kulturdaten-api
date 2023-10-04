@@ -1,9 +1,5 @@
 type: object
 properties:
-  type:
-    type: string
-    enum:
-      - type.Organization
   title:
     $ref: "TranslatableField.yml"
   description:
@@ -31,6 +27,7 @@ properties:
         type: string
       originObjectID:
         type: string
+    additionalProperties: false
 required:
-  - type
   - title
+additionalProperties: false

@@ -35,6 +35,7 @@ export class MongoDBTagsRepository implements TagsRepository {
 		const tags = await this.dbConnector.tags();
 		const newTag: Tag = {
 			...createTagRequest,
+			type: "type.Tag",
 			identifier: generateTagID(),
 			metadata: {
 				...createTagRequest.metadata,

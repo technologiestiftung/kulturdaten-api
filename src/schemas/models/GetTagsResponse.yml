@@ -11,5 +11,7 @@ properties:
         type: array
         items:
           $ref: "Tag.yml"
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

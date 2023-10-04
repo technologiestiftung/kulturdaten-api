@@ -6,3 +6,4 @@ properties:
     type: string
 required:
   - url
+additionalProperties: false

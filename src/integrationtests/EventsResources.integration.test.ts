@@ -1,4 +1,5 @@
 import request from "supertest";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../config/Config";
 import { fakeCreateEventRequest } from "../generated/faker/faker.CreateEventRequest.generated";
 import { Event, validateEvent } from "../generated/models/Event.generated";
 import { FindEventsByAttractionTagFilterStrategy } from "../resources/events/filter/implementations/FindEventsByAttractionTagFilterStrategy";
@@ -36,9 +37,10 @@ describe("Validate testData", () => {
 	});
 
 	it("should validate the test data", async () => {
-		const eventDocuments = await env.events.find().toArray();
+		const eventDocuments = await env.events.find({}, { projection: MONGO_DB_DEFAULT_PROJECTION }).toArray();
 		for (const o of eventDocuments) {
-			expect(validateEvent(o).isValid).toBe(true);
+			const isValid = validateEvent(o).isValid;
+			expect(isValid).toBe(true);
 		}
 	});
 });

@@ -17,3 +17,4 @@ properties:
   admissionLink:
     type: string
     example: https://example.com/
+additionalProperties: false

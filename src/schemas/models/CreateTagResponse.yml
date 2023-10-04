@@ -10,5 +10,7 @@ properties:
     properties:
       tag:
         $ref: "Tag.yml"
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

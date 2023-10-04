@@ -51,12 +51,13 @@ export class MongoDBEventsRepository implements EventsRepository {
 	}
 
 	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[]> {
-		return this.get(undefined, getEventReferenceProjection(), pagination) as Promise<Reference[]>;
+		return this.get(undefined, getEventReferenceProjection(), pagination) as unknown as Promise<Reference[]>;
 	}
 
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {
 		const newEvent: Event = {
 			...createEvent,
+			type: "type.Event",
 			identifier: generateEventID(),
 			metadata: createMetadata(createEvent.metadata),
 		};
@@ -75,7 +76,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 
 	async getEventReferenceByIdentifier(eventId: string): Promise<Reference | null> {
 		const events = await this.dbConnector.events();
-		return events.findOne({ identifier: eventId }, { projection: getEventReferenceProjection() }) as Reference;
+		return events.findOne<Reference>({ identifier: eventId }, { projection: getEventReferenceProjection() });
 	}
 
 	private async saveUpdatedEvent(eventId: string, updatedEvent: MatchKeysAndValues<Event>) {

@@ -11,3 +11,7 @@ properties:
           type: string
         healthy:
           type: boolean
+      additionalProperties: false
+required:
+  - healthy
+additionalProperties: false

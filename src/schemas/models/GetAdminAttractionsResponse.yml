@@ -17,4 +17,4 @@ properties:
               $ref: "AdminAttraction.yml"
 required:
   - success
-  - data
+additionalProperties: false

@@ -4,3 +4,4 @@ properties:
     type: string
 required:
   - locationIdentifier
+additionalProperties: false

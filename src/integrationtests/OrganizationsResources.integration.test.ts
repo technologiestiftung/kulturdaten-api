@@ -1,4 +1,5 @@
 import request from "supertest";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../config/Config";
 import { fakeCreateOrganizationRequest } from "../generated/faker/faker.CreateOrganizationRequest.generated";
 import { Organization, validateOrganization } from "../generated/models/Organization.generated";
 import { getSeconds } from "../utils/test/TestUtil";
@@ -29,9 +30,12 @@ describe("Validate testData", () => {
 	});
 
 	it("should validate the test data", async () => {
-		const organizationDocuments = await env.organizations.find().toArray();
+		const organizationDocuments = await env.organizations
+			.find({}, { projection: MONGO_DB_DEFAULT_PROJECTION })
+			.toArray();
 		for (const o of organizationDocuments) {
-			expect(validateOrganization(o).isValid).toBe(true);
+			const isValid = validateOrganization(o).isValid;
+			expect(isValid).toBe(true);
 		}
 	});
 });

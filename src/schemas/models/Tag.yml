@@ -18,5 +18,8 @@ properties:
             additionalProperties:
               type: string
 required:
+  - type
   - identifier
   - title
+  - metadata
+additionalProperties: false

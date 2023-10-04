@@ -11,5 +11,7 @@ properties:
     properties:
       locationReference:
         $ref: "Reference.yml"
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

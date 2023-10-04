@@ -10,5 +10,7 @@ properties:
     properties:
       organizationReference:
         $ref: "Reference.yml"
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

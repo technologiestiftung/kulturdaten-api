@@ -29,6 +29,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 		const newUser: User = {
 			...createUser,
 			email: this.sanitizeEmail(createUser.email),
+			type: "User",
 			identifier: generateID(),
 			permissionFlags: 1,
 			createdAt: metadata.created,

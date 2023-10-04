@@ -9,5 +9,7 @@ properties:
     properties:
       user:
         $ref: "User.yml"
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

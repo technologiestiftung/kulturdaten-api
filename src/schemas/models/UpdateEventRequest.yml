@@ -18,3 +18,4 @@ properties:
     $ref: "Contact.yml"
   admission:
     $ref: "Admission.yml"
+additionalProperties: false

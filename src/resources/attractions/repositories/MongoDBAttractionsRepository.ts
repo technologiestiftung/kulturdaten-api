@@ -48,6 +48,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	async addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null> {
 		const newAttraction: Attraction = {
 			...createAttraction,
+			type: "type.Attraction",
 			identifier: generateAttractionID(),
 			metadata: createMetadata(createAttraction.metadata),
 		};
@@ -66,10 +67,10 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 
 	async getAttractionReferenceByIdentifier(attractionId: string): Promise<Reference | null> {
 		const attractions = await this.dbConnector.attractions();
-		return attractions.findOne(
+		return attractions.findOne<Reference>(
 			{ identifier: attractionId },
 			{ projection: getAttractionReferenceProjection() },
-		) as Reference;
+		);
 	}
 
 	async updateAttractionById(attractionId: string, attractionFields: UpdateAttractionRequest): Promise<boolean> {

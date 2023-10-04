@@ -2,21 +2,26 @@ type: array
 items:
   type: object
   properties:
-    closes:
-      type: string
-      description: The closing hour of the place or service on the given day(s) of the week.
-      example: "22:00"
     dayOfWeek:
       type: string
       enum: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
       description: The day of the week for which these opening hours are valid.
     opens:
       type: string
-      description: The opening hour of the place or service on the given day(s) of the week.
+      description: The opening hour of the place or service on the given day of the week.
       example: "12:00"
+    closes:
+      type: string
+      description: The closing hour of the place or service on the given day of the week.
+      example: "22:00"
     validFrom:
       type: string
       description: The date when the item becomes valid.
     validThrough:
       type: string
       description: The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
+  required:
+    - dayOfWeek
+    - opens
+    - closes
+  additionalProperties: false

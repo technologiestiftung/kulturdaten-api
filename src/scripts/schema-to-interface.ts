@@ -9,62 +9,58 @@ async function generate() {
 	const schemaFiles = await readdir(directoryPath);
 	schemaFiles.forEach(async function (file) {
 		const { name } = parse(file);
-		await generateInterface(name, directoryPath);
+		const schemaPath = `${directoryPath}/${name}.yml`;
+		const schemaYaml = readFileSync(schemaPath, "utf8");
+		const schema = (await yaml.load(schemaYaml)) as JSONSchema;
+		await generateInterface(schema, schemaPath, name, directoryPath);
 		console.log(`generate interface for ${file}`);
-		await generateFaker(name, directoryPath);
-		console.log(`generate test faker for ${file}`);
+		if (schema.type === "object") {
+			await generateFaker(name, directoryPath);
+			console.log(`generate test faker for ${file}`);
+		}
 	});
 }
 
-async function generateInterface(className: string, rootDirectory: string) {
-	const getOptions = (
-		baseFile: string,
-		dependencies: { imports: string; ajvSchema: string },
-		schema: string,
-		schemaName: string,
-	): Partial<Options> => ({
-		bannerComment: `/* eslint-disable */
-		/**
-		 * This file was automatically generated.
-		 * DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file.
-		 * 
-		 * =>  @see ${baseFile}
-		 * 
-		 * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
-		 */
-
-		import Ajv, { ValidateFunction } from "ajv";
-		import addFormats from "ajv-formats";
-		
-		 ${dependencies.imports}
-
-		 export const schemaFor${schemaName} = ${schema};
-
-		 export function validate${schemaName}(o : object): {isValid: boolean, validate: ValidateFunction} {
-			const ajv = new Ajv();
-			addFormats(ajv);
-			ajv.addKeyword("example");
-			${dependencies.ajvSchema}
-			const validate = ajv.compile(schemaFor${schemaName});
-			return {isValid: validate(o), validate: validate};
-		  }
-		`,
-		additionalProperties: false,
-		cwd: rootDirectory,
-		declareExternallyReferenced: false,
-	});
-	const schemaPath = `${rootDirectory}/${className}.yml`;
-	const schemaYaml = readFileSync(schemaPath, "utf8");
-	const schema = (await yaml.load(schemaYaml)) as JSONSchema;
-
+async function generateInterface(schema: JSONSchema, schemaPath: string, className: string, rootDirectory: string) {
 	const parsedDependencies = await findDependencies(className, rootDirectory);
 	const dependencies = generateImportsAndAjvSchemeForDependency(parsedDependencies);
 	const schemaDef = {
 		$id: `${className}.yml`,
 		...schema,
 	};
-	const options = getOptions(schemaPath, dependencies, JSON.stringify(schemaDef), className);
-	const result = await compile(schema, className, options);
+	const compileOptions: Partial<Options> = {
+		bannerComment: `/* eslint-disable */
+		/**
+		 * This file was automatically generated.
+		 * DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file.
+		 * 
+		 * =>  @see ${schemaPath}
+		 * 
+		 * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
+		 */
+
+		import Ajv, { ErrorObject } from "ajv";
+		import addFormats from "ajv-formats";
+		
+		 ${dependencies.imports}
+
+		 export const schemaFor${className} = ${JSON.stringify(schemaDef)};
+
+		 export function validate${className}(o : object): {isValid: boolean, errors: ErrorObject[]} {
+			const ajv = new Ajv();
+			addFormats(ajv);
+			ajv.addKeyword("example");
+			${dependencies.ajvSchema}
+			const isValid = ajv.validate(schemaFor${className}, o);
+			const errors = ajv.errors || [];
+			return { isValid, errors };
+		  }
+		`,
+		additionalProperties: false,
+		cwd: rootDirectory,
+		declareExternallyReferenced: false,
+	};
+	const result = await compile(schema, className, compileOptions);
 	const targetFolder = createFolder("./src/generated/models");
 	const targetPath = `${targetFolder}/${className}.generated.ts`;
 	writeFileSync(targetPath, cleanUpInterfaceNames(result));
@@ -135,20 +131,20 @@ async function generateFaker(className: string, rootDirectory: string) {
 	import { ${className}, schemaFor${className} } from "../models/${className}.generated";
 ${dependencies.imports}
 
-	export function fake${className}(useExamples: boolean, specifiedPropertiesFor${className}: object = {}): ${className} {
+	export function fake${className}(useExamples: boolean, specifiedPropertiesFor${className}: Partial<${className}>): ${className} {
 		const schema = schemaFor${className} as Schema;
 		const refs : Schema[] = [
 ${dependencies.refs}
 		];
 		JSONSchemaFaker.option('useExamplesValue', useExamples);
 		// @ts-ignore
-		const fake${className}: ${className} = JSONSchemaFaker.generate(schema, refs) as ${className};
+		const fake${className} = JSONSchemaFaker.generate(schema, refs) as ${className};
 		// @ts-ignore
-		const return${className} = { ...fake${className}, ...specifiedPropertiesFor${className} };
+		const return${className} = { ...fake${className}, ...specifiedPropertiesFor${className} } as ${className};
 		return return${className};
 	}
 
-	export function fake${className}s(useExamples: boolean, ...create${className}: object[]) : ${className}[] {
+	export function fake${className}s(useExamples: boolean, ...create${className}: ${className}[]) : ${className}[] {
 		const return${className}s : ${className}[] = [];
 		create${className}.forEach(element => {
 			return${className}s.push(fake${className}(useExamples, element));

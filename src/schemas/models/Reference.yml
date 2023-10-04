@@ -6,3 +6,7 @@ properties:
     type: string
   referenceLabel:
     $ref: "TranslatableField.yml"
+required:
+  - referenceType
+  - referenceId
+additionalProperties: false

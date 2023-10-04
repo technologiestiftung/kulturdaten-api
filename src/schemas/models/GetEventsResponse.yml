@@ -19,3 +19,4 @@ properties:
               $ref: "Reference.yml"
 required:
   - success
+additionalProperties: false

@@ -10,3 +10,4 @@ properties:
     $ref: "Error.yml"
 required:
   - success
+additionalProperties: false

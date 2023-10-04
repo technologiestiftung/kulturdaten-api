@@ -1,7 +1,4 @@
 type: object
-required:
-  - created
-  - updated
 properties:
   created:
     type: string
@@ -24,3 +21,7 @@ properties:
     example: ["de", "en"]
     items:
       type: string
+required:
+  - created
+  - updated
+additionalProperties: false
