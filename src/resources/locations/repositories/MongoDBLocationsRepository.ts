@@ -45,6 +45,8 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 			...createLocation,
 			type: "type.Location",
 			identifier: generateLocationID(),
+			status: "location.published",
+			openingStatus: "location.opened",
 			metadata: createMetadata(createLocation.metadata),
 		};
 		const result = await locations.insertOne(newLocation);

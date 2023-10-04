@@ -45,5 +45,7 @@ required:
   - type
   - identifier
   - metadata
+  - status
+  - activationStatus
   - title
 additionalProperties: false

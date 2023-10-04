@@ -84,10 +84,10 @@ export class DistrictDataMapper {
 	): CreateEventRequest {
 		return {
 			schedule: {
-				...(termin.tag_von && { startDate: termin.tag_von }),
-				...(termin.tag_bis && { endDate: termin.tag_bis }),
-				...(termin.uhrzeit_von && { startTime: termin.uhrzeit_von }),
-				...(termin.uhrzeit_bis && { endTime: termin.uhrzeit_bis }),
+				startDate: termin.tag_von,
+				endDate: termin.tag_bis,
+				startTime: termin.uhrzeit_von,
+				endTime: termin.uhrzeit_bis,
 			},
 			attractions: [attractionReference],
 			locations: [locationReference],

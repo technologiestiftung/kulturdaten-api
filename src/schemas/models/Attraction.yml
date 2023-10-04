@@ -47,5 +47,6 @@ required:
   - type
   - identifier
   - metadata
+  - status
   - title
 additionalProperties: false

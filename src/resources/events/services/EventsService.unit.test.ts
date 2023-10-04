@@ -2,179 +2,61 @@ import { mock } from "ts-mockito";
 import { Event } from "../../../generated/models/Event.generated";
 import { EventsRepository } from "../repositories/EventsRepository";
 import { EventsService } from "./EventsService";
-import { Metadata } from "../../../generated/models/Metadata.generated";
 
-const fakeMetadata: Metadata = {
-	created: "2023-10-02T15:33:41.146Z",
-	updated: "2023-10-02T15:33:41.146Z",
-};
+function createEvent(identifier: string) {
+	const event: Event = {
+		identifier,
+		type: "type.Event",
+		metadata: {
+			created: "2023-10-02T15:33:41.146Z",
+			updated: "2023-10-02T15:33:41.146Z",
+		},
+		status: "event.published",
+		scheduleStatus: "event.scheduled",
+		locations: [],
+		attractions: [],
+		organizer: {
+			referenceType: "type.Organizer",
+			referenceId: "asdfgh",
+		},
+	};
+	return event;
+}
 
 describe("test intersection and removeDuplicates", () => {
 	it(" should return the intersection of two event arrays ", async () => {
-		const eventsA: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "1",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-		];
-		const eventsB: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "3",
-				metadata: fakeMetadata,
-			},
-		];
-
-		const eventService: EventsService = new EventsService(mock<EventsRepository>());
-
-		expect(eventService.getIntersection(eventsA, eventsB)).toStrictEqual([
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-		]);
+		const eventsA = [createEvent("1"), createEvent("2")];
+		const eventsB = [createEvent("2"), createEvent("3")];
+		const eventService = new EventsService(mock<EventsRepository>());
+		expect(eventService.getIntersection(eventsA, eventsB)).toStrictEqual([createEvent("2")]);
 	});
 
 	it(" should return all events without duplicates", async () => {
-		const eventsA: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "1",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-		];
-		const eventsB: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "3",
-				metadata: fakeMetadata,
-			},
-		];
-
-		const eventService: EventsService = new EventsService(mock<EventsRepository>());
-
+		const eventsA = [createEvent("1"), createEvent("2")];
+		const eventsB = [createEvent("2"), createEvent("3")];
+		const eventService = new EventsService(mock<EventsRepository>());
 		expect(eventService.removeDuplicates([...eventsA, ...eventsB])).toStrictEqual([
-			{
-				type: "type.Event",
-				identifier: "1",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "3",
-				metadata: fakeMetadata,
-			},
+			createEvent("1"),
+			createEvent("2"),
+			createEvent("3"),
 		]);
 	});
 
 	it(' MatchMode "any" should return all events without duplicates', async () => {
-		const eventsA: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "1",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-		];
-		const eventsB: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "3",
-				metadata: fakeMetadata,
-			},
-		];
-
-		const eventService: EventsService = new EventsService(mock<EventsRepository>());
-
+		const eventsA: Event[] = [createEvent("1"), createEvent("2")];
+		const eventsB: Event[] = [createEvent("2"), createEvent("3")];
+		const eventService = new EventsService(mock<EventsRepository>());
 		expect(eventService.match(eventsA, eventsB, "any")).toStrictEqual([
-			{
-				type: "type.Event",
-				identifier: "1",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "3",
-				metadata: fakeMetadata,
-			},
+			createEvent("1"),
+			createEvent("2"),
+			createEvent("3"),
 		]);
 	});
 
 	it(' MatchMode "all" should return the intersection of two event arrays ', async () => {
-		const eventsA: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "1",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-		];
-		const eventsB: Event[] = [
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-			{
-				type: "type.Event",
-				identifier: "3",
-				metadata: fakeMetadata,
-			},
-		];
-
-		const eventService: EventsService = new EventsService(mock<EventsRepository>());
-
-		expect(eventService.match(eventsA, eventsB, "all")).toStrictEqual([
-			{
-				type: "type.Event",
-				identifier: "2",
-				metadata: fakeMetadata,
-			},
-		]);
+		const eventsA: Event[] = [createEvent("1"), createEvent("2")];
+		const eventsB: Event[] = [createEvent("2"), createEvent("3")];
+		const eventService = new EventsService(mock<EventsRepository>());
+		expect(eventService.match(eventsA, eventsB, "all")).toStrictEqual([createEvent("2")]);
 	});
 });
