@@ -60,12 +60,12 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 
 	async getLocationByIdentifier(locationId: string): Promise<Location | null> {
 		const locations = await this.dbConnector.locations();
-		return locations.findOne({ identifier: locationId }, { projection: { _id: 0 } });
+		return locations.findOne<Location>({ identifier: locationId }, { projection: { _id: 0 } });
 	}
 
 	async getLocationReferenceByIdentifier(locationId: string): Promise<Reference | null> {
 		const locations = await this.dbConnector.locations();
-		return locations.findOne({ identifier: locationId }, { projection: getLocationReferenceProjection() }) as Reference;
+		return locations.findOne<Reference>({ identifier: locationId }, { projection: getLocationReferenceProjection() });
 	}
 
 	async updateLocationById(locationId: string, locationFields: UpdateLocationRequest): Promise<boolean> {

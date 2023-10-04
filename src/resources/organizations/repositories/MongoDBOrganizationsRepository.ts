@@ -51,10 +51,10 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 
 	async getOrganizationReferenceByIdentifier(identifier: string): Promise<Reference | null> {
 		const organizations = await this.dbConnector.organizations();
-		return organizations.findOne(
+		return organizations.findOne<Reference>(
 			{ identifier: identifier },
 			{ projection: getOrganizationReferenceProjection() },
-		) as Reference;
+		);
 	}
 
 	async addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null> {

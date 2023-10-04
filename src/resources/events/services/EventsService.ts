@@ -111,7 +111,7 @@ export class EventsService {
 	}
 
 	addEventLocation(identifier: string, addEventLocationRequest: AddEventLocationRequest): Promise<boolean> {
-		const reference = {
+		const reference: Reference = {
 			referenceType: "type.Location",
 			referenceId: addEventLocationRequest.locationIdentifier,
 			referenceLabel: addEventLocationRequest.alternativeDisplayName,
@@ -124,7 +124,7 @@ export class EventsService {
 	}
 
 	addEventAttraction(identifier: string, addEventAttractionRequest: AddEventAttractionRequest): Promise<boolean> {
-		const reference = {
+		const reference: Reference = {
 			referenceType: "type.Attraction",
 			referenceId: addEventAttractionRequest.attractionIdentifier,
 			referenceLabel: addEventAttractionRequest.alternativeDisplayName,
@@ -140,7 +140,7 @@ export class EventsService {
 	}
 
 	setEventOrganizer(identifier: string, setEventOrganizerRequest: SetEventOrganizerRequest): Promise<boolean> {
-		const reference = {
+		const reference: Reference = {
 			referenceType: "type.Organizer",
 			referenceId: setEventOrganizerRequest.organizationIdentifier,
 			referenceLabel: setEventOrganizerRequest.alternativeDisplayName,
