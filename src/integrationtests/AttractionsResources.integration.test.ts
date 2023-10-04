@@ -1,4 +1,5 @@
 import request from "supertest";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../config/Config";
 import { fakeCreateAttractionRequest } from "../generated/faker/faker.CreateAttractionRequest.generated";
 import { Attraction, validateAttraction } from "../generated/models/Attraction.generated";
 import { getSeconds } from "../utils/test/TestUtil";
@@ -29,12 +30,10 @@ describe("Validate testData", () => {
 	});
 
 	it("should validate the test data", async () => {
-		const attractionDocuments = await env.attractions.find().toArray();
+		const attractionDocuments = await env.attractions.find({}, { projection: MONGO_DB_DEFAULT_PROJECTION }).toArray();
 		for (const o of attractionDocuments) {
 			const isValid = validateAttraction(o).isValid;
-			const errors = validateAttraction(o).errors;
 			expect(isValid).toBe(true);
-			expect(errors).toHaveLength(0);
 		}
 	});
 });

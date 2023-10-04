@@ -2,6 +2,12 @@ import { mock } from "ts-mockito";
 import { Event } from "../../../generated/models/Event.generated";
 import { EventsRepository } from "../repositories/EventsRepository";
 import { EventsService } from "./EventsService";
+import { Metadata } from "../../../generated/models/Metadata.generated";
+
+const fakeMetadata: Metadata = {
+	created: "2023-10-02T15:33:41.146Z",
+	updated: "2023-10-02T15:33:41.146Z",
+};
 
 describe("test intersection and removeDuplicates", () => {
 	it(" should return the intersection of two event arrays ", async () => {
@@ -9,20 +15,24 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "1",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 		];
 		const eventsB: Event[] = [
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "3",
+				metadata: fakeMetadata,
 			},
 		];
 
@@ -32,6 +42,7 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 		]);
 	});
@@ -41,20 +52,24 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "1",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 		];
 		const eventsB: Event[] = [
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "3",
+				metadata: fakeMetadata,
 			},
 		];
 
@@ -64,14 +79,17 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "1",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "3",
+				metadata: fakeMetadata,
 			},
 		]);
 	});
@@ -81,20 +99,24 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "1",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 		];
 		const eventsB: Event[] = [
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "3",
+				metadata: fakeMetadata,
 			},
 		];
 
@@ -104,14 +126,17 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "1",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "3",
+				metadata: fakeMetadata,
 			},
 		]);
 	});
@@ -121,20 +146,24 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "1",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 		];
 		const eventsB: Event[] = [
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 			{
 				type: "type.Event",
 				identifier: "3",
+				metadata: fakeMetadata,
 			},
 		];
 
@@ -144,6 +173,7 @@ describe("test intersection and removeDuplicates", () => {
 			{
 				type: "type.Event",
 				identifier: "2",
+				metadata: fakeMetadata,
 			},
 		]);
 	});

@@ -72,14 +72,27 @@ describe("DistrictDataMapper", () => {
 				admission: {
 					ticketType: "ticketType.freeOfCharge",
 				},
-				attractions: [{ referenceId: "a_1" }],
-				locations: [{ referenceId: "l_1" }],
+				attractions: [
+					{
+						referenceType: "type.Attraction",
+						referenceId: "a_1",
+					},
+				],
+				locations: [
+					{
+						referenceType: "type.Location",
+						referenceId: "l_1",
+					},
+				],
 				metadata: {
 					origin: "bezirkskalender",
 					originObjectID: "847205",
 				},
 
-				organizer: { referenceId: "o_1" },
+				organizer: {
+					referenceType: "type.Organizer",
+					referenceId: "o_1",
+				},
 				schedule: {
 					endDate: "2023-10-08",
 					endTime: "00:00:00",
@@ -91,9 +104,9 @@ describe("DistrictDataMapper", () => {
 			const result = mapper.mapEvent(
 				termin,
 				veranstaltung,
-				{ referenceId: "a_1" },
-				{ referenceId: "l_1" },
-				{ referenceId: "o_1" },
+				{ referenceType: "type.Attraction", referenceId: "a_1" },
+				{ referenceType: "type.Location", referenceId: "l_1" },
+				{ referenceType: "type.Organizer", referenceId: "o_1" },
 			);
 
 			expect(result).toEqual(expectedResult);
@@ -105,9 +118,9 @@ describe("DistrictDataMapper", () => {
 			const result = mapper.mapEvent(
 				termin,
 				veranstaltung,
-				{ referenceId: "a_1" },
-				{ referenceId: "l_1" },
-				{ referenceId: "o_1" },
+				{ referenceType: "type.Attraction", referenceId: "a_1" },
+				{ referenceType: "type.Location", referenceId: "l_1" },
+				{ referenceType: "type.Organizer", referenceId: "o_1" },
 			);
 
 			const { isValid } = validateCreateEventRequest(result);

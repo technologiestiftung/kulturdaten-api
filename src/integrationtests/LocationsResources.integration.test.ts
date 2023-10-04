@@ -1,4 +1,5 @@
 import request from "supertest";
+import { MONGO_DB_DEFAULT_PROJECTION } from "../config/Config";
 import { fakeCreateLocationRequest } from "../generated/faker/faker.CreateLocationRequest.generated";
 import { Location, validateLocation } from "../generated/models/Location.generated";
 import { getSeconds } from "../utils/test/TestUtil";
@@ -29,9 +30,10 @@ describe("Validate testData", () => {
 	});
 
 	it("should validate the test data", async () => {
-		const locationDocuments = await env.locations.find().toArray();
+		const locationDocuments = await env.locations.find({}, { projection: MONGO_DB_DEFAULT_PROJECTION }).toArray();
 		for (const o of locationDocuments) {
-			expect(validateLocation(o).isValid).toBe(true);
+			const isValid = validateLocation(o).isValid;
+			expect(isValid).toBe(true);
 		}
 	});
 });
