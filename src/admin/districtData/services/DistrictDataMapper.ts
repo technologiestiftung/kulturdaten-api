@@ -18,7 +18,6 @@ import {
 export class DistrictDataMapper {
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
 		return {
-			type: "type.Attraction",
 			title: {
 				...(veranstaltung.event_titel_de && { de: veranstaltung.event_titel_de }),
 				...(veranstaltung.event_titel_en && { en: veranstaltung.event_titel_en }),
@@ -84,7 +83,6 @@ export class DistrictDataMapper {
 		organizerReference: Reference,
 	): CreateEventRequest {
 		return {
-			type: "type.Event",
 			schedule: {
 				...(termin.tag_von && { startDate: termin.tag_von }),
 				...(termin.tag_bis && { endDate: termin.tag_bis }),
@@ -104,7 +102,6 @@ export class DistrictDataMapper {
 
 	mapOrganisation(veranstalter: Veranstalter): CreateOrganizationRequest {
 		return {
-			type: "type.Organization",
 			title: { de: veranstalter.name },
 			inLanguages: ["de"],
 			metadata: {
@@ -130,7 +127,6 @@ export class DistrictDataMapper {
 		}
 
 		return {
-			type: "type.Location",
 			title: { de: veranstaltungsort.name },
 			address: {
 				...(veranstaltungsort.strasse && { streetAddress: veranstaltungsort.strasse }),

@@ -57,6 +57,7 @@ export class MongoDBEventsRepository implements EventsRepository {
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {
 		const newEvent: Event = {
 			...createEvent,
+			type: "type.Event",
 			identifier: generateEventID(),
 			metadata: createMetadata(createEvent.metadata),
 		};

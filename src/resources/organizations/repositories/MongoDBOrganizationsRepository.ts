@@ -60,6 +60,7 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 	async addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null> {
 		const newOrganization: Organization = {
 			...createOrganization,
+			type: "type.Organization",
 			identifier: generateOrganizationID(),
 			metadata: createMetadata(createOrganization.metadata),
 		};

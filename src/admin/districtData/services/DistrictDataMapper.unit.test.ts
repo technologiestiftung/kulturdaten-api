@@ -30,7 +30,6 @@ describe("DistrictDataMapper", () => {
 	describe("map attraction", () => {
 		it("should correctly map Veranstaltung to CreateAttractionRequest", () => {
 			const expectedResult: CreateAttractionRequest = {
-				type: "type.Attraction",
 				title: {
 					de: "Baby-und Kindertrödel",
 				},
@@ -87,7 +86,6 @@ describe("DistrictDataMapper", () => {
 					startDate: "2023-10-08",
 					startTime: "15:00:00",
 				},
-				type: "type.Event",
 			};
 
 			const result = mapper.mapEvent(

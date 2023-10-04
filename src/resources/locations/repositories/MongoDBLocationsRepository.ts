@@ -43,6 +43,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		const locations = await this.dbConnector.locations();
 		const newLocation: Location = {
 			...createLocation,
+			type: "type.Location",
 			identifier: generateLocationID(),
 			metadata: createMetadata(createLocation.metadata),
 		};

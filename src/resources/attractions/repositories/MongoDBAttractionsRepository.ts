@@ -48,6 +48,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 	async addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null> {
 		const newAttraction: Attraction = {
 			...createAttraction,
+			type: "type.Attraction",
 			identifier: generateAttractionID(),
 			metadata: createMetadata(createAttraction.metadata),
 		};

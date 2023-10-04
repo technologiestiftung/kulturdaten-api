@@ -1,5 +1,6 @@
 type: object
 required:
+  - type
   - identifier
 properties:
   type:

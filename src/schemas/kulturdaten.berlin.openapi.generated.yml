@@ -1553,6 +1553,7 @@ components:
     Event:
       type: object
       required:
+        - type
         - identifier
       properties:
         type:
@@ -1887,6 +1888,7 @@ components:
           items:
             type: object
             required:
+              - type
               - identifier
             properties:
               type:
@@ -2245,6 +2247,7 @@ components:
     Location:
       type: object
       required:
+        - type
         - identifier
       properties:
         type:
@@ -2472,6 +2475,7 @@ components:
     Organization:
       type: object
       required:
+        - type
         - identifier
       properties:
         type:
@@ -2694,6 +2698,7 @@ components:
             organization:
               type: object
               required:
+                - type
                 - identifier
               properties:
                 type:
@@ -2903,6 +2908,7 @@ components:
                   items:
                     type: object
                     required:
+                      - type
                       - identifier
                     properties:
                       type:
@@ -3084,10 +3090,6 @@ components:
     CreateOrganizationRequest:
       type: object
       properties:
-        type:
-          type: string
-          enum:
-            - type.Organization
         title:
           type: object
           additionalProperties:
@@ -3196,7 +3198,6 @@ components:
             originObjectID:
               type: string
       required:
-        - type
         - title
     CreateOrganizationResponse:
       properties:
@@ -3269,6 +3270,7 @@ components:
                   items:
                     type: object
                     required:
+                      - type
                       - identifier
                     properties:
                       type:
@@ -3720,10 +3722,6 @@ components:
     CreateAttractionRequest:
       type: object
       properties:
-        type:
-          type: string
-          enum:
-            - type.Attraction
         title:
           type: object
           additionalProperties:
@@ -3790,7 +3788,6 @@ components:
             originObjectID:
               type: string
       required:
-        - type
         - title
     CreateAttractionResponse:
       type: object
@@ -4233,6 +4230,7 @@ components:
                   items:
                     type: object
                     required:
+                      - type
                       - identifier
                     properties:
                       type:
@@ -4490,10 +4488,6 @@ components:
     CreateLocationRequest:
       type: object
       properties:
-        type:
-          type: string
-          enum:
-            - type.Location
         title:
           type: object
           additionalProperties:
@@ -4671,7 +4665,6 @@ components:
             originObjectID:
               type: string
       required:
-        - type
         - title
     CreateLocationResponse:
       type: object
@@ -4745,6 +4738,7 @@ components:
                   items:
                     type: object
                     required:
+                      - type
                       - identifier
                     properties:
                       type:
@@ -5012,6 +5006,7 @@ components:
             location:
               type: object
               required:
+                - type
                 - identifier
               properties:
                 type:
@@ -5458,6 +5453,7 @@ components:
                   items:
                     type: object
                     required:
+                      - type
                       - identifier
                     properties:
                       type:
@@ -5728,10 +5724,6 @@ components:
     CreateEventRequest:
       type: object
       properties:
-        type:
-          type: string
-          enum:
-            - type.Event
         schedule:
           type: object
           properties:
@@ -5919,8 +5911,6 @@ components:
               type: string
             originObjectID:
               type: string
-      required:
-        - type
     CreateEventResponse:
       type: object
       properties:
@@ -6024,6 +6014,7 @@ components:
                   items:
                     type: object
                     required:
+                      - type
                       - identifier
                     properties:
                       type:
@@ -6304,6 +6295,7 @@ components:
             event:
               type: object
               required:
+                - type
                 - identifier
               properties:
                 type:
@@ -7333,6 +7325,7 @@ components:
                   items:
                     type: object
                     required:
+                      - type
                       - identifier
                     properties:
                       type:
@@ -7735,6 +7728,7 @@ components:
                         items:
                           type: object
                           required:
+                            - type
                             - identifier
                           properties:
                             type:
