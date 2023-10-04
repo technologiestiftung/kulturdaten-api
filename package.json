@@ -6,6 +6,7 @@
 	"scripts": {
 		"format": "prettier --write .",
 		"lint": "eslint .",
+		"lint-openapi": "redocly lint ./src/schemas/kulturdaten.berlin.openapi.generated.yml",
 		"typecheck": "tsc --noEmit",
 		"dev": "nodemon --inspect",
 		"start": "ts-node ./src/app.ts",
@@ -67,6 +68,7 @@
 		"@babel/preset-env": "^7.20.2",
 		"@babel/preset-typescript": "^7.21.0",
 		"@faker-js/faker": "^8.0.0",
+		"@redocly/cli": "^1.2.0",
 		"@types/commander": "^2.12.2",
 		"@types/cors": "^2.8.13",
 		"@types/debug": "^4.1.7",

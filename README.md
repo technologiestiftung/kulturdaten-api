@@ -51,6 +51,9 @@ npm run format
 # Lint all code with ESLint
 npm run lint
 
+# Lint the generated OpenAPI file
+npm run lint-openapi
+
 # Run the TypeScript compiler to find any TypeScript errors
 npm run typecheck
 ```
