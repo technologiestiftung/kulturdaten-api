@@ -24,3 +24,5 @@ jobs:
         run: npm run lint
       - name: Run TypeScript compiler
         run: npm run typecheck
+      - name: Lint OpenAPI file
+        run: npm run lint-openapi
