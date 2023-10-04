@@ -136,7 +136,7 @@ async function generateFaker(className: string, rootDirectory: string) {
 	import { ${className}, schemaFor${className} } from "../models/${className}.generated";
 ${dependencies.imports}
 
-	export function fake${className}(useExamples: boolean, specifiedPropertiesFor${className}: object = {}): ${className} {
+	export function fake${className}(useExamples: boolean, specifiedPropertiesFor${className}: Partial<${className}>): ${className} {
 		const schema = schemaFor${className} as Schema;
 		const refs : Schema[] = [
 ${dependencies.refs}
@@ -149,7 +149,7 @@ ${dependencies.refs}
 		return return${className};
 	}
 
-	export function fake${className}s(useExamples: boolean, ...create${className}: object[]) : ${className}[] {
+	export function fake${className}s(useExamples: boolean, ...create${className}: ${className}[]) : ${className}[] {
 		const return${className}s : ${className}[] = [];
 		create${className}.forEach(element => {
 			return${className}s.push(fake${className}(useExamples, element));
