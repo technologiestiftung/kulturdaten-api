@@ -11,5 +11,7 @@ properties:
         $ref: "Event.yml"
       eventReference:
         $ref: "Reference.yml"
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

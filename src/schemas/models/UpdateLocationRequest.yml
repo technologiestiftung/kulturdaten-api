@@ -24,3 +24,4 @@ properties:
       $ref: "ExternalLinks.yml"
   contact:
     $ref: "Contact.yml"
+additionalProperties: false

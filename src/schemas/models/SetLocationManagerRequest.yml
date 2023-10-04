@@ -6,3 +6,4 @@ properties:
     $ref: "TranslatableField.yml"
 required:
   - organizationIdentifier
+additionalProperties: false

@@ -13,3 +13,4 @@ properties:
   description:
     type: string
     example: Main hall
+additionalProperties: false

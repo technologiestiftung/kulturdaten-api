@@ -4,3 +4,4 @@ properties:
     type: string
 required:
   - attractionIdentifier
+additionalProperties: false

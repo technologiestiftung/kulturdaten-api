@@ -1512,6 +1512,10 @@ components:
           example:
             de: Konzert
             en: concert
+      required:
+        - referenceType
+        - referenceId
+      additionalProperties: false
     Response:
       type: object
       properties:
@@ -1530,8 +1534,10 @@ components:
               type: string
             details:
               type: string
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     Error:
       type: object
       properties:
@@ -1541,6 +1547,7 @@ components:
           type: string
         details:
           type: string
+      additionalProperties: false
     NotFoundError:
       type: object
       properties:
@@ -1550,11 +1557,9 @@ components:
           type: string
         details:
           type: string
+      additionalProperties: false
     Event:
       type: object
-      required:
-        - type
-        - identifier
       properties:
         type:
           type: string
@@ -1564,9 +1569,6 @@ components:
           type: string
         metadata:
           type: object
-          required:
-            - created
-            - updated
           properties:
             created:
               type: string
@@ -1593,6 +1595,10 @@ components:
                 - en
               items:
                 type: string
+          required:
+            - created
+            - updated
+          additionalProperties: false
         status:
           type: string
           enum:
@@ -1641,6 +1647,7 @@ components:
               type: string
               description: The time the event end, in timezone Europe/Berlin.
               example: "22:00"
+          additionalProperties: false
         title:
           type: object
           additionalProperties:
@@ -1705,6 +1712,10 @@ components:
                 example:
                   de: Konzert
                   en: concert
+            required:
+              - referenceType
+              - referenceId
+            additionalProperties: false
         attractions:
           type: array
           items:
@@ -1724,6 +1735,10 @@ components:
                 example:
                   de: Konzert
                   en: concert
+            required:
+              - referenceType
+              - referenceId
+            additionalProperties: false
         organizer:
           type: object
           properties:
@@ -1741,6 +1756,10 @@ components:
               example:
                 de: Konzert
                 en: concert
+          required:
+            - referenceType
+            - referenceId
+          additionalProperties: false
         contact:
           type: object
           description: >-
@@ -1759,6 +1778,7 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
         admission:
           type: object
           description: Information about the admission to the event/attraction.
@@ -1787,14 +1807,14 @@ components:
             admissionLink:
               type: string
               example: https://example.com/
-    AdminAttraction:
-      type: object
+          additionalProperties: false
       required:
         - type
         - identifier
         - metadata
-        - title
-        - events
+      additionalProperties: false
+    AdminAttraction:
+      type: object
       properties:
         type:
           type: string
@@ -1804,9 +1824,6 @@ components:
           type: string
         metadata:
           type: object
-          required:
-            - created
-            - updated
           properties:
             created:
               type: string
@@ -1833,6 +1850,10 @@ components:
                 - en
               items:
                 type: string
+          required:
+            - created
+            - updated
+          additionalProperties: false
         status:
           type: string
           enum:
@@ -1887,9 +1908,6 @@ components:
           type: array
           items:
             type: object
-            required:
-              - type
-              - identifier
             properties:
               type:
                 type: string
@@ -1899,9 +1917,6 @@ components:
                 type: string
               metadata:
                 type: object
-                required:
-                  - created
-                  - updated
                 properties:
                   created:
                     type: string
@@ -1929,6 +1944,10 @@ components:
                       - en
                     items:
                       type: string
+                required:
+                  - created
+                  - updated
+                additionalProperties: false
               status:
                 type: string
                 enum:
@@ -1977,6 +1996,7 @@ components:
                     type: string
                     description: The time the event end, in timezone Europe/Berlin.
                     example: "22:00"
+                additionalProperties: false
               title:
                 type: object
                 additionalProperties:
@@ -2041,6 +2061,10 @@ components:
                       example:
                         de: Konzert
                         en: concert
+                  required:
+                    - referenceType
+                    - referenceId
+                  additionalProperties: false
               attractions:
                 type: array
                 items:
@@ -2060,6 +2084,10 @@ components:
                       example:
                         de: Konzert
                         en: concert
+                  required:
+                    - referenceType
+                    - referenceId
+                  additionalProperties: false
               organizer:
                 type: object
                 properties:
@@ -2077,6 +2105,10 @@ components:
                     example:
                       de: Konzert
                       en: concert
+                required:
+                  - referenceType
+                  - referenceId
+                additionalProperties: false
               contact:
                 type: object
                 description: >-
@@ -2095,6 +2127,7 @@ components:
                     type: string
                     description: Phone number of the contact person.
                     example: +49 30 12345678
+                additionalProperties: false
               admission:
                 type: object
                 description: Information about the admission to the event/attraction.
@@ -2123,6 +2156,12 @@ components:
                   admissionLink:
                     type: string
                     example: https://example.com/
+                additionalProperties: false
+            required:
+              - type
+              - identifier
+              - metadata
+            additionalProperties: false
         externalLinks:
           type: array
           description: Links to external resources related to this object.
@@ -2137,13 +2176,16 @@ components:
                 example: https://example.com/
             required:
               - url
-    Attraction:
-      type: object
+            additionalProperties: false
       required:
         - type
         - identifier
         - metadata
         - title
+        - events
+      additionalProperties: false
+    Attraction:
+      type: object
       properties:
         type:
           type: string
@@ -2153,9 +2195,6 @@ components:
           type: string
         metadata:
           type: object
-          required:
-            - created
-            - updated
           properties:
             created:
               type: string
@@ -2182,6 +2221,10 @@ components:
                 - en
               items:
                 type: string
+          required:
+            - created
+            - updated
+          additionalProperties: false
         status:
           type: string
           enum:
@@ -2244,11 +2287,15 @@ components:
                 example: https://example.com/
             required:
               - url
-    Location:
-      type: object
+            additionalProperties: false
       required:
         - type
         - identifier
+        - metadata
+        - title
+      additionalProperties: false
+    Location:
+      type: object
       properties:
         type:
           type: string
@@ -2258,9 +2305,6 @@ components:
           type: string
         metadata:
           type: object
-          required:
-            - created
-            - updated
           properties:
             created:
               type: string
@@ -2287,6 +2331,10 @@ components:
                 - en
               items:
                 type: string
+          required:
+            - created
+            - updated
+          additionalProperties: false
         status:
           type: string
           enum:
@@ -2332,6 +2380,7 @@ components:
             description:
               type: string
               example: Main hall
+          additionalProperties: false
         borough:
           type: string
           description: >-
@@ -2364,6 +2413,10 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+          required:
+            - latitude
+            - longitude
+          additionalProperties: false
         openingStatus:
           type: string
           enum:
@@ -2375,12 +2428,6 @@ components:
           items:
             type: object
             properties:
-              closes:
-                type: string
-                description: >-
-                  The closing hour of the place or service on the given day(s)
-                  of the week.
-                example: "22:00"
               dayOfWeek:
                 type: string
                 enum:
@@ -2395,9 +2442,15 @@ components:
               opens:
                 type: string
                 description: >-
-                  The opening hour of the place or service on the given day(s)
-                  of the week.
+                  The opening hour of the place or service on the given day of
+                  the week.
                 example: "12:00"
+              closes:
+                type: string
+                description: >-
+                  The closing hour of the place or service on the given day of
+                  the week.
+                example: "22:00"
               validFrom:
                 type: string
                 description: The date when the item becomes valid.
@@ -2406,6 +2459,11 @@ components:
                 description: >-
                   The date after when the item is not valid. For example the end
                   of an offer, salary period, or a period of opening hours.
+            required:
+              - dayOfWeek
+              - opens
+              - closes
+            additionalProperties: false
         inLanguages:
           type: array
           description: List of languages this object is available in.
@@ -2438,6 +2496,7 @@ components:
                   example: https://example.com/
               required:
                 - url
+              additionalProperties: false
         manager:
           type: object
           properties:
@@ -2455,6 +2514,10 @@ components:
               example:
                 de: Konzert
                 en: concert
+          required:
+            - referenceType
+            - referenceId
+          additionalProperties: false
           description: The managing person of this location.
         contact:
           type: object
@@ -2472,11 +2535,15 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
-    Organization:
-      type: object
+          additionalProperties: false
       required:
         - type
         - identifier
+        - metadata
+        - title
+      additionalProperties: false
+    Organization:
+      type: object
       properties:
         type:
           type: string
@@ -2486,9 +2553,6 @@ components:
           type: string
         metadata:
           type: object
-          required:
-            - created
-            - updated
           properties:
             created:
               type: string
@@ -2515,6 +2579,10 @@ components:
                 - en
               items:
                 type: string
+          required:
+            - created
+            - updated
+          additionalProperties: false
         status:
           type: string
           enum:
@@ -2578,6 +2646,7 @@ components:
             description:
               type: string
               example: Main hall
+          additionalProperties: false
         borough:
           type: string
           description: >-
@@ -2610,6 +2679,10 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+          required:
+            - latitude
+            - longitude
+          additionalProperties: false
         contact:
           type: object
           description: >-
@@ -2628,6 +2701,13 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
+      required:
+        - type
+        - identifier
+        - metadata
+        - title
+      additionalProperties: false
     User:
       type: object
       properties:
@@ -2652,9 +2732,13 @@ components:
         permissionFlags:
           type: number
       required:
+        - type
         - identifier
         - email
+        - createdAt
+        - updatedAt
         - permissionFlags
+      additionalProperties: false
     UpdateUserPasswordRequest:
       type: object
       properties:
@@ -2662,6 +2746,10 @@ components:
           type: string
         newPassword:
           type: string
+      required:
+        - oneTimeCode
+        - newPassword
+      additionalProperties: false
     HealthResponse:
       type: object
       properties:
@@ -2676,6 +2764,10 @@ components:
                 type: string
               healthy:
                 type: boolean
+            additionalProperties: false
+      required:
+        - healthy
+      additionalProperties: false
     AddExternalLinkRequest:
       type: object
       properties:
@@ -2685,6 +2777,7 @@ components:
           type: string
       required:
         - url
+      additionalProperties: false
     GetOrganizationResponse:
       type: object
       properties:
@@ -2697,9 +2790,6 @@ components:
           properties:
             organization:
               type: object
-              required:
-                - type
-                - identifier
               properties:
                 type:
                   type: string
@@ -2709,9 +2799,6 @@ components:
                   type: string
                 metadata:
                   type: object
-                  required:
-                    - created
-                    - updated
                   properties:
                     created:
                       type: string
@@ -2741,6 +2828,10 @@ components:
                         - en
                       items:
                         type: string
+                  required:
+                    - created
+                    - updated
+                  additionalProperties: false
                 status:
                   type: string
                   enum:
@@ -2804,6 +2895,7 @@ components:
                     description:
                       type: string
                       example: Main hall
+                  additionalProperties: false
                 borough:
                   type: string
                   description: >-
@@ -2836,6 +2928,10 @@ components:
                       type: string
                       enum:
                         - WGS84 (Decimal Degrees)
+                  required:
+                    - latitude
+                    - longitude
+                  additionalProperties: false
                 contact:
                   type: object
                   description: >-
@@ -2854,6 +2950,13 @@ components:
                       type: string
                       description: Phone number of the contact person.
                       example: +49 30 12345678
+                  additionalProperties: false
+              required:
+                - type
+                - identifier
+                - metadata
+                - title
+              additionalProperties: false
             organizationReference:
               type: object
               properties:
@@ -2871,8 +2974,14 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetOrganizationsResponse:
       type: object
       properties:
@@ -2907,9 +3016,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
                     properties:
                       type:
                         type: string
@@ -2919,9 +3025,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -2953,6 +3056,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -3016,6 +3123,7 @@ components:
                           description:
                             type: string
                             example: Main hall
+                        additionalProperties: false
                       borough:
                         type: string
                         description: >-
@@ -3048,6 +3156,10 @@ components:
                             type: string
                             enum:
                               - WGS84 (Decimal Degrees)
+                        required:
+                          - latitude
+                          - longitude
+                        additionalProperties: false
                       contact:
                         type: object
                         description: >-
@@ -3066,6 +3178,13 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                    additionalProperties: false
                 organizationsReferences:
                   type: array
                   items:
@@ -3085,8 +3204,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     CreateOrganizationRequest:
       type: object
       properties:
@@ -3140,6 +3264,7 @@ components:
             description:
               type: string
               example: Main hall
+          additionalProperties: false
         borough:
           type: string
           description: >-
@@ -3172,6 +3297,10 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+          required:
+            - latitude
+            - longitude
+          additionalProperties: false
         contact:
           type: object
           description: >-
@@ -3190,6 +3319,7 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
         metadata:
           type: object
           properties:
@@ -3197,8 +3327,10 @@ components:
               type: string
             originObjectID:
               type: string
+          additionalProperties: false
       required:
         - title
+      additionalProperties: false
     CreateOrganizationResponse:
       properties:
         success:
@@ -3227,14 +3359,21 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     SearchOrganizationsRequest:
       type: object
       properties:
         searchFilter:
           type: object
           additionalProperties: true
+      additionalProperties: false
     SearchOrganizationsResponse:
       type: object
       properties:
@@ -3269,9 +3408,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
                     properties:
                       type:
                         type: string
@@ -3281,9 +3417,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -3315,6 +3448,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -3378,6 +3515,7 @@ components:
                           description:
                             type: string
                             example: Main hall
+                        additionalProperties: false
                       borough:
                         type: string
                         description: >-
@@ -3410,6 +3548,10 @@ components:
                             type: string
                             enum:
                               - WGS84 (Decimal Degrees)
+                        required:
+                          - latitude
+                          - longitude
+                        additionalProperties: false
                       contact:
                         type: object
                         description: >-
@@ -3428,6 +3570,13 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                    additionalProperties: false
                 organizationsReferences:
                   type: array
                   items:
@@ -3447,8 +3596,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     UpdateOrganizationRequest:
       type: object
       properties:
@@ -3502,6 +3656,7 @@ components:
             description:
               type: string
               example: Main hall
+          additionalProperties: false
         borough:
           type: string
           description: >-
@@ -3534,6 +3689,10 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+          required:
+            - latitude
+            - longitude
+          additionalProperties: false
         contact:
           type: object
           description: >-
@@ -3552,6 +3711,8 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
+      additionalProperties: false
     GetAttractionsResponse:
       type: object
       properties:
@@ -3586,11 +3747,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
-                      - metadata
-                      - title
                     properties:
                       type:
                         type: string
@@ -3600,9 +3756,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -3634,6 +3787,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -3698,6 +3855,13 @@ components:
                               example: https://example.com/
                           required:
                             - url
+                          additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                    additionalProperties: false
                 attractionsReferences:
                   type: array
                   items:
@@ -3717,8 +3881,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     CreateAttractionRequest:
       type: object
       properties:
@@ -3780,6 +3949,7 @@ components:
                 example: https://example.com/
             required:
               - url
+            additionalProperties: false
         metadata:
           type: object
           properties:
@@ -3787,8 +3957,10 @@ components:
               type: string
             originObjectID:
               type: string
+          additionalProperties: false
       required:
         - title
+      additionalProperties: false
     CreateAttractionResponse:
       type: object
       properties:
@@ -3818,14 +3990,21 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     SearchAttractionsRequest:
       type: object
       properties:
         searchFilter:
           type: object
           additionalProperties: true
+      additionalProperties: false
     SearchAttractionsResponse:
       type: object
       properties:
@@ -3860,11 +4039,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
-                      - metadata
-                      - title
                     properties:
                       type:
                         type: string
@@ -3874,9 +4048,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -3908,6 +4079,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -3972,6 +4147,13 @@ components:
                               example: https://example.com/
                           required:
                             - url
+                          additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                    additionalProperties: false
                 attractionsReferences:
                   type: array
                   items:
@@ -3991,8 +4173,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetAttractionResponse:
       type: object
       properties:
@@ -4005,11 +4192,6 @@ components:
           properties:
             attraction:
               type: object
-              required:
-                - type
-                - identifier
-                - metadata
-                - title
               properties:
                 type:
                   type: string
@@ -4019,9 +4201,6 @@ components:
                   type: string
                 metadata:
                   type: object
-                  required:
-                    - created
-                    - updated
                   properties:
                     created:
                       type: string
@@ -4051,6 +4230,10 @@ components:
                         - en
                       items:
                         type: string
+                  required:
+                    - created
+                    - updated
+                  additionalProperties: false
                 status:
                   type: string
                   enum:
@@ -4115,6 +4298,13 @@ components:
                         example: https://example.com/
                     required:
                       - url
+                    additionalProperties: false
+              required:
+                - type
+                - identifier
+                - metadata
+                - title
+              additionalProperties: false
             attractionReference:
               type: object
               properties:
@@ -4132,8 +4322,14 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     UpdateAttractionRequest:
       type: object
       properties:
@@ -4195,6 +4391,8 @@ components:
                 example: https://example.com/
             required:
               - url
+            additionalProperties: false
+      additionalProperties: false
     GetLocationsResponse:
       type: object
       properties:
@@ -4229,9 +4427,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
                     properties:
                       type:
                         type: string
@@ -4241,9 +4436,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -4275,6 +4467,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -4320,6 +4516,7 @@ components:
                           description:
                             type: string
                             example: Main hall
+                        additionalProperties: false
                       borough:
                         type: string
                         description: >-
@@ -4352,6 +4549,10 @@ components:
                             type: string
                             enum:
                               - WGS84 (Decimal Degrees)
+                        required:
+                          - latitude
+                          - longitude
+                        additionalProperties: false
                       openingStatus:
                         type: string
                         enum:
@@ -4363,12 +4564,6 @@ components:
                         items:
                           type: object
                           properties:
-                            closes:
-                              type: string
-                              description: >-
-                                The closing hour of the place or service on the
-                                given day(s) of the week.
-                              example: "22:00"
                             dayOfWeek:
                               type: string
                               enum:
@@ -4386,8 +4581,14 @@ components:
                               type: string
                               description: >-
                                 The opening hour of the place or service on the
-                                given day(s) of the week.
+                                given day of the week.
                               example: "12:00"
+                            closes:
+                              type: string
+                              description: >-
+                                The closing hour of the place or service on the
+                                given day of the week.
+                              example: "22:00"
                             validFrom:
                               type: string
                               description: The date when the item becomes valid.
@@ -4397,6 +4598,11 @@ components:
                                 The date after when the item is not valid. For
                                 example the end of an offer, salary period, or a
                                 period of opening hours.
+                          required:
+                            - dayOfWeek
+                            - opens
+                            - closes
+                          additionalProperties: false
                       inLanguages:
                         type: array
                         description: List of languages this object is available in.
@@ -4429,6 +4635,7 @@ components:
                                 example: https://example.com/
                             required:
                               - url
+                            additionalProperties: false
                       manager:
                         type: object
                         properties:
@@ -4447,6 +4654,10 @@ components:
                             example:
                               de: Konzert
                               en: concert
+                        required:
+                          - referenceType
+                          - referenceId
+                        additionalProperties: false
                         description: The managing person of this location.
                       contact:
                         type: object
@@ -4464,6 +4675,13 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                    additionalProperties: false
                 locationsReferences:
                   type: array
                   items:
@@ -4483,8 +4701,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     CreateLocationRequest:
       type: object
       properties:
@@ -4526,6 +4749,7 @@ components:
             description:
               type: string
               example: Main hall
+          additionalProperties: false
         borough:
           type: string
           description: >-
@@ -4558,17 +4782,15 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+          required:
+            - latitude
+            - longitude
+          additionalProperties: false
         openingHours:
           type: array
           items:
             type: object
             properties:
-              closes:
-                type: string
-                description: >-
-                  The closing hour of the place or service on the given day(s)
-                  of the week.
-                example: "22:00"
               dayOfWeek:
                 type: string
                 enum:
@@ -4583,9 +4805,15 @@ components:
               opens:
                 type: string
                 description: >-
-                  The opening hour of the place or service on the given day(s)
-                  of the week.
+                  The opening hour of the place or service on the given day of
+                  the week.
                 example: "12:00"
+              closes:
+                type: string
+                description: >-
+                  The closing hour of the place or service on the given day of
+                  the week.
+                example: "22:00"
               validFrom:
                 type: string
                 description: The date when the item becomes valid.
@@ -4594,6 +4822,11 @@ components:
                 description: >-
                   The date after when the item is not valid. For example the end
                   of an offer, salary period, or a period of opening hours.
+            required:
+              - dayOfWeek
+              - opens
+              - closes
+            additionalProperties: false
         inLanguages:
           type: array
           description: List of languages this object is available in.
@@ -4622,6 +4855,7 @@ components:
                   example: https://example.com/
               required:
                 - url
+              additionalProperties: false
         manager:
           type: object
           properties:
@@ -4639,6 +4873,10 @@ components:
               example:
                 de: Konzert
                 en: concert
+          required:
+            - referenceType
+            - referenceId
+          additionalProperties: false
         contact:
           type: object
           description: >-
@@ -4657,6 +4895,7 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
         metadata:
           type: object
           properties:
@@ -4664,8 +4903,10 @@ components:
               type: string
             originObjectID:
               type: string
+          additionalProperties: false
       required:
         - title
+      additionalProperties: false
     CreateLocationResponse:
       type: object
       properties:
@@ -4695,14 +4936,21 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     SearchLocationsRequest:
       type: object
       properties:
         searchFilter:
           type: object
           additionalProperties: true
+      additionalProperties: false
     SearchLocationsResponse:
       type: object
       properties:
@@ -4737,9 +4985,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
                     properties:
                       type:
                         type: string
@@ -4749,9 +4994,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -4783,6 +5025,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -4828,6 +5074,7 @@ components:
                           description:
                             type: string
                             example: Main hall
+                        additionalProperties: false
                       borough:
                         type: string
                         description: >-
@@ -4860,6 +5107,10 @@ components:
                             type: string
                             enum:
                               - WGS84 (Decimal Degrees)
+                        required:
+                          - latitude
+                          - longitude
+                        additionalProperties: false
                       openingStatus:
                         type: string
                         enum:
@@ -4871,12 +5122,6 @@ components:
                         items:
                           type: object
                           properties:
-                            closes:
-                              type: string
-                              description: >-
-                                The closing hour of the place or service on the
-                                given day(s) of the week.
-                              example: "22:00"
                             dayOfWeek:
                               type: string
                               enum:
@@ -4894,8 +5139,14 @@ components:
                               type: string
                               description: >-
                                 The opening hour of the place or service on the
-                                given day(s) of the week.
+                                given day of the week.
                               example: "12:00"
+                            closes:
+                              type: string
+                              description: >-
+                                The closing hour of the place or service on the
+                                given day of the week.
+                              example: "22:00"
                             validFrom:
                               type: string
                               description: The date when the item becomes valid.
@@ -4905,6 +5156,11 @@ components:
                                 The date after when the item is not valid. For
                                 example the end of an offer, salary period, or a
                                 period of opening hours.
+                          required:
+                            - dayOfWeek
+                            - opens
+                            - closes
+                          additionalProperties: false
                       inLanguages:
                         type: array
                         description: List of languages this object is available in.
@@ -4937,6 +5193,7 @@ components:
                                 example: https://example.com/
                             required:
                               - url
+                            additionalProperties: false
                       manager:
                         type: object
                         properties:
@@ -4955,6 +5212,10 @@ components:
                             example:
                               de: Konzert
                               en: concert
+                        required:
+                          - referenceType
+                          - referenceId
+                        additionalProperties: false
                         description: The managing person of this location.
                       contact:
                         type: object
@@ -4972,6 +5233,13 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                    additionalProperties: false
                 locationsReferences:
                   type: array
                   items:
@@ -4991,8 +5259,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetLocationResponse:
       type: object
       properties:
@@ -5005,9 +5278,6 @@ components:
           properties:
             location:
               type: object
-              required:
-                - type
-                - identifier
               properties:
                 type:
                   type: string
@@ -5017,9 +5287,6 @@ components:
                   type: string
                 metadata:
                   type: object
-                  required:
-                    - created
-                    - updated
                   properties:
                     created:
                       type: string
@@ -5049,6 +5316,10 @@ components:
                         - en
                       items:
                         type: string
+                  required:
+                    - created
+                    - updated
+                  additionalProperties: false
                 status:
                   type: string
                   enum:
@@ -5094,6 +5365,7 @@ components:
                     description:
                       type: string
                       example: Main hall
+                  additionalProperties: false
                 borough:
                   type: string
                   description: >-
@@ -5126,6 +5398,10 @@ components:
                       type: string
                       enum:
                         - WGS84 (Decimal Degrees)
+                  required:
+                    - latitude
+                    - longitude
+                  additionalProperties: false
                 openingStatus:
                   type: string
                   enum:
@@ -5137,12 +5413,6 @@ components:
                   items:
                     type: object
                     properties:
-                      closes:
-                        type: string
-                        description: >-
-                          The closing hour of the place or service on the given
-                          day(s) of the week.
-                        example: "22:00"
                       dayOfWeek:
                         type: string
                         enum:
@@ -5160,8 +5430,14 @@ components:
                         type: string
                         description: >-
                           The opening hour of the place or service on the given
-                          day(s) of the week.
+                          day of the week.
                         example: "12:00"
+                      closes:
+                        type: string
+                        description: >-
+                          The closing hour of the place or service on the given
+                          day of the week.
+                        example: "22:00"
                       validFrom:
                         type: string
                         description: The date when the item becomes valid.
@@ -5171,6 +5447,11 @@ components:
                           The date after when the item is not valid. For example
                           the end of an offer, salary period, or a period of
                           opening hours.
+                    required:
+                      - dayOfWeek
+                      - opens
+                      - closes
+                    additionalProperties: false
                 inLanguages:
                   type: array
                   description: List of languages this object is available in.
@@ -5203,6 +5484,7 @@ components:
                           example: https://example.com/
                       required:
                         - url
+                      additionalProperties: false
                 manager:
                   type: object
                   properties:
@@ -5220,6 +5502,10 @@ components:
                       example:
                         de: Konzert
                         en: concert
+                  required:
+                    - referenceType
+                    - referenceId
+                  additionalProperties: false
                   description: The managing person of this location.
                 contact:
                   type: object
@@ -5237,6 +5523,13 @@ components:
                       type: string
                       description: Phone number of the contact person.
                       example: +49 30 12345678
+                  additionalProperties: false
+              required:
+                - type
+                - identifier
+                - metadata
+                - title
+              additionalProperties: false
             locationReference:
               type: object
               properties:
@@ -5254,8 +5547,14 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     UpdateLocationRequest:
       type: object
       properties:
@@ -5297,6 +5596,7 @@ components:
             description:
               type: string
               example: Main hall
+          additionalProperties: false
         borough:
           type: string
           description: >-
@@ -5329,6 +5629,10 @@ components:
               type: string
               enum:
                 - WGS84 (Decimal Degrees)
+          required:
+            - latitude
+            - longitude
+          additionalProperties: false
         inLanguages:
           type: array
           description: List of languages this object is available in.
@@ -5357,6 +5661,7 @@ components:
                   example: https://example.com/
               required:
                 - url
+              additionalProperties: false
         contact:
           type: object
           description: >-
@@ -5375,6 +5680,8 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
+      additionalProperties: false
     SetLocationManagerRequest:
       type: object
       properties:
@@ -5392,6 +5699,7 @@ components:
             en: concert
       required:
         - organizationIdentifier
+      additionalProperties: false
     ClaimLocationRequest:
       type: object
       properties:
@@ -5414,10 +5722,12 @@ components:
             phone:
               type: string
               description: Contact person's phone number (optional).
+          additionalProperties: false
       required:
         - organizationIdentifier
         - justification
         - contact
+      additionalProperties: false
     GetEventsResponse:
       type: object
       properties:
@@ -5452,9 +5762,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
                     properties:
                       type:
                         type: string
@@ -5464,9 +5771,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -5498,6 +5802,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -5548,6 +5856,7 @@ components:
                             type: string
                             description: The time the event end, in timezone Europe/Berlin.
                             example: "22:00"
+                        additionalProperties: false
                       title:
                         type: object
                         additionalProperties:
@@ -5613,6 +5922,10 @@ components:
                               example:
                                 de: Konzert
                                 en: concert
+                          required:
+                            - referenceType
+                            - referenceId
+                          additionalProperties: false
                       attractions:
                         type: array
                         items:
@@ -5633,6 +5946,10 @@ components:
                               example:
                                 de: Konzert
                                 en: concert
+                          required:
+                            - referenceType
+                            - referenceId
+                          additionalProperties: false
                       organizer:
                         type: object
                         properties:
@@ -5651,6 +5968,10 @@ components:
                             example:
                               de: Konzert
                               en: concert
+                        required:
+                          - referenceType
+                          - referenceId
+                        additionalProperties: false
                       contact:
                         type: object
                         description: >-
@@ -5669,6 +5990,7 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        additionalProperties: false
                       admission:
                         type: object
                         description: >-
@@ -5700,6 +6022,12 @@ components:
                           admissionLink:
                             type: string
                             example: https://example.com/
+                        additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                    additionalProperties: false
                 eventsReferences:
                   type: array
                   items:
@@ -5719,8 +6047,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     CreateEventRequest:
       type: object
       properties:
@@ -5759,6 +6092,7 @@ components:
               type: string
               description: The time the event end, in timezone Europe/Berlin.
               example: "22:00"
+          additionalProperties: false
         title:
           type: object
           additionalProperties:
@@ -5822,6 +6156,10 @@ components:
                 example:
                   de: Konzert
                   en: concert
+            required:
+              - referenceType
+              - referenceId
+            additionalProperties: false
         attractions:
           type: array
           items:
@@ -5841,6 +6179,10 @@ components:
                 example:
                   de: Konzert
                   en: concert
+            required:
+              - referenceType
+              - referenceId
+            additionalProperties: false
         organizer:
           type: object
           properties:
@@ -5858,6 +6200,10 @@ components:
               example:
                 de: Konzert
                 en: concert
+          required:
+            - referenceType
+            - referenceId
+          additionalProperties: false
         contact:
           type: object
           description: >-
@@ -5876,6 +6222,7 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
         admission:
           type: object
           description: Information about the admission to the event/attraction.
@@ -5904,6 +6251,7 @@ components:
             admissionLink:
               type: string
               example: https://example.com/
+          additionalProperties: false
         metadata:
           type: object
           properties:
@@ -5911,6 +6259,13 @@ components:
               type: string
             originObjectID:
               type: string
+          additionalProperties: false
+      required:
+        - schedule
+        - locations
+        - attractions
+        - organizer
+      additionalProperties: false
     CreateEventResponse:
       type: object
       properties:
@@ -5940,8 +6295,14 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     SearchEventsRequest:
       type: object
       properties:
@@ -5965,6 +6326,7 @@ components:
               enum:
                 - any
                 - all
+          additionalProperties: false
         byLocationAccessibilityTags:
           type: object
           properties:
@@ -5977,8 +6339,10 @@ components:
               enum:
                 - any
                 - all
+          additionalProperties: false
         inTheFuture:
           type: boolean
+      additionalProperties: false
     SearchEventsResponse:
       type: object
       properties:
@@ -6013,9 +6377,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
                     properties:
                       type:
                         type: string
@@ -6025,9 +6386,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -6059,6 +6417,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -6109,6 +6471,7 @@ components:
                             type: string
                             description: The time the event end, in timezone Europe/Berlin.
                             example: "22:00"
+                        additionalProperties: false
                       title:
                         type: object
                         additionalProperties:
@@ -6174,6 +6537,10 @@ components:
                               example:
                                 de: Konzert
                                 en: concert
+                          required:
+                            - referenceType
+                            - referenceId
+                          additionalProperties: false
                       attractions:
                         type: array
                         items:
@@ -6194,6 +6561,10 @@ components:
                               example:
                                 de: Konzert
                                 en: concert
+                          required:
+                            - referenceType
+                            - referenceId
+                          additionalProperties: false
                       organizer:
                         type: object
                         properties:
@@ -6212,6 +6583,10 @@ components:
                             example:
                               de: Konzert
                               en: concert
+                        required:
+                          - referenceType
+                          - referenceId
+                        additionalProperties: false
                       contact:
                         type: object
                         description: >-
@@ -6230,6 +6605,7 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        additionalProperties: false
                       admission:
                         type: object
                         description: >-
@@ -6261,6 +6637,12 @@ components:
                           admissionLink:
                             type: string
                             example: https://example.com/
+                        additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                    additionalProperties: false
                 eventsReferences:
                   type: array
                   items:
@@ -6280,8 +6662,13 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetEventResponse:
       type: object
       properties:
@@ -6294,9 +6681,6 @@ components:
           properties:
             event:
               type: object
-              required:
-                - type
-                - identifier
               properties:
                 type:
                   type: string
@@ -6306,9 +6690,6 @@ components:
                   type: string
                 metadata:
                   type: object
-                  required:
-                    - created
-                    - updated
                   properties:
                     created:
                       type: string
@@ -6338,6 +6719,10 @@ components:
                         - en
                       items:
                         type: string
+                  required:
+                    - created
+                    - updated
+                  additionalProperties: false
                 status:
                   type: string
                   enum:
@@ -6386,6 +6771,7 @@ components:
                       type: string
                       description: The time the event end, in timezone Europe/Berlin.
                       example: "22:00"
+                  additionalProperties: false
                 title:
                   type: object
                   additionalProperties:
@@ -6450,6 +6836,10 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
                 attractions:
                   type: array
                   items:
@@ -6469,6 +6859,10 @@ components:
                         example:
                           de: Konzert
                           en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
                 organizer:
                   type: object
                   properties:
@@ -6486,6 +6880,10 @@ components:
                       example:
                         de: Konzert
                         en: concert
+                  required:
+                    - referenceType
+                    - referenceId
+                  additionalProperties: false
                 contact:
                   type: object
                   description: >-
@@ -6504,6 +6902,7 @@ components:
                       type: string
                       description: Phone number of the contact person.
                       example: +49 30 12345678
+                  additionalProperties: false
                 admission:
                   type: object
                   description: Information about the admission to the event/attraction.
@@ -6532,6 +6931,12 @@ components:
                     admissionLink:
                       type: string
                       example: https://example.com/
+                  additionalProperties: false
+              required:
+                - type
+                - identifier
+                - metadata
+              additionalProperties: false
             eventReference:
               type: object
               properties:
@@ -6549,8 +6954,14 @@ components:
                   example:
                     de: Konzert
                     en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     UpdateEventRequest:
       type: object
       properties:
@@ -6616,6 +7027,7 @@ components:
               type: string
               description: Phone number of the contact person.
               example: +49 30 12345678
+          additionalProperties: false
         admission:
           type: object
           description: Information about the admission to the event/attraction.
@@ -6644,6 +7056,8 @@ components:
             admissionLink:
               type: string
               example: https://example.com/
+          additionalProperties: false
+      additionalProperties: false
     AddEventLocationRequest:
       type: object
       properties:
@@ -6659,6 +7073,9 @@ components:
           example:
             de: Konzert
             en: concert
+      required:
+        - locationIdentifier
+      additionalProperties: false
     RemoveEventLocationRequest:
       type: object
       properties:
@@ -6666,6 +7083,7 @@ components:
           type: string
       required:
         - locationIdentifier
+      additionalProperties: false
     AddEventAttractionRequest:
       type: object
       properties:
@@ -6681,6 +7099,9 @@ components:
           example:
             de: Konzert
             en: concert
+      required:
+        - attractionIdentifier
+      additionalProperties: false
     RemoveEventAttractionRequest:
       type: object
       properties:
@@ -6688,6 +7109,7 @@ components:
           type: string
       required:
         - attractionIdentifier
+      additionalProperties: false
     SetEventOrganizerRequest:
       type: object
       properties:
@@ -6703,6 +7125,9 @@ components:
           example:
             de: Konzert
             en: concert
+      required:
+        - organizationIdentifier
+      additionalProperties: false
     RescheduleEventRequest:
       type: object
       properties:
@@ -6720,6 +7145,7 @@ components:
           type: string
         setToRescheduled:
           type: boolean
+      additionalProperties: false
     DuplicateEventResponse:
       properties:
         success:
@@ -6733,15 +7159,21 @@ components:
           properties:
             eventIdentifier:
               type: string
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     LoginRequest:
       type: object
       properties:
-        password:
-          type: string
         email:
           type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+      additionalProperties: false
     LoginResponse:
       type: object
       properties:
@@ -6751,10 +7183,6 @@ components:
           type: string
         data:
           type: object
-          required:
-            - accessToken
-            - expiresIn
-            - user
           properties:
             accessToken:
               type: string
@@ -6784,11 +7212,21 @@ components:
                 permissionFlags:
                   type: number
               required:
+                - type
                 - identifier
                 - email
+                - createdAt
+                - updatedAt
                 - permissionFlags
+              additionalProperties: false
+          required:
+            - accessToken
+            - expiresIn
+            - user
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetUsersResponse:
       type: object
       properties:
@@ -6845,11 +7283,16 @@ components:
                       permissionFlags:
                         type: number
                     required:
+                      - type
                       - identifier
                       - email
+                      - createdAt
+                      - updatedAt
                       - permissionFlags
+                    additionalProperties: false
       required:
         - success
+      additionalProperties: false
     CreateUserRequest:
       type: object
       properties:
@@ -6864,6 +7307,7 @@ components:
       required:
         - password
         - email
+      additionalProperties: false
     EmailAlreadyInUseError:
       type: object
       properties:
@@ -6884,9 +7328,11 @@ components:
               type: string
           required:
             - code
+          additionalProperties: false
       required:
         - success
         - error
+      additionalProperties: false
     GetUserResponse:
       type: object
       properties:
@@ -6921,11 +7367,17 @@ components:
                 permissionFlags:
                   type: number
               required:
+                - type
                 - identifier
                 - email
+                - createdAt
+                - updatedAt
                 - permissionFlags
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     UpdateUserRequest:
       type: object
       properties:
@@ -6935,6 +7387,7 @@ components:
           type: string
         lastName:
           type: string
+      additionalProperties: false
     RemoveExternalLinkRequest:
       type: object
       properties:
@@ -6942,6 +7395,7 @@ components:
           type: string
       required:
         - url
+      additionalProperties: false
     CreateUserResponse:
       properties:
         success:
@@ -6955,8 +7409,10 @@ components:
           properties:
             userIdentifier:
               type: string
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetTagsResponse:
       type: object
       properties:
@@ -6991,9 +7447,6 @@ components:
                   metadata:
                     allOf:
                       - type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -7025,6 +7478,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       - type: object
                         properties:
                           externalIDs:
@@ -7032,10 +7489,15 @@ components:
                             additionalProperties:
                               type: string
                 required:
+                  - type
                   - identifier
                   - title
+                  - metadata
+                additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetTagResponse:
       type: object
       properties:
@@ -7068,9 +7530,6 @@ components:
                 metadata:
                   allOf:
                     - type: object
-                      required:
-                        - created
-                        - updated
                       properties:
                         created:
                           type: string
@@ -7102,6 +7561,10 @@ components:
                             - en
                           items:
                             type: string
+                      required:
+                        - created
+                        - updated
+                      additionalProperties: false
                     - type: object
                       properties:
                         externalIDs:
@@ -7109,10 +7572,15 @@ components:
                           additionalProperties:
                             type: string
               required:
+                - type
                 - identifier
                 - title
+                - metadata
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     CreateTagRequest:
       type: object
       properties:
@@ -7133,6 +7601,7 @@ components:
               type: object
       required:
         - title
+      additionalProperties: false
     CreateTagResponse:
       properties:
         success:
@@ -7166,9 +7635,6 @@ components:
                 metadata:
                   allOf:
                     - type: object
-                      required:
-                        - created
-                        - updated
                       properties:
                         created:
                           type: string
@@ -7200,6 +7666,10 @@ components:
                             - en
                           items:
                             type: string
+                      required:
+                        - created
+                        - updated
+                      additionalProperties: false
                     - type: object
                       properties:
                         externalIDs:
@@ -7207,10 +7677,15 @@ components:
                           additionalProperties:
                             type: string
               required:
+                - type
                 - identifier
                 - title
+                - metadata
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetAdminAttractionResponse:
       type: object
       properties:
@@ -7223,12 +7698,6 @@ components:
           properties:
             attraction:
               type: object
-              required:
-                - type
-                - identifier
-                - metadata
-                - title
-                - events
               properties:
                 type:
                   type: string
@@ -7238,9 +7707,6 @@ components:
                   type: string
                 metadata:
                   type: object
-                  required:
-                    - created
-                    - updated
                   properties:
                     created:
                       type: string
@@ -7270,6 +7736,10 @@ components:
                         - en
                       items:
                         type: string
+                  required:
+                    - created
+                    - updated
+                  additionalProperties: false
                 status:
                   type: string
                   enum:
@@ -7324,9 +7794,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
                     properties:
                       type:
                         type: string
@@ -7336,9 +7803,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -7370,6 +7834,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -7420,6 +7888,7 @@ components:
                             type: string
                             description: The time the event end, in timezone Europe/Berlin.
                             example: "22:00"
+                        additionalProperties: false
                       title:
                         type: object
                         additionalProperties:
@@ -7485,6 +7954,10 @@ components:
                               example:
                                 de: Konzert
                                 en: concert
+                          required:
+                            - referenceType
+                            - referenceId
+                          additionalProperties: false
                       attractions:
                         type: array
                         items:
@@ -7505,6 +7978,10 @@ components:
                               example:
                                 de: Konzert
                                 en: concert
+                          required:
+                            - referenceType
+                            - referenceId
+                          additionalProperties: false
                       organizer:
                         type: object
                         properties:
@@ -7523,6 +8000,10 @@ components:
                             example:
                               de: Konzert
                               en: concert
+                        required:
+                          - referenceType
+                          - referenceId
+                        additionalProperties: false
                       contact:
                         type: object
                         description: >-
@@ -7541,6 +8022,7 @@ components:
                             type: string
                             description: Phone number of the contact person.
                             example: +49 30 12345678
+                        additionalProperties: false
                       admission:
                         type: object
                         description: >-
@@ -7572,6 +8054,12 @@ components:
                           admissionLink:
                             type: string
                             example: https://example.com/
+                        additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                    additionalProperties: false
                 externalLinks:
                   type: array
                   description: Links to external resources related to this object.
@@ -7586,8 +8074,18 @@ components:
                         example: https://example.com/
                     required:
                       - url
+                    additionalProperties: false
+              required:
+                - type
+                - identifier
+                - metadata
+                - title
+                - events
+              additionalProperties: false
+          additionalProperties: false
       required:
         - success
+      additionalProperties: false
     GetAdminAttractionsResponse:
       type: object
       properties:
@@ -7624,12 +8122,6 @@ components:
                   type: array
                   items:
                     type: object
-                    required:
-                      - type
-                      - identifier
-                      - metadata
-                      - title
-                      - events
                     properties:
                       type:
                         type: string
@@ -7639,9 +8131,6 @@ components:
                         type: string
                       metadata:
                         type: object
-                        required:
-                          - created
-                          - updated
                         properties:
                           created:
                             type: string
@@ -7673,6 +8162,10 @@ components:
                               - en
                             items:
                               type: string
+                        required:
+                          - created
+                          - updated
+                        additionalProperties: false
                       status:
                         type: string
                         enum:
@@ -7727,9 +8220,6 @@ components:
                         type: array
                         items:
                           type: object
-                          required:
-                            - type
-                            - identifier
                           properties:
                             type:
                               type: string
@@ -7739,9 +8229,6 @@ components:
                               type: string
                             metadata:
                               type: object
-                              required:
-                                - created
-                                - updated
                               properties:
                                 created:
                                   type: string
@@ -7775,6 +8262,10 @@ components:
                                     - en
                                   items:
                                     type: string
+                              required:
+                                - created
+                                - updated
+                              additionalProperties: false
                             status:
                               type: string
                               enum:
@@ -7827,6 +8318,7 @@ components:
                                     The time the event end, in timezone
                                     Europe/Berlin.
                                   example: "22:00"
+                              additionalProperties: false
                             title:
                               type: object
                               additionalProperties:
@@ -7895,6 +8387,10 @@ components:
                                     example:
                                       de: Konzert
                                       en: concert
+                                required:
+                                  - referenceType
+                                  - referenceId
+                                additionalProperties: false
                             attractions:
                               type: array
                               items:
@@ -7915,6 +8411,10 @@ components:
                                     example:
                                       de: Konzert
                                       en: concert
+                                required:
+                                  - referenceType
+                                  - referenceId
+                                additionalProperties: false
                             organizer:
                               type: object
                               properties:
@@ -7933,6 +8433,10 @@ components:
                                   example:
                                     de: Konzert
                                     en: concert
+                              required:
+                                - referenceType
+                                - referenceId
+                              additionalProperties: false
                             contact:
                               type: object
                               description: >-
@@ -7951,6 +8455,7 @@ components:
                                   type: string
                                   description: Phone number of the contact person.
                                   example: +49 30 12345678
+                              additionalProperties: false
                             admission:
                               type: object
                               description: >-
@@ -7982,6 +8487,12 @@ components:
                                 admissionLink:
                                   type: string
                                   example: https://example.com/
+                              additionalProperties: false
+                          required:
+                            - type
+                            - identifier
+                            - metadata
+                          additionalProperties: false
                       externalLinks:
                         type: array
                         description: Links to external resources related to this object.
@@ -7996,9 +8507,17 @@ components:
                               example: https://example.com/
                           required:
                             - url
+                          additionalProperties: false
+                    required:
+                      - type
+                      - identifier
+                      - metadata
+                      - title
+                      - events
+                    additionalProperties: false
       required:
         - success
-        - data
+      additionalProperties: false
     TranslatableField:
       type: object
       additionalProperties:

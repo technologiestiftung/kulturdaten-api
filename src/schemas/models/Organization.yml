@@ -1,7 +1,4 @@
 type: object
-required:
-  - type
-  - identifier
 properties:
   type:
     type: string
@@ -44,3 +41,9 @@ properties:
     $ref: "Coordinates.yml"
   contact:
     $ref: "Contact.yml"
+required:
+  - type
+  - identifier
+  - metadata
+  - title
+additionalProperties: false

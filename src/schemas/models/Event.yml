@@ -1,7 +1,4 @@
 type: object
-required:
-  - type
-  - identifier
 properties:
   type:
     type: string
@@ -55,3 +52,8 @@ properties:
     $ref: "Contact.yml"
   admission:
     $ref: "Admission.yml"
+required:
+  - type
+  - identifier
+  - metadata
+additionalProperties: false

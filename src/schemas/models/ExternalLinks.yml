@@ -11,3 +11,4 @@ items:
       example: https://example.com/
   required:
     - url
+  additionalProperties: false

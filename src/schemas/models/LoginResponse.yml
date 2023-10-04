@@ -6,10 +6,6 @@ properties:
     type: string
   data:
     type: object
-    required:
-      - accessToken
-      - expiresIn
-      - user
     properties:
       accessToken:
         type: string
@@ -17,5 +13,11 @@ properties:
         type: string
       user:
         $ref: "User.yml"
+    required:
+      - accessToken
+      - expiresIn
+      - user
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

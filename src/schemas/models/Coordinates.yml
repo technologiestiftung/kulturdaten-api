@@ -10,3 +10,7 @@ properties:
     type: string
     enum:
       - WGS84 (Decimal Degrees)
+required:
+  - latitude
+  - longitude
+additionalProperties: false

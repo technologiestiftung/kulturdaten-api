@@ -19,7 +19,9 @@ properties:
       phone:
         type: string
         description: Contact person's phone number (optional).
+    additionalProperties: false
 required:
   - organizationIdentifier
   - justification
   - contact
+additionalProperties: false

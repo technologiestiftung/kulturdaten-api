@@ -37,3 +37,10 @@ properties:
         type: string
       originObjectID:
         type: string
+    additionalProperties: false
+required:
+  - schedule
+  - locations
+  - attractions
+  - organizer
+additionalProperties: false

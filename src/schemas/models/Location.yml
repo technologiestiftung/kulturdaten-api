@@ -1,7 +1,4 @@
 type: object
-required:
-  - type
-  - identifier
 properties:
   type:
     type: string
@@ -58,3 +55,9 @@ properties:
   contact:
     $ref: "Contact.yml"
     description: The main contact person of this location.
+required:
+  - type
+  - identifier
+  - metadata
+  - title
+additionalProperties: false

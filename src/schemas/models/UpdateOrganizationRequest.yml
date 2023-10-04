@@ -20,3 +20,4 @@ properties:
     $ref: "Coordinates.yml"
   contact:
     $ref: "Contact.yml"
+additionalProperties: false

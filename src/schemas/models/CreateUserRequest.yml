@@ -11,3 +11,4 @@ properties:
 required:
   - password
   - email
+additionalProperties: false

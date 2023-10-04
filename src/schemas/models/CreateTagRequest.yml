@@ -9,3 +9,4 @@ properties:
         type: object
 required:
   - title
+additionalProperties: false

@@ -1,9 +1,4 @@
 type: object
-required:
-  - type
-  - identifier
-  - metadata
-  - title
 properties:
   type:
     type: string
@@ -48,3 +43,9 @@ properties:
       type: string
   externalLinks:
     $ref: "ExternalLinks.yml"
+required:
+  - type
+  - identifier
+  - metadata
+  - title
+additionalProperties: false

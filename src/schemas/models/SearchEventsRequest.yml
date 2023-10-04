@@ -14,6 +14,7 @@ properties:
           type: string
       matchMode:
         $ref: "MatchMode.yml"
+    additionalProperties: false
   byLocationAccessibilityTags:
     type: object
     properties:
@@ -23,5 +24,7 @@ properties:
           type: string
       matchMode:
         $ref: "MatchMode.yml"
+    additionalProperties: false
   inTheFuture:
     type: boolean
+additionalProperties: false

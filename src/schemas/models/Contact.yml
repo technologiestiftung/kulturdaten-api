@@ -13,3 +13,4 @@ properties:
     type: string
     description: Phone number of the contact person.
     example: +49 30 12345678
+additionalProperties: false

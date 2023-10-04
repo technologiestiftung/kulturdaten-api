@@ -10,5 +10,7 @@ properties:
     properties:
       userIdentifier:
         type: string
+    additionalProperties: false
 required:
   - success
+additionalProperties: false

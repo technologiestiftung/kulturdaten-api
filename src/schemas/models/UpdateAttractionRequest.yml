@@ -16,3 +16,4 @@ properties:
       type: string
   externalLinks:
     $ref: "ExternalLinks.yml"
+additionalProperties: false

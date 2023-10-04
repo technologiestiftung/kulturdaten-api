@@ -15,3 +15,4 @@ properties:
               $ref: "User.yml"
 required:
   - success
+additionalProperties: false

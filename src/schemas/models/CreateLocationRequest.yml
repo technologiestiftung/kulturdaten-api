@@ -35,5 +35,7 @@ properties:
         type: string
       originObjectID:
         type: string
+    additionalProperties: false
 required:
   - title
+additionalProperties: false

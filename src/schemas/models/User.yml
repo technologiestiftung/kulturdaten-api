@@ -21,6 +21,10 @@ properties:
   permissionFlags:
     type: number
 required:
+  - type
   - identifier
   - email
+  - createdAt
+  - updatedAt
   - permissionFlags
+additionalProperties: false

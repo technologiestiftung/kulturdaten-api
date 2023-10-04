@@ -3,3 +3,4 @@ properties:
   searchFilter:
     type: object
     additionalProperties: true
+additionalProperties: false
