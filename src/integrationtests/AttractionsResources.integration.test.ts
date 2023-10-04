@@ -31,7 +31,10 @@ describe("Validate testData", () => {
 	it("should validate the test data", async () => {
 		const attractionDocuments = await env.attractions.find().toArray();
 		for (const o of attractionDocuments) {
-			expect(validateAttraction(o).isValid).toBe(true);
+			const isValid = validateAttraction(o).isValid;
+			const errors = validateAttraction(o).errors;
+			expect(isValid).toBe(true);
+			expect(errors).toHaveLength(0);
 		}
 	});
 });

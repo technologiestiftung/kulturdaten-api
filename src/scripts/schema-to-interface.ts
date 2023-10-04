@@ -33,20 +33,21 @@ async function generateInterface(className: string, rootDirectory: string) {
 		 * and run "npm run schema-to-interface" or "npm run generate" to regenerate this file.
 		 */
 
-		import Ajv, { ValidateFunction } from "ajv";
+		import Ajv, { ErrorObject } from "ajv";
 		import addFormats from "ajv-formats";
 		
 		 ${dependencies.imports}
 
 		 export const schemaFor${schemaName} = ${schema};
 
-		 export function validate${schemaName}(o : object): {isValid: boolean, validate: ValidateFunction} {
+		 export function validate${schemaName}(o : object): {isValid: boolean, errors: ErrorObject[]} {
 			const ajv = new Ajv();
 			addFormats(ajv);
 			ajv.addKeyword("example");
 			${dependencies.ajvSchema}
-			const validate = ajv.compile(schemaFor${schemaName});
-			return {isValid: validate(o), validate: validate};
+			const isValid = ajv.validate(schemaFor${schemaName}, o);
+			const errors = ajv.errors || [];
+			return { isValid, errors };
 		  }
 		`,
 		additionalProperties: false,
