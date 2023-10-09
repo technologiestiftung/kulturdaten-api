@@ -59,6 +59,8 @@ export class MongoDBEventsRepository implements EventsRepository {
 			...createEvent,
 			type: "type.Event",
 			identifier: generateEventID(),
+			status: "event.published",
+			scheduleStatus: "event.scheduled",
 			metadata: createMetadata(createEvent.metadata),
 		};
 		const events = await this.dbConnector.events();

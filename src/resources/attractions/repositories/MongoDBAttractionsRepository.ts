@@ -50,6 +50,7 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 			...createAttraction,
 			type: "type.Attraction",
 			identifier: generateAttractionID(),
+			status: "attraction.published",
 			metadata: createMetadata(createAttraction.metadata),
 		};
 		const attractions = await this.dbConnector.attractions();

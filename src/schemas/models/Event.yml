@@ -56,4 +56,6 @@ required:
   - type
   - identifier
   - metadata
+  - status
+  - scheduleStatus
 additionalProperties: false

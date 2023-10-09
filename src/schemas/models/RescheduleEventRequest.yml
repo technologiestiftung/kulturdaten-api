@@ -14,4 +14,7 @@ properties:
     type: string
   setToRescheduled:
     type: boolean
+required:
+  - startDate
+  - startTime
 additionalProperties: false

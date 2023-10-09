@@ -24,4 +24,7 @@ properties:
     type: string
     description: The time the event end, in timezone Europe/Berlin.
     example: "22:00"
+required:
+  - startDate
+  - startTime
 additionalProperties: false

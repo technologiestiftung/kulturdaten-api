@@ -62,6 +62,8 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 			...createOrganization,
 			type: "type.Organization",
 			identifier: generateOrganizationID(),
+			status: "organization.published",
+			activationStatus: "organization.active",
 			metadata: createMetadata(createOrganization.metadata),
 		};
 		const organizations = await this.dbConnector.organizations();

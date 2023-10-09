@@ -1647,6 +1647,9 @@ components:
               type: string
               description: The time the event end, in timezone Europe/Berlin.
               example: "22:00"
+          required:
+            - startDate
+            - startTime
           additionalProperties: false
         title:
           type: object
@@ -1812,6 +1815,8 @@ components:
         - type
         - identifier
         - metadata
+        - status
+        - scheduleStatus
       additionalProperties: false
     AdminAttraction:
       type: object
@@ -1996,6 +2001,9 @@ components:
                     type: string
                     description: The time the event end, in timezone Europe/Berlin.
                     example: "22:00"
+                required:
+                  - startDate
+                  - startTime
                 additionalProperties: false
               title:
                 type: object
@@ -2161,6 +2169,8 @@ components:
               - type
               - identifier
               - metadata
+              - status
+              - scheduleStatus
             additionalProperties: false
         externalLinks:
           type: array
@@ -2292,6 +2302,7 @@ components:
         - type
         - identifier
         - metadata
+        - status
         - title
       additionalProperties: false
     Location:
@@ -2540,7 +2551,9 @@ components:
         - type
         - identifier
         - metadata
+        - status
         - title
+        - openingStatus
       additionalProperties: false
     Organization:
       type: object
@@ -2706,6 +2719,8 @@ components:
         - type
         - identifier
         - metadata
+        - status
+        - activationStatus
         - title
       additionalProperties: false
     User:
@@ -2955,6 +2970,8 @@ components:
                 - type
                 - identifier
                 - metadata
+                - status
+                - activationStatus
                 - title
               additionalProperties: false
             organizationReference:
@@ -3183,6 +3200,8 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
+                      - activationStatus
                       - title
                     additionalProperties: false
                 organizationsReferences:
@@ -3575,6 +3594,8 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
+                      - activationStatus
                       - title
                     additionalProperties: false
                 organizationsReferences:
@@ -3860,6 +3881,7 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
                       - title
                     additionalProperties: false
                 attractionsReferences:
@@ -4152,6 +4174,7 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
                       - title
                     additionalProperties: false
                 attractionsReferences:
@@ -4303,6 +4326,7 @@ components:
                 - type
                 - identifier
                 - metadata
+                - status
                 - title
               additionalProperties: false
             attractionReference:
@@ -4680,7 +4704,9 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
                       - title
+                      - openingStatus
                     additionalProperties: false
                 locationsReferences:
                   type: array
@@ -5238,7 +5264,9 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
                       - title
+                      - openingStatus
                     additionalProperties: false
                 locationsReferences:
                   type: array
@@ -5528,7 +5556,9 @@ components:
                 - type
                 - identifier
                 - metadata
+                - status
                 - title
+                - openingStatus
               additionalProperties: false
             locationReference:
               type: object
@@ -5856,6 +5886,9 @@ components:
                             type: string
                             description: The time the event end, in timezone Europe/Berlin.
                             example: "22:00"
+                        required:
+                          - startDate
+                          - startTime
                         additionalProperties: false
                       title:
                         type: object
@@ -6027,6 +6060,8 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
+                      - scheduleStatus
                     additionalProperties: false
                 eventsReferences:
                   type: array
@@ -6092,6 +6127,9 @@ components:
               type: string
               description: The time the event end, in timezone Europe/Berlin.
               example: "22:00"
+          required:
+            - startDate
+            - startTime
           additionalProperties: false
         title:
           type: object
@@ -6471,6 +6509,9 @@ components:
                             type: string
                             description: The time the event end, in timezone Europe/Berlin.
                             example: "22:00"
+                        required:
+                          - startDate
+                          - startTime
                         additionalProperties: false
                       title:
                         type: object
@@ -6642,6 +6683,8 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
+                      - scheduleStatus
                     additionalProperties: false
                 eventsReferences:
                   type: array
@@ -6771,6 +6814,9 @@ components:
                       type: string
                       description: The time the event end, in timezone Europe/Berlin.
                       example: "22:00"
+                  required:
+                    - startDate
+                    - startTime
                   additionalProperties: false
                 title:
                   type: object
@@ -6936,6 +6982,8 @@ components:
                 - type
                 - identifier
                 - metadata
+                - status
+                - scheduleStatus
               additionalProperties: false
             eventReference:
               type: object
@@ -7145,6 +7193,9 @@ components:
           type: string
         setToRescheduled:
           type: boolean
+      required:
+        - startDate
+        - startTime
       additionalProperties: false
     DuplicateEventResponse:
       properties:
@@ -7888,6 +7939,9 @@ components:
                             type: string
                             description: The time the event end, in timezone Europe/Berlin.
                             example: "22:00"
+                        required:
+                          - startDate
+                          - startTime
                         additionalProperties: false
                       title:
                         type: object
@@ -8059,6 +8113,8 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
+                      - scheduleStatus
                     additionalProperties: false
                 externalLinks:
                   type: array
@@ -8318,6 +8374,9 @@ components:
                                     The time the event end, in timezone
                                     Europe/Berlin.
                                   example: "22:00"
+                              required:
+                                - startDate
+                                - startTime
                               additionalProperties: false
                             title:
                               type: object
@@ -8492,6 +8551,8 @@ components:
                             - type
                             - identifier
                             - metadata
+                            - status
+                            - scheduleStatus
                           additionalProperties: false
                       externalLinks:
                         type: array
