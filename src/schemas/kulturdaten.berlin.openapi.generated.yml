@@ -2191,6 +2191,7 @@ components:
         - type
         - identifier
         - metadata
+        - status
         - title
         - events
       additionalProperties: false
@@ -8135,6 +8136,7 @@ components:
                 - type
                 - identifier
                 - metadata
+                - status
                 - title
                 - events
               additionalProperties: false
@@ -8573,6 +8575,7 @@ components:
                       - type
                       - identifier
                       - metadata
+                      - status
                       - title
                       - events
                     additionalProperties: false
