@@ -3,7 +3,6 @@ extends:
 
 rules:
   no-unused-components: off
-  no-server-trailing-slash: off
   operation-4xx-response: off
   operation-operationId: off
   operation-summary: off
