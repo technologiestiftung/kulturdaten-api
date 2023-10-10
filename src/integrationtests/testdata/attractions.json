@@ -146,5 +146,55 @@
 		"inLanguages": ["en", "de"],
 		"tags": ["konzert"],
 		"externalLinks": []
+	},
+	{
+		"type": "type.Attraction",
+		"identifier": "archived-attraction",
+		"metadata": {
+			"created": "2023-09-05T16:00:00Z",
+			"updated": "2023-09-05T16:20:00Z",
+			"origin": "",
+			"originObjectID": "",
+			"availableLanguages": ["en"]
+		},
+		"status": "attraction.archived",
+		"title": {
+			"en": "Archived Attraction"
+		},
+		"description": {
+			"en": "I’m archived."
+		},
+		"pleaseNote": {
+			"en": ""
+		},
+		"website": "",
+		"inLanguages": ["en"],
+		"tags": [],
+		"externalLinks": []
+	},
+	{
+		"type": "type.Attraction",
+		"identifier": "unpublished-attraction",
+		"metadata": {
+			"created": "2023-09-05T16:00:00Z",
+			"updated": "2023-09-05T16:20:00Z",
+			"origin": "",
+			"originObjectID": "",
+			"availableLanguages": ["en"]
+		},
+		"status": "attraction.unpublished",
+		"title": {
+			"en": "Unpublished Attraction"
+		},
+		"description": {
+			"en": "I’m unpublished."
+		},
+		"pleaseNote": {
+			"en": ""
+		},
+		"website": "",
+		"inLanguages": ["en"],
+		"tags": [],
+		"externalLinks": []
 	}
 ]

@@ -5,7 +5,7 @@ import { Attraction, validateAttraction } from "../generated/models/Attraction.g
 import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ATTRACTION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
-import threeDummyAttractions from "./testdata/attractions.json";
+import dummyAttractions from "./testdata/attractions.json";
 
 let env!: TestEnvironment;
 
@@ -22,7 +22,7 @@ afterAll(async () => {
 
 describe("Validate testData", () => {
 	beforeEach(async () => {
-		await env.attractions.insertMany(threeDummyAttractions);
+		await env.attractions.insertMany(dummyAttractions);
 	});
 
 	afterEach(async () => {
@@ -74,7 +74,7 @@ describe("Create attractions", () => {
 
 describe("Read attractions", () => {
 	beforeEach(async () => {
-		await env.attractions.insertMany(threeDummyAttractions);
+		await env.attractions.insertMany(dummyAttractions);
 	});
 
 	afterEach(async () => {
@@ -85,7 +85,7 @@ describe("Read attractions", () => {
 		const { body, statusCode } = await request(env.app).get(env.ATTRACTIONS_ROUTE);
 
 		expect(statusCode).toBe(200);
-		expect(body.data.attractions).toHaveLength(4);
+		expect(body.data.attractions).toHaveLength(6);
 		for (const o of body.data.attractions) {
 			expect(validateAttraction(o).isValid).toBe(true);
 		}
@@ -119,7 +119,7 @@ describe("Read attractions", () => {
 
 describe("Update attractions", () => {
 	beforeEach(async () => {
-		await env.attractions.insertMany(threeDummyAttractions);
+		await env.attractions.insertMany(dummyAttractions);
 	});
 
 	afterEach(async () => {
@@ -166,11 +166,81 @@ describe("Update attractions", () => {
 		expect(statusCode).toBe(400);
 		expect(body.error.message).toBe("Bad Request");
 	});
+
+	it("cannot publish an already-published attraction", async () => {
+		const identifier = "skywalkers-observatory-12345";
+		const { body, statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/publish")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(400);
+		expect(body.error.message).toBe("Bad Request");
+		expect(body.error.details).toBe("Failed to publish the attraction");
+	});
+
+	it("can publish an unpublished attraction", async () => {
+		const identifier = "unpublished-attraction";
+		const { statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/publish")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(200);
+	});
+
+	it("cannot archive an already-archived attraction", async () => {
+		const identifier = "archived-attraction";
+		const { body, statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/archive")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(400);
+		expect(body.error.message).toBe("Bad Request");
+		expect(body.error.details).toBe("Failed to archive the attraction");
+	});
+
+	it("can archive a published attraction", async () => {
+		const identifier = "skywalkers-observatory-12345";
+		const { statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/archive")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(200);
+	});
+
+	it("can archive an unpublished attraction", async () => {
+		const identifier = "unpublished-attraction";
+		const { statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/archive")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(200);
+	});
+
+	it("cannot unpublish an already-unpublished attraction", async () => {
+		const identifier = "unpublished-attraction";
+		const { body, statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/unpublish")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(400);
+		expect(body.error.message).toBe("Bad Request");
+		expect(body.error.details).toBe("Failed to unpublish the attraction");
+	});
+
+	it("can unpublish a published attraction", async () => {
+		const identifier = "skywalkers-observatory-12345";
+		const { statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/unpublish")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(200);
+	});
+
+	it("can unpublish an archived attraction", async () => {
+		const identifier = "archived-attraction";
+		const { statusCode } = await request(env.app)
+			.post(env.ATTRACTIONS_ROUTE + "/" + identifier + "/unpublish")
+			.set("Authorization", `Bearer ` + env.USER_TOKEN);
+		expect(statusCode).toBe(200);
+	});
 });
 
 describe("Search attractions", () => {
 	beforeEach(async () => {
-		await env.attractions.insertMany(threeDummyAttractions);
+		await env.attractions.insertMany(dummyAttractions);
 	});
 
 	afterEach(async () => {
