@@ -88,11 +88,13 @@ info:
     name: MIT
     url: https://github.com/technologiestiftung/kulturdaten-api/LICENSE
 servers:
-  - url: /api/
+  - url: /api
     description: This server
-  - url: http://localhost:3000/api/
+  - url: http://localhost:3000/api
     description: Local development server
-  - url: https://api-v2.kulturdaten.berlin/api/
+  - url: https://kulturdaten-api-staging.onrender.com/api
+    description: Staging server
+  - url: https://api-v2.kulturdaten.berlin/api
     description: Production server
 tags:
   - name: Discover cultural data
