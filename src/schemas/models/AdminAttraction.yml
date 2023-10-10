@@ -38,6 +38,7 @@ required:
   - type
   - identifier
   - metadata
+  - status
   - title
   - events
 additionalProperties: false
