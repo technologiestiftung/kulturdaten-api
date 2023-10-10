@@ -86,18 +86,39 @@ export class AttractionsService {
 	}
 
 	async archive(identifier: string): Promise<boolean> {
-		return this.attractionsRepository.updateAttractionStatusById(identifier, "attraction.archived");
+		return this.updateStatus(identifier, "attraction.archived");
 	}
 
 	async unarchive(identifier: string): Promise<boolean> {
-		return this.attractionsRepository.updateAttractionStatusById(identifier, "attraction.unpublished");
+		return this.updateStatus(identifier, "attraction.unpublished");
 	}
 
 	async publish(identifier: string): Promise<boolean> {
-		return this.attractionsRepository.updateAttractionStatusById(identifier, "attraction.published");
+		return this.updateStatus(identifier, "attraction.published");
 	}
 
 	async unpublish(identifier: string): Promise<boolean> {
-		return this.attractionsRepository.updateAttractionStatusById(identifier, "attraction.unpublished");
+		return this.updateStatus(identifier, "attraction.unpublished");
+	}
+
+	private async updateStatus(identifier: string, newStatus: Attraction["status"]): Promise<boolean> {
+		const attraction = await this.attractionsRepository.getAttractionByIdentifier(identifier);
+		if (!attraction) {
+			return false;
+		}
+		const allowedStatusChanges = this.getAllowedStatusChanges(attraction);
+		if (!allowedStatusChanges.includes(newStatus)) {
+			return false;
+		}
+		return this.attractionsRepository.updateAttractionStatusById(identifier, newStatus);
+	}
+
+	private getAllowedStatusChanges(attraction: Attraction): Array<Attraction["status"]> {
+		const allowedStatusChanges: Record<Attraction["status"], Array<Attraction["status"]>> = {
+			"attraction.archived": ["attraction.unpublished"],
+			"attraction.published": ["attraction.unpublished", "attraction.archived"],
+			"attraction.unpublished": ["attraction.published", "attraction.archived"],
+		};
+		return allowedStatusChanges[attraction.status];
 	}
 }
