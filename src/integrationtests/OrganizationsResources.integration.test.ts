@@ -12,12 +12,12 @@ let env!: TestEnvironment;
 beforeAll(async () => {
 	env = new TestEnvironment();
 	(await env.startServer()).withOrganizationsRoutes();
-	jest.useFakeTimers({ advanceTimers: true });
+	vi.useFakeTimers();
 });
 
 afterAll(async () => {
 	await env.stopServer();
-	jest.useRealTimers();
+	vi.useRealTimers();
 });
 
 describe("Validate testData", () => {
@@ -60,7 +60,7 @@ describe("Create organizations", () => {
 	});
 
 	it("should create default metadata with a started and updated timestamp / POST /organizations", async () => {
-		jest.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
 		const { body } = await request(env.app)
 			.post(env.ORGANIZATIONS_ROUTE)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
@@ -146,7 +146,7 @@ describe("Update organizations", () => {
 	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /organizations/existID", async () => {
 		const identifier = "temporal-cultural-exchange-45123";
 		const existingOrganization = await env.organizations.findOne<Organization>({ identifier });
-		jest.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
 			.patch(env.ORGANIZATIONS_ROUTE + "/" + identifier)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)

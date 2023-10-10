@@ -12,12 +12,12 @@ let env!: TestEnvironment;
 beforeAll(async () => {
 	env = new TestEnvironment();
 	(await env.startServer()).withAttractionsRoutes();
-	jest.useFakeTimers({ advanceTimers: true });
+	vi.useFakeTimers();
 });
 
 afterAll(async () => {
 	await env.stopServer();
-	jest.useRealTimers();
+	vi.useRealTimers();
 });
 
 describe("Validate testData", () => {
@@ -59,7 +59,7 @@ describe("Create attractions", () => {
 	});
 
 	it("should create default metadata with a started and updated timestamp", async () => {
-		jest.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
 		const { body } = await request(env.app)
 			.post(env.ATTRACTIONS_ROUTE)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
@@ -142,7 +142,7 @@ describe("Update attractions", () => {
 	it("should keep the created timestamp and update the updated timestamp of an attraction / PATCH /attractions/existID", async () => {
 		const identifier = "skywalkers-observatory-12345";
 		const existingAttraction = await env.attractions.findOne<Attraction>({ identifier });
-		jest.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
 			.patch(env.ATTRACTIONS_ROUTE + "/" + identifier)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
