@@ -12,12 +12,12 @@ let env!: TestEnvironment;
 beforeAll(async () => {
 	env = new TestEnvironment();
 	(await env.startServer()).withLocationsRoutes();
-	jest.useFakeTimers({ advanceTimers: true });
+	vi.useFakeTimers();
 });
 
 afterAll(async () => {
 	await env.stopServer();
-	jest.useRealTimers();
+	vi.useRealTimers();
 });
 
 describe("Validate testData", () => {
@@ -58,7 +58,7 @@ describe("Create locations", () => {
 	});
 
 	it("should create default metadata with a started and updated timestamp / POST /locations", async () => {
-		jest.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
 		const { body } = await request(env.app)
 			.post(env.LOCATIONS_ROUTE)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
@@ -141,7 +141,7 @@ describe("Update locations", () => {
 	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /locations/existID", async () => {
 		const identifier = "LOC-12345678";
 		const existingLocation = await env.locations.findOne<Location>({ identifier });
-		jest.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
 			.patch(env.LOCATIONS_ROUTE + "/" + identifier)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)

@@ -19,12 +19,12 @@ let env!: TestEnvironment;
 beforeAll(async () => {
 	env = new TestEnvironment();
 	(await env.startServer()).withEventsRoutes().withAttractionsRoutes().withLocationsRoutes();
-	jest.useFakeTimers({ advanceTimers: true });
+	vi.useFakeTimers();
 });
 
 afterAll(async () => {
 	await env.stopServer();
-	jest.useRealTimers();
+	vi.useRealTimers();
 });
 
 describe("Validate testData", () => {
@@ -65,7 +65,7 @@ describe("Create events", () => {
 	});
 
 	it("should create default metadata with a started and updated timestamp / POST /events", async () => {
-		jest.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-01T01:02:03.000Z"));
 		const { body } = await request(env.app)
 			.post(env.EVENTS_ROUTE)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
@@ -165,7 +165,7 @@ describe("Update events", () => {
 	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /events/existID", async () => {
 		const identifier = "1234-5678-9101-1121";
 		const existingEvent = await env.events.findOne<Event>({ identifier });
-		jest.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
+		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
 			.patch(env.EVENTS_ROUTE + "/" + identifier)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)

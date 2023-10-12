@@ -61,7 +61,7 @@ npm run typecheck
 
 ## Tests
 
-Run all tests with Jest:
+Run all tests with Vitest (incl. hot reload when run locally):
 
 ```shell
 npm test
