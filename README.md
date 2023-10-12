@@ -15,6 +15,13 @@ On the one hand, the internet offers many ways to find out about Berlin’s dive
 kulturdaten.berlin is a project of the Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), funded by the Senate Department for Culture and Social Cohesion.
 
 
+## Links
+
+- [ReadMe API Docs](https://kulturdaten.readme.io)
+- [Swagger API Docs](https://api-v2.kulturdaten.berlin/api/docs/)
+- [OpenAPI YML file](https://github.com/technologiestiftung/kulturdaten-api/blob/main/src/schemas/kulturdaten.berlin.openapi.generated.yml)
+
+
 ## Prerequisites
 
 - Install a Node version according to the version specified in `.nvmrc` (e.g. with `nvm install` or `nvm use`)
