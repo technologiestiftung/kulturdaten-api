@@ -13,6 +13,7 @@ import { EVENT_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 import threeDummyAttractions from "./testdata/attractions.json";
 import dummyEvents from "./testdata/events.json";
 import dummyLocations from "./testdata/locations.json";
+import { describe, beforeAll, afterAll, beforeEach, afterEach, it, vi, expect } from "vitest";
 
 let env!: TestEnvironment;
 

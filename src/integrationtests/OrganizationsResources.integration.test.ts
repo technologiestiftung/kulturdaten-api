@@ -6,6 +6,7 @@ import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ORGANIZATION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 import threeDummyOrganizations from "./testdata/organizations.json";
+import { describe, beforeAll, afterAll, beforeEach, afterEach, it, vi, expect } from "vitest";
 
 let env!: TestEnvironment;
 
