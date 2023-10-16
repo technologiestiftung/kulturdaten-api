@@ -34,6 +34,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 			permissionFlags: 1,
 			createdAt: metadata.created,
 			updatedAt: metadata.updated,
+			memberships: [],
 		};
 		await users.insertOne(newUser);
 		return newUser.identifier;

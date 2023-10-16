@@ -7,15 +7,14 @@ properties:
   data:
     type: object
     properties:
-      accessToken:
-        type: string
-      expiresIn:
-        type: string
+      accessTokens:
+        type: array
+        items:
+          type: string
       user:
         $ref: "User.yml"
     required:
-      - accessToken
-      - expiresIn
+      - accessTokens
       - user
     additionalProperties: false
 required:

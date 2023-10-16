@@ -20,6 +20,15 @@ properties:
     type: string
   permissionFlags:
     type: number
+  memberships:
+    type: array
+    items:
+      type: object
+      properties:
+        organizationIdentifier:
+          type: string
+        role:
+          type: string
 required:
   - type
   - identifier
@@ -27,4 +36,5 @@ required:
   - createdAt
   - updatedAt
   - permissionFlags
+  - memberships
 additionalProperties: false

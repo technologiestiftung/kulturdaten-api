@@ -2749,6 +2749,15 @@ components:
           type: string
         permissionFlags:
           type: number
+        memberships:
+          type: array
+          items:
+            type: object
+            properties:
+              organizationIdentifier:
+                type: string
+              role:
+                type: string
       required:
         - type
         - identifier
@@ -2756,6 +2765,7 @@ components:
         - createdAt
         - updatedAt
         - permissionFlags
+        - memberships
       additionalProperties: false
     UpdateUserPasswordRequest:
       type: object
@@ -7238,10 +7248,10 @@ components:
         data:
           type: object
           properties:
-            accessToken:
-              type: string
-            expiresIn:
-              type: string
+            accessTokens:
+              type: array
+              items:
+                type: string
             user:
               type: object
               properties:
@@ -7265,6 +7275,15 @@ components:
                   type: string
                 permissionFlags:
                   type: number
+                memberships:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      organizationIdentifier:
+                        type: string
+                      role:
+                        type: string
               required:
                 - type
                 - identifier
@@ -7272,10 +7291,10 @@ components:
                 - createdAt
                 - updatedAt
                 - permissionFlags
+                - memberships
               additionalProperties: false
           required:
-            - accessToken
-            - expiresIn
+            - accessTokens
             - user
           additionalProperties: false
       required:
@@ -7336,6 +7355,15 @@ components:
                         type: string
                       permissionFlags:
                         type: number
+                      memberships:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            organizationIdentifier:
+                              type: string
+                            role:
+                              type: string
                     required:
                       - type
                       - identifier
@@ -7343,6 +7371,7 @@ components:
                       - createdAt
                       - updatedAt
                       - permissionFlags
+                      - memberships
                     additionalProperties: false
       required:
         - success
@@ -7420,6 +7449,15 @@ components:
                   type: string
                 permissionFlags:
                   type: number
+                memberships:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      organizationIdentifier:
+                        type: string
+                      role:
+                        type: string
               required:
                 - type
                 - identifier
@@ -7427,6 +7465,7 @@ components:
                 - createdAt
                 - updatedAt
                 - permissionFlags
+                - memberships
               additionalProperties: false
           additionalProperties: false
       required:
