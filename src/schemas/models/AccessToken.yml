@@ -1,0 +1,8 @@
+type: object
+properties:
+  token:
+    type: string
+  organizationID:
+    type: string
+required:
+  - token

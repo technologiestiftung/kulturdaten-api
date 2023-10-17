@@ -48,7 +48,7 @@ export class UsersController {
 		createUser.password = await argon2.hash(createUser.password);
 		const userId = await this.usersService.create(createUser);
 		if (userId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: userId }).build());
+			res.status(201).send(new SuccessResponseBuilder().okResponse({ userIdentifier: userId }).build());
 		} else {
 			res
 				.status(400)

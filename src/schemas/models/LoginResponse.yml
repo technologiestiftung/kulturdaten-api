@@ -10,7 +10,7 @@ properties:
       accessTokens:
         type: array
         items:
-          type: string
+          $ref: "AccessToken.yml"
       user:
         $ref: "User.yml"
     required:
