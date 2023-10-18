@@ -1,8 +1,24 @@
 import express from "express";
 import { User } from "../../../generated/models/User.generated";
 import { PermissionFlag } from "./PermissionFlag";
+import { OrganizationMember } from "../OrganizationMember";
+import { checkPermissionForRole } from "./Roles";
 
 export class Permit {
+	static authorizesForAction =
+		(action: string) => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+			if (!req.user) {
+				res.status(403).send();
+			}
+			const member: OrganizationMember = req.user as OrganizationMember;
+
+			if (checkPermissionForRole(member.role, action)) {
+				next();
+			} else {
+				res.status(403).send();
+			}
+		};
+
 	static authorizesAsAdminOrSameUser =
 		() => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 			const identifier = req.params.identifier;

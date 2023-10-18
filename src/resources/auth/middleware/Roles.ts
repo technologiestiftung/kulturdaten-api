@@ -29,7 +29,10 @@ export function getRoleByRoleName(roleName: string): Role {
 	return foundRole || Roles.find((role) => role.role === "unassigned")!;
 }
 
-export function checkPermissionForRole(roleName: string, action: string): boolean {
+export function checkPermissionForRole(roleName: string | undefined, action: string): boolean {
+	if (!roleName) {
+		return false;
+	}
 	const role = getRoleByRoleName(roleName);
 	return role.allowedRoutes.some((route) => route.action === action);
 }

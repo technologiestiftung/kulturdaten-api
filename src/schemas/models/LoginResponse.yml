@@ -13,6 +13,10 @@ properties:
           $ref: "AccessToken.yml"
       user:
         $ref: "User.yml"
+      organizations:
+        type: array
+        items: 
+          $ref: "Organizations.yml"
     required:
       - accessTokens
       - user
