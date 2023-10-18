@@ -3,12 +3,12 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { Service } from "typedi";
 import { SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
-import { LoginResponse } from "../../../generated/models/LoginResponse.generated";
 import { UsersService } from "../../users/services/UsersService";
 import { AuthUser } from "../strategies/AuthPasswordStrategy";
 import { AccessToken } from "../../../generated/models/AccessToken.generated";
 import { User } from "../../../generated/models/User.generated";
 import { OrganizationsService } from "../../organizations/services/OrganizationsService";
+import { LoginResponse } from "../../../generated/models/LoginResponse.generated";
 
 const log: debug.IDebugger = debug("app:auth-controller");
 
@@ -37,6 +37,7 @@ export class AuthController {
 						membership.role,
 					),
 					organizationID: membership.organizationIdentifier,
+					role: membership.role,
 				});
 			});
 			accessTokens.push({

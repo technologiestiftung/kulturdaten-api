@@ -4,5 +4,7 @@ properties:
     type: string
   organizationID:
     type: string
+  role:
+    type: string
 required:
   - token

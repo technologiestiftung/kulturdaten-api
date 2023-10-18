@@ -9,7 +9,7 @@ export type Role = {
 export const Roles: readonly Role[] = [
 	{
 		role: "admin",
-		allowedRoutes: [{ action: "GET:/attractions/" }],
+		allowedRoutes: [{ action: "GET:/attractions/" }, { action: "PATCH:/attractions/" }],
 	},
 	{
 		role: "author",
@@ -25,7 +25,8 @@ export const Roles: readonly Role[] = [
 ];
 
 export function getRoleByRoleName(roleName: string): Role {
-	const foundRole = Roles.find((role) => role.role === roleName);
+	const lowerCaseRoleName = roleName.toLowerCase();
+	const foundRole = Roles.find((role) => role.role === lowerCaseRoleName);
 	return foundRole || Roles.find((role) => role.role === "unassigned")!;
 }
 

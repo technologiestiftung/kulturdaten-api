@@ -9,6 +9,7 @@ export class Permit {
 		(action: string) => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 			if (!req.user) {
 				res.status(403).send();
+				return;
 			}
 			const member: OrganizationMember = req.user as OrganizationMember;
 

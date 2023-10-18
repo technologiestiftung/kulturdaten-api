@@ -2762,6 +2762,8 @@ components:
         - type
         - identifier
         - email
+        - createdAt
+        - updatedAt
         - permissionFlags
         - memberships
       additionalProperties: false
@@ -7255,6 +7257,8 @@ components:
                     type: string
                   organizationID:
                     type: string
+                  role:
+                    type: string
                 required:
                   - token
             user:
@@ -7293,9 +7297,184 @@ components:
                 - type
                 - identifier
                 - email
+                - createdAt
+                - updatedAt
                 - permissionFlags
                 - memberships
               additionalProperties: false
+            organizations:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Organization
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                        description: >-
+                          The date and time the object was created (ISO
+                          timestamp).
+                        example: '2011-10-05T14:48:00.000Z'
+                      updated:
+                        type: string
+                        description: >-
+                          The date and time the object was last updated (ISO
+                          timestamp). Is identical to created date after first
+                          creation.
+                        example: '2011-10-05T14:48:00.000Z'
+                      origin:
+                        type: string
+                        description: The source of this object.
+                        example: bezirkskalender
+                      originObjectID:
+                        type: string
+                        description: The original ID of this object in the original system.
+                      availableLanguages:
+                        type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
+                        items:
+                          type: string
+                    required:
+                      - created
+                      - updated
+                    additionalProperties: false
+                  status:
+                    type: string
+                    enum:
+                      - organization.published
+                      - organization.unpublished
+                      - organization.archived
+                  activationStatus:
+                    type: string
+                    enum:
+                      - organization.active
+                      - organization.inactive
+                      - organization.retired
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
+                  website:
+                    type: string
+                    example: https://example.com/
+                  inLanguages:
+                    type: array
+                    description: List of languages this object is available in.
+                    example:
+                      - de
+                      - en
+                    items:
+                      type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  address:
+                    type: object
+                    properties:
+                      streetAddress:
+                        type: string
+                        description: Street address (street name and house number)
+                        example: Beispielstraße 1
+                      addressLocality:
+                        type: string
+                        example: Berlin
+                      postalCode:
+                        type: string
+                        example: 12345
+                      description:
+                        type: string
+                        example: Main hall
+                    additionalProperties: false
+                  borough:
+                    type: string
+                    description: >-
+                      The Berlin district (or "außerhalb", if the event happens
+                      outside of Berlin).
+                    enum:
+                      - Mitte
+                      - Friedrichshain-Kreuzberg
+                      - Pankow
+                      - Charlottenburg-Wilmersdorf
+                      - Spandau
+                      - Steglitz-Zehlendorf
+                      - Tempelhof-Schöneberg
+                      - Neukölln
+                      - Treptow-Köpenick
+                      - Marzahn-Hellersdorf
+                      - Lichtenberg
+                      - Reinickendorf
+                      - außerhalb
+                  coordinates:
+                    type: object
+                    properties:
+                      latitude:
+                        type: string
+                        example: '52.521008'
+                      longitude:
+                        type: string
+                        example: '13.405954'
+                      coordinateSystem:
+                        type: string
+                        enum:
+                          - WGS84 (Decimal Degrees)
+                    required:
+                      - latitude
+                      - longitude
+                    additionalProperties: false
+                  contact:
+                    type: object
+                    description: >-
+                      A person that is connected to and/or responsible for the
+                      referenced entity.
+                    properties:
+                      name:
+                        type: string
+                        description: Full name of the contact person.
+                        example: Jane Doe
+                      email:
+                        type: string
+                        description: Email address of the contact person.
+                        example: someone@example.com
+                      telephone:
+                        type: string
+                        description: Phone number of the contact person.
+                        example: +49 30 12345678
+                    additionalProperties: false
+                required:
+                  - type
+                  - identifier
+                  - metadata
+                  - status
+                  - activationStatus
+                  - title
+                additionalProperties: false
           required:
             - accessTokens
             - user
@@ -7371,6 +7550,8 @@ components:
                       - type
                       - identifier
                       - email
+                      - createdAt
+                      - updatedAt
                       - permissionFlags
                       - memberships
                     additionalProperties: false
@@ -7463,6 +7644,8 @@ components:
                 - type
                 - identifier
                 - email
+                - createdAt
+                - updatedAt
                 - permissionFlags
                 - memberships
               additionalProperties: false

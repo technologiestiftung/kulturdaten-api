@@ -10,6 +10,7 @@ import { SearchAttractionsRequest } from "../../generated/models/SearchAttractio
 import { UpdateAttractionRequest } from "../../generated/models/UpdateAttractionRequest.generated";
 import { getPagination } from "../../utils/RequestUtil";
 import { AttractionsController } from "./controllers/AttractionsController";
+import { Permit } from "../auth/middleware/Permit";
 
 const log: debug.IDebugger = debug("app:attractions-routes");
 
@@ -70,6 +71,7 @@ export class AttractionsRoutes {
 			.patch(
 				"/:identifier",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction("PATCH:/attractions/"),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const updateAttractionRequest = req.body as UpdateAttractionRequest;
