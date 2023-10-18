@@ -6,7 +6,15 @@ import { checkPermissionForRole } from "./Roles";
 
 export class Permit {
 	static authorizesForAction =
-		(action: string) => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+		() => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+			console.log(req.route.path); // Ausgabe wäre '/example'
+			console.log(req.originalUrl); // Ausgabe könnte '/example?name=value' sein
+			console.log(req.method); // Ausgabe wäre 'GET'
+			console.log(`${req.method}:${req.route.path}`);
+		
+			const action = req.method + ":" + req.route.path;
+			console.log(action);
+
 			if (!req.user) {
 				res.status(403).send();
 				return;

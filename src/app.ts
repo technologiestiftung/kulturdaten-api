@@ -177,7 +177,7 @@ export class KulturdatenBerlinApp {
 		});
 
 		const healthRoutes = Container.get(HealthRoutes);
-		this.app.use("/api/health", healthRoutes.getRouter());
+		this.app.use("/api/" + HealthRoutes.basePath, healthRoutes.getRouter());
 	}
 
 	private registerAuthRoutes() {
@@ -187,12 +187,12 @@ export class KulturdatenBerlinApp {
 
 	private registerOrganizationRoutes() {
 		const organizationsRoute = Container.get(OrganizationsRoutes);
-		this.app.use("/api/organizations", organizationsRoute.getRouter());
+		this.app.use("/api/", organizationsRoute.getRouter());
 	}
 
 	private registerAttractionsRoutes() {
 		const attractionsRoute = Container.get(AttractionsRoutes);
-		this.app.use("/api/attractions", attractionsRoute.getRouter());
+		this.app.use("/api/", attractionsRoute.getRouter());
 	}
 
 	private registerUserRoutes() {
@@ -202,12 +202,12 @@ export class KulturdatenBerlinApp {
 
 	private registerEventsRoutes() {
 		const eventsRoute = Container.get(EventsRoutes);
-		this.app.use("/api/events", eventsRoute.getRouter());
+		this.app.use("/api/", eventsRoute.getRouter());
 	}
 
 	private registerLocationsRoutes() {
 		const locationsRoute = Container.get(LocationsRoutes);
-		this.app.use("/api/locations", locationsRoute.getRouter());
+		this.app.use("/api/", locationsRoute.getRouter());
 	}
 
 	private registerTagsRoutes() {
