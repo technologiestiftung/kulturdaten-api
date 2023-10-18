@@ -7,6 +7,7 @@ import { Tag } from "../../../generated/models/Tag.generated";
 import { getCurrentTimestamp } from "../../../utils/MetadataUtil";
 import { Termin, Veranstaltung } from "../model/Bezirksdaten";
 import { DistrictDataMapper } from "./DistrictDataMapper";
+import { describe, beforeEach, it, expect } from "vitest";
 
 describe("DistrictDataMapper", () => {
 	let mapper: DistrictDataMapper;

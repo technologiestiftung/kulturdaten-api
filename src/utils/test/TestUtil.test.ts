@@ -1,4 +1,6 @@
 import { getSeconds } from "./TestUtil";
+import { describe, test, expect } from "vitest";
+
 
 describe("TestUtil", () => {
 	describe(getSeconds.name, () => {
