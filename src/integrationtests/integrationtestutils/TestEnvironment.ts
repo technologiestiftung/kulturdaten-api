@@ -84,7 +84,7 @@ export class TestEnvironment {
 		this.eventsController = new EventsController(this.eventsService);
 		this.eventsRoutes = new EventsRoutes(this.eventsController);
 		this.events = this.db.collection("events");
-		this.app.use(this.EVENTS_ROUTE, this.eventsRoutes.getRouter());
+		this.app.use("/", this.eventsRoutes.getRouter());
 
 		return this;
 	}
@@ -95,7 +95,7 @@ export class TestEnvironment {
 		this.locationsController = new LocationsController(this.locationsService);
 		this.locationsRoutes = new LocationsRoutes(this.locationsController);
 		this.locations = this.db.collection("locations");
-		this.app.use(this.LOCATIONS_ROUTE, this.locationsRoutes.getRouter());
+		this.app.use("/", this.locationsRoutes.getRouter());
 
 		return this;
 	}
@@ -106,7 +106,7 @@ export class TestEnvironment {
 		this.organizationsController = new OrganizationsController(this.organizationsService);
 		this.organizationsRoutes = new OrganizationsRoutes(this.organizationsController);
 		this.organizations = this.db.collection("organizations");
-		this.app.use(this.ORGANIZATIONS_ROUTE, this.organizationsRoutes.getRouter());
+		this.app.use("/", this.organizationsRoutes.getRouter());
 
 		return this;
 	}
@@ -117,7 +117,7 @@ export class TestEnvironment {
 		this.attractionsController = new AttractionsController(this.attractionsService);
 		this.attractionsRoutes = new AttractionsRoutes(this.attractionsController);
 		this.attractions = this.db.collection("attractions");
-		this.app.use(this.ATTRACTIONS_ROUTE, this.attractionsRoutes.getRouter());
+		this.app.use("/", this.attractionsRoutes.getRouter());
 
 		return this;
 	}
@@ -133,6 +133,8 @@ export class TestEnvironment {
 						id: "adminID",
 						email: "admin@email.de",
 						permissionFlags: PermissionFlag.ADMIN_PERMISSION,
+						organizationIdentifier: "org_1",
+						role: "admin",
 					});
 				}
 				if (token === USER_TOKEN) {
@@ -140,6 +142,8 @@ export class TestEnvironment {
 						id: "userID",
 						email: "user@email.de",
 						permissionFlags: PermissionFlag.REGISTERED_USER,
+						organizationIdentifier: "org_1",
+						role: "admin",
 					});
 				}
 				return done(null, false);

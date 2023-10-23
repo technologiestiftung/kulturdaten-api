@@ -5,28 +5,22 @@ import { OrganizationMember } from "../OrganizationMember";
 import { checkPermissionForRole } from "./Roles";
 
 export class Permit {
-	static authorizesForAction =
-		() => (req: express.Request, res: express.Response, next: express.NextFunction) => {
-			console.log(req.route.path); // Ausgabe wäre '/example'
-			console.log(req.originalUrl); // Ausgabe könnte '/example?name=value' sein
-			console.log(req.method); // Ausgabe wäre 'GET'
-			console.log(`${req.method}:${req.route.path}`);
-		
-			const action = req.method + ":" + req.route.path;
-			console.log(action);
+	static authorizesForAction = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+		const action = req.method + ":" + req.route.path;
+		console.log(action);
 
-			if (!req.user) {
-				res.status(403).send();
-				return;
-			}
-			const member: OrganizationMember = req.user as OrganizationMember;
+		if (!req.user) {
+			res.status(403).send();
+			return;
+		}
+		const member: OrganizationMember = req.user as OrganizationMember;
 
-			if (checkPermissionForRole(member.role, action)) {
-				next();
-			} else {
-				res.status(403).send();
-			}
-		};
+		if (checkPermissionForRole(member.role, action)) {
+			next();
+		} else {
+			res.status(403).send();
+		}
+	};
 
 	static authorizesAsAdminOrSameUser =
 		() => (req: express.Request, res: express.Response, next: express.NextFunction) => {
