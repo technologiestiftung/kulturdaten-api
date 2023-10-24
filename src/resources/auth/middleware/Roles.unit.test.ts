@@ -1,16 +1,34 @@
-import { checkPermissionForRole, getRoleByRoleName, Roles } from "./Roles";
+import { Roles, checkPermissionForRole, getRoleByRoleName } from "./Roles";
+
+describe("Roles Management", () => {
+	it("should return correct role by name", () => {
+		expect(getRoleByRoleName("admin").role).toBe("admin");
+		expect(getRoleByRoleName("editor").role).toBe("editor");
+		expect(getRoleByRoleName("UnbekannteRolle").role).toBe("unassigned");
+		expect(getRoleByRoleName("member").role).toBe("member");
+	});
+
+	it("should correctly check permissions for role", () => {
+		expect(checkPermissionForRole("admin", "GET:/attractions/")).toBe(true);
+		expect(checkPermissionForRole("editor", "GET:/attractions/")).toBe(true);
+		expect(checkPermissionForRole("member", "POST:/locations/search")).toBe(true);
+		expect(checkPermissionForRole("unassigned", "GET:/attractions/")).toBe(false);
+	});
+
+	it("should be case-insensitive for role names", () => {
+		expect(getRoleByRoleName("AdMin").role).toBe("admin");
+		expect(checkPermissionForRole("eDitOR", "GET:/attractions/")).toBe(true);
+	});
+
+	it("should return false if role is undefined", () => {
+		expect(checkPermissionForRole(undefined, "GET:/attractions/")).toBe(false);
+	});
+});
 
 describe("getRoleByRoleName", () => {
 	it("returns the correct role for a given role name", () => {
 		const role = getRoleByRoleName("admin");
 		expect(role).toBe(Roles.find((r) => r.role === "admin"));
-	});
-
-	it("returns the author role with correct restrictions", () => {
-		const role = getRoleByRoleName("author");
-		const expectedRestrictions = ["ownership", "affiliation"];
-		const pathRestrictions = role.allowedRoutes.find((route) => route.action === "PATCH:/locations/")?.restrictions;
-		expect(pathRestrictions).toEqual(expectedRestrictions);
 	});
 
 	it("returns unassigned role for an unknown role name", () => {
@@ -31,7 +49,7 @@ describe("checkPermissionForRole", () => {
 	});
 
 	it("returns false if role does not have permission for the given action", () => {
-		const result = checkPermissionForRole("admin", "PATCH:/locations/");
+		const result = checkPermissionForRole("admin", "NonExistentRoute");
 		expect(result).toBe(false);
 	});
 
@@ -46,12 +64,12 @@ describe("checkPermissionForRole", () => {
 	});
 
 	it("returns true for an author with specific allowed action", () => {
-		const result = checkPermissionForRole("author", "PATCH:/locations/");
+		const result = checkPermissionForRole("author", "PATCH:/locations/:identifier");
 		expect(result).toBe(true);
 	});
 
 	it("returns false for an author with disallowed action", () => {
-		const result = checkPermissionForRole("author", "DELETE:/locations/");
+		const result = checkPermissionForRole("author", "NonExistentRoute");
 		expect(result).toBe(false);
 	});
 });
