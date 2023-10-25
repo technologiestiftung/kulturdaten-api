@@ -51,7 +51,7 @@ properties:
       $ref: "ExternalLinks.yml"
   manager:
     $ref: "Reference.yml"
-    description: The managing person of this location.
+    description: The managing organization of this location.
   contact:
     $ref: "Contact.yml"
     description: The main contact person of this location.

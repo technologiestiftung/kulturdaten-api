@@ -76,8 +76,11 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.resourceOnlyAllowedForDataOwners(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
+					const filter = req.permissionFilter;
+					console.log("filter", filter);
 					const updateLocationRequest = req.body as UpdateLocationRequest;
 					this.locationsController.updateLocation(res, identifier, updateLocationRequest);
 				},

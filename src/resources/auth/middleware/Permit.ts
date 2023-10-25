@@ -3,18 +3,39 @@ import { User } from "../../../generated/models/User.generated";
 import { PermissionFlag } from "./PermissionFlag";
 import { OrganizationMember } from "../OrganizationMember";
 import { checkPermissionForRole } from "./Roles";
+import { PermissionFilter } from "../filter/PermissionFilter";
+
 
 export class Permit {
+	static resourceOnlyAllowedForDataOwners =
+		() => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+			if (Permit.isUserAdmin(req)) {
+				next();
+				return;
+			}
+			const identifier = req.params.identifier;
+			if (!req.user || !identifier) {
+				res.status(403).send();
+			}
+			const member: OrganizationMember = req.user as OrganizationMember;
+			if (!member || !member.organizationIdentifier) {
+				res.status(403).send();
+			} else {
+				const organizationIdentifier = member.organizationIdentifier;
+				req.permissionFilter = PermissionFilter.buildOwnershipPermissionFilter(identifier, organizationIdentifier);
+				console.log("req.permissionFilter", req.permissionFilter);
+				next();
+			}
+		};
+
 	static authorizesForAction = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		const action = req.method + ":" + req.route.path;
-		console.log(action);
 
 		if (!req.user) {
 			res.status(403).send();
 			return;
 		}
 		const member: OrganizationMember = req.user as OrganizationMember;
-
 		if (checkPermissionForRole(member.role, action)) {
 			next();
 		} else {

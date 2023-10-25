@@ -2273,6 +2273,27 @@ components:
         website:
           type: string
           example: https://example.com/
+        curator:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
+          required:
+            - referenceType
+            - referenceId
+          additionalProperties: false
         inLanguages:
           type: array
           description: List of languages this object is available in.
@@ -2532,7 +2553,7 @@ components:
             - referenceType
             - referenceId
           additionalProperties: false
-          description: The managing person of this location.
+          description: The managing organization of this location.
         contact:
           type: object
           description: The main contact person of this location.
@@ -3862,6 +3883,28 @@ components:
                       website:
                         type: string
                         example: https://example.com/
+                      curator:
+                        type: object
+                        properties:
+                          referenceType:
+                            type: string
+                          referenceId:
+                            type: string
+                          referenceLabel:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                        required:
+                          - referenceType
+                          - referenceId
+                        additionalProperties: false
                       inLanguages:
                         type: array
                         description: List of languages this object is available in.
@@ -4155,6 +4198,28 @@ components:
                       website:
                         type: string
                         example: https://example.com/
+                      curator:
+                        type: object
+                        properties:
+                          referenceType:
+                            type: string
+                          referenceId:
+                            type: string
+                          referenceLabel:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: >-
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                        required:
+                          - referenceType
+                          - referenceId
+                        additionalProperties: false
                       inLanguages:
                         type: array
                         description: List of languages this object is available in.
@@ -4307,6 +4372,27 @@ components:
                 website:
                   type: string
                   example: https://example.com/
+                curator:
+                  type: object
+                  properties:
+                    referenceType:
+                      type: string
+                    referenceId:
+                      type: string
+                    referenceLabel:
+                      type: object
+                      additionalProperties:
+                        type: string
+                      description: >-
+                        A string that can be translated into multiple languages,
+                        e.g. { "de": "Konzert", "en": "concert" }
+                      example:
+                        de: Konzert
+                        en: concert
+                  required:
+                    - referenceType
+                    - referenceId
+                  additionalProperties: false
                 inLanguages:
                   type: array
                   description: List of languages this object is available in.
@@ -4695,7 +4781,7 @@ components:
                           - referenceType
                           - referenceId
                         additionalProperties: false
-                        description: The managing person of this location.
+                        description: The managing organization of this location.
                       contact:
                         type: object
                         description: The main contact person of this location.
@@ -5255,7 +5341,7 @@ components:
                           - referenceType
                           - referenceId
                         additionalProperties: false
-                        description: The managing person of this location.
+                        description: The managing organization of this location.
                       contact:
                         type: object
                         description: The main contact person of this location.
@@ -5547,7 +5633,7 @@ components:
                     - referenceType
                     - referenceId
                   additionalProperties: false
-                  description: The managing person of this location.
+                  description: The managing organization of this location.
                 contact:
                   type: object
                   description: The main contact person of this location.
