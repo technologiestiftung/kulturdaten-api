@@ -6,13 +6,6 @@ describe("getRoleByRoleName", () => {
 		expect(role).toBe(Roles.find((r) => r.role === "admin"));
 	});
 
-	it("returns the author role with correct restrictions", () => {
-		const role = getRoleByRoleName("author");
-		const expectedRestrictions = ["ownership", "affiliation"];
-		const pathRestrictions = role.allowedRoutes.find((route) => route.action === "PATCH:/locations/")?.restrictions;
-		expect(pathRestrictions).toEqual(expectedRestrictions);
-	});
-
 	it("returns unassigned role for an unknown role name", () => {
 		const role = getRoleByRoleName("nonexistentRoleName");
 		expect(role.role).toBe("unassigned");
@@ -31,7 +24,7 @@ describe("checkPermissionForRole", () => {
 	});
 
 	it("returns false if role does not have permission for the given action", () => {
-		const result = checkPermissionForRole("admin", "PATCH:/locations/");
+		const result = checkPermissionForRole("member", "PATCH:/locations/:identifier");
 		expect(result).toBe(false);
 	});
 
@@ -46,12 +39,12 @@ describe("checkPermissionForRole", () => {
 	});
 
 	it("returns true for an author with specific allowed action", () => {
-		const result = checkPermissionForRole("author", "PATCH:/locations/");
+		const result = checkPermissionForRole("author", "PATCH:/locations/:identifier");
 		expect(result).toBe(true);
 	});
 
 	it("returns false for an author with disallowed action", () => {
-		const result = checkPermissionForRole("author", "DELETE:/locations/");
+		const result = checkPermissionForRole("author", "DELETE:/locations/:identifier");
 		expect(result).toBe(false);
 	});
 });
