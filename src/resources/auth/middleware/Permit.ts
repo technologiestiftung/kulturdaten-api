@@ -1,10 +1,28 @@
 import express from "express";
-import { User } from "../../../generated/models/User.generated";
 import { PermissionFlag } from "./PermissionFlag";
 import { OrganizationMember } from "./OrganizationMember";
 import { checkPermissionForRole } from "./Roles";
+import { AuthUser } from "../strategies/AuthPasswordStrategy";
+import { LocationsController } from "../../locations/controllers/LocationsController";
 
 export class Permit {
+	static authorizesToManipulateLocation =
+		(locationsController: LocationsController) =>
+		(req: express.Request, res: express.Response, next: express.NextFunction) => {
+			const identifier = req.params.identifier;
+			const user = req.user as AuthUser;
+
+			if (!req.user || !identifier || !user) {
+				res.status(403).send();
+			}
+
+			const permissionFilter = PermissionFilter.buildLocationPermissionFilter(user.identifier);
+
+			const isExist = locationsController.isLocationExist({identifier});
+
+
+		};
+
 	static authorizesForAction = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		const action = req.method + ":" + req.route.path;
 		if (!req.user) {
@@ -26,7 +44,7 @@ export class Permit {
 			if (!req.user || !identifier) {
 				res.status(403).send();
 			}
-			const u: User = req.user as User;
+			const u: AuthUser = req.user as AuthUser;
 
 			if (u.identifier === identifier) {
 				next();
@@ -41,7 +59,7 @@ export class Permit {
 			if (!req.user) {
 				res.status(403).send();
 			}
-			const u: User = req.user as User;
+			const u: AuthUser = req.user as AuthUser;
 			if (u.permissionFlags ? u.permissionFlags & requiredPermission : false) {
 				next();
 			} else {
@@ -65,7 +83,7 @@ export class Permit {
 
 	static isUserAdmin(req: express.Request) {
 		if (!req.user) return false;
-		const u: User = req.user as User;
+		const u: AuthUser = req.user as AuthUser;
 		if (u.permissionFlags ? u.permissionFlags & PermissionFlag.ADMIN_PERMISSION : false) {
 			return true;
 		} else {
