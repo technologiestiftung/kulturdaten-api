@@ -28,7 +28,7 @@ properties:
         organizationIdentifier:
           type: string
         role:
-          type: string
+          $ref: "Role.yml"
 required:
   - type
   - identifier

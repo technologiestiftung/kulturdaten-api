@@ -22,7 +22,7 @@ const log: debug.IDebugger = debug("app:events-routes");
 export class EventsRoutes {
 	constructor(public eventsController: EventsController) {}
 
-	static readonly basePath: string = "/events";
+	static readonly basePath = "/events";
 
 	public getRouter(): Router {
 		const router = express.Router();

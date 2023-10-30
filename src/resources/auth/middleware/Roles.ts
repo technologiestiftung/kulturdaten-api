@@ -6,9 +6,16 @@ export type Role = {
 	}>;
 };
 
+export const admin = "admin";
+export const editor = "editor";
+export const author = "author";
+export const member = "member";
+export const unassigned = "unassigned";
+
+
 export const Roles: readonly Role[] = [
 	{
-		role: "admin",
+		role: admin,
 		allowedRoutes: [
 			{ action: "GET:/attractions/" },
 			{ action: "POST:/attractions/" },
@@ -70,7 +77,7 @@ export const Roles: readonly Role[] = [
 		],
 	},
 	{
-		role: "editor",
+		role: editor,
 		allowedRoutes: [
 			{ action: "GET:/attractions/" },
 			{ action: "POST:/attractions/" },
@@ -123,7 +130,7 @@ export const Roles: readonly Role[] = [
 		],
 	},
 	{
-		role: "author",
+		role: author,
 		allowedRoutes: [
 			{ action: "GET:/attractions/" },
 			{ action: "POST:/attractions/" },
@@ -172,7 +179,7 @@ export const Roles: readonly Role[] = [
 		],
 	},
 	{
-		role: "member",
+		role: member,
 		allowedRoutes: [
 			{ action: "GET:/attractions/" },
 			{ action: "GET:/attractions/:identifier" },
@@ -188,7 +195,7 @@ export const Roles: readonly Role[] = [
 		],
 	},
 	{
-		role: "unassigned",
+		role: unassigned,
 		allowedRoutes: [],
 	},
 ];
@@ -196,7 +203,7 @@ export const Roles: readonly Role[] = [
 export function getRoleByRoleName(roleName: string): Role {
 	const lowerCaseRoleName = roleName.toLowerCase();
 	const foundRole = Roles.find((role) => role.role === lowerCaseRoleName);
-	return foundRole || Roles.find((role) => role.role === "unassigned")!;
+	return foundRole || Roles.find((role) => role.role === unassigned)!;
 }
 
 export function checkPermissionForRole(roleName: string | undefined, action: string): boolean {

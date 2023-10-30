@@ -1,14 +1,12 @@
 import express from "express";
 import { User } from "../../../generated/models/User.generated";
 import { PermissionFlag } from "./PermissionFlag";
-import { OrganizationMember } from "../OrganizationMember";
+import { OrganizationMember } from "./OrganizationMember";
 import { checkPermissionForRole } from "./Roles";
 
 export class Permit {
 	static authorizesForAction = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		const action = req.method + ":" + req.route.path;
-		console.log(action);
-
 		if (!req.user) {
 			res.status(403).send();
 			return;

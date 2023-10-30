@@ -32,7 +32,6 @@ export class OrganizationsRoutes {
 			.post(
 				OrganizationsRoutes.basePath + "/",
 				passport.authenticate("authenticated-user", { session: false }),
-				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const createOrganizationRequest = req.body as CreateOrganizationRequest;
 					this.organizationsController.createOrganization(res, createOrganizationRequest);

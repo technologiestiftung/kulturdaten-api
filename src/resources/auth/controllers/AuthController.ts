@@ -10,6 +10,7 @@ import { User } from "../../../generated/models/User.generated";
 import { OrganizationsService } from "../../organizations/services/OrganizationsService";
 import { LoginResponse } from "../../../generated/models/LoginResponse.generated";
 import { Organization } from "../../../generated/models/Organization.generated";
+import { unassigned } from "../middleware/Roles";
 
 const log: debug.IDebugger = debug("app:auth-controller");
 
@@ -28,11 +29,10 @@ export class AuthController {
 		if (req.user) {
 			const authUser = req.user as AuthUser;
 
-			const accessTokens: AccessToken[] = this.generateAccessTokens(authUser);
 			const user = await this.usersService.readById(authUser.identifier);
-			const organizations: Organization[] = await this.getOrganizationsForMemberships(user);
-
 			if (user) {
+				const accessTokens: AccessToken[] = this.generateAccessTokens(user);
+				const organizations: Organization[] = await this.getOrganizationsForMemberships(user);
 				return res.status(200).send(
 					new SuccessResponseBuilder<LoginResponse>()
 						.okResponse({
@@ -47,24 +47,34 @@ export class AuthController {
 		return res.status(400).send();
 	}
 
-	private generateAccessTokens(authUser: AuthUser) {
+	private generateAccessTokens(authUser: User) {
 		const accessTokens: AccessToken[] = [];
 		authUser.memberships.forEach((membership: any) => {
-			accessTokens.push({
-				token: this.generateToken(
+			accessTokens.push(
+				this.generateAccessToken(
 					authUser.identifier,
 					authUser.permissionFlags,
 					membership.organizationIdentifier,
 					membership.role,
 				),
-				organizationID: membership.organizationIdentifier,
-				role: membership.role,
-			});
+			);
 		});
-		accessTokens.push({
-			token: this.generateToken(authUser.identifier, authUser.permissionFlags),
-		});
+		accessTokens.push(this.generateAccessToken(authUser.identifier, authUser.permissionFlags, null, unassigned));
 		return accessTokens;
+	}
+
+	private generateAccessToken(
+		userIdentifier: string,
+		permissionFlags: number,
+		organizationIdentifier: string | null,
+		role: string,
+	) {
+		const token = this.generateToken(userIdentifier, permissionFlags, organizationIdentifier, role);
+		const decodedToken = jwt.verify(token, jwtSecret) as any;
+		return {
+			token: token,
+			decodedToken: decodedToken,
+		};
 	}
 
 	private async getOrganizationsForMemberships(user: User | null) {
@@ -83,8 +93,8 @@ export class AuthController {
 	private generateToken(
 		userIdentifier: string,
 		permissionFlags: number,
-		organizationIdentifier?: string,
-		role?: string,
+		organizationIdentifier: string | null,
+		role: string,
 	) {
 		return jwt.sign(
 			{
