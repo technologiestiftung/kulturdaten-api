@@ -1,9 +1,8 @@
 import express from "express";
 import { PermissionFlag } from "./PermissionFlag";
-import { OrganizationMember } from "./OrganizationMember";
 import { checkPermissionForRole } from "./Roles";
-import { AuthUser } from "../strategies/AuthPasswordStrategy";
 import { LocationsController } from "../../locations/controllers/LocationsController";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 export class Permit {
 	static authorizesToManipulateLocation =
@@ -29,7 +28,7 @@ export class Permit {
 			res.status(403).send();
 			return;
 		}
-		const member: OrganizationMember = req.user as OrganizationMember;
+		const member: AuthUser = req.user as AuthUser;
 
 		if (checkPermissionForRole(member.role, action)) {
 			next();

@@ -4,13 +4,13 @@ import jwt from "jsonwebtoken";
 import { Service } from "typedi";
 import { SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { UsersService } from "../../users/services/UsersService";
-import { AuthUser } from "../strategies/AuthPasswordStrategy";
 import { AccessToken } from "../../../generated/models/AccessToken.generated";
 import { User } from "../../../generated/models/User.generated";
 import { OrganizationsService } from "../../organizations/services/OrganizationsService";
 import { LoginResponse } from "../../../generated/models/LoginResponse.generated";
 import { Organization } from "../../../generated/models/Organization.generated";
 import { unassigned } from "../middleware/Roles";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:auth-controller");
 
@@ -47,19 +47,19 @@ export class AuthController {
 		return res.status(400).send();
 	}
 
-	private generateAccessTokens(authUser: User) {
+	private generateAccessTokens(user: User) {
 		const accessTokens: AccessToken[] = [];
-		authUser.memberships.forEach((membership: any) => {
+		user.memberships.forEach((membership: any) => {
 			accessTokens.push(
 				this.generateAccessToken(
-					authUser.identifier,
-					authUser.permissionFlags,
+					user.identifier,
+					user.permissionFlags,
 					membership.organizationIdentifier,
 					membership.role,
 				),
 			);
 		});
-		accessTokens.push(this.generateAccessToken(authUser.identifier, authUser.permissionFlags, null, unassigned));
+		accessTokens.push(this.generateAccessToken(user.identifier, user.permissionFlags, null, unassigned));
 		return accessTokens;
 	}
 
