@@ -3,6 +3,7 @@ import { Service } from "typedi";
 import { SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { DistrictDataService } from "../services/DistrictDataService";
+import { HarvestResponse } from "../../../generated/models/HarvestResponse.generated";
 
 @Service()
 export class DistrictDataHarvestersController {
@@ -12,7 +13,7 @@ export class DistrictDataHarvestersController {
 		const harvestResult = await this.service.harvestDistrictData(calendarIDs);
 
 		res.status(200).send(
-			new SuccessResponseBuilder()
+			new SuccessResponseBuilder<HarvestResponse>()
 				.okResponse({
 					createdOrganizations: this.buildRefIDs(harvestResult.createdOrganizations),
 					duplicateOrganizations: this.buildRefIDs(harvestResult.duplicateOrganizations),

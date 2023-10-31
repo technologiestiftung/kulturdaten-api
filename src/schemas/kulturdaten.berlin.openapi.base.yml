@@ -1447,47 +1447,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      createdOrganizations:
-                        type: array
-                        items:
-                          type: string
-                      duplicateOrganizations:
-                        type: array
-                        items:
-                          type: string
-                      createdLocations:
-                        type: array
-                        items:
-                          type: string
-                      duplicateLocations:
-                        type: array
-                        items:
-                          type: string
-                      createdEvents:
-                        type: array
-                        items:
-                          type: string
-                      duplicateEvents:
-                        type: array
-                        items:
-                          type: string
-                      createdAttractions:
-                        type: array
-                        items:
-                          type: string
-                      duplicateAttractions:
-                        type: array
-                        items:
-                          type: string
+                $ref: "#/components/schemas/HarvestResponse"
 
 components:
   securitySchemes:
@@ -1720,3 +1680,6 @@ components:
 
     TranslatableField:
       $ref: models/TranslatableField.yml
+
+    HarvestResponse:
+      $ref: models/HarvestResponse.yml

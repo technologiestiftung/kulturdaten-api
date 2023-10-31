@@ -14,6 +14,10 @@ import { SearchEventsResponse } from "../../../generated/models/SearchEventsResp
 import { SetEventOrganizerRequest } from "../../../generated/models/SetEventOrganizerRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 import { EventsService } from "../services/EventsService";
+import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
+import { CreateEventResponse } from "../../../generated/models/CreateEventResponse.generated";
+import { DuplicateEventResponse } from "../../../generated/models/DuplicateEventResponse.generated";
+import { GetEventResponse } from "../../../generated/models/GetEventResponse.generated";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
@@ -25,7 +29,7 @@ export class EventsController {
 		const events = await this.eventsService.list(pagination);
 		const totalCount = await this.eventsService.countEvents();
 		res.status(200).send(
-			new SuccessResponseBuilder()
+			new SuccessResponseBuilder<GetEventsResponse>()
 				.okResponse({
 					page: pagination.page,
 					pageSize: pagination.pageSize,
@@ -40,7 +44,7 @@ export class EventsController {
 		const eventsReferences = await this.eventsService.listAsReferences(pagination);
 		const totalCount = await this.eventsService.countEvents();
 		res.status(200).send(
-			new SuccessResponseBuilder()
+			new SuccessResponseBuilder<GetEventsResponse>()
 				.okResponse({
 					page: pagination.page,
 					pageSize: pagination.pageSize,
@@ -78,7 +82,9 @@ export class EventsController {
 	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
 		const eventReference = await this.eventsService.create(createEvent);
 		if (eventReference) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ eventReference: eventReference }).build());
+			res
+				.status(201)
+				.send(new SuccessResponseBuilder<CreateEventResponse>().okResponse({ eventReference: eventReference }).build());
 		} else {
 			res
 				.status(400)
@@ -95,7 +101,9 @@ export class EventsController {
 	public async duplicateEvent(res: express.Response, identifier: string): Promise<void> {
 		const eventId = await this.eventsService.duplicate(identifier);
 		if (eventId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ eventIdentifier: eventId }).build());
+			res
+				.status(201)
+				.send(new SuccessResponseBuilder<DuplicateEventResponse>().okResponse({ eventIdentifier: eventId }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Failed to duplicate the event").build());
 		}
@@ -104,7 +112,7 @@ export class EventsController {
 	async getEventById(res: express.Response, eventId: string) {
 		const event = await this.eventsService.readById(eventId);
 		if (event) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ event: event }).build());
+			res.status(200).send(new SuccessResponseBuilder<GetEventResponse>().okResponse({ event: event }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Event not found").build());
 		}
@@ -113,7 +121,9 @@ export class EventsController {
 	async getEventReferenceById(res: express.Response, identifier: string) {
 		const eventReference = await this.eventsService.readReferenceById(identifier);
 		if (eventReference) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ eventReference: eventReference }).build());
+			res
+				.status(200)
+				.send(new SuccessResponseBuilder<GetEventResponse>().okResponse({ eventReference: eventReference }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Event not found").build());
 		}
