@@ -141,8 +141,9 @@ export class DistrictDataMapper {
 	}
 
 	mapAddress(veranstaltungsort: Veranstaltungsort): Address {
+		const streetAddress = `${veranstaltungsort.strasse.trim()} ${veranstaltungsort.hausnummer}`.trim();
 		return {
-			...(veranstaltungsort.strasse && { streetAddress: veranstaltungsort.strasse }),
+			...(streetAddress && { streetAddress }),
 			...(veranstaltungsort.plz && { postalCode: veranstaltungsort.plz }),
 			...(veranstaltungsort.ort && { addressLocality: veranstaltungsort.ort }),
 		};
