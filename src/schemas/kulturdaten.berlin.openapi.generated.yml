@@ -1597,6 +1597,10 @@ components:
                 - en
               items:
                 type: string
+            externalIDs:
+              type: object
+              additionalProperties:
+                type: string
           required:
             - created
             - updated
@@ -1857,6 +1861,10 @@ components:
                 - en
               items:
                 type: string
+            externalIDs:
+              type: object
+              additionalProperties:
+                type: string
           required:
             - created
             - updated
@@ -1950,6 +1958,10 @@ components:
                       - de
                       - en
                     items:
+                      type: string
+                  externalIDs:
+                    type: object
+                    additionalProperties:
                       type: string
                 required:
                   - created
@@ -2234,6 +2246,10 @@ components:
                 - en
               items:
                 type: string
+            externalIDs:
+              type: object
+              additionalProperties:
+                type: string
           required:
             - created
             - updated
@@ -2344,6 +2360,10 @@ components:
                 - de
                 - en
               items:
+                type: string
+            externalIDs:
+              type: object
+              additionalProperties:
                 type: string
           required:
             - created
@@ -2594,6 +2614,10 @@ components:
                 - de
                 - en
               items:
+                type: string
+            externalIDs:
+              type: object
+              additionalProperties:
                 type: string
           required:
             - created
@@ -2846,6 +2870,10 @@ components:
                         - en
                       items:
                         type: string
+                    externalIDs:
+                      type: object
+                      additionalProperties:
+                        type: string
                   required:
                     - created
                     - updated
@@ -3075,6 +3103,10 @@ components:
                               - de
                               - en
                             items:
+                              type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
                               type: string
                         required:
                           - created
@@ -3470,6 +3502,10 @@ components:
                               - en
                             items:
                               type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
                         required:
                           - created
                           - updated
@@ -3811,6 +3847,10 @@ components:
                               - en
                             items:
                               type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
                         required:
                           - created
                           - updated
@@ -4104,6 +4144,10 @@ components:
                               - en
                             items:
                               type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
                         required:
                           - created
                           - updated
@@ -4255,6 +4299,10 @@ components:
                         - de
                         - en
                       items:
+                        type: string
+                    externalIDs:
+                      type: object
+                      additionalProperties:
                         type: string
                   required:
                     - created
@@ -4493,6 +4541,10 @@ components:
                               - de
                               - en
                             items:
+                              type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
                               type: string
                         required:
                           - created
@@ -5054,6 +5106,10 @@ components:
                               - en
                             items:
                               type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
                         required:
                           - created
                           - updated
@@ -5346,6 +5402,10 @@ components:
                         - de
                         - en
                       items:
+                        type: string
+                    externalIDs:
+                      type: object
+                      additionalProperties:
                         type: string
                   required:
                     - created
@@ -5834,6 +5894,10 @@ components:
                               - de
                               - en
                             items:
+                              type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
                               type: string
                         required:
                           - created
@@ -6458,6 +6522,10 @@ components:
                               - en
                             items:
                               type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
                         required:
                           - created
                           - updated
@@ -6764,6 +6832,10 @@ components:
                         - de
                         - en
                       items:
+                        type: string
+                    externalIDs:
+                      type: object
+                      additionalProperties:
                         type: string
                   required:
                     - created
@@ -7499,49 +7571,44 @@ components:
                       de: Konzert
                       en: concert
                   metadata:
-                    allOf:
-                      - type: object
-                        properties:
-                          created:
-                            type: string
-                            description: >-
-                              The date and time the object was created (ISO
-                              timestamp).
-                            example: "2011-10-05T14:48:00.000Z"
-                          updated:
-                            type: string
-                            description: >-
-                              The date and time the object was last updated (ISO
-                              timestamp). Is identical to created date after
-                              first creation.
-                            example: "2011-10-05T14:48:00.000Z"
-                          origin:
-                            type: string
-                            description: The source of this object.
-                            example: bezirkskalender
-                          originObjectID:
-                            type: string
-                            description: >-
-                              The original ID of this object in the original
-                              system.
-                          availableLanguages:
-                            type: array
-                            description: List of languages this object is available in.
-                            example:
-                              - de
-                              - en
-                            items:
-                              type: string
-                        required:
-                          - created
-                          - updated
-                        additionalProperties: false
-                      - type: object
-                        properties:
-                          externalIDs:
-                            type: object
-                            additionalProperties:
-                              type: string
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                        description: >-
+                          The date and time the object was created (ISO
+                          timestamp).
+                        example: "2011-10-05T14:48:00.000Z"
+                      updated:
+                        type: string
+                        description: >-
+                          The date and time the object was last updated (ISO
+                          timestamp). Is identical to created date after first
+                          creation.
+                        example: "2011-10-05T14:48:00.000Z"
+                      origin:
+                        type: string
+                        description: The source of this object.
+                        example: bezirkskalender
+                      originObjectID:
+                        type: string
+                        description: The original ID of this object in the original system.
+                      availableLanguages:
+                        type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
+                        items:
+                          type: string
+                      externalIDs:
+                        type: object
+                        additionalProperties:
+                          type: string
+                    required:
+                      - created
+                      - updated
+                    additionalProperties: false
                 required:
                   - type
                   - identifier
@@ -7582,49 +7649,44 @@ components:
                     de: Konzert
                     en: concert
                 metadata:
-                  allOf:
-                    - type: object
-                      properties:
-                        created:
-                          type: string
-                          description: >-
-                            The date and time the object was created (ISO
-                            timestamp).
-                          example: "2011-10-05T14:48:00.000Z"
-                        updated:
-                          type: string
-                          description: >-
-                            The date and time the object was last updated (ISO
-                            timestamp). Is identical to created date after first
-                            creation.
-                          example: "2011-10-05T14:48:00.000Z"
-                        origin:
-                          type: string
-                          description: The source of this object.
-                          example: bezirkskalender
-                        originObjectID:
-                          type: string
-                          description: >-
-                            The original ID of this object in the original
-                            system.
-                        availableLanguages:
-                          type: array
-                          description: List of languages this object is available in.
-                          example:
-                            - de
-                            - en
-                          items:
-                            type: string
-                      required:
-                        - created
-                        - updated
-                      additionalProperties: false
-                    - type: object
-                      properties:
-                        externalIDs:
-                          type: object
-                          additionalProperties:
-                            type: string
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      description: >-
+                        The date and time the object was created (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
+                    updated:
+                      type: string
+                      description: >-
+                        The date and time the object was last updated (ISO
+                        timestamp). Is identical to created date after first
+                        creation.
+                      example: "2011-10-05T14:48:00.000Z"
+                    origin:
+                      type: string
+                      description: The source of this object.
+                      example: bezirkskalender
+                    originObjectID:
+                      type: string
+                      description: The original ID of this object in the original system.
+                    availableLanguages:
+                      type: array
+                      description: List of languages this object is available in.
+                      example:
+                        - de
+                        - en
+                      items:
+                        type: string
+                    externalIDs:
+                      type: object
+                      additionalProperties:
+                        type: string
+                  required:
+                    - created
+                    - updated
+                  additionalProperties: false
               required:
                 - type
                 - identifier
@@ -7687,49 +7749,44 @@ components:
                     de: Konzert
                     en: concert
                 metadata:
-                  allOf:
-                    - type: object
-                      properties:
-                        created:
-                          type: string
-                          description: >-
-                            The date and time the object was created (ISO
-                            timestamp).
-                          example: "2011-10-05T14:48:00.000Z"
-                        updated:
-                          type: string
-                          description: >-
-                            The date and time the object was last updated (ISO
-                            timestamp). Is identical to created date after first
-                            creation.
-                          example: "2011-10-05T14:48:00.000Z"
-                        origin:
-                          type: string
-                          description: The source of this object.
-                          example: bezirkskalender
-                        originObjectID:
-                          type: string
-                          description: >-
-                            The original ID of this object in the original
-                            system.
-                        availableLanguages:
-                          type: array
-                          description: List of languages this object is available in.
-                          example:
-                            - de
-                            - en
-                          items:
-                            type: string
-                      required:
-                        - created
-                        - updated
-                      additionalProperties: false
-                    - type: object
-                      properties:
-                        externalIDs:
-                          type: object
-                          additionalProperties:
-                            type: string
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      description: >-
+                        The date and time the object was created (ISO
+                        timestamp).
+                      example: "2011-10-05T14:48:00.000Z"
+                    updated:
+                      type: string
+                      description: >-
+                        The date and time the object was last updated (ISO
+                        timestamp). Is identical to created date after first
+                        creation.
+                      example: "2011-10-05T14:48:00.000Z"
+                    origin:
+                      type: string
+                      description: The source of this object.
+                      example: bezirkskalender
+                    originObjectID:
+                      type: string
+                      description: The original ID of this object in the original system.
+                    availableLanguages:
+                      type: array
+                      description: List of languages this object is available in.
+                      example:
+                        - de
+                        - en
+                      items:
+                        type: string
+                    externalIDs:
+                      type: object
+                      additionalProperties:
+                        type: string
+                  required:
+                    - created
+                    - updated
+                  additionalProperties: false
               required:
                 - type
                 - identifier
@@ -7789,6 +7846,10 @@ components:
                         - de
                         - en
                       items:
+                        type: string
+                    externalIDs:
+                      type: object
+                      additionalProperties:
                         type: string
                   required:
                     - created
@@ -7887,6 +7948,10 @@ components:
                               - de
                               - en
                             items:
+                              type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
                               type: string
                         required:
                           - created
@@ -8222,6 +8287,10 @@ components:
                               - en
                             items:
                               type: string
+                          externalIDs:
+                            type: object
+                            additionalProperties:
+                              type: string
                         required:
                           - created
                           - updated
@@ -8321,6 +8390,10 @@ components:
                                     - de
                                     - en
                                   items:
+                                    type: string
+                                externalIDs:
+                                  type: object
+                                  additionalProperties:
                                     type: string
                               required:
                                 - created
