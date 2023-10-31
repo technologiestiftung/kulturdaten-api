@@ -9,14 +9,7 @@ properties:
   title:
     $ref: "TranslatableField.yml"
   metadata:
-    allOf:
-      - $ref: "Metadata.yml"
-      - type: object
-        properties:
-          externalIDs:
-            type: object
-            additionalProperties:
-              type: string
+    $ref: "Metadata.yml"
 required:
   - type
   - identifier
