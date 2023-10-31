@@ -1,3 +1,4 @@
+import { Address } from "../../../generated/models/Address.generated";
 import { Borough } from "../../../generated/models/Borough.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
@@ -128,11 +129,7 @@ export class DistrictDataMapper {
 
 		return {
 			title: { de: veranstaltungsort.name },
-			address: {
-				...(veranstaltungsort.strasse && { streetAddress: veranstaltungsort.strasse }),
-				...(veranstaltungsort.plz && { postalCode: veranstaltungsort.plz }),
-				...(veranstaltungsort.ort && { addressLocality: veranstaltungsort.ort }),
-			},
+			address: this.mapAddress(veranstaltungsort),
 			...(veranstaltungsort.telefon && { contact: { telephone: veranstaltungsort.telefon } }),
 			...(accessibilityTags && { accessibility: accessibilityTags }),
 			...(boroughOfLocation && { borough: boroughOfLocation }),
@@ -140,6 +137,14 @@ export class DistrictDataMapper {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstaltungsort.id),
 			},
+		};
+	}
+
+	mapAddress(veranstaltungsort: Veranstaltungsort): Address {
+		return {
+			...(veranstaltungsort.strasse && { streetAddress: veranstaltungsort.strasse }),
+			...(veranstaltungsort.plz && { postalCode: veranstaltungsort.plz }),
+			...(veranstaltungsort.ort && { addressLocality: veranstaltungsort.ort }),
 		};
 	}
 
