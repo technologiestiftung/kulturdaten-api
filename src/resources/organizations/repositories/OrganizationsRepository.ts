@@ -11,7 +11,7 @@ const log: debug.IDebugger = debug("app:organizations-repository");
 export interface OrganizationsRepository {
 	getOrganizations(pagination?: Pagination): Promise<Organization[]>;
 
-	getOrganizationsAsReferences(pagination?: Pagination): Promise<Reference[] | null>;
+	getOrganizationsAsReferences(pagination?: Pagination): Promise<Reference[]>;
 
 	searchOrganizations(filter?: Filter, pagination?: Pagination): Promise<Organization[]>;
 

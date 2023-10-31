@@ -8,6 +8,10 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { SearchOrganizationsRequest } from "../../../generated/models/SearchOrganizationsRequest.generated";
 import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
 import { OrganizationsService } from "../services/OrganizationsService";
+import { GetOrganizationsResponse } from "../../../generated/models/GetOrganizationsResponse.generated";
+import { GetOrganizationResponse } from "../../../generated/models/GetOrganizationResponse.generated";
+import { CreateOrganizationResponse } from "../../../generated/models/CreateOrganizationResponse.generated";
+import { SearchOrganizationsResponse } from "../../../generated/models/SearchOrganizationsResponse.generated";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
@@ -20,7 +24,7 @@ export class OrganizationsController {
 		const totalCount = await this.organizationsService.countOrganizations();
 
 		res.status(200).send(
-			new SuccessResponseBuilder()
+			new SuccessResponseBuilder<GetOrganizationsResponse>()
 				.okResponse({
 					page: pagination.page,
 					pageSize: pagination.pageSize,
@@ -36,7 +40,7 @@ export class OrganizationsController {
 		const totalCount = await this.organizationsService.countOrganizations();
 
 		res.status(200).send(
-			new SuccessResponseBuilder()
+			new SuccessResponseBuilder<GetOrganizationsResponse>()
 				.okResponse({
 					page: pagination.page,
 					pageSize: pagination.pageSize,
@@ -59,7 +63,7 @@ export class OrganizationsController {
 
 		if (organizations) {
 			res.status(200).send(
-				new SuccessResponseBuilder()
+				new SuccessResponseBuilder<SearchOrganizationsResponse>()
 					.okResponse({
 						page: pagination.page,
 						pageSize: pagination.pageSize,
@@ -78,7 +82,9 @@ export class OrganizationsController {
 	async getOrganizationById(res: express.Response, organizationId: string) {
 		const organization = await this.organizationsService.readById(organizationId);
 		if (organization) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ organization: organization }).build());
+			res
+				.status(200)
+				.send(new SuccessResponseBuilder<GetOrganizationResponse>().okResponse({ organization: organization }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
 		}
@@ -89,7 +95,11 @@ export class OrganizationsController {
 		if (organizationReference) {
 			res
 				.status(200)
-				.send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
+				.send(
+					new SuccessResponseBuilder<GetOrganizationResponse>()
+						.okResponse({ organizationReference: organizationReference })
+						.build(),
+				);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
 		}
@@ -100,7 +110,11 @@ export class OrganizationsController {
 		if (organizationReference) {
 			res
 				.status(201)
-				.send(new SuccessResponseBuilder().okResponse({ organizationReference: organizationReference }).build());
+				.send(
+					new SuccessResponseBuilder<CreateOrganizationResponse>()
+						.okResponse({ organizationReference: organizationReference })
+						.build(),
+				);
 		} else {
 			res
 				.status(400)
