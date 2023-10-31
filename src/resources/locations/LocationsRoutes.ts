@@ -76,6 +76,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const updateLocationRequest = req.body as UpdateLocationRequest;
@@ -88,6 +89,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier/manager",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const setLocationManagerRequest = req.body as SetLocationManagerRequest;
@@ -98,6 +100,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier/manager",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.deleteLocationManager(res, identifier);
@@ -109,6 +112,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier/open",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.openLocation(res, identifier);
@@ -118,6 +122,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier/close",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.closeLocation(res, identifier);
@@ -127,6 +132,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier/permanentlyClose",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.permanentlyCloseLocation(res, identifier);
@@ -136,6 +142,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier/archive",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.archiveLocation(res, identifier);
@@ -145,6 +152,7 @@ export class LocationsRoutes {
 				LocationsRoutes.basePath + "/:identifier/unarchive",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.locationsController.unarchiveLocation(res, identifier);

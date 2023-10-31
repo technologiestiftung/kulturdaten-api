@@ -15,9 +15,11 @@ import { SearchAttractionsRequest } from "../../../generated/models/SearchAttrac
 import { SearchAttractionsResponse } from "../../../generated/models/SearchAttractionsResponse.generated";
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
 import { AttractionsService } from "../services/AttractionsService";
+import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 @Service()
-export class AttractionsController {
+export class AttractionsController implements ResourcePermissionController {
 	constructor(public attractionsService: AttractionsService) {}
 
 	async listAttractions(res: Response, pagination: Pagination) {
@@ -92,6 +94,11 @@ export class AttractionsController {
 				.status(404)
 				.send(new ErrorResponseBuilder().notFoundResponse("No attractions matched the search criteria").build());
 		}
+	}
+
+	async isExist(permissionFilter: Filter): Promise<boolean> {
+		const totalCount = await this.attractionsService.countAttractions(permissionFilter);
+		return totalCount > 0;
 	}
 
 	async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {

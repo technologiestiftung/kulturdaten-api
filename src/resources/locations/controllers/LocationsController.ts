@@ -11,13 +11,15 @@ import { SearchLocationsResponse } from "../../../generated/models/SearchLocatio
 import { SetLocationManagerRequest } from "../../../generated/models/SetLocationManagerRequest.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
 import { LocationsService } from "../services/LocationsService";
+import { Filter } from "../../../generated/models/Filter.generated";
+import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 
 @Service()
-export class LocationsController {
-	constructor(public locationsService: LocationsService) {}
+export class LocationsController implements ResourcePermissionController{
 
+	constructor(public locationsService: LocationsService) {}
 	async listLocations(res: express.Response, pagination: Pagination) {
 		const locations = await this.locationsService.list(pagination);
 		const totalCount = await this.locationsService.countLocations();
@@ -37,6 +39,7 @@ export class LocationsController {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
 		}
 	}
+
 
 	async listLocationsAsReference(res: express.Response, pagination: Pagination) {
 		const locationsReferences = await this.locationsService.listAsReferences(pagination);
@@ -80,6 +83,11 @@ export class LocationsController {
 				.status(404)
 				.send(new ErrorResponseBuilder().notFoundResponse("No locations matched the search criteria").build());
 		}
+	}
+
+	async isExist(permissionFilter: Filter): Promise<boolean> {
+		const totalCount = await this.locationsService.countLocations(permissionFilter);
+		return totalCount > 0;
 	}
 
 	async getLocationById(res: express.Response, locationId: string) {

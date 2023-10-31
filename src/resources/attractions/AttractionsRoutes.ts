@@ -76,6 +76,7 @@ export class AttractionsRoutes {
 				AttractionsRoutes.basePath + "/:identifier",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.attractionsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const updateAttractionRequest = req.body as UpdateAttractionRequest;
@@ -88,6 +89,7 @@ export class AttractionsRoutes {
 				AttractionsRoutes.basePath + "/:identifier/externallinks",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.attractionsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const addExternalLinkRequest = req.body as AddExternalLinkRequest;
@@ -98,6 +100,7 @@ export class AttractionsRoutes {
 				AttractionsRoutes.basePath + "/:identifier/externallinks",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.attractionsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const removeExternalLinkRequest = req.body as RemoveExternalLinkRequest;
@@ -110,6 +113,7 @@ export class AttractionsRoutes {
 				AttractionsRoutes.basePath + "/:identifier/archive",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.attractionsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.archiveAttraction(res, identifier);
@@ -119,6 +123,7 @@ export class AttractionsRoutes {
 				AttractionsRoutes.basePath + "/:identifier/unarchive",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.attractionsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.unarchiveAttraction(res, identifier);
@@ -128,6 +133,7 @@ export class AttractionsRoutes {
 				AttractionsRoutes.basePath + "/:identifier/publish",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.attractionsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.publishAttraction(res, identifier);
@@ -137,6 +143,7 @@ export class AttractionsRoutes {
 				AttractionsRoutes.basePath + "/:identifier/unpublish",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.attractionsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.attractionsController.unpublishAttraction(res, identifier);
