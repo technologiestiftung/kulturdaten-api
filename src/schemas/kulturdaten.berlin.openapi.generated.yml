@@ -171,6 +171,12 @@ paths:
     post:
       tags:
         - Discover cultural data
+      description: >
+        This POST operation allows you to search for attractions using
+        MongoDB-like query syntax. You can apply a variety of filters on
+        different attributes of an attraction, including its type, status, tags,
+        and more. The search request should be made in the request body as a
+        JSON object adhering to MongoDB's query structure.
       parameters:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
@@ -179,6 +185,48 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SearchAttractionsRequest"
+            examples:
+              filterByTags:
+                summary: Filter by Tags
+                description: >-
+                  This example filters attractions by the tags 'Lectures' or
+                  'Music'.
+                value:
+                  searchFilter:
+                    tags:
+                      $in:
+                        - attraction.category.Lectures
+                        - attraction.category.Music
+              filterByStatus:
+                summary: Filter by Status
+                description: This example filters attractions by their published status.
+                value:
+                  searchFilter:
+                    status: attraction.published
+              filterByAvailableLanguages:
+                summary: Filter by Available Languages
+                description: >-
+                  This example filters attractions that are available in both
+                  German and English.
+                value:
+                  searchFilter:
+                    inLanguages:
+                      $all:
+                        - de
+                        - en
+              combinedSearch:
+                summary: Combined Search
+                description: This example combines multiple filters.
+                value:
+                  searchFilter:
+                    status: attraction.published
+                    tags:
+                      $in:
+                        - attraction.category.Exhibitions
+                    inLanguages:
+                      $all:
+                        - de
+                        - en
       responses:
         "200":
           description: OK
