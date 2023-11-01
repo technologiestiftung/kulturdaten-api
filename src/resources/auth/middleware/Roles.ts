@@ -12,7 +12,6 @@ export const author = "author";
 export const member = "member";
 export const unassigned = "unassigned";
 
-
 export const Roles: readonly Role[] = [
 	{
 		role: admin,

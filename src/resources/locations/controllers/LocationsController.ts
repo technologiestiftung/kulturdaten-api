@@ -17,7 +17,6 @@ import { GetLocationsResponse } from "../../../generated/models/GetLocationsResp
 import { GetLocationResponse } from "../../../generated/models/GetLocationResponse.generated";
 import { CreateLocationResponse } from "../../../generated/models/CreateLocationResponse.generated";
 
-
 const log: debug.IDebugger = debug("app:locations-controller");
 
 @Service()

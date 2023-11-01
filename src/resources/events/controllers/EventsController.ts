@@ -18,11 +18,13 @@ import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.g
 import { CreateEventResponse } from "../../../generated/models/CreateEventResponse.generated";
 import { DuplicateEventResponse } from "../../../generated/models/DuplicateEventResponse.generated";
 import { GetEventResponse } from "../../../generated/models/GetEventResponse.generated";
+import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
 @Service()
-export class EventsController {
+export class EventsController implements ResourcePermissionController {
 	constructor(public eventsService: EventsService) {}
 
 	async listEvents(res: express.Response, pagination: Pagination) {
@@ -77,6 +79,11 @@ export class EventsController {
 				.status(404)
 				.send(new ErrorResponseBuilder().notFoundResponse("No events matched the search criteria").build());
 		}
+	}
+
+	async isExist(permissionFilter: Filter): Promise<boolean> {
+		const totalCount = await this.eventsService.countEvents(permissionFilter);
+		return totalCount > 0;
 	}
 
 	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
