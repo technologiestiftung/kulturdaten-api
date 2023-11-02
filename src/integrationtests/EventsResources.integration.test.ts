@@ -132,11 +132,11 @@ describe("Read events", () => {
 	});
 
 	it("should return a single event / GET /events/existID", async () => {
-		const { body, statusCode } = await request(env.app).get(env.EVENTS_ROUTE + "/1234-5678-9101-1121");
+		const { body, statusCode } = await request(env.app).get(env.EVENTS_ROUTE + "/E_1234-5678-9101-1121");
 
 		expect(statusCode).toBe(200);
 		expect(validateEvent(body.data.event).isValid).toBe(true);
-		expect(body.data.event.identifier).toBe("1234-5678-9101-1121");
+		expect(body.data.event.identifier).toBe("E_1234-5678-9101-1121");
 		expect(body.data.event.title.de).toBe("Konzert in Berlin");
 	});
 });
@@ -152,19 +152,19 @@ describe("Update events", () => {
 
 	it("should update the name of a event / PATCH /events/existID", async () => {
 		const { statusCode } = await request(env.app)
-			.patch(env.EVENTS_ROUTE + "/1234-5678-9101-1121")
+			.patch(env.EVENTS_ROUTE + "/E_1234-5678-9101-1121")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
 				title: { de: "Neuer Name" },
 			});
 
 		expect(statusCode).toBe(200);
-		const updatedEvent = await env.events.findOne<Event>({ identifier: "1234-5678-9101-1121" });
+		const updatedEvent = await env.events.findOne<Event>({ identifier: "E_1234-5678-9101-1121" });
 		expect(updatedEvent!.title!.de).toBe("Neuer Name");
 	});
 
 	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /events/existID", async () => {
-		const identifier = "1234-5678-9101-1121";
+		const identifier = "E_1234-5678-9101-1121";
 		const existingEvent = await env.events.findOne<Event>({ identifier });
 		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
@@ -180,15 +180,14 @@ describe("Update events", () => {
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /events/invalidID", async () => {
-		const { body, statusCode } = await request(env.app)
+		const { statusCode } = await request(env.app)
 			.patch(env.EVENTS_ROUTE + "/invalidID")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
 				title: { de: "Neuer Name" },
 			});
 
-		expect(statusCode).toBe(400);
-		expect(body.error.message).toBe("Bad Request");
+		expect(statusCode).toBe(403);
 	});
 });
 
@@ -239,9 +238,9 @@ describe("Search events", () => {
 		expect(statusCode).toBe(200);
 		expect(body.data.events).toHaveLength(2);
 		const identifier0 = body.data.events[0].identifier;
-		expect(identifier0.includes("1234-5678-9101-1121") || identifier0.includes("7890-1234-5678-9012")).toBeTruthy();
+		expect(identifier0.includes("E_1234-5678-9101-1121") || identifier0.includes("E_7890-1234-5678-9012")).toBeTruthy();
 		const identifier1 = body.data.events[1].identifier;
-		expect(identifier1.includes("1234-5678-9101-1121") || identifier1.includes("7890-1234-5678-9012")).toBeTruthy();
+		expect(identifier1.includes("E_1234-5678-9101-1121") || identifier1.includes("E_7890-1234-5678-9012")).toBeTruthy();
 	});
 
 	it("should return 1 event whose attractions have the tag history AND the tag  berlin-wall / POST /events/search", async () => {
@@ -256,7 +255,7 @@ describe("Search events", () => {
 
 		expect(statusCode).toBe(200);
 		expect(body.data.events).toHaveLength(1);
-		expect(body.data.events[0].attractions[0].referenceId).toContain("berlin-wall-vr-experience-12345");
+		expect(body.data.events[0].attractions[0].referenceId).toContain("A_berlin-wall-vr-experience-12345");
 	});
 
 	it("should return 1 event whose location is accessible with a wheelchair / POST /events/search", async () => {
@@ -271,7 +270,7 @@ describe("Search events", () => {
 
 		expect(statusCode).toBe(200);
 		expect(body.data.events).toHaveLength(1);
-		expect(body.data.events[0].identifier).toContain("1337-1234-5678-9012");
+		expect(body.data.events[0].identifier).toContain("E_1337-1234-5678-9012");
 	});
 
 	it("should return today's event (2023-08-11) and tomorrow's event / POST /events/search/", async () => {
@@ -283,8 +282,8 @@ describe("Search events", () => {
 
 		expect(statusCode).toBe(200);
 		expect(body.data.events).toHaveLength(2);
-		expect(body.data.events[0].identifier).toBe("4321-8765-0123-4567");
-		expect(body.data.events[1].identifier).toBe("7890-1234-5678-9012");
+		expect(body.data.events[0].identifier).toBe("E_4321-8765-0123-4567");
+		expect(body.data.events[1].identifier).toBe("E_7890-1234-5678-9012");
 	});
 
 	it("should return all events / POST /events/search/", async () => {

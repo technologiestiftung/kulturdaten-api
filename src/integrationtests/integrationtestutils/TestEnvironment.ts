@@ -133,7 +133,7 @@ export class TestEnvironment {
 						id: "adminID",
 						email: "admin@email.de",
 						permissionFlags: PermissionFlag.ADMIN_PERMISSION,
-						organizationIdentifier: "org_1",
+						organizationIdentifier: "O_org_1",
 						role: "admin",
 					});
 				}
@@ -142,7 +142,7 @@ export class TestEnvironment {
 						id: "userID",
 						email: "user@email.de",
 						permissionFlags: PermissionFlag.REGISTERED_USER,
-						organizationIdentifier: "org_1",
+						organizationIdentifier: "O_org_1",
 						role: "admin",
 					});
 				}

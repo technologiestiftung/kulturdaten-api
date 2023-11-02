@@ -108,11 +108,11 @@ describe("Read locations", () => {
 	});
 
 	it("should return a single location / GET /locations/existID", async () => {
-		const { body, statusCode } = await request(env.app).get(env.LOCATIONS_ROUTE + "/LOC-12345678");
+		const { body, statusCode } = await request(env.app).get(env.LOCATIONS_ROUTE + "/L_OC-12345678");
 
 		expect(statusCode).toBe(200);
 		expect(validateLocation(body.data.location).isValid).toBe(true);
-		expect(body.data.location.identifier).toBe("LOC-12345678");
+		expect(body.data.location.identifier).toBe("L_OC-12345678");
 		expect(body.data.location.title.de).toBe("Berliner Historisches Museum");
 	});
 });
@@ -128,19 +128,19 @@ describe("Update locations", () => {
 
 	it("should update the name of a location / PATCH /locations/existID", async () => {
 		const { statusCode } = await request(env.app)
-			.patch(env.LOCATIONS_ROUTE + "/LOC-12345678")
+			.patch(env.LOCATIONS_ROUTE + "/L_OC-12345678")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
 				title: { de: "Neuer Name" },
 			});
 
 		expect(statusCode).toBe(200);
-		const updatedLocation = await env.locations.findOne<Location>({ identifier: "LOC-12345678" });
+		const updatedLocation = await env.locations.findOne<Location>({ identifier: "L_OC-12345678" });
 		expect(updatedLocation!.title!.de).toBe("Neuer Name");
 	});
 
 	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /locations/existID", async () => {
-		const identifier = "LOC-12345678";
+		const identifier = "L_OC-12345678";
 		const existingLocation = await env.locations.findOne<Location>({ identifier });
 		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
@@ -156,15 +156,14 @@ describe("Update locations", () => {
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /locations/invalidID", async () => {
-		const { body, statusCode } = await request(env.app)
-			.patch(env.LOCATIONS_ROUTE + "/invalidID")
+		const { statusCode } = await request(env.app)
+			.patch(env.LOCATIONS_ROUTE + "/L_invalidID")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
 				title: { de: "Neuer Name" },
 			});
 
-		expect(statusCode).toBe(400);
-		expect(body.error.message).toBe("Bad Request");
+		expect(statusCode).toBe(403);
 	});
 });
 

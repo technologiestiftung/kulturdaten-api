@@ -1,7 +1,7 @@
 [
 	{
 		"type": "type.Location",
-		"identifier": "LOC-12345678",
+		"identifier": "L_OC-12345678",
 		"metadata": {
 			"created": "2023-07-06T08:00:00Z",
 			"updated": "2023-07-06T10:00:00Z",
@@ -66,8 +66,8 @@
 			]
 		],
 		"manager": {
-			"referenceType": "Organization",
-			"referenceId": "MAN-123",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_1",
 			"referenceLabel": {
 				"de": "Berliner Museumsverband",
 				"en": "Berlin Museum Association"
@@ -81,7 +81,7 @@
 	},
 	{
 		"type": "type.Location",
-		"identifier": "LOC-87654321",
+		"identifier": "L_OC-87654321",
 		"metadata": {
 			"created": "2023-07-06T09:00:00Z",
 			"updated": "2023-07-06T11:00:00Z",
@@ -146,8 +146,8 @@
 			]
 		],
 		"manager": {
-			"referenceType": "Organization",
-			"referenceId": "MAN-456",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_1",
 			"referenceLabel": {
 				"de": "Berliner Grünflächenamt",
 				"en": "Berlin Green Spaces Authority"
@@ -161,7 +161,7 @@
 	},
 	{
 		"type": "type.Location",
-		"identifier": "LOC-12345679",
+		"identifier": "L_OC-12345679",
 		"metadata": {
 			"created": "2023-07-06T12:00:00Z",
 			"updated": "2023-07-06T14:00:00Z",
@@ -224,8 +224,8 @@
 			]
 		],
 		"manager": {
-			"referenceType": "Organization",
-			"referenceId": "MAN-789",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_2",
 			"referenceLabel": {
 				"de": "Kulturverein U-Schacht",
 				"en": "U-Shaft Culture Association"
@@ -239,7 +239,7 @@
 	},
 	{
 		"type": "type.Location",
-		"identifier": "LOC-BL123",
+		"identifier": "L_OC-BL123",
 		"metadata": {
 			"created": "2023-01-06T12:00:00Z",
 			"updated": "2023-01-06T14:00:00Z",
@@ -291,8 +291,8 @@
 		"tags": ["attraction.category.Music"],
 		"externalLinks": [],
 		"manager": {
-			"referenceType": "Organization",
-			"referenceId": "MAN-XYZ",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_2",
 			"referenceLabel": {
 				"de": "Blackland GmbH",
 				"en": "Blackland GmbH"
