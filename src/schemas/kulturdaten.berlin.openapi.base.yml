@@ -1085,6 +1085,37 @@ paths:
         "200":
           description: OK
 
+  /organizations/{identifier}/memberships:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMembershipRequest"
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMembershipResponse"
+        "400":
+          description: Not Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /organizations/{identifier}/activate:
     post:
       tags:
@@ -1576,6 +1607,12 @@ components:
 
     UpdateOrganizationRequest:
       $ref: models/UpdateOrganizationRequest.yml
+
+    CreateMembershipRequest:
+      $ref: models/CreateMembershipRequest.yml
+
+    CreateMembershipResponse:
+      $ref: models/CreateMembershipResponse.yml
 
     GetAttractionsResponse:
       $ref: models/GetAttractionsResponse.yml

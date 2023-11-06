@@ -1091,6 +1091,36 @@ paths:
       responses:
         "200":
           description: OK
+  /organizations/{identifier}/memberships:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMembershipRequest"
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMembershipResponse"
+        "400":
+          description: Not Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /organizations/{identifier}/activate:
     post:
       tags:
@@ -3818,6 +3848,52 @@ components:
               description: Phone number of the contact person.
               example: +49 30 12345678
           additionalProperties: false
+      additionalProperties: false
+    CreateMembershipRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        role:
+          type: string
+          enum:
+            - admin
+            - editor
+            - author
+            - member
+            - unassigned
+      required:
+        - email
+        - role
+      additionalProperties: false
+    CreateMembershipResponse:
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            email:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            role:
+              type: string
+              enum:
+                - admin
+                - editor
+                - author
+                - member
+                - unassigned
+          additionalProperties: false
+      required:
+        - success
       additionalProperties: false
     GetAttractionsResponse:
       type: object
@@ -7546,6 +7622,10 @@ components:
                           - de
                           - en
                         items:
+                          type: string
+                      externalIDs:
+                        type: object
+                        additionalProperties:
                           type: string
                     required:
                       - created
