@@ -12,11 +12,13 @@ import { GetOrganizationsResponse } from "../../../generated/models/GetOrganizat
 import { GetOrganizationResponse } from "../../../generated/models/GetOrganizationResponse.generated";
 import { CreateOrganizationResponse } from "../../../generated/models/CreateOrganizationResponse.generated";
 import { SearchOrganizationsResponse } from "../../../generated/models/SearchOrganizationsResponse.generated";
+import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
 @Service()
-export class OrganizationsController {
+export class OrganizationsController implements ResourcePermissionController {
 	constructor(public organizationsService: OrganizationsService) {}
 
 	async listOrganizations(res: express.Response, pagination: Pagination) {
@@ -77,6 +79,11 @@ export class OrganizationsController {
 				.status(404)
 				.send(new ErrorResponseBuilder().notFoundResponse("No organizations matched the search criteria").build());
 		}
+	}
+
+	async isExist(permissionFilter: Filter): Promise<boolean> {
+		const totalCount = await this.organizationsService.countOrganizations(permissionFilter);
+		return totalCount > 0;
 	}
 
 	async getOrganizationById(res: express.Response, organizationId: string) {

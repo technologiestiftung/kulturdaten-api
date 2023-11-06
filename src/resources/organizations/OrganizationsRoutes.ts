@@ -56,6 +56,16 @@ export class OrganizationsRoutes {
 			this.organizationsController.searchOrganizations(res, searchOrganizationsRequest, pagination);
 		});
 
+		router.post(
+			OrganizationsRoutes.basePath + "/memberships",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
+			(req: express.Request, res: express.Response) => {
+				
+			},
+		);
+
 		router
 			.get(OrganizationsRoutes.basePath + "/:identifier", (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;

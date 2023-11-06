@@ -17,6 +17,12 @@ export class Permit {
 				return;
 			}
 
+			const itIsAboutTheOrganizationOfTheUser = authUser.organizationIdentifier === identifier;
+			if (itIsAboutTheOrganizationOfTheUser) {
+				next();
+				return;
+			}
+
 			const permissionFilter = PermissionFilter.buildOwnershipPermissionFilter(
 				identifier,
 				authUser.organizationIdentifier,
