@@ -3,10 +3,13 @@ import { Pagination } from "../../../common/parameters/Pagination";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { User } from "../../../generated/models/User.generated";
+import { Membership } from "../../../generated/models/Membership.generated";
 
 const log: debug.IDebugger = debug("app:users-repository");
 
 export interface UsersRepository {
+	addMembership(email: string, newMembership: Membership): Promise<boolean> ;
+
 	addUser(userFields: CreateUserRequest): Promise<string>;
 
 	getUsers(pagination?: Pagination): Promise<User[] | null>;

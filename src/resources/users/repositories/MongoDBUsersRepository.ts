@@ -8,6 +8,7 @@ import { User } from "../../../generated/models/User.generated";
 import { generateID } from "../../../utils/IDUtil";
 import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { UsersRepository } from "./UsersRepository";
+import { Membership } from "../../../generated/models/Membership.generated";
 
 @Service()
 export class MongoDBUsersRepository implements UsersRepository {
@@ -78,5 +79,12 @@ export class MongoDBUsersRepository implements UsersRepository {
 
 	private sanitizeEmail(email: string) {
 		return email.toLowerCase();
+	}
+
+	async addMembership(email: string, newMembership: Membership): Promise<boolean> {
+		const mail = this.sanitizeEmail(email);
+		const users = await this.dbConnector.users();
+		const result = await users.updateOne({ email: mail }, { $push: { memberships: newMembership } });
+		return result.modifiedCount === 1;
 	}
 }

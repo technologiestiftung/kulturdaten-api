@@ -3,6 +3,8 @@ import { Pagination } from "../../../common/parameters/Pagination";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { UsersRepository } from "../repositories/UsersRepository";
+import { CreateMembershipRequest } from "../../../generated/models/CreateMembershipRequest.generated";
+import { generateMembershipFromMembershipRequest } from "../../../utils/MembershipUtil";
 
 @Service()
 export class UsersService {
@@ -38,5 +40,16 @@ export class UsersService {
 
 	async countUsers(): Promise<number> {
 		return this.usersRepository.countUsers();
+	}
+
+	async createMembership(organizationIdentifier: string, createMembership: CreateMembershipRequest) {
+		const newMembership = generateMembershipFromMembershipRequest(organizationIdentifier, createMembership);
+		return this.usersRepository.addMembership(createMembership.email, newMembership);
+	}
+
+	async isUserExists(email: string): Promise<boolean> {
+		const user = await this.usersRepository.getUserByEmail(email);
+		if (user) return true;
+		return false;
 	}
 }

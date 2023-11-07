@@ -993,7 +993,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Response"
 
   /organizations/bulk-create:
     post:
@@ -1100,8 +1100,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateMembershipRequest"
-      security:
-        - bearerAuth: []
       responses:
         "201":
           description: Created
@@ -1109,12 +1107,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateMembershipResponse"
-        "400":
-          description: Not Created
+        "404":
+          description: User not exist
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Response"
+        "400":
+          description: User is already a member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
 
   /organizations/{identifier}/activate:
     post:

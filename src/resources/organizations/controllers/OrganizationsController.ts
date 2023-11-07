@@ -14,12 +14,19 @@ import { CreateOrganizationResponse } from "../../../generated/models/CreateOrga
 import { SearchOrganizationsResponse } from "../../../generated/models/SearchOrganizationsResponse.generated";
 import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { CreateMembershipRequest } from "../../../generated/models/CreateMembershipRequest.generated";
+import { UsersService } from "../../users/services/UsersService";
+import { CreateMembershipResponse } from "../../../generated/models/CreateMembershipResponse.generated";
+import { generateOrganizationMembership } from "../../../utils/MembershipUtil";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
 @Service()
 export class OrganizationsController implements ResourcePermissionController {
-	constructor(public organizationsService: OrganizationsService) {}
+	constructor(
+		public organizationsService: OrganizationsService,
+		public userService: UsersService,
+	) {}
 
 	async listOrganizations(res: express.Response, pagination: Pagination) {
 		const organizations = await this.organizationsService.list(pagination);
@@ -202,6 +209,51 @@ export class OrganizationsController implements ResourcePermissionController {
 			res.status(200).send();
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the organization").build());
+		}
+	}
+
+	async createMembership(
+		res: express.Response,
+		organizationIdentifier: string,
+		createMembership: CreateMembershipRequest,
+	) {
+		const user = await this.userService.getUserByEmail(createMembership.email);
+		if (!user) {
+			res
+				.status(404)
+				.send(
+					new ErrorResponseBuilder()
+						.notFoundResponse(
+							"There is no user with this email address yet. Please create the user before inviting them as a member.",
+						)
+						.build(),
+				);
+			return;
+		}
+		if (user.memberships.some((membership) => membership.organizationIdentifier === organizationIdentifier)) {
+			const error = new ErrorResponseBuilder()
+				.badRequestResponse(
+					"A membership for the specified organization already exists. Therefore, no new membership was created.",
+				)
+				.build();
+			console.log(JSON.stringify(error));
+			res.status(400).send(error);
+			return;
+		}
+
+		const isCreated = await this.userService.createMembership(organizationIdentifier, createMembership);
+		if (isCreated) {
+			res
+				.status(201)
+				.send(
+					new SuccessResponseBuilder<CreateMembershipResponse>()
+						.okResponse({ membership: generateOrganizationMembership(user, createMembership.role) })
+						.build(),
+				);
+		} else {
+			res
+				.status(400)
+				.send(new ErrorResponseBuilder().badRequestResponse("An membership cannot be created with the data.").build());
 		}
 	}
 }

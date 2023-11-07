@@ -35,6 +35,12 @@ export class PermissionFilter implements Filter {
 		return filter;
 	}
 
+	static buildOrganizationPermissionFilter(identifier: string, organizationID: string): PermissionFilter {
+		const filter = new PermissionFilter();
+		filter.$and = [{ identifier: identifier }, { identifier: organizationID }];
+		return filter;
+	}
+
 	static buildInvalidPermissionFilter(): PermissionFilter {
 		const filter = new PermissionFilter();
 		filter.invalidField = "ThisFieldDoesNotExist";
@@ -48,6 +54,8 @@ export class PermissionFilter implements Filter {
 			return PermissionFilter.buildEventPermissionFilter(identifier, organizationID);
 		} else if (identifier.startsWith("L_")) {
 			return PermissionFilter.buildLocationPermissionFilter(identifier, organizationID);
+		} else if (identifier.startsWith("O_")) {
+			return PermissionFilter.buildOrganizationPermissionFilter(identifier, organizationID);
 		} else {
 			return PermissionFilter.buildInvalidPermissionFilter();
 		}

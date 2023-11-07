@@ -23,12 +23,7 @@ properties:
   memberships:
     type: array
     items:
-      type: object
-      properties:
-        organizationIdentifier:
-          type: string
-        role:
-          $ref: "Role.yml"
+      $ref: "Membership.yml"
 required:
   - type
   - identifier

@@ -8,6 +8,7 @@ import { UpdateOrganizationRequest } from "../../generated/models/UpdateOrganiza
 import { getPagination } from "../../utils/RequestUtil";
 import { OrganizationsController } from "./controllers/OrganizationsController";
 import { Permit } from "../auth/middleware/Permit";
+import { CreateMembershipRequest } from "../../generated/models/CreateMembershipRequest.generated";
 
 @Service()
 export class OrganizationsRoutes {
@@ -57,12 +58,11 @@ export class OrganizationsRoutes {
 		});
 
 		router.post(
-			OrganizationsRoutes.basePath + "/memberships",
-			passport.authenticate("authenticated-user", { session: false }),
-			Permit.authorizesForAction(),
-			Permit.authorizesToManipulateResource(this.organizationsController),
+			OrganizationsRoutes.basePath + "/:identifier/memberships",
 			(req: express.Request, res: express.Response) => {
-				
+				const identifier = req.params.identifier;
+				const createMembershipRequest = req.body as CreateMembershipRequest;
+				this.organizationsController.createMembership(res, identifier, createMembershipRequest);
 			},
 		);
 

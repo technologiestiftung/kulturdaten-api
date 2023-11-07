@@ -8,14 +8,8 @@ properties:
   data:
     type: object
     properties:
-      email:
-        type: string
-      firstName:
-        type: string
-      lastName:
-        type: string
-      role:
-        $ref: "Role.yml"
+      membership:
+        $ref: "OrganizationMembership.yml"
     additionalProperties: false
 required:
   - success
