@@ -1137,6 +1137,31 @@ paths:
               schema:
                 $ref: "#/components/schemas/Response"
 
+  /organizations/{identifier}/memberships/{userIdentifier}:
+    delete:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
 
   /organizations/{identifier}/activate:
     post:
@@ -1577,10 +1602,10 @@ components:
       $ref: models/Response.yml
 
     Error:
-      $ref: models/Error.yml
+      $ref: models/Response.yml
 
     NotFoundError:
-      $ref: models/Error.yml
+      $ref: models/Response.yml
 
     Event:
       $ref: models/Event.yml

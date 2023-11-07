@@ -270,4 +270,13 @@ export class OrganizationsController implements ResourcePermissionController {
 				.send(new ErrorResponseBuilder().badRequestResponse("An membership cannot be created with the data.").build());
 		}
 	}
+
+	async deleteMembership(res: express.Response, organizationIdentifier: string, userIdentifier: string) {
+		const isDeleted = await this.userService.deleteMembership(userIdentifier, organizationIdentifier);
+		if (isDeleted) {
+			res.status(204).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to delete the membership").build());
+		}
+	}
 }

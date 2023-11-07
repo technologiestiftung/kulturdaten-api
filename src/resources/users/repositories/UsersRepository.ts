@@ -9,7 +9,9 @@ import { Filter } from "../../../generated/models/Filter.generated";
 const log: debug.IDebugger = debug("app:users-repository");
 
 export interface UsersRepository {
-	addMembership(email: string, newMembership: Membership): Promise<boolean> ;
+	addMembership(email: string, newMembership: Membership): Promise<boolean>;
+
+	deleteMembership(userIdentifier: string, organizationIdentifier: string): Promise<boolean>;
 
 	addUser(userFields: CreateUserRequest): Promise<string>;
 

@@ -1141,6 +1141,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+  /organizations/{identifier}/memberships/{userIdentifier}:
+    delete:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
   /organizations/{identifier}/activate:
     post:
       tags:
@@ -1601,22 +1625,46 @@ components:
     Error:
       type: object
       properties:
-        code:
-          type: number
+        success:
+          type: boolean
         message:
           type: string
-        details:
-          type: string
+        data:
+          type: object
+        error:
+          type: object
+          properties:
+            code:
+              type: number
+            message:
+              type: string
+            details:
+              type: string
+          additionalProperties: false
+      required:
+        - success
       additionalProperties: false
     NotFoundError:
       type: object
       properties:
-        code:
-          type: number
+        success:
+          type: boolean
         message:
           type: string
-        details:
-          type: string
+        data:
+          type: object
+        error:
+          type: object
+          properties:
+            code:
+              type: number
+            message:
+              type: string
+            details:
+              type: string
+          additionalProperties: false
+      required:
+        - success
       additionalProperties: false
     Event:
       type: object

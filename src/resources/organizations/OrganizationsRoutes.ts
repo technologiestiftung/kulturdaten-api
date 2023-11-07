@@ -74,6 +74,16 @@ export class OrganizationsRoutes {
 			},
 		);
 
+		router.delete(
+			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const userIdentifier = req.params.userIdentifier;
+				this.organizationsController.deleteMembership(res, identifier, userIdentifier);
+			},
+		);
+
+
 		router
 			.get(OrganizationsRoutes.basePath + "/:identifier", (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;

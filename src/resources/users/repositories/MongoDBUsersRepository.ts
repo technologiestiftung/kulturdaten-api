@@ -99,4 +99,13 @@ export class MongoDBUsersRepository implements UsersRepository {
 		const result = await users.updateOne({ email: mail }, { $push: { memberships: newMembership } });
 		return result.modifiedCount === 1;
 	}
+
+	async deleteMembership(userIdentifier: string, organizationIdentifier: string): Promise<boolean> {
+		const users = await this.dbConnector.users();
+		const result = await users.updateOne(
+			{ identifier: userIdentifier },
+			{ $pull: { memberships: { organizationIdentifier: organizationIdentifier } } },
+		);
+		return result.modifiedCount === 1;
+	}
 }

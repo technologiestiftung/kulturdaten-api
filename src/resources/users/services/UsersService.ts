@@ -9,6 +9,7 @@ import { OrganizationMembership } from "../../../generated/models/OrganizationMe
 
 @Service()
 export class UsersService {
+
 	constructor(@Inject("UsersRepository") public usersRepository: UsersRepository) {}
 
 	async create(createUser: CreateUserRequest) {
@@ -59,5 +60,9 @@ export class UsersService {
 		const user = await this.usersRepository.getUserByEmail(email);
 		if (user) return true;
 		return false;
+	}
+
+	async deleteMembership(userIdentifier: string, organizationIdentifier: string): Promise<boolean> {
+		return this.usersRepository.deleteMembership(userIdentifier, organizationIdentifier);
 	}
 }
