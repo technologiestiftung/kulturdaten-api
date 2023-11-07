@@ -4,6 +4,7 @@ import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.g
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { User } from "../../../generated/models/User.generated";
 import { Membership } from "../../../generated/models/Membership.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 const log: debug.IDebugger = debug("app:users-repository");
 
@@ -13,6 +14,8 @@ export interface UsersRepository {
 	addUser(userFields: CreateUserRequest): Promise<string>;
 
 	getUsers(pagination?: Pagination): Promise<User[] | null>;
+
+	searchAllUsers(filter: Filter, projection?: object): Promise<User[]>;
 
 	countUsers(): Promise<number>;
 

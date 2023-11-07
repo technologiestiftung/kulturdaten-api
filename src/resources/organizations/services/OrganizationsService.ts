@@ -9,6 +9,7 @@ import { OrganizationsRepository } from "../repositories/OrganizationsRepository
 
 @Service()
 export class OrganizationsService {
+
 	constructor(@Inject("OrganizationsRepository") public organizationsRepository: OrganizationsRepository) {}
 
 	async list(pagination?: Pagination): Promise<Organization[]> {

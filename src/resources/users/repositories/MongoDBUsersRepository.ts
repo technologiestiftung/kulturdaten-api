@@ -1,7 +1,7 @@
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/MongoDBConnector";
-import { MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/Config";
+import { MONGO_DB_DEFAULT_PROJECTION, MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/Config";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { User } from "../../../generated/models/User.generated";
@@ -9,10 +9,23 @@ import { generateID } from "../../../utils/IDUtil";
 import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { UsersRepository } from "./UsersRepository";
 import { Membership } from "../../../generated/models/Membership.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
 
 @Service()
 export class MongoDBUsersRepository implements UsersRepository {
 	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
+
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
+		const users = await this.dbConnector.users();
+		let query = users.find(filter || {}, {
+			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
+		});
+		if (pagination) {
+			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
+		}
+
+		return query.toArray();
+	}
 
 	async getUserByEmail(email: string): Promise<User | null> {
 		const users = await this.dbConnector.users();
@@ -42,12 +55,11 @@ export class MongoDBUsersRepository implements UsersRepository {
 	}
 
 	async getUsers(pagination?: Pagination): Promise<User[] | null> {
-		const users = await this.dbConnector.users();
-		let query = users.find({}, { projection: MONGO_DB_USER_DEFAULT_PROJECTION });
-		if (pagination) {
-			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
-		}
-		return query.toArray();
+		return this.get(undefined, undefined, pagination);
+	}
+
+	searchAllUsers(filter: Filter, projection?: object | undefined): Promise<User[]> {
+		return this.get(filter, projection, undefined);
 	}
 
 	async getUserByIdentifier(userId: string): Promise<User | null> {

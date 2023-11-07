@@ -23,3 +23,25 @@ export function generateOrganizationMembership(user: User, role: Role): Organiza
 		role: role,
 	};
 }
+
+export function generateOrganizationMembershipsFor(
+	organizationIdentifier: string,
+	users: User[],
+): OrganizationMembership[] {
+	return users.reduce((acc: OrganizationMembership[], user) => {
+		const membership = user.memberships.find((m) => m.organizationIdentifier === organizationIdentifier);
+
+		if (membership) {
+			const orgMembership: OrganizationMembership = {
+				email: user.email,
+				userIdentifier: user.identifier,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				role: membership.role,
+			};
+			acc.push(orgMembership);
+		}
+
+		return acc;
+	}, []);
+}

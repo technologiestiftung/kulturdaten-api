@@ -1086,9 +1086,26 @@ paths:
           description: OK
 
   /organizations/{identifier}/memberships:
+    get:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationMembershipsResponse"
+
     post:
       tags:
-        - Manage cultural data
+        - Manage your organization data
       parameters:
         - name: identifier
           in: path
@@ -1119,6 +1136,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+
 
   /organizations/{identifier}/activate:
     post:
@@ -1758,3 +1776,6 @@ components:
 
     HarvestResponse:
       $ref: models/HarvestResponse.yml
+    
+    GetOrganizationMembershipsResponse:
+      $ref: models/GetOrganizationMembershipsResponse.yml

@@ -18,11 +18,13 @@ import { CreateMembershipRequest } from "../../../generated/models/CreateMembers
 import { UsersService } from "../../users/services/UsersService";
 import { CreateMembershipResponse } from "../../../generated/models/CreateMembershipResponse.generated";
 import { generateOrganizationMembership } from "../../../utils/MembershipUtil";
+import { GetOrganizationMembershipsResponse } from "../../../generated/models/GetOrganizationMembershipsResponse.generated";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
 @Service()
 export class OrganizationsController implements ResourcePermissionController {
+
 	constructor(
 		public organizationsService: OrganizationsService,
 		public userService: UsersService,
@@ -210,6 +212,18 @@ export class OrganizationsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the organization").build());
 		}
+	}
+
+	async listMemberships(res: express.Response, organizationIdentifier: string) {
+		const memberships = await this.userService.listMembershipsFor(organizationIdentifier);
+		res.status(200).send(
+			new SuccessResponseBuilder<GetOrganizationMembershipsResponse>()
+				.okResponse({
+					organizationIdentifier: organizationIdentifier,
+					memberships: memberships,
+				})
+				.build(),
+		);
 	}
 
 	async createMembership(

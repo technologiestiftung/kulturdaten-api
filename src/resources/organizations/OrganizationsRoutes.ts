@@ -66,6 +66,14 @@ export class OrganizationsRoutes {
 			},
 		);
 
+		router.get(
+			OrganizationsRoutes.basePath + "/:identifier/memberships",
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				this.organizationsController.listMemberships(res, identifier);
+			},
+		);
+
 		router
 			.get(OrganizationsRoutes.basePath + "/:identifier", (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;

@@ -1,0 +1,19 @@
+type: object
+properties:
+  success:
+    type: boolean
+  message:
+    type: string
+  data:
+    type: object
+    properties:
+      organizationIdentifier:
+        type: string
+      memberships:
+        type: array
+        items:
+            $ref: "OrganizationMembership.yml"
+    additionalProperties: false
+required:
+  - success
+additionalProperties: false

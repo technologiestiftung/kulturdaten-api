@@ -4,7 +4,8 @@ import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.g
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { UsersRepository } from "../repositories/UsersRepository";
 import { CreateMembershipRequest } from "../../../generated/models/CreateMembershipRequest.generated";
-import { generateMembershipFromMembershipRequest } from "../../../utils/MembershipUtil";
+import { generateMembershipFromMembershipRequest, generateOrganizationMembershipsFor } from "../../../utils/MembershipUtil";
+import { OrganizationMembership } from "../../../generated/models/OrganizationMembership.generated";
 
 @Service()
 export class UsersService {
@@ -40,6 +41,13 @@ export class UsersService {
 
 	async countUsers(): Promise<number> {
 		return this.usersRepository.countUsers();
+	}
+
+	async listMembershipsFor(organizationIdentifier: string): Promise<OrganizationMembership[]> {
+		const members = await this.usersRepository.searchAllUsers({
+			"memberships.organizationIdentifier": organizationIdentifier,
+		});
+		return generateOrganizationMembershipsFor(organizationIdentifier, members);
 	}
 
 	async createMembership(organizationIdentifier: string, createMembership: CreateMembershipRequest) {
