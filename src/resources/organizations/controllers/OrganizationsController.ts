@@ -20,6 +20,7 @@ import { CreateMembershipResponse } from "../../../generated/models/CreateMember
 import { generateOrganizationMembership } from "../../../utils/MembershipUtil";
 import { GetOrganizationMembershipsResponse } from "../../../generated/models/GetOrganizationMembershipsResponse.generated";
 import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
+import { GetOrganizationMembershipResponse } from "../../../generated/models/GetOrganizationMembershipResponse.generated";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
@@ -226,6 +227,22 @@ export class OrganizationsController implements ResourcePermissionController {
 		);
 	}
 
+	async getMembership(res: express.Response, organizationIdentifier: string, userIdentifier: string) {
+		const membership = await this.userService.getMembershipFor(organizationIdentifier, userIdentifier);
+		if (membership) {
+			res.status(200).send(
+				new SuccessResponseBuilder<GetOrganizationMembershipResponse>()
+					.okResponse({
+						organizationIdentifier: organizationIdentifier,
+						membership: membership,
+					})
+					.build(),
+			);
+		} else {
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
+		}
+	}
+
 	async createMembership(
 		res: express.Response,
 		organizationIdentifier: string,
@@ -286,11 +303,15 @@ export class OrganizationsController implements ResourcePermissionController {
 		userIdentifier: string,
 		updateOrganizationMembershipRequest: UpdateOrganizationMembershipRequest,
 	) {
-		const isUpdated = await this.userService.updateMembership(userIdentifier, organizationIdentifier, updateOrganizationMembershipRequest);
+		const isUpdated = await this.userService.updateMembership(
+			userIdentifier,
+			organizationIdentifier,
+			updateOrganizationMembershipRequest,
+		);
 		if (isUpdated) {
 			res.status(204).send();
 		} else {
-			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to delete the membership").build());
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the membership").build());
 		}
 	}
 }

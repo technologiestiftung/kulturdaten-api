@@ -63,6 +63,11 @@ export class MongoDBUsersRepository implements UsersRepository {
 		return this.get(filter, projection, undefined);
 	}
 
+	async searchUser(filter: Filter): Promise<User | null> {
+		const users = await this.dbConnector.users();
+		return users.findOne(filter, { projection: { _id: 0, password: 0 } });
+	}
+
 	async getUserByIdentifier(userId: string): Promise<User | null> {
 		const users = await this.dbConnector.users();
 		return users.findOne({ identifier: userId }, { projection: { _id: 0, password: 0 } });

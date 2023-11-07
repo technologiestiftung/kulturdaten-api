@@ -75,6 +75,15 @@ export class OrganizationsRoutes {
 			},
 		);
 
+		router.get(
+			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const userIdentifier = req.params.userIdentifier;
+				this.organizationsController.getMembership(res, identifier, userIdentifier);
+			},
+		);
+
 		router.delete(
 			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
 			(req: express.Request, res: express.Response) => {
@@ -91,7 +100,12 @@ export class OrganizationsRoutes {
 				const userIdentifier = req.params.userIdentifier;
 				const updateOrganizationMembershipRequest = req.body as UpdateOrganizationMembershipRequest;
 
-				this.organizationsController.updateMembership(res, identifier, userIdentifier, updateOrganizationMembershipRequest);
+				this.organizationsController.updateMembership(
+					res,
+					identifier,
+					userIdentifier,
+					updateOrganizationMembershipRequest,
+				);
 			},
 		);
 

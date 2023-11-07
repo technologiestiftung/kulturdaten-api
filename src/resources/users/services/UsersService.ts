@@ -6,6 +6,7 @@ import { UsersRepository } from "../repositories/UsersRepository";
 import { CreateMembershipRequest } from "../../../generated/models/CreateMembershipRequest.generated";
 import {
 	generateMembershipFromMembershipRequest,
+	generateOrganizationMembershipFor,
 	generateOrganizationMembershipsFor,
 } from "../../../utils/MembershipUtil";
 import { OrganizationMembership } from "../../../generated/models/OrganizationMembership.generated";
@@ -63,6 +64,17 @@ export class UsersService {
 		const user = await this.usersRepository.getUserByEmail(email);
 		if (user) return true;
 		return false;
+	}
+
+	async getMembershipFor(
+		organizationIdentifier: string,
+		userIdentifier: string,
+	): Promise<OrganizationMembership | null> {
+		const member = await this.usersRepository.searchUser({
+			identifier: userIdentifier,
+			"memberships.organizationIdentifier": organizationIdentifier,
+		});
+		return generateOrganizationMembershipFor(organizationIdentifier, member);
 	}
 
 	async deleteMembership(userIdentifier: string, organizationIdentifier: string): Promise<boolean> {

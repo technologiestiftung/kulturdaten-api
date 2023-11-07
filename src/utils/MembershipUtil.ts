@@ -24,24 +24,32 @@ export function generateOrganizationMembership(user: User, role: Role): Organiza
 	};
 }
 
+export function generateOrganizationMembershipFor(
+	organizationIdentifier: string,
+	user: User | null,
+): OrganizationMembership | null {
+	if (!user) {
+		return null;
+	}
+	const membership = user.memberships.find((m) => m.organizationIdentifier === organizationIdentifier);
+
+	if (membership) {
+		return {
+			email: user.email,
+			userIdentifier: user.identifier,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			role: membership.role,
+		};
+	}
+
+	return null;
+}
 export function generateOrganizationMembershipsFor(
 	organizationIdentifier: string,
 	users: User[],
 ): OrganizationMembership[] {
-	return users.reduce((acc: OrganizationMembership[], user) => {
-		const membership = user.memberships.find((m) => m.organizationIdentifier === organizationIdentifier);
-
-		if (membership) {
-			const orgMembership: OrganizationMembership = {
-				email: user.email,
-				userIdentifier: user.identifier,
-				firstName: user.firstName,
-				lastName: user.lastName,
-				role: membership.role,
-			};
-			acc.push(orgMembership);
-		}
-
-		return acc;
-	}, []);
+	return users
+		.map((user) => generateOrganizationMembershipFor(organizationIdentifier, user))
+		.filter((membership): membership is OrganizationMembership => membership !== null);
 }

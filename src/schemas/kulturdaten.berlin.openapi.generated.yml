@@ -1142,6 +1142,33 @@ paths:
               schema:
                 $ref: "#/components/schemas/Response"
   /organizations/{identifier}/memberships/{userIdentifier}:
+    get:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationMembershipResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
         - Manage your organization data
@@ -9316,6 +9343,46 @@ components:
                   - userIdentifier
                   - role
                 additionalProperties: false
+          additionalProperties: false
+      required:
+        - success
+      additionalProperties: false
+    GetOrganizationMembershipResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            organizationIdentifier:
+              type: string
+            membership:
+              type: object
+              properties:
+                email:
+                  type: string
+                userIdentifier:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                role:
+                  type: string
+                  enum:
+                    - admin
+                    - editor
+                    - author
+                    - member
+                    - unassigned
+              required:
+                - email
+                - userIdentifier
+                - role
+              additionalProperties: false
           additionalProperties: false
       required:
         - success

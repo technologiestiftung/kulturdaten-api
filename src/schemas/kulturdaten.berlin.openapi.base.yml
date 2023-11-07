@@ -1138,6 +1138,33 @@ paths:
                 $ref: "#/components/schemas/Response"
 
   /organizations/{identifier}/memberships/{userIdentifier}:
+    get:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string 
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationMembershipResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
     patch:
       tags:
         - Manage your organization data
@@ -1832,6 +1859,9 @@ components:
     
     GetOrganizationMembershipsResponse:
       $ref: models/GetOrganizationMembershipsResponse.yml
+
+    GetOrganizationMembershipResponse:
+      $ref: models/GetOrganizationMembershipResponse.yml
 
     UpdateOrganizationMembershipRequest:
       $ref: models/UpdateOrganizationMembershipRequest.yml

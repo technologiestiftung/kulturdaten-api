@@ -26,6 +26,8 @@ export interface UsersRepository {
 
 	searchAllUsers(filter: Filter, projection?: object): Promise<User[]>;
 
+	searchUser(filter: Filter): Promise<User | null>;
+
 	countUsers(): Promise<number>;
 
 	getUserByIdentifier(userId: string): Promise<User | null>;
