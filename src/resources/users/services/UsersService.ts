@@ -4,12 +4,15 @@ import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.g
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { UsersRepository } from "../repositories/UsersRepository";
 import { CreateMembershipRequest } from "../../../generated/models/CreateMembershipRequest.generated";
-import { generateMembershipFromMembershipRequest, generateOrganizationMembershipsFor } from "../../../utils/MembershipUtil";
+import {
+	generateMembershipFromMembershipRequest,
+	generateOrganizationMembershipsFor,
+} from "../../../utils/MembershipUtil";
 import { OrganizationMembership } from "../../../generated/models/OrganizationMembership.generated";
+import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 
 @Service()
 export class UsersService {
-
 	constructor(@Inject("UsersRepository") public usersRepository: UsersRepository) {}
 
 	async create(createUser: CreateUserRequest) {
@@ -64,5 +67,17 @@ export class UsersService {
 
 	async deleteMembership(userIdentifier: string, organizationIdentifier: string): Promise<boolean> {
 		return this.usersRepository.deleteMembership(userIdentifier, organizationIdentifier);
+	}
+
+	async updateMembership(
+		userIdentifier: string,
+		organizationIdentifier: string,
+		updateOrganizationMembershipRequest: UpdateOrganizationMembershipRequest,
+	) {
+		return this.usersRepository.updateOrganizationMembership(
+			userIdentifier,
+			organizationIdentifier,
+			updateOrganizationMembershipRequest,
+		);
 	}
 }

@@ -9,6 +9,7 @@ import { getPagination } from "../../utils/RequestUtil";
 import { OrganizationsController } from "./controllers/OrganizationsController";
 import { Permit } from "../auth/middleware/Permit";
 import { CreateMembershipRequest } from "../../generated/models/CreateMembershipRequest.generated";
+import { UpdateOrganizationMembershipRequest } from "../../generated/models/UpdateOrganizationMembershipRequest.generated";
 
 @Service()
 export class OrganizationsRoutes {
@@ -83,6 +84,16 @@ export class OrganizationsRoutes {
 			},
 		);
 
+		router.patch(
+			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const userIdentifier = req.params.userIdentifier;
+				const updateOrganizationMembershipRequest = req.body as UpdateOrganizationMembershipRequest;
+
+				this.organizationsController.updateMembership(res, identifier, userIdentifier, updateOrganizationMembershipRequest);
+			},
+		);
 
 		router
 			.get(OrganizationsRoutes.basePath + "/:identifier", (req: express.Request, res: express.Response) => {

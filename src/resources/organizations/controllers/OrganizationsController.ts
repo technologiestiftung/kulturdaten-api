@@ -19,12 +19,12 @@ import { UsersService } from "../../users/services/UsersService";
 import { CreateMembershipResponse } from "../../../generated/models/CreateMembershipResponse.generated";
 import { generateOrganizationMembership } from "../../../utils/MembershipUtil";
 import { GetOrganizationMembershipsResponse } from "../../../generated/models/GetOrganizationMembershipsResponse.generated";
+import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
 @Service()
 export class OrganizationsController implements ResourcePermissionController {
-
 	constructor(
 		public organizationsService: OrganizationsService,
 		public userService: UsersService,
@@ -274,6 +274,20 @@ export class OrganizationsController implements ResourcePermissionController {
 	async deleteMembership(res: express.Response, organizationIdentifier: string, userIdentifier: string) {
 		const isDeleted = await this.userService.deleteMembership(userIdentifier, organizationIdentifier);
 		if (isDeleted) {
+			res.status(204).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to delete the membership").build());
+		}
+	}
+
+	async updateMembership(
+		res: express.Response,
+		organizationIdentifier: string,
+		userIdentifier: string,
+		updateOrganizationMembershipRequest: UpdateOrganizationMembershipRequest,
+	) {
+		const isUpdated = await this.userService.updateMembership(userIdentifier, organizationIdentifier, updateOrganizationMembershipRequest);
+		if (isUpdated) {
 			res.status(204).send();
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to delete the membership").build());

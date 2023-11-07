@@ -1142,6 +1142,34 @@ paths:
               schema:
                 $ref: "#/components/schemas/Response"
   /organizations/{identifier}/memberships/{userIdentifier}:
+    patch:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrganizationMembershipRequest"
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
     delete:
       tags:
         - Manage your organization data
@@ -9291,4 +9319,18 @@ components:
           additionalProperties: false
       required:
         - success
+      additionalProperties: false
+    UpdateOrganizationMembershipRequest:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+            - admin
+            - editor
+            - author
+            - member
+            - unassigned
+      required:
+        - role
       additionalProperties: false

@@ -5,11 +5,18 @@ import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.g
 import { User } from "../../../generated/models/User.generated";
 import { Membership } from "../../../generated/models/Membership.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 
 const log: debug.IDebugger = debug("app:users-repository");
 
 export interface UsersRepository {
 	addMembership(email: string, newMembership: Membership): Promise<boolean>;
+
+	updateOrganizationMembership(
+		userIdentifier: string,
+		organizationIdentifier: string,
+		updateOrganizationMembershipRequest: UpdateOrganizationMembershipRequest,
+	): Promise<boolean>;
 
 	deleteMembership(userIdentifier: string, organizationIdentifier: string): Promise<boolean>;
 

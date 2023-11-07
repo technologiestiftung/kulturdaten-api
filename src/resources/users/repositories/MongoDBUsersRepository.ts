@@ -10,6 +10,7 @@ import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil"
 import { UsersRepository } from "./UsersRepository";
 import { Membership } from "../../../generated/models/Membership.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 
 @Service()
 export class MongoDBUsersRepository implements UsersRepository {
@@ -106,6 +107,23 @@ export class MongoDBUsersRepository implements UsersRepository {
 			{ identifier: userIdentifier },
 			{ $pull: { memberships: { organizationIdentifier: organizationIdentifier } } },
 		);
+		return result.modifiedCount === 1;
+	}
+
+	async updateOrganizationMembership(
+		userIdentifier: string,
+		organizationIdentifier: string,
+		updateOrganizationMembershipRequest: UpdateOrganizationMembershipRequest,
+	): Promise<boolean> {
+		const users = await this.dbConnector.users();
+		const query = {
+			identifier: userIdentifier,
+			"memberships.organizationIdentifier": organizationIdentifier,
+		};
+		const update = {
+			$set: { "memberships.$.role": updateOrganizationMembershipRequest.role },
+		};
+		const result = await users.updateOne(query, update);
 		return result.modifiedCount === 1;
 	}
 }
