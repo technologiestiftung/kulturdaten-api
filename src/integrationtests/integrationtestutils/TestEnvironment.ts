@@ -30,8 +30,20 @@ import { UsersService } from "../../resources/users/services/UsersService";
 import { MongoDBUsersRepository } from "../../resources/users/repositories/MongoDBUsersRepository";
 
 export class TestEnvironment {
-	ADMIN_TOKEN: string = "ADMIN_TOKEN";
-	USER_TOKEN: string = "USER_TOKEN";
+	ADMIN_TOKEN: string = JSON.stringify({
+		id: "adminID",
+		email: "admin@email.de",
+		permissionFlags: PermissionFlag.ADMIN_PERMISSION,
+		organizationIdentifier: "O_org_1",
+		role: "admin",
+	});
+	USER_TOKEN: string = JSON.stringify({
+		id: "userID",
+		email: "user@email.de",
+		permissionFlags: PermissionFlag.REGISTERED_USER,
+		organizationIdentifier: "O_org_1",
+		role: "admin",
+	});
 	WRONG_TOKEN: string = "WRONG_TOKEN";
 
 	con!: MongoClient;
@@ -134,30 +146,14 @@ export class TestEnvironment {
 	}
 
 	initPassport(): TestEnvironment {
-		const ADMIN_TOKEN = this.ADMIN_TOKEN;
-		const USER_TOKEN = this.USER_TOKEN;
+		const WRONG_TOKEN = this.WRONG_TOKEN;
 		passport.use(
 			"authenticated-user",
 			new bearerStrategy.Strategy(async function verify(token, done) {
-				if (token === ADMIN_TOKEN) {
-					return done(null, {
-						id: "adminID",
-						email: "admin@email.de",
-						permissionFlags: PermissionFlag.ADMIN_PERMISSION,
-						organizationIdentifier: "O_org_1",
-						role: "admin",
-					});
+				if (token === WRONG_TOKEN) {
+					return done(null, false);
 				}
-				if (token === USER_TOKEN) {
-					return done(null, {
-						id: "userID",
-						email: "user@email.de",
-						permissionFlags: PermissionFlag.REGISTERED_USER,
-						organizationIdentifier: "O_org_1",
-						role: "admin",
-					});
-				}
-				return done(null, false);
+				return done(null, JSON.parse(token));
 			}),
 		);
 		return this;
