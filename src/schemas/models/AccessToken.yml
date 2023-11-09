@@ -1,0 +1,8 @@
+type: object
+properties:
+  token:
+    type: string
+  decodedToken:
+    $ref: "AuthUser.yml"
+required:
+  - token

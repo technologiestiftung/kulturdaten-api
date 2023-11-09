@@ -108,11 +108,11 @@ describe("Read attractions", () => {
 	});
 
 	it("should return a single attraction / GET /attractions/existID", async () => {
-		const { body, statusCode } = await request(env.app).get(env.ATTRACTIONS_ROUTE + "/skywalkers-observatory-12345");
+		const { body, statusCode } = await request(env.app).get(env.ATTRACTIONS_ROUTE + "/A_skywalkers-observatory-12345");
 
 		expect(statusCode).toBe(200);
 		expect(validateAttraction(body.data.attraction).isValid).toBe(true);
-		expect(body.data.attraction.identifier).toBe("skywalkers-observatory-12345");
+		expect(body.data.attraction.identifier).toBe("A_skywalkers-observatory-12345");
 		expect(body.data.attraction.title.de).toBe("Skywalkers Observatorium");
 	});
 });
@@ -128,19 +128,21 @@ describe("Update attractions", () => {
 
 	it("should update the name of a attraction / PATCH /attractions/existID", async () => {
 		const { statusCode } = await request(env.app)
-			.patch(env.ATTRACTIONS_ROUTE + "/skywalkers-observatory-12345")
+			.patch(env.ATTRACTIONS_ROUTE + "/A_skywalkers-observatory-12345")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
 				title: { de: "Neuer Name" },
 			});
 
 		expect(statusCode).toBe(200);
-		const updatedAttraction = await env.attractions.findOne<Attraction>({ identifier: "skywalkers-observatory-12345" });
+		const updatedAttraction = await env.attractions.findOne<Attraction>({
+			identifier: "A_skywalkers-observatory-12345",
+		});
 		expect(updatedAttraction?.title.de).toBe("Neuer Name");
 	});
 
 	it("should keep the created timestamp and update the updated timestamp of an attraction / PATCH /attractions/existID", async () => {
-		const identifier = "skywalkers-observatory-12345";
+		const identifier = "A_skywalkers-observatory-12345";
 		const existingAttraction = await env.attractions.findOne<Attraction>({ identifier });
 		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
@@ -156,15 +158,14 @@ describe("Update attractions", () => {
 	});
 
 	it("should return an error when an invalid ID is provided / PATCH /attractions/invalidID", async () => {
-		const { body, statusCode } = await request(env.app)
-			.patch(env.ATTRACTIONS_ROUTE + "/invalidID")
+		const { statusCode } = await request(env.app)
+			.patch(env.ATTRACTIONS_ROUTE + "/A_invalidID")
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
 			.send({
 				title: { de: "Neuer Name" },
 			});
 
-		expect(statusCode).toBe(400);
-		expect(body.error.message).toBe("Bad Request");
+		expect(statusCode).toBe(403);
 	});
 });
 

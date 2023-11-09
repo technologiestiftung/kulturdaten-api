@@ -1,0 +1,10 @@
+type: object
+properties:
+  email:
+    type: string
+  role: 
+    $ref: "Role.yml"
+required:
+  - email
+  - role
+additionalProperties: false

@@ -1,17 +1,32 @@
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/MongoDBConnector";
-import { MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/Config";
+import { MONGO_DB_DEFAULT_PROJECTION, MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/Config";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { User } from "../../../generated/models/User.generated";
 import { generateID } from "../../../utils/IDUtil";
 import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { UsersRepository } from "./UsersRepository";
+import { Membership } from "../../../generated/models/Membership.generated";
+import { Filter } from "../../../generated/models/Filter.generated";
+import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 
 @Service()
 export class MongoDBUsersRepository implements UsersRepository {
 	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
+
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<User[]> {
+		const users = await this.dbConnector.users();
+		let query = users.find(filter || {}, {
+			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
+		});
+		if (pagination) {
+			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
+		}
+
+		return query.toArray();
+	}
 
 	async getUserByEmail(email: string): Promise<User | null> {
 		const users = await this.dbConnector.users();
@@ -34,18 +49,24 @@ export class MongoDBUsersRepository implements UsersRepository {
 			permissionFlags: 1,
 			createdAt: metadata.created,
 			updatedAt: metadata.updated,
+			memberships: [],
 		};
 		await users.insertOne(newUser);
 		return newUser.identifier;
 	}
 
 	async getUsers(pagination?: Pagination): Promise<User[] | null> {
+		return this.get(undefined, undefined, pagination);
+	}
+
+	searchAllUsers(filter: Filter, projection?: object | undefined): Promise<User[]> {
+		return this.get(filter, projection, undefined);
+	}
+
+	async searchUser(filter: Filter): Promise<User | null> {
 		const users = await this.dbConnector.users();
-		let query = users.find({}, { projection: MONGO_DB_USER_DEFAULT_PROJECTION });
-		if (pagination) {
-			query = query.limit(pagination.pageSize).skip((pagination.page - 1) * pagination.pageSize);
-		}
-		return query.toArray();
+		const user = users.findOne(filter, { projection: MONGO_DB_USER_DEFAULT_PROJECTION });
+		return user;
 	}
 
 	async getUserByIdentifier(userId: string): Promise<User | null> {
@@ -77,5 +98,38 @@ export class MongoDBUsersRepository implements UsersRepository {
 
 	private sanitizeEmail(email: string) {
 		return email.toLowerCase();
+	}
+
+	async addMembership(email: string, newMembership: Membership): Promise<boolean> {
+		const mail = this.sanitizeEmail(email);
+		const users = await this.dbConnector.users();
+		const result = await users.updateOne({ email: mail }, { $push: { memberships: newMembership } });
+		return result.modifiedCount === 1;
+	}
+
+	async deleteMembership(userIdentifier: string, organizationIdentifier: string): Promise<boolean> {
+		const users = await this.dbConnector.users();
+		const result = await users.updateOne(
+			{ identifier: userIdentifier },
+			{ $pull: { memberships: { organizationIdentifier: organizationIdentifier } } },
+		);
+		return result.modifiedCount === 1;
+	}
+
+	async updateOrganizationMembership(
+		userIdentifier: string,
+		organizationIdentifier: string,
+		updateOrganizationMembershipRequest: UpdateOrganizationMembershipRequest,
+	): Promise<boolean> {
+		const users = await this.dbConnector.users();
+		const query = {
+			identifier: userIdentifier,
+			"memberships.organizationIdentifier": organizationIdentifier,
+		};
+		const update = {
+			$set: { "memberships.$.role": updateOrganizationMembershipRequest.role },
+		};
+		const result = await users.updateOne(query, update);
+		return result.modifiedCount === 1;
 	}
 }

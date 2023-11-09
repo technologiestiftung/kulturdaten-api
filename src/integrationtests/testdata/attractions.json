@@ -1,7 +1,7 @@
 [
 	{
 		"type": "type.Attraction",
-		"identifier": "skywalkers-observatory-12345",
+		"identifier": "A_skywalkers-observatory-12345",
 		"metadata": {
 			"created": "2023-07-01T08:30:00Z",
 			"updated": "2023-07-06T12:45:00Z",
@@ -15,6 +15,13 @@
 			"de": "Skywalkers Observatorium",
 			"es": "Observatorio de Skywalker",
 			"fr": "Observatoire de Skywalker"
+		},
+		"curator": {
+			"referenceType": "type.Organization",
+		  	"referenceId": "O_org_1",
+			"referenceLabel": {
+				"de": "sdf"
+			}
 		},
 		"description": {
 			"en": "Skywalker's Observatory is a state-of-the-art space observatory floating above Earth. It allows visitors to experience space like never before. Equipped with the latest telescopes and VR technologies, you can explore the galaxies, walk on distant planets, and even glimpse into other dimensions.",
@@ -44,7 +51,7 @@
 	},
 	{
 		"type": "type.Attraction",
-		"identifier": "temporal-cultural-gateway-67890",
+		"identifier": "A_temporal-cultural-gateway-67890",
 		"metadata": {
 			"created": "2023-07-06T14:20:00Z",
 			"updated": "2023-07-06T14:40:00Z",
@@ -57,6 +64,10 @@
 			"en": "Temporal Cultural Gateway",
 			"de": "Zeitkulturelles Tor",
 			"intergalactic": "Toru-Kiru Zima"
+		},
+		"curator": {
+			"referenceType": "type.Organization",
+		  	"referenceId": "O_org_1"
 		},
 		"description": {
 			"en": "The Temporal Cultural Gateway is a mesmerizing attraction where visitors can experience different cultures across time and space. Travel to ancient civilizations, explore futuristic societies, and even communicate with interstellar beings. A collaboration with the Time-Traveling Cultural Exchange Organization from the year 2350.",
@@ -84,7 +95,7 @@
 	},
 	{
 		"type": "type.Attraction",
-		"identifier": "berlin-wall-vr-experience-12345",
+		"identifier": "A_berlin-wall-vr-experience-12345",
 		"metadata": {
 			"created": "2023-07-06T16:00:00Z",
 			"updated": "2023-07-06T16:20:00Z",
@@ -105,6 +116,10 @@
 			"en": "Please note that this experience may be emotionally intense. It is recommended for ages 12 and up.",
 			"de": "Bitte beachten Sie, dass dieses Erlebnis emotional intensiv sein kann. Es wird für Personen ab 12 Jahren empfohlen."
 		},
+		"curator": {
+			"referenceType": "type.Organization",
+		  	"referenceId": "O_org_2"
+		},
 		"website": "https://berlin-wall-vr-experience.de",
 		"inLanguages": ["en", "de"],
 		"tags": ["berlin", "history", "berlin-wall", "virtual-reality", "education"],
@@ -121,7 +136,7 @@
 	},
 	{
 		"type": "type.Attraction",
-		"identifier": "metal-gig-5000",
+		"identifier": "A_metal-gig-5000",
 		"metadata": {
 			"created": "2023-09-05T16:00:00Z",
 			"updated": "2023-09-05T16:20:00Z",
@@ -142,7 +157,11 @@
 			"de": "",
 			"en": ""
 		},
-		"website": "https://example.com/metal-gig-5000",
+		"curator": {
+			"referenceType": "type.Organization",
+		  	"referenceId": "O_org_2"
+		},
+		"website": "https://example.com/A_metal-gig-5000",
 		"inLanguages": ["en", "de"],
 		"tags": ["konzert"],
 		"externalLinks": []

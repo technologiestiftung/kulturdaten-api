@@ -993,7 +993,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Response"
 
   /organizations/bulk-create:
     post:
@@ -1084,6 +1084,139 @@ paths:
       responses:
         "200":
           description: OK
+
+  /organizations/{identifier}/memberships:
+    get:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationMembershipsResponse"
+
+    post:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMembershipRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMembershipResponse"
+        "404":
+          description: User not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "400":
+          description: User is already a member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /organizations/{identifier}/memberships/{userIdentifier}:
+    get:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string 
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationMembershipResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+    patch:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrganizationMembershipRequest"
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+    delete:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
 
   /organizations/{identifier}/activate:
     post:
@@ -1481,47 +1614,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      createdOrganizations:
-                        type: array
-                        items:
-                          type: string
-                      duplicateOrganizations:
-                        type: array
-                        items:
-                          type: string
-                      createdLocations:
-                        type: array
-                        items:
-                          type: string
-                      duplicateLocations:
-                        type: array
-                        items:
-                          type: string
-                      createdEvents:
-                        type: array
-                        items:
-                          type: string
-                      duplicateEvents:
-                        type: array
-                        items:
-                          type: string
-                      createdAttractions:
-                        type: array
-                        items:
-                          type: string
-                      duplicateAttractions:
-                        type: array
-                        items:
-                          type: string
+                $ref: "#/components/schemas/HarvestResponse"
 
 components:
   securitySchemes:
@@ -1564,10 +1657,10 @@ components:
       $ref: models/Response.yml
 
     Error:
-      $ref: models/Error.yml
+      $ref: models/Response.yml
 
     NotFoundError:
-      $ref: models/Error.yml
+      $ref: models/Response.yml
 
     Event:
       $ref: models/Event.yml
@@ -1616,6 +1709,12 @@ components:
 
     UpdateOrganizationRequest:
       $ref: models/UpdateOrganizationRequest.yml
+
+    CreateMembershipRequest:
+      $ref: models/CreateMembershipRequest.yml
+
+    CreateMembershipResponse:
+      $ref: models/CreateMembershipResponse.yml
 
     GetAttractionsResponse:
       $ref: models/GetAttractionsResponse.yml
@@ -1754,3 +1853,15 @@ components:
 
     TranslatableField:
       $ref: models/TranslatableField.yml
+
+    HarvestResponse:
+      $ref: models/HarvestResponse.yml
+    
+    GetOrganizationMembershipsResponse:
+      $ref: models/GetOrganizationMembershipsResponse.yml
+
+    GetOrganizationMembershipResponse:
+      $ref: models/GetOrganizationMembershipResponse.yml
+
+    UpdateOrganizationMembershipRequest:
+      $ref: models/UpdateOrganizationMembershipRequest.yml

@@ -167,6 +167,7 @@ async function addUserWithPermission(email: string, password: string, permission
 		identifier: generateID(),
 		createdAt: metadata.created,
 		updatedAt: metadata.updated,
+		memberships: [],
 	};
 	const users = await mongoDBConnector.users();
 	const result = await users.insertOne(user);

@@ -7,16 +7,21 @@ import { SearchOrganizationsRequest } from "../../generated/models/SearchOrganiz
 import { UpdateOrganizationRequest } from "../../generated/models/UpdateOrganizationRequest.generated";
 import { getPagination } from "../../utils/RequestUtil";
 import { OrganizationsController } from "./controllers/OrganizationsController";
+import { Permit } from "../auth/middleware/Permit";
+import { CreateMembershipRequest } from "../../generated/models/CreateMembershipRequest.generated";
+import { UpdateOrganizationMembershipRequest } from "../../generated/models/UpdateOrganizationMembershipRequest.generated";
 
 @Service()
 export class OrganizationsRoutes {
 	constructor(public organizationsController: OrganizationsController) {}
 
+	static readonly basePath: string = "/organizations";
+
 	public getRouter(): Router {
 		const router = express.Router();
 
 		router
-			.get("/", (req: express.Request, res: express.Response) => {
+			.get(OrganizationsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
 
@@ -27,7 +32,7 @@ export class OrganizationsRoutes {
 				}
 			})
 			.post(
-				"/",
+				OrganizationsRoutes.basePath + "/",
 				passport.authenticate("authenticated-user", { session: false }),
 				(req: express.Request, res: express.Response) => {
 					const createOrganizationRequest = req.body as CreateOrganizationRequest;
@@ -36,8 +41,9 @@ export class OrganizationsRoutes {
 			);
 
 		router.post(
-			"/bulk-create",
+			OrganizationsRoutes.basePath + "/bulk-create",
 			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const createOrganizationsRequest = req.body as CreateOrganizationRequest[];
 
@@ -45,15 +51,81 @@ export class OrganizationsRoutes {
 			},
 		);
 
-		router.post("/search", (req: express.Request, res: express.Response) => {
+		router.post(OrganizationsRoutes.basePath + "/search", (req: express.Request, res: express.Response) => {
 			const pagination: Pagination = getPagination(req);
 
 			const searchOrganizationsRequest = req.body as SearchOrganizationsRequest;
 			this.organizationsController.searchOrganizations(res, searchOrganizationsRequest, pagination);
 		});
 
+		router.post(
+			OrganizationsRoutes.basePath + "/:identifier/memberships",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const createMembershipRequest = req.body as CreateMembershipRequest;
+				this.organizationsController.createMembership(res, identifier, createMembershipRequest);
+			},
+		);
+
+		router.get(
+			OrganizationsRoutes.basePath + "/:identifier/memberships",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				this.organizationsController.listMemberships(res, identifier);
+			},
+		);
+
+		router.get(
+			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const userIdentifier = req.params.userIdentifier;
+				this.organizationsController.getMembership(res, identifier, userIdentifier);
+			},
+		);
+
+		router.delete(
+			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const userIdentifier = req.params.userIdentifier;
+				this.organizationsController.deleteMembership(res, identifier, userIdentifier);
+			},
+		);
+
+		router.patch(
+			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
+			(req: express.Request, res: express.Response) => {
+				const identifier = req.params.identifier;
+				const userIdentifier = req.params.userIdentifier;
+				const updateOrganizationMembershipRequest = req.body as UpdateOrganizationMembershipRequest;
+
+				this.organizationsController.updateMembership(
+					res,
+					identifier,
+					userIdentifier,
+					updateOrganizationMembershipRequest,
+				);
+			},
+		);
+
 		router
-			.get("/:identifier", (req: express.Request, res: express.Response) => {
+			.get(OrganizationsRoutes.basePath + "/:identifier", (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const asReference = req.query.asReference;
 				if (asReference) {
@@ -63,8 +135,9 @@ export class OrganizationsRoutes {
 				}
 			})
 			.patch(
-				"/:identifier",
+				OrganizationsRoutes.basePath + "/:identifier",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const updateOrganizationRequest = req.body as UpdateOrganizationRequest;
@@ -74,40 +147,45 @@ export class OrganizationsRoutes {
 
 		router
 			.post(
-				"/:identifier/activate",
+				OrganizationsRoutes.basePath + "/:identifier/activate",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.activateOrganization(res, identifier);
 				},
 			)
 			.post(
-				"/:identifier/deactivate",
+				OrganizationsRoutes.basePath + "/:identifier/deactivate",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.deactivateOrganization(res, identifier);
 				},
 			)
 			.post(
-				"/:identifier/retire",
+				OrganizationsRoutes.basePath + "/:identifier/retire",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.retireOrganization(res, identifier);
 				},
 			)
 			.post(
-				"/:identifier/archive",
+				OrganizationsRoutes.basePath + "/:identifier/archive",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.archiveOrganization(res, identifier);
 				},
 			)
 			.post(
-				"/:identifier/unarchive",
+				OrganizationsRoutes.basePath + "/:identifier/unarchive",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.unarchiveOrganization(res, identifier);

@@ -1,0 +1,43 @@
+[
+	{
+		"type": "User",
+		"email": "admin@ts.berlin",
+		"password": "$argon2id$v=19$m=65536,t=3,p=4$ZwEhXR/3lr45YhGbXKLRCQ$TaAodqismqzN5+RzAQvbW3HLtEFt9aw4m7xZGgfzN0Q",
+		"permissionFlags": 8192,
+		"identifier": "PCNJ26HLST71",
+		"createdAt": "2023-10-17T06:50:50.751Z",
+		"updatedAt": "2023-10-17T06:50:50.751Z",
+		"memberships": [
+		  {
+			"organizationIdentifier": "O_SDND45ADJNDP",
+			"role": "editor"
+		  }
+		]
+	  },
+	  {
+		"email": "user@ts.berlin",
+		"password": "$argon2id$v=19$m=65536,t=3,p=4$xJ+rrgn9t+gs18RcHs7+Iw$v4PcPm9sYwHOUaYVPxzH03Vuz1i+edBFE4J0/1X/AqY",
+		"firstName": "Ulf",
+		"lastName": "User",
+		"type": "User",
+		"identifier": "B4R7GJH2KH6H",
+		"permissionFlags": 1,
+		"createdAt": "2023-10-17T07:01:01.362Z",
+		"updatedAt": "2023-10-17T07:01:01.362Z",
+		"memberships": [
+		  {
+			"organizationIdentifier": "O_berlin-literary-cafe-67890",
+			"role": "member"
+		  },
+		  {
+			"organizationIdentifier": "O_L8346W3HSL9A",
+			"role": "author"
+		  },
+		  {
+			"organizationIdentifier": "O_SDND45ADJNDP",
+			"role": "admin"
+		  }
+		]
+	  }
+
+]

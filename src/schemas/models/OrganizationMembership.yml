@@ -1,0 +1,17 @@
+type: object
+properties:
+  email:
+    type: string
+  userIdentifier:
+    type: string
+  firstName:
+    type: string
+  lastName:
+    type: string
+  role:
+    $ref: "Role.yml"
+required:
+  - email
+  - userIdentifier
+  - role
+additionalProperties: false

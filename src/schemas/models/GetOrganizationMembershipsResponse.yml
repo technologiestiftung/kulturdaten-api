@@ -7,19 +7,12 @@ properties:
   data:
     type: object
     properties:
-      accessTokens:
+      organizationIdentifier:
+        type: string
+      memberships:
         type: array
         items:
-          $ref: "AccessToken.yml"
-      user:
-        $ref: "User.yml"
-      organizations:
-        type: array
-        items: 
-          $ref: "Organization.yml"
-    required:
-      - accessTokens
-      - user
+            $ref: "OrganizationMembership.yml"
     additionalProperties: false
 required:
   - success

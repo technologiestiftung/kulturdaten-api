@@ -5,6 +5,8 @@ import { Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
+import { CreateUserResponse } from "../../../generated/models/CreateUserResponse.generated";
+import { GetUsersResponse } from "../../../generated/models/GetUsersResponse.generated";
 import { UpdateUserPasswordRequest } from "../../../generated/models/UpdateUserPasswordRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { UsersService } from "../services/UsersService";
@@ -21,7 +23,7 @@ export class UsersController {
 
 		if (users) {
 			res.status(200).send(
-				new SuccessResponseBuilder()
+				new SuccessResponseBuilder<GetUsersResponse>()
 					.okResponse({
 						page: pagination.page,
 						pageSize: pagination.pageSize,
@@ -48,7 +50,9 @@ export class UsersController {
 		createUser.password = await argon2.hash(createUser.password);
 		const userId = await this.usersService.create(createUser);
 		if (userId) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ identifier: userId }).build());
+			res
+				.status(201)
+				.send(new SuccessResponseBuilder<CreateUserResponse>().okResponse({ userIdentifier: userId }).build());
 		} else {
 			res
 				.status(400)
