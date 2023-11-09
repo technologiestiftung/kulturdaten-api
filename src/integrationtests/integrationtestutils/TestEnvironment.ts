@@ -25,6 +25,9 @@ import { OrganizationsController } from "../../resources/organizations/controlle
 import { MongoDBOrganizationsRepository } from "../../resources/organizations/repositories/MongoDBOrganizationsRepository";
 import { OrganizationsRepository } from "../../resources/organizations/repositories/OrganizationsRepository";
 import { OrganizationsService } from "../../resources/organizations/services/OrganizationsService";
+import { UsersRepository } from "../../resources/users/repositories/UsersRepository";
+import { UsersService } from "../../resources/users/services/UsersService";
+import { MongoDBUsersRepository } from "../../resources/users/repositories/MongoDBUsersRepository";
 
 export class TestEnvironment {
 	ADMIN_TOKEN: string = "ADMIN_TOKEN";
@@ -65,6 +68,10 @@ export class TestEnvironment {
 	attractions!: Collection;
 	ATTRACTIONS_ROUTE = "/attractions";
 
+	usersRepository!: UsersRepository;
+	usersService!: UsersService;
+	users!: Collection;
+
 	async startServer(): Promise<TestEnvironment> {
 		this.mongoServer = await MongoMemoryServer.create();
 		process.env.MONGO_URI = this.mongoServer.getUri();
@@ -101,9 +108,13 @@ export class TestEnvironment {
 	}
 
 	withOrganizationsRoutes(): TestEnvironment {
+		this.usersRepository = new MongoDBUsersRepository(this.connector);
+		this.usersService = new UsersService(this.usersRepository);
+		this.users = this.db.collection("users");
+
 		this.organizationsRepository = new MongoDBOrganizationsRepository(this.connector);
 		this.organizationsService = new OrganizationsService(this.organizationsRepository);
-		this.organizationsController = new OrganizationsController(this.organizationsService);
+		this.organizationsController = new OrganizationsController(this.organizationsService, this.usersService);
 		this.organizationsRoutes = new OrganizationsRoutes(this.organizationsController);
 		this.organizations = this.db.collection("organizations");
 		this.app.use("/", this.organizationsRoutes.getRouter());

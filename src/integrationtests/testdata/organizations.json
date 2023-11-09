@@ -1,7 +1,7 @@
 [
 	{
 		"type": "type.Organization",
-		"identifier": "berlin-art-emporium-12345",
+		"identifier": "O_berlin-art-emporium-12345",
 		"metadata": {
 			"created": "2023-07-01T08:30:00Z",
 			"updated": "2023-07-06T09:15:00Z",
@@ -44,7 +44,7 @@
 	},
 	{
 		"type": "type.Organization",
-		"identifier": "berlin-literary-cafe-67890",
+		"identifier": "O_berlin-literary-cafe-67890",
 		"metadata": {
 			"created": "2023-06-15T14:20:00Z",
 			"updated": "2023-07-06T10:45:00Z",
@@ -90,7 +90,7 @@
 
 	{
 		"type": "type.Organization",
-		"identifier": "temporal-cultural-exchange-45123",
+		"identifier": "O_temporal-cultural-exchange-45123",
 		"metadata": {
 			"created": "2350-01-12T10:20:00Z",
 			"updated": "2023-07-06T12:35:00Z",

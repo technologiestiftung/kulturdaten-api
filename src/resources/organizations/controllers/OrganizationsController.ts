@@ -239,7 +239,7 @@ export class OrganizationsController implements ResourcePermissionController {
 					.build(),
 			);
 		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Organization not found").build());
+			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Membership not found").build());
 		}
 	}
 
