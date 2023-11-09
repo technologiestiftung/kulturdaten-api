@@ -2,7 +2,6 @@ import { mock } from "ts-mockito";
 import { Event } from "../../../generated/models/Event.generated";
 import { EventsRepository } from "../repositories/EventsRepository";
 import { EventsService } from "./EventsService";
-import { describe, it, expect } from "vitest";
 
 function createEvent(identifier: string) {
 	const event: Event = {

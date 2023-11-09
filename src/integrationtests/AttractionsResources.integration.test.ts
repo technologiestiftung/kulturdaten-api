@@ -6,7 +6,6 @@ import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ATTRACTION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 import threeDummyAttractions from "./testdata/attractions.json";
-import { describe, beforeAll, afterAll, beforeEach, afterEach, it, vi, expect } from "vitest";
 
 let env!: TestEnvironment;
 

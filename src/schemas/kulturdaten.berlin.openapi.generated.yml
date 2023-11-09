@@ -2735,7 +2735,7 @@ components:
             - referenceType
             - referenceId
           additionalProperties: false
-          description: The managing person of this location.
+          description: The managing organization of this location.
         contact:
           type: object
           description: The main contact person of this location.
@@ -5064,7 +5064,7 @@ components:
                           - referenceType
                           - referenceId
                         additionalProperties: false
-                        description: The managing person of this location.
+                        description: The managing organization of this location.
                       contact:
                         type: object
                         description: The main contact person of this location.
@@ -5628,7 +5628,7 @@ components:
                           - referenceType
                           - referenceId
                         additionalProperties: false
-                        description: The managing person of this location.
+                        description: The managing organization of this location.
                       contact:
                         type: object
                         description: The main contact person of this location.
@@ -5924,7 +5924,7 @@ components:
                     - referenceType
                     - referenceId
                   additionalProperties: false
-                  description: The managing person of this location.
+                  description: The managing organization of this location.
                 contact:
                   type: object
                   description: The main contact person of this location.
