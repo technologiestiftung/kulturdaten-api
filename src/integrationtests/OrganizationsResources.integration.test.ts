@@ -209,8 +209,11 @@ describe("Organize Membership", () => {
 	});
 
 	it("should return membership for invited user  / POST /organizations/{identifier}/memberships", async () => {
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, "O_berlin-art-emporium-12345", "admin");
+
 		const { body, statusCode } = await request(env.app)
 			.post(env.ORGANIZATIONS_ROUTE + "/O_berlin-art-emporium-12345/memberships")
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
 			.send({
 				email: "user@ts.berlin",
 				role: "admin",
@@ -233,26 +236,40 @@ describe("Organize Membership", () => {
 	});
 
 	it("should return 204  / DELETE /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, "O_L8346W3HSL9A", "admin");
+
 		const { statusCode } = await request(env.app)
 			.delete(env.ORGANIZATIONS_ROUTE + "/O_L8346W3HSL9A/memberships/B4R7GJH2KH6H")
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
 			.send();
 		expect(statusCode).toBe(204);
 	});
 
 	it("should return memberships for all members  / GET /organizations/{identifier}/memberships", async () => {
+		const ADMIN_TOKEN_1 = env.createUser("ID", "admin@ts.berlin", 1, "O_berlin-art-emporium-12345", "admin");
+		const ADMIN_TOKEN_2 = env.createUser("ID", "admin@ts.berlin", 1, "O_berlin-literary-cafe-67890", "admin");
+
 		const oneOrganizationRoute = env.ORGANIZATIONS_ROUTE + "/O_berlin-art-emporium-12345/memberships";
 		const anotherOrganization = env.ORGANIZATIONS_ROUTE + "/O_berlin-literary-cafe-67890/memberships";
-		await request(env.app).post(oneOrganizationRoute).send({
-			email: "user@ts.berlin",
-			role: "admin",
-		});
-		await request(env.app).post(anotherOrganization).send({
-			email: "admin@ts.berlin",
-			role: "admin",
-		});
+
+		await request(env.app)
+			.post(oneOrganizationRoute)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN_1)
+			.send({
+				email: "user@ts.berlin",
+				role: "admin",
+			});
+		await request(env.app)
+			.post(anotherOrganization)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN_2)
+			.send({
+				email: "admin@ts.berlin",
+				role: "admin",
+			});
 
 		const { body, statusCode } = await request(env.app)
 			.get(env.ORGANIZATIONS_ROUTE + "/O_berlin-art-emporium-12345/memberships")
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN_1)
 			.send();
 
 		expect(statusCode).toBe(200);
@@ -276,41 +293,49 @@ describe("Organize Membership", () => {
 
 	it("should return all memberships for a given organization identifier / GET /organizations/{identifier}/memberships", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
-		const { statusCode: getAllStatusCode } = await request(env.app).get(
-			`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`,
-		);
+		const { statusCode: getAllStatusCode } = await request(env.app)
+			.get(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
 
 		expect(getAllStatusCode).toBe(200);
 	});
 
 	it("should return a single membership for a given user identifier within an organization / GET /organizations/{identifier}/memberships/{userIdentifier}", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 		const userIdentifier = "B4R7GJH2KH6H";
 
-		const { statusCode: getSingleStatusCode } = await request(env.app).get(
-			`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`,
-		);
+		const { statusCode: getSingleStatusCode } = await request(env.app)
+			.get(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
 
 		expect(getSingleStatusCode).toBe(200);
 	});
 
 	it("should handle the case when a membership for a given user identifier within an organization is not found / GET /organizations/{identifier}/memberships/{userIdentifier}", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 		const invalidUserIdentifier = "U_INVALID";
 
-		const { statusCode: getSingleNotFoundStatusCode } = await request(env.app).get(
-			`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`,
-		);
+		const { statusCode: getSingleNotFoundStatusCode } = await request(env.app)
+			.get(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
 
 		expect(getSingleNotFoundStatusCode).toBe(404);
 	});
 
 	it("should create a new membership for a user within an organization / POST /organizations/{identifier}/memberships", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
 		const { statusCode: postCreateStatusCode } = await request(env.app)
 			.post(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
 			.send({
 				email: "admin@ts.berlin",
 				role: "member",
@@ -321,9 +346,11 @@ describe("Organize Membership", () => {
 
 	it("should return an error when trying to create a membership for a user that already exists within an organization / POST /organizations/{identifier}/memberships", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
 		const { statusCode: postCreateExistingUserStatusCode } = await request(env.app)
 			.post(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
 			.send({
 				email: "existinguser@ts.berlin",
 				role: "member",
@@ -333,9 +360,12 @@ describe("Organize Membership", () => {
 
 	it("should return an error when trying to create a membership for a user that does not exist / POST /organizations/{identifier}/memberships", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
 		const { statusCode: postCreateNonExistentUserStatusCode } = await request(env.app)
 			.post(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+
 			.send({
 				email: "nonexistentuser@ts.berlin",
 				role: "member",
@@ -346,9 +376,12 @@ describe("Organize Membership", () => {
 	it("should update the role of an existing membership within an organization / PATCH /organizations/{identifier}/memberships/{userIdentifier}", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
 		const userIdentifier = "B4R7GJH2KH6H";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
 		const { statusCode: patchUpdateStatusCode } = await request(env.app)
 			.patch(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+
 			.send({
 				role: "editor",
 			});
@@ -358,9 +391,12 @@ describe("Organize Membership", () => {
 	it("should handle the case when attempting to update a membership that does not exist within an organization / PATCH /organizations/{identifier}/memberships/{userIdentifier}", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
 		const invalidUserIdentifier = "U_invalid123";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
 		const { statusCode: patchUpdateNotFoundStatusCode } = await request(env.app)
 			.patch(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+
 			.send({
 				role: "editor",
 			});
@@ -370,20 +406,25 @@ describe("Organize Membership", () => {
 	it("should delete a membership for a given user identifier within an organization / DELETE /organizations/{identifier}/memberships/{userIdentifier}", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
 		const userIdentifier = "B4R7GJH2KH6H";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
-		const { statusCode: deleteStatusCode } = await request(env.app).delete(
-			`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`,
-		);
+		const { statusCode: deleteStatusCode } = await request(env.app)
+			.delete(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
 		expect(deleteStatusCode).toBe(204);
 	});
 
 	it("should handle the case when attempting to delete a membership that does not exist within an organization / DELETE /organizations/{identifier}/memberships/{userIdentifier}", async () => {
 		const organizationIdentifier = "O_berlin-literary-cafe-67890";
 		const invalidUserIdentifier = "U_invalid123";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
 
-		const { statusCode: deleteNotFoundStatusCode } = await request(env.app).delete(
-			`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`,
-		);
+		const { statusCode: deleteNotFoundStatusCode } = await request(env.app)
+			.delete(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
+
 		expect(deleteNotFoundStatusCode).toBe(400);
 	});
 });

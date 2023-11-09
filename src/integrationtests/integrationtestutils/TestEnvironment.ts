@@ -30,15 +30,30 @@ import { UsersService } from "../../resources/users/services/UsersService";
 import { MongoDBUsersRepository } from "../../resources/users/repositories/MongoDBUsersRepository";
 
 export class TestEnvironment {
+	createUser(
+		userIdentifier: string,
+		email: string,
+		permissionFlags: number,
+		organizationIdentifier: string,
+		role: string,
+	) {
+		return JSON.stringify({
+			identifier: userIdentifier,
+			email: email,
+			permissionFlags: permissionFlags,
+			organizationIdentifier: organizationIdentifier,
+			role: role,
+		});
+	}
 	ADMIN_TOKEN: string = JSON.stringify({
-		id: "adminID",
+		identifier: "adminID",
 		email: "admin@email.de",
 		permissionFlags: PermissionFlag.ADMIN_PERMISSION,
 		organizationIdentifier: "O_org_1",
 		role: "admin",
 	});
 	USER_TOKEN: string = JSON.stringify({
-		id: "userID",
+		identifier: "userID",
 		email: "user@email.de",
 		permissionFlags: PermissionFlag.REGISTERED_USER,
 		organizationIdentifier: "O_org_1",

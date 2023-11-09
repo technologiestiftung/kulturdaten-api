@@ -60,6 +60,9 @@ export class OrganizationsRoutes {
 
 		router.post(
 			OrganizationsRoutes.basePath + "/:identifier/memberships",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const createMembershipRequest = req.body as CreateMembershipRequest;
@@ -69,6 +72,9 @@ export class OrganizationsRoutes {
 
 		router.get(
 			OrganizationsRoutes.basePath + "/:identifier/memberships",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.organizationsController.listMemberships(res, identifier);
@@ -77,6 +83,9 @@ export class OrganizationsRoutes {
 
 		router.get(
 			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const userIdentifier = req.params.userIdentifier;
@@ -86,6 +95,9 @@ export class OrganizationsRoutes {
 
 		router.delete(
 			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const userIdentifier = req.params.userIdentifier;
@@ -95,6 +107,9 @@ export class OrganizationsRoutes {
 
 		router.patch(
 			OrganizationsRoutes.basePath + "/:identifier/memberships/:userIdentifier",
+			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.organizationsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const userIdentifier = req.params.userIdentifier;
