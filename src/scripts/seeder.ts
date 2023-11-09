@@ -37,9 +37,18 @@ let mongoDBConnector: MongoDBConnector;
  *  npm run seed -- --tags
  *
  * ---------------------------
+ * Setting up an Organization:
+ * ---------------------------
+ * To create a starting organization (TSB) and add the admin as a member with the admin role, use the
+ * `-o` or `--organization` flag. The admin user will only be added to this organization if they are created
+ * with the same command.
+ * Example:
+ *  npm run seed -- --organization --admin admin@example.com:password123
+ *
+ * ---------------------------
  * Creating an Admin User:
  * ---------------------------
- * To introduce an admin user to the database, apply the `-a` or `--admin` flag.
+ * To introduce an admin user to the database (without an organization), use the `-a` or `--admin` flag.
  * This should be followed by the user's email and password, structured as `email:password`.
  * Example:
  *  npm run seed -- --admin admin@example.com:password123
