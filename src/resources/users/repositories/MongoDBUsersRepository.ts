@@ -16,7 +16,7 @@ import { UpdateOrganizationMembershipRequest } from "../../../generated/models/U
 export class MongoDBUsersRepository implements UsersRepository {
 	constructor(@Inject("DBClient") private dbConnector: MongoDBConnector) {}
 
-	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<any[]> {
+	async get(filter?: Filter, projection?: any, pagination?: Pagination): Promise<User[]> {
 		const users = await this.dbConnector.users();
 		let query = users.find(filter || {}, {
 			projection: projection ? { ...projection, ...MONGO_DB_DEFAULT_PROJECTION } : MONGO_DB_DEFAULT_PROJECTION,
@@ -65,7 +65,7 @@ export class MongoDBUsersRepository implements UsersRepository {
 
 	async searchUser(filter: Filter): Promise<User | null> {
 		const users = await this.dbConnector.users();
-		const user = users.findOne(filter, { projection: { _id: 0, password: 0 } });
+		const user = users.findOne(filter, { projection: MONGO_DB_USER_DEFAULT_PROJECTION });
 		return user;
 	}
 
