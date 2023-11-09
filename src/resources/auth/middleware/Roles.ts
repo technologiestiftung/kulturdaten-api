@@ -206,13 +206,13 @@ export const Roles: readonly RoutePermission[] = [
 	},
 ];
 
-export function getRoleByRoleName(roleName: string): RoutePermission {
+export function getRoleByRoleName(roleName: Role): RoutePermission {
 	const lowerCaseRoleName = roleName.toLowerCase();
 	const foundRole = Roles.find((role) => role.role === lowerCaseRoleName);
 	return foundRole || Roles.find((role) => role.role === unassigned)!;
 }
 
-export function checkPermissionForRole(roleName: string | undefined, action: string): boolean {
+export function checkPermissionForRole(roleName: Role | undefined, action: string): boolean {
 	if (!roleName) {
 		return false;
 	}

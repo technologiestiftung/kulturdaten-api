@@ -6,11 +6,6 @@ describe("getRoleByRoleName", () => {
 		expect(role).toBe(Roles.find((r) => r.role === "admin"));
 	});
 
-	it("returns unassigned role for an unknown role name", () => {
-		const role = getRoleByRoleName("nonexistentRoleName");
-		expect(role.role).toBe("unassigned");
-	});
-
 	it("ensures the unassigned role has no allowed routes", () => {
 		const role = getRoleByRoleName("unassigned");
 		expect(role.allowedRoutes.length).toBe(0);
@@ -30,11 +25,6 @@ describe("checkPermissionForRole", () => {
 
 	it("returns false if the role is unassigned", () => {
 		const result = checkPermissionForRole("unassigned", "GET:/attractions/");
-		expect(result).toBe(false);
-	});
-
-	it("returns false for an unknown role", () => {
-		const result = checkPermissionForRole("nonexistentRole", "GET:/attractions/");
 		expect(result).toBe(false);
 	});
 
