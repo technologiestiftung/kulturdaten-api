@@ -1,5 +1,7 @@
-export type Role = {
-	readonly role: string;
+import { Role } from "../../../generated/models/Role.generated";
+
+type RoutePermission = {
+	readonly role: Role;
 	readonly allowedRoutes: ReadonlyArray<{
 		readonly action: string;
 		readonly restrictions?: readonly string[];
@@ -12,7 +14,7 @@ export const author = "author";
 export const member = "member";
 export const unassigned = "unassigned";
 
-export const Roles: readonly Role[] = [
+export const Roles: readonly RoutePermission[] = [
 	{
 		role: admin,
 		allowedRoutes: [
@@ -204,7 +206,7 @@ export const Roles: readonly Role[] = [
 	},
 ];
 
-export function getRoleByRoleName(roleName: string): Role {
+export function getRoleByRoleName(roleName: string): RoutePermission {
 	const lowerCaseRoleName = roleName.toLowerCase();
 	const foundRole = Roles.find((role) => role.role === lowerCaseRoleName);
 	return foundRole || Roles.find((role) => role.role === unassigned)!;

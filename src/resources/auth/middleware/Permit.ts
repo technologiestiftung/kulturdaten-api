@@ -12,7 +12,7 @@ export class Permit {
 			const identifier = req.params.identifier;
 			const authUser = req.user as AuthUser;
 
-			if (!req.user || !identifier || !authUser || !authUser.organizationIdentifier) {
+			if (!identifier || !authUser || !authUser.organizationIdentifier) {
 				res.status(403).send();
 				return;
 			}
@@ -49,9 +49,9 @@ export class Permit {
 			res.status(403).send();
 			return;
 		}
-		const member: AuthUser = req.user as AuthUser;
+		const user: AuthUser = req.user as AuthUser;
 
-		if (checkPermissionForRole(member.role, action)) {
+		if (checkPermissionForRole(user.role, action)) {
 			next();
 			return;
 		} else {
@@ -112,8 +112,8 @@ export class Permit {
 
 	static isUserAdmin(req: express.Request) {
 		if (!req.user) return false;
-		const u: AuthUser = req.user as AuthUser;
-		if (u.permissionFlags ? u.permissionFlags & PermissionFlag.ADMIN_PERMISSION : false) {
+		const user: AuthUser = req.user as AuthUser;
+		if (user.permissionFlags ? user.permissionFlags & PermissionFlag.ADMIN_PERMISSION : false) {
 			return true;
 		} else {
 			return false;
