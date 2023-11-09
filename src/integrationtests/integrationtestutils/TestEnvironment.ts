@@ -28,6 +28,7 @@ import { OrganizationsService } from "../../resources/organizations/services/Org
 import { UsersRepository } from "../../resources/users/repositories/UsersRepository";
 import { UsersService } from "../../resources/users/services/UsersService";
 import { MongoDBUsersRepository } from "../../resources/users/repositories/MongoDBUsersRepository";
+import { AuthUser } from "../../generated/models/AuthUser.generated";
 
 export class TestEnvironment {
 	createUser(
@@ -45,20 +46,24 @@ export class TestEnvironment {
 			role: role,
 		});
 	}
-	ADMIN_TOKEN: string = JSON.stringify({
+	private adminAuthUser: AuthUser = {
 		identifier: "adminID",
 		email: "admin@email.de",
 		permissionFlags: PermissionFlag.ADMIN_PERMISSION,
 		organizationIdentifier: "O_org_1",
 		role: "admin",
-	});
-	USER_TOKEN: string = JSON.stringify({
+	};
+	ADMIN_TOKEN: string = JSON.stringify(this.adminAuthUser);
+
+	private userAuthUser: AuthUser = {
 		identifier: "userID",
 		email: "user@email.de",
 		permissionFlags: PermissionFlag.REGISTERED_USER,
 		organizationIdentifier: "O_org_1",
 		role: "admin",
-	});
+	};
+	USER_TOKEN: string = JSON.stringify(this.userAuthUser);
+
 	WRONG_TOKEN: string = "WRONG_TOKEN";
 
 	con!: MongoClient;
