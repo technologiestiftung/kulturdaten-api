@@ -4,7 +4,6 @@ import { Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { ClaimLocationRequest } from "../../../generated/models/ClaimLocationRequest.generated";
-import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { SearchLocationsRequest } from "../../../generated/models/SearchLocationsRequest.generated";
 import { SearchLocationsResponse } from "../../../generated/models/SearchLocationsResponse.generated";
@@ -16,6 +15,8 @@ import { ResourcePermissionController } from "../../auth/controllers/ResourcePer
 import { GetLocationsResponse } from "../../../generated/models/GetLocationsResponse.generated";
 import { GetLocationResponse } from "../../../generated/models/GetLocationResponse.generated";
 import { CreateLocationResponse } from "../../../generated/models/CreateLocationResponse.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 
@@ -113,8 +114,8 @@ export class LocationsController implements ResourcePermissionController {
 		}
 	}
 
-	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
-		const locationReference = await this.locationsService.create(createLocationRequest);
+	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest, authUser?: AuthUser) {
+		const locationReference = await this.locationsService.create(createLocationRequest, authUser);
 		if (locationReference) {
 			res
 				.status(201)
