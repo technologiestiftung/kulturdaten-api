@@ -1,7 +1,8 @@
 import debug from "debug";
-import jwt from "jsonwebtoken";
+import jwt, { TokenExpiredError } from "jsonwebtoken";
 import { Strategy } from "passport";
 import * as bearerStrategy from "passport-http-bearer";
+import { IVerifyOptions } from "passport-http-bearer";
 
 const log: debug.IDebugger = debug("app:auth-passport-strategy");
 
@@ -20,7 +21,12 @@ export class AuthBearerJWTStrategy {
 					}
 					return done(null, authUser);
 				} catch (err) {
-					return done(null, false);
+					if (err instanceof TokenExpiredError) {
+						const errorOptions: IVerifyOptions = { message: "Your token has expired. Please log in again.", scope: "" };
+						return done(null, false, errorOptions);
+					} else {
+						return done(null, false);
+					}
 				}
 			});
 		}
