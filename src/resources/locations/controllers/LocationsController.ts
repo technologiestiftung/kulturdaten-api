@@ -154,6 +154,24 @@ export class LocationsController implements ResourcePermissionController {
 		}
 	}
 
+	public async publishLocation(res: express.Response, identifier: string): Promise<void> {
+		const isPublished = await this.locationsService.publishLocation(identifier);
+		if (isPublished) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to publish the location").build());
+		}
+	}
+
+	public async unpublishLocation(res: express.Response, identifier: string): Promise<void> {
+		const isUnpublished = await this.locationsService.unpublishLocation(identifier);
+		if (isUnpublished) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unpublish the location").build());
+		}
+	}
+
 	async closeLocation(res: express.Response, identifier: string) {
 		const isClosed = await this.locationsService.closeLocation(identifier);
 		if (isClosed) {

@@ -935,6 +935,40 @@ paths:
         "200":
           description: OK
 
+
+  /locations/{identifier}/publish:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Published
+
+  /locations/{identifier}/unpublish:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Unpublished
+
+
   /locations/{identifier}/claim:
     post:
       tags:
