@@ -35,16 +35,10 @@ export class UsersRoutes {
 					this.usersController.listUsers(res, pagination);
 				},
 			)
-			.post(
-				"/",
-				passport.authenticate("authenticated-user", { session: false }),
-				Permit.authorizesAsAdmin(),
-				CheckUsers.eMailIsNotExist(this.usersService),
-				(req: express.Request, res: express.Response) => {
-					const createUser = req.body as CreateUserRequest;
-					this.usersController.createUser(res, createUser);
-				},
-			);
+			.post("/", CheckUsers.eMailIsNotExist(this.usersService), (req: express.Request, res: express.Response) => {
+				const createUser = req.body as CreateUserRequest;
+				this.usersController.createUser(res, createUser);
+			});
 
 		router
 			.get(
