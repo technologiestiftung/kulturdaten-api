@@ -131,10 +131,10 @@ export class LocationsController implements ResourcePermissionController {
 		}
 	}
 
-	async createLocations(res: express.Response, createLocationsRequest: CreateLocationRequest[]) {
+	async createLocations(res: express.Response, createLocationsRequest: CreateLocationRequest[], authUser?: AuthUser) {
 		const locationsReferences: Promise<Reference | null>[] = [];
 		createLocationsRequest.forEach(async (request) => {
-			locationsReferences.push(this.locationsService.create(request));
+			locationsReferences.push(this.locationsService.create(request, authUser));
 		});
 		const lR = await Promise.all(locationsReferences);
 

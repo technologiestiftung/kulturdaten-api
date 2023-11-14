@@ -41,7 +41,8 @@ export class LocationsRoutes {
 				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const createLocationRequest = req.body as CreateLocationRequest;
-					this.locationsController.createLocation(res, createLocationRequest, req.user as AuthUser);
+					const authUser = req.user as AuthUser;
+					this.locationsController.createLocation(res, createLocationRequest, authUser);
 				},
 			);
 
@@ -51,8 +52,8 @@ export class LocationsRoutes {
 			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const createLocationsRequest = req.body as CreateLocationRequest[];
-
-				this.locationsController.createLocations(res, createLocationsRequest);
+				const authUser = req.user as AuthUser;
+				this.locationsController.createLocations(res, createLocationsRequest, authUser);
 			},
 		);
 
