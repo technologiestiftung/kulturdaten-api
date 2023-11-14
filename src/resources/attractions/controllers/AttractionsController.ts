@@ -17,6 +17,7 @@ import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttract
 import { AttractionsService } from "../services/AttractionsService";
 import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
 export class AttractionsController implements ResourcePermissionController {
