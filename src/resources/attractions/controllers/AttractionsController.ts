@@ -101,8 +101,8 @@ export class AttractionsController implements ResourcePermissionController {
 		return totalCount > 0;
 	}
 
-	async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {
-		const attractionReference = await this.attractionsService.create(createAttractionRequest);
+	async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest, authUser?: AuthUser) {
+		const attractionReference = await this.attractionsService.create(createAttractionRequest, authUser);
 		if (attractionReference) {
 			res
 				.status(201)
@@ -118,10 +118,10 @@ export class AttractionsController implements ResourcePermissionController {
 		}
 	}
 
-	async createAttractions(res: Response, createAttractionRequest: CreateAttractionRequest[]) {
+	async createAttractions(res: Response, createAttractionRequest: CreateAttractionRequest[], authUser?: AuthUser) {
 		const attractionsReferences: Promise<Reference | null>[] = [];
 		createAttractionRequest.forEach(async (request) => {
-			attractionsReferences.push(this.attractionsService.create(request));
+			attractionsReferences.push(this.attractionsService.create(request, authUser));
 		});
 		const aR = await Promise.all(attractionsReferences);
 

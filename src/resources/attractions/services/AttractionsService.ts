@@ -10,6 +10,8 @@ import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExter
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
 import { EventsRepository } from "../../events/repositories/EventsRepository";
 import { AttractionsRepository } from "../repositories/AttractionsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { isSuperAdmin } from "../../auth/middleware/PermissionFlag";
 
 @Service()
 export class AttractionsService {
@@ -53,7 +55,16 @@ export class AttractionsService {
 		return this.attractionsRepository.countAttractions(searchFilter);
 	}
 
-	async create(createAttractionRequest: CreateAttractionRequest): Promise<Reference | null> {
+	async create(createAttractionRequest: CreateAttractionRequest, authUser?: AuthUser): Promise<Reference | null> {
+		if (!authUser && !isSuperAdmin(authUser)) {
+			delete createAttractionRequest["curator"];
+		}
+		if (authUser?.organizationIdentifier) {
+			createAttractionRequest.curator = {
+				referenceType: "type.Organization",
+				referenceId: authUser.organizationIdentifier,
+			};
+		}
 		return this.attractionsRepository.addAttraction(createAttractionRequest);
 	}
 

@@ -4297,6 +4297,27 @@ components:
             required:
               - url
             additionalProperties: false
+        curator:
+          type: object
+          properties:
+            referenceType:
+              type: string
+            referenceId:
+              type: string
+            referenceLabel:
+              type: object
+              additionalProperties:
+                type: string
+              description: >-
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Konzert
+                en: concert
+          required:
+            - referenceType
+            - referenceId
+          additionalProperties: false
         metadata:
           type: object
           properties:

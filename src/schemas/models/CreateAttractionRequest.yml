@@ -16,6 +16,8 @@ properties:
       type: string
   externalLinks:
     $ref: "ExternalLinks.yml"
+  curator:
+    $ref: "Reference.yml"
   metadata:
     type: object
     properties:
