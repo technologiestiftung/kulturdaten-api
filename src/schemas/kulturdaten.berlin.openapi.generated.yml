@@ -6717,7 +6717,6 @@ components:
         - schedule
         - locations
         - attractions
-        - organizer
       additionalProperties: false
     CreateEventResponse:
       type: object

@@ -42,5 +42,4 @@ required:
   - schedule
   - locations
   - attractions
-  - organizer
 additionalProperties: false
