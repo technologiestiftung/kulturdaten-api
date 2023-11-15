@@ -23,8 +23,8 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 export class AttractionsController implements ResourcePermissionController {
 	constructor(public attractionsService: AttractionsService) {}
 
-	async listAttractions(res: Response, pagination: Pagination) {
-		const attractions = await this.attractionsService.list(pagination);
+	async listAttractions(res: Response, pagination: Pagination, curatedBy?: string) {
+		const attractions = await this.attractionsService.list(pagination, curatedBy);
 		const totalCount = await this.attractionsService.countAttractions();
 		res.status(200).send(
 			new SuccessResponseBuilder<GetAttractionsResponse>()
@@ -38,8 +38,8 @@ export class AttractionsController implements ResourcePermissionController {
 		);
 	}
 
-	async listAttractionsAsReference(res: Response, pagination: Pagination) {
-		const attractionsReferences = await this.attractionsService.listAsReferences(pagination);
+	async listAttractionsAsReference(res: Response, pagination: Pagination, curatedBy?: string) {
+		const attractionsReferences = await this.attractionsService.listAsReferences(pagination, curatedBy);
 		const totalCount = await this.attractionsService.countAttractions();
 
 		res.status(200).send(

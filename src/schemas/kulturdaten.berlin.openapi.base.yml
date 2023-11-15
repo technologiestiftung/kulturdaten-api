@@ -84,6 +84,11 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: curatedBy
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: OK

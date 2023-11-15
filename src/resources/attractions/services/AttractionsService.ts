@@ -20,12 +20,16 @@ export class AttractionsService {
 		@Inject("EventsRepository") public eventsRepository: EventsRepository,
 	) {}
 
-	async list(pagination?: Pagination): Promise<Attraction[]> {
-		return this.attractionsRepository.getAttractions(pagination);
+	getCuratedByFilter(curatedBy?: string) {
+		return curatedBy ? { "curator.referenceId": curatedBy } : undefined;
 	}
 
-	async listAsReferences(pagination?: Pagination): Promise<Reference[]> {
-		return this.attractionsRepository.getAttractionsAsReferences(pagination);
+	async list(pagination?: Pagination, curatedBy?: string): Promise<Attraction[]> {
+		return this.attractionsRepository.getAttractions(pagination, this.getCuratedByFilter(curatedBy));
+	}
+
+	async listAsReferences(pagination?: Pagination, curatedBy?: string): Promise<Reference[]> {
+		return this.attractionsRepository.getAttractionsAsReferences(pagination, this.getCuratedByFilter(curatedBy));
 	}
 
 	async listForAdmins(pagination?: Pagination): Promise<AdminAttraction[]> {

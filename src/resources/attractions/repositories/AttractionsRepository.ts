@@ -11,9 +11,9 @@ import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttract
 const log: debug.IDebugger = debug("app:attractions-repository");
 
 export interface AttractionsRepository {
-	getAttractions(pagination?: Pagination): Promise<Attraction[]>;
+	getAttractions(pagination?: Pagination, filter?: Filter): Promise<Attraction[]>;
 
-	getAttractionsAsReferences(pagination?: Pagination): Promise<Reference[]>;
+	getAttractionsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]>;
 
 	searchAttractions(filter?: Filter, pagination?: Pagination): Promise<Attraction[]>;
 
