@@ -32,11 +32,12 @@ export class EventsRoutes {
 			.get(EventsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
+				const organizedBy = req.query.organizedBy as string;
 
 				if (asReference) {
-					this.eventsController.listEventsAsReference(res, pagination);
+					this.eventsController.listEventsAsReference(res, pagination, organizedBy);
 				} else {
-					this.eventsController.listEvents(res, pagination);
+					this.eventsController.listEvents(res, pagination, organizedBy);
 				}
 			})
 			.post(

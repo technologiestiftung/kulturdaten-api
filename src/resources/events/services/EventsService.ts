@@ -24,12 +24,16 @@ export class EventsService {
 
 	constructor(@Inject("EventsRepository") public eventsRepository: EventsRepository) {}
 
-	async list(pagination?: Pagination) {
-		return this.eventsRepository.getEvents(pagination);
+	getOrganizedByFilter(organizedBy?: string) {
+		return organizedBy ? { "organizer.referenceId": organizedBy } : undefined;
 	}
 
-	async listAsReferences(pagination?: Pagination) {
-		return this.eventsRepository.getEventsAsReferences(pagination);
+	async list(pagination?: Pagination, organizedBy?: string) {
+		return this.eventsRepository.getEvents(pagination, this.getOrganizedByFilter(organizedBy));
+	}
+
+	async listAsReferences(pagination?: Pagination, organizedBy?: string) {
+		return this.eventsRepository.getEventsAsReferences(pagination, this.getOrganizedByFilter(organizedBy));
 	}
 
 	async search(

@@ -23,8 +23,8 @@ const log: debug.IDebugger = debug("app:locations-controller");
 @Service()
 export class LocationsController implements ResourcePermissionController {
 	constructor(public locationsService: LocationsService) {}
-	async listLocations(res: express.Response, pagination: Pagination) {
-		const locations = await this.locationsService.list(pagination);
+	async listLocations(res: express.Response, pagination: Pagination, managedBy?: string) {
+		const locations = await this.locationsService.list(pagination, managedBy);
 		const totalCount = await this.locationsService.countLocations();
 
 		if (locations) {
@@ -43,8 +43,8 @@ export class LocationsController implements ResourcePermissionController {
 		}
 	}
 
-	async listLocationsAsReference(res: express.Response, pagination: Pagination) {
-		const locationsReferences = await this.locationsService.listAsReferences(pagination);
+	async listLocationsAsReference(res: express.Response, pagination: Pagination, managedBy?: string) {
+		const locationsReferences = await this.locationsService.listAsReferences(pagination, managedBy);
 		const totalCount = await this.locationsService.countLocations();
 
 		if (locationsReferences) {

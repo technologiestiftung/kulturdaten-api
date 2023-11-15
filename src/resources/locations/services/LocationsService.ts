@@ -14,12 +14,16 @@ import { CreateLocationRequest } from "../../../generated/models/CreateLocationR
 export class LocationsService {
 	constructor(@Inject("LocationsRepository") public locationsRepository: LocationsRepository) {}
 
-	async list(pagination?: Pagination) {
-		return this.locationsRepository.getLocations(pagination);
+	getManagedByFilter(managedBy?: string) {
+		return managedBy ? { "manager.referenceId": managedBy } : undefined;
 	}
 
-	async listAsReferences(pagination?: Pagination) {
-		return this.locationsRepository.getLocationsAsReferences(pagination);
+	async list(pagination?: Pagination, managedBy?: string) {
+		return this.locationsRepository.getLocations(pagination, this.getManagedByFilter(managedBy));
+	}
+
+	async listAsReferences(pagination?: Pagination, managedBy?: string) {
+		return this.locationsRepository.getLocationsAsReferences(pagination, this.getManagedByFilter(managedBy));
 	}
 
 	async create(resource: CreateLocationRequest, authUser?: AuthUser): Promise<Reference | null> {

@@ -383,6 +383,11 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: organizedBy
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -737,6 +742,11 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: managedBy
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: OK

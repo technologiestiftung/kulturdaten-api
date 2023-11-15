@@ -28,11 +28,12 @@ export class LocationsRoutes {
 			.get(LocationsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
+				const managedBy = req.query.managedBy as string;
 
 				if (asReference) {
-					this.locationsController.listLocationsAsReference(res, pagination);
+					this.locationsController.listLocationsAsReference(res, pagination, managedBy);
 				} else {
-					this.locationsController.listLocations(res, pagination);
+					this.locationsController.listLocations(res, pagination, managedBy);
 				}
 			})
 			.post(

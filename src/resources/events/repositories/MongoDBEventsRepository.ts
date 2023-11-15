@@ -46,12 +46,12 @@ export class MongoDBEventsRepository implements EventsRepository {
 		return events.countDocuments(filter);
 	}
 
-	async getEvents(pagination?: Pagination): Promise<Event[]> {
-		return this.get(undefined, undefined, pagination);
+	async getEvents(pagination?: Pagination, filter?: Filter): Promise<Event[]> {
+		return this.get(filter, undefined, pagination);
 	}
 
-	async getEventsAsReferences(pagination?: Pagination): Promise<Reference[]> {
-		return this.get(undefined, getEventReferenceProjection(), pagination) as unknown as Promise<Reference[]>;
+	async getEventsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]> {
+		return this.get(filter, getEventReferenceProjection(), pagination) as unknown as Promise<Reference[]>;
 	}
 
 	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {

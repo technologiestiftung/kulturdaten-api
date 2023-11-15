@@ -28,8 +28,8 @@ const log: debug.IDebugger = debug("app:events-controller");
 export class EventsController implements ResourcePermissionController {
 	constructor(public eventsService: EventsService) {}
 
-	async listEvents(res: express.Response, pagination: Pagination) {
-		const events = await this.eventsService.list(pagination);
+	async listEvents(res: express.Response, pagination: Pagination, organizedBy?: string) {
+		const events = await this.eventsService.list(pagination, organizedBy);
 		const totalCount = await this.eventsService.countEvents();
 		res.status(200).send(
 			new SuccessResponseBuilder<GetEventsResponse>()
@@ -43,8 +43,8 @@ export class EventsController implements ResourcePermissionController {
 		);
 	}
 
-	async listEventsAsReference(res: express.Response, pagination: Pagination) {
-		const eventsReferences = await this.eventsService.listAsReferences(pagination);
+	async listEventsAsReference(res: express.Response, pagination: Pagination, organizedBy?: string) {
+		const eventsReferences = await this.eventsService.listAsReferences(pagination, organizedBy);
 		const totalCount = await this.eventsService.countEvents();
 		res.status(200).send(
 			new SuccessResponseBuilder<GetEventsResponse>()
