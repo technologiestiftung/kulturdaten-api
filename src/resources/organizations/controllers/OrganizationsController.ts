@@ -162,6 +162,26 @@ export class OrganizationsController implements ResourcePermissionController {
 		}
 	}
 
+	async publishOrganization(res: express.Response, identifier: string) {
+		const isPublished = await this.organizationsService.publish(identifier);
+		if (isPublished) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to publish the organization").build());
+		}
+	}
+
+	async unpublishOrganization(res: express.Response, identifier: string) {
+		const isUnpublished = await this.organizationsService.unpublish(identifier);
+		if (isUnpublished) {
+			res.status(200).send();
+		} else {
+			res
+				.status(400)
+				.send(new ErrorResponseBuilder().badRequestResponse("Failed to unpublish the organization").build());
+		}
+	}
+
 	async archiveOrganization(res: express.Response, identifier: string) {
 		const isArchived = await this.organizationsService.archive(identifier);
 		if (isArchived) {

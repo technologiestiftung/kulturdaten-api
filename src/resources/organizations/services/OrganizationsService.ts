@@ -51,6 +51,10 @@ export class OrganizationsService {
 		return this.organizationsRepository.updateOrganizationStatusById(identifier, "organization.published");
 	}
 
+	async unpublish(identifier: string): Promise<boolean> {
+		return this.organizationsRepository.updateOrganizationStatusById(identifier, "organization.unpublished");
+	}
+
 	deactivate(identifier: string): Promise<boolean> {
 		return this.organizationsRepository.updateOrganizationActivationStatusById(identifier, "organization.inactive");
 	}
