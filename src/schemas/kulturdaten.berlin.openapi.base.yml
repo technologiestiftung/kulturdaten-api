@@ -84,6 +84,12 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: curatedBy
+          in: query
+          required: false
+          description: Returns only the Attractions curated by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -339,6 +345,12 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: organizedBy
+          in: query
+          required: false
+          description: Returns only the events organized by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -711,6 +723,12 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: managedBy
+          in: query
+          required: false
+          description: Returns only the locations managed by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK

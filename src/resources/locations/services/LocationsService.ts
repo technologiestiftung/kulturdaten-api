@@ -14,12 +14,12 @@ import { CreateLocationRequest } from "../../../generated/models/CreateLocationR
 export class LocationsService {
 	constructor(@Inject("LocationsRepository") public locationsRepository: LocationsRepository) {}
 
-	async list(pagination?: Pagination) {
-		return this.locationsRepository.getLocations(pagination);
+	async list(pagination?: Pagination, searchFilter?: Filter) {
+		return this.locationsRepository.getLocations(pagination, searchFilter);
 	}
 
-	async listAsReferences(pagination?: Pagination) {
-		return this.locationsRepository.getLocationsAsReferences(pagination);
+	async listAsReferences(pagination?: Pagination, searchFilter?: Filter) {
+		return this.locationsRepository.getLocationsAsReferences(pagination, searchFilter);
 	}
 
 	async create(resource: CreateLocationRequest, authUser?: AuthUser): Promise<Reference | null> {

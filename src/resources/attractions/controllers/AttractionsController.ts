@@ -23,9 +23,13 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 export class AttractionsController implements ResourcePermissionController {
 	constructor(public attractionsService: AttractionsService) {}
 
-	async listAttractions(res: Response, pagination: Pagination) {
-		const attractions = await this.attractionsService.list(pagination);
-		const totalCount = await this.attractionsService.countAttractions();
+	getCuratedByFilter(curatedBy?: string) {
+		return curatedBy ? { "curator.referenceId": curatedBy } : undefined;
+	}
+
+	async listAttractions(res: Response, pagination: Pagination, curatedBy?: string) {
+		const attractions = await this.attractionsService.list(pagination, this.getCuratedByFilter(curatedBy));
+		const totalCount = await this.attractionsService.countAttractions(this.getCuratedByFilter(curatedBy));
 		res.status(200).send(
 			new SuccessResponseBuilder<GetAttractionsResponse>()
 				.okResponse({
@@ -38,9 +42,12 @@ export class AttractionsController implements ResourcePermissionController {
 		);
 	}
 
-	async listAttractionsAsReference(res: Response, pagination: Pagination) {
-		const attractionsReferences = await this.attractionsService.listAsReferences(pagination);
-		const totalCount = await this.attractionsService.countAttractions();
+	async listAttractionsAsReference(res: Response, pagination: Pagination, curatedBy?: string) {
+		const attractionsReferences = await this.attractionsService.listAsReferences(
+			pagination,
+			this.getCuratedByFilter(curatedBy),
+		);
+		const totalCount = await this.attractionsService.countAttractions(this.getCuratedByFilter(curatedBy));
 
 		res.status(200).send(
 			new SuccessResponseBuilder<GetAttractionsResponse>()

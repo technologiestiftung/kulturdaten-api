@@ -28,11 +28,12 @@ export class AttractionsRoutes {
 			.get(AttractionsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
+				const curatedBy = req.query.curatedBy as string;
 
 				if (asReference) {
-					this.attractionsController.listAttractionsAsReference(res, pagination);
+					this.attractionsController.listAttractionsAsReference(res, pagination, curatedBy);
 				} else {
-					this.attractionsController.listAttractions(res, pagination);
+					this.attractionsController.listAttractions(res, pagination, curatedBy);
 				}
 			})
 			.post(

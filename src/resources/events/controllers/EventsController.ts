@@ -28,9 +28,13 @@ const log: debug.IDebugger = debug("app:events-controller");
 export class EventsController implements ResourcePermissionController {
 	constructor(public eventsService: EventsService) {}
 
-	async listEvents(res: express.Response, pagination: Pagination) {
-		const events = await this.eventsService.list(pagination);
-		const totalCount = await this.eventsService.countEvents();
+	getOrganizedByFilter(organizedBy?: string) {
+		return organizedBy ? { "organizer.referenceId": organizedBy } : undefined;
+	}
+
+	async listEvents(res: express.Response, pagination: Pagination, organizedBy?: string) {
+		const events = await this.eventsService.list(pagination, this.getOrganizedByFilter(organizedBy));
+		const totalCount = await this.eventsService.countEvents(this.getOrganizedByFilter(organizedBy));
 		res.status(200).send(
 			new SuccessResponseBuilder<GetEventsResponse>()
 				.okResponse({
@@ -43,9 +47,12 @@ export class EventsController implements ResourcePermissionController {
 		);
 	}
 
-	async listEventsAsReference(res: express.Response, pagination: Pagination) {
-		const eventsReferences = await this.eventsService.listAsReferences(pagination);
-		const totalCount = await this.eventsService.countEvents();
+	async listEventsAsReference(res: express.Response, pagination: Pagination, organizedBy?: string) {
+		const eventsReferences = await this.eventsService.listAsReferences(
+			pagination,
+			this.getOrganizedByFilter(organizedBy),
+		);
+		const totalCount = await this.eventsService.countEvents(this.getOrganizedByFilter(organizedBy));
 		res.status(200).send(
 			new SuccessResponseBuilder<GetEventsResponse>()
 				.okResponse({

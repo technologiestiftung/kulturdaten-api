@@ -23,9 +23,14 @@ const log: debug.IDebugger = debug("app:locations-controller");
 @Service()
 export class LocationsController implements ResourcePermissionController {
 	constructor(public locationsService: LocationsService) {}
-	async listLocations(res: express.Response, pagination: Pagination) {
-		const locations = await this.locationsService.list(pagination);
-		const totalCount = await this.locationsService.countLocations();
+
+	getManagedByFilter(managedBy?: string) {
+		return managedBy ? { "manager.referenceId": managedBy } : undefined;
+	}
+
+	async listLocations(res: express.Response, pagination: Pagination, managedBy?: string) {
+		const locations = await this.locationsService.list(pagination, this.getManagedByFilter(managedBy));
+		const totalCount = await this.locationsService.countLocations(this.getManagedByFilter(managedBy));
 
 		if (locations) {
 			res.status(200).send(
@@ -43,9 +48,12 @@ export class LocationsController implements ResourcePermissionController {
 		}
 	}
 
-	async listLocationsAsReference(res: express.Response, pagination: Pagination) {
-		const locationsReferences = await this.locationsService.listAsReferences(pagination);
-		const totalCount = await this.locationsService.countLocations();
+	async listLocationsAsReference(res: express.Response, pagination: Pagination, managedBy?: string) {
+		const locationsReferences = await this.locationsService.listAsReferences(
+			pagination,
+			this.getManagedByFilter(managedBy),
+		);
+		const totalCount = await this.locationsService.countLocations(this.getManagedByFilter(managedBy));
 
 		if (locationsReferences) {
 			res.status(200).send(

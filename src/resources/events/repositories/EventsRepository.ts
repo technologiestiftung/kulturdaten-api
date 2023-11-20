@@ -10,9 +10,9 @@ import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest
 const log: debug.IDebugger = debug("app:events-repository");
 
 export interface EventsRepository {
-	getEvents(pagination?: Pagination): Promise<Event[]>;
+	getEvents(pagination?: Pagination, filter?: Filter): Promise<Event[]>;
 
-	getEventsAsReferences(pagination?: Pagination): Promise<Reference[]>;
+	getEventsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]>;
 
 	searchEvents(filter?: Filter, pagination?: Pagination): Promise<Event[]>;
 
