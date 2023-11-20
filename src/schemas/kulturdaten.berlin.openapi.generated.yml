@@ -121,6 +121,7 @@ paths:
         - name: curatedBy
           in: query
           required: false
+          description: Returns only the Attractions curated by the entered Organization-ID
           schema:
             type: string
       responses:
