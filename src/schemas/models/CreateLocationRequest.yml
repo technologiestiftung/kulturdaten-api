@@ -6,6 +6,9 @@ properties:
     $ref: "TranslatableField.yml"
   website:
     type: string
+  isVirtual:
+    type: boolean
+    description: Indicates that the place exists only in a digital format and can be accessed or experienced online, rather than being a physical location in the real world.
   address:
     $ref: "Address.yml"
   borough:
