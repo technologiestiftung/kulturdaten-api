@@ -348,6 +348,7 @@ paths:
         - name: organizedBy
           in: query
           required: false
+          description: Returns only the events organized by the entered Organization-ID
           schema:
             type: string
       responses:
@@ -725,6 +726,7 @@ paths:
         - name: managedBy
           in: query
           required: false
+          description: Returns only the locations managed by the entered Organization-ID
           schema:
             type: string
       responses:
