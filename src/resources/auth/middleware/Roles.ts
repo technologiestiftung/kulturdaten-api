@@ -80,6 +80,8 @@ export const Roles: readonly RoutePermission[] = [
 			{ action: "POST:/locations/:identifier/archive" },
 			{ action: "POST:/locations/:identifier/unarchive" },
 			{ action: "POST:/locations/:identifier/claim" },
+			{ action: "POST:/locations/:identifier/publish" },
+			{ action: "POST:/locations/:identifier/unpublish" },
 		],
 	},
 	{
@@ -133,6 +135,8 @@ export const Roles: readonly RoutePermission[] = [
 			{ action: "POST:/locations/:identifier/permanentlyClose" },
 			{ action: "POST:/locations/:identifier/archive" },
 			{ action: "POST:/locations/:identifier/unarchive" },
+			{ action: "POST:/locations/:identifier/publish" },
+			{ action: "POST:/locations/:identifier/unpublish" },
 		],
 	},
 	{
