@@ -177,6 +177,7 @@ export class OrganizationsRoutes {
 				OrganizationsRoutes.basePath + "/:identifier/publish",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.organizationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.publishOrganization(res, identifier);
@@ -186,6 +187,7 @@ export class OrganizationsRoutes {
 				OrganizationsRoutes.basePath + "/:identifier/unpublish",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.organizationsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.unpublishOrganization(res, identifier);
