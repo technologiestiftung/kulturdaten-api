@@ -2151,7 +2151,6 @@ components:
             - metadata
             - status
             - title
-          additionalProperties: false
         - type: object
           properties:
             events:
@@ -2561,7 +2560,6 @@ components:
         - metadata
         - status
         - title
-      additionalProperties: false
     Location:
       type: object
       properties:
@@ -4263,7 +4261,6 @@ components:
                       - metadata
                       - status
                       - title
-                    additionalProperties: false
                 attractionsReferences:
                   type: array
                   items:
@@ -4583,7 +4580,6 @@ components:
                       - metadata
                       - status
                       - title
-                    additionalProperties: false
                 attractionsReferences:
                   type: array
                   items:
@@ -4761,7 +4757,6 @@ components:
                 - metadata
                 - status
                 - title
-              additionalProperties: false
             attractionReference:
               type: object
               properties:
@@ -8599,7 +8594,6 @@ components:
                     - metadata
                     - status
                     - title
-                  additionalProperties: false
                 - type: object
                   properties:
                     events:
@@ -9074,7 +9068,6 @@ components:
                           - metadata
                           - status
                           - title
-                        additionalProperties: false
                       - type: object
                         properties:
                           events:
