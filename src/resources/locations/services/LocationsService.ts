@@ -76,7 +76,7 @@ export class LocationsService {
 		return this.locationsRepository.updateStatus(identifier, "location.published");
 	}
 
-	async unpublish(identifier: string): Promise<boolean> {
+	async unpublishLocation(identifier: string): Promise<boolean> {
 		return this.locationsRepository.updateStatus(identifier, "location.unpublished");
 	}
 

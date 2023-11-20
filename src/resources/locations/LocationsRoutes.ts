@@ -111,6 +111,26 @@ export class LocationsRoutes {
 
 		router
 			.post(
+				LocationsRoutes.basePath + "/:identifier/publish",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.publishLocation(res, identifier);
+				},
+			)
+			.post(
+				LocationsRoutes.basePath + "/:identifier/unpublish",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.locationsController),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.locationsController.unpublishLocation(res, identifier);
+				},
+			)
+			.post(
 				LocationsRoutes.basePath + "/:identifier/open",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
