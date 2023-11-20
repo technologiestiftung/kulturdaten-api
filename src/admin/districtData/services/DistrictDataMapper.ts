@@ -129,6 +129,7 @@ export class DistrictDataMapper {
 
 		return {
 			title: { de: veranstaltungsort.name },
+			isVirtual: false,
 			address: this.mapAddress(veranstaltungsort),
 			...(veranstaltungsort.telefon && { contact: { telephone: veranstaltungsort.telefon } }),
 			...(accessibilityTags && { accessibility: accessibilityTags }),
