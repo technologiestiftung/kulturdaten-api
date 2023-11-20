@@ -56,7 +56,7 @@ export class AttractionsService {
 	}
 
 	async create(createAttractionRequest: CreateAttractionRequest, authUser?: AuthUser): Promise<Reference | null> {
-		if (!authUser && !isSuperAdmin(authUser)) {
+		if (!authUser || !isSuperAdmin(authUser)) {
 			delete createAttractionRequest["curator"];
 		}
 		if (authUser?.organizationIdentifier) {
