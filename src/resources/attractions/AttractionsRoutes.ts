@@ -11,6 +11,7 @@ import { UpdateAttractionRequest } from "../../generated/models/UpdateAttraction
 import { getPagination } from "../../utils/RequestUtil";
 import { AttractionsController } from "./controllers/AttractionsController";
 import { Permit } from "../auth/middleware/Permit";
+import { AuthUser } from "../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:attractions-routes");
 
@@ -40,7 +41,9 @@ export class AttractionsRoutes {
 				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const createAttractionRequest = req.body as CreateAttractionRequest;
-					this.attractionsController.createAttraction(res, createAttractionRequest);
+					const authUser = req.user as AuthUser;
+
+					this.attractionsController.createAttraction(res, createAttractionRequest, authUser);
 				},
 			);
 
@@ -50,8 +53,9 @@ export class AttractionsRoutes {
 			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const createAttractionRequest = req.body as CreateAttractionRequest[];
+				const authUser = req.user as AuthUser;
 
-				this.attractionsController.createAttractions(res, createAttractionRequest);
+				this.attractionsController.createAttractions(res, createAttractionRequest, authUser);
 			},
 		);
 

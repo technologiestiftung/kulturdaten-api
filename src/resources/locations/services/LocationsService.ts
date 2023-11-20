@@ -1,12 +1,14 @@
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
-import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { Location } from "../../../generated/models/Location.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { SetLocationManagerRequest } from "../../../generated/models/SetLocationManagerRequest.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
 import { LocationsRepository } from "../repositories/LocationsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { isSuperAdmin } from "../../auth/middleware/PermissionFlag";
+import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 
 @Service()
 export class LocationsService {
@@ -20,7 +22,13 @@ export class LocationsService {
 		return this.locationsRepository.getLocationsAsReferences(pagination);
 	}
 
-	async create(resource: CreateLocationRequest): Promise<Reference | null> {
+	async create(resource: CreateLocationRequest, authUser?: AuthUser): Promise<Reference | null> {
+		if (!authUser && !isSuperAdmin(authUser)) {
+			delete resource["manager"];
+		}
+		if (authUser?.organizationIdentifier) {
+			resource.manager = { referenceType: "type.Organization", referenceId: authUser.organizationIdentifier };
+		}
 		return this.locationsRepository.addLocation(resource);
 	}
 

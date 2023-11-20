@@ -5,7 +5,6 @@ import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../../generated/models/AddEventLocationRequest.generated";
-import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { RemoveEventAttractionRequest } from "../../../generated/models/RemoveEventAttractionRequest.generated";
 import { RemoveEventLocationRequest } from "../../../generated/models/RemoveEventLocationRequest.generated";
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
@@ -20,6 +19,8 @@ import { DuplicateEventResponse } from "../../../generated/models/DuplicateEvent
 import { GetEventResponse } from "../../../generated/models/GetEventResponse.generated";
 import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
 import { Filter } from "../../../generated/models/Filter.generated";
+import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
@@ -86,8 +87,8 @@ export class EventsController implements ResourcePermissionController {
 		return totalCount > 0;
 	}
 
-	async createEvent(res: express.Response, createEvent: CreateEventRequest) {
-		const eventReference = await this.eventsService.create(createEvent);
+	async createEvent(res: express.Response, createEvent: CreateEventRequest, authUser?: AuthUser) {
+		const eventReference = await this.eventsService.create(createEvent, authUser);
 		if (eventReference) {
 			res
 				.status(201)
@@ -99,8 +100,8 @@ export class EventsController implements ResourcePermissionController {
 		}
 	}
 
-	async createEvents(res: express.Response, createEventRequests: CreateEventRequest[]) {
-		const promises = createEventRequests.map(async (request) => this.eventsService.create(request));
+	async createEvents(res: express.Response, createEventRequests: CreateEventRequest[], authUser?: AuthUser) {
+		const promises = createEventRequests.map(async (request) => this.eventsService.create(request, authUser));
 		const eventReferences = await Promise.all(promises);
 		res.status(201).send(new SuccessResponseBuilder().okResponse({ events: eventReferences }).build());
 	}

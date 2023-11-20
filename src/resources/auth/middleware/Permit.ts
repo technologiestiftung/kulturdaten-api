@@ -1,5 +1,5 @@
 import express from "express";
-import { PermissionFlag } from "./PermissionFlag";
+import { PermissionFlag, isSuperAdmin } from "./PermissionFlag";
 import { checkPermissionForRole } from "./Roles";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { PermissionFilter } from "../filter/PermissionFilter";
@@ -50,6 +50,11 @@ export class Permit {
 			return;
 		}
 		const user: AuthUser = req.user as AuthUser;
+
+		if (isSuperAdmin(user)) {
+			next();
+			return;
+		}
 
 		if (checkPermissionForRole(user.role, action)) {
 			next();

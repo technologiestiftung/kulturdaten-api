@@ -49,7 +49,7 @@ export class AuthController {
 
 	private generateAccessTokens(user: User) {
 		const accessTokens: AccessToken[] = [];
-		user.memberships.forEach((membership: any) => {
+		user.memberships?.forEach((membership: any) => {
 			accessTokens.push(
 				this.generateAccessToken(
 					user.identifier,

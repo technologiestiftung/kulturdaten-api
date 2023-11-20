@@ -5,7 +5,6 @@ import { Service } from "typedi";
 import { Pagination } from "../../common/parameters/Pagination";
 import { AddEventAttractionRequest } from "../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../generated/models/AddEventLocationRequest.generated";
-import { CreateEventRequest } from "../../generated/models/CreateEventRequest.generated";
 import { RemoveEventAttractionRequest } from "../../generated/models/RemoveEventAttractionRequest.generated";
 import { RemoveEventLocationRequest } from "../../generated/models/RemoveEventLocationRequest.generated";
 import { RescheduleEventRequest } from "../../generated/models/RescheduleEventRequest.generated";
@@ -15,6 +14,8 @@ import { UpdateEventRequest } from "../../generated/models/UpdateEventRequest.ge
 import { getPagination } from "../../utils/RequestUtil";
 import { EventsController } from "./controllers/EventsController";
 import { Permit } from "../auth/middleware/Permit";
+import { AuthUser } from "../../generated/models/AuthUser.generated";
+import { CreateEventRequest } from "../../generated/models/CreateEventRequest.generated";
 
 const log: debug.IDebugger = debug("app:events-routes");
 
@@ -44,7 +45,8 @@ export class EventsRoutes {
 				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const createEventRequest = req.body as CreateEventRequest;
-					this.eventsController.createEvent(res, createEventRequest);
+					const authUser = req.user as AuthUser;
+					this.eventsController.createEvent(res, createEventRequest, authUser);
 				},
 			);
 
@@ -54,8 +56,8 @@ export class EventsRoutes {
 			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const createEventsRequest = req.body as CreateEventRequest[];
-
-				this.eventsController.createEvents(res, createEventsRequest);
+				const authUser = req.user as AuthUser;
+				this.eventsController.createEvents(res, createEventsRequest, authUser);
 			},
 		);
 
