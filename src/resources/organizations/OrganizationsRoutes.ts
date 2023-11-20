@@ -183,6 +183,15 @@ export class OrganizationsRoutes {
 				},
 			)
 			.post(
+				OrganizationsRoutes.basePath + "/:identifier/unpublish",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.organizationsController.unpublishOrganization(res, identifier);
+				},
+			)
+			.post(
 				OrganizationsRoutes.basePath + "/:identifier/archive",
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesForAction(),
