@@ -21,6 +21,8 @@ properties:
   website:
     type: string
     example: https://example.com/
+  isVirtual:
+    type: boolean
   address:
     $ref: "Address.yml"
   borough:

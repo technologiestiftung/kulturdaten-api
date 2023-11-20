@@ -2634,6 +2634,8 @@ components:
         website:
           type: string
           example: https://example.com/
+        isVirtual:
+          type: boolean
         address:
           type: object
           properties:
@@ -4956,6 +4958,8 @@ components:
                       website:
                         type: string
                         example: https://example.com/
+                      isVirtual:
+                        type: boolean
                       address:
                         type: object
                         properties:
@@ -5191,6 +5195,8 @@ components:
             en: concert
         website:
           type: string
+        isVirtual:
+          type: boolean
         address:
           type: object
           properties:
@@ -5520,6 +5526,8 @@ components:
                       website:
                         type: string
                         example: https://example.com/
+                      isVirtual:
+                        type: boolean
                       address:
                         type: object
                         properties:
@@ -5817,6 +5825,8 @@ components:
                 website:
                   type: string
                   example: https://example.com/
+                isVirtual:
+                  type: boolean
                 address:
                   type: object
                   properties:
@@ -6050,6 +6060,8 @@ components:
             en: concert
         website:
           type: string
+        isVirtual:
+          type: boolean
         address:
           type: object
           properties:
