@@ -1984,35 +1984,110 @@ components:
         - scheduleStatus
       additionalProperties: false
     AdminAttraction:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - type.Attraction
-        identifier:
-          type: string
-        metadata:
-          type: object
+      allOf:
+        - type: object
           properties:
-            created:
+            type:
               type: string
-              description: The date and time the object was created (ISO timestamp).
-              example: "2011-10-05T14:48:00.000Z"
-            updated:
+              enum:
+                - type.Attraction
+            identifier:
               type: string
+            metadata:
+              type: object
+              properties:
+                created:
+                  type: string
+                  description: The date and time the object was created (ISO timestamp).
+                  example: "2011-10-05T14:48:00.000Z"
+                updated:
+                  type: string
+                  description: >-
+                    The date and time the object was last updated (ISO
+                    timestamp). Is identical to created date after first
+                    creation.
+                  example: "2011-10-05T14:48:00.000Z"
+                origin:
+                  type: string
+                  description: The source of this object.
+                  example: bezirkskalender
+                originObjectID:
+                  type: string
+                  description: The original ID of this object in the original system.
+                availableLanguages:
+                  type: array
+                  description: List of languages this object is available in.
+                  example:
+                    - de
+                    - en
+                  items:
+                    type: string
+                externalIDs:
+                  type: object
+                  additionalProperties:
+                    type: string
+              required:
+                - created
+                - updated
+              additionalProperties: false
+            status:
+              type: string
+              enum:
+                - attraction.published
+                - attraction.unpublished
+                - attraction.archived
+            title:
+              type: object
+              additionalProperties:
+                type: string
+              description: The main title of the attraction.
+              example:
+                de: Konzert
+                en: concert
+            description:
+              type: object
+              additionalProperties:
+                type: string
               description: >-
-                The date and time the object was last updated (ISO timestamp).
-                Is identical to created date after first creation.
-              example: "2011-10-05T14:48:00.000Z"
-            origin:
+                A string that can be translated into multiple languages, e.g. {
+                "de": "Konzert", "en": "concert" }
+              example:
+                de: Eine Beschreibung
+                en: Some description
+            pleaseNote:
+              type: object
+              additionalProperties:
+                type: string
+              description: Any important information for the attendees of the attraction.
+              example:
+                de: Achtung, laute Geräusche
+                en: Warning, loud noises
+            website:
               type: string
-              description: The source of this object.
-              example: bezirkskalender
-            originObjectID:
-              type: string
-              description: The original ID of this object in the original system.
-            availableLanguages:
+              example: https://example.com/
+            curator:
+              type: object
+              properties:
+                referenceType:
+                  type: string
+                referenceId:
+                  type: string
+                referenceLabel:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: >-
+                    A string that can be translated into multiple languages,
+                    e.g. { "de": "Konzert", "en": "concert" }
+                  example:
+                    de: Konzert
+                    en: concert
+              required:
+                - referenceType
+                - referenceId
+              additionalProperties: false
+              description: The curating organization of this attraction.
+            inLanguages:
               type: array
               description: List of languages this object is available in.
               example:
@@ -2020,97 +2095,171 @@ components:
                 - en
               items:
                 type: string
-            externalIDs:
-              type: object
-              additionalProperties:
+            tags:
+              type: array
+              description: List of tags for this attraction.
+              items:
                 type: string
-          required:
-            - created
-            - updated
-          additionalProperties: false
-        status:
-          type: string
-          enum:
-            - attraction.published
-            - attraction.unpublished
-            - attraction.archived
-        title:
-          type: object
-          additionalProperties:
-            type: string
-          description: >-
-            A string that can be translated into multiple languages, e.g. {
-            "de": "Konzert", "en": "concert" }
-          example:
-            de: Konzert
-            en: concert
-        description:
-          type: object
-          additionalProperties:
-            type: string
-          description: >-
-            A string that can be translated into multiple languages, e.g. {
-            "de": "Konzert", "en": "concert" }
-          example:
-            de: Konzert
-            en: concert
-        pleaseNote:
-          type: object
-          additionalProperties:
-            type: string
-          description: >-
-            A string that can be translated into multiple languages, e.g. {
-            "de": "Konzert", "en": "concert" }
-          example:
-            de: Konzert
-            en: concert
-        website:
-          type: string
-        inLanguages:
-          type: array
-          description: List of languages this object is available in.
-          example:
-            - de
-            - en
-          items:
-            type: string
-        tags:
-          type: array
-          items:
-            type: string
-        events:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                  - type.Event
-              identifier:
-                type: string
-              metadata:
+            externalLinks:
+              type: array
+              description: Links to external resources related to this object.
+              items:
                 type: object
                 properties:
-                  created:
+                  displayName:
                     type: string
-                    description: The date and time the object was created (ISO timestamp).
-                    example: "2011-10-05T14:48:00.000Z"
-                  updated:
+                    example: Website
+                  url:
                     type: string
+                    example: https://example.com/
+                required:
+                  - url
+                additionalProperties: false
+          required:
+            - type
+            - identifier
+            - metadata
+            - status
+            - title
+          additionalProperties: false
+        - type: object
+          properties:
+            events:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - type.Event
+                  identifier:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      created:
+                        type: string
+                        description: >-
+                          The date and time the object was created (ISO
+                          timestamp).
+                        example: "2011-10-05T14:48:00.000Z"
+                      updated:
+                        type: string
+                        description: >-
+                          The date and time the object was last updated (ISO
+                          timestamp). Is identical to created date after first
+                          creation.
+                        example: "2011-10-05T14:48:00.000Z"
+                      origin:
+                        type: string
+                        description: The source of this object.
+                        example: bezirkskalender
+                      originObjectID:
+                        type: string
+                        description: The original ID of this object in the original system.
+                      availableLanguages:
+                        type: array
+                        description: List of languages this object is available in.
+                        example:
+                          - de
+                          - en
+                        items:
+                          type: string
+                      externalIDs:
+                        type: object
+                        additionalProperties:
+                          type: string
+                    required:
+                      - created
+                      - updated
+                    additionalProperties: false
+                  status:
+                    type: string
+                    enum:
+                      - event.published
+                      - event.unpublished
+                      - event.archived
+                  scheduleStatus:
+                    type: string
+                    enum:
+                      - event.cancelled
+                      - event.postponed
+                      - event.rescheduled
+                      - event.scheduled
+                  schedule:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        description: >-
+                          The date (year, month, day) the event starts, in
+                          timezone Europe/Berlin.
+                        example: "2023-09-08"
+                      startTime:
+                        type: string
+                        description: The time the event starts, in timezone Europe/Berlin.
+                        example: "20:00:00"
+                      permanentOpening:
+                        type: boolean
+                        description: >-
+                          Indicates whether the event is permanently open (and
+                          has no end date/time).
+                        example: false
+                      doorTime:
+                        type: string
+                        description: >-
+                          The time that guests can enter the venue, in timezone
+                          Europe/Berlin.
+                        example: "19:00:00"
+                      endDate:
+                        type: string
+                        description: >-
+                          The date (year, month, day) the event ends, in
+                          timezone Europe/Berlin.
+                        example: "2023-09-08"
+                      endTime:
+                        type: string
+                        description: The time the event end, in timezone Europe/Berlin.
+                        example: "22:00"
+                    required:
+                      - startDate
+                      - startTime
+                    additionalProperties: false
+                  title:
+                    type: object
+                    additionalProperties:
+                      type: string
                     description: >-
-                      The date and time the object was last updated (ISO
-                      timestamp). Is identical to created date after first
-                      creation.
-                    example: "2011-10-05T14:48:00.000Z"
-                  origin:
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
+                  description:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
+                  pleaseNote:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    description: >-
+                      A string that can be translated into multiple languages,
+                      e.g. { "de": "Konzert", "en": "concert" }
+                    example:
+                      de: Konzert
+                      en: concert
+                  website:
                     type: string
-                    description: The source of this object.
-                    example: bezirkskalender
-                  originObjectID:
-                    type: string
-                    description: The original ID of this object in the original system.
-                  availableLanguages:
+                    example: https://example.com/
+                  inLanguages:
                     type: array
                     description: List of languages this object is available in.
                     example:
@@ -2118,256 +2267,134 @@ components:
                       - en
                     items:
                       type: string
-                  externalIDs:
-                    type: object
-                    additionalProperties:
+                  tags:
+                    type: array
+                    items:
                       type: string
-                required:
-                  - created
-                  - updated
-                additionalProperties: false
-              status:
-                type: string
-                enum:
-                  - event.published
-                  - event.unpublished
-                  - event.archived
-              scheduleStatus:
-                type: string
-                enum:
-                  - event.cancelled
-                  - event.postponed
-                  - event.rescheduled
-                  - event.scheduled
-              schedule:
-                type: object
-                properties:
-                  startDate:
-                    type: string
-                    description: >-
-                      The date (year, month, day) the event starts, in timezone
-                      Europe/Berlin.
-                    example: "2023-09-08"
-                  startTime:
-                    type: string
-                    description: The time the event starts, in timezone Europe/Berlin.
-                    example: "20:00:00"
-                  permanentOpening:
-                    type: boolean
-                    description: >-
-                      Indicates whether the event is permanently open (and has
-                      no end date/time).
-                    example: false
-                  doorTime:
-                    type: string
-                    description: >-
-                      The time that guests can enter the venue, in timezone
-                      Europe/Berlin.
-                    example: "19:00:00"
-                  endDate:
-                    type: string
-                    description: >-
-                      The date (year, month, day) the event ends, in timezone
-                      Europe/Berlin.
-                    example: "2023-09-08"
-                  endTime:
-                    type: string
-                    description: The time the event end, in timezone Europe/Berlin.
-                    example: "22:00"
-                required:
-                  - startDate
-                  - startTime
-                additionalProperties: false
-              title:
-                type: object
-                additionalProperties:
-                  type: string
-                description: >-
-                  A string that can be translated into multiple languages, e.g.
-                  { "de": "Konzert", "en": "concert" }
-                example:
-                  de: Konzert
-                  en: concert
-              description:
-                type: object
-                additionalProperties:
-                  type: string
-                description: >-
-                  A string that can be translated into multiple languages, e.g.
-                  { "de": "Konzert", "en": "concert" }
-                example:
-                  de: Konzert
-                  en: concert
-              pleaseNote:
-                type: object
-                additionalProperties:
-                  type: string
-                description: >-
-                  A string that can be translated into multiple languages, e.g.
-                  { "de": "Konzert", "en": "concert" }
-                example:
-                  de: Konzert
-                  en: concert
-              website:
-                type: string
-                example: https://example.com/
-              inLanguages:
-                type: array
-                description: List of languages this object is available in.
-                example:
-                  - de
-                  - en
-                items:
-                  type: string
-              tags:
-                type: array
-                items:
-                  type: string
-              locations:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    referenceType:
-                      type: string
-                    referenceId:
-                      type: string
-                    referenceLabel:
+                  locations:
+                    type: array
+                    items:
                       type: object
-                      additionalProperties:
-                        type: string
-                      description: >-
-                        A string that can be translated into multiple languages,
-                        e.g. { "de": "Konzert", "en": "concert" }
-                      example:
-                        de: Konzert
-                        en: concert
-                  required:
-                    - referenceType
-                    - referenceId
-                  additionalProperties: false
-              attractions:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    referenceType:
-                      type: string
-                    referenceId:
-                      type: string
-                    referenceLabel:
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
+                      required:
+                        - referenceType
+                        - referenceId
+                      additionalProperties: false
+                  attractions:
+                    type: array
+                    items:
                       type: object
-                      additionalProperties:
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
+                      required:
+                        - referenceType
+                        - referenceId
+                      additionalProperties: false
+                  organizer:
+                    type: object
+                    properties:
+                      referenceType:
                         type: string
-                      description: >-
-                        A string that can be translated into multiple languages,
-                        e.g. { "de": "Konzert", "en": "concert" }
-                      example:
-                        de: Konzert
-                        en: concert
-                  required:
-                    - referenceType
-                    - referenceId
-                  additionalProperties: false
-              organizer:
-                type: object
-                properties:
-                  referenceType:
-                    type: string
-                  referenceId:
-                    type: string
-                  referenceLabel:
+                      referenceId:
+                        type: string
+                      referenceLabel:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                    required:
+                      - referenceType
+                      - referenceId
+                    additionalProperties: false
+                  contact:
                     type: object
-                    additionalProperties:
-                      type: string
                     description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
+                      A person that is connected to and/or responsible for the
+                      referenced entity.
+                    properties:
+                      name:
+                        type: string
+                        description: Full name of the contact person.
+                        example: Jane Doe
+                      email:
+                        type: string
+                        description: Email address of the contact person.
+                        example: someone@example.com
+                      telephone:
+                        type: string
+                        description: Phone number of the contact person.
+                        example: +49 30 12345678
+                    additionalProperties: false
+                  admission:
+                    type: object
+                    description: Information about the admission to the event/attraction.
+                    properties:
+                      note:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: >-
+                          A string that can be translated into multiple
+                          languages, e.g. { "de": "Konzert", "en": "concert" }
+                        example:
+                          de: Konzert
+                          en: concert
+                      ticketType:
+                        type: string
+                        enum:
+                          - ticketType.ticketRequired
+                          - ticketType.freeOfCharge
+                      registrationType:
+                        type: string
+                        enum:
+                          - registrationType.registrationRequired
+                          - registrationType.noRegistrationRequired
+                          - registrationType.registrationDesired
+                      admissionLink:
+                        type: string
+                        example: https://example.com/
+                    additionalProperties: false
                 required:
-                  - referenceType
-                  - referenceId
+                  - type
+                  - identifier
+                  - metadata
+                  - status
+                  - scheduleStatus
                 additionalProperties: false
-              contact:
-                type: object
-                description: >-
-                  A person that is connected to and/or responsible for the
-                  referenced entity.
-                properties:
-                  name:
-                    type: string
-                    description: Full name of the contact person.
-                    example: Jane Doe
-                  email:
-                    type: string
-                    description: Email address of the contact person.
-                    example: someone@example.com
-                  telephone:
-                    type: string
-                    description: Phone number of the contact person.
-                    example: +49 30 12345678
-                additionalProperties: false
-              admission:
-                type: object
-                description: Information about the admission to the event/attraction.
-                properties:
-                  note:
-                    type: object
-                    additionalProperties:
-                      type: string
-                    description: >-
-                      A string that can be translated into multiple languages,
-                      e.g. { "de": "Konzert", "en": "concert" }
-                    example:
-                      de: Konzert
-                      en: concert
-                  ticketType:
-                    type: string
-                    enum:
-                      - ticketType.ticketRequired
-                      - ticketType.freeOfCharge
-                  registrationType:
-                    type: string
-                    enum:
-                      - registrationType.registrationRequired
-                      - registrationType.noRegistrationRequired
-                      - registrationType.registrationDesired
-                  admissionLink:
-                    type: string
-                    example: https://example.com/
-                additionalProperties: false
-            required:
-              - type
-              - identifier
-              - metadata
-              - status
-              - scheduleStatus
-            additionalProperties: false
-        externalLinks:
-          type: array
-          description: Links to external resources related to this object.
-          items:
-            type: object
-            properties:
-              displayName:
-                type: string
-                example: Website
-              url:
-                type: string
-                example: https://example.com/
-            required:
-              - url
-            additionalProperties: false
-      required:
-        - type
-        - identifier
-        - metadata
-        - status
-        - title
-        - events
-      additionalProperties: false
+          required:
+            - events
     Attraction:
       type: object
       properties:
@@ -8399,38 +8426,116 @@ components:
           type: object
           properties:
             attraction:
-              type: object
-              properties:
-                type:
-                  type: string
-                  enum:
-                    - type.Attraction
-                identifier:
-                  type: string
-                metadata:
-                  type: object
+              allOf:
+                - type: object
                   properties:
-                    created:
+                    type:
                       type: string
+                      enum:
+                        - type.Attraction
+                    identifier:
+                      type: string
+                    metadata:
+                      type: object
+                      properties:
+                        created:
+                          type: string
+                          description: >-
+                            The date and time the object was created (ISO
+                            timestamp).
+                          example: "2011-10-05T14:48:00.000Z"
+                        updated:
+                          type: string
+                          description: >-
+                            The date and time the object was last updated (ISO
+                            timestamp). Is identical to created date after first
+                            creation.
+                          example: "2011-10-05T14:48:00.000Z"
+                        origin:
+                          type: string
+                          description: The source of this object.
+                          example: bezirkskalender
+                        originObjectID:
+                          type: string
+                          description: >-
+                            The original ID of this object in the original
+                            system.
+                        availableLanguages:
+                          type: array
+                          description: List of languages this object is available in.
+                          example:
+                            - de
+                            - en
+                          items:
+                            type: string
+                        externalIDs:
+                          type: object
+                          additionalProperties:
+                            type: string
+                      required:
+                        - created
+                        - updated
+                      additionalProperties: false
+                    status:
+                      type: string
+                      enum:
+                        - attraction.published
+                        - attraction.unpublished
+                        - attraction.archived
+                    title:
+                      type: object
+                      additionalProperties:
+                        type: string
+                      description: The main title of the attraction.
+                      example:
+                        de: Konzert
+                        en: concert
+                    description:
+                      type: object
+                      additionalProperties:
+                        type: string
                       description: >-
-                        The date and time the object was created (ISO
-                        timestamp).
-                      example: "2011-10-05T14:48:00.000Z"
-                    updated:
-                      type: string
+                        A string that can be translated into multiple languages,
+                        e.g. { "de": "Konzert", "en": "concert" }
+                      example:
+                        de: Eine Beschreibung
+                        en: Some description
+                    pleaseNote:
+                      type: object
+                      additionalProperties:
+                        type: string
                       description: >-
-                        The date and time the object was last updated (ISO
-                        timestamp). Is identical to created date after first
-                        creation.
-                      example: "2011-10-05T14:48:00.000Z"
-                    origin:
+                        Any important information for the attendees of the
+                        attraction.
+                      example:
+                        de: Achtung, laute Geräusche
+                        en: Warning, loud noises
+                    website:
                       type: string
-                      description: The source of this object.
-                      example: bezirkskalender
-                    originObjectID:
-                      type: string
-                      description: The original ID of this object in the original system.
-                    availableLanguages:
+                      example: https://example.com/
+                    curator:
+                      type: object
+                      properties:
+                        referenceType:
+                          type: string
+                        referenceId:
+                          type: string
+                        referenceLabel:
+                          type: object
+                          additionalProperties:
+                            type: string
+                          description: >-
+                            A string that can be translated into multiple
+                            languages, e.g. { "de": "Konzert", "en": "concert" }
+                          example:
+                            de: Konzert
+                            en: concert
+                      required:
+                        - referenceType
+                        - referenceId
+                      additionalProperties: false
+                      description: The curating organization of this attraction.
+                    inLanguages:
                       type: array
                       description: List of languages this object is available in.
                       example:
@@ -8438,101 +8543,180 @@ components:
                         - en
                       items:
                         type: string
-                    externalIDs:
-                      type: object
-                      additionalProperties:
+                    tags:
+                      type: array
+                      description: List of tags for this attraction.
+                      items:
                         type: string
-                  required:
-                    - created
-                    - updated
-                  additionalProperties: false
-                status:
-                  type: string
-                  enum:
-                    - attraction.published
-                    - attraction.unpublished
-                    - attraction.archived
-                title:
-                  type: object
-                  additionalProperties:
-                    type: string
-                  description: >-
-                    A string that can be translated into multiple languages,
-                    e.g. { "de": "Konzert", "en": "concert" }
-                  example:
-                    de: Konzert
-                    en: concert
-                description:
-                  type: object
-                  additionalProperties:
-                    type: string
-                  description: >-
-                    A string that can be translated into multiple languages,
-                    e.g. { "de": "Konzert", "en": "concert" }
-                  example:
-                    de: Konzert
-                    en: concert
-                pleaseNote:
-                  type: object
-                  additionalProperties:
-                    type: string
-                  description: >-
-                    A string that can be translated into multiple languages,
-                    e.g. { "de": "Konzert", "en": "concert" }
-                  example:
-                    de: Konzert
-                    en: concert
-                website:
-                  type: string
-                inLanguages:
-                  type: array
-                  description: List of languages this object is available in.
-                  example:
-                    - de
-                    - en
-                  items:
-                    type: string
-                tags:
-                  type: array
-                  items:
-                    type: string
-                events:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        enum:
-                          - type.Event
-                      identifier:
-                        type: string
-                      metadata:
+                    externalLinks:
+                      type: array
+                      description: Links to external resources related to this object.
+                      items:
                         type: object
                         properties:
-                          created:
+                          displayName:
                             type: string
+                            example: Website
+                          url:
+                            type: string
+                            example: https://example.com/
+                        required:
+                          - url
+                        additionalProperties: false
+                  required:
+                    - type
+                    - identifier
+                    - metadata
+                    - status
+                    - title
+                  additionalProperties: false
+                - type: object
+                  properties:
+                    events:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                              - type.Event
+                          identifier:
+                            type: string
+                          metadata:
+                            type: object
+                            properties:
+                              created:
+                                type: string
+                                description: >-
+                                  The date and time the object was created (ISO
+                                  timestamp).
+                                example: "2011-10-05T14:48:00.000Z"
+                              updated:
+                                type: string
+                                description: >-
+                                  The date and time the object was last updated
+                                  (ISO timestamp). Is identical to created date
+                                  after first creation.
+                                example: "2011-10-05T14:48:00.000Z"
+                              origin:
+                                type: string
+                                description: The source of this object.
+                                example: bezirkskalender
+                              originObjectID:
+                                type: string
+                                description: >-
+                                  The original ID of this object in the original
+                                  system.
+                              availableLanguages:
+                                type: array
+                                description: List of languages this object is available in.
+                                example:
+                                  - de
+                                  - en
+                                items:
+                                  type: string
+                              externalIDs:
+                                type: object
+                                additionalProperties:
+                                  type: string
+                            required:
+                              - created
+                              - updated
+                            additionalProperties: false
+                          status:
+                            type: string
+                            enum:
+                              - event.published
+                              - event.unpublished
+                              - event.archived
+                          scheduleStatus:
+                            type: string
+                            enum:
+                              - event.cancelled
+                              - event.postponed
+                              - event.rescheduled
+                              - event.scheduled
+                          schedule:
+                            type: object
+                            properties:
+                              startDate:
+                                type: string
+                                description: >-
+                                  The date (year, month, day) the event starts,
+                                  in timezone Europe/Berlin.
+                                example: "2023-09-08"
+                              startTime:
+                                type: string
+                                description: >-
+                                  The time the event starts, in timezone
+                                  Europe/Berlin.
+                                example: "20:00:00"
+                              permanentOpening:
+                                type: boolean
+                                description: >-
+                                  Indicates whether the event is permanently
+                                  open (and has no end date/time).
+                                example: false
+                              doorTime:
+                                type: string
+                                description: >-
+                                  The time that guests can enter the venue, in
+                                  timezone Europe/Berlin.
+                                example: "19:00:00"
+                              endDate:
+                                type: string
+                                description: >-
+                                  The date (year, month, day) the event ends, in
+                                  timezone Europe/Berlin.
+                                example: "2023-09-08"
+                              endTime:
+                                type: string
+                                description: >-
+                                  The time the event end, in timezone
+                                  Europe/Berlin.
+                                example: "22:00"
+                            required:
+                              - startDate
+                              - startTime
+                            additionalProperties: false
+                          title:
+                            type: object
+                            additionalProperties:
+                              type: string
                             description: >-
-                              The date and time the object was created (ISO
-                              timestamp).
-                            example: "2011-10-05T14:48:00.000Z"
-                          updated:
-                            type: string
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                          description:
+                            type: object
+                            additionalProperties:
+                              type: string
                             description: >-
-                              The date and time the object was last updated (ISO
-                              timestamp). Is identical to created date after
-                              first creation.
-                            example: "2011-10-05T14:48:00.000Z"
-                          origin:
-                            type: string
-                            description: The source of this object.
-                            example: bezirkskalender
-                          originObjectID:
-                            type: string
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                          pleaseNote:
+                            type: object
+                            additionalProperties:
+                              type: string
                             description: >-
-                              The original ID of this object in the original
-                              system.
-                          availableLanguages:
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Konzert
+                              en: concert
+                          website:
+                            type: string
+                            example: https://example.com/
+                          inLanguages:
                             type: array
                             description: List of languages this object is available in.
                             example:
@@ -8540,264 +8724,140 @@ components:
                               - en
                             items:
                               type: string
-                          externalIDs:
-                            type: object
-                            additionalProperties:
+                          tags:
+                            type: array
+                            items:
                               type: string
-                        required:
-                          - created
-                          - updated
-                        additionalProperties: false
-                      status:
-                        type: string
-                        enum:
-                          - event.published
-                          - event.unpublished
-                          - event.archived
-                      scheduleStatus:
-                        type: string
-                        enum:
-                          - event.cancelled
-                          - event.postponed
-                          - event.rescheduled
-                          - event.scheduled
-                      schedule:
-                        type: object
-                        properties:
-                          startDate:
-                            type: string
-                            description: >-
-                              The date (year, month, day) the event starts, in
-                              timezone Europe/Berlin.
-                            example: "2023-09-08"
-                          startTime:
-                            type: string
-                            description: >-
-                              The time the event starts, in timezone
-                              Europe/Berlin.
-                            example: "20:00:00"
-                          permanentOpening:
-                            type: boolean
-                            description: >-
-                              Indicates whether the event is permanently open
-                              (and has no end date/time).
-                            example: false
-                          doorTime:
-                            type: string
-                            description: >-
-                              The time that guests can enter the venue, in
-                              timezone Europe/Berlin.
-                            example: "19:00:00"
-                          endDate:
-                            type: string
-                            description: >-
-                              The date (year, month, day) the event ends, in
-                              timezone Europe/Berlin.
-                            example: "2023-09-08"
-                          endTime:
-                            type: string
-                            description: The time the event end, in timezone Europe/Berlin.
-                            example: "22:00"
-                        required:
-                          - startDate
-                          - startTime
-                        additionalProperties: false
-                      title:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      description:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      pleaseNote:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      website:
-                        type: string
-                        example: https://example.com/
-                      inLanguages:
-                        type: array
-                        description: List of languages this object is available in.
-                        example:
-                          - de
-                          - en
-                        items:
-                          type: string
-                      tags:
-                        type: array
-                        items:
-                          type: string
-                      locations:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            referenceType:
-                              type: string
-                            referenceId:
-                              type: string
-                            referenceLabel:
+                          locations:
+                            type: array
+                            items:
                               type: object
-                              additionalProperties:
-                                type: string
-                              description: >-
-                                A string that can be translated into multiple
-                                languages, e.g. { "de": "Konzert", "en":
-                                "concert" }
-                              example:
-                                de: Konzert
-                                en: concert
-                          required:
-                            - referenceType
-                            - referenceId
-                          additionalProperties: false
-                      attractions:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            referenceType:
-                              type: string
-                            referenceId:
-                              type: string
-                            referenceLabel:
+                              properties:
+                                referenceType:
+                                  type: string
+                                referenceId:
+                                  type: string
+                                referenceLabel:
+                                  type: object
+                                  additionalProperties:
+                                    type: string
+                                  description: >-
+                                    A string that can be translated into
+                                    multiple languages, e.g. { "de": "Konzert",
+                                    "en": "concert" }
+                                  example:
+                                    de: Konzert
+                                    en: concert
+                              required:
+                                - referenceType
+                                - referenceId
+                              additionalProperties: false
+                          attractions:
+                            type: array
+                            items:
                               type: object
-                              additionalProperties:
+                              properties:
+                                referenceType:
+                                  type: string
+                                referenceId:
+                                  type: string
+                                referenceLabel:
+                                  type: object
+                                  additionalProperties:
+                                    type: string
+                                  description: >-
+                                    A string that can be translated into
+                                    multiple languages, e.g. { "de": "Konzert",
+                                    "en": "concert" }
+                                  example:
+                                    de: Konzert
+                                    en: concert
+                              required:
+                                - referenceType
+                                - referenceId
+                              additionalProperties: false
+                          organizer:
+                            type: object
+                            properties:
+                              referenceType:
                                 type: string
-                              description: >-
-                                A string that can be translated into multiple
-                                languages, e.g. { "de": "Konzert", "en":
-                                "concert" }
-                              example:
-                                de: Konzert
-                                en: concert
-                          required:
-                            - referenceType
-                            - referenceId
-                          additionalProperties: false
-                      organizer:
-                        type: object
-                        properties:
-                          referenceType:
-                            type: string
-                          referenceId:
-                            type: string
-                          referenceLabel:
+                              referenceId:
+                                type: string
+                              referenceLabel:
+                                type: object
+                                additionalProperties:
+                                  type: string
+                                description: >-
+                                  A string that can be translated into multiple
+                                  languages, e.g. { "de": "Konzert", "en":
+                                  "concert" }
+                                example:
+                                  de: Konzert
+                                  en: concert
+                            required:
+                              - referenceType
+                              - referenceId
+                            additionalProperties: false
+                          contact:
                             type: object
-                            additionalProperties:
-                              type: string
                             description: >-
-                              A string that can be translated into multiple
-                              languages, e.g. { "de": "Konzert", "en": "concert"
-                              }
-                            example:
-                              de: Konzert
-                              en: concert
+                              A person that is connected to and/or responsible
+                              for the referenced entity.
+                            properties:
+                              name:
+                                type: string
+                                description: Full name of the contact person.
+                                example: Jane Doe
+                              email:
+                                type: string
+                                description: Email address of the contact person.
+                                example: someone@example.com
+                              telephone:
+                                type: string
+                                description: Phone number of the contact person.
+                                example: +49 30 12345678
+                            additionalProperties: false
+                          admission:
+                            type: object
+                            description: >-
+                              Information about the admission to the
+                              event/attraction.
+                            properties:
+                              note:
+                                type: object
+                                additionalProperties:
+                                  type: string
+                                description: >-
+                                  A string that can be translated into multiple
+                                  languages, e.g. { "de": "Konzert", "en":
+                                  "concert" }
+                                example:
+                                  de: Konzert
+                                  en: concert
+                              ticketType:
+                                type: string
+                                enum:
+                                  - ticketType.ticketRequired
+                                  - ticketType.freeOfCharge
+                              registrationType:
+                                type: string
+                                enum:
+                                  - registrationType.registrationRequired
+                                  - registrationType.noRegistrationRequired
+                                  - registrationType.registrationDesired
+                              admissionLink:
+                                type: string
+                                example: https://example.com/
+                            additionalProperties: false
                         required:
-                          - referenceType
-                          - referenceId
+                          - type
+                          - identifier
+                          - metadata
+                          - status
+                          - scheduleStatus
                         additionalProperties: false
-                      contact:
-                        type: object
-                        description: >-
-                          A person that is connected to and/or responsible for
-                          the referenced entity.
-                        properties:
-                          name:
-                            type: string
-                            description: Full name of the contact person.
-                            example: Jane Doe
-                          email:
-                            type: string
-                            description: Email address of the contact person.
-                            example: someone@example.com
-                          telephone:
-                            type: string
-                            description: Phone number of the contact person.
-                            example: +49 30 12345678
-                        additionalProperties: false
-                      admission:
-                        type: object
-                        description: >-
-                          Information about the admission to the
-                          event/attraction.
-                        properties:
-                          note:
-                            type: object
-                            additionalProperties:
-                              type: string
-                            description: >-
-                              A string that can be translated into multiple
-                              languages, e.g. { "de": "Konzert", "en": "concert"
-                              }
-                            example:
-                              de: Konzert
-                              en: concert
-                          ticketType:
-                            type: string
-                            enum:
-                              - ticketType.ticketRequired
-                              - ticketType.freeOfCharge
-                          registrationType:
-                            type: string
-                            enum:
-                              - registrationType.registrationRequired
-                              - registrationType.noRegistrationRequired
-                              - registrationType.registrationDesired
-                          admissionLink:
-                            type: string
-                            example: https://example.com/
-                        additionalProperties: false
-                    required:
-                      - type
-                      - identifier
-                      - metadata
-                      - status
-                      - scheduleStatus
-                    additionalProperties: false
-                externalLinks:
-                  type: array
-                  description: Links to external resources related to this object.
-                  items:
-                    type: object
-                    properties:
-                      displayName:
-                        type: string
-                        example: Website
-                      url:
-                        type: string
-                        example: https://example.com/
-                    required:
-                      - url
-                    additionalProperties: false
-              required:
-                - type
-                - identifier
-                - metadata
-                - status
-                - title
-                - events
-              additionalProperties: false
+                  required:
+                    - events
           additionalProperties: false
       required:
         - success
@@ -8837,40 +8897,118 @@ components:
                 attractions:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        enum:
-                          - type.Attraction
-                      identifier:
-                        type: string
-                      metadata:
-                        type: object
+                    allOf:
+                      - type: object
                         properties:
-                          created:
+                          type:
                             type: string
+                            enum:
+                              - type.Attraction
+                          identifier:
+                            type: string
+                          metadata:
+                            type: object
+                            properties:
+                              created:
+                                type: string
+                                description: >-
+                                  The date and time the object was created (ISO
+                                  timestamp).
+                                example: "2011-10-05T14:48:00.000Z"
+                              updated:
+                                type: string
+                                description: >-
+                                  The date and time the object was last updated
+                                  (ISO timestamp). Is identical to created date
+                                  after first creation.
+                                example: "2011-10-05T14:48:00.000Z"
+                              origin:
+                                type: string
+                                description: The source of this object.
+                                example: bezirkskalender
+                              originObjectID:
+                                type: string
+                                description: >-
+                                  The original ID of this object in the original
+                                  system.
+                              availableLanguages:
+                                type: array
+                                description: List of languages this object is available in.
+                                example:
+                                  - de
+                                  - en
+                                items:
+                                  type: string
+                              externalIDs:
+                                type: object
+                                additionalProperties:
+                                  type: string
+                            required:
+                              - created
+                              - updated
+                            additionalProperties: false
+                          status:
+                            type: string
+                            enum:
+                              - attraction.published
+                              - attraction.unpublished
+                              - attraction.archived
+                          title:
+                            type: object
+                            additionalProperties:
+                              type: string
+                            description: The main title of the attraction.
+                            example:
+                              de: Konzert
+                              en: concert
+                          description:
+                            type: object
+                            additionalProperties:
+                              type: string
                             description: >-
-                              The date and time the object was created (ISO
-                              timestamp).
-                            example: "2011-10-05T14:48:00.000Z"
-                          updated:
-                            type: string
+                              A string that can be translated into multiple
+                              languages, e.g. { "de": "Konzert", "en": "concert"
+                              }
+                            example:
+                              de: Eine Beschreibung
+                              en: Some description
+                          pleaseNote:
+                            type: object
+                            additionalProperties:
+                              type: string
                             description: >-
-                              The date and time the object was last updated (ISO
-                              timestamp). Is identical to created date after
-                              first creation.
-                            example: "2011-10-05T14:48:00.000Z"
-                          origin:
+                              Any important information for the attendees of the
+                              attraction.
+                            example:
+                              de: Achtung, laute Geräusche
+                              en: Warning, loud noises
+                          website:
                             type: string
-                            description: The source of this object.
-                            example: bezirkskalender
-                          originObjectID:
-                            type: string
-                            description: >-
-                              The original ID of this object in the original
-                              system.
-                          availableLanguages:
+                            example: https://example.com/
+                          curator:
+                            type: object
+                            properties:
+                              referenceType:
+                                type: string
+                              referenceId:
+                                type: string
+                              referenceLabel:
+                                type: object
+                                additionalProperties:
+                                  type: string
+                                description: >-
+                                  A string that can be translated into multiple
+                                  languages, e.g. { "de": "Konzert", "en":
+                                  "concert" }
+                                example:
+                                  de: Konzert
+                                  en: concert
+                            required:
+                              - referenceType
+                              - referenceId
+                            additionalProperties: false
+                            description: The curating organization of this attraction.
+                          inLanguages:
                             type: array
                             description: List of languages this object is available in.
                             example:
@@ -8878,101 +9016,185 @@ components:
                               - en
                             items:
                               type: string
-                          externalIDs:
-                            type: object
-                            additionalProperties:
+                          tags:
+                            type: array
+                            description: List of tags for this attraction.
+                            items:
                               type: string
-                        required:
-                          - created
-                          - updated
-                        additionalProperties: false
-                      status:
-                        type: string
-                        enum:
-                          - attraction.published
-                          - attraction.unpublished
-                          - attraction.archived
-                      title:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      description:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      pleaseNote:
-                        type: object
-                        additionalProperties:
-                          type: string
-                        description: >-
-                          A string that can be translated into multiple
-                          languages, e.g. { "de": "Konzert", "en": "concert" }
-                        example:
-                          de: Konzert
-                          en: concert
-                      website:
-                        type: string
-                      inLanguages:
-                        type: array
-                        description: List of languages this object is available in.
-                        example:
-                          - de
-                          - en
-                        items:
-                          type: string
-                      tags:
-                        type: array
-                        items:
-                          type: string
-                      events:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            type:
-                              type: string
-                              enum:
-                                - type.Event
-                            identifier:
-                              type: string
-                            metadata:
+                          externalLinks:
+                            type: array
+                            description: >-
+                              Links to external resources related to this
+                              object.
+                            items:
                               type: object
                               properties:
-                                created:
+                                displayName:
                                   type: string
+                                  example: Website
+                                url:
+                                  type: string
+                                  example: https://example.com/
+                              required:
+                                - url
+                              additionalProperties: false
+                        required:
+                          - type
+                          - identifier
+                          - metadata
+                          - status
+                          - title
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          events:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                  enum:
+                                    - type.Event
+                                identifier:
+                                  type: string
+                                metadata:
+                                  type: object
+                                  properties:
+                                    created:
+                                      type: string
+                                      description: >-
+                                        The date and time the object was created
+                                        (ISO timestamp).
+                                      example: "2011-10-05T14:48:00.000Z"
+                                    updated:
+                                      type: string
+                                      description: >-
+                                        The date and time the object was last
+                                        updated (ISO timestamp). Is identical to
+                                        created date after first creation.
+                                      example: "2011-10-05T14:48:00.000Z"
+                                    origin:
+                                      type: string
+                                      description: The source of this object.
+                                      example: bezirkskalender
+                                    originObjectID:
+                                      type: string
+                                      description: >-
+                                        The original ID of this object in the
+                                        original system.
+                                    availableLanguages:
+                                      type: array
+                                      description: >-
+                                        List of languages this object is
+                                        available in.
+                                      example:
+                                        - de
+                                        - en
+                                      items:
+                                        type: string
+                                    externalIDs:
+                                      type: object
+                                      additionalProperties:
+                                        type: string
+                                  required:
+                                    - created
+                                    - updated
+                                  additionalProperties: false
+                                status:
+                                  type: string
+                                  enum:
+                                    - event.published
+                                    - event.unpublished
+                                    - event.archived
+                                scheduleStatus:
+                                  type: string
+                                  enum:
+                                    - event.cancelled
+                                    - event.postponed
+                                    - event.rescheduled
+                                    - event.scheduled
+                                schedule:
+                                  type: object
+                                  properties:
+                                    startDate:
+                                      type: string
+                                      description: >-
+                                        The date (year, month, day) the event
+                                        starts, in timezone Europe/Berlin.
+                                      example: "2023-09-08"
+                                    startTime:
+                                      type: string
+                                      description: >-
+                                        The time the event starts, in timezone
+                                        Europe/Berlin.
+                                      example: "20:00:00"
+                                    permanentOpening:
+                                      type: boolean
+                                      description: >-
+                                        Indicates whether the event is
+                                        permanently open (and has no end
+                                        date/time).
+                                      example: false
+                                    doorTime:
+                                      type: string
+                                      description: >-
+                                        The time that guests can enter the
+                                        venue, in timezone Europe/Berlin.
+                                      example: "19:00:00"
+                                    endDate:
+                                      type: string
+                                      description: >-
+                                        The date (year, month, day) the event
+                                        ends, in timezone Europe/Berlin.
+                                      example: "2023-09-08"
+                                    endTime:
+                                      type: string
+                                      description: >-
+                                        The time the event end, in timezone
+                                        Europe/Berlin.
+                                      example: "22:00"
+                                  required:
+                                    - startDate
+                                    - startTime
+                                  additionalProperties: false
+                                title:
+                                  type: object
+                                  additionalProperties:
+                                    type: string
                                   description: >-
-                                    The date and time the object was created
-                                    (ISO timestamp).
-                                  example: "2011-10-05T14:48:00.000Z"
-                                updated:
-                                  type: string
+                                    A string that can be translated into
+                                    multiple languages, e.g. { "de": "Konzert",
+                                    "en": "concert" }
+                                  example:
+                                    de: Konzert
+                                    en: concert
+                                description:
+                                  type: object
+                                  additionalProperties:
+                                    type: string
                                   description: >-
-                                    The date and time the object was last
-                                    updated (ISO timestamp). Is identical to
-                                    created date after first creation.
-                                  example: "2011-10-05T14:48:00.000Z"
-                                origin:
-                                  type: string
-                                  description: The source of this object.
-                                  example: bezirkskalender
-                                originObjectID:
-                                  type: string
+                                    A string that can be translated into
+                                    multiple languages, e.g. { "de": "Konzert",
+                                    "en": "concert" }
+                                  example:
+                                    de: Konzert
+                                    en: concert
+                                pleaseNote:
+                                  type: object
+                                  additionalProperties:
+                                    type: string
                                   description: >-
-                                    The original ID of this object in the
-                                    original system.
-                                availableLanguages:
+                                    A string that can be translated into
+                                    multiple languages, e.g. { "de": "Konzert",
+                                    "en": "concert" }
+                                  example:
+                                    de: Konzert
+                                    en: concert
+                                website:
+                                  type: string
+                                  example: https://example.com/
+                                inLanguages:
                                   type: array
                                   description: >-
                                     List of languages this object is available
@@ -8982,269 +9204,140 @@ components:
                                     - en
                                   items:
                                     type: string
-                                externalIDs:
-                                  type: object
-                                  additionalProperties:
+                                tags:
+                                  type: array
+                                  items:
                                     type: string
-                              required:
-                                - created
-                                - updated
-                              additionalProperties: false
-                            status:
-                              type: string
-                              enum:
-                                - event.published
-                                - event.unpublished
-                                - event.archived
-                            scheduleStatus:
-                              type: string
-                              enum:
-                                - event.cancelled
-                                - event.postponed
-                                - event.rescheduled
-                                - event.scheduled
-                            schedule:
-                              type: object
-                              properties:
-                                startDate:
-                                  type: string
-                                  description: >-
-                                    The date (year, month, day) the event
-                                    starts, in timezone Europe/Berlin.
-                                  example: "2023-09-08"
-                                startTime:
-                                  type: string
-                                  description: >-
-                                    The time the event starts, in timezone
-                                    Europe/Berlin.
-                                  example: "20:00:00"
-                                permanentOpening:
-                                  type: boolean
-                                  description: >-
-                                    Indicates whether the event is permanently
-                                    open (and has no end date/time).
-                                  example: false
-                                doorTime:
-                                  type: string
-                                  description: >-
-                                    The time that guests can enter the venue, in
-                                    timezone Europe/Berlin.
-                                  example: "19:00:00"
-                                endDate:
-                                  type: string
-                                  description: >-
-                                    The date (year, month, day) the event ends,
-                                    in timezone Europe/Berlin.
-                                  example: "2023-09-08"
-                                endTime:
-                                  type: string
-                                  description: >-
-                                    The time the event end, in timezone
-                                    Europe/Berlin.
-                                  example: "22:00"
-                              required:
-                                - startDate
-                                - startTime
-                              additionalProperties: false
-                            title:
-                              type: object
-                              additionalProperties:
-                                type: string
-                              description: >-
-                                A string that can be translated into multiple
-                                languages, e.g. { "de": "Konzert", "en":
-                                "concert" }
-                              example:
-                                de: Konzert
-                                en: concert
-                            description:
-                              type: object
-                              additionalProperties:
-                                type: string
-                              description: >-
-                                A string that can be translated into multiple
-                                languages, e.g. { "de": "Konzert", "en":
-                                "concert" }
-                              example:
-                                de: Konzert
-                                en: concert
-                            pleaseNote:
-                              type: object
-                              additionalProperties:
-                                type: string
-                              description: >-
-                                A string that can be translated into multiple
-                                languages, e.g. { "de": "Konzert", "en":
-                                "concert" }
-                              example:
-                                de: Konzert
-                                en: concert
-                            website:
-                              type: string
-                              example: https://example.com/
-                            inLanguages:
-                              type: array
-                              description: List of languages this object is available in.
-                              example:
-                                - de
-                                - en
-                              items:
-                                type: string
-                            tags:
-                              type: array
-                              items:
-                                type: string
-                            locations:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  referenceType:
-                                    type: string
-                                  referenceId:
-                                    type: string
-                                  referenceLabel:
+                                locations:
+                                  type: array
+                                  items:
                                     type: object
-                                    additionalProperties:
-                                      type: string
-                                    description: >-
-                                      A string that can be translated into
-                                      multiple languages, e.g. { "de":
-                                      "Konzert", "en": "concert" }
-                                    example:
-                                      de: Konzert
-                                      en: concert
-                                required:
-                                  - referenceType
-                                  - referenceId
-                                additionalProperties: false
-                            attractions:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  referenceType:
-                                    type: string
-                                  referenceId:
-                                    type: string
-                                  referenceLabel:
+                                    properties:
+                                      referenceType:
+                                        type: string
+                                      referenceId:
+                                        type: string
+                                      referenceLabel:
+                                        type: object
+                                        additionalProperties:
+                                          type: string
+                                        description: >-
+                                          A string that can be translated into
+                                          multiple languages, e.g. { "de":
+                                          "Konzert", "en": "concert" }
+                                        example:
+                                          de: Konzert
+                                          en: concert
+                                    required:
+                                      - referenceType
+                                      - referenceId
+                                    additionalProperties: false
+                                attractions:
+                                  type: array
+                                  items:
                                     type: object
-                                    additionalProperties:
+                                    properties:
+                                      referenceType:
+                                        type: string
+                                      referenceId:
+                                        type: string
+                                      referenceLabel:
+                                        type: object
+                                        additionalProperties:
+                                          type: string
+                                        description: >-
+                                          A string that can be translated into
+                                          multiple languages, e.g. { "de":
+                                          "Konzert", "en": "concert" }
+                                        example:
+                                          de: Konzert
+                                          en: concert
+                                    required:
+                                      - referenceType
+                                      - referenceId
+                                    additionalProperties: false
+                                organizer:
+                                  type: object
+                                  properties:
+                                    referenceType:
                                       type: string
-                                    description: >-
-                                      A string that can be translated into
-                                      multiple languages, e.g. { "de":
-                                      "Konzert", "en": "concert" }
-                                    example:
-                                      de: Konzert
-                                      en: concert
-                                required:
-                                  - referenceType
-                                  - referenceId
-                                additionalProperties: false
-                            organizer:
-                              type: object
-                              properties:
-                                referenceType:
-                                  type: string
-                                referenceId:
-                                  type: string
-                                referenceLabel:
+                                    referenceId:
+                                      type: string
+                                    referenceLabel:
+                                      type: object
+                                      additionalProperties:
+                                        type: string
+                                      description: >-
+                                        A string that can be translated into
+                                        multiple languages, e.g. { "de":
+                                        "Konzert", "en": "concert" }
+                                      example:
+                                        de: Konzert
+                                        en: concert
+                                  required:
+                                    - referenceType
+                                    - referenceId
+                                  additionalProperties: false
+                                contact:
                                   type: object
-                                  additionalProperties:
-                                    type: string
                                   description: >-
-                                    A string that can be translated into
-                                    multiple languages, e.g. { "de": "Konzert",
-                                    "en": "concert" }
-                                  example:
-                                    de: Konzert
-                                    en: concert
+                                    A person that is connected to and/or
+                                    responsible for the referenced entity.
+                                  properties:
+                                    name:
+                                      type: string
+                                      description: Full name of the contact person.
+                                      example: Jane Doe
+                                    email:
+                                      type: string
+                                      description: Email address of the contact person.
+                                      example: someone@example.com
+                                    telephone:
+                                      type: string
+                                      description: Phone number of the contact person.
+                                      example: +49 30 12345678
+                                  additionalProperties: false
+                                admission:
+                                  type: object
+                                  description: >-
+                                    Information about the admission to the
+                                    event/attraction.
+                                  properties:
+                                    note:
+                                      type: object
+                                      additionalProperties:
+                                        type: string
+                                      description: >-
+                                        A string that can be translated into
+                                        multiple languages, e.g. { "de":
+                                        "Konzert", "en": "concert" }
+                                      example:
+                                        de: Konzert
+                                        en: concert
+                                    ticketType:
+                                      type: string
+                                      enum:
+                                        - ticketType.ticketRequired
+                                        - ticketType.freeOfCharge
+                                    registrationType:
+                                      type: string
+                                      enum:
+                                        - registrationType.registrationRequired
+                                        - registrationType.noRegistrationRequired
+                                        - registrationType.registrationDesired
+                                    admissionLink:
+                                      type: string
+                                      example: https://example.com/
+                                  additionalProperties: false
                               required:
-                                - referenceType
-                                - referenceId
+                                - type
+                                - identifier
+                                - metadata
+                                - status
+                                - scheduleStatus
                               additionalProperties: false
-                            contact:
-                              type: object
-                              description: >-
-                                A person that is connected to and/or responsible
-                                for the referenced entity.
-                              properties:
-                                name:
-                                  type: string
-                                  description: Full name of the contact person.
-                                  example: Jane Doe
-                                email:
-                                  type: string
-                                  description: Email address of the contact person.
-                                  example: someone@example.com
-                                telephone:
-                                  type: string
-                                  description: Phone number of the contact person.
-                                  example: +49 30 12345678
-                              additionalProperties: false
-                            admission:
-                              type: object
-                              description: >-
-                                Information about the admission to the
-                                event/attraction.
-                              properties:
-                                note:
-                                  type: object
-                                  additionalProperties:
-                                    type: string
-                                  description: >-
-                                    A string that can be translated into
-                                    multiple languages, e.g. { "de": "Konzert",
-                                    "en": "concert" }
-                                  example:
-                                    de: Konzert
-                                    en: concert
-                                ticketType:
-                                  type: string
-                                  enum:
-                                    - ticketType.ticketRequired
-                                    - ticketType.freeOfCharge
-                                registrationType:
-                                  type: string
-                                  enum:
-                                    - registrationType.registrationRequired
-                                    - registrationType.noRegistrationRequired
-                                    - registrationType.registrationDesired
-                                admissionLink:
-                                  type: string
-                                  example: https://example.com/
-                              additionalProperties: false
-                          required:
-                            - type
-                            - identifier
-                            - metadata
-                            - status
-                            - scheduleStatus
-                          additionalProperties: false
-                      externalLinks:
-                        type: array
-                        description: Links to external resources related to this object.
-                        items:
-                          type: object
-                          properties:
-                            displayName:
-                              type: string
-                              example: Website
-                            url:
-                              type: string
-                              example: https://example.com/
-                          required:
-                            - url
-                          additionalProperties: false
-                    required:
-                      - type
-                      - identifier
-                      - metadata
-                      - status
-                      - title
-                      - events
-                    additionalProperties: false
+                        required:
+                          - events
       required:
         - success
       additionalProperties: false
