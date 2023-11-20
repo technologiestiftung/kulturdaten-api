@@ -2,14 +2,14 @@ import express, { Router } from "express";
 import passport from "passport";
 import { Service } from "typedi";
 import { Pagination } from "../../common/parameters/Pagination";
+import { CreateMembershipRequest } from "../../generated/models/CreateMembershipRequest.generated";
 import { CreateOrganizationRequest } from "../../generated/models/CreateOrganizationRequest.generated";
 import { SearchOrganizationsRequest } from "../../generated/models/SearchOrganizationsRequest.generated";
+import { UpdateOrganizationMembershipRequest } from "../../generated/models/UpdateOrganizationMembershipRequest.generated";
 import { UpdateOrganizationRequest } from "../../generated/models/UpdateOrganizationRequest.generated";
 import { getPagination } from "../../utils/RequestUtil";
-import { OrganizationsController } from "./controllers/OrganizationsController";
 import { Permit } from "../auth/middleware/Permit";
-import { CreateMembershipRequest } from "../../generated/models/CreateMembershipRequest.generated";
-import { UpdateOrganizationMembershipRequest } from "../../generated/models/UpdateOrganizationMembershipRequest.generated";
+import { OrganizationsController } from "./controllers/OrganizationsController";
 
 @Service()
 export class OrganizationsRoutes {
@@ -171,6 +171,15 @@ export class OrganizationsRoutes {
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.organizationsController.retireOrganization(res, identifier);
+				},
+			)
+			.post(
+				OrganizationsRoutes.basePath + "/:identifier/publish",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				(req: express.Request, res: express.Response) => {
+					const identifier = req.params.identifier;
+					this.organizationsController.publishOrganization(res, identifier);
 				},
 			)
 			.post(
