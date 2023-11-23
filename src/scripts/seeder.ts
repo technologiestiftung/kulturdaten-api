@@ -38,37 +38,37 @@ let mongoDBConnector: MongoDBConnector;
  *  npm run seed -- --tags
  *
  * ---------------------------
- * Setting up an Organization:
+ * Creating Borough Organizations:
  * ---------------------------
- * To create a starting organization (TSB) and add the admin as a member with the admin role, use the
- * `-o` or `--organization` flag. The admin user will only be added to this organization if they are created
- * with the same command.
+ * To create organizations for all Berlin boroughs except 'außerhalb', use the `-b` or `--boroughs` flag.
+ * This creates an organization for each borough and an organization admin account with a default password.
+ * Format: defaultPassword (e.g. password123).
  * Example:
- *  npm run seed -- --organization --admin admin@example.com:password123
+ *  npm run seed -- --boroughs password123
  *
  * ---------------------------
  * Creating an Admin User:
  * ---------------------------
- * To introduce an admin user to the database (without an organization), use the `-a` or `--admin` flag.
+ * To add an admin user to the database, use the `-a` or `--admin` flag.
  * This should be followed by the user's email and password, structured as `email:password`.
+ * The admin user will be added to the borough organizations if created with the same command.
  * Example:
  *  npm run seed -- --admin admin@example.com:password123
  *
  * ---------------------------
  * Combined Usage:
  * ---------------------------
- * It's possible to leverage both functionalities within a single command execution.
+ * It's possible to combine the functionalities within a single command execution.
  * Example:
- *  npm run seed -- --tags --admin admin@example.com:password123
+ *  npm run seed -- --tags --boroughs password123 --admin admin@example.com:password123
  *
  * ---------------------------
  * Important Note on Script Behavior:
  * ---------------------------
  * This script is designed to populate only empty collections within the database.
  * If a collection already contains data, the script will skip adding new entries to prevent duplicates or unintended overwrites.
- *
- * For security reasons, especially with admin user creation, this behavior ensures that no admin user can be programmatically added
- * if there are already existing users in the system. This minimizes the risk of unauthorized admin creation or potential misuse.
+ * This behavior is crucial for security, especially with admin user creation, ensuring no admin user can be programmatically added
+ * if there are existing admin users in the system, minimizing the risk of unauthorized admin creation or misuse.
  *
  */
 
@@ -76,14 +76,17 @@ async function main() {
 	const program = new Command();
 
 	program
-		.option("-t, --tags", "If no tags are present, the default tags will be written to the DB")
+		.option("-t, --tags", "Add default tags to the database if no tags are currently present.")
 		.option(
 			"-a, --admin <mailAndPassword>",
-			"If no admin is present in the DB, an admin with the provided email and password will be created. Format: email:password (e.g. admin@example.com:password123).",
+			"Create an admin user with the specified email and password if no admin is currently in the database. " +
+				"The admin will be added to borough organizations if created along with them. Format: email:password (e.g., admin@example.com:password123).",
 		)
 		.option(
 			"-b, --boroughs <defaultPassword>",
-			"All Berlin boroughs are created as organizations. An admin account is created for each borough. Format: defaultPassword (e.g. password123).",
+			"Create organizations for all Berlin boroughs (excluding 'außerhalb') and an admin account for each, " +
+				"using the provided default password. Admin accounts are assigned as members to their respective borough organizations. " +
+				"Format: defaultPassword (e.g., password123).",
 		);
 
 	program.parse(process.argv);
