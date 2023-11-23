@@ -62,7 +62,7 @@ export class DistrictDataService {
 				const districtData = await this.harvesterClient.fetchData(url);
 
 				const { createdOrganizations: organizations, duplicateOrganizations: dOrganizations } =
-					await this.createOrganizations(districtData.veranstalter);
+					await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
 				Object.assign(createdOrganizations, organizations);
 				Object.assign(duplicateOrganizations, dOrganizations);
 
@@ -107,7 +107,10 @@ export class DistrictDataService {
 		};
 	}
 
-	async createOrganizations(veranstalterList: VeranstalterList): Promise<{
+	async createOrganizations(
+		veranstalterList: VeranstalterList,
+		bezirke: Bezirke,
+	): Promise<{
 		createdOrganizations: ReferenceMap;
 		duplicateOrganizations: ReferenceMap;
 	}> {
@@ -124,7 +127,7 @@ export class DistrictDataService {
 					referenceLabel: dOrganizations[0].title,
 				};
 			} else {
-				const createOrganizationRequests = this.mapper.mapOrganisation(veranstalter);
+				const createOrganizationRequests = this.mapper.mapOrganisation(veranstalter, bezirke);
 				const createdOrganizationReference = await this.organizationService.create(createOrganizationRequests);
 
 				if (createdOrganizationReference) {

@@ -25,6 +25,12 @@ properties:
     type: object
     additionalProperties:
       type: string
+  editableBy:
+    type: array
+    description: List of organizations that can edit this object.
+    items:
+      type: string
+
 required:
   - created
   - updated

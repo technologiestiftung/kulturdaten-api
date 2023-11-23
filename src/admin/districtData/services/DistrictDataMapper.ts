@@ -15,6 +15,7 @@ import {
 	Veranstaltung,
 	Veranstaltungsort,
 } from "../model/Bezirksdaten";
+import { mapBoroughToOrganizationIdentifier } from "./BoroughMappers";
 
 export class DistrictDataMapper {
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
@@ -101,13 +102,23 @@ export class DistrictDataMapper {
 		};
 	}
 
-	mapOrganisation(veranstalter: Veranstalter): CreateOrganizationRequest {
+	mapOrganisation(veranstalter: Veranstalter, bezirke: Bezirke): CreateOrganizationRequest {
+		let boroughOfOrganization: Borough | null = null;
+		if (veranstalter.bezirk_id && bezirke[veranstalter.bezirk_id].DE) {
+			boroughOfOrganization = bezirke[veranstalter.bezirk_id].DE.split(" ")[0] as Borough;
+		}
+		let editableBy: string | null = null;
+		if (boroughOfOrganization) {
+			editableBy = mapBoroughToOrganizationIdentifier(boroughOfOrganization);
+		}
+
 		return {
 			title: { de: veranstalter.name },
 			inLanguages: ["de"],
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstalter.id),
+				...(editableBy && { editableBy: editableBy }),
 			},
 		};
 	}
@@ -126,6 +137,10 @@ export class DistrictDataMapper {
 		if (veranstaltungsort.bezirk_id && bezirke[veranstaltungsort.bezirk_id].DE) {
 			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
 		}
+		let editableBy: string | null = null;
+		if (boroughOfLocation) {
+			editableBy = mapBoroughToOrganizationIdentifier(boroughOfLocation);
+		}
 
 		return {
 			title: { de: veranstaltungsort.name },
@@ -137,6 +152,7 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstaltungsort.id),
+				...(editableBy && { editableBy: editableBy }),
 			},
 		};
 	}

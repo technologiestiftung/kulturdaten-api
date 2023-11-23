@@ -1838,6 +1838,11 @@ components:
               type: object
               additionalProperties:
                 type: string
+            editableBy:
+              type: array
+              description: List of organizations that can edit this object.
+              items:
+                type: string
           required:
             - created
             - updated
@@ -2104,6 +2109,11 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+                editableBy:
+                  type: array
+                  description: List of organizations that can edit this object.
+                  items:
+                    type: string
               required:
                 - created
                 - updated
@@ -2246,6 +2256,11 @@ components:
                       externalIDs:
                         type: object
                         additionalProperties:
+                          type: string
+                      editableBy:
+                        type: array
+                        description: List of organizations that can edit this object.
+                        items:
                           type: string
                     required:
                       - created
@@ -2513,6 +2528,11 @@ components:
               type: object
               additionalProperties:
                 type: string
+            editableBy:
+              type: array
+              description: List of organizations that can edit this object.
+              items:
+                type: string
           required:
             - created
             - updated
@@ -2648,6 +2668,11 @@ components:
             externalIDs:
               type: object
               additionalProperties:
+                type: string
+            editableBy:
+              type: array
+              description: List of organizations that can edit this object.
+              items:
                 type: string
           required:
             - created
@@ -2908,6 +2933,11 @@ components:
             externalIDs:
               type: object
               additionalProperties:
+                type: string
+            editableBy:
+              type: array
+              description: List of organizations that can edit this object.
+              items:
                 type: string
           required:
             - created
@@ -3184,6 +3214,11 @@ components:
                       type: object
                       additionalProperties:
                         type: string
+                    editableBy:
+                      type: array
+                      description: List of organizations that can edit this object.
+                      items:
+                        type: string
                   required:
                     - created
                     - updated
@@ -3417,6 +3452,11 @@ components:
                           externalIDs:
                             type: object
                             additionalProperties:
+                              type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
                               type: string
                         required:
                           - created
@@ -3815,6 +3855,11 @@ components:
                           externalIDs:
                             type: object
                             additionalProperties:
+                              type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
                               type: string
                         required:
                           - created
@@ -4217,6 +4262,11 @@ components:
                             type: object
                             additionalProperties:
                               type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
+                              type: string
                         required:
                           - created
                           - updated
@@ -4557,6 +4607,11 @@ components:
                             type: object
                             additionalProperties:
                               type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
+                              type: string
                         required:
                           - created
                           - updated
@@ -4734,6 +4789,11 @@ components:
                     externalIDs:
                       type: object
                       additionalProperties:
+                        type: string
+                    editableBy:
+                      type: array
+                      description: List of organizations that can edit this object.
+                      items:
                         type: string
                   required:
                     - created
@@ -4997,6 +5057,11 @@ components:
                           externalIDs:
                             type: object
                             additionalProperties:
+                              type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
                               type: string
                         required:
                           - created
@@ -5575,6 +5640,11 @@ components:
                             type: object
                             additionalProperties:
                               type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
+                              type: string
                         required:
                           - created
                           - updated
@@ -5878,6 +5948,11 @@ components:
                     externalIDs:
                       type: object
                       additionalProperties:
+                        type: string
+                    editableBy:
+                      type: array
+                      description: List of organizations that can edit this object.
+                      items:
                         type: string
                   required:
                     - created
@@ -6382,6 +6457,11 @@ components:
                           externalIDs:
                             type: object
                             additionalProperties:
+                              type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
                               type: string
                         required:
                           - created
@@ -7009,6 +7089,11 @@ components:
                             type: object
                             additionalProperties:
                               type: string
+                          editableBy:
+                            type: array
+                            description: List of organizations that can edit this object.
+                            items:
+                              type: string
                         required:
                           - created
                           - updated
@@ -7319,6 +7404,11 @@ components:
                     externalIDs:
                       type: object
                       additionalProperties:
+                        type: string
+                    editableBy:
+                      type: array
+                      description: List of organizations that can edit this object.
+                      items:
                         type: string
                   required:
                     - created
@@ -7924,6 +8014,11 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                      editableBy:
+                        type: array
+                        description: List of organizations that can edit this object.
+                        items:
+                          type: string
                     required:
                       - created
                       - updated
@@ -8354,6 +8449,11 @@ components:
                         type: object
                         additionalProperties:
                           type: string
+                      editableBy:
+                        type: array
+                        description: List of organizations that can edit this object.
+                        items:
+                          type: string
                     required:
                       - created
                       - updated
@@ -8431,6 +8531,11 @@ components:
                     externalIDs:
                       type: object
                       additionalProperties:
+                        type: string
+                    editableBy:
+                      type: array
+                      description: List of organizations that can edit this object.
+                      items:
                         type: string
                   required:
                     - created
@@ -8532,6 +8637,11 @@ components:
                       type: object
                       additionalProperties:
                         type: string
+                    editableBy:
+                      type: array
+                      description: List of organizations that can edit this object.
+                      items:
+                        type: string
                   required:
                     - created
                     - updated
@@ -8602,6 +8712,11 @@ components:
                         externalIDs:
                           type: object
                           additionalProperties:
+                            type: string
+                        editableBy:
+                          type: array
+                          description: List of organizations that can edit this object.
+                          items:
                             type: string
                       required:
                         - created
@@ -8749,6 +8864,13 @@ components:
                               externalIDs:
                                 type: object
                                 additionalProperties:
+                                  type: string
+                              editableBy:
+                                type: array
+                                description: >-
+                                  List of organizations that can edit this
+                                  object.
+                                items:
                                   type: string
                             required:
                               - created
@@ -9073,6 +9195,13 @@ components:
                                 type: object
                                 additionalProperties:
                                   type: string
+                              editableBy:
+                                type: array
+                                description: >-
+                                  List of organizations that can edit this
+                                  object.
+                                items:
+                                  type: string
                             required:
                               - created
                               - updated
@@ -9225,6 +9354,13 @@ components:
                                     externalIDs:
                                       type: object
                                       additionalProperties:
+                                        type: string
+                                    editableBy:
+                                      type: array
+                                      description: >-
+                                        List of organizations that can edit this
+                                        object.
+                                      items:
                                         type: string
                                   required:
                                     - created

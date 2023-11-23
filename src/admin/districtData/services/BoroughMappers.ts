@@ -1,6 +1,6 @@
 import { Borough } from "../../../generated/models/Borough.generated";
 
-export function generateOrganizationIdentifier(borough: Borough): string {
+export function mapBoroughToOrganizationIdentifier(borough: Borough): string {
 	const allowedChars = process.env.ID_CHARSET || "123456789ABCDEFGHJKLMNPQRSTWXYZ";
 	let identifier = "O_";
 	while (identifier.length < 13) {
