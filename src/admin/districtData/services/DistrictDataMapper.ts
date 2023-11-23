@@ -18,7 +18,15 @@ import {
 import { mapBoroughToOrganizationIdentifier } from "./BoroughMappers";
 
 export class DistrictDataMapper {
-	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
+	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[], bezirke: Bezirke): CreateAttractionRequest {
+		let borough: Borough | null = null;
+		if (veranstaltung.event_bezirk_id && bezirke[veranstaltung.event_bezirk_id].DE) {
+			borough = bezirke[veranstaltung.event_bezirk_id].DE.split(" ")[0] as Borough;
+		}
+		let editableBy: string | null = null;
+		if (borough) {
+			editableBy = mapBoroughToOrganizationIdentifier(borough);
+		}
 		return {
 			title: {
 				...(veranstaltung.event_titel_de && { de: veranstaltung.event_titel_de }),
@@ -37,6 +45,7 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstaltung.event_id),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 			...(veranstaltung.event_homepage ? { website: veranstaltung.event_homepage } : {}),
 			inLanguages: this.getInLanguages(veranstaltung),
@@ -83,7 +92,16 @@ export class DistrictDataMapper {
 		attractionReference: Reference,
 		locationReference: Reference,
 		organizerReference: Reference,
+		bezirke: Bezirke,
 	): CreateEventRequest {
+		let borough: Borough | null = null;
+		if (veranstaltung.event_bezirk_id && bezirke[veranstaltung.event_bezirk_id].DE) {
+			borough = bezirke[veranstaltung.event_bezirk_id].DE.split(" ")[0] as Borough;
+		}
+		let editableBy: string | null = null;
+		if (borough) {
+			editableBy = mapBoroughToOrganizationIdentifier(borough);
+		}
 		return {
 			schedule: {
 				startDate: termin.tag_von,
@@ -97,6 +115,7 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(termin.id),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 			...(veranstaltung.event_ist_gratis === 1 && { admission: { ticketType: "ticketType.freeOfCharge" } }),
 		};
@@ -118,7 +137,7 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstalter.id),
-				...(editableBy && { editableBy: editableBy }),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 		};
 	}
@@ -152,7 +171,7 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstaltungsort.id),
-				...(editableBy && { editableBy: editableBy }),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 		};
 	}

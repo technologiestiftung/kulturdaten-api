@@ -85,6 +85,7 @@ export class DistrictDataService {
 					{ ...duplicateOrganizations, ...createdOrganizations },
 					{ ...duplicateLocations, ...createdLocations },
 					tags,
+					districtData.bezirke,
 				);
 				Object.assign(createdAttractions, attractions);
 				Object.assign(duplicateAttractions, dAttractions);
@@ -177,6 +178,7 @@ export class DistrictDataService {
 		organizations: ReferenceMap,
 		locations: ReferenceMap,
 		tags: Tag[],
+		bezirke: Bezirke,
 	): Promise<{
 		createdAttractions: ReferenceMap;
 		duplicateAttractions: ReferenceMap;
@@ -200,7 +202,7 @@ export class DistrictDataService {
 					referenceLabel: duplicatedAttractions[0].title,
 				};
 			} else {
-				const createAttractionRequest = this.mapper.mapAttraction(veranstaltung, tags);
+				const createAttractionRequest = this.mapper.mapAttraction(veranstaltung, tags, bezirke);
 				const createdAtttractionReference = await this.attractionService.create(createAttractionRequest);
 				if (createdAtttractionReference) {
 					createdAttractions[veranstaltung.event_id] = createdAtttractionReference;
@@ -225,6 +227,7 @@ export class DistrictDataService {
 						{ ...duplicateAttractions, ...createdAttractions }[veranstaltung.event_id],
 						locations[veranstaltung.event_veranstaltungsort_id],
 						organizations[veranstaltung.event_veranstalter_id],
+						bezirke,
 					);
 					const createdEventReference = await this.eventService.create(createEventRequest);
 					if (createdEventReference) {
