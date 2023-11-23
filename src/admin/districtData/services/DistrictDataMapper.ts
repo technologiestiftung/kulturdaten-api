@@ -19,14 +19,8 @@ import { mapBoroughToOrganizationIdentifier } from "./BoroughMappers";
 
 export class DistrictDataMapper {
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[], bezirke: Bezirke): CreateAttractionRequest {
-		let borough: Borough | null = null;
-		if (veranstaltung.event_bezirk_id && bezirke[veranstaltung.event_bezirk_id].DE) {
-			borough = bezirke[veranstaltung.event_bezirk_id].DE.split(" ")[0] as Borough;
-		}
-		let editableBy: string | null = null;
-		if (borough) {
-			editableBy = mapBoroughToOrganizationIdentifier(borough);
-		}
+		const editableBy = this.getEditableBy(veranstaltung.event_bezirk_id, bezirke);
+
 		return {
 			title: {
 				...(veranstaltung.event_titel_de && { de: veranstaltung.event_titel_de }),
@@ -94,14 +88,7 @@ export class DistrictDataMapper {
 		organizerReference: Reference,
 		bezirke: Bezirke,
 	): CreateEventRequest {
-		let borough: Borough | null = null;
-		if (veranstaltung.event_bezirk_id && bezirke[veranstaltung.event_bezirk_id].DE) {
-			borough = bezirke[veranstaltung.event_bezirk_id].DE.split(" ")[0] as Borough;
-		}
-		let editableBy: string | null = null;
-		if (borough) {
-			editableBy = mapBoroughToOrganizationIdentifier(borough);
-		}
+		const editableBy = this.getEditableBy(veranstaltung.event_bezirk_id, bezirke);
 		return {
 			schedule: {
 				startDate: termin.tag_von,
@@ -122,14 +109,7 @@ export class DistrictDataMapper {
 	}
 
 	mapOrganisation(veranstalter: Veranstalter, bezirke: Bezirke): CreateOrganizationRequest {
-		let boroughOfOrganization: Borough | null = null;
-		if (veranstalter.bezirk_id && bezirke[veranstalter.bezirk_id].DE) {
-			boroughOfOrganization = bezirke[veranstalter.bezirk_id].DE.split(" ")[0] as Borough;
-		}
-		let editableBy: string | null = null;
-		if (boroughOfOrganization) {
-			editableBy = mapBoroughToOrganizationIdentifier(boroughOfOrganization);
-		}
+		const editableBy = this.getEditableBy(veranstalter.bezirk_id, bezirke);
 
 		return {
 			title: { de: veranstalter.name },
@@ -156,11 +136,7 @@ export class DistrictDataMapper {
 		if (veranstaltungsort.bezirk_id && bezirke[veranstaltungsort.bezirk_id].DE) {
 			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
 		}
-		let editableBy: string | null = null;
-		if (boroughOfLocation) {
-			editableBy = mapBoroughToOrganizationIdentifier(boroughOfLocation);
-		}
-
+		const editableBy = this.getEditableBy(veranstaltungsort.bezirk_id, bezirke);
 		return {
 			title: { de: veranstaltungsort.name },
 			isVirtual: false,
@@ -203,5 +179,14 @@ export class DistrictDataMapper {
 					: false,
 			)
 			.map((tag) => tag.identifier);
+	}
+
+	getEditableBy(bezirk_id: number | null, bezirke: Bezirke): string | null {
+		if (bezirk_id && bezirke[bezirk_id].DE) {
+			const borough = bezirke[bezirk_id].DE.split(" ")[0] as Borough;
+			return mapBoroughToOrganizationIdentifier(borough);
+		} else {
+			return null;
+		}
 	}
 }
