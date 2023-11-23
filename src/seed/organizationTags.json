@@ -1,0 +1,1733 @@
+[
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist",
+		"title": {
+			"de": "Freie Künstler:in / Gruppe / Kollektiv",
+			"en": "Free Artist / Group / Collective",
+			"fr": "Artiste / Groupe / Collectif indépendant",
+			"es": "Artista / Grupo / Colectivo independiente",
+			"it": "Artista / Gruppo / Collettivo indipendente",
+			"tr": "Bağımsız Sanatçı / Grup / Kolektif",
+			"ar": "فنان / مجموعة / جماعة مستقلة",
+			"pl": "Niepodległy Artysta / Grupa / Kolektyw",
+			"ru": "Независимый художник / Группа / Коллектив",
+			"uk": "Незалежний художник / Група / Колектив"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.FineArts",
+		"title": {
+			"de": "Bildende Kunst",
+			"en": "Fine Arts",
+			"fr": "Beaux-arts",
+			"es": "Bellas Artes",
+			"it": "Belle Arti",
+			"tr": "Güzel Sanatlar",
+			"ar": "الفنون الجميلة",
+			"pl": "Sztuki Piękne",
+			"ru": "Изобразительное искусство",
+			"uk": "Образотворче мистецтво"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Entertainment",
+		"title": {
+			"de": "Entertainment",
+			"en": "Entertainment",
+			"fr": "Divertissement",
+			"es": "Entretenimiento",
+			"it": "Intrattenimento",
+			"tr": "Eğlence",
+			"ar": "الترفيه",
+			"pl": "Rozrywka",
+			"ru": "Развлечения",
+			"uk": "Розваги"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.PhotographyFilm",
+		"title": {
+			"de": "Fotografie / Film",
+			"en": "Photography / Film",
+			"fr": "Photographie / Cinéma",
+			"es": "Fotografía / Cine",
+			"it": "Fotografia / Film",
+			"tr": "Fotoğrafçılık / Film",
+			"ar": "التصوير / السينما",
+			"pl": "Fotografia / Film",
+			"ru": "Фотография / Кино",
+			"uk": "Фотографія / Кіно"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Cabaret",
+		"title": {
+			"de": "Kleinkunst",
+			"en": "Cabaret",
+			"fr": "Cabaret",
+			"es": "Cabaret",
+			"it": "Cabaret",
+			"tr": "Kabare",
+			"ar": "كاباريه",
+			"pl": "Kabaret",
+			"ru": "Кабаре",
+			"uk": "Кабаре"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.ArtEducation",
+		"title": {
+			"de": "Kulturelle Bildung / ästhetische Bildung / künstlerische Mediation",
+			"en": "Cultural Education / Aesthetic Education / Artistic Mediation",
+			"fr": "Éducation culturelle / Éducation esthétique / Médiation artistique",
+			"es": "Educación cultural / Educación estética / Mediación artística",
+			"it": "Educazione culturale / Educazione estetica / Mediazione artistica",
+			"tr": "Kültürel Eğitim / Estetik Eğitim / Sanatsal Arabuluculuk",
+			"ar": "التعليم الثقافي / التعليم الجمالي / الوساطة الفنية",
+			"pl": "Edukacja kulturalna / Edukacja estetyczna / Mediacja artystyczna",
+			"ru": "Культурное образование / Эстетическое образование / Художественная медиация",
+			"uk": "Культурна освіта / Естетична освіта / Художнє посередництво"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Crafts",
+		"title": {
+			"de": "Kunsthandwerk",
+			"en": "Arts and Crafts",
+			"fr": "Artisanat d'art",
+			"es": "Artesanías",
+			"it": "Artigianato artistico",
+			"tr": "Sanat ve El Sanatları",
+			"ar": "الفنون والحرف",
+			"pl": "Rzemiosło artystyczne",
+			"ru": "Искусство и ремесла",
+			"uk": "Мистецтво та ремесла"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Teaching",
+		"title": {
+			"de": "Lehre",
+			"en": "Teaching",
+			"fr": "Enseignement",
+			"es": "Enseñanza",
+			"it": "Insegnamento",
+			"tr": "Öğretim",
+			"ar": "التدريس",
+			"pl": "Nauczanie",
+			"ru": "Преподавание",
+			"uk": "Викладання"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Literature",
+		"title": {
+			"de": "Literatur / gesprochenes Wort",
+			"en": "Literature / Spoken Word",
+			"fr": "Littérature / Poésie parlée",
+			"es": "Literatura / Palabra hablada",
+			"it": "Letteratura / Parola parlata",
+			"tr": "Edebiyat / Sözlü Kelime",
+			"ar": "الأدب / الكلمة المنطوقة",
+			"pl": "Literatura / Słowo mówione",
+			"ru": "Литература / Устное слово",
+			"uk": "Література / Вимовлене слово"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.MediaArt",
+		"title": {
+			"de": "Medienkunst",
+			"en": "Media Art",
+			"fr": "Art médiatique",
+			"es": "Arte mediático",
+			"it": "Arte dei media",
+			"tr": "Medya Sanatı",
+			"ar": "فن الإعلام",
+			"pl": "Sztuka mediów",
+			"ru": "Медиа-арт",
+			"uk": "Медіа-мистецтво"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.MusicSinging",
+		"title": {
+			"de": "Musik / Gesang",
+			"en": "Music / Singing",
+			"fr": "Musique / Chant",
+			"es": "Música / Canto",
+			"it": "Musica / Canto",
+			"tr": "Müzik / Şarkı Söyleme",
+			"ar": "الموسيقى / الغناء",
+			"pl": "Muzyka / Śpiew",
+			"ru": "Музыка / Пение",
+			"uk": "Музика / Спів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.PublicSpaceAction",
+		"title": {
+			"de": "Öffentlicher Raum / Aktion",
+			"en": "Public Space / Action",
+			"fr": "Espace public / Action",
+			"es": "Espacio público / Acción",
+			"it": "Spazio pubblico / Azione",
+			"tr": "Kamu Alanı / Eylem",
+			"ar": "المساحة العامة / الفعل",
+			"pl": "Przestrzeń publiczna / Akcja",
+			"ru": "Общественное пространство / Действие",
+			"uk": "Громадський простір / Дія"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.OutreachSocialProjects",
+		"title": {
+			"de": "Outreach / soziale Projekte",
+			"en": "Outreach / Social Projects",
+			"fr": "Sensibilisation / Projets sociaux",
+			"es": "Alcance / Proyectos sociales",
+			"it": "Sensibilizzazione / Progetti sociali",
+			"tr": "Dışa açılma / Sosyal Projeler",
+			"ar": "التواصل / المشاريع الاجتماعية",
+			"pl": "Outreach / Projekty społeczne",
+			"ru": "Привлечение / Социальные проекты",
+			"uk": "Залучення / Соціальні проекти"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Performance",
+		"title": {
+			"de": "Performance",
+			"en": "Performance",
+			"fr": "Performance",
+			"es": "Performance",
+			"it": "Performance",
+			"tr": "Performans",
+			"ar": "الأداء",
+			"pl": "Performance",
+			"ru": "Перформанс",
+			"uk": "Перформанс"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Interdisciplinary",
+		"title": {
+			"de": "Spartenübergreifend / interdisziplinär arbeitend",
+			"en": "Cross-disciplinary / Interdisciplinary",
+			"fr": "Interdisciplinaire / Transdisciplinaire",
+			"es": "Interdisciplinario / Transdisciplinario",
+			"it": "Interdisciplinare / Transdisciplinare",
+			"tr": "Disiplinlerarası / Çok disiplinli",
+			"ar": "عابر للتخصصات / متعدد التخصصات",
+			"pl": "Międzydziedzinowe / Interdyscyplinarne",
+			"ru": "Междисциплинарный / Интердисциплинарный",
+			"uk": "Міждисциплінарний / Інтердисциплінарний"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Dance",
+		"title": {
+			"de": "Tanz",
+			"en": "Dance",
+			"fr": "Danse",
+			"es": "Danza",
+			"it": "Danza",
+			"tr": "Dans",
+			"ar": "الرقص",
+			"pl": "Taniec",
+			"ru": "Танец",
+			"uk": "Танець"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.IndependentArtist.Theater",
+		"title": {
+			"de": "Theater / Musiktheater / Schauspiel",
+			"en": "Theater / Music Theater / Drama",
+			"fr": "Théâtre / Théâtre musical / Drame",
+			"es": "Teatro / Teatro musical / Drama",
+			"it": "Teatro / Teatro musicale / Dramma",
+			"tr": "Tiyatro / Müzik Tiyatrosu / Drama",
+			"ar": "مسرح / مسرح موسيقي / دراما",
+			"pl": "Teatr / Teatr muzyczny / Dramat",
+			"ru": "Театр / Музыкальный театр / Драма",
+			"uk": "Театр / Музичний театр / Драма"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater",
+		"title": {
+			"de": "Theater / Musiktheater / Spielstätte für Performance",
+			"en": "Theater / Music Theater / Performance Venue",
+			"fr": "Théâtre / Théâtre musical / Lieu de performance",
+			"es": "Teatro / Teatro musical / Lugar de performance",
+			"it": "Teatro / Teatro musicale / Luogo di performance",
+			"tr": "Tiyatro / Müzik Tiyatrosu / Performans Mekanı",
+			"ar": "مسرح / مسرح موسيقي / مكان للأداء",
+			"pl": "Teatr / Teatr muzyczny / Miejsce występów",
+			"ru": "Театр / Музыкальный театр / Место для перформанса",
+			"uk": "Театр / Музичний театр / Місце для перформансу"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.Entertainment",
+		"title": {
+			"de": "Entertainment",
+			"en": "Entertainment",
+			"fr": "Divertissement",
+			"es": "Entretenimiento",
+			"it": "Intrattenimento",
+			"tr": "Eğlence",
+			"ar": "الترفيه",
+			"pl": "Rozrywka",
+			"ru": "Развлечения",
+			"uk": "Розваги"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.ChildrenYouthTheater",
+		"title": {
+			"de": "Kinder- und Jugendtheater",
+			"en": "Children and Youth Theater",
+			"fr": "Théâtre pour enfants et jeunes",
+			"es": "Teatro para niños y jóvenes",
+			"it": "Teatro per bambini e giovani",
+			"tr": "Çocuk ve Gençlik Tiyatrosu",
+			"ar": "مسرح الأطفال والشباب",
+			"pl": "Teatr dziecięcy i młodzieżowy",
+			"ru": "Детский и юношеский театр",
+			"uk": "Дитячий та юнацький театр"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.Cabaret",
+		"title": {
+			"de": "Kleinkunst",
+			"en": "Cabaret",
+			"fr": "Cabaret",
+			"es": "Cabaret",
+			"it": "Cabaret",
+			"tr": "Kabare",
+			"ar": "كاباريه",
+			"pl": "Kabaret",
+			"ru": "Кабаре",
+			"uk": "Кабаре"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.Musical",
+		"title": {
+			"de": "Musical",
+			"en": "Musical",
+			"fr": "Comédie musicale",
+			"es": "Musical",
+			"it": "Musical",
+			"tr": "Müzikal",
+			"ar": "ميوزيكل",
+			"pl": "Musical",
+			"ru": "Мюзикл",
+			"uk": "Мюзикл"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.Opera",
+		"title": {
+			"de": "Oper",
+			"en": "Opera",
+			"fr": "Opéra",
+			"es": "Ópera",
+			"it": "Opera",
+			"tr": "Opera",
+			"ar": "أوبرا",
+			"pl": "Opera",
+			"ru": "Опера",
+			"uk": "Опера"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.Operetta",
+		"title": {
+			"de": "Operette",
+			"en": "Operetta",
+			"fr": "Opérette",
+			"es": "Opereta",
+			"it": "Operetta",
+			"tr": "Operet",
+			"ar": "أوبريت",
+			"pl": "Operetka",
+			"ru": "Оперетта",
+			"uk": "Оперета"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.Performance",
+		"title": {
+			"de": "Performance",
+			"en": "Performance",
+			"fr": "Performance",
+			"es": "Performance",
+			"it": "Performance",
+			"tr": "Performans",
+			"ar": "الأداء",
+			"pl": "Performance",
+			"ru": "Перформанс",
+			"uk": "Перформанс"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.PuppetFigureObjectTheater",
+		"title": {
+			"de": "Puppen- / Figuren-/ Objekttheater",
+			"en": "Puppet / Figure / Object Theater",
+			"fr": "Théâtre de marionnettes / de figures / d'objets",
+			"es": "Teatro de títeres / figuras / objetos",
+			"it": "Teatro di burattini / figure / oggetti",
+			"tr": "Kukla / Figür / Nesne Tiyatrosu",
+			"ar": "مسرح الدمى / الأشكال / الأغراض",
+			"pl": "Teatr lalek / figur / obiektów",
+			"ru": "Театр кукол / фигур / объектов",
+			"uk": "Театр ляльок / фігур / об'єктів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Theater.Drama",
+		"title": {
+			"de": "Sprechtheater / Schauspiel",
+			"en": "Spoken Theater / Drama",
+			"fr": "Théâtre parlé / Drame",
+			"es": "Teatro hablado / Drama",
+			"it": "Teatro parlato / Dramma",
+			"tr": "Konuşmalı Tiyatro / Drama",
+			"ar": "مسرح محكي / دراما",
+			"pl": "Teatr mówiony / Dramat",
+			"ru": "Разговорный театр / Драма",
+			"uk": "Розмовний театр / Драма"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls",
+		"title": {
+			"de": "Konzerthäuser / Orchester / Chöre / Konzertveranstalter:in",
+			"en": "Concert Halls / Orchestras / Choirs / Concert Organizers",
+			"fr": "Salles de concert / Orchestres / Chœurs / Organisateurs de concerts",
+			"es": "Salas de conciertos / Orquestas / Coros / Organizadores de conciertos",
+			"it": "Sale da concerto / Orchestre / Cori / Organizzatori di concerti",
+			"tr": "Konser Salonları / Orkestralar / Korolar / Konser Organizatörleri",
+			"ar": "قاعات الحفلات الموسيقية / الأوركسترات / الجوقات / منظمو الحفلات",
+			"pl": "Sale koncertowe / Orkiestry / Chóry / Organizatorzy koncertów",
+			"ru": "Концертные залы / Оркестры / Хоры / Организаторы концертов",
+			"uk": "Концертні зали / Оркестри / Хори / Організатори концертів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.Choir",
+		"title": {
+			"de": "Chor",
+			"en": "Choir",
+			"fr": "Chœur",
+			"es": "Coro",
+			"it": "Coro",
+			"tr": "Koro",
+			"ar": "جوقة",
+			"pl": "Chór",
+			"ru": "Хор",
+			"uk": "Хор"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.Club",
+		"title": {
+			"de": "Club",
+			"en": "Club",
+			"fr": "Club",
+			"es": "Club",
+			"it": "Club",
+			"tr": "Kulüp",
+			"ar": "نادي",
+			"pl": "Klub",
+			"ru": "Клуб",
+			"uk": "Клуб"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.ChamberChoir",
+		"title": {
+			"de": "Kammerchor",
+			"en": "Chamber Choir",
+			"fr": "Chœur de chambre",
+			"es": "Coro de cámara",
+			"it": "Coro da camera",
+			"tr": "Oda Korosu",
+			"ar": "جوقة الحجرة",
+			"pl": "Chór kameralny",
+			"ru": "Камерный хор",
+			"uk": "Камерний хор"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.ChamberOrchestra",
+		"title": {
+			"de": "Kammerorchester",
+			"en": "Chamber Orchestra",
+			"fr": "Orchestre de chambre",
+			"es": "Orquesta de cámara",
+			"it": "Orchestra da camera",
+			"tr": "Oda Orkestrası",
+			"ar": "أوركسترا الحجرة",
+			"pl": "Orkiestra kameralna",
+			"ru": "Камерный оркестр",
+			"uk": "Камерний оркестр"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.ConcertStage",
+		"title": {
+			"de": "Konzertbühne",
+			"en": "Concert Stage",
+			"fr": "Scène de concert",
+			"es": "Escenario de concierto",
+			"it": "Palco dei concerti",
+			"tr": "Konser Sahnesi",
+			"ar": "مسرح الحفلات",
+			"pl": "Scena koncertowa",
+			"ru": "Концертная сцена",
+			"uk": "Концертна сцена"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.MusicOrganizer",
+		"title": {
+			"de": "Musikveranstalter:in",
+			"en": "Music Organizer",
+			"fr": "Organisateur de musique",
+			"es": "Organizador de música",
+			"it": "Organizzatore di musica",
+			"tr": "Müzik Organizatörü",
+			"ar": "منظم الفعاليات الموسيقية",
+			"pl": "Organizator muzyki",
+			"ru": "Организатор музыкальных мероприятий",
+			"uk": "Організатор музики"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.Orchestra",
+		"title": {
+			"de": "Orchester",
+			"en": "Orchestra",
+			"fr": "Orchestre",
+			"es": "Orquesta",
+			"it": "Orchestra",
+			"tr": "Orkestra",
+			"ar": "الأوركسترا",
+			"pl": "Orkiestra",
+			"ru": "Оркестр",
+			"uk": "Оркестр"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.SymphonyOrchestra",
+		"title": {
+			"de": "Sinfonieorchester",
+			"en": "Symphony Orchestra",
+			"fr": "Orchestre symphonique",
+			"es": "Orquesta sinfónica",
+			"it": "Orchestra sinfonica",
+			"tr": "Senfoni Orkestrası",
+			"ar": "أوركسترا سيمفونية",
+			"pl": "Orkiestra symfoniczna",
+			"ru": "Симфонический оркестр",
+			"uk": "Симфонічний оркестр"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ConcertHalls.SpecialEnsemble",
+		"title": {
+			"de": "Spezialensemble",
+			"en": "Special Ensemble",
+			"fr": "Ensemble spécialisé",
+			"es": "Ensemble especial",
+			"it": "Ensemble speciale",
+			"tr": "Özel Topluluk",
+			"ar": "فرقة متخصصة",
+			"pl": "Specjalny zespół",
+			"ru": "Специализированный ансамбль",
+			"uk": "Спеціалізований ансамбль"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.DancePerformanceOrganization",
+		"title": {
+			"de": "Tanz- / Performance-Organisation oder Spielstätte",
+			"en": "Dance / Performance Organization or Venue",
+			"fr": "Organisation ou lieu de danse / performance",
+			"es": "Organización o lugar de danza / performance",
+			"it": "Organizzazione o luogo di danza / performance",
+			"tr": "Dans / Performans Organizasyonu veya Mekan",
+			"ar": "منظمة أو مكان الرقص / الأداء",
+			"pl": "Organizacja lub miejsce tańca / performance",
+			"ru": "Организация или место танца / перформанса",
+			"uk": "Організація чи місце танцю / перформансу"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.DancePerformanceOrganization.Ballet",
+		"title": {
+			"de": "Ballett",
+			"en": "Ballet",
+			"fr": "Ballet",
+			"es": "Ballet",
+			"it": "Balletto",
+			"tr": "Bale",
+			"ar": "باليه",
+			"pl": "Balet",
+			"ru": "Балет",
+			"uk": "Балет"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.DancePerformanceOrganization.Performance",
+		"title": {
+			"de": "Performance",
+			"en": "Performance",
+			"fr": "Performance",
+			"es": "Performance",
+			"it": "Performance",
+			"tr": "Performans",
+			"ar": "أداء",
+			"pl": "Performance",
+			"ru": "Перформанс",
+			"uk": "Перформанс"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.DancePerformanceOrganization.DanceTheater",
+		"title": {
+			"de": "Tanztheater",
+			"en": "Dance Theater",
+			"fr": "Théâtre de danse",
+			"es": "Teatro de danza",
+			"it": "Teatro di danza",
+			"tr": "Dans Tiyatrosu",
+			"ar": "مسرح الرقص",
+			"pl": "Teatr tańca",
+			"ru": "Танцевальный театр",
+			"uk": "Театр танцю"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.DancePerformanceOrganization.ContemporaryDance",
+		"title": {
+			"de": "Zeitgenössischer Tanz",
+			"en": "Contemporary Dance",
+			"fr": "Danse contemporaine",
+			"es": "Danza contemporánea",
+			"it": "Danza contemporanea",
+			"tr": "Çağdaş Dans",
+			"ar": "الرقص المعاصر",
+			"pl": "Taniec współczesny",
+			"ru": "Современный танец",
+			"uk": "Сучасний танець"
+		},
+		"metadata": {
+
+		}
+	},
+
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum",
+		"title": {
+			"de": "Museum",
+			"en": "Museum",
+			"fr": "Musée",
+			"es": "Museo",
+			"it": "Museo",
+			"tr": "Müze",
+			"ar": "متحف",
+			"pl": "Muzeum",
+			"ru": "Музей",
+			"uk": "Музей"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.ArchitectureCraftsDesign",
+		"title": {
+			"de": "Architektur / Kunsthandwerk und Design",
+			"en": "Architecture / Arts and Crafts and Design",
+			"fr": "Architecture / Artisanat et design",
+			"es": "Arquitectura / Artesanías y diseño",
+			"it": "Architettura / Artigianato e design",
+			"tr": "Mimari / El Sanatları ve Tasarım",
+			"ar": "العمارة / الحرف اليدوية والتصميم",
+			"pl": "Architektura / Rzemiosło artystyczne i wzornictwo",
+			"ru": "Архитектура / Художественные промыслы и дизайн",
+			"uk": "Архітектура / Мистецтво ремесел та дизайн"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.SpecializedCulturalHistory",
+		"title": {
+			"de": "Kulturgeschichtliches Spezialmuseum",
+			"en": "Specialized Cultural History Museum",
+			"fr": "Musée spécialisé en histoire culturelle",
+			"es": "Museo especializado en historia cultural",
+			"it": "Museo specializzato in storia culturale",
+			"tr": "Kültürel Tarih Uzmanlaşmış Müze",
+			"ar": "متحف متخصص في التاريخ الثقافي",
+			"pl": "Muzeum specjalizujące się w historii kultury",
+			"ru": "Музей специализированной культурной истории",
+			"uk": "Музей спеціалізованої культурної історії"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.ArtMuseum",
+		"title": {
+			"de": "Kunstmuseum",
+			"en": "Art Museum",
+			"fr": "Musée d'art",
+			"es": "Museo de arte",
+			"it": "Museo d'arte",
+			"tr": "Sanat Müzesi",
+			"ar": "متحف الفن",
+			"pl": "Muzeum sztuki",
+			"ru": "Художественный музей",
+			"uk": "Музей мистецтва"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.FilmPhotography",
+		"title": {
+			"de": "Museum für Film / Fotografie",
+			"en": "Museum for Film / Photography",
+			"fr": "Musée du film / Photographie",
+			"es": "Museo de cine / Fotografía",
+			"it": "Museo del film / Fotografia",
+			"tr": "Film / Fotoğraf Müzesi",
+			"ar": "متحف الفيلم / التصوير الفوتوغرافي",
+			"pl": "Muzeum filmu / Fotografii",
+			"ru": "Музей кино / Фотографии",
+			"uk": "Музей кіно / Фотографії"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.HistoryArchaeology",
+		"title": {
+			"de": "Museum für Geschichte / Archäologie",
+			"en": "Museum for History / Archaeology",
+			"fr": "Musée d'histoire / Archéologie",
+			"es": "Museo de historia / Arqueología",
+			"it": "Museo di storia / Archeologia",
+			"tr": "Tarih / Arkeoloji Müzesi",
+			"ar": "متحف التاريخ / الآثار",
+			"pl": "Muzeum historii / Archeologii",
+			"ru": "Музей истории / Археологии",
+			"uk": "Музей історії / Археології"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.NaturalHistoryScienceTechnology",
+		"title": {
+			"de": "Museum für Naturkunde / Naturwissenschaft / Technik",
+			"en": "Museum for Natural History / Science / Technology",
+			"fr": "Musée d'histoire naturelle / Science / Technologie",
+			"es": "Museo de historia natural / Ciencia / Tecnología",
+			"it": "Museo di storia naturale / Scienza / Tecnologia",
+			"tr": "Doğa Tarihi / Bilim / Teknoloji Müzesi",
+			"ar": "متحف التاريخ الطبيعي / العلوم / التكنولوجيا",
+			"pl": "Muzeum historii naturalnej / Nauki / Techniki",
+			"ru": "Музей естественной истории / Науки / Технологии",
+			"uk": "Музей природної історії / Науки / Технології"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.CastleFortressMuseum",
+		"title": {
+			"de": "Schloss- und Burgmuseum",
+			"en": "Castle and Fortress Museum",
+			"fr": "Musée de château et de forteresse",
+			"es": "Museo de castillo y fortaleza",
+			"it": "Museo di castello e fortezza",
+			"tr": "Kale ve Hisar Müzesi",
+			"ar": "متحف القلعة والحصن",
+			"pl": "Muzeum zamku i fortecy",
+			"ru": "Музей замка и крепости",
+			"uk": "Музей замку та фортеці"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.Museum.DistrictLocalMuseum",
+		"title": {
+			"de": "Stadtteil- / Bezirksmuseum",
+			"en": "District / Local Museum",
+			"fr": "Musée de quartier / local",
+			"es": "Museo de distrito / local",
+			"it": "Museo di quartiere / locale",
+			"tr": "Bölge / Yerel Müze",
+			"ar": "متحف الحي / المحلي",
+			"pl": "Muzeum dzielnicowe / lokalne",
+			"ru": "Районный / местный музей",
+			"uk": "Районний / місцевий музей"
+		},
+		"metadata": {
+
+		}
+	},
+
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.GalleryExhibitionSpaceInitiative",
+		"title": {
+			"de": "Galerie / Ausstellungsstätte / Initative für Bildende Kunst",
+			"en": "Gallery / Exhibition Space / Initiative for Visual Arts",
+			"fr": "Galerie / Espace d'exposition / Initiative pour les arts visuels",
+			"es": "Galería / Espacio de exposición / Iniciativa para las artes visuales",
+			"it": "Galleria / Spazio espositivo / Iniziativa per le arti visive",
+			"tr": "Galeri / Sergi Alanı / Görsel Sanatlar İçin Girişim",
+			"ar": "صالة عرض / مساحة عرض / مبادرة للفنون البصرية",
+			"pl": "Galeria / Przestrzeń wystawiennicza / Inicjatywa na rzecz sztuk wizualnych",
+			"ru": "Галерея / Выставочное пространство / Инициатива по визуальным искусствам",
+			"uk": "Галерея / Виставковий простір / Ініціатива з візуального мистецтва"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.GalleryExhibitionSpaceInitiative.ExhibitionHouse",
+		"title": {
+			"de": "Ausstellungshaus",
+			"en": "Exhibition House",
+			"fr": "Maison d'exposition",
+			"es": "Casa de exposiciones",
+			"it": "Casa delle esposizioni",
+			"tr": "Sergi Evi",
+			"ar": "بيت المعرض",
+			"pl": "Dom wystawowy",
+			"ru": "Выставочный дом",
+			"uk": "Виставковий будинок"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.GalleryExhibitionSpaceInitiative.Gallery",
+		"title": {
+			"de": "Galerie",
+			"en": "Gallery",
+			"fr": "Galerie",
+			"es": "Galería",
+			"it": "Galleria",
+			"tr": "Galeri",
+			"ar": "معرض",
+			"pl": "Galeria",
+			"ru": "Галерея",
+			"uk": "Галерея"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.GalleryExhibitionSpaceInitiative.PublicArt",
+		"title": {
+			"de": "Kunst im öffentlichen Raum",
+			"en": "Art in Public Space",
+			"fr": "Art dans l'espace public",
+			"es": "Arte en el espacio público",
+			"it": "Arte nello spazio pubblico",
+			"tr": "Kamu Alanında Sanat",
+			"ar": "الفن في الفضاء العام",
+			"pl": "Sztuka w przestrzeni publicznej",
+			"ru": "Искусство в общественном пространстве",
+			"uk": "Мистецтво у громадському просторі"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.GalleryExhibitionSpaceInitiative.ArtAssociation",
+		"title": {
+			"de": "Kunstverein",
+			"en": "Art Association",
+			"fr": "Association d'art",
+			"es": "Asociación de arte",
+			"it": "Associazione artistica",
+			"tr": "Sanat Derneği",
+			"ar": "جمعية فنية",
+			"pl": "Stowarzyszenie artystyczne",
+			"ru": "Художественная ассоциация",
+			"uk": "Мистецька асоціація"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.GalleryExhibitionSpaceInitiative.PrivateCollection",
+		"title": {
+			"de": "Privatsammlung",
+			"en": "Private Collection",
+			"fr": "Collection privée",
+			"es": "Colección privada",
+			"it": "Collezione privata",
+			"tr": "Özel Koleksiyon",
+			"ar": "مجموعة خاصة",
+			"pl": "Kolekcja prywatna",
+			"ru": "Частная коллекция",
+			"uk": "Приватна колекція"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ProjectSpaceRehearsalRoomAtelierStudio",
+		"title": {
+			"de": "Projektraum / Proberaum / Ateliers / Studios",
+			"en": "Project Space / Rehearsal Room / Ateliers / Studios",
+			"fr": "Espace de projet / Salle de répétition / Ateliers / Studios",
+			"es": "Espacio de proyecto / Sala de ensayo / Ateliers / Estudios",
+			"it": "Spazio progettuale / Sala prove / Atelier / Studi",
+			"tr": "Proje Alanı / Prova Odası / Atölyeler / Stüdyolar",
+			"ar": "مساحة المشروع / غرفة البروفة / أتيليهات / استوديوهات",
+			"pl": "Przestrzeń projektowa / Sala prób / Ateliery / Studia",
+			"ru": "Пространство проекта / Репетиционная комната / Ателье / Студии",
+			"uk": "Простір проекту / Приміщення для репетицій / Ательє / Студії"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ProjectSpaceRehearsalRoomAtelierStudio.ActionSpace",
+		"title": {
+			"de": "Aktionsraum",
+			"en": "Action Space",
+			"fr": "Espace d'action",
+			"es": "Espacio de acción",
+			"it": "Spazio d'azione",
+			"tr": "Eylem Alanı",
+			"ar": "مساحة الفعل",
+			"pl": "Przestrzeń akcji",
+			"ru": "Пространство действия",
+			"uk": "Простір дії"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ProjectSpaceRehearsalRoomAtelierStudio.Atelier",
+		"title": {
+			"de": "Atelier",
+			"en": "Atelier",
+			"fr": "Atelier",
+			"es": "Atelier",
+			"it": "Atelier",
+			"tr": "Atölye",
+			"ar": "أتيليه",
+			"pl": "Atelier",
+			"ru": "Ателье",
+			"uk": "Ательє"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ProjectSpaceRehearsalRoomAtelierStudio.ExhibitionRoom",
+		"title": {
+			"de": "Ausstellungsraum",
+			"en": "Exhibition Room",
+			"fr": "Salle d'exposition",
+			"es": "Sala de exposiciones",
+			"it": "Sala esposizioni",
+			"tr": "Sergi Salonu",
+			"ar": "قاعة العرض",
+			"pl": "Sala wystawowa",
+			"ru": "Выставочный зал",
+			"uk": "Виставкова зала"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ProjectSpaceRehearsalRoomAtelierStudio.ProjectSpace",
+		"title": {
+			"de": "Projektraum",
+			"en": "Project Space",
+			"fr": "Espace de projet",
+			"es": "Espacio de proyecto",
+			"it": "Spazio progettuale",
+			"tr": "Proje Alanı",
+			"ar": "مساحة المشروع",
+			"pl": "Przestrzeń projektowa",
+			"ru": "Пространство проекта",
+			"uk": "Простір проекту"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ProjectSpaceRehearsalRoomAtelierStudio.Studio",
+		"title": {
+			"de": "Studio",
+			"en": "Studio",
+			"fr": "Studio",
+			"es": "Estudio",
+			"it": "Studio",
+			"tr": "Stüdyo",
+			"ar": "استوديو",
+			"pl": "Studio",
+			"ru": "Студия",
+			"uk": "Студія"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.ProjectSpaceRehearsalRoomAtelierStudio.Workshop",
+		"title": {
+			"de": "Werkstatt",
+			"en": "Workshop",
+			"fr": "Atelier",
+			"es": "Taller",
+			"it": "Laboratorio",
+			"tr": "Atölye",
+			"ar": "ورشة عمل",
+			"pl": "Warsztat",
+			"ru": "Мастерская",
+			"uk": "Майстерня"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.MemorialSite",
+		"title": {
+			"de": "Gedenkstätte / Erinnerungsort",
+			"en": "Memorial Site / Place of Remembrance",
+			"fr": "Mémorial / Lieu de mémoire",
+			"es": "Sitio conmemorativo / Lugar de recuerdo",
+			"it": "Memoriale / Luogo della memoria",
+			"tr": "Anıt / Anma Yeri",
+			"ar": "نصب تذكاري / مكان الذكرى",
+			"pl": "Miejsce pamięci / Miejsce upamiętnienia",
+			"ru": "Мемориал / Место памяти",
+			"uk": "Меморіал / Місце пам'яті"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.MemorialSite.DocumentationCenter",
+		"title": {
+			"de": "Dokumentationszentrum",
+			"en": "Documentation Center",
+			"fr": "Centre de documentation",
+			"es": "Centro de documentación",
+			"it": "Centro di documentazione",
+			"tr": "Dokümantasyon Merkezi",
+			"ar": "مركز التوثيق",
+			"pl": "Centrum dokumentacji",
+			"ru": "Документационный центр",
+			"uk": "Центр документації"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.MemorialSite.Memorial",
+		"title": {
+			"de": "Gedenkstätte",
+			"en": "Memorial",
+			"fr": "Mémorial",
+			"es": "Memorial",
+			"it": "Memoriale",
+			"tr": "Anıt",
+			"ar": "نصب تذكاري",
+			"pl": "Pomnik",
+			"ru": "Мемориал",
+			"uk": "Меморіал"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive",
+		"title": {
+			"de": "Bibliothek / Archiv",
+			"en": "Library / Archive",
+			"fr": "Bibliothèque / Archive",
+			"es": "Biblioteca / Archivo",
+			"it": "Biblioteca / Archivio",
+			"tr": "Kütüphane / Arşiv",
+			"ar": "مكتبة / أرشيف",
+			"pl": "Biblioteka / Archiwum",
+			"ru": "Библиотека / Архив",
+			"uk": "Бібліотека / Архів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.Artothek",
+		"title": {
+			"de": "Artothek",
+			"en": "Artothek",
+			"fr": "Artothèque",
+			"es": "Artothek",
+			"it": "Artothek",
+			"tr": "Sanat Kütüphanesi",
+			"ar": "أرتوثيك",
+			"pl": "Artothek",
+			"ru": "Артотека",
+			"uk": "Артотека"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.AuthorityLibrary",
+		"title": {
+			"de": "Behördenbibliothek",
+			"en": "Authority Library",
+			"fr": "Bibliothèque de l'autorité",
+			"es": "Biblioteca de la autoridad",
+			"it": "Biblioteca dell'autorità",
+			"tr": "Otorite Kütüphanesi",
+			"ar": "مكتبة السلطة",
+			"pl": "Biblioteka władz",
+			"ru": "Библиотека власти",
+			"uk": "Бібліотека влади"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.DistrictBranchLibrary",
+		"title": {
+			"de": "Bezirks- / Stadtteilbibliothek",
+			"en": "District / Branch Library",
+			"fr": "Bibliothèque de quartier / de branche",
+			"es": "Biblioteca de distrito / sucursal",
+			"it": "Biblioteca di quartiere / filiale",
+			"tr": "Semt / Şube Kütüphanesi",
+			"ar": "مكتبة الحي / الفرع",
+			"pl": "Biblioteka dzielnicowa / filialna",
+			"ru": "Районная / Филиальная библиотека",
+			"uk": "Районна / Філіальна бібліотека"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.BlindLibrary",
+		"title": {
+			"de": "Blindenbibliothek",
+			"en": "Blind Library",
+			"fr": "Bibliothèque pour aveugles",
+			"es": "Biblioteca para ciegos",
+			"it": "Biblioteca per non vedenti",
+			"tr": "Görme Engelliler Kütüphanesi",
+			"ar": "مكتبة للمكفوفين",
+			"pl": "Biblioteka dla niewidomych",
+			"ru": "Библиотека для слепых",
+			"uk": "Бібліотека для сліпих"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.ChildrenYouthLibrary",
+		"title": {
+			"de": "Kinder- und Jugendbibliothek",
+			"en": "Children and Youth Library",
+			"fr": "Bibliothèque pour enfants et jeunes",
+			"es": "Biblioteca para niños y jóvenes",
+			"it": "Biblioteca per bambini e giovani",
+			"tr": "Çocuk ve Gençlik Kütüphanesi",
+			"ar": "مكتبة للأطفال والشباب",
+			"pl": "Biblioteka dla dzieci i młodzieży",
+			"ru": "Библиотека для детей и молодежи",
+			"uk": "Бібліотека для дітей та молоді"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.MunicipalArchive",
+		"title": {
+			"de": "Kommunales Archiv",
+			"en": "Municipal Archive",
+			"fr": "Archives municipales",
+			"es": "Archivo municipal",
+			"it": "Archivio comunale",
+			"tr": "Belediye Arşivi",
+			"ar": "الأرشيف البلدي",
+			"pl": "Archiwum miejskie",
+			"ru": "Муниципальный архив",
+			"uk": "Муніципальний архів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.StateArchive",
+		"title": {
+			"de": "Landes- / Staatsarchiv",
+			"en": "State Archive",
+			"fr": "Archives d'État",
+			"es": "Archivo estatal",
+			"it": "Archivio di Stato",
+			"tr": "Devlet Arşivi",
+			"ar": "أرشيف الدولة",
+			"pl": "Archiwum państwowe",
+			"ru": "Государственный архив",
+			"uk": "Державний архів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.MediaArchive",
+		"title": {
+			"de": "Medienarchiv",
+			"en": "Media Archive",
+			"fr": "Archives médias",
+			"es": "Archivo de medios",
+			"it": "Archivio media",
+			"tr": "Medya Arşivi",
+			"ar": "أرشيف الوسائط",
+			"pl": "Archiwum mediów",
+			"ru": "Медиа-архив",
+			"uk": "Медіа-архів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.MusicLibrary",
+		"title": {
+			"de": "Musikbibliothek",
+			"en": "Music Library",
+			"fr": "Bibliothèque de musique",
+			"es": "Biblioteca de música",
+			"it": "Biblioteca musicale",
+			"tr": "Müzik Kütüphanesi",
+			"ar": "مكتبة الموسيقى",
+			"pl": "Biblioteka muzyczna",
+			"ru": "Музыкальная библиотека",
+			"uk": "Музична бібліотека"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.SpecializedLibrary",
+		"title": {
+			"de": "Spezial- / Fachbibliothek",
+			"en": "Specialized / Fach Library",
+			"fr": "Bibliothèque spécialisée",
+			"es": "Biblioteca especializada",
+			"it": "Biblioteca specializzata",
+			"tr": "Uzmanlık Kütüphanesi",
+			"ar": "مكتبة متخصصة",
+			"pl": "Biblioteka specjalistyczna",
+			"ru": "Специализированная библиотека",
+			"uk": "Спеціалізована бібліотека"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.SpecialArchive",
+		"title": {
+			"de": "Spezialarchiv",
+			"en": "Special Archive",
+			"fr": "Archive spéciale",
+			"es": "Archivo especial",
+			"it": "Archivio speciale",
+			"tr": "Özel Arşiv",
+			"ar": "أرشيف خاص",
+			"pl": "Archiwum specjalne",
+			"ru": "Специальный архив",
+			"uk": "Спеціальний архів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.UniversalLibrary",
+		"title": {
+			"de": "Universalbibliothek",
+			"en": "Universal Library",
+			"fr": "Bibliothèque universelle",
+			"es": "Biblioteca universal",
+			"it": "Biblioteca universale",
+			"tr": "Evrensel Kütüphane",
+			"ar": "مكتبة عالمية",
+			"pl": "Biblioteka uniwersalna",
+			"ru": "Универсальная библиотека",
+			"uk": "Універсальна бібліотека"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.UniversityScienceArchive",
+		"title": {
+			"de": "Universitäts- / Wissenschaftsarchiv",
+			"en": "University / Science Archive",
+			"fr": "Archive universitaire / scientifique",
+			"es": "Archivo universitario / científico",
+			"it": "Archivio universitario / scientifico",
+			"tr": "Üniversite / Bilim Arşivi",
+			"ar": "أرشيف الجامعة / العلوم",
+			"pl": "Archiwum uniwersyteckie / naukowe",
+			"ru": "Университетский / Научный архив",
+			"uk": "Університетський / Науковий архів"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LibraryArchive.UniversityLibrary",
+		"title": {
+			"de": "Universitäts- und Hochschulbibliothek",
+			"en": "University and College Library",
+			"fr": "Bibliothèque universitaire et collégiale",
+			"es": "Biblioteca universitaria y de colegio",
+			"it": "Biblioteca universitaria e collegio",
+			"tr": "Üniversite ve Kolej Kütüphanesi",
+			"ar": "مكتبة الجامعة والكلية",
+			"pl": "Biblioteka uniwersytecka i koleżeńska",
+			"ru": "Университетская и колледжеская библиотека",
+			"uk": "Університетська та коледжна бібліотека"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.LiteratureHouse",
+		"title": {
+			"de": "Literaturhaus / Veranstalter:in für Literatur",
+			"en": "Literature House / Organizer for Literature",
+			"fr": "Maison de la littérature / Organisateur de littérature",
+			"es": "Casa de la literatura / Organizador de literatura",
+			"it": "Casa della letteratura / Organizzatore per la letteratura",
+			"tr": "Edebiyat Evi / Edebiyat Organizatörü",
+			"ar": "بيت الأدب / منظم الأدب",
+			"pl": "Dom literatury / Organizator literatury",
+			"ru": "Литературный дом / Организатор литературы",
+			"uk": "Літературний будинок / Організатор літератури"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.CulturalEducationProvider",
+		"title": {
+			"de": "Bildungseinrichtung / Anbieter:in für kulturelle Bildung",
+			"en": "Educational Institution / Provider for Cultural Education",
+			"fr": "Établissement éducatif / Fournisseur d'éducation culturelle",
+			"es": "Institución educativa / Proveedor de educación cultural",
+			"it": "Istituzione educativa / Fornitore di educazione culturale",
+			"tr": "Kültürel Eğitim Sağlayan Eğitim Kurumu / Sağlayıcı",
+			"ar": "مؤسسة تعليمية / مزودة للتعليم الثقافي",
+			"pl": "Placówka edukacyjna / Dostawca edukacji kulturalnej",
+			"ru": "Образовательное учреждение / Поставщик культурного образования",
+			"uk": "Освітня установа / Постачальник культурної освіти"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.CulturalEducationProvider.BalletSchool",
+		"title": {
+			"de": "Ballettschule",
+			"en": "Ballet School",
+			"fr": "École de danse classique",
+			"es": "Escuela de ballet",
+			"it": "Scuola di balletto",
+			"tr": "Bale Okulu",
+			"ar": "مدرسة الباليه",
+			"pl": "Szkoła baletu",
+			"ru": "Балетная школа",
+			"uk": "Балетна школа"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.CulturalEducationProvider.ArtSchool",
+		"title": {
+			"de": "Kunstschule",
+			"en": "Art School",
+			"fr": "École d'art",
+			"es": "Escuela de arte",
+			"it": "Scuola d'arte",
+			"tr": "Sanat Okulu",
+			"ar": "مدرسة الفنون",
+			"pl": "Szkoła artystyczna",
+			"ru": "Художественная школа",
+			"uk": "Художня школа"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.CulturalEducationProvider.MusicSchool",
+		"title": {
+			"de": "Musikschule / Musikhochschule",
+			"en": "Music School / Music College",
+			"fr": "École de musique / Collège de musique",
+			"es": "Escuela de música / Conservatorio de música",
+			"it": "Scuola di musica / Conservatorio di musica",
+			"tr": "Müzik Okulu / Müzik Koleji",
+			"ar": "مدرسة الموسيقى / كلية الموسيقى",
+			"pl": "Szkoła muzyczna / Kolegium muzyczne",
+			"ru": "Музыкальная школа / Музыкальный колледж",
+			"uk": "Музична школа / Музичний коледж"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.CulturalEducationProvider.CulturalEducationOrganization",
+		"title": {
+			"de": "Organisation / Initiative für kulturelle Bildung",
+			"en": "Organization / Initiative for Cultural Education",
+			"fr": "Organisation / Initiative pour l'éducation culturelle",
+			"es": "Organización / Iniciativa para la educación cultural",
+			"it": "Organizzazione / Iniziativa per l'educazione culturale",
+			"tr": "Kültürel Eğitim İçin Organizasyon / İnisiyatif",
+			"ar": "منظمة / مبادرة للتعليم الثقافي",
+			"pl": "Organizacja / Inicjatywa edukacji kulturalnej",
+			"ru": "Организация / Инициатива культурного образования",
+			"uk": "Організація / Ініціатива культурної освіти"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.CulturalEducationProvider.DanceSchool",
+		"title": {
+			"de": "Tanzschule / -akademie",
+			"en": "Dance School / Academy",
+			"fr": "École de danse / Académie",
+			"es": "Escuela de danza / Academia",
+			"it": "Scuola di danza / Accademia",
+			"tr": "Dans Okulu / Akademi",
+			"ar": "مدرسة الرقص / أكاديمية",
+			"pl": "Szkoła tańca / Akademia",
+			"ru": "Школа танцев / Академия",
+			"uk": "Школа танців / Академія"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.CulturalEducationProvider.TheaterSchool",
+		"title": {
+			"de": "Theaterschule / Theaterhochschule / Schauspielschule",
+			"en": "Theater School / Theater College / Acting School",
+			"fr": "École de théâtre / Collège de théâtre / École de théâtre",
+			"es": "Escuela de teatro / Colegio de teatro / Escuela de actuación",
+			"it": "Scuola di teatro / College di teatro / Scuola di recitazione",
+			"tr": "Tiyatro Okulu / Tiyatro Koleji / Oyunculuk Okulu",
+			"ar": "مدرسة المسرح / كلية المسرح / مدرسة التمثيل",
+			"pl": "Szkoła teatralna / Kolegium teatralne / Szkoła aktorska",
+			"ru": "Театральная школа / Театральный колледж / Школа актерского мастерства",
+			"uk": "Театральна школа / Театральний коледж / Школа акторської майстерності"
+		},
+		"metadata": {
+
+		}
+	},
+	{
+		"type": "type.Tag",
+		"identifier": "organization.category.MultidisciplinaryInstitution",
+		"title": {
+			"de": "Mehrspartenhaus / Interdisziplinäre Einrichtung oder Veranstalter:in",
+			"en": "Multidisciplinary Institution / Interdisciplinary Organizer",
+			"fr": "Institution multidisciplinaire / Organisateur interdisciplinaire",
+			"es": "Institución multidisciplinaria / Organizador interdisciplinario",
+			"it": "Istituzione multidisciplinare / Organizzatore interdisciplinare",
+			"tr": "Çok disiplinli Kurum / Disiplinlerarası Organizatör",
+			"ar": "مؤسسة متعددة التخصصات / منظم متعدد التخصصات",
+			"pl": "Instytucja wielodyscyplinarna / Organizator interdyscyplinarny",
+			"ru": "Многопрофильное учреждение / Междисциплинарный организатор",
+			"uk": "Багатопрофільний заклад / Міждисциплінарний організатор"
+		},
+		"metadata": {
+
+		}
+	}
+]
