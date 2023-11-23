@@ -2,12 +2,10 @@ import * as argon2 from "argon2";
 import debug from "debug";
 import { Strategy } from "passport";
 import * as localStrategy from "passport-local";
-import { User } from "../../../generated/models/User.generated";
 import { UsersService } from "../../users/services/UsersService";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:auth-passport-strategy");
-
-export type AuthUser = Pick<User, "identifier" | "email" | "permissionFlags">;
 
 export class AuthPasswordStrategy {
 	static strategy: Strategy;
@@ -28,8 +26,6 @@ export class AuthPasswordStrategy {
 					if (await argon2.verify(passwordHash, password)) {
 						const authUser: AuthUser = {
 							identifier: user.identifier,
-							email: user.email,
-							permissionFlags: user.permissionFlags,
 						};
 						return done(null, authUser);
 					}

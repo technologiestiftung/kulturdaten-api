@@ -34,6 +34,9 @@ properties:
   website:
     type: string
     example: https://example.com/
+  curator:
+    $ref: "Reference.yml"
+    description: The curating organization of this attraction.
   inLanguages:
     $ref: "Languages.yml"
   tags:
@@ -49,4 +52,3 @@ required:
   - metadata
   - status
   - title
-additionalProperties: false

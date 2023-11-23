@@ -5,7 +5,6 @@ import { Service } from "typedi";
 import { Pagination } from "../../common/parameters/Pagination";
 import { AddEventAttractionRequest } from "../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../generated/models/AddEventLocationRequest.generated";
-import { CreateEventRequest } from "../../generated/models/CreateEventRequest.generated";
 import { RemoveEventAttractionRequest } from "../../generated/models/RemoveEventAttractionRequest.generated";
 import { RemoveEventLocationRequest } from "../../generated/models/RemoveEventLocationRequest.generated";
 import { RescheduleEventRequest } from "../../generated/models/RescheduleEventRequest.generated";
@@ -14,6 +13,9 @@ import { SetEventOrganizerRequest } from "../../generated/models/SetEventOrganiz
 import { UpdateEventRequest } from "../../generated/models/UpdateEventRequest.generated";
 import { getPagination } from "../../utils/RequestUtil";
 import { EventsController } from "./controllers/EventsController";
+import { Permit } from "../auth/middleware/Permit";
+import { AuthUser } from "../../generated/models/AuthUser.generated";
+import { CreateEventRequest } from "../../generated/models/CreateEventRequest.generated";
 
 const log: debug.IDebugger = debug("app:events-routes");
 
@@ -21,40 +23,46 @@ const log: debug.IDebugger = debug("app:events-routes");
 export class EventsRoutes {
 	constructor(public eventsController: EventsController) {}
 
+	static readonly basePath = "/events";
+
 	public getRouter(): Router {
 		const router = express.Router();
 
 		router
-			.get("/", (req: express.Request, res: express.Response) => {
+			.get(EventsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
+				const organizedBy = req.query.organizedBy as string;
 
 				if (asReference) {
-					this.eventsController.listEventsAsReference(res, pagination);
+					this.eventsController.listEventsAsReference(res, pagination, organizedBy);
 				} else {
-					this.eventsController.listEvents(res, pagination);
+					this.eventsController.listEvents(res, pagination, organizedBy);
 				}
 			})
 			.post(
-				"/",
+				EventsRoutes.basePath + "/",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const createEventRequest = req.body as CreateEventRequest;
-					this.eventsController.createEvent(res, createEventRequest);
+					const authUser = req.user as AuthUser;
+					this.eventsController.createEvent(res, createEventRequest, authUser);
 				},
 			);
 
 		router.post(
-			"/bulk-create",
+			EventsRoutes.basePath + "/bulk-create",
 			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const createEventsRequest = req.body as CreateEventRequest[];
-
-				this.eventsController.createEvents(res, createEventsRequest);
+				const authUser = req.user as AuthUser;
+				this.eventsController.createEvents(res, createEventsRequest, authUser);
 			},
 		);
 
-		router.post("/search", (req: express.Request, res: express.Response) => {
+		router.post(EventsRoutes.basePath + "/search", (req: express.Request, res: express.Response) => {
 			const pagination: Pagination = getPagination(req);
 
 			const searchEventsRequest = req.body as SearchEventsRequest;
@@ -62,7 +70,7 @@ export class EventsRoutes {
 		});
 
 		router
-			.get("/:identifier", (req: express.Request, res: express.Response) => {
+			.get(EventsRoutes.basePath + "/:identifier", (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const asReference = req.query.asReference;
 				if (asReference) {
@@ -72,8 +80,10 @@ export class EventsRoutes {
 				}
 			})
 			.patch(
-				"/:identifier",
+				EventsRoutes.basePath + "/:identifier",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const updateEventRequest = req.body as UpdateEventRequest;
@@ -83,8 +93,10 @@ export class EventsRoutes {
 
 		router
 			.put(
-				"/:identifier/locations",
+				EventsRoutes.basePath + "/:identifier/locations",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const addEventLocationRequest = req.body as AddEventLocationRequest;
@@ -92,8 +104,10 @@ export class EventsRoutes {
 				},
 			)
 			.delete(
-				"/:identifier/locations",
+				EventsRoutes.basePath + "/:identifier/locations",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const removeEventLocationRequest = req.body as RemoveEventLocationRequest;
@@ -103,8 +117,10 @@ export class EventsRoutes {
 
 		router
 			.put(
-				"/:identifier/attractions",
+				EventsRoutes.basePath + "/:identifier/attractions",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const addEventAttractionRequest = req.body as AddEventAttractionRequest;
@@ -112,8 +128,10 @@ export class EventsRoutes {
 				},
 			)
 			.delete(
-				"/:identifier/attractions",
+				EventsRoutes.basePath + "/:identifier/attractions",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const removeEventAttractionRequest = req.body as RemoveEventAttractionRequest;
@@ -123,8 +141,10 @@ export class EventsRoutes {
 
 		router
 			.put(
-				"/:identifier/organizer",
+				EventsRoutes.basePath + "/:identifier/organizer",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					const setEventOrganizerRequest = req.body as SetEventOrganizerRequest;
@@ -132,8 +152,10 @@ export class EventsRoutes {
 				},
 			)
 			.delete(
-				"/:identifier/organizer",
+				EventsRoutes.basePath + "/:identifier/organizer",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.deleteEventOrganizer(res, identifier);
@@ -142,16 +164,20 @@ export class EventsRoutes {
 
 		router
 			.post(
-				"/:identifier/publish",
+				EventsRoutes.basePath + "/:identifier/publish",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.publishEvent(res, identifier);
 				},
 			)
 			.post(
-				"/:identifier/unpublish",
+				EventsRoutes.basePath + "/:identifier/unpublish",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.unpublishEvent(res, identifier);
@@ -159,8 +185,10 @@ export class EventsRoutes {
 			);
 
 		router.post(
-			"/:identifier/reschedule",
+			EventsRoutes.basePath + "/:identifier/reschedule",
 			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.eventsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				const rescheduleEventRequest = req.body as RescheduleEventRequest;
@@ -169,8 +197,10 @@ export class EventsRoutes {
 		);
 
 		router.post(
-			"/:identifier/postpone",
+			EventsRoutes.basePath + "/:identifier/postpone",
 			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.eventsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.eventsController.postponeEvent(res, identifier);
@@ -178,8 +208,10 @@ export class EventsRoutes {
 		);
 
 		router.post(
-			"/:identifier/cancel",
+			EventsRoutes.basePath + "/:identifier/cancel",
 			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
+			Permit.authorizesToManipulateResource(this.eventsController),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.eventsController.cancelEvent(res, identifier);
@@ -188,16 +220,20 @@ export class EventsRoutes {
 
 		router
 			.post(
-				"/:identifier/archive",
+				EventsRoutes.basePath + "/:identifier/archive",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.archiveEvent(res, identifier);
 				},
 			)
 			.post(
-				"/:identifier/unarchive",
+				EventsRoutes.basePath + "/:identifier/unarchive",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
+				Permit.authorizesToManipulateResource(this.eventsController),
 				(req: express.Request, res: express.Response) => {
 					const identifier = req.params.identifier;
 					this.eventsController.unarchiveEvent(res, identifier);
@@ -205,8 +241,9 @@ export class EventsRoutes {
 			);
 
 		router.post(
-			"/:identifier/duplicate",
+			EventsRoutes.basePath + "/:identifier/duplicate",
 			passport.authenticate("authenticated-user", { session: false }),
+			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
 				this.eventsController.duplicateEvent(res, identifier);

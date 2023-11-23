@@ -15,14 +15,21 @@ import { SearchAttractionsRequest } from "../../../generated/models/SearchAttrac
 import { SearchAttractionsResponse } from "../../../generated/models/SearchAttractionsResponse.generated";
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
 import { AttractionsService } from "../services/AttractionsService";
+import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
+import { Filter } from "../../../generated/models/Filter.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
-export class AttractionsController {
+export class AttractionsController implements ResourcePermissionController {
 	constructor(public attractionsService: AttractionsService) {}
 
-	async listAttractions(res: Response, pagination: Pagination) {
-		const attractions = await this.attractionsService.list(pagination);
-		const totalCount = await this.attractionsService.countAttractions();
+	getCuratedByFilter(curatedBy?: string) {
+		return curatedBy ? { "curator.referenceId": curatedBy } : undefined;
+	}
+
+	async listAttractions(res: Response, pagination: Pagination, curatedBy?: string) {
+		const attractions = await this.attractionsService.list(pagination, this.getCuratedByFilter(curatedBy));
+		const totalCount = await this.attractionsService.countAttractions(this.getCuratedByFilter(curatedBy));
 		res.status(200).send(
 			new SuccessResponseBuilder<GetAttractionsResponse>()
 				.okResponse({
@@ -35,9 +42,12 @@ export class AttractionsController {
 		);
 	}
 
-	async listAttractionsAsReference(res: Response, pagination: Pagination) {
-		const attractionsReferences = await this.attractionsService.listAsReferences(pagination);
-		const totalCount = await this.attractionsService.countAttractions();
+	async listAttractionsAsReference(res: Response, pagination: Pagination, curatedBy?: string) {
+		const attractionsReferences = await this.attractionsService.listAsReferences(
+			pagination,
+			this.getCuratedByFilter(curatedBy),
+		);
+		const totalCount = await this.attractionsService.countAttractions(this.getCuratedByFilter(curatedBy));
 
 		res.status(200).send(
 			new SuccessResponseBuilder<GetAttractionsResponse>()
@@ -94,8 +104,13 @@ export class AttractionsController {
 		}
 	}
 
-	async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest) {
-		const attractionReference = await this.attractionsService.create(createAttractionRequest);
+	async isExist(permissionFilter: Filter): Promise<boolean> {
+		const totalCount = await this.attractionsService.countAttractions(permissionFilter);
+		return totalCount > 0;
+	}
+
+	async createAttraction(res: Response, createAttractionRequest: CreateAttractionRequest, authUser?: AuthUser) {
+		const attractionReference = await this.attractionsService.create(createAttractionRequest, authUser);
 		if (attractionReference) {
 			res
 				.status(201)
@@ -111,10 +126,10 @@ export class AttractionsController {
 		}
 	}
 
-	async createAttractions(res: Response, createAttractionRequest: CreateAttractionRequest[]) {
+	async createAttractions(res: Response, createAttractionRequest: CreateAttractionRequest[], authUser?: AuthUser) {
 		const attractionsReferences: Promise<Reference | null>[] = [];
 		createAttractionRequest.forEach(async (request) => {
-			attractionsReferences.push(this.attractionsService.create(request));
+			attractionsReferences.push(this.attractionsService.create(request, authUser));
 		});
 		const aR = await Promise.all(attractionsReferences);
 

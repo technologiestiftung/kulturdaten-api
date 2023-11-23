@@ -6,12 +6,14 @@ import { Command } from "commander";
 import { MongoClient } from "mongodb";
 import validator from "validator";
 import { MongoDBConnector } from "../common/services/MongoDBConnector";
+import { Membership } from "../generated/models/Membership.generated";
+import { Organization } from "../generated/models/Organization.generated";
 import { Tag } from "../generated/models/Tag.generated";
 import { User } from "../generated/models/User.generated";
 import { PermissionFlag } from "../resources/auth/middleware/PermissionFlag";
 import accessibilityTagsJSON from "../seed/accessibility.json";
 import tagsJSON from "../seed/tags.json";
-import { generateID } from "../utils/IDUtil";
+import { generateID, generateOrganizationID } from "../utils/IDUtil";
 import { createMetadata } from "../utils/MetadataUtil";
 
 let mongoClient: MongoClient;
@@ -35,9 +37,18 @@ let mongoDBConnector: MongoDBConnector;
  *  npm run seed -- --tags
  *
  * ---------------------------
+ * Setting up an Organization:
+ * ---------------------------
+ * To create a starting organization (TSB) and add the admin as a member with the admin role, use the
+ * `-o` or `--organization` flag. The admin user will only be added to this organization if they are created
+ * with the same command.
+ * Example:
+ *  npm run seed -- --organization --admin admin@example.com:password123
+ *
+ * ---------------------------
  * Creating an Admin User:
  * ---------------------------
- * To introduce an admin user to the database, apply the `-a` or `--admin` flag.
+ * To introduce an admin user to the database (without an organization), use the `-a` or `--admin` flag.
  * This should be followed by the user's email and password, structured as `email:password`.
  * Example:
  *  npm run seed -- --admin admin@example.com:password123
@@ -68,6 +79,10 @@ async function main() {
 		.option(
 			"-a, --admin <mailAndPassword>",
 			"If no admin is present in the DB, an admin with the provided email and password will be created. Format: email:password (e.g. admin@example.com:password123).",
+		)
+		.option(
+			"-o, --organization",
+			"A starting organization (TSB) will be created. The admin will be added to this organization as a member with the admin role.",
 		);
 
 	program.parse(process.argv);
@@ -76,9 +91,14 @@ async function main() {
 
 	try {
 		await initDatabase();
+		let organizationIdentifier = null;
+
+		if (options.organization) {
+			organizationIdentifier = await addTSBOrganization();
+		}
 
 		if (options.admin) {
-			await handleAdminCreation(options.admin);
+			await handleAdminCreation(options.admin, organizationIdentifier);
 		}
 
 		if (options.tags) {
@@ -147,11 +167,45 @@ async function isAdminUserPresent() {
 	return admins > 0;
 }
 
-async function addAdmin(email: string, password: string) {
-	await addUserWithPermission(email, password, PermissionFlag.ADMIN_PERMISSION);
+async function addAdmin(email: string, password: string, organizationIdentifier: string | null) {
+	await addUserWithPermission(email, password, PermissionFlag.ADMIN_PERMISSION, organizationIdentifier);
 }
 
-async function addUserWithPermission(email: string, password: string, permission: PermissionFlag) {
+async function addTSBOrganization() {
+	const metadata = createMetadata();
+	const organizations = await mongoDBConnector.organizations();
+	const organization: Organization = {
+		type: "type.Organization",
+		identifier: generateOrganizationID(),
+		metadata: {
+			...metadata,
+			origin: "seed",
+		},
+		status: "organization.published",
+		activationStatus: "organization.active",
+		title: {
+			de: "Technologiestiftung Berlin",
+		},
+		website: "https://www.technologiestiftung-berlin.de/",
+		inLanguages: ["de"],
+		borough: "Tempelhof-Schöneberg",
+	};
+	const result = await organizations.insertOne(organization);
+	if (result.acknowledged) {
+		console.log(`TSB organization with identifier ${organization.identifier} added`);
+		return organization.identifier;
+	} else {
+		console.log(`Warning: No TSB organization added`);
+		return null;
+	}
+}
+
+async function addUserWithPermission(
+	email: string,
+	password: string,
+	permission: PermissionFlag,
+	organizationIdentifier: string | null,
+) {
 	if (!validator.isEmail(email)) {
 		console.log("Email is not valid: No user added");
 		return;
@@ -167,6 +221,7 @@ async function addUserWithPermission(email: string, password: string, permission
 		identifier: generateID(),
 		createdAt: metadata.created,
 		updatedAt: metadata.updated,
+		memberships: generateMemberships(organizationIdentifier),
 	};
 	const users = await mongoDBConnector.users();
 	const result = await users.insertOne(user);
@@ -178,14 +233,26 @@ async function addUserWithPermission(email: string, password: string, permission
 	}
 }
 
-async function handleAdminCreation(option: string) {
+function generateMemberships(organizationIdentifier: string | null): Membership[] {
+	if (!organizationIdentifier) {
+		return [];
+	}
+	return [
+		{
+			organizationIdentifier,
+			role: "admin",
+		},
+	];
+}
+
+async function handleAdminCreation(option: string, organizationIdentifier: string | null) {
 	if (await isAdminUserPresent()) {
 		console.log("There is already an admin in the database. Therefore, no new admin can be created.");
 		return;
 	}
 
 	const [mail, password] = option.split(":");
-	await addAdmin(mail, password);
+	await addAdmin(mail, password, organizationIdentifier);
 }
 
 async function handleTagInsertion() {

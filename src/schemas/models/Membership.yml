@@ -1,0 +1,10 @@
+type: object
+properties:
+  organizationIdentifier:
+    type: string
+  role:
+    $ref: "Role.yml"
+required:
+  - organizationIdentifier
+  - role
+additionalProperties: false

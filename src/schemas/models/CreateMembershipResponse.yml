@@ -1,0 +1,16 @@
+properties:
+  success:
+    type: boolean
+    enum:
+      - true
+  message:
+    type: string
+  data:
+    type: object
+    properties:
+      membership:
+        $ref: "OrganizationMembership.yml"
+    additionalProperties: false
+required:
+  - success
+additionalProperties: false

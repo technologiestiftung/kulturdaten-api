@@ -25,10 +25,45 @@ import { OrganizationsController } from "../../resources/organizations/controlle
 import { MongoDBOrganizationsRepository } from "../../resources/organizations/repositories/MongoDBOrganizationsRepository";
 import { OrganizationsRepository } from "../../resources/organizations/repositories/OrganizationsRepository";
 import { OrganizationsService } from "../../resources/organizations/services/OrganizationsService";
+import { UsersRepository } from "../../resources/users/repositories/UsersRepository";
+import { UsersService } from "../../resources/users/services/UsersService";
+import { MongoDBUsersRepository } from "../../resources/users/repositories/MongoDBUsersRepository";
+import { AuthUser } from "../../generated/models/AuthUser.generated";
 
 export class TestEnvironment {
-	ADMIN_TOKEN: string = "ADMIN_TOKEN";
-	USER_TOKEN: string = "USER_TOKEN";
+	createUser(
+		userIdentifier: string,
+		email: string,
+		permissionFlags: number,
+		organizationIdentifier: string,
+		role: string,
+	) {
+		return JSON.stringify({
+			identifier: userIdentifier,
+			email: email,
+			permissionFlags: permissionFlags,
+			organizationIdentifier: organizationIdentifier,
+			role: role,
+		});
+	}
+	private adminAuthUser: AuthUser = {
+		identifier: "adminID",
+		email: "admin@email.de",
+		permissionFlags: PermissionFlag.ADMIN_PERMISSION,
+		organizationIdentifier: "O_org_1",
+		role: "admin",
+	};
+	ADMIN_TOKEN: string = JSON.stringify(this.adminAuthUser);
+
+	private userAuthUser: AuthUser = {
+		identifier: "userID",
+		email: "user@email.de",
+		permissionFlags: PermissionFlag.REGISTERED_USER,
+		organizationIdentifier: "O_org_1",
+		role: "admin",
+	};
+	USER_TOKEN: string = JSON.stringify(this.userAuthUser);
+
 	WRONG_TOKEN: string = "WRONG_TOKEN";
 
 	con!: MongoClient;
@@ -65,6 +100,10 @@ export class TestEnvironment {
 	attractions!: Collection;
 	ATTRACTIONS_ROUTE = "/attractions";
 
+	usersRepository!: UsersRepository;
+	usersService!: UsersService;
+	users!: Collection;
+
 	async startServer(): Promise<TestEnvironment> {
 		this.mongoServer = await MongoMemoryServer.create();
 		process.env.MONGO_URI = this.mongoServer.getUri();
@@ -84,7 +123,7 @@ export class TestEnvironment {
 		this.eventsController = new EventsController(this.eventsService);
 		this.eventsRoutes = new EventsRoutes(this.eventsController);
 		this.events = this.db.collection("events");
-		this.app.use(this.EVENTS_ROUTE, this.eventsRoutes.getRouter());
+		this.app.use("/", this.eventsRoutes.getRouter());
 
 		return this;
 	}
@@ -95,18 +134,22 @@ export class TestEnvironment {
 		this.locationsController = new LocationsController(this.locationsService);
 		this.locationsRoutes = new LocationsRoutes(this.locationsController);
 		this.locations = this.db.collection("locations");
-		this.app.use(this.LOCATIONS_ROUTE, this.locationsRoutes.getRouter());
+		this.app.use("/", this.locationsRoutes.getRouter());
 
 		return this;
 	}
 
 	withOrganizationsRoutes(): TestEnvironment {
+		this.usersRepository = new MongoDBUsersRepository(this.connector);
+		this.usersService = new UsersService(this.usersRepository);
+		this.users = this.db.collection("users");
+
 		this.organizationsRepository = new MongoDBOrganizationsRepository(this.connector);
 		this.organizationsService = new OrganizationsService(this.organizationsRepository);
-		this.organizationsController = new OrganizationsController(this.organizationsService);
+		this.organizationsController = new OrganizationsController(this.organizationsService, this.usersService);
 		this.organizationsRoutes = new OrganizationsRoutes(this.organizationsController);
 		this.organizations = this.db.collection("organizations");
-		this.app.use(this.ORGANIZATIONS_ROUTE, this.organizationsRoutes.getRouter());
+		this.app.use("/", this.organizationsRoutes.getRouter());
 
 		return this;
 	}
@@ -117,32 +160,20 @@ export class TestEnvironment {
 		this.attractionsController = new AttractionsController(this.attractionsService);
 		this.attractionsRoutes = new AttractionsRoutes(this.attractionsController);
 		this.attractions = this.db.collection("attractions");
-		this.app.use(this.ATTRACTIONS_ROUTE, this.attractionsRoutes.getRouter());
+		this.app.use("/", this.attractionsRoutes.getRouter());
 
 		return this;
 	}
 
 	initPassport(): TestEnvironment {
-		const ADMIN_TOKEN = this.ADMIN_TOKEN;
-		const USER_TOKEN = this.USER_TOKEN;
+		const WRONG_TOKEN = this.WRONG_TOKEN;
 		passport.use(
 			"authenticated-user",
 			new bearerStrategy.Strategy(async function verify(token, done) {
-				if (token === ADMIN_TOKEN) {
-					return done(null, {
-						id: "adminID",
-						email: "admin@email.de",
-						permissionFlags: PermissionFlag.ADMIN_PERMISSION,
-					});
+				if (token === WRONG_TOKEN) {
+					return done(null, false);
 				}
-				if (token === USER_TOKEN) {
-					return done(null, {
-						id: "userID",
-						email: "user@email.de",
-						permissionFlags: PermissionFlag.REGISTERED_USER,
-					});
-				}
-				return done(null, false);
+				return done(null, JSON.parse(token));
 			}),
 		);
 		return this;

@@ -6,6 +6,7 @@ import { getSeconds } from "../utils/test/TestUtil";
 import { TestEnvironment } from "./integrationtestutils/TestEnvironment";
 import { ORGANIZATION_IDENTIFIER_REG_EX } from "./integrationtestutils/testmatcher";
 import threeDummyOrganizations from "./testdata/organizations.json";
+import userDummies from "./testdata/users.json";
 
 let env!: TestEnvironment;
 
@@ -110,12 +111,12 @@ describe("Read organizations", () => {
 
 	it("should return a single organization / GET /organizations/existID", async () => {
 		const { body, statusCode } = await request(env.app).get(
-			env.ORGANIZATIONS_ROUTE + "/temporal-cultural-exchange-45123",
+			env.ORGANIZATIONS_ROUTE + "/O_temporal-cultural-exchange-45123",
 		);
 
 		expect(statusCode).toBe(200);
 		expect(validateOrganization(body.data.organization).isValid).toBe(true);
-		expect(body.data.organization.identifier).toBe("temporal-cultural-exchange-45123");
+		expect(body.data.organization.identifier).toBe("O_temporal-cultural-exchange-45123");
 		expect(body.data.organization.title.de).toBe("Zeitreisende Kulturelle Austauschorganisation");
 	});
 });
@@ -130,7 +131,7 @@ describe("Update organizations", () => {
 	});
 
 	it("should update the name of a organization / PATCH /organizations/existID", async () => {
-		const identifier = "temporal-cultural-exchange-45123";
+		const identifier = "O_temporal-cultural-exchange-45123";
 		const { statusCode } = await request(env.app)
 			.patch(env.ORGANIZATIONS_ROUTE + "/" + identifier)
 			.set("Authorization", `Bearer ` + env.USER_TOKEN)
@@ -144,7 +145,7 @@ describe("Update organizations", () => {
 	});
 
 	it("should keep the created timestamp and update the updated timestamp of a event / PATCH /organizations/existID", async () => {
-		const identifier = "temporal-cultural-exchange-45123";
+		const identifier = "O_temporal-cultural-exchange-45123";
 		const existingOrganization = await env.organizations.findOne<Organization>({ identifier });
 		vi.setSystemTime(new Date("2023-10-23T01:02:03.000Z"));
 		await request(env.app)
@@ -192,5 +193,237 @@ describe("Search organizations", () => {
 		expect(body.data.organizations).toHaveLength(2);
 		expect(body.data.organizations[0].tags).toContain("workshops");
 		expect(body.data.organizations[1].tags).toContain("workshops");
+	});
+});
+
+describe("Organize Membership", () => {
+	beforeEach(async () => {
+		await env.organizations.insertMany(threeDummyOrganizations);
+		await env.users.insertMany(userDummies);
+	});
+
+	afterEach(async () => {
+		await env.organizations.deleteMany();
+		await env.users.deleteMany();
+	});
+
+	it("should return membership for invited user  / POST /organizations/{identifier}/memberships", async () => {
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, "O_berlin-art-emporium-12345", "admin");
+
+		const { body, statusCode } = await request(env.app)
+			.post(env.ORGANIZATIONS_ROUTE + "/O_berlin-art-emporium-12345/memberships")
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send({
+				email: "user@ts.berlin",
+				role: "admin",
+			});
+
+		expect(statusCode).toBe(201);
+		expect(body).toStrictEqual({
+			success: true,
+			message: "Operation Successful",
+			data: {
+				membership: {
+					email: "user@ts.berlin",
+					userIdentifier: "B4R7GJH2KH6H",
+					firstName: "Ulf",
+					lastName: "User",
+					role: "admin",
+				},
+			},
+		});
+	});
+
+	it("should return 204  / DELETE /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, "O_L8346W3HSL9A", "admin");
+
+		const { statusCode } = await request(env.app)
+			.delete(env.ORGANIZATIONS_ROUTE + "/O_L8346W3HSL9A/memberships/B4R7GJH2KH6H")
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
+		expect(statusCode).toBe(204);
+	});
+
+	it("should return memberships for all members  / GET /organizations/{identifier}/memberships", async () => {
+		const ADMIN_TOKEN_1 = env.createUser("ID", "admin@ts.berlin", 1, "O_berlin-art-emporium-12345", "admin");
+		const ADMIN_TOKEN_2 = env.createUser("ID", "admin@ts.berlin", 1, "O_berlin-literary-cafe-67890", "admin");
+
+		const oneOrganizationRoute = env.ORGANIZATIONS_ROUTE + "/O_berlin-art-emporium-12345/memberships";
+		const anotherOrganization = env.ORGANIZATIONS_ROUTE + "/O_berlin-literary-cafe-67890/memberships";
+
+		await request(env.app)
+			.post(oneOrganizationRoute)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN_1)
+			.send({
+				email: "user@ts.berlin",
+				role: "admin",
+			});
+		await request(env.app)
+			.post(anotherOrganization)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN_2)
+			.send({
+				email: "admin@ts.berlin",
+				role: "admin",
+			});
+
+		const { body, statusCode } = await request(env.app)
+			.get(env.ORGANIZATIONS_ROUTE + "/O_berlin-art-emporium-12345/memberships")
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN_1)
+			.send();
+
+		expect(statusCode).toBe(200);
+		expect(body).toStrictEqual({
+			data: {
+				memberships: [
+					{
+						email: "user@ts.berlin",
+						firstName: "Ulf",
+						lastName: "User",
+						role: "admin",
+						userIdentifier: "B4R7GJH2KH6H",
+					},
+				],
+				organizationIdentifier: "O_berlin-art-emporium-12345",
+			},
+			message: "Operation Successful",
+			success: true,
+		});
+	});
+
+	it("should return all memberships for a given organization identifier / GET /organizations/{identifier}/memberships", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: getAllStatusCode } = await request(env.app)
+			.get(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
+
+		expect(getAllStatusCode).toBe(200);
+	});
+
+	it("should return a single membership for a given user identifier within an organization / GET /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+		const userIdentifier = "B4R7GJH2KH6H";
+
+		const { statusCode: getSingleStatusCode } = await request(env.app)
+			.get(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
+
+		expect(getSingleStatusCode).toBe(200);
+	});
+
+	it("should handle the case when a membership for a given user identifier within an organization is not found / GET /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+		const invalidUserIdentifier = "U_INVALID";
+
+		const { statusCode: getSingleNotFoundStatusCode } = await request(env.app)
+			.get(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
+
+		expect(getSingleNotFoundStatusCode).toBe(404);
+	});
+
+	it("should create a new membership for a user within an organization / POST /organizations/{identifier}/memberships", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: postCreateStatusCode } = await request(env.app)
+			.post(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send({
+				email: "admin@ts.berlin",
+				role: "member",
+			});
+
+		expect(postCreateStatusCode).toBe(201);
+	});
+
+	it("should return an error when trying to create a membership for a user that already exists within an organization / POST /organizations/{identifier}/memberships", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: postCreateExistingUserStatusCode } = await request(env.app)
+			.post(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send({
+				email: "existinguser@ts.berlin",
+				role: "member",
+			});
+		expect(postCreateExistingUserStatusCode).toBe(404);
+	});
+
+	it("should return an error when trying to create a membership for a user that does not exist / POST /organizations/{identifier}/memberships", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: postCreateNonExistentUserStatusCode } = await request(env.app)
+			.post(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+
+			.send({
+				email: "nonexistentuser@ts.berlin",
+				role: "member",
+			});
+		expect(postCreateNonExistentUserStatusCode).toBe(404);
+	});
+
+	it("should update the role of an existing membership within an organization / PATCH /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const userIdentifier = "B4R7GJH2KH6H";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: patchUpdateStatusCode } = await request(env.app)
+			.patch(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+
+			.send({
+				role: "editor",
+			});
+		expect(patchUpdateStatusCode).toBe(204);
+	});
+
+	it("should handle the case when attempting to update a membership that does not exist within an organization / PATCH /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const invalidUserIdentifier = "U_invalid123";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: patchUpdateNotFoundStatusCode } = await request(env.app)
+			.patch(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+
+			.send({
+				role: "editor",
+			});
+		expect(patchUpdateNotFoundStatusCode).toBe(400);
+	});
+
+	it("should delete a membership for a given user identifier within an organization / DELETE /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const userIdentifier = "B4R7GJH2KH6H";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: deleteStatusCode } = await request(env.app)
+			.delete(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${userIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
+		expect(deleteStatusCode).toBe(204);
+	});
+
+	it("should handle the case when attempting to delete a membership that does not exist within an organization / DELETE /organizations/{identifier}/memberships/{userIdentifier}", async () => {
+		const organizationIdentifier = "O_berlin-literary-cafe-67890";
+		const invalidUserIdentifier = "U_invalid123";
+		const ADMIN_TOKEN = env.createUser("ID", "admin@ts.berlin", 1, organizationIdentifier, "admin");
+
+		const { statusCode: deleteNotFoundStatusCode } = await request(env.app)
+			.delete(`${env.ORGANIZATIONS_ROUTE}/${organizationIdentifier}/memberships/${invalidUserIdentifier}`)
+			.set("Authorization", `Bearer ` + ADMIN_TOKEN)
+			.send();
+
+		expect(deleteNotFoundStatusCode).toBe(400);
 	});
 });

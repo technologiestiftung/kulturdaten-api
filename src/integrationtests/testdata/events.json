@@ -1,7 +1,7 @@
 [
 	{
 		"type": "type.Event",
-		"identifier": "1234-5678-9101-1121",
+		"identifier": "E_1234-5678-9101-1121",
 		"metadata": {
 			"created": "2023-07-05T10:00:00Z",
 			"updated": "2023-07-05T12:00:00Z",
@@ -47,7 +47,7 @@
 		"attractions": [
 			{
 				"referenceType": "type.Attraction",
-				"referenceId": "temporal-cultural-gateway-67890",
+				"referenceId": "A_temporal-cultural-gateway-67890",
 				"referenceLabel": {
 					"en": "Temporal Cultural Gateway",
 					"de": "Zeitkulturelles Tor"
@@ -55,8 +55,8 @@
 			}
 		],
 		"organizer": {
-			"referenceType": "Organization",
-			"referenceId": "ORG-123",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_1",
 			"referenceLabel": {
 				"de": "Berliner Musikgesellschaft",
 				"en": "Berlin Music Society"
@@ -80,7 +80,7 @@
 
 	{
 		"type": "type.Event",
-		"identifier": "4321-8765-0123-4567",
+		"identifier": "E_4321-8765-0123-4567",
 		"metadata": {
 			"created": "2023-07-05T14:00:00Z",
 			"updated": "2023-07-05T16:00:00Z",
@@ -119,7 +119,7 @@
 		"locations": [
 			{
 				"referenceType": "Venue",
-				"referenceId": "9876",
+				"referenceId": "L_9876",
 				"referenceLabel": {
 					"de": "Berlin Filmpalast",
 					"en": "Berlin Film Palace",
@@ -130,7 +130,7 @@
 		"attractions": [
 			{
 				"referenceType": "Movie",
-				"referenceId": "MV-5678",
+				"referenceId": "A_MV-5678",
 				"referenceLabel": {
 					"de": "Ein schöner Film",
 					"en": "A Beautiful Movie",
@@ -139,8 +139,8 @@
 			}
 		],
 		"organizer": {
-			"referenceType": "Organization",
-			"referenceId": "ORG-789",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_2",
 			"referenceLabel": {
 				"de": "Berliner Filmverband",
 				"en": "Berlin Film Association",
@@ -166,7 +166,7 @@
 
 	{
 		"type": "type.Event",
-		"identifier": "7890-1234-5678-9012",
+		"identifier": "E_7890-1234-5678-9012",
 		"metadata": {
 			"created": "2023-07-06T08:00:00Z",
 			"updated": "2023-07-06T10:00:00Z",
@@ -202,7 +202,7 @@
 		"locations": [
 			{
 				"referenceType": "Venue",
-				"referenceId": "8765",
+				"referenceId": "L_8765",
 				"referenceLabel": {
 					"de": "Berlin Messezentrum",
 					"en": "Berlin Exhibition Center"
@@ -212,7 +212,7 @@
 		"attractions": [
 			{
 				"referenceType": "type.Attraction",
-				"referenceId": "berlin-wall-vr-experience-12345",
+				"referenceId": "A_berlin-wall-vr-experience-12345",
 				"referenceLabel": {
 					"en": "Berlin Wall VR Experience",
 					"de": "Berliner Mauer VR Erlebnis"
@@ -220,8 +220,8 @@
 			}
 		],
 		"organizer": {
-			"referenceType": "Organization",
-			"referenceId": "ORG-456",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_1",
 			"referenceLabel": {
 				"de": "Deutsche Technologie Verein",
 				"en": "German Technology Association"
@@ -245,7 +245,7 @@
 
 	{
 		"type": "type.Event",
-		"identifier": "1337-1234-5678-9012",
+		"identifier": "E_1337-1234-5678-9012",
 		"metadata": {
 			"created": "2023-02-03T08:00:00Z",
 			"updated": "2023-02-03T10:00:00Z",
@@ -275,13 +275,13 @@
 			"de": "",
 			"en": ""
 		},
-		"website": "https://example.com/metal-gig-5000",
+		"website": "https://example.com/A_metal-gig-5000",
 		"inLanguages": ["de", "en"],
 		"tags": ["konzert"],
 		"locations": [
 			{
 				"referenceType": "Venue",
-				"referenceId": "LOC-BL123",
+				"referenceId": "L_OC-BL123",
 				"referenceLabel": {
 					"de": "Blackland",
 					"en": "Blackland"
@@ -291,7 +291,7 @@
 		"attractions": [
 			{
 				"referenceType": "type.Attraction",
-				"referenceId": "metal-gig-5000",
+				"referenceId": "A_metal-gig-5000",
 				"referenceLabel": {
 					"de": "Metal Gig 5000",
 					"en": "Metal Gig 5000"
@@ -299,8 +299,8 @@
 			}
 		],
 		"organizer": {
-			"referenceType": "Organization",
-			"referenceId": "ORG-987",
+			"referenceType": "type.Organization",
+			"referenceId": "O_org_1",
 			"referenceLabel": {
 				"de": "Blackland GmbH",
 				"en": "Blackland GmbH"
@@ -318,7 +318,7 @@
 			},
 			"ticketType": "ticketType.ticketRequired",
 			"registrationType": "registrationType.registrationDesired",
-			"admissionLink": "https://example.com/metal-gig-5000/tickets"
+			"admissionLink": "https://example.com/A_metal-gig-5000/tickets"
 		}
 	}
 ]

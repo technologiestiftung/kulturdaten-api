@@ -1,18 +1,82 @@
 import express from "express";
-import { User } from "../../../generated/models/User.generated";
-import { PermissionFlag } from "./PermissionFlag";
+import { PermissionFlag, isSuperAdmin } from "./PermissionFlag";
+import { checkPermissionForRole } from "./Roles";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { PermissionFilter } from "../filter/PermissionFilter";
+import { ResourcePermissionController } from "../controllers/ResourcePermissionController";
 
 export class Permit {
+	static authorizesToManipulateResource =
+		(resourceController: ResourcePermissionController) =>
+		(req: express.Request, res: express.Response, next: express.NextFunction) => {
+			const identifier = req.params.identifier;
+			const authUser = req.user as AuthUser;
+
+			if (!identifier || !authUser || !authUser.organizationIdentifier) {
+				res.status(403).send();
+				return;
+			}
+
+			const itIsAboutTheOrganizationOfTheUser = authUser.organizationIdentifier === identifier;
+			if (itIsAboutTheOrganizationOfTheUser) {
+				next();
+				return;
+			}
+
+			const permissionFilter = PermissionFilter.buildOwnershipPermissionFilter(
+				identifier,
+				authUser.organizationIdentifier,
+			);
+
+			(async () => {
+				try {
+					const isExist = await resourceController.isExist(permissionFilter);
+
+					if (!isExist) {
+						res.status(403).send();
+						return;
+					}
+					next();
+				} catch (error) {
+					res.status(500).send();
+				}
+			})();
+		};
+
+	static authorizesForAction = () => (req: express.Request, res: express.Response, next: express.NextFunction) => {
+		const action = req.method + ":" + req.route.path;
+		if (!req.user) {
+			res.status(403).send();
+			return;
+		}
+		const user: AuthUser = req.user as AuthUser;
+
+		if (isSuperAdmin(user)) {
+			next();
+			return;
+		}
+
+		if (checkPermissionForRole(user.role, action)) {
+			next();
+			return;
+		} else {
+			res.status(403).send();
+			return;
+		}
+	};
+
 	static authorizesAsAdminOrSameUser =
 		() => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 			const identifier = req.params.identifier;
 			if (!req.user || !identifier) {
 				res.status(403).send();
+				return;
 			}
-			const u: User = req.user as User;
+			const u: AuthUser = req.user as AuthUser;
 
 			if (u.identifier === identifier) {
 				next();
+				return;
 			} else {
 				this.authorizesAsAdmin()(req, res, next);
 			}
@@ -23,12 +87,15 @@ export class Permit {
 		(req: express.Request, res: express.Response, next: express.NextFunction) => {
 			if (!req.user) {
 				res.status(403).send();
+				return;
 			}
-			const u: User = req.user as User;
+			const u: AuthUser = req.user as AuthUser;
 			if (u.permissionFlags ? u.permissionFlags & requiredPermission : false) {
 				next();
+				return;
 			} else {
 				res.status(403).send();
+				return;
 			}
 		};
 
@@ -40,16 +107,18 @@ export class Permit {
 		() => (req: express.Request, res: express.Response, next: express.NextFunction) => {
 			if (this.isUserAdmin(req)) {
 				next();
+				return;
 			} else {
 				delete req.body.permissionFlags;
 				next();
+				return;
 			}
 		};
 
 	static isUserAdmin(req: express.Request) {
 		if (!req.user) return false;
-		const u: User = req.user as User;
-		if (u.permissionFlags ? u.permissionFlags & PermissionFlag.ADMIN_PERMISSION : false) {
+		const user: AuthUser = req.user as AuthUser;
+		if (user.permissionFlags ? user.permissionFlags & PermissionFlag.ADMIN_PERMISSION : false) {
 			return true;
 		} else {
 			return false;

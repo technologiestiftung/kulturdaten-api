@@ -2,7 +2,6 @@ import Container, { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../../generated/models/AddEventLocationRequest.generated";
-import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { Event } from "../../../generated/models/Event.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { MatchMode } from "../../../generated/models/MatchMode.generated";
@@ -15,6 +14,9 @@ import { SetEventOrganizerRequest } from "../../../generated/models/SetEventOrga
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 import { EventFilterStrategy, EventFilterStrategyToken } from "../filter/EventFilterStrategy";
 import { EventsRepository } from "../repositories/EventsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { isSuperAdmin } from "../../auth/middleware/PermissionFlag";
+import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 
 @Service()
 export class EventsService {
@@ -22,12 +24,12 @@ export class EventsService {
 
 	constructor(@Inject("EventsRepository") public eventsRepository: EventsRepository) {}
 
-	async list(pagination?: Pagination) {
-		return this.eventsRepository.getEvents(pagination);
+	async list(pagination?: Pagination, searchFilter?: Filter) {
+		return this.eventsRepository.getEvents(pagination, searchFilter);
 	}
 
-	async listAsReferences(pagination?: Pagination) {
-		return this.eventsRepository.getEventsAsReferences(pagination);
+	async listAsReferences(pagination?: Pagination, searchFilter?: Filter) {
+		return this.eventsRepository.getEventsAsReferences(pagination, searchFilter);
 	}
 
 	async search(
@@ -89,7 +91,13 @@ export class EventsService {
 		return this.eventsRepository.countEvents(filter);
 	}
 
-	async create(resource: CreateEventRequest): Promise<Reference | null> {
+	async create(resource: CreateEventRequest, authUser?: AuthUser): Promise<Reference | null> {
+		if (!authUser && !isSuperAdmin(authUser)) {
+			delete resource["organizer"];
+		}
+		if (authUser?.organizationIdentifier) {
+			resource.organizer = { referenceType: "type.Organization", referenceId: authUser.organizationIdentifier };
+		}
 		return this.eventsRepository.addEvent(resource);
 	}
 

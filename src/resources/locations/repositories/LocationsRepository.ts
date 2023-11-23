@@ -9,9 +9,9 @@ import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationR
 const log: debug.IDebugger = debug("app:locations-repository");
 
 export interface LocationsRepository {
-	getLocations(pagination?: Pagination): Promise<Location[]>;
+	getLocations(pagination?: Pagination, filter?: Filter): Promise<Location[]>;
 
-	getLocationsAsReferences(pagination?: Pagination): Promise<Reference[]>;
+	getLocationsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]>;
 
 	searchLocations(filter?: Filter, pagination?: Pagination): Promise<Location[]>;
 

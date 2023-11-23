@@ -4,27 +4,37 @@ import { Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { ClaimLocationRequest } from "../../../generated/models/ClaimLocationRequest.generated";
-import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { SearchLocationsRequest } from "../../../generated/models/SearchLocationsRequest.generated";
 import { SearchLocationsResponse } from "../../../generated/models/SearchLocationsResponse.generated";
 import { SetLocationManagerRequest } from "../../../generated/models/SetLocationManagerRequest.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
 import { LocationsService } from "../services/LocationsService";
+import { Filter } from "../../../generated/models/Filter.generated";
+import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
+import { GetLocationsResponse } from "../../../generated/models/GetLocationsResponse.generated";
+import { GetLocationResponse } from "../../../generated/models/GetLocationResponse.generated";
+import { CreateLocationResponse } from "../../../generated/models/CreateLocationResponse.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 
 @Service()
-export class LocationsController {
+export class LocationsController implements ResourcePermissionController {
 	constructor(public locationsService: LocationsService) {}
 
-	async listLocations(res: express.Response, pagination: Pagination) {
-		const locations = await this.locationsService.list(pagination);
-		const totalCount = await this.locationsService.countLocations();
+	getManagedByFilter(managedBy?: string) {
+		return managedBy ? { "manager.referenceId": managedBy } : undefined;
+	}
+
+	async listLocations(res: express.Response, pagination: Pagination, managedBy?: string) {
+		const locations = await this.locationsService.list(pagination, this.getManagedByFilter(managedBy));
+		const totalCount = await this.locationsService.countLocations(this.getManagedByFilter(managedBy));
 
 		if (locations) {
 			res.status(200).send(
-				new SuccessResponseBuilder()
+				new SuccessResponseBuilder<GetLocationsResponse>()
 					.okResponse({
 						page: pagination.page,
 						pageSize: pagination.pageSize,
@@ -38,13 +48,16 @@ export class LocationsController {
 		}
 	}
 
-	async listLocationsAsReference(res: express.Response, pagination: Pagination) {
-		const locationsReferences = await this.locationsService.listAsReferences(pagination);
-		const totalCount = await this.locationsService.countLocations();
+	async listLocationsAsReference(res: express.Response, pagination: Pagination, managedBy?: string) {
+		const locationsReferences = await this.locationsService.listAsReferences(
+			pagination,
+			this.getManagedByFilter(managedBy),
+		);
+		const totalCount = await this.locationsService.countLocations(this.getManagedByFilter(managedBy));
 
 		if (locationsReferences) {
 			res.status(200).send(
-				new SuccessResponseBuilder()
+				new SuccessResponseBuilder<GetLocationsResponse>()
 					.okResponse({
 						page: pagination.page,
 						pageSize: pagination.pageSize,
@@ -82,10 +95,17 @@ export class LocationsController {
 		}
 	}
 
+	async isExist(permissionFilter: Filter): Promise<boolean> {
+		const totalCount = await this.locationsService.countLocations(permissionFilter);
+		return totalCount > 0;
+	}
+
 	async getLocationById(res: express.Response, locationId: string) {
 		const location = await this.locationsService.readById(locationId);
 		if (location) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ location: location }).build());
+			res
+				.status(200)
+				.send(new SuccessResponseBuilder<GetLocationResponse>().okResponse({ location: location }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Location not found").build());
 		}
@@ -94,16 +114,24 @@ export class LocationsController {
 	async getLocationReferenceById(res: express.Response, locationId: string) {
 		const location = await this.locationsService.readReferenceById(locationId);
 		if (location) {
-			res.status(200).send(new SuccessResponseBuilder().okResponse({ locationReference: location }).build());
+			res
+				.status(200)
+				.send(new SuccessResponseBuilder<GetLocationResponse>().okResponse({ locationReference: location }).build());
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Location not found").build());
 		}
 	}
 
-	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest) {
-		const locationReference = await this.locationsService.create(createLocationRequest);
+	async createLocation(res: express.Response, createLocationRequest: CreateLocationRequest, authUser?: AuthUser) {
+		const locationReference = await this.locationsService.create(createLocationRequest, authUser);
 		if (locationReference) {
-			res.status(201).send(new SuccessResponseBuilder().okResponse({ locationReference: locationReference }).build());
+			res
+				.status(201)
+				.send(
+					new SuccessResponseBuilder<CreateLocationResponse>()
+						.okResponse({ locationReference: locationReference })
+						.build(),
+				);
 		} else {
 			res
 				.status(400)
@@ -111,10 +139,10 @@ export class LocationsController {
 		}
 	}
 
-	async createLocations(res: express.Response, createLocationsRequest: CreateLocationRequest[]) {
+	async createLocations(res: express.Response, createLocationsRequest: CreateLocationRequest[], authUser?: AuthUser) {
 		const locationsReferences: Promise<Reference | null>[] = [];
 		createLocationsRequest.forEach(async (request) => {
-			locationsReferences.push(this.locationsService.create(request));
+			locationsReferences.push(this.locationsService.create(request, authUser));
 		});
 		const lR = await Promise.all(locationsReferences);
 
@@ -132,6 +160,24 @@ export class LocationsController {
 			res.status(200).send();
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unarchive the location").build());
+		}
+	}
+
+	public async publishLocation(res: express.Response, identifier: string): Promise<void> {
+		const isPublished = await this.locationsService.publishLocation(identifier);
+		if (isPublished) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to publish the location").build());
+		}
+	}
+
+	public async unpublishLocation(res: express.Response, identifier: string): Promise<void> {
+		const isUnpublished = await this.locationsService.unpublishLocation(identifier);
+		if (isUnpublished) {
+			res.status(200).send();
+		} else {
+			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unpublish the location").build());
 		}
 	}
 

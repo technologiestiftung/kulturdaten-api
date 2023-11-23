@@ -31,12 +31,12 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return this.get(filter, undefined, pagination);
 	}
 
-	async getLocations(pagination?: Pagination): Promise<Location[]> {
-		return this.get(undefined, undefined, pagination);
+	async getLocations(pagination?: Pagination, filter?: Filter): Promise<Location[]> {
+		return this.get(filter, undefined, pagination);
 	}
 
-	async getLocationsAsReferences(pagination?: Pagination): Promise<Reference[]> {
-		return this.get(undefined, getLocationReferenceProjection(), pagination);
+	async getLocationsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]> {
+		return this.get(filter, getLocationReferenceProjection(), pagination);
 	}
 
 	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {

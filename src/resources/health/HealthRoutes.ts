@@ -9,6 +9,8 @@ const log: debug.IDebugger = debug("app:health-routes");
 export class HealthRoutes {
 	constructor(public healthController: HealthController) {}
 
+	static readonly basePath: string = "health";
+
 	public getRouter(): Router {
 		const router = express.Router();
 

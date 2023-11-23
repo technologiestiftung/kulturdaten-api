@@ -1,44 +1,10 @@
-type: object
-properties:
-  type:
-    type: string
-    enum:
-      - type.Attraction
-  identifier:
-    type: string
-  metadata:
-    $ref: "Metadata.yml"
-  status:
-    type: string
-    enum:
-      - attraction.published
-      - attraction.unpublished
-      - attraction.archived
-  title:
-    $ref: "TranslatableField.yml"
-  description:
-    $ref: "TranslatableField.yml"
-  pleaseNote:
-    $ref: "TranslatableField.yml"
-  website:
-    type: string
-  inLanguages:
-    $ref: "Languages.yml"
-  tags:
-    type: array
-    items:
-      type: string
-  events:
-    type: array
-    items:
-      $ref: "Event.yml"
-  externalLinks:
-    $ref: "ExternalLinks.yml"
-required:
-  - type
-  - identifier
-  - metadata
-  - status
-  - title
-  - events
-additionalProperties: false
+allOf:
+  - $ref: "Attraction.yml"
+  - type: object
+    properties:
+      events:
+        type: array
+        items:
+          $ref: "Event.yml"
+    required:
+      - events

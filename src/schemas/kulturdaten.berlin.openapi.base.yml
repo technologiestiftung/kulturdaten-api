@@ -84,6 +84,12 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: curatedBy
+          in: query
+          required: false
+          description: Returns only the Attractions curated by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -139,6 +145,10 @@ paths:
     post:
       tags:
         - Discover cultural data
+      description: >
+        This POST operation allows you to search for attractions using MongoDB-like query syntax.
+        You can apply a variety of filters on different attributes of an attraction, including its type, status, tags, and more.
+        The search request should be made in the request body as a JSON object adhering to MongoDB's query structure.
       parameters:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
@@ -147,6 +157,35 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SearchAttractionsRequest"
+            examples:
+              filterByTags:
+                summary: "Filter by Tags"
+                description: "This example filters attractions by the tags 'Lectures' or 'Music'."
+                value:
+                  searchFilter: 
+                    { tags: { "$in": ["attraction.category.Lectures", "attraction.category.Music"] }}
+              filterByStatus:
+                summary: "Filter by Status"
+                description: "This example filters attractions by their published status."
+                value:
+                  searchFilter: 
+                    { status: "attraction.published" }
+              filterByAvailableLanguages:
+                summary: "Filter by Available Languages"
+                description: "This example filters attractions that are available in both German and English."
+                value:
+                  searchFilter: 
+                    { inLanguages: { "$all": ["de", "en"] }}
+              combinedSearch:
+                summary: "Combined Search"
+                description: "This example combines multiple filters."
+                value:
+                  searchFilter: 
+                    { 
+                      status: "attraction.published",
+                      tags: { "$in": ["attraction.category.Exhibitions"] },
+                      inLanguages: { "$all": ["de", "en"] }
+                    }
       responses:
         "200":
           description: OK
@@ -154,6 +193,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SearchAttractionsResponse"
+
 
   /attractions/{identifier}:
     get:
@@ -305,6 +345,12 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: organizedBy
+          in: query
+          required: false
+          description: Returns only the events organized by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -677,6 +723,12 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: managedBy
+          in: query
+          required: false
+          description: Returns only the locations managed by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -901,6 +953,40 @@ paths:
         "200":
           description: OK
 
+
+  /locations/{identifier}/publish:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Published
+
+  /locations/{identifier}/unpublish:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Unpublished
+
+
   /locations/{identifier}/claim:
     post:
       tags:
@@ -959,7 +1045,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Response"
 
   /organizations/bulk-create:
     post:
@@ -1051,6 +1137,139 @@ paths:
         "200":
           description: OK
 
+  /organizations/{identifier}/memberships:
+    get:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationMembershipsResponse"
+
+    post:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMembershipRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMembershipResponse"
+        "404":
+          description: User not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "400":
+          description: User is already a member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+
+  /organizations/{identifier}/memberships/{userIdentifier}:
+    get:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string 
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetOrganizationMembershipResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+    patch:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrganizationMembershipRequest"
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+    delete:
+      tags:
+        - Manage your organization data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userIdentifier
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+
   /organizations/{identifier}/activate:
     post:
       tags:
@@ -1084,6 +1303,38 @@ paths:
           description: OK
 
   /organizations/{identifier}/retire:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+
+  /organizations/{identifier}/publish:
+    post:
+      tags:
+        - Manage cultural data
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+  
+  /organizations/{identifier}/unpublish:
     post:
       tags:
         - Manage cultural data
@@ -1155,8 +1406,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateUserRequest"
-      security:
-        - bearerAuth: []
       responses:
         "201":
           description: OK
@@ -1447,47 +1696,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      createdOrganizations:
-                        type: array
-                        items:
-                          type: string
-                      duplicateOrganizations:
-                        type: array
-                        items:
-                          type: string
-                      createdLocations:
-                        type: array
-                        items:
-                          type: string
-                      duplicateLocations:
-                        type: array
-                        items:
-                          type: string
-                      createdEvents:
-                        type: array
-                        items:
-                          type: string
-                      duplicateEvents:
-                        type: array
-                        items:
-                          type: string
-                      createdAttractions:
-                        type: array
-                        items:
-                          type: string
-                      duplicateAttractions:
-                        type: array
-                        items:
-                          type: string
+                $ref: "#/components/schemas/HarvestResponse"
 
 components:
   securitySchemes:
@@ -1530,10 +1739,10 @@ components:
       $ref: models/Response.yml
 
     Error:
-      $ref: models/Error.yml
+      $ref: models/Response.yml
 
     NotFoundError:
-      $ref: models/Error.yml
+      $ref: models/Response.yml
 
     Event:
       $ref: models/Event.yml
@@ -1582,6 +1791,12 @@ components:
 
     UpdateOrganizationRequest:
       $ref: models/UpdateOrganizationRequest.yml
+
+    CreateMembershipRequest:
+      $ref: models/CreateMembershipRequest.yml
+
+    CreateMembershipResponse:
+      $ref: models/CreateMembershipResponse.yml
 
     GetAttractionsResponse:
       $ref: models/GetAttractionsResponse.yml
@@ -1720,3 +1935,15 @@ components:
 
     TranslatableField:
       $ref: models/TranslatableField.yml
+
+    HarvestResponse:
+      $ref: models/HarvestResponse.yml
+    
+    GetOrganizationMembershipsResponse:
+      $ref: models/GetOrganizationMembershipsResponse.yml
+
+    GetOrganizationMembershipResponse:
+      $ref: models/GetOrganizationMembershipResponse.yml
+
+    UpdateOrganizationMembershipRequest:
+      $ref: models/UpdateOrganizationMembershipRequest.yml

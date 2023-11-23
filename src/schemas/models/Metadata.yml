@@ -21,6 +21,10 @@ properties:
     example: ["de", "en"]
     items:
       type: string
+  externalIDs:
+    type: object
+    additionalProperties:
+      type: string
 required:
   - created
   - updated

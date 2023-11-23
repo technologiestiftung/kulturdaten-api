@@ -1,0 +1,7 @@
+type: object
+properties:
+  role:
+    $ref: "Role.yml"
+required:
+  - role
+additionalProperties: false
