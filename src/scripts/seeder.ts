@@ -12,6 +12,8 @@ import { Tag } from "../generated/models/Tag.generated";
 import { User } from "../generated/models/User.generated";
 import { PermissionFlag } from "../resources/auth/middleware/PermissionFlag";
 import accessibilityTagsJSON from "../seed/accessibility.json";
+import organizationTagsJSON from "../seed/organizationTags.json";
+
 import tagsJSON from "../seed/tags.json";
 import { generateID, generateOrganizationID } from "../utils/IDUtil";
 import { createMetadata } from "../utils/MetadataUtil";
@@ -184,7 +186,14 @@ async function addAccessibilityTags() {
 	await addTagsToDatabase(accessibilityTagsJSON, "AccessibilityTags have been added.");
 }
 
-async function addTagsToDatabase(tagsData: typeof tagsJSON | typeof accessibilityTagsJSON, logMessage: string) {
+async function addOrganizationCategoriesTags() {
+	await addTagsToDatabase(organizationTagsJSON, "OrganizationCategoriesTags have been added.");
+}
+
+async function addTagsToDatabase(
+	tagsData: typeof tagsJSON | typeof accessibilityTagsJSON | typeof organizationTagsJSON,
+	logMessage: string,
+) {
 	const db = await mongoDBConnector.getDatabase();
 	const tags = db.collection("tags");
 	const tagsToAdd: Tag[] = tagsData.map((tag) => ({
@@ -314,6 +323,7 @@ async function handleTagInsertion() {
 
 	await addTags();
 	await addAccessibilityTags();
+	await addOrganizationCategoriesTags();
 }
 
 main();
