@@ -4,7 +4,7 @@
 		"identifier": "organization.category.IndependentArtist",
 		"title": {
 			"de": "Freie Künstler:in / Gruppe / Kollektiv",
-			"en": "Free Artist / Group / Collective",
+			"en": "Independent Artist / Group / Collective",
 			"fr": "Artiste / Groupe / Collectif indépendant",
 			"es": "Artista / Grupo / Colectivo independiente",
 			"it": "Artista / Gruppo / Collettivo indipendente",
@@ -478,7 +478,7 @@
 		"type": "type.Tag",
 		"identifier": "organization.category.Theater.PuppetFigureObjectTheater",
 		"title": {
-			"de": "Puppen- / Figuren-/ Objekttheater",
+			"de": "Puppen- / Figuren- / Objekttheater",
 			"en": "Puppet / Figure / Object Theater",
 			"fr": "Théâtre de marionnettes / de figures / d'objets",
 			"es": "Teatro de títeres / figuras / objetos",
@@ -974,7 +974,7 @@
 		"type": "type.Tag",
 		"identifier": "organization.category.GalleryExhibitionSpaceInitiative",
 		"title": {
-			"de": "Galerie / Ausstellungsstätte / Initative für Bildende Kunst",
+			"de": "Galerie / Ausstellungsstätte / Initiative für Bildende Kunst",
 			"en": "Gallery / Exhibition Space / Initiative for Visual Arts",
 			"fr": "Galerie / Espace d'exposition / Initiative pour les arts visuels",
 			"es": "Galería / Espacio de exposición / Iniciativa para las artes visuales",
@@ -1469,7 +1469,7 @@
 		"identifier": "organization.category.LibraryArchive.SpecializedLibrary",
 		"title": {
 			"de": "Spezial- / Fachbibliothek",
-			"en": "Specialized / Fach Library",
+			"en": "Specialized Library",
 			"fr": "Bibliothèque spécialisée",
 			"es": "Biblioteca especializada",
 			"it": "Biblioteca specializzata",
