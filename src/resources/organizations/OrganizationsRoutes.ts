@@ -10,6 +10,7 @@ import { UpdateOrganizationRequest } from "../../generated/models/UpdateOrganiza
 import { getPagination } from "../../utils/RequestUtil";
 import { Permit } from "../auth/middleware/Permit";
 import { OrganizationsController } from "./controllers/OrganizationsController";
+import { AuthUser } from "../../generated/models/AuthUser.generated";
 
 @Service()
 export class OrganizationsRoutes {
@@ -34,9 +35,11 @@ export class OrganizationsRoutes {
 			.post(
 				OrganizationsRoutes.basePath + "/",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const createOrganizationRequest = req.body as CreateOrganizationRequest;
-					this.organizationsController.createOrganization(res, createOrganizationRequest);
+					const authUser = req.user as AuthUser;
+					this.organizationsController.createOrganization(res, createOrganizationRequest, authUser);
 				},
 			);
 
@@ -46,8 +49,8 @@ export class OrganizationsRoutes {
 			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const createOrganizationsRequest = req.body as CreateOrganizationRequest[];
-
-				this.organizationsController.createOrganizations(res, createOrganizationsRequest);
+				const authUser = req.user as AuthUser;
+				this.organizationsController.createOrganizations(res, createOrganizationsRequest, authUser);
 			},
 		);
 
