@@ -1,4 +1,5 @@
 import { customAlphabet } from "nanoid";
+import { Borough } from "../generated/models/Borough.generated";
 
 export function generateID(): string {
 	const charset = process.env.ID_CHARSET || "123456789ABCDEFGHJKLMNPQRSTWXYZ";
@@ -29,4 +30,21 @@ export function generateUserID(): string {
 
 export function generateTagID(): string {
 	return "T_" + generateID();
+}
+
+export function generateBoroughOfficeOrganizationID(borough: Borough): string {
+	const allowedChars = process.env.ID_CHARSET || "123456789ABCDEFGHJKLMNPQRSTWXYZ";
+	let identifier = "O_";
+	while (identifier.length < 13) {
+		for (const char of borough.toUpperCase()) {
+			if (identifier.length >= 13) break;
+			if (allowedChars.includes(char)) {
+				identifier += char;
+			} else {
+				identifier += allowedChars[0];
+			}
+		}
+	}
+
+	return identifier;
 }

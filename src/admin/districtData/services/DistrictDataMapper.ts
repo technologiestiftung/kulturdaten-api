@@ -6,6 +6,7 @@ import { CreateLocationRequest } from "../../../generated/models/CreateLocationR
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
+import { generateBoroughOfficeOrganizationID } from "../../../utils/IDUtil";
 import {
 	Barrierefreiheit,
 	Bezirke,
@@ -15,7 +16,6 @@ import {
 	Veranstaltung,
 	Veranstaltungsort,
 } from "../model/Bezirksdaten";
-import { mapBoroughToOrganizationIdentifier } from "./BoroughMappers";
 
 export class DistrictDataMapper {
 	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[], bezirke: Bezirke): CreateAttractionRequest {
@@ -184,7 +184,7 @@ export class DistrictDataMapper {
 	getEditableBy(bezirk_id: number | null, bezirke: Bezirke): string | null {
 		if (bezirk_id && bezirke[bezirk_id].DE) {
 			const borough = bezirke[bezirk_id].DE.split(" ")[0] as Borough;
-			return mapBoroughToOrganizationIdentifier(borough);
+			return generateBoroughOfficeOrganizationID(borough);
 		} else {
 			return null;
 		}
