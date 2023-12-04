@@ -6,7 +6,7 @@ import { CreateLocationRequest } from "../../../generated/models/CreateLocationR
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
-import { generateBoroughOfficeOrganizationID } from "../../../utils/IDUtil";
+import { getBoroughOfficeOrganizationID } from "../../../utils/IDUtil";
 import {
 	Barrierefreiheit,
 	Bezirke,
@@ -184,7 +184,7 @@ export class DistrictDataMapper {
 	getEditableBy(bezirk_id: number | null, bezirke?: Bezirke): string | null {
 		if (bezirk_id && bezirke && bezirke[bezirk_id].DE) {
 			const borough = bezirke[bezirk_id].DE.split(" ")[0] as Borough;
-			return generateBoroughOfficeOrganizationID(borough);
+			return getBoroughOfficeOrganizationID(borough);
 		} else {
 			return null;
 		}

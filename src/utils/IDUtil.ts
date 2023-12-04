@@ -32,19 +32,14 @@ export function generateTagID(): string {
 	return "T_" + generateID();
 }
 
-export function generateBoroughOfficeOrganizationID(borough: Borough): string {
+export function getBoroughOfficeOrganizationID(borough: Borough): string {
 	const allowedChars = process.env.ID_CHARSET || "123456789ABCDEFGHJKLMNPQRSTWXYZ";
+	const length = parseInt(process.env.ID_LENGTH || "12");
 	let identifier = "O_";
-	while (identifier.length < 13) {
-		for (const char of borough.toUpperCase()) {
-			if (identifier.length >= 13) break;
-			if (allowedChars.includes(char)) {
-				identifier += char;
-			} else {
-				identifier += allowedChars[0];
-			}
-		}
+	for (const char of borough.toUpperCase()) {
+		if (identifier.length > length) break;
+		identifier += allowedChars.includes(char) ? char : allowedChars[0];
 	}
 
-	return identifier;
+	return identifier.padEnd(length, allowedChars[0]);
 }
