@@ -13,6 +13,7 @@ import { generateEventID } from "../../../utils/IDUtil";
 import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { generateEventReference, getEventReferenceProjection } from "../../../utils/ReferenceUtil";
 import { EventsRepository } from "./EventsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
 export class MongoDBEventsRepository implements EventsRepository {
@@ -54,14 +55,14 @@ export class MongoDBEventsRepository implements EventsRepository {
 		return this.get(filter, getEventReferenceProjection(), pagination) as unknown as Promise<Reference[]>;
 	}
 
-	async addEvent(createEvent: CreateEventRequest): Promise<Reference | null> {
+	async addEvent(createEvent: CreateEventRequest, creator?: AuthUser): Promise<Reference | null> {
 		const newEvent: Event = {
 			...createEvent,
 			type: "type.Event",
 			identifier: generateEventID(),
 			status: "event.published",
 			scheduleStatus: "event.scheduled",
-			metadata: createMetadata(createEvent.metadata),
+			metadata: createMetadata(creator, createEvent.metadata),
 		};
 		const events = await this.dbConnector.events();
 		const result = await events.insertOne(newEvent);

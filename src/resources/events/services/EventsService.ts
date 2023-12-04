@@ -98,7 +98,7 @@ export class EventsService {
 		if (authUser?.organizationIdentifier) {
 			resource.organizer = { referenceType: "type.Organization", referenceId: authUser.organizationIdentifier };
 		}
-		return this.eventsRepository.addEvent(resource);
+		return this.eventsRepository.addEvent(resource, authUser);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

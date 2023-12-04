@@ -5,6 +5,7 @@ import { Filter } from "../../../generated/models/Filter.generated";
 import { Location } from "../../../generated/models/Location.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationRequest.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:locations-repository");
 
@@ -27,7 +28,7 @@ export interface LocationsRepository {
 
 	setLocationManager(identifier: string, reference: Reference): Promise<boolean>;
 
-	addLocation(createLocation: CreateLocationRequest): Promise<Reference | null>;
+	addLocation(createLocation: CreateLocationRequest, creator?: AuthUser): Promise<Reference | null>;
 
 	getLocationByIdentifier(locationId: string): Promise<Location | null>;
 

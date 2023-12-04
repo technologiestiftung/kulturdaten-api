@@ -58,13 +58,14 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 	}
 
 	async addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null> {
+		const id = generateOrganizationID();
 		const newOrganization: Organization = {
 			...createOrganization,
 			type: "type.Organization",
-			identifier: generateOrganizationID(),
+			identifier: id,
 			status: "organization.published",
 			activationStatus: "organization.active",
-			metadata: createMetadata(createOrganization.metadata),
+			metadata: createMetadata({ organizationIdentifier: id }, createOrganization.metadata),
 		};
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.insertOne(newOrganization);

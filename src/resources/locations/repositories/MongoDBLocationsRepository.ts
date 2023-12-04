@@ -11,6 +11,7 @@ import { generateLocationID } from "../../../utils/IDUtil";
 import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { generateLocationReference, getLocationReferenceProjection } from "../../../utils/ReferenceUtil";
 import { LocationsRepository } from "./LocationsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
 export class MongoDBLocationsRepository implements LocationsRepository {
@@ -39,7 +40,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 		return this.get(filter, getLocationReferenceProjection(), pagination);
 	}
 
-	async addLocation(createLocation: CreateLocationRequest): Promise<Reference | null> {
+	async addLocation(createLocation: CreateLocationRequest, creator?: AuthUser): Promise<Reference | null> {
 		const locations = await this.dbConnector.locations();
 		const newLocation: Location = {
 			...createLocation,
@@ -47,7 +48,7 @@ export class MongoDBLocationsRepository implements LocationsRepository {
 			identifier: generateLocationID(),
 			status: "location.published",
 			openingStatus: "location.opened",
-			metadata: createMetadata(createLocation.metadata),
+			metadata: createMetadata(creator, createLocation.metadata),
 		};
 		const result = await locations.insertOne(newLocation);
 		if (!result.acknowledged) {

@@ -16,11 +16,20 @@ export function getUpdatedMetadata() {
 /**
  * Creates a valid metadata object with timestamps for new and upated entities.
  */
-export function createMetadata(existingMetadata?: Partial<Metadata>): Metadata {
+export function createMetadata(creator?: Creator, existingMetadata?: Partial<Metadata>): Metadata {
 	const currentTimestamp = getCurrentTimestamp();
+	const editableBy = [];
+	if (creator?.organizationIdentifier) {
+		editableBy.push(creator.organizationIdentifier);
+	}
 	return {
 		...existingMetadata,
 		created: existingMetadata?.created || currentTimestamp,
 		updated: currentTimestamp,
+		editableBy: editableBy,
 	};
+}
+
+export interface Creator {
+	organizationIdentifier?: string;
 }

@@ -7,6 +7,7 @@ import { Filter } from "../../../generated/models/Filter.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:attractions-repository");
 
@@ -21,7 +22,7 @@ export interface AttractionsRepository {
 
 	countAttractions(filter?: Filter): Promise<number>;
 
-	addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null>;
+	addAttraction(createAttraction: CreateAttractionRequest, creator?: AuthUser): Promise<Reference | null>;
 
 	getAttractionByIdentifier(attractionId: string): Promise<Attraction | null>;
 
