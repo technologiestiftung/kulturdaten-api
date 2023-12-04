@@ -37,7 +37,7 @@ export function getBoroughOfficeOrganizationID(borough: Borough): string {
 	const length = parseInt(process.env.ID_LENGTH || "12");
 	let identifier = "O_";
 	for (const char of borough.toUpperCase()) {
-		if (identifier.length > length) break;
+		if (identifier.length - 2 >= length) break;
 		identifier += allowedChars.includes(char) ? char : allowedChars[0];
 	}
 
