@@ -18,7 +18,7 @@ import {
 } from "../model/Bezirksdaten";
 
 export class DistrictDataMapper {
-	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[], bezirke: Bezirke): CreateAttractionRequest {
+	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[], bezirke?: Bezirke): CreateAttractionRequest {
 		const editableBy = this.getEditableBy(veranstaltung.event_bezirk_id, bezirke);
 
 		return {
@@ -86,7 +86,7 @@ export class DistrictDataMapper {
 		attractionReference: Reference,
 		locationReference: Reference,
 		organizerReference: Reference,
-		bezirke: Bezirke,
+		bezirke?: Bezirke,
 	): CreateEventRequest {
 		const editableBy = this.getEditableBy(veranstaltung.event_bezirk_id, bezirke);
 		return {
@@ -181,8 +181,8 @@ export class DistrictDataMapper {
 			.map((tag) => tag.identifier);
 	}
 
-	getEditableBy(bezirk_id: number | null, bezirke: Bezirke): string | null {
-		if (bezirk_id && bezirke[bezirk_id].DE) {
+	getEditableBy(bezirk_id: number | null, bezirke?: Bezirke): string | null {
+		if (bezirk_id && bezirke && bezirke[bezirk_id].DE) {
 			const borough = bezirke[bezirk_id].DE.split(" ")[0] as Borough;
 			return generateBoroughOfficeOrganizationID(borough);
 		} else {
