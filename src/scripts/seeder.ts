@@ -53,7 +53,6 @@ let mongoDBConnector: MongoDBConnector;
  * ---------------------------
  * To add an admin user to the database, use the `-a` or `--admin` flag.
  * This should be followed by the user's email and password, structured as `email:password`.
- * The admin user will be added to the borough organizations if created with the same command.
  * Example:
  *  npm run seed -- --admin admin@example.com:password123
  *
@@ -149,7 +148,7 @@ async function addBoroughOffices(defaultPassword: string) {
 		if (borough === "außerhalb") {
 			return;
 		}
-		const boroughOrganizationIdentifier = await addBorough(borough as Borough);
+		const boroughOrganizationIdentifier = await addBoroughOrganization(borough as Borough);
 		if (boroughOrganizationIdentifier) {
 			boroughOrganizationIdentifiers.push(boroughOrganizationIdentifier);
 			const boroughMail = generateBoroughMail(borough);
@@ -219,7 +218,7 @@ async function addAdmin(email: string, password: string, boroughOrganizationIden
 	await addUserWithPermission(email, password, PermissionFlag.ADMIN_PERMISSION, boroughOrganizationIdentifiers);
 }
 
-async function addBorough(borough: Borough) {
+async function addBoroughOrganization(borough: Borough) {
 	const boroughOrganizationIdentifier = generateOrganizationID();
 	const metadata = createMetadata();
 	const organizations = await mongoDBConnector.organizations();
