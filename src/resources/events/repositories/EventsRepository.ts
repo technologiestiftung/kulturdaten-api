@@ -6,6 +6,7 @@ import { Filter } from "../../../generated/models/Filter.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:events-repository");
 
@@ -24,7 +25,7 @@ export interface EventsRepository {
 
 	searchDuplicates(event: Event): Promise<Event[]>;
 
-	addEvent(createEvent: CreateEventRequest): Promise<Reference | null>;
+	addEvent(createEvent: CreateEventRequest, creator?: AuthUser): Promise<Reference | null>;
 
 	getEventByIdentifier(eventId: string): Promise<Event | null>;
 

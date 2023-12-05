@@ -11,6 +11,7 @@ import { generateOrganizationID } from "../../../utils/IDUtil";
 import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { getOrganizationReferenceProjection } from "../../../utils/ReferenceUtil";
 import { OrganizationsRepository } from "./OrganizationsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
 export class MongoDBOrganizationsRepository implements OrganizationsRepository {
@@ -57,14 +58,14 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		);
 	}
 
-	async addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null> {
+	async addOrganization(createOrganization: CreateOrganizationRequest, creator?: AuthUser): Promise<Reference | null> {
 		const newOrganization: Organization = {
 			...createOrganization,
 			type: "type.Organization",
 			identifier: generateOrganizationID(),
 			status: "organization.published",
 			activationStatus: "organization.active",
-			metadata: createMetadata(createOrganization.metadata),
+			metadata: createMetadata(creator, createOrganization.metadata),
 		};
 		const organizations = await this.dbConnector.organizations();
 		const result = await organizations.insertOne(newOrganization);

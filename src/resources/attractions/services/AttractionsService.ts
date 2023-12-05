@@ -65,7 +65,7 @@ export class AttractionsService {
 				referenceId: authUser.organizationIdentifier,
 			};
 		}
-		return this.attractionsRepository.addAttraction(createAttractionRequest);
+		return this.attractionsRepository.addAttraction(createAttractionRequest, authUser);
 	}
 
 	async readById(attractionId: any): Promise<Attraction | null> {
