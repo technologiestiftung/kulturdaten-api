@@ -754,6 +754,12 @@ paths:
           description: Returns only the locations managed by the entered Organization-ID
           schema:
             type: string
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the locations editable by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK

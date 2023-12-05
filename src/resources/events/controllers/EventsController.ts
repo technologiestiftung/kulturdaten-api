@@ -31,47 +31,6 @@ const log: debug.IDebugger = debug("app:events-controller");
 export class EventsController implements ResourcePermissionController {
 	constructor(public eventsService: EventsService) {}
 
-	getOrganizedByFilter(organizedBy?: string) {
-		return organizedBy ? { "organizer.referenceId": organizedBy } : {};
-	}
-
-	getEditableByFilter(editableBy?: string) {
-		return editableBy
-			? {
-					"metadata.editableBy": {
-						$in: [editableBy],
-					},
-			  }
-			: {};
-	}
-
-	getByLocationFilter(byLocation?: string) {
-		return byLocation
-			? {
-					"locations.referenceId": byLocation,
-			  }
-			: {};
-	}
-
-	getByAttractionFilter(byAttraction?: string) {
-		return byAttraction
-			? {
-					"attractions.referenceId": byAttraction,
-			  }
-			: {};
-	}
-
-	getEventsFilter(params?: Params): Filter {
-		const filter: Filter = {
-			...this.getOrganizedByFilter(params?.organizedBy),
-			...this.getEditableByFilter(params?.editableBy),
-			...this.getByLocationFilter(params?.byLocation),
-			...this.getByAttractionFilter(params?.byAttraction),
-		};
-
-		return filter;
-	}
-
 	async listEvents(res: express.Response, pagination: Pagination, params?: Params) {
 		const filter: Filter = this.getEventsFilter(params);
 		const totalCount = await this.eventsService.countEvents(filter);
@@ -351,5 +310,46 @@ export class EventsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to reschedule the event").build());
 		}
+	}
+
+	getOrganizedByFilter(organizedBy?: string) {
+		return organizedBy ? { "organizer.referenceId": organizedBy } : {};
+	}
+
+	getEditableByFilter(editableBy?: string) {
+		return editableBy
+			? {
+					"metadata.editableBy": {
+						$in: [editableBy],
+					},
+			  }
+			: {};
+	}
+
+	getByLocationFilter(byLocation?: string) {
+		return byLocation
+			? {
+					"locations.referenceId": byLocation,
+			  }
+			: {};
+	}
+
+	getByAttractionFilter(byAttraction?: string) {
+		return byAttraction
+			? {
+					"attractions.referenceId": byAttraction,
+			  }
+			: {};
+	}
+
+	getEventsFilter(params?: Params): Filter {
+		const filter: Filter = {
+			...this.getOrganizedByFilter(params?.organizedBy),
+			...this.getEditableByFilter(params?.editableBy),
+			...this.getByLocationFilter(params?.byLocation),
+			...this.getByAttractionFilter(params?.byAttraction),
+		};
+
+		return filter;
 	}
 }
