@@ -33,12 +33,12 @@ export class MongoDBOrganizationsRepository implements OrganizationsRepository {
 		return this.get(filter, undefined, pagination);
 	}
 
-	async getOrganizations(pagination?: Pagination): Promise<Organization[]> {
-		return this.get(undefined, undefined, pagination);
+	async getOrganizations(pagination?: Pagination, filter?: Filter): Promise<Organization[]> {
+		return this.get(filter, undefined, pagination);
 	}
 
-	async getOrganizationsAsReferences(pagination?: Pagination): Promise<Reference[]> {
-		return this.get(undefined, getOrganizationReferenceProjection(), pagination);
+	async getOrganizationsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]> {
+		return this.get(filter, getOrganizationReferenceProjection(), pagination);
 	}
 
 	async searchAllOrganizations(filter: Filter, projection?: object): Promise<Organization[]> {

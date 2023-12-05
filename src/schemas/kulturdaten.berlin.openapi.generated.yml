@@ -1052,6 +1052,14 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: editableBy
+          in: query
+          required: false
+          description: >-
+            Returns only the organizations editable by the entered
+            Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
