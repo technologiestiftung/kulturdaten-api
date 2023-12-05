@@ -17,6 +17,7 @@ import organizationTagsJSON from "../seed/organizationTags.json";
 import tagsJSON from "../seed/tags.json";
 import { generateID, generateOrganizationID } from "../utils/IDUtil";
 import { createMetadata } from "../utils/MetadataUtil";
+import { Borough, schemaForBorough } from "../generated/models/Borough.generated";
 
 let mongoClient: MongoClient;
 let mongoDBConnector: MongoDBConnector;
@@ -39,18 +40,18 @@ let mongoDBConnector: MongoDBConnector;
  *  npm run seed -- --tags
  *
  * ---------------------------
- * Setting up an Organization:
+ * Creating Borough Organizations:
  * ---------------------------
- * To create a starting organization (TSB) and add the admin as a member with the admin role, use the
- * `-o` or `--organization` flag. The admin user will only be added to this organization if they are created
- * with the same command.
+ * To create organizations for all Berlin boroughs except 'außerhalb', use the `-b` or `--boroughs` flag.
+ * This creates an organization for each borough and an organization admin account with a default password.
+ * Format: defaultPassword (e.g. password123).
  * Example:
- *  npm run seed -- --organization --admin admin@example.com:password123
+ *  npm run seed -- --boroughs password123
  *
  * ---------------------------
  * Creating an Admin User:
  * ---------------------------
- * To introduce an admin user to the database (without an organization), use the `-a` or `--admin` flag.
+ * To add an admin user to the database, use the `-a` or `--admin` flag.
  * This should be followed by the user's email and password, structured as `email:password`.
  * Example:
  *  npm run seed -- --admin admin@example.com:password123
@@ -58,18 +59,17 @@ let mongoDBConnector: MongoDBConnector;
  * ---------------------------
  * Combined Usage:
  * ---------------------------
- * It's possible to leverage both functionalities within a single command execution.
+ * It's possible to combine the functionalities within a single command execution.
  * Example:
- *  npm run seed -- --tags --admin admin@example.com:password123
+ *  npm run seed -- --tags --boroughs password123 --admin admin@example.com:password123
  *
  * ---------------------------
  * Important Note on Script Behavior:
  * ---------------------------
  * This script is designed to populate only empty collections within the database.
  * If a collection already contains data, the script will skip adding new entries to prevent duplicates or unintended overwrites.
- *
- * For security reasons, especially with admin user creation, this behavior ensures that no admin user can be programmatically added
- * if there are already existing users in the system. This minimizes the risk of unauthorized admin creation or potential misuse.
+ * This behavior is crucial for security, especially with admin user creation, ensuring no admin user can be programmatically added
+ * if there are existing admin users in the system, minimizing the risk of unauthorized admin creation or misuse.
  *
  */
 
@@ -77,14 +77,17 @@ async function main() {
 	const program = new Command();
 
 	program
-		.option("-t, --tags", "If no tags are present, the default tags will be written to the DB")
+		.option("-t, --tags", "Add default tags to the database if no tags are currently present.")
 		.option(
 			"-a, --admin <mailAndPassword>",
-			"If no admin is present in the DB, an admin with the provided email and password will be created. Format: email:password (e.g. admin@example.com:password123).",
+			"Create an admin user with the specified email and password if no admin is currently in the database. " +
+				"The admin will be added to borough organizations if created along with them. Format: email:password (e.g., admin@example.com:password123).",
 		)
 		.option(
-			"-o, --organization",
-			"A starting organization (TSB) will be created. The admin will be added to this organization as a member with the admin role.",
+			"-b, --boroughs <defaultPassword>",
+			"Create organizations for all Berlin boroughs (excluding 'außerhalb') and an admin account for each, " +
+				"using the provided default password. Admin accounts are assigned as members to their respective borough organizations. " +
+				"Format: defaultPassword (e.g., password123).",
 		);
 
 	program.parse(process.argv);
@@ -93,14 +96,14 @@ async function main() {
 
 	try {
 		await initDatabase();
-		let organizationIdentifier = null;
+		let boroughOrganizationIdentifiers: string[] = [];
 
-		if (options.organization) {
-			organizationIdentifier = await addTSBOrganization();
+		if (options.boroughs) {
+			boroughOrganizationIdentifiers = await handleBoroughsCreation(options.boroughs);
 		}
 
 		if (options.admin) {
-			await handleAdminCreation(options.admin, organizationIdentifier);
+			await handleAdminCreation(options.admin, boroughOrganizationIdentifiers);
 		}
 
 		if (options.tags) {
@@ -132,6 +135,41 @@ async function initDatabase() {
 			"An error occurred while establishing a connection to MongoDB. Please check the connection settings and try again.",
 		);
 	}
+}
+
+async function areOrganizationsAvailable() {
+	const organizations = await mongoDBConnector.organizations();
+	return (await organizations.countDocuments()) > 0;
+}
+
+async function addBoroughOffices(defaultPassword: string) {
+	const boroughOrganizationIdentifiers: string[] = [];
+	const userCreationPromises = schemaForBorough.enum.map(async (borough) => {
+		if (borough === "außerhalb") {
+			return;
+		}
+		const boroughOrganizationIdentifier = await addBoroughOrganization(borough as Borough);
+		if (boroughOrganizationIdentifier) {
+			boroughOrganizationIdentifiers.push(boroughOrganizationIdentifier);
+			const boroughMail = generateBoroughMail(borough);
+			return addUserWithPermission(boroughMail, defaultPassword, PermissionFlag.REGISTERED_USER, [
+				boroughOrganizationIdentifier,
+			]);
+		}
+	});
+
+	await Promise.all(userCreationPromises);
+	return boroughOrganizationIdentifiers;
+}
+
+function generateBoroughMail(borough: string) {
+	let email = borough.toLowerCase();
+	email = email.replace(/ä/g, "ae");
+	email = email.replace(/ö/g, "oe");
+	email = email.replace(/ü/g, "ue");
+	email = email.replace(/ß/g, "ss");
+
+	return `bezirksamt-${email}@kulturdaten.berlin`;
 }
 
 async function areTagsAvailable() {
@@ -176,16 +214,17 @@ async function isAdminUserPresent() {
 	return admins > 0;
 }
 
-async function addAdmin(email: string, password: string, organizationIdentifier: string | null) {
-	await addUserWithPermission(email, password, PermissionFlag.ADMIN_PERMISSION, organizationIdentifier);
+async function addAdmin(email: string, password: string, boroughOrganizationIdentifiers: string[]) {
+	await addUserWithPermission(email, password, PermissionFlag.ADMIN_PERMISSION, boroughOrganizationIdentifiers);
 }
 
-async function addTSBOrganization() {
+async function addBoroughOrganization(borough: Borough) {
+	const boroughOrganizationIdentifier = generateOrganizationID();
 	const metadata = createMetadata();
 	const organizations = await mongoDBConnector.organizations();
 	const organization: Organization = {
 		type: "type.Organization",
-		identifier: generateOrganizationID(),
+		identifier: boroughOrganizationIdentifier,
 		metadata: {
 			...metadata,
 			origin: "seed",
@@ -193,18 +232,17 @@ async function addTSBOrganization() {
 		status: "organization.published",
 		activationStatus: "organization.active",
 		title: {
-			de: "Technologiestiftung Berlin",
+			de: "Bezirksamt " + borough,
 		},
-		website: "https://www.technologiestiftung-berlin.de/",
 		inLanguages: ["de"],
-		borough: "Tempelhof-Schöneberg",
+		borough: borough,
 	};
 	const result = await organizations.insertOne(organization);
 	if (result.acknowledged) {
-		console.log(`TSB organization with identifier ${organization.identifier} added`);
+		console.log(`"Bezirksamt ${borough}" with identifier ${organization.identifier} added`);
 		return organization.identifier;
 	} else {
-		console.log(`Warning: No TSB organization added`);
+		console.log(`Warning: No "Bezirksamt ${borough}" added`);
 		return null;
 	}
 }
@@ -213,7 +251,7 @@ async function addUserWithPermission(
 	email: string,
 	password: string,
 	permission: PermissionFlag,
-	organizationIdentifier: string | null,
+	organizationIdentifiers: string[],
 ) {
 	if (!validator.isEmail(email)) {
 		console.log("Email is not valid: No user added");
@@ -230,7 +268,7 @@ async function addUserWithPermission(
 		identifier: generateID(),
 		createdAt: metadata.created,
 		updatedAt: metadata.updated,
-		memberships: generateMemberships(organizationIdentifier),
+		memberships: generateMemberships(organizationIdentifiers),
 	};
 	const users = await mongoDBConnector.users();
 	const result = await users.insertOne(user);
@@ -242,26 +280,38 @@ async function addUserWithPermission(
 	}
 }
 
-function generateMemberships(organizationIdentifier: string | null): Membership[] {
+function generateMemberships(organizationIdentifier: string[]): Membership[] {
 	if (!organizationIdentifier) {
 		return [];
 	}
-	return [
-		{
+	const memberships: Membership[] = [];
+	organizationIdentifier.forEach((organizationIdentifier) => {
+		memberships.push({
 			organizationIdentifier,
 			role: "admin",
-		},
-	];
+		});
+	});
+	return memberships;
 }
 
-async function handleAdminCreation(option: string, organizationIdentifier: string | null) {
+async function handleBoroughsCreation(option: string): Promise<string[]> {
+	if (await areOrganizationsAvailable()) {
+		console.log(
+			"There are already organizations in the database. Therefore, no new borough organization can be created.",
+		);
+		return [];
+	}
+	return await addBoroughOffices(option);
+}
+
+async function handleAdminCreation(option: string, boroughOrganizationIdentifiers: string[]) {
 	if (await isAdminUserPresent()) {
 		console.log("There is already an admin in the database. Therefore, no new admin can be created.");
 		return;
 	}
 
 	const [mail, password] = option.split(":");
-	await addAdmin(mail, password, organizationIdentifier);
+	await addAdmin(mail, password, boroughOrganizationIdentifiers);
 }
 
 async function handleTagInsertion() {
