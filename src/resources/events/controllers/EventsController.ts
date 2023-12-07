@@ -13,7 +13,6 @@ import { SearchEventsResponse } from "../../../generated/models/SearchEventsResp
 import { SetEventOrganizerRequest } from "../../../generated/models/SetEventOrganizerRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 import { EventsService } from "../services/EventsService";
-import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
 import { CreateEventResponse } from "../../../generated/models/CreateEventResponse.generated";
 import { DuplicateEventResponse } from "../../../generated/models/DuplicateEventResponse.generated";
 import { GetEventResponse } from "../../../generated/models/GetEventResponse.generated";
@@ -21,6 +20,11 @@ import { ResourcePermissionController } from "../../auth/controllers/ResourcePer
 import { Filter } from "../../../generated/models/Filter.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Params } from "../../../common/parameters/Params";
+import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
+import { Event } from "../../../generated/models/Event.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
@@ -28,23 +32,30 @@ const log: debug.IDebugger = debug("app:events-controller");
 export class EventsController implements ResourcePermissionController {
 	constructor(public eventsService: EventsService) {}
 
-	getOrganizedByFilter(organizedBy?: string) {
-		return organizedBy ? { "organizer.referenceId": organizedBy } : undefined;
-	}
+	async listEvents(res: express.Response, pagination: Pagination, params?: Params) {
+		const filter: Filter = this.getEventsFilter(params);
+		const totalCount = await this.eventsService.countEvents(filter);
 
-	async listEvents(res: express.Response, pagination: Pagination, organizedBy?: string) {
-		const events = await this.eventsService.list(pagination, this.getOrganizedByFilter(organizedBy));
-		const totalCount = await this.eventsService.countEvents(this.getOrganizedByFilter(organizedBy));
-		res.status(200).send(
-			new SuccessResponseBuilder<GetEventsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					events: events,
-				})
-				.build(),
-		);
+		const sendEventsResponse = (data: { events?: Event[]; eventsReferences?: Reference[] }) => {
+			res.status(200).send(
+				new SuccessResponseBuilder<GetEventsResponse>()
+					.okResponse({
+						page: pagination.page,
+						pageSize: pagination.pageSize,
+						totalCount: totalCount,
+						...data,
+					})
+					.build(),
+			);
+		};
+
+		if (params?.asReference) {
+			const eventsReferences = await this.eventsService.listAsReferences(pagination, filter);
+			sendEventsResponse({ eventsReferences });
+		} else {
+			const events = await this.eventsService.list(pagination, filter);
+			sendEventsResponse({ events });
+		}
 	}
 
 	async listEventsAsReference(res: express.Response, pagination: Pagination, organizedBy?: string) {
@@ -300,5 +311,36 @@ export class EventsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to reschedule the event").build());
 		}
+	}
+
+	private getOrganizedByFilter(organizedBy?: string) {
+		return organizedBy ? { "organizer.referenceId": organizedBy } : {};
+	}
+
+	private getByLocationFilter(byLocation?: string) {
+		return byLocation
+			? {
+					"locations.referenceId": byLocation,
+			  }
+			: {};
+	}
+
+	private getByAttractionFilter(byAttraction?: string) {
+		return byAttraction
+			? {
+					"attractions.referenceId": byAttraction,
+			  }
+			: {};
+	}
+
+	private getEventsFilter(params?: Params): Filter {
+		const filter: Filter = {
+			...this.getOrganizedByFilter(params?.organizedBy),
+			...getEditableByFilter(params?.editableBy),
+			...this.getByLocationFilter(params?.byLocation),
+			...this.getByAttractionFilter(params?.byAttraction),
+		};
+
+		return filter;
 	}
 }

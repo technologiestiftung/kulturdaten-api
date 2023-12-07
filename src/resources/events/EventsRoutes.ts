@@ -16,6 +16,7 @@ import { EventsController } from "./controllers/EventsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { CreateEventRequest } from "../../generated/models/CreateEventRequest.generated";
+import { Params } from "../../common/parameters/Params";
 
 const log: debug.IDebugger = debug("app:events-routes");
 
@@ -30,15 +31,16 @@ export class EventsRoutes {
 
 		router
 			.get(EventsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
-				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
-				const organizedBy = req.query.organizedBy as string;
+				const params: Params = {
+					asReference: req.query.asReference as string,
+					organizedBy: req.query.organizedBy as string,
+					editableBy: req.query.editableBy as string,
+					byLocation: req.query.byLocation as string,
+					byAttraction: req.query.byAttraction as string,
+				};
 
-				if (asReference) {
-					this.eventsController.listEventsAsReference(res, pagination, organizedBy);
-				} else {
-					this.eventsController.listEvents(res, pagination, organizedBy);
-				}
+				this.eventsController.listEvents(res, pagination, params);
 			})
 			.post(
 				EventsRoutes.basePath + "/",

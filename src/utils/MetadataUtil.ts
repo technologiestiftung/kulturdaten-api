@@ -33,3 +33,13 @@ export function createMetadata(creator?: Creator, existingMetadata?: Partial<Met
 export interface Creator {
 	organizationIdentifier?: string;
 }
+
+export function getEditableByFilter(editableBy?: string) {
+	return editableBy
+		? {
+				"metadata.editableBy": {
+					$in: [editableBy],
+				},
+		  }
+		: {};
+}

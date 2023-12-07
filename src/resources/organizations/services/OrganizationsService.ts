@@ -12,12 +12,12 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 export class OrganizationsService {
 	constructor(@Inject("OrganizationsRepository") public organizationsRepository: OrganizationsRepository) {}
 
-	async list(pagination?: Pagination): Promise<Organization[]> {
-		return this.organizationsRepository.getOrganizations(pagination);
+	async list(pagination?: Pagination, searchFilter?: Filter): Promise<Organization[]> {
+		return this.organizationsRepository.getOrganizations(pagination, searchFilter);
 	}
 
-	async listAsReferences(pagination?: Pagination) {
-		return this.organizationsRepository.getOrganizationsAsReferences(pagination);
+	async listAsReferences(pagination?: Pagination, searchFilter?: Filter) {
+		return this.organizationsRepository.getOrganizationsAsReferences(pagination, searchFilter);
 	}
 
 	async search(filter?: Filter, pagination?: Pagination): Promise<Organization[]> {

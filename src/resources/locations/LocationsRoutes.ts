@@ -12,6 +12,7 @@ import { LocationsController } from "./controllers/LocationsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { CreateLocationRequest } from "../../generated/models/CreateLocationRequest.generated";
+import { Params } from "../../common/parameters/Params";
 
 const log: debug.IDebugger = debug("app:locations-routes");
 
@@ -26,15 +27,14 @@ export class LocationsRoutes {
 
 		router
 			.get(LocationsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
-				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
-				const managedBy = req.query.managedBy as string;
+				const params: Params = {
+					asReference: req.query.asReference as string,
+					managedBy: req.query.managedBy as string,
+					editableBy: req.query.editableBy as string,
+				};
 
-				if (asReference) {
-					this.locationsController.listLocationsAsReference(res, pagination, managedBy);
-				} else {
-					this.locationsController.listLocations(res, pagination, managedBy);
-				}
+				this.locationsController.listLocations(res, pagination, params);
 			})
 			.post(
 				LocationsRoutes.basePath + "/",
