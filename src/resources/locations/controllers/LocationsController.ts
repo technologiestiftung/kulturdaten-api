@@ -19,6 +19,7 @@ import { CreateLocationResponse } from "../../../generated/models/CreateLocation
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { Params } from "../../../common/parameters/Params";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 
@@ -233,24 +234,14 @@ export class LocationsController implements ResourcePermissionController {
 		}
 	}
 
-	getManagedByFilter(managedBy?: string) {
+	private getManagedByFilter(managedBy?: string) {
 		return managedBy ? { "manager.referenceId": managedBy } : undefined;
 	}
 
-	getEditableByFilter(editableBy?: string) {
-		return editableBy
-			? {
-					"metadata.editableBy": {
-						$in: [editableBy],
-					},
-			  }
-			: {};
-	}
-
-	getLocationsFilter(params?: Params): Filter {
+	private getLocationsFilter(params?: Params): Filter {
 		const filter: Filter = {
 			...this.getManagedByFilter(params?.managedBy),
-			...this.getEditableByFilter(params?.editableBy),
+			...getEditableByFilter(params?.editableBy),
 		};
 
 		return filter;

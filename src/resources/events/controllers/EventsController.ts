@@ -24,6 +24,7 @@ import { Params } from "../../../common/parameters/Params";
 import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Event } from "../../../generated/models/Event.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
@@ -312,21 +313,11 @@ export class EventsController implements ResourcePermissionController {
 		}
 	}
 
-	getOrganizedByFilter(organizedBy?: string) {
+	private getOrganizedByFilter(organizedBy?: string) {
 		return organizedBy ? { "organizer.referenceId": organizedBy } : {};
 	}
 
-	getEditableByFilter(editableBy?: string) {
-		return editableBy
-			? {
-					"metadata.editableBy": {
-						$in: [editableBy],
-					},
-			  }
-			: {};
-	}
-
-	getByLocationFilter(byLocation?: string) {
+	private getByLocationFilter(byLocation?: string) {
 		return byLocation
 			? {
 					"locations.referenceId": byLocation,
@@ -334,7 +325,7 @@ export class EventsController implements ResourcePermissionController {
 			: {};
 	}
 
-	getByAttractionFilter(byAttraction?: string) {
+	private getByAttractionFilter(byAttraction?: string) {
 		return byAttraction
 			? {
 					"attractions.referenceId": byAttraction,
@@ -342,10 +333,10 @@ export class EventsController implements ResourcePermissionController {
 			: {};
 	}
 
-	getEventsFilter(params?: Params): Filter {
+	private getEventsFilter(params?: Params): Filter {
 		const filter: Filter = {
 			...this.getOrganizedByFilter(params?.organizedBy),
-			...this.getEditableByFilter(params?.editableBy),
+			...getEditableByFilter(params?.editableBy),
 			...this.getByLocationFilter(params?.byLocation),
 			...this.getByAttractionFilter(params?.byAttraction),
 		};

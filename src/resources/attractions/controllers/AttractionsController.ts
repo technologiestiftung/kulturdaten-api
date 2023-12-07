@@ -20,6 +20,7 @@ import { Filter } from "../../../generated/models/Filter.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { Params } from "../../../common/parameters/Params";
 import { Attraction } from "../../../generated/models/Attraction.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 @Service()
 export class AttractionsController implements ResourcePermissionController {
@@ -248,24 +249,14 @@ export class AttractionsController implements ResourcePermissionController {
 		}
 	}
 
-	getCuratedByFilter(curatedBy?: string) {
+	private getCuratedByFilter(curatedBy?: string) {
 		return curatedBy ? { "curator.referenceId": curatedBy } : {};
 	}
 
-	getEditableByFilter(editableBy?: string) {
-		return editableBy
-			? {
-					"metadata.editableBy": {
-						$in: [editableBy],
-					},
-			  }
-			: {};
-	}
-
-	getAttractionsFilter(params?: Params): Filter {
+	private getAttractionsFilter(params?: Params): Filter {
 		const filter: Filter = {
 			...this.getCuratedByFilter(params?.curatedBy),
-			...this.getEditableByFilter(params?.editableBy),
+			...getEditableByFilter(params?.editableBy),
 		};
 
 		return filter;

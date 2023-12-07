@@ -24,6 +24,7 @@ import { GetOrganizationMembershipResponse } from "../../../generated/models/Get
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { Params } from "../../../common/parameters/Params";
 import { Organization } from "../../../generated/models/Organization.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
@@ -33,8 +34,6 @@ export class OrganizationsController implements ResourcePermissionController {
 		public organizationsService: OrganizationsService,
 		public userService: UsersService,
 	) {}
-
-
 
 	async listOrganizations(res: express.Response, pagination: Pagination, params?: Params) {
 		const filter: Filter = this.getOrganizationsFilter(params);
@@ -341,19 +340,9 @@ export class OrganizationsController implements ResourcePermissionController {
 		}
 	}
 
-	getEditableByFilter(editableBy?: string) {
-		return editableBy
-			? {
-					"metadata.editableBy": {
-						$in: [editableBy],
-					},
-			  }
-			: {};
-	}
-
-	getOrganizationsFilter(params?: Params): Filter {
+	private getOrganizationsFilter(params?: Params): Filter {
 		const filter: Filter = {
-			...this.getEditableByFilter(params?.editableBy),
+			...getEditableByFilter(params?.editableBy),
 		};
 
 		return filter;
