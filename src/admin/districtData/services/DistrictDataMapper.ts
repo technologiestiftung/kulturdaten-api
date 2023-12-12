@@ -6,6 +6,7 @@ import { CreateLocationRequest } from "../../../generated/models/CreateLocationR
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Tag } from "../../../generated/models/Tag.generated";
+import { getBoroughOfficeOrganizationID } from "../../../utils/IDUtil";
 import {
 	Barrierefreiheit,
 	Bezirke,
@@ -17,7 +18,9 @@ import {
 } from "../model/Bezirksdaten";
 
 export class DistrictDataMapper {
-	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[]): CreateAttractionRequest {
+	mapAttraction(veranstaltung: Veranstaltung, allTags: Tag[], bezirke?: Bezirke): CreateAttractionRequest {
+		const editableBy = this.getEditableBy(veranstaltung.event_bezirk_id, bezirke);
+
 		return {
 			title: {
 				...(veranstaltung.event_titel_de && { de: veranstaltung.event_titel_de }),
@@ -36,6 +39,7 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstaltung.event_id),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 			...(veranstaltung.event_homepage ? { website: veranstaltung.event_homepage } : {}),
 			inLanguages: this.getInLanguages(veranstaltung),
@@ -82,7 +86,9 @@ export class DistrictDataMapper {
 		attractionReference: Reference,
 		locationReference: Reference,
 		organizerReference: Reference,
+		bezirke?: Bezirke,
 	): CreateEventRequest {
+		const editableBy = this.getEditableBy(veranstaltung.event_bezirk_id, bezirke);
 		return {
 			schedule: {
 				startDate: termin.tag_von,
@@ -96,18 +102,22 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(termin.id),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 			...(veranstaltung.event_ist_gratis === 1 && { admission: { ticketType: "ticketType.freeOfCharge" } }),
 		};
 	}
 
-	mapOrganisation(veranstalter: Veranstalter): CreateOrganizationRequest {
+	mapOrganisation(veranstalter: Veranstalter, bezirke: Bezirke): CreateOrganizationRequest {
+		const editableBy = this.getEditableBy(veranstalter.bezirk_id, bezirke);
+
 		return {
 			title: { de: veranstalter.name },
 			inLanguages: ["de"],
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstalter.id),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 		};
 	}
@@ -126,7 +136,7 @@ export class DistrictDataMapper {
 		if (veranstaltungsort.bezirk_id && bezirke[veranstaltungsort.bezirk_id].DE) {
 			boroughOfLocation = bezirke[veranstaltungsort.bezirk_id].DE.split(" ")[0] as Borough;
 		}
-
+		const editableBy = this.getEditableBy(veranstaltungsort.bezirk_id, bezirke);
 		return {
 			title: { de: veranstaltungsort.name },
 			isVirtual: false,
@@ -137,6 +147,7 @@ export class DistrictDataMapper {
 			metadata: {
 				origin: "bezirkskalender",
 				originObjectID: String(veranstaltungsort.id),
+				...(editableBy && { editableBy: [editableBy] }),
 			},
 		};
 	}
@@ -168,5 +179,14 @@ export class DistrictDataMapper {
 					: false,
 			)
 			.map((tag) => tag.identifier);
+	}
+
+	getEditableBy(bezirk_id: number | null, bezirke?: Bezirke): string | null {
+		if (bezirk_id && bezirke && bezirke[bezirk_id].DE) {
+			const borough = bezirke[bezirk_id].DE.split(" ")[0] as Borough;
+			return getBoroughOfficeOrganizationID(borough);
+		} else {
+			return null;
+		}
 	}
 }
