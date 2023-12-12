@@ -800,6 +800,30 @@ paths:
           description: Returns only the locations editable by the entered Organization-ID
           schema:
             type: string
+        - name: anyAccessibilities
+          in: query
+          required: false
+          description: >-
+            Returns only the Locations that match any of the specified
+            accessibility tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: allAccessibilities
+          in: query
+          required: false
+          description: >-
+            Returns only the Locations that match all of the specified
+            accessibility tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: OK
@@ -1761,7 +1785,7 @@ components:
         type: number
     pageSize:
       name: pageSize
-      description: Default value is 30
+      description: Default value is 30. Max value is 500.
       in: query
       required: false
       example: 30

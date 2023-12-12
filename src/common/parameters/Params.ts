@@ -21,6 +21,8 @@ export type LocationParams = Params & {
 	asReference?: string;
 	managedBy?: string;
 	editableBy?: string;
+	anyAccessibilities?: string[];
+	allAccessibilities?: string[];
 };
 
 export type OrganizationParams = Params & {

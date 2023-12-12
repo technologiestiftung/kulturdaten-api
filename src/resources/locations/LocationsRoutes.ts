@@ -7,7 +7,7 @@ import { ClaimLocationRequest } from "../../generated/models/ClaimLocationReques
 import { SearchLocationsRequest } from "../../generated/models/SearchLocationsRequest.generated";
 import { SetLocationManagerRequest } from "../../generated/models/SetLocationManagerRequest.generated";
 import { UpdateLocationRequest } from "../../generated/models/UpdateLocationRequest.generated";
-import { getPagination } from "../../utils/RequestUtil";
+import { extractArrayQueryParam, getPagination } from "../../utils/RequestUtil";
 import { LocationsController } from "./controllers/LocationsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
@@ -28,10 +28,14 @@ export class LocationsRoutes {
 		router
 			.get(LocationsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const pagination: Pagination = getPagination(req);
+				const anyAccessibilities: string[] | undefined = extractArrayQueryParam(req, "anyAccessibilities");
+				const allAccessibilities: string[] | undefined = extractArrayQueryParam(req, "allAccessibilities");
 				const params: LocationParams = {
 					asReference: req.query.asReference as string,
 					managedBy: req.query.managedBy as string,
 					editableBy: req.query.editableBy as string,
+					anyAccessibilities: anyAccessibilities,
+					allAccessibilities: allAccessibilities,
 				};
 
 				this.locationsController.listLocations(res, pagination, params);

@@ -1,11 +1,11 @@
 import debug from "debug";
 import express from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
+import { Location } from "../../../generated/models/Location.generated";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { ClaimLocationRequest } from "../../../generated/models/ClaimLocationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
-import { Location } from "../../../generated/models/Location.generated";
 import { SearchLocationsRequest } from "../../../generated/models/SearchLocationsRequest.generated";
 import { SearchLocationsResponse } from "../../../generated/models/SearchLocationsResponse.generated";
 import { SetLocationManagerRequest } from "../../../generated/models/SetLocationManagerRequest.generated";
@@ -20,15 +20,28 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
 import { LocationParams } from "../../../common/parameters/Params";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 
 @Service()
 export class LocationsController implements ResourcePermissionController {
-	constructor(public locationsService: LocationsService) {}
+	constructor(
+		public locationsService: LocationsService,
+		@Inject("AttractionFilterFactory") public filterFactory: FilterFactory<Location>,
+	) {}
 
 	async listLocations(res: express.Response, pagination: Pagination, params?: LocationParams) {
-		const filter: Filter = this.getLocationsFilter(params);
+		let filter: Filter = this.getLocationsFilter(params);
+		const anyAccessibilitiesFilter = this.filterFactory.createAnyMatchFilter(
+			"accessibility",
+			params?.anyAccessibilities,
+		);
+		const allAccessibilitiesFilter = this.filterFactory.createAllMatchFilter(
+			"accessibility",
+			params?.allAccessibilities,
+		);
+		filter = this.filterFactory.combineWithAnd([filter, anyAccessibilitiesFilter, allAccessibilitiesFilter]);
 		const totalCount = await this.locationsService.countLocations(filter);
 
 		const sendLocationsResponse = (data: { locations?: Location[]; locationsReferences?: Reference[] }) => {
