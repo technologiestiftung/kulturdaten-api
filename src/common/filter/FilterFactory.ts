@@ -1,3 +1,4 @@
+import { Service } from "typedi";
 import { Filter } from "../../generated/models/Filter.generated";
 
 export interface FilterFactory<T> {
@@ -14,7 +15,8 @@ export interface FilterFactory<T> {
 	combineWithOr(filters: Filter[]): Filter;
 }
 
-export class SimpleFilterFactory<T> implements FilterFactory<T> {
+@Service()
+export class MongoDBFilterFactory<T> implements FilterFactory<T> {
 	createExactMatchFilter<K extends keyof T>(propertyName: K, value: T[K]): Filter {
 		return { [propertyName as string]: value };
 	}

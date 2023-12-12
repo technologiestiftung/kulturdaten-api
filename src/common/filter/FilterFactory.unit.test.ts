@@ -1,11 +1,11 @@
 import { Attraction } from "../../generated/models/Attraction.generated";
-import { SimpleFilterFactory } from "./FilterFactory";
+import { FilterFactory, MongoDBFilterFactory } from "./FilterFactory";
 
-describe("SimpleFilterFactory", () => {
-	let factory: SimpleFilterFactory<Attraction>;
+describe("MongoDBFilterFactory", () => {
+	let factory: FilterFactory<Attraction>;
 
 	beforeEach(() => {
-		factory = new SimpleFilterFactory<Attraction>();
+		factory = new MongoDBFilterFactory<Attraction>();
 	});
 
 	it("should create an exact match filter", () => {
