@@ -130,10 +130,20 @@ paths:
           description: Returns only the Attractions editable by the entered Organization-ID
           schema:
             type: string
-        - name: tags
+        - name: anyTags
           in: query
           required: false
           description: Returns only the Attractions that match any of the specified tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: allTags
+          in: query
+          required: false
+          description: Returns only the Attractions that match all of the specified tags
           schema:
             type: array
             items:

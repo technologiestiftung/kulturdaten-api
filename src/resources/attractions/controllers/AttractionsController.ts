@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
@@ -21,13 +21,20 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { AttractionParams } from "../../../common/parameters/Params";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
 
 @Service()
 export class AttractionsController implements ResourcePermissionController {
-	constructor(public attractionsService: AttractionsService) {}
+	constructor(
+		public attractionsService: AttractionsService,
+		@Inject("AttractionFilterFactory") public filterFactory: FilterFactory<Attraction>,
+	) {}
 
 	async listAttractions(res: Response, pagination: Pagination, params?: AttractionParams) {
-		const filter: Filter = this.getAttractionsFilter(params);
+		let filter: Filter = this.getAttractionsFilter(params);
+		const anyTagsFilter = this.filterFactory.createAnyMatchFilter("tags", params?.anyTags);
+		const allTagsFilter = this.filterFactory.createAllMatchFilter("tags", params?.allTags);
+		filter = this.filterFactory.combineWithAnd([filter, anyTagsFilter, allTagsFilter]);
 		const totalCount = await this.attractionsService.countAttractions(filter);
 
 		const sendAttractionsResponse = (data: { attractions?: Attraction[]; attractionsReferences?: Reference[] }) => {

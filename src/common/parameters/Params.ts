@@ -5,7 +5,8 @@ export type Params = {
 export type AttractionParams = Params & {
 	curatedBy?: string;
 	editableBy?: string;
-	tags?: string[];
+	anyTags?: string[];
+	allTags?: string[];
 };
 
 export type EventParams = Params & {

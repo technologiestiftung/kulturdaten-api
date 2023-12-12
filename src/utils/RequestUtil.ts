@@ -29,13 +29,13 @@ function adjust(value: number, defaultMinValue: number, defaultMaxValue?: number
 	return value;
 }
 
-export const extractArrayQueryParam = (req: express.Request, paramName: string): string[] => {
+export const extractArrayQueryParam = (req: express.Request, paramName: string): string[] | undefined => {
 	const paramValue = req.query[paramName];
 	if (Array.isArray(paramValue)) {
 		return paramValue as string[];
 	} else if (paramValue) {
 		return [paramValue as string];
 	} else {
-		return [];
+		return undefined;
 	}
 };
