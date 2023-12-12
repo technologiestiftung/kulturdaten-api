@@ -18,7 +18,7 @@ import { AttractionsService } from "../services/AttractionsService";
 import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
-import { Params } from "../../../common/parameters/Params";
+import { AttractionParams } from "../../../common/parameters/Params";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
@@ -26,7 +26,7 @@ import { getEditableByFilter } from "../../../utils/MetadataUtil";
 export class AttractionsController implements ResourcePermissionController {
 	constructor(public attractionsService: AttractionsService) {}
 
-	async listAttractions(res: Response, pagination: Pagination, params?: Params) {
+	async listAttractions(res: Response, pagination: Pagination, params?: AttractionParams) {
 		const filter: Filter = this.getAttractionsFilter(params);
 		const totalCount = await this.attractionsService.countAttractions(filter);
 
@@ -253,7 +253,7 @@ export class AttractionsController implements ResourcePermissionController {
 		return curatedBy ? { "curator.referenceId": curatedBy } : {};
 	}
 
-	private getAttractionsFilter(params?: Params): Filter {
+	private getAttractionsFilter(params?: AttractionParams): Filter {
 		const filter: Filter = {
 			...this.getCuratedByFilter(params?.curatedBy),
 			...getEditableByFilter(params?.editableBy),

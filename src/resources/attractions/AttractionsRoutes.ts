@@ -12,7 +12,7 @@ import { getPagination } from "../../utils/RequestUtil";
 import { AttractionsController } from "./controllers/AttractionsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
-import { Params } from "../../common/parameters/Params";
+import { AttractionParams } from "../../common/parameters/Params";
 
 const log: debug.IDebugger = debug("app:attractions-routes");
 
@@ -28,7 +28,7 @@ export class AttractionsRoutes {
 		router
 			.get(AttractionsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const pagination: Pagination = getPagination(req);
-				const params: Params = {
+				const params: AttractionParams = {
 					asReference: req.query.asReference as string,
 					curatedBy: req.query.curatedBy as string,
 					editableBy: req.query.editableBy as string,

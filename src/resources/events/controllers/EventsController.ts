@@ -20,7 +20,7 @@ import { ResourcePermissionController } from "../../auth/controllers/ResourcePer
 import { Filter } from "../../../generated/models/Filter.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
-import { Params } from "../../../common/parameters/Params";
+import { EventParams } from "../../../common/parameters/Params";
 import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Event } from "../../../generated/models/Event.generated";
@@ -32,7 +32,7 @@ const log: debug.IDebugger = debug("app:events-controller");
 export class EventsController implements ResourcePermissionController {
 	constructor(public eventsService: EventsService) {}
 
-	async listEvents(res: express.Response, pagination: Pagination, params?: Params) {
+	async listEvents(res: express.Response, pagination: Pagination, params?: EventParams) {
 		const filter: Filter = this.getEventsFilter(params);
 		const totalCount = await this.eventsService.countEvents(filter);
 
@@ -333,7 +333,7 @@ export class EventsController implements ResourcePermissionController {
 			: {};
 	}
 
-	private getEventsFilter(params?: Params): Filter {
+	private getEventsFilter(params?: EventParams): Filter {
 		const filter: Filter = {
 			...this.getOrganizedByFilter(params?.organizedBy),
 			...getEditableByFilter(params?.editableBy),

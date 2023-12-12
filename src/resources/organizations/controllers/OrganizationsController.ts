@@ -22,7 +22,7 @@ import { GetOrganizationMembershipsResponse } from "../../../generated/models/Ge
 import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 import { GetOrganizationMembershipResponse } from "../../../generated/models/GetOrganizationMembershipResponse.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
-import { Params } from "../../../common/parameters/Params";
+import { OrganizationParams } from "../../../common/parameters/Params";
 import { Organization } from "../../../generated/models/Organization.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
@@ -35,7 +35,7 @@ export class OrganizationsController implements ResourcePermissionController {
 		public userService: UsersService,
 	) {}
 
-	async listOrganizations(res: express.Response, pagination: Pagination, params?: Params) {
+	async listOrganizations(res: express.Response, pagination: Pagination, params?: OrganizationParams) {
 		const filter: Filter = this.getOrganizationsFilter(params);
 		const totalCount = await this.organizationsService.countOrganizations(filter);
 
@@ -340,7 +340,7 @@ export class OrganizationsController implements ResourcePermissionController {
 		}
 	}
 
-	private getOrganizationsFilter(params?: Params): Filter {
+	private getOrganizationsFilter(params?: OrganizationParams): Filter {
 		const filter: Filter = {
 			...getEditableByFilter(params?.editableBy),
 		};

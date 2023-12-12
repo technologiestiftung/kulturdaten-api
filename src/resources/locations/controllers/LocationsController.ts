@@ -18,7 +18,7 @@ import { GetLocationResponse } from "../../../generated/models/GetLocationRespon
 import { CreateLocationResponse } from "../../../generated/models/CreateLocationResponse.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
-import { Params } from "../../../common/parameters/Params";
+import { LocationParams } from "../../../common/parameters/Params";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 const log: debug.IDebugger = debug("app:locations-controller");
@@ -27,7 +27,7 @@ const log: debug.IDebugger = debug("app:locations-controller");
 export class LocationsController implements ResourcePermissionController {
 	constructor(public locationsService: LocationsService) {}
 
-	async listLocations(res: express.Response, pagination: Pagination, params?: Params) {
+	async listLocations(res: express.Response, pagination: Pagination, params?: LocationParams) {
 		const filter: Filter = this.getLocationsFilter(params);
 		const totalCount = await this.locationsService.countLocations(filter);
 
@@ -238,7 +238,7 @@ export class LocationsController implements ResourcePermissionController {
 		return managedBy ? { "manager.referenceId": managedBy } : undefined;
 	}
 
-	private getLocationsFilter(params?: Params): Filter {
+	private getLocationsFilter(params?: LocationParams): Filter {
 		const filter: Filter = {
 			...this.getManagedByFilter(params?.managedBy),
 			...getEditableByFilter(params?.editableBy),
