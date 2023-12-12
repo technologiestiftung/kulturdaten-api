@@ -30,7 +30,6 @@ properties:
     description: List of organizations that can edit this object.
     items:
       type: string
-
 required:
   - created
   - updated
