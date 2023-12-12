@@ -124,6 +124,12 @@ paths:
           description: Returns only the Attractions curated by the entered Organization-ID
           schema:
             type: string
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the Attractions editable by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -388,6 +394,24 @@ paths:
           in: query
           required: false
           description: Returns only the events organized by the entered Organization-ID
+          schema:
+            type: string
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the events editable by the entered Organization-ID
+          schema:
+            type: string
+        - name: byLocation
+          in: query
+          required: false
+          description: Returns only the events occurring at the specified Location-ID
+          schema:
+            type: string
+        - name: byAttraction
+          in: query
+          required: false
+          description: Returns only the events that include the specified Attraction-ID
           schema:
             type: string
       responses:
@@ -750,6 +774,12 @@ paths:
           description: Returns only the locations managed by the entered Organization-ID
           schema:
             type: string
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the locations editable by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -1022,6 +1052,14 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: editableBy
+          in: query
+          required: false
+          description: >-
+            Returns only the organizations editable by the entered
+            Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK

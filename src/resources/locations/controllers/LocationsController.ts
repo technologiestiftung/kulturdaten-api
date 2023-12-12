@@ -5,6 +5,7 @@ import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { ClaimLocationRequest } from "../../../generated/models/ClaimLocationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
+import { Location } from "../../../generated/models/Location.generated";
 import { SearchLocationsRequest } from "../../../generated/models/SearchLocationsRequest.generated";
 import { SearchLocationsResponse } from "../../../generated/models/SearchLocationsResponse.generated";
 import { SetLocationManagerRequest } from "../../../generated/models/SetLocationManagerRequest.generated";
@@ -17,6 +18,8 @@ import { GetLocationResponse } from "../../../generated/models/GetLocationRespon
 import { CreateLocationResponse } from "../../../generated/models/CreateLocationResponse.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
+import { Params } from "../../../common/parameters/Params";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 
@@ -24,50 +27,29 @@ const log: debug.IDebugger = debug("app:locations-controller");
 export class LocationsController implements ResourcePermissionController {
 	constructor(public locationsService: LocationsService) {}
 
-	getManagedByFilter(managedBy?: string) {
-		return managedBy ? { "manager.referenceId": managedBy } : undefined;
-	}
+	async listLocations(res: express.Response, pagination: Pagination, params?: Params) {
+		const filter: Filter = this.getLocationsFilter(params);
+		const totalCount = await this.locationsService.countLocations(filter);
 
-	async listLocations(res: express.Response, pagination: Pagination, managedBy?: string) {
-		const locations = await this.locationsService.list(pagination, this.getManagedByFilter(managedBy));
-		const totalCount = await this.locationsService.countLocations(this.getManagedByFilter(managedBy));
-
-		if (locations) {
+		const sendLocationsResponse = (data: { locations?: Location[]; locationsReferences?: Reference[] }) => {
 			res.status(200).send(
 				new SuccessResponseBuilder<GetLocationsResponse>()
 					.okResponse({
 						page: pagination.page,
 						pageSize: pagination.pageSize,
 						totalCount: totalCount,
-						locations: locations,
+						...data,
 					})
 					.build(),
 			);
-		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
-		}
-	}
+		};
 
-	async listLocationsAsReference(res: express.Response, pagination: Pagination, managedBy?: string) {
-		const locationsReferences = await this.locationsService.listAsReferences(
-			pagination,
-			this.getManagedByFilter(managedBy),
-		);
-		const totalCount = await this.locationsService.countLocations(this.getManagedByFilter(managedBy));
-
-		if (locationsReferences) {
-			res.status(200).send(
-				new SuccessResponseBuilder<GetLocationsResponse>()
-					.okResponse({
-						page: pagination.page,
-						pageSize: pagination.pageSize,
-						totalCount: totalCount,
-						locationsReferences: locationsReferences,
-					})
-					.build(),
-			);
+		if (params?.asReference) {
+			const locationsReferences = await this.locationsService.listAsReferences(pagination, filter);
+			sendLocationsResponse({ locationsReferences });
 		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Locations not found").build());
+			const locations = await this.locationsService.list(pagination, filter);
+			sendLocationsResponse({ locations });
 		}
 	}
 
@@ -250,5 +232,18 @@ export class LocationsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to archive the location").build());
 		}
+	}
+
+	private getManagedByFilter(managedBy?: string) {
+		return managedBy ? { "manager.referenceId": managedBy } : undefined;
+	}
+
+	private getLocationsFilter(params?: Params): Filter {
+		const filter: Filter = {
+			...this.getManagedByFilter(params?.managedBy),
+			...getEditableByFilter(params?.editableBy),
+		};
+
+		return filter;
 	}
 }

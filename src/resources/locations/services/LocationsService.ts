@@ -29,7 +29,7 @@ export class LocationsService {
 		if (authUser?.organizationIdentifier) {
 			resource.manager = { referenceType: "type.Organization", referenceId: authUser.organizationIdentifier };
 		}
-		return this.locationsRepository.addLocation(resource);
+		return this.locationsRepository.addLocation(resource, authUser);
 	}
 
 	search(filter: Filter, pagination?: Pagination): Promise<Location[]> {

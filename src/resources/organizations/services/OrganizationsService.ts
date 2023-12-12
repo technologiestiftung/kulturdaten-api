@@ -6,25 +6,26 @@ import { Organization } from "../../../generated/models/Organization.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
 import { OrganizationsRepository } from "../repositories/OrganizationsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
 export class OrganizationsService {
 	constructor(@Inject("OrganizationsRepository") public organizationsRepository: OrganizationsRepository) {}
 
-	async list(pagination?: Pagination): Promise<Organization[]> {
-		return this.organizationsRepository.getOrganizations(pagination);
+	async list(pagination?: Pagination, searchFilter?: Filter): Promise<Organization[]> {
+		return this.organizationsRepository.getOrganizations(pagination, searchFilter);
 	}
 
-	async listAsReferences(pagination?: Pagination) {
-		return this.organizationsRepository.getOrganizationsAsReferences(pagination);
+	async listAsReferences(pagination?: Pagination, searchFilter?: Filter) {
+		return this.organizationsRepository.getOrganizationsAsReferences(pagination, searchFilter);
 	}
 
 	async search(filter?: Filter, pagination?: Pagination): Promise<Organization[]> {
 		return this.organizationsRepository.searchOrganizations(filter, pagination);
 	}
 
-	async create(resource: CreateOrganizationRequest): Promise<Reference | null> {
-		return await this.organizationsRepository.addOrganization(resource);
+	async create(resource: CreateOrganizationRequest, authUser?: AuthUser): Promise<Reference | null> {
+		return await this.organizationsRepository.addOrganization(resource, authUser);
 	}
 
 	async readById(id: string): Promise<Organization | null> {

@@ -84,11 +84,13 @@ npm start
 
 ## Initializing an empty database
 
-The `Seeder.ts` script assists in initializing your database. Use the `-t` or `--tags` flag to add predefined tags. To set up a starting organization (TSB), utilize the `-o` or `-organization` flag. To set up an admin user and them to the organization, utilize the `-a` or `--admin` flag followed by the credentials in the format `email:password`. All operations can be performed simultaneously in one command. For example:
+The Seeder.ts script assists in initializing your database. Use the -t or --tags flag to add predefined tags. For setting up organizations for Berlin boroughs (excluding 'außerhalb'), use the -b or --boroughs flag with a default password. To set up an admin user, utilize the -a or --admin flag followed by credentials in email:password format. Combine flags for simultaneous operations. Example:
 
 ```shell
-npm run seed -- --tags --organization --admin admin@example.com:password123
+npm run seed -- --tags --boroughs password123 --admin admin@example.com:password123
 ```
+
+Note: The script only populates empty collections to avoid duplicates and unintended overwrites, especially important for admin user creation.
 
 
 ## Contributing

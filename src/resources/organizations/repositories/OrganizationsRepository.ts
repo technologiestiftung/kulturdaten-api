@@ -5,13 +5,14 @@ import { Filter } from "../../../generated/models/Filter.generated";
 import { Organization } from "../../../generated/models/Organization.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:organizations-repository");
 
 export interface OrganizationsRepository {
-	getOrganizations(pagination?: Pagination): Promise<Organization[]>;
+	getOrganizations(pagination?: Pagination, filter?: Filter): Promise<Organization[]>;
 
-	getOrganizationsAsReferences(pagination?: Pagination): Promise<Reference[]>;
+	getOrganizationsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]>;
 
 	searchOrganizations(filter?: Filter, pagination?: Pagination): Promise<Organization[]>;
 
@@ -23,7 +24,7 @@ export interface OrganizationsRepository {
 
 	getOrganizationReferenceByIdentifier(identifier: string): Promise<Reference | null>;
 
-	addOrganization(createOrganization: CreateOrganizationRequest): Promise<Reference | null>;
+	addOrganization(createOrganization: CreateOrganizationRequest, creator?: AuthUser): Promise<Reference | null>;
 
 	updateOrganizationById(organizationId: string, organizationFields: UpdateOrganizationRequest): Promise<boolean>;
 

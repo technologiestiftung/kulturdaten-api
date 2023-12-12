@@ -21,6 +21,10 @@ import { generateOrganizationMembership } from "../../../utils/MembershipUtil";
 import { GetOrganizationMembershipsResponse } from "../../../generated/models/GetOrganizationMembershipsResponse.generated";
 import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 import { GetOrganizationMembershipResponse } from "../../../generated/models/GetOrganizationMembershipResponse.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Params } from "../../../common/parameters/Params";
+import { Organization } from "../../../generated/models/Organization.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
@@ -31,36 +35,33 @@ export class OrganizationsController implements ResourcePermissionController {
 		public userService: UsersService,
 	) {}
 
-	async listOrganizations(res: express.Response, pagination: Pagination) {
-		const organizations = await this.organizationsService.list(pagination);
-		const totalCount = await this.organizationsService.countOrganizations();
+	async listOrganizations(res: express.Response, pagination: Pagination, params?: Params) {
+		const filter: Filter = this.getOrganizationsFilter(params);
+		const totalCount = await this.organizationsService.countOrganizations(filter);
 
-		res.status(200).send(
-			new SuccessResponseBuilder<GetOrganizationsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					organizations: organizations,
-				})
-				.build(),
-		);
-	}
+		const sendOrganizationsResponse = (data: {
+			organizations?: Organization[];
+			organizationsReferences?: Reference[];
+		}) => {
+			res.status(200).send(
+				new SuccessResponseBuilder<GetOrganizationsResponse>()
+					.okResponse({
+						page: pagination.page,
+						pageSize: pagination.pageSize,
+						totalCount: totalCount,
+						...data,
+					})
+					.build(),
+			);
+		};
 
-	async listOrganizationsAsReference(res: express.Response, pagination: Pagination) {
-		const organizationsReferences = await this.organizationsService.listAsReferences(pagination);
-		const totalCount = await this.organizationsService.countOrganizations();
-
-		res.status(200).send(
-			new SuccessResponseBuilder<GetOrganizationsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					organizationsReferences: organizationsReferences,
-				})
-				.build(),
-		);
+		if (params?.asReference) {
+			const organizationsReferences = await this.organizationsService.listAsReferences(pagination, filter);
+			sendOrganizationsResponse({ organizationsReferences });
+		} else {
+			const organizations = await this.organizationsService.list(pagination, filter);
+			sendOrganizationsResponse({ organizations });
+		}
 	}
 
 	async searchOrganizations(
@@ -122,8 +123,8 @@ export class OrganizationsController implements ResourcePermissionController {
 		}
 	}
 
-	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest) {
-		const organizationReference = await this.organizationsService.create(createOrganization);
+	async createOrganization(res: express.Response, createOrganization: CreateOrganizationRequest, authUser?: AuthUser) {
+		const organizationReference = await this.organizationsService.create(createOrganization, authUser);
 		if (organizationReference) {
 			res
 				.status(201)
@@ -141,10 +142,14 @@ export class OrganizationsController implements ResourcePermissionController {
 		}
 	}
 
-	async createOrganizations(res: express.Response, createOrganizationsRequest: CreateOrganizationRequest[]) {
+	async createOrganizations(
+		res: express.Response,
+		createOrganizationsRequest: CreateOrganizationRequest[],
+		authUser?: AuthUser,
+	) {
 		const organizationsReferences: Promise<Reference | null>[] = [];
 		createOrganizationsRequest.forEach(async (request) => {
-			organizationsReferences.push(this.organizationsService.create(request));
+			organizationsReferences.push(this.organizationsService.create(request, authUser));
 		});
 		const oR = await Promise.all(organizationsReferences);
 
@@ -333,5 +338,13 @@ export class OrganizationsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the membership").build());
 		}
+	}
+
+	private getOrganizationsFilter(params?: Params): Filter {
+		const filter: Filter = {
+			...getEditableByFilter(params?.editableBy),
+		};
+
+		return filter;
 	}
 }

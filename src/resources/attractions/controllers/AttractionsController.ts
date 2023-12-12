@@ -18,47 +18,38 @@ import { AttractionsService } from "../services/AttractionsService";
 import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Params } from "../../../common/parameters/Params";
+import { Attraction } from "../../../generated/models/Attraction.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
 
 @Service()
 export class AttractionsController implements ResourcePermissionController {
 	constructor(public attractionsService: AttractionsService) {}
 
-	getCuratedByFilter(curatedBy?: string) {
-		return curatedBy ? { "curator.referenceId": curatedBy } : undefined;
-	}
+	async listAttractions(res: Response, pagination: Pagination, params?: Params) {
+		const filter: Filter = this.getAttractionsFilter(params);
+		const totalCount = await this.attractionsService.countAttractions(filter);
 
-	async listAttractions(res: Response, pagination: Pagination, curatedBy?: string) {
-		const attractions = await this.attractionsService.list(pagination, this.getCuratedByFilter(curatedBy));
-		const totalCount = await this.attractionsService.countAttractions(this.getCuratedByFilter(curatedBy));
-		res.status(200).send(
-			new SuccessResponseBuilder<GetAttractionsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					attractions: attractions,
-				})
-				.build(),
-		);
-	}
+		const sendAttractionsResponse = (data: { attractions?: Attraction[]; attractionsReferences?: Reference[] }) => {
+			res.status(200).send(
+				new SuccessResponseBuilder<GetAttractionsResponse>()
+					.okResponse({
+						page: pagination.page,
+						pageSize: pagination.pageSize,
+						totalCount: totalCount,
+						...data,
+					})
+					.build(),
+			);
+		};
 
-	async listAttractionsAsReference(res: Response, pagination: Pagination, curatedBy?: string) {
-		const attractionsReferences = await this.attractionsService.listAsReferences(
-			pagination,
-			this.getCuratedByFilter(curatedBy),
-		);
-		const totalCount = await this.attractionsService.countAttractions(this.getCuratedByFilter(curatedBy));
-
-		res.status(200).send(
-			new SuccessResponseBuilder<GetAttractionsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					attractionsReferences: attractionsReferences,
-				})
-				.build(),
-		);
+		if (params?.asReference) {
+			const attractionsReferences = await this.attractionsService.listAsReferences(pagination, filter);
+			sendAttractionsResponse({ attractionsReferences });
+		} else {
+			const attractions = await this.attractionsService.list(pagination, filter);
+			sendAttractionsResponse({ attractions });
+		}
 	}
 
 	async listAttractionsForAdmins(res: Response, pagination: Pagination) {
@@ -256,5 +247,18 @@ export class AttractionsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to unpublish the attraction").build());
 		}
+	}
+
+	private getCuratedByFilter(curatedBy?: string) {
+		return curatedBy ? { "curator.referenceId": curatedBy } : {};
+	}
+
+	private getAttractionsFilter(params?: Params): Filter {
+		const filter: Filter = {
+			...this.getCuratedByFilter(params?.curatedBy),
+			...getEditableByFilter(params?.editableBy),
+		};
+
+		return filter;
 	}
 }

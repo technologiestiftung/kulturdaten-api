@@ -13,6 +13,7 @@ import { generateAttractionID } from "../../../utils/IDUtil";
 import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil";
 import { generateAttractionReference, getAttractionReferenceProjection } from "../../../utils/ReferenceUtil";
 import { AttractionsRepository } from "./AttractionsRepository";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
 export class MongoDBAttractionsRepository implements AttractionsRepository {
@@ -45,13 +46,13 @@ export class MongoDBAttractionsRepository implements AttractionsRepository {
 		return this.get(filter, getAttractionReferenceProjection(), pagination);
 	}
 
-	async addAttraction(createAttraction: CreateAttractionRequest): Promise<Reference | null> {
+	async addAttraction(createAttraction: CreateAttractionRequest, creator?: AuthUser): Promise<Reference | null> {
 		const newAttraction: Attraction = {
 			...createAttraction,
 			type: "type.Attraction",
 			identifier: generateAttractionID(),
 			status: "attraction.published",
-			metadata: createMetadata(createAttraction.metadata),
+			metadata: createMetadata(creator, createAttraction.metadata),
 		};
 		const attractions = await this.dbConnector.attractions();
 		const result = await attractions.insertOne(newAttraction);

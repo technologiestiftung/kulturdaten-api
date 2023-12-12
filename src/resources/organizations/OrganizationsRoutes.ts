@@ -10,6 +10,8 @@ import { UpdateOrganizationRequest } from "../../generated/models/UpdateOrganiza
 import { getPagination } from "../../utils/RequestUtil";
 import { Permit } from "../auth/middleware/Permit";
 import { OrganizationsController } from "./controllers/OrganizationsController";
+import { AuthUser } from "../../generated/models/AuthUser.generated";
+import { Params } from "../../common/parameters/Params";
 
 @Service()
 export class OrganizationsRoutes {
@@ -22,21 +24,22 @@ export class OrganizationsRoutes {
 
 		router
 			.get(OrganizationsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
-				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
+				const params: Params = {
+					asReference: req.query.asReference as string,
+					editableBy: req.query.editableBy as string,
+				};
 
-				if (asReference) {
-					this.organizationsController.listOrganizationsAsReference(res, pagination);
-				} else {
-					this.organizationsController.listOrganizations(res, pagination);
-				}
+				this.organizationsController.listOrganizations(res, pagination, params);
 			})
 			.post(
 				OrganizationsRoutes.basePath + "/",
 				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesForAction(),
 				(req: express.Request, res: express.Response) => {
 					const createOrganizationRequest = req.body as CreateOrganizationRequest;
-					this.organizationsController.createOrganization(res, createOrganizationRequest);
+					const authUser = req.user as AuthUser;
+					this.organizationsController.createOrganization(res, createOrganizationRequest, authUser);
 				},
 			);
 
@@ -46,8 +49,8 @@ export class OrganizationsRoutes {
 			Permit.authorizesForAction(),
 			(req: express.Request, res: express.Response) => {
 				const createOrganizationsRequest = req.body as CreateOrganizationRequest[];
-
-				this.organizationsController.createOrganizations(res, createOrganizationsRequest);
+				const authUser = req.user as AuthUser;
+				this.organizationsController.createOrganizations(res, createOrganizationsRequest, authUser);
 			},
 		);
 
