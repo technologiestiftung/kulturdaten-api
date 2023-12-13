@@ -39,3 +39,12 @@ export const extractArrayQueryParam = (req: express.Request, paramName: string):
 		return undefined;
 	}
 };
+
+export const parseBooleanParameter = (req: express.Request, paramName: string): boolean | undefined => {
+	const paramValue = req.query[paramName];
+	if (paramValue === undefined) {
+		return undefined;
+	} else {
+		return (paramValue + "").toLowerCase() === "true";
+	}
+};

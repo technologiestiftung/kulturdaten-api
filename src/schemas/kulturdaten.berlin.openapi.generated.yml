@@ -437,7 +437,16 @@ paths:
         - name: isFreeOfCharge
           in: query
           required: false
-          description: Returns only the events that are free of charge
+          description: >
+            Filters the events based on the admission charge. 
+
+            When set to true, returns only the events that are free of charge. 
+
+            When set to false, returns only the events that are not free of
+            charge. 
+
+            If not provided, all events are returned irrespective of their
+            admission charge status.
           schema:
             type: boolean
       responses:

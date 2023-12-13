@@ -6,6 +6,8 @@ export interface FilterFactory {
 
 	createPartialMatchFilter(propertyName: string, value: string | undefined): Filter | undefined;
 
+	createNotEqualFilter(propertyName: string, value: string | undefined): Filter | undefined;
+
 	createAnyMatchFilter(propertyName: string, values: string[] | undefined): Filter | undefined;
 
 	createAllMatchFilter(propertyName: string, values: string[] | undefined): Filter | undefined;
@@ -31,6 +33,13 @@ export class MongoDBFilterFactory implements FilterFactory {
 		return { [propertyName as string]: { $regex: value, $options: "i" } };
 	}
 
+	createNotEqualFilter(propertyName: string, value: string | undefined): Filter | undefined {
+		if (value === undefined) {
+			return undefined;
+		}
+		return { [propertyName]: { $ne: value } };
+	}
+
 	createAnyMatchFilter(propertyName: string, values: string[] | undefined): Filter | undefined {
 		if (!values) {
 			return undefined;
@@ -46,7 +55,7 @@ export class MongoDBFilterFactory implements FilterFactory {
 	}
 
 	combineWithAnd(filters: (Filter | undefined)[]): Filter {
-		const validFilters = filters.filter((f) => f !== undefined) as Filter[];
+		const validFilters = filters.filter((f) => f && Object.keys(f).length > 0) as Filter[];
 		if (validFilters.length > 0) {
 			return { $and: validFilters };
 		} else {
@@ -55,7 +64,7 @@ export class MongoDBFilterFactory implements FilterFactory {
 	}
 
 	combineWithOr(filters: (Filter | undefined)[]): Filter {
-		const validFilters = filters.filter((f) => f !== undefined) as Filter[];
+		const validFilters = filters.filter((f) => f && Object.keys(f).length > 0) as Filter[];
 		if (validFilters.length > 0) {
 			return { $or: validFilters };
 		} else {

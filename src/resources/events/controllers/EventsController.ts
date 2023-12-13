@@ -37,8 +37,18 @@ export class EventsController implements ResourcePermissionController {
 	) {}
 
 	async listEvents(res: express.Response, pagination: Pagination, params?: EventParams) {
-		const filter: Filter = this.getEventsFilter(params);
+		let filter: Filter = this.getEventsFilter(params);
+		let isFreeOfChargeFilter = undefined;
+		if (params?.isFreeOfCharge === true) {
+			isFreeOfChargeFilter = this.filterFactory.createExactMatchFilter(
+				"admission.ticketType",
+				"ticketType.freeOfCharge",
+			);
+		} else if (params?.isFreeOfCharge === false) {
+			isFreeOfChargeFilter = this.filterFactory.createNotEqualFilter("admission.ticketType", "ticketType.freeOfCharge");
+		}
 
+		filter = this.filterFactory.combineWithAnd([filter, isFreeOfChargeFilter]);
 		const totalCount = await this.eventsService.countEvents(filter);
 
 		const sendEventsResponse = (data: { events?: Event[]; eventsReferences?: Reference[] }) => {
@@ -345,7 +355,6 @@ export class EventsController implements ResourcePermissionController {
 			...this.getByLocationFilter(params?.byLocation),
 			...this.getByAttractionFilter(params?.byAttraction),
 		};
-
 		return filter;
 	}
 }
