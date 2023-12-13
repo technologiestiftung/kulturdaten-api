@@ -378,10 +378,25 @@ paths:
             Filters the events based on their occurrence in the future.
             When set to true, returns only events that are scheduled to occur in the future.
             When set to false, returns events regardless of their scheduled date.
-            If not provided, the default behavior is to return only events in the future.
           schema:
             type: boolean
             default: true
+        - name: startDate
+          in: query
+          required: false
+          description: The start date of the range for filtering events. Events on or after this date will be included. The date should be in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: "2023-01-01"
+        - name: endDate
+          in: query
+          required: false
+          description: The end date of the range for filtering events. Events on or before this date will be included. The date should be in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: "2023-12-31"
         - name: organizedBy
           in: query
           required: false

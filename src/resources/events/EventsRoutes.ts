@@ -41,6 +41,8 @@ export class EventsRoutes {
 					byAttraction: req.query.byAttraction as string,
 					isFreeOfCharge: parseBooleanParameter(req, "isFreeOfCharge"),
 					inFuture: parseBooleanParameter(req, "inFuture"),
+					startDate: req.query.startDate as string,
+					endDate: req.query.endDate as string,
 				};
 
 				this.eventsController.listEvents(res, pagination, params);

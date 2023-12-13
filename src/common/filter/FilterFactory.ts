@@ -14,6 +14,13 @@ export interface FilterFactory {
 
 	createFutureDateFilter(propertyName: string): Filter | undefined;
 
+	createDateRangeFilter(
+		startDateProperty: string,
+		endDateProperty: string,
+		startDate?: string,
+		endDate?: string,
+	): Filter | undefined;
+
 	combineWithAnd(filters: (Filter | undefined)[]): Filter;
 
 	combineWithOr(filters: (Filter | undefined)[]): Filter;
@@ -59,6 +66,25 @@ export class MongoDBFilterFactory implements FilterFactory {
 	createFutureDateFilter(propertyName: string): Filter | undefined {
 		const currentDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD Format
 		return { [propertyName]: { $gte: currentDate } };
+	}
+
+	createDateRangeFilter(
+		startDateProperty: string,
+		endDateProperty: string,
+		startDate?: string,
+		endDate?: string,
+	): Filter | undefined {
+		if (startDate && endDate) {
+			return {
+				$and: [{ [startDateProperty]: { $gte: startDate } }, { [endDateProperty]: { $lte: endDate } }],
+			};
+		} else if (startDate) {
+			return { [startDateProperty]: { $gte: startDate } };
+		} else if (endDate) {
+			return { [endDateProperty]: { $lte: endDate } };
+		} else {
+			return undefined;
+		}
 	}
 
 	combineWithAnd(filters: (Filter | undefined)[]): Filter {
