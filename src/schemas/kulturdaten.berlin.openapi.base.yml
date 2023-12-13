@@ -371,6 +371,17 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: inFuture
+          in: query
+          required: false
+          description: |
+            Filters the events based on their occurrence in the future.
+            When set to true, returns only events that are scheduled to occur in the future.
+            When set to false, returns events regardless of their scheduled date.
+            If not provided, the default behavior is to return only events in the future.
+          schema:
+            type: boolean
+            default: true
         - name: organizedBy
           in: query
           required: false
@@ -401,7 +412,7 @@ paths:
           description: |
             Filters the events based on the admission charge. 
             When set to true, returns only the events that are free of charge. 
-            When set to false, returns only the events that are not free of charge. 
+            When set to false, returns events regardless of their admission charge status.
             If not provided, all events are returned irrespective of their admission charge status.
           schema:
             type: boolean

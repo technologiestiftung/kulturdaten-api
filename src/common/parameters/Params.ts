@@ -16,6 +16,7 @@ export type EventParams = Params & {
 	byLocation?: string;
 	byAttraction?: string;
 	isFreeOfCharge?: boolean;
+	inFuture?: boolean;
 };
 
 export type LocationParams = Params & {

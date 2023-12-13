@@ -38,17 +38,19 @@ export class EventsController implements ResourcePermissionController {
 
 	async listEvents(res: express.Response, pagination: Pagination, params?: EventParams) {
 		let filter: Filter = this.getEventsFilter(params);
-		let isFreeOfChargeFilter = undefined;
 		if (params?.isFreeOfCharge === true) {
-			isFreeOfChargeFilter = this.filterFactory.createExactMatchFilter(
+			const isFreeOfChargeFilter = this.filterFactory.createExactMatchFilter(
 				"admission.ticketType",
 				"ticketType.freeOfCharge",
 			);
-		} else if (params?.isFreeOfCharge === false) {
-			isFreeOfChargeFilter = this.filterFactory.createNotEqualFilter("admission.ticketType", "ticketType.freeOfCharge");
+			filter = this.filterFactory.combineWithAnd([filter, isFreeOfChargeFilter]);
 		}
-
-		filter = this.filterFactory.combineWithAnd([filter, isFreeOfChargeFilter]);
+		if (params?.inFuture === true || params?.inFuture === undefined) {
+			const inFutureFilter = this.filterFactory.createFutureDateFilter("schedule.startDate");
+			filter = this.filterFactory.combineWithAnd([filter, inFutureFilter]);
+		}
+		console.log(filter);
+		
 		const totalCount = await this.eventsService.countEvents(filter);
 
 		const sendEventsResponse = (data: { events?: Event[]; eventsReferences?: Reference[] }) => {

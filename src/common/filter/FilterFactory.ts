@@ -12,6 +12,8 @@ export interface FilterFactory {
 
 	createAllMatchFilter(propertyName: string, values: string[] | undefined): Filter | undefined;
 
+	createFutureDateFilter(propertyName: string): Filter | undefined;
+
 	combineWithAnd(filters: (Filter | undefined)[]): Filter;
 
 	combineWithOr(filters: (Filter | undefined)[]): Filter;
@@ -52,6 +54,11 @@ export class MongoDBFilterFactory implements FilterFactory {
 			return undefined;
 		}
 		return { [propertyName as string]: { $all: values } };
+	}
+
+	createFutureDateFilter(propertyName: string): Filter | undefined {
+		const currentDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD Format
+		return { [propertyName]: { $gte: currentDate } };
 	}
 
 	combineWithAnd(filters: (Filter | undefined)[]): Filter {

@@ -40,6 +40,7 @@ export class EventsRoutes {
 					byLocation: req.query.byLocation as string,
 					byAttraction: req.query.byAttraction as string,
 					isFreeOfCharge: parseBooleanParameter(req, "isFreeOfCharge"),
+					inFuture: parseBooleanParameter(req, "inFuture"),
 				};
 
 				this.eventsController.listEvents(res, pagination, params);
