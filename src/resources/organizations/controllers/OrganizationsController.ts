@@ -1,6 +1,6 @@
 import debug from "debug";
 import express from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
@@ -25,6 +25,7 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { OrganizationParams } from "../../../common/parameters/Params";
 import { Organization } from "../../../generated/models/Organization.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
@@ -33,6 +34,7 @@ export class OrganizationsController implements ResourcePermissionController {
 	constructor(
 		public organizationsService: OrganizationsService,
 		public userService: UsersService,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
 	) {}
 
 	async listOrganizations(res: express.Response, pagination: Pagination, params?: OrganizationParams) {

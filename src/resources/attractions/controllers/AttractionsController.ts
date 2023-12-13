@@ -27,7 +27,7 @@ import { FilterFactory } from "../../../common/filter/FilterFactory";
 export class AttractionsController implements ResourcePermissionController {
 	constructor(
 		public attractionsService: AttractionsService,
-		@Inject("AttractionFilterFactory") public filterFactory: FilterFactory<Attraction>,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
 	) {}
 
 	async listAttractions(res: Response, pagination: Pagination, params?: AttractionParams) {

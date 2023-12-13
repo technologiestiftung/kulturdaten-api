@@ -1,5 +1,5 @@
 export type Params = {
-	[key: string]: string | string[] | undefined;
+	[key: string]: string | string[] | boolean | undefined;
 };
 
 export type AttractionParams = Params & {
@@ -15,6 +15,7 @@ export type EventParams = Params & {
 	editableBy?: string;
 	byLocation?: string;
 	byAttraction?: string;
+	isFreeOfCharge?: boolean;
 };
 
 export type LocationParams = Params & {

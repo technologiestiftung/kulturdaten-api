@@ -38,6 +38,7 @@ export class EventsRoutes {
 					editableBy: req.query.editableBy as string,
 					byLocation: req.query.byLocation as string,
 					byAttraction: req.query.byAttraction as string,
+					isFreeOfCharge: req.query.isFreeOfCharge === "true",
 				};
 
 				this.eventsController.listEvents(res, pagination, params);

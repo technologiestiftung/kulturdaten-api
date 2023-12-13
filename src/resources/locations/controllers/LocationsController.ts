@@ -28,7 +28,7 @@ const log: debug.IDebugger = debug("app:locations-controller");
 export class LocationsController implements ResourcePermissionController {
 	constructor(
 		public locationsService: LocationsService,
-		@Inject("AttractionFilterFactory") public filterFactory: FilterFactory<Location>,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
 	) {}
 
 	async listLocations(res: express.Response, pagination: Pagination, params?: LocationParams) {

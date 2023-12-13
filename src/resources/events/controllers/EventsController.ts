@@ -1,6 +1,6 @@
 import debug from "debug";
 import express from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
@@ -25,15 +25,20 @@ import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.g
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Event } from "../../../generated/models/Event.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
 @Service()
 export class EventsController implements ResourcePermissionController {
-	constructor(public eventsService: EventsService) {}
+	constructor(
+		public eventsService: EventsService,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
+	) {}
 
 	async listEvents(res: express.Response, pagination: Pagination, params?: EventParams) {
 		const filter: Filter = this.getEventsFilter(params);
+
 		const totalCount = await this.eventsService.countEvents(filter);
 
 		const sendEventsResponse = (data: { events?: Event[]; eventsReferences?: Reference[] }) => {

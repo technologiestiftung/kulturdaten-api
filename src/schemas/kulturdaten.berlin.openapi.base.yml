@@ -395,6 +395,12 @@ paths:
           description: Returns only the events that include the specified Attraction-ID
           schema:
             type: string
+        - name: isFreeOfCharge
+          in: query
+          required: false
+          description: Returns only the events that are free of charge
+          schema:
+            type: boolean
            
       responses:
         "200":

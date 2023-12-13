@@ -35,7 +35,6 @@ import { UsersRoutes } from "./resources/users/UsersRoutes";
 import { MongoDBUsersRepository } from "./resources/users/repositories/MongoDBUsersRepository";
 import { UsersService } from "./resources/users/services/UsersService";
 import { MongoDBFilterFactory } from "./common/filter/FilterFactory";
-import { Attraction } from "./generated/models/Attraction.generated";
 
 export class KulturdatenBerlinApp {
 	constructor(public app: express.Application) {}
@@ -118,7 +117,7 @@ export class KulturdatenBerlinApp {
 		Container.set("TagsRepository", new MongoDBTagsRepository(Container.get("Database")));
 		Container.import([]);
 
-		Container.set("AttractionFilterFactory", new MongoDBFilterFactory<Attraction>());
+		Container.set("FilterFactory", new MongoDBFilterFactory());
 	}
 
 	private initLogger() {
