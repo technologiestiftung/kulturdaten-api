@@ -28,3 +28,23 @@ function adjust(value: number, defaultMinValue: number, defaultMaxValue?: number
 	}
 	return value;
 }
+
+export const extractArrayQueryParam = (req: express.Request, paramName: string): string[] | undefined => {
+	const paramValue = req.query[paramName];
+	if (Array.isArray(paramValue)) {
+		return paramValue as string[];
+	} else if (paramValue) {
+		return [paramValue as string];
+	} else {
+		return undefined;
+	}
+};
+
+export const parseBooleanParameter = (req: express.Request, paramName: string): boolean | undefined => {
+	const paramValue = req.query[paramName];
+	if (paramValue === undefined) {
+		return undefined;
+	} else {
+		return (paramValue + "").toLowerCase() === "true";
+	}
+};

@@ -11,12 +11,12 @@ import { RescheduleEventRequest } from "../../generated/models/RescheduleEventRe
 import { SearchEventsRequest } from "../../generated/models/SearchEventsRequest.generated";
 import { SetEventOrganizerRequest } from "../../generated/models/SetEventOrganizerRequest.generated";
 import { UpdateEventRequest } from "../../generated/models/UpdateEventRequest.generated";
-import { getPagination } from "../../utils/RequestUtil";
+import { getPagination, parseBooleanParameter } from "../../utils/RequestUtil";
 import { EventsController } from "./controllers/EventsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { CreateEventRequest } from "../../generated/models/CreateEventRequest.generated";
-import { Params } from "../../common/parameters/Params";
+import { EventParams } from "../../common/parameters/Params";
 
 const log: debug.IDebugger = debug("app:events-routes");
 
@@ -32,12 +32,17 @@ export class EventsRoutes {
 		router
 			.get(EventsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const pagination: Pagination = getPagination(req);
-				const params: Params = {
+
+				const params: EventParams = {
 					asReference: req.query.asReference as string,
 					organizedBy: req.query.organizedBy as string,
 					editableBy: req.query.editableBy as string,
 					byLocation: req.query.byLocation as string,
 					byAttraction: req.query.byAttraction as string,
+					isFreeOfCharge: parseBooleanParameter(req, "isFreeOfCharge"),
+					inFuture: parseBooleanParameter(req, "inFuture"),
+					startDate: req.query.startDate as string,
+					endDate: req.query.endDate as string,
 				};
 
 				this.eventsController.listEvents(res, pagination, params);

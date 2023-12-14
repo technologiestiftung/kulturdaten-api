@@ -8,11 +8,11 @@ import { CreateAttractionRequest } from "../../generated/models/CreateAttraction
 import { RemoveExternalLinkRequest } from "../../generated/models/RemoveExternalLinkRequest.generated";
 import { SearchAttractionsRequest } from "../../generated/models/SearchAttractionsRequest.generated";
 import { UpdateAttractionRequest } from "../../generated/models/UpdateAttractionRequest.generated";
-import { getPagination } from "../../utils/RequestUtil";
+import { extractArrayQueryParam, getPagination } from "../../utils/RequestUtil";
 import { AttractionsController } from "./controllers/AttractionsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
-import { Params } from "../../common/parameters/Params";
+import { AttractionParams } from "../../common/parameters/Params";
 
 const log: debug.IDebugger = debug("app:attractions-routes");
 
@@ -28,10 +28,14 @@ export class AttractionsRoutes {
 		router
 			.get(AttractionsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const pagination: Pagination = getPagination(req);
-				const params: Params = {
+				const anyTags: string[] | undefined = extractArrayQueryParam(req, "anyTags");
+				const allTags: string[] | undefined = extractArrayQueryParam(req, "allTags");
+				const params: AttractionParams = {
 					asReference: req.query.asReference as string,
 					curatedBy: req.query.curatedBy as string,
 					editableBy: req.query.editableBy as string,
+					anyTags: anyTags,
+					allTags: allTags,
 				};
 
 				this.attractionsController.listAttractions(res, pagination, params);
