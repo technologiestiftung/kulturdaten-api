@@ -8,6 +8,7 @@ import { LocationsService } from "../../../resources/locations/services/Location
 import { OrganizationsService } from "../../../resources/organizations/services/OrganizationsService";
 import { TagsService } from "../../../resources/tags/services/tags.service";
 import { HarvesterClient } from "../../client/HarvesterClient";
+import { getBoroughOfficeOrganizationID } from "../../../utils/IDUtil";
 import {
 	Barrierefreiheit,
 	Bezirke,
@@ -17,6 +18,8 @@ import {
 	Veranstaltungsorte,
 } from "../model/Bezirksdaten";
 import { DistrictDataMapper } from "./DistrictDataMapper";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Borough } from "../../../generated/models/Borough.generated";
 
 type ReferenceMap = { [originObjectID: string]: Reference };
 
@@ -44,7 +47,7 @@ export class DistrictDataService {
 		public tagsService: TagsService,
 	) {}
 
-	async harvestDistrictData(calendarIDs: string[]): Promise<HarvestResult> {
+	async harvestDistrictData(calendarIDs: string[], authUser: AuthUser): Promise<HarvestResult> {
 		const createdOrganizations: ReferenceMap = {};
 		const duplicateOrganizations: ReferenceMap = {};
 		const createdLocations: ReferenceMap = {};
@@ -62,7 +65,7 @@ export class DistrictDataService {
 				const districtData = await this.harvesterClient.fetchData(url);
 
 				const { createdOrganizations: organizations, duplicateOrganizations: dOrganizations } =
-					await this.createOrganizations(districtData.veranstalter, districtData.bezirke);
+					await this.createOrganizations(districtData.veranstalter, districtData.bezirke, authUser);
 				Object.assign(createdOrganizations, organizations);
 				Object.assign(duplicateOrganizations, dOrganizations);
 
@@ -71,6 +74,7 @@ export class DistrictDataService {
 					districtData.barrierefreiheit,
 					districtData.bezirke,
 					tags,
+					authUser,
 				);
 				Object.assign(createdLocations, locations);
 				Object.assign(duplicateLocations, dLocations);
@@ -86,6 +90,7 @@ export class DistrictDataService {
 					{ ...duplicateLocations, ...createdLocations },
 					tags,
 					districtData.bezirke,
+					authUser,
 				);
 				Object.assign(createdAttractions, attractions);
 				Object.assign(duplicateAttractions, dAttractions);
@@ -111,6 +116,7 @@ export class DistrictDataService {
 	async createOrganizations(
 		veranstalterList: VeranstalterList,
 		bezirke: Bezirke,
+		authUser: AuthUser,
 	): Promise<{
 		createdOrganizations: ReferenceMap;
 		duplicateOrganizations: ReferenceMap;
@@ -128,8 +134,13 @@ export class DistrictDataService {
 					referenceLabel: dOrganizations[0].title,
 				};
 			} else {
-				const createOrganizationRequests = this.mapper.mapOrganisation(veranstalter, bezirke);
-				const createdOrganizationReference = await this.organizationService.create(createOrganizationRequests);
+				const createOrganizationRequests = this.mapper.mapOrganisation(veranstalter);
+				const editableBy = this.getEditableBy(veranstalter.bezirk_id, authUser.organizationIdentifier || "", bezirke);
+				authUser.organizationIdentifier = editableBy;
+				const createdOrganizationReference = await this.organizationService.create(
+					createOrganizationRequests,
+					authUser,
+				);
 
 				if (createdOrganizationReference) {
 					createdOrganizations[veranstalter.id] = createdOrganizationReference;
@@ -144,6 +155,7 @@ export class DistrictDataService {
 		barrierefreiheit: Barrierefreiheit,
 		bezirke: Bezirke,
 		tags: Tag[],
+		authUser: AuthUser,
 	): Promise<{
 		createdLocations: ReferenceMap;
 		duplicateLocations: ReferenceMap;
@@ -164,7 +176,13 @@ export class DistrictDataService {
 				};
 			} else {
 				const createLocationRequest = this.mapper.mapLocation(veranstaltungsort, barrierefreiheit, bezirke, tags);
-				const createdLocationReference = await this.locationService.create(createLocationRequest);
+				const editableBy = this.getEditableBy(
+					veranstaltungsort.bezirk_id,
+					authUser.organizationIdentifier || "",
+					bezirke,
+				);
+				authUser.organizationIdentifier = editableBy;
+				const createdLocationReference = await this.locationService.create(createLocationRequest, authUser);
 				if (createdLocationReference) {
 					createdLocations[veranstaltungsort.id] = createdLocationReference;
 				}
@@ -179,6 +197,7 @@ export class DistrictDataService {
 		locations: ReferenceMap,
 		tags: Tag[],
 		bezirke: Bezirke,
+		authUser: AuthUser,
 	): Promise<{
 		createdAttractions: ReferenceMap;
 		duplicateAttractions: ReferenceMap;
@@ -202,8 +221,15 @@ export class DistrictDataService {
 					referenceLabel: duplicatedAttractions[0].title,
 				};
 			} else {
-				const createAttractionRequest = this.mapper.mapAttraction(veranstaltung, tags, bezirke);
-				const createdAtttractionReference = await this.attractionService.create(createAttractionRequest);
+				const createAttractionRequest = this.mapper.mapAttraction(veranstaltung, tags);
+				const editableBy = this.getEditableBy(
+					veranstaltung.event_bezirk_id,
+					authUser.organizationIdentifier || "",
+					bezirke,
+				);
+				authUser.organizationIdentifier = editableBy;
+				const createdAtttractionReference = await this.attractionService.create(createAttractionRequest, authUser);
+
 				if (createdAtttractionReference) {
 					createdAttractions[veranstaltung.event_id] = createdAtttractionReference;
 				}
@@ -227,9 +253,15 @@ export class DistrictDataService {
 						{ ...duplicateAttractions, ...createdAttractions }[veranstaltung.event_id],
 						locations[veranstaltung.event_veranstaltungsort_id],
 						organizations[veranstaltung.event_veranstalter_id],
+					);
+					const editableBy = this.getEditableBy(
+						veranstaltung.event_bezirk_id,
+						authUser.organizationIdentifier || "",
 						bezirke,
 					);
-					const createdEventReference = await this.eventService.create(createEventRequest);
+					authUser.organizationIdentifier = editableBy;
+
+					const createdEventReference = await this.eventService.create(createEventRequest, authUser);
 					if (createdEventReference) {
 						createdEvents[termin.id] = createdEventReference;
 					}
@@ -250,5 +282,14 @@ export class DistrictDataService {
 			"metadata.originObjectID": String(originalID),
 			"metadata.origin": "bezirkskalender",
 		};
+	}
+
+	private getEditableBy(bezirk_id: number | null, defaultId: string, bezirke?: Bezirke): string {
+		if (bezirk_id && bezirke && bezirke[bezirk_id].DE) {
+			const borough = bezirke[bezirk_id].DE.split(" ")[0] as Borough;
+			return getBoroughOfficeOrganizationID(borough);
+		} else {
+			return defaultId;
+		}
 	}
 }
