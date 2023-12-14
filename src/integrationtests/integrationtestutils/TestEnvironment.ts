@@ -29,6 +29,7 @@ import { UsersRepository } from "../../resources/users/repositories/UsersReposit
 import { UsersService } from "../../resources/users/services/UsersService";
 import { MongoDBUsersRepository } from "../../resources/users/repositories/MongoDBUsersRepository";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
+import { MongoDBFilterFactory } from "../../common/filter/FilterFactory";
 
 export class TestEnvironment {
 	createUser(
@@ -120,7 +121,7 @@ export class TestEnvironment {
 	withEventsRoutes(): TestEnvironment {
 		this.eventsRepository = new MongoDBEventsRepository(this.connector);
 		this.eventsService = new EventsService(this.eventsRepository);
-		this.eventsController = new EventsController(this.eventsService);
+		this.eventsController = new EventsController(this.eventsService, new MongoDBFilterFactory());
 		this.eventsRoutes = new EventsRoutes(this.eventsController);
 		this.events = this.db.collection("events");
 		this.app.use("/", this.eventsRoutes.getRouter());
@@ -131,7 +132,7 @@ export class TestEnvironment {
 	withLocationsRoutes(): TestEnvironment {
 		this.locationsRepository = new MongoDBLocationsRepository(this.connector);
 		this.locationsService = new LocationsService(this.locationsRepository);
-		this.locationsController = new LocationsController(this.locationsService);
+		this.locationsController = new LocationsController(this.locationsService, new MongoDBFilterFactory());
 		this.locationsRoutes = new LocationsRoutes(this.locationsController);
 		this.locations = this.db.collection("locations");
 		this.app.use("/", this.locationsRoutes.getRouter());
@@ -146,7 +147,11 @@ export class TestEnvironment {
 
 		this.organizationsRepository = new MongoDBOrganizationsRepository(this.connector);
 		this.organizationsService = new OrganizationsService(this.organizationsRepository);
-		this.organizationsController = new OrganizationsController(this.organizationsService, this.usersService);
+		this.organizationsController = new OrganizationsController(
+			this.organizationsService,
+			this.usersService,
+			new MongoDBFilterFactory(),
+		);
 		this.organizationsRoutes = new OrganizationsRoutes(this.organizationsController);
 		this.organizations = this.db.collection("organizations");
 		this.app.use("/", this.organizationsRoutes.getRouter());
@@ -157,7 +162,7 @@ export class TestEnvironment {
 	withAttractionsRoutes(): TestEnvironment {
 		this.attractionsRepository = new MongoDBAttractionsRepository(this.connector);
 		this.attractionsService = new AttractionsService(this.attractionsRepository, this.eventsRepository);
-		this.attractionsController = new AttractionsController(this.attractionsService);
+		this.attractionsController = new AttractionsController(this.attractionsService, new MongoDBFilterFactory());
 		this.attractionsRoutes = new AttractionsRoutes(this.attractionsController);
 		this.attractions = this.db.collection("attractions");
 		this.app.use("/", this.attractionsRoutes.getRouter());

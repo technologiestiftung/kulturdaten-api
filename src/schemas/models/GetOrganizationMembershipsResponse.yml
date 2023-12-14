@@ -12,7 +12,7 @@ properties:
       memberships:
         type: array
         items:
-            $ref: "OrganizationMembership.yml"
+          $ref: "OrganizationMembership.yml"
     additionalProperties: false
 required:
   - success

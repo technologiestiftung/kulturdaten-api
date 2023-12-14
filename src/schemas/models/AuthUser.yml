@@ -1,17 +1,17 @@
 type: object
 properties:
-  identifier: 
+  identifier:
     type: string
-  organizationIdentifier: 
+  organizationIdentifier:
     type: string
     nullable: true
-  role: 
+  role:
     $ref: "Role.yml"
-  permissionFlags: 
+  permissionFlags:
     type: number
   iat:
     type: number
-  exp: 
+  exp:
     type: number
 required:
   - identifier
