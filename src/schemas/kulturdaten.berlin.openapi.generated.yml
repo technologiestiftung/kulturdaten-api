@@ -425,14 +425,11 @@ paths:
         - name: inFuture
           in: query
           required: false
-          description: >
-            Filters the events based on their occurrence in the future.
-
-            When set to true, returns only events that are scheduled to occur in
-            the future.
-
-            When set to false, returns events regardless of their scheduled
-            date.
+          description: >-
+            Filters the events based on their occurrence in the future. When set
+            to true, returns only events that are scheduled to occur in the
+            future. When set to false, returns events regardless of their
+            scheduled date.
           schema:
             type: boolean
             default: true
@@ -483,16 +480,12 @@ paths:
         - name: isFreeOfCharge
           in: query
           required: false
-          description: >
-            Filters the events based on the admission charge. 
-
-            When set to true, returns only the events that are free of charge. 
-
-            When set to false, returns events regardless of their admission
+          description: >-
+            Filters the events based on the admission charge. When set to true,
+            returns only the events that are free of charge. When set to false,
+            returns events regardless of their admission charge status. If not
+            provided, all events are returned irrespective of their admission
             charge status.
-
-            If not provided, all events are returned irrespective of their
-            admission charge status.
           schema:
             type: boolean
       responses:

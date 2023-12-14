@@ -384,7 +384,7 @@ paths:
         - name: inFuture
           in: query
           required: false
-          description: |
+          description: 
             Filters the events based on their occurrence in the future.
             When set to true, returns only events that are scheduled to occur in the future.
             When set to false, returns events regardless of their scheduled date.
@@ -434,7 +434,7 @@ paths:
         - name: isFreeOfCharge
           in: query
           required: false
-          description: |
+          description: 
             Filters the events based on the admission charge. 
             When set to true, returns only the events that are free of charge. 
             When set to false, returns events regardless of their admission charge status.
