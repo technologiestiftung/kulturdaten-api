@@ -8,7 +8,7 @@ import { CreateAttractionRequest } from "../../generated/models/CreateAttraction
 import { RemoveExternalLinkRequest } from "../../generated/models/RemoveExternalLinkRequest.generated";
 import { SearchAttractionsRequest } from "../../generated/models/SearchAttractionsRequest.generated";
 import { UpdateAttractionRequest } from "../../generated/models/UpdateAttractionRequest.generated";
-import { extractArrayQueryParam, getPagination } from "../../utils/RequestUtil";
+import { extractArrayQueryParam, getPagination, parseBooleanParameter } from "../../utils/RequestUtil";
 import { AttractionsController } from "./controllers/AttractionsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
@@ -36,6 +36,7 @@ export class AttractionsRoutes {
 					editableBy: req.query.editableBy as string,
 					anyTags: anyTags,
 					allTags: allTags,
+					withEvents: parseBooleanParameter(req, "withEvents"),
 				};
 
 				this.attractionsController.listAttractions(res, pagination, params);
