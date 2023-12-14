@@ -96,6 +96,16 @@ paths:
           description: Returns only the Attractions editable by the entered Organization-ID
           schema:
             type: string
+        - name: withEvents
+          description: |
+            Specifies whether to include a list of related events for each attraction in the response. 
+            When set to true, the response will contain an additional field listing events associated with each attraction. 
+            If false or omitted, the response includes only the attractions without their related events.
+          in: query
+          required: false
+          example: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK

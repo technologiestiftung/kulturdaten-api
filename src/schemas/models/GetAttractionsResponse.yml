@@ -17,6 +17,10 @@ properties:
             type: array
             items:
               $ref: "Reference.yml"
+          attractionsWithEvents:
+            type: array
+            items:
+              $ref: "AttractionWithEvents.yml"
 required:
   - success
 additionalProperties: false
