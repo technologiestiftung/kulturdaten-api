@@ -131,20 +131,37 @@ paths:
           schema:
             type: string
         - name: withEvents
-          description: >
+          description: >-
             Specifies whether to include a list of related events for each
-            attraction in the response. 
-
-            When set to true, the response will contain an additional field
-            listing events associated with each attraction. 
-
-            If false or omitted, the response includes only the attractions
-            without their related events.
+            attraction in the response. When set to true, the response will
+            contain an additional field listing events associated with each
+            attraction. If false or omitted, the response includes only the
+            attractions without their related events.
           in: query
           required: false
           example: false
           schema:
             type: boolean
+        - name: anyTags
+          in: query
+          required: false
+          description: Returns only the Attractions that match any of the specified tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: allTags
+          in: query
+          required: false
+          description: Returns only the Attractions that match all of the specified tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: OK
@@ -405,6 +422,40 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: inFuture
+          in: query
+          required: false
+          description: >
+            Filters the events based on their occurrence in the future.
+
+            When set to true, returns only events that are scheduled to occur in
+            the future.
+
+            When set to false, returns events regardless of their scheduled
+            date.
+          schema:
+            type: boolean
+            default: true
+        - name: startDate
+          in: query
+          required: false
+          description: >-
+            The start date of the range for filtering events. Events on or after
+            this date will be included. The date should be in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: "2023-01-01"
+        - name: endDate
+          in: query
+          required: false
+          description: >-
+            The end date of the range for filtering events. Events on or before
+            this date will be included. The date should be in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: "2023-12-31"
         - name: organizedBy
           in: query
           required: false
@@ -429,6 +480,21 @@ paths:
           description: Returns only the events that include the specified Attraction-ID
           schema:
             type: string
+        - name: isFreeOfCharge
+          in: query
+          required: false
+          description: >
+            Filters the events based on the admission charge. 
+
+            When set to true, returns only the events that are free of charge. 
+
+            When set to false, returns events regardless of their admission
+            charge status.
+
+            If not provided, all events are returned irrespective of their
+            admission charge status.
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -795,6 +861,30 @@ paths:
           description: Returns only the locations editable by the entered Organization-ID
           schema:
             type: string
+        - name: anyAccessibilities
+          in: query
+          required: false
+          description: >-
+            Returns only the Locations that match any of the specified
+            accessibility tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: allAccessibilities
+          in: query
+          required: false
+          description: >-
+            Returns only the Locations that match all of the specified
+            accessibility tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: OK
@@ -1756,7 +1846,7 @@ components:
         type: number
     pageSize:
       name: pageSize
-      description: Default value is 30
+      description: Default value is 30. Max value is 500.
       in: query
       required: false
       example: 30
