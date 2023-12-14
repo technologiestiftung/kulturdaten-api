@@ -4,13 +4,14 @@ import { SuccessResponseBuilder } from "../../../common/responses/SuccessRespons
 import { Reference } from "../../../generated/models/Reference.generated";
 import { DistrictDataService } from "../services/DistrictDataService";
 import { HarvestResponse } from "../../../generated/models/HarvestResponse.generated";
+import { AuthUser } from "../../../generated/models/AuthUser.generated";
 
 @Service()
 export class DistrictDataHarvestersController {
 	constructor(public service: DistrictDataService) {}
 
-	async harvest(res: Response, calendarIDs: string[]) {
-		const harvestResult = await this.service.harvestDistrictData(calendarIDs);
+	async harvest(res: Response, calendarIDs: string[], authUser: AuthUser) {
+		const harvestResult = await this.service.harvestDistrictData(calendarIDs, authUser);
 
 		res.status(200).send(
 			new SuccessResponseBuilder<HarvestResponse>()

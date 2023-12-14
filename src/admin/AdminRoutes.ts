@@ -6,6 +6,7 @@ import { AttractionsController } from "../resources/attractions/controllers/Attr
 import { Permit } from "../resources/auth/middleware/Permit";
 import { getPagination } from "../utils/RequestUtil";
 import { DistrictDataHarvestersController } from "./districtData/controllers/DistrictDataHarvestersController";
+import { AuthUser } from "../generated/models/AuthUser.generated";
 
 const log: debug.IDebugger = debug("app:admin-routes");
 
@@ -24,8 +25,9 @@ export class AdminRoutes {
 			passport.authenticate("authenticated-user", { session: false }),
 			Permit.authorizesAsAdmin(),
 			(req: express.Request, res: express.Response) => {
+				const authUser = req.user as AuthUser;
 				const calendarIDs = req.body as string[];
-				this.districtDataHarvestersController.harvest(res, calendarIDs);
+				this.districtDataHarvestersController.harvest(res, calendarIDs, authUser);
 			},
 		);
 
