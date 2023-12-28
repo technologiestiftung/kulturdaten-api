@@ -17,6 +17,7 @@ import { EventsRepository } from "../repositories/EventsRepository";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { isSuperAdmin } from "../../auth/middleware/PermissionFlag";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
+import { log } from "winston";
 
 @Service()
 export class EventsService {
@@ -36,6 +37,8 @@ export class EventsService {
 		searchEventsRequest: SearchEventsRequest,
 		pagination?: Pagination,
 	): Promise<{ events: Event[]; pagination?: Pagination; totalCount: number }> {
+		console.log(this.filterStrategies);
+		
 		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}
