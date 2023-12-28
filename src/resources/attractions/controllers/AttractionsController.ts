@@ -37,18 +37,28 @@ export class AttractionsController implements ResourcePermissionController {
 		const filter: Filter = this.getAttractionsFilter(params);
 		const totalCount = await this.attractionsService.countAttractions(filter);
 
-		const responseData = await this.getResponseData(pagination, filter, params);
-		this.sendAttractionsResponse(res, totalCount, pagination, responseData);
+		const { data, related } = await this.getListAttractionsData(pagination, filter, params);
+		this.sendAttractionsResponse(res, totalCount, pagination, data, related);
 	}
-	private async getResponseData(pagination: Pagination, filter: Filter, params?: AttractionParams) {
+	private async getListAttractionsData(
+		pagination: Pagination,
+		filter: Filter,
+		params?: AttractionParams,
+	): Promise<{ data: any; related: any }> {
 		if (params?.asReference) {
 			const attractionsReferences = await this.attractionsService.listAsReferences(pagination, filter);
 			const eventsReferences = params?.withEvents ? await this.getEventsReferences(attractionsReferences) : undefined;
-			return { attractionsReferences, eventsReferences };
+			return {
+				data: { attractionsReferences: attractionsReferences },
+				related: { eventsReferences: eventsReferences },
+			};
 		} else {
 			const attractions = await this.attractionsService.list(pagination, filter);
 			const events = params?.withEvents ? await this.getEvents(attractions) : undefined;
-			return { attractions, events };
+			return {
+				data: { attractions: attractions },
+				related: { events: events },
+			};
 		}
 	}
 
@@ -66,14 +76,28 @@ export class AttractionsController implements ResourcePermissionController {
 		});
 	}
 
-	private sendAttractionsResponse(res: Response, totalCount: number, pagination: Pagination, data: any) {
-		res
-			.status(200)
-			.send(
-				new SuccessResponseBuilder<GetAttractionsResponse>()
-					.okResponse({ page: pagination.page, pageSize: pagination.pageSize, totalCount, ...data })
-					.build(),
-			);
+	private sendAttractionsResponse(
+		res: Response,
+		totalCount: number,
+		pagination: Pagination,
+		data: { attractions?: Attraction[]; attractionsReferences?: Reference[] },
+		related?: { events?: Event[]; eventsReferences?: Reference[] },
+	) {
+		console.log("data", data);
+
+		res.status(200).send(
+			new SuccessResponseBuilder<GetAttractionsResponse>()
+				.okResponse(
+					{
+						page: pagination.page,
+						pageSize: pagination.pageSize,
+						totalCount: totalCount,
+						...data,
+					},
+					{ ...related },
+				)
+				.build(),
+		);
 	}
 
 	async listAttractionsForAdmins(res: Response, pagination: Pagination) {
@@ -151,30 +175,47 @@ export class AttractionsController implements ResourcePermissionController {
 		res.status(201).send(new SuccessResponseBuilder().okResponse({ attractions: aR }).build());
 	}
 
-	async getAttractionById(res: Response, identifier: string) {
-		const attraction = await this.attractionsService.readById(identifier);
-		if (attraction) {
-			res
-				.status(200)
-				.send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ attraction: attraction }).build());
+	async getAttractionById(res: Response, identifier: string, params?: AttractionParams) {
+		const { data, related } = await this.getAttractionByIdData(identifier, params);
+		if (data) {
+			this.sendAttractionResponse(res, data, related);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
 		}
 	}
 
-	async getAttractionReferenceById(res: Response, identifier: string) {
-		const attractionReference = await this.attractionsService.readReferenceById(identifier);
-		if (attractionReference) {
-			res
-				.status(200)
-				.send(
-					new SuccessResponseBuilder<GetAttractionResponse>()
-						.okResponse({ attractionReference: attractionReference })
-						.build(),
-				);
+	private async getAttractionByIdData(
+		identifier: string,
+		params?: AttractionParams,
+	): Promise<{ data: any; related: any }> {
+		if (params?.asReference) {
+			const attractionReference = await this.attractionsService.readReferenceById(identifier);
+			if (!attractionReference) {
+				return { data: null, related: null };
+			}
+			const eventsReferences = params?.withEvents ? await this.getEventsReferences([attractionReference]) : undefined;
+			return { data: { attractionReference: attractionReference }, related: { eventsReferences: eventsReferences } };
 		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
+			const attraction = await this.attractionsService.readById(identifier);
+			if (!attraction) {
+				return { data: null, related: null };
+			}
+			const events = params?.withEvents ? await this.getEvents([attraction]) : undefined;
+			return { data: { attraction: attraction }, related: { events: events } };
 		}
+	}
+
+	private sendAttractionResponse(
+		res: Response,
+		data: { attraction?: Attraction; attractionReference: Reference },
+		related?: { events?: Event[]; eventsReferences?: Reference[] },
+	) {
+		console.log(data);
+		console.log(related);
+
+		res
+			.status(200)
+			.send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ ...data }, { ...related }).build());
 	}
 
 	async getAttractionByIdForAdmins(res: Response, identifier: string) {

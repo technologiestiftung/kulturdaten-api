@@ -61,6 +61,8 @@ export class EventsController implements ResourcePermissionController {
 		const totalCount = await this.eventsService.countEvents(filter);
 
 		const sendEventsResponse = (data: { events?: Event[]; eventsReferences?: Reference[] }) => {
+			console.log("data", data);
+
 			res.status(200).send(
 				new SuccessResponseBuilder<GetEventsResponse>()
 					.okResponse({

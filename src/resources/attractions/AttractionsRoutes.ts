@@ -74,12 +74,11 @@ export class AttractionsRoutes {
 		router
 			.get(AttractionsRoutes.basePath + "/:identifier", (req: express.Request, res: express.Response) => {
 				const identifier = req.params.identifier;
-				const asReference = req.query.asReference;
-				if (asReference) {
-					this.attractionsController.getAttractionReferenceById(res, identifier);
-				} else {
-					this.attractionsController.getAttractionById(res, identifier);
-				}
+				const params: AttractionParams = {
+					asReference: req.query.asReference as string,
+					withEvents: parseBooleanParameter(req, "withEvents"),
+				};
+				this.attractionsController.getAttractionById(res, identifier, params);
 			})
 			.patch(
 				AttractionsRoutes.basePath + "/:identifier",

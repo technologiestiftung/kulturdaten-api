@@ -243,6 +243,16 @@ paths:
           schema:
             type: string
         - $ref: "#/components/parameters/asReference"
+        - name: withEvents
+          description:
+            Specifies whether to include a list of all related events in the response. 
+            When set to true, the response will contain an additional property `related`, 
+            under which all events associated with the attraction are listed in an array under `related.events`. 
+          in: query
+          required: false
+          example: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
