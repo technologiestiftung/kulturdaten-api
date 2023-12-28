@@ -8,6 +8,8 @@ properties:
     type: object
   error:
     $ref: "Error.yml"
+  related:
+    type: object
 required:
   - success
 additionalProperties: false

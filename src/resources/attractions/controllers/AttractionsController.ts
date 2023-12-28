@@ -22,41 +22,58 @@ import { AttractionParams } from "../../../common/parameters/Params";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
 import { FilterFactory } from "../../../common/filter/FilterFactory";
+import { EventsService } from "../../events/services/EventsService";
+import { Event } from "../../../generated/models/Event.generated";
 
 @Service()
 export class AttractionsController implements ResourcePermissionController {
 	constructor(
 		public attractionsService: AttractionsService,
+		public eventsService: EventsService,
 		@Inject("FilterFactory") public filterFactory: FilterFactory,
 	) {}
 
 	async listAttractions(res: Response, pagination: Pagination, params?: AttractionParams) {
-		let filter: Filter = this.getAttractionsFilter(params);
-		const anyTagsFilter = this.filterFactory.createAnyMatchFilter("tags", params?.anyTags);
-		const allTagsFilter = this.filterFactory.createAllMatchFilter("tags", params?.allTags);
-		filter = this.filterFactory.combineWithAnd([filter, anyTagsFilter, allTagsFilter]);
+		const filter: Filter = this.getAttractionsFilter(params);
 		const totalCount = await this.attractionsService.countAttractions(filter);
 
-		const sendAttractionsResponse = (data: { attractions?: Attraction[]; attractionsReferences?: Reference[] }) => {
-			res.status(200).send(
-				new SuccessResponseBuilder<GetAttractionsResponse>()
-					.okResponse({
-						page: pagination.page,
-						pageSize: pagination.pageSize,
-						totalCount: totalCount,
-						...data,
-					})
-					.build(),
-			);
-		};
-
+		const responseData = await this.getResponseData(pagination, filter, params);
+		this.sendAttractionsResponse(res, totalCount, pagination, responseData);
+	}
+	private async getResponseData(pagination: Pagination, filter: Filter, params?: AttractionParams) {
 		if (params?.asReference) {
 			const attractionsReferences = await this.attractionsService.listAsReferences(pagination, filter);
-			sendAttractionsResponse({ attractionsReferences });
+			const eventsReferences = params?.withEvents ? await this.getEventsReferences(attractionsReferences) : undefined;
+			return { attractionsReferences, eventsReferences };
 		} else {
 			const attractions = await this.attractionsService.list(pagination, filter);
-			sendAttractionsResponse({ attractions });
+			const events = params?.withEvents ? await this.getEvents(attractions) : undefined;
+			return { attractions, events };
 		}
+	}
+
+	private async getEventsReferences(attractionsReferences: Reference[]): Promise<Reference[]> {
+		const attractionIdentifiers = attractionsReferences.map((ref) => ref.referenceId);
+		return this.eventsService.listAsReferences(undefined, {
+			"attractions.referenceId": { $in: attractionIdentifiers },
+		});
+	}
+
+	private async getEvents(attractions: Attraction[]): Promise<Event[]> {
+		const attractionIdentifiers = attractions.map((attraction) => attraction.identifier);
+		return this.eventsService.list(undefined, {
+			"attractions.referenceId": { $in: attractionIdentifiers },
+		});
+	}
+
+	private sendAttractionsResponse(res: Response, totalCount: number, pagination: Pagination, data: any) {
+		res
+			.status(200)
+			.send(
+				new SuccessResponseBuilder<GetAttractionsResponse>()
+					.okResponse({ page: pagination.page, pageSize: pagination.pageSize, totalCount, ...data })
+					.build(),
+			);
 	}
 
 	async listAttractionsForAdmins(res: Response, pagination: Pagination) {
@@ -261,11 +278,13 @@ export class AttractionsController implements ResourcePermissionController {
 	}
 
 	private getAttractionsFilter(params?: AttractionParams): Filter {
-		const filter: Filter = {
+		let filter: Filter = {
 			...this.getCuratedByFilter(params?.curatedBy),
 			...getEditableByFilter(params?.editableBy),
 		};
-
+		const anyTagsFilter = this.filterFactory.createAnyMatchFilter("tags", params?.anyTags);
+		const allTagsFilter = this.filterFactory.createAllMatchFilter("tags", params?.allTags);
+		filter = this.filterFactory.combineWithAnd([filter, anyTagsFilter, allTagsFilter]);
 		return filter;
 	}
 }

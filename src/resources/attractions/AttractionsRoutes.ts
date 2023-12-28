@@ -27,7 +27,6 @@ export class AttractionsRoutes {
 
 		router
 			.get(AttractionsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
-				const pagination: Pagination = getPagination(req);
 				const anyTags: string[] | undefined = extractArrayQueryParam(req, "anyTags");
 				const allTags: string[] | undefined = extractArrayQueryParam(req, "allTags");
 				const params: AttractionParams = {
@@ -38,7 +37,7 @@ export class AttractionsRoutes {
 					allTags: allTags,
 					withEvents: parseBooleanParameter(req, "withEvents"),
 				};
-
+				const pagination: Pagination = getPagination(req, params.withEvents);
 				this.attractionsController.listAttractions(res, pagination, params);
 			})
 			.post(

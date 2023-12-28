@@ -162,7 +162,13 @@ export class TestEnvironment {
 	withAttractionsRoutes(): TestEnvironment {
 		this.attractionsRepository = new MongoDBAttractionsRepository(this.connector);
 		this.attractionsService = new AttractionsService(this.attractionsRepository, this.eventsRepository);
-		this.attractionsController = new AttractionsController(this.attractionsService, new MongoDBFilterFactory());
+		this.eventsRepository = new MongoDBEventsRepository(this.connector);
+		this.eventsService = new EventsService(this.eventsRepository);
+		this.attractionsController = new AttractionsController(
+			this.attractionsService,
+			this.eventsService,
+			new MongoDBFilterFactory(),
+		);
 		this.attractionsRoutes = new AttractionsRoutes(this.attractionsController);
 		this.attractions = this.db.collection("attractions");
 		this.app.use("/", this.attractionsRoutes.getRouter());

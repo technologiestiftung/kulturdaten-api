@@ -13,7 +13,6 @@ import { UpdateLocationRequest } from "../../../generated/models/UpdateLocationR
 import { LocationsService } from "../services/LocationsService";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
-import { GetLocationsResponse } from "../../../generated/models/GetLocationsResponse.generated";
 import { GetLocationResponse } from "../../../generated/models/GetLocationResponse.generated";
 import { CreateLocationResponse } from "../../../generated/models/CreateLocationResponse.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
@@ -21,6 +20,7 @@ import { CreateLocationRequest } from "../../../generated/models/CreateLocationR
 import { LocationParams } from "../../../common/parameters/Params";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
 import { FilterFactory } from "../../../common/filter/FilterFactory";
+import { GetLocationsResponse } from "../../../generated/models/GetLocationsResponse.generated";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 

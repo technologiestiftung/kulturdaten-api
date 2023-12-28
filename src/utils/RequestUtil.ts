@@ -5,12 +5,12 @@ import { pagination } from "../config/Config";
 
 const log: debug.IDebugger = debug("app:request-utils");
 
-export function getPagination(req: express.Request): Pagination {
+export function getPagination(req: express.Request, complexRequest?: boolean): Pagination {
 	let page: number = extractFromQuery(req.query.page, pagination.defaultPage);
 	let pageSize: number = extractFromQuery(req.query.pageSize, pagination.defaultPageSize);
 
 	page = adjust(page, 1);
-	pageSize = adjust(pageSize, 1, pagination.maxPageSize);
+	pageSize = adjust(pageSize, 1, complexRequest ? pagination.maxComplexRequestPageSize : pagination.maxPageSize);
 
 	return new Pagination(page, pageSize);
 }

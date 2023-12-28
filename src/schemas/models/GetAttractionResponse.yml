@@ -12,6 +12,14 @@ properties:
       attractionReference:
         $ref: "Reference.yml"
     additionalProperties: false
+  related:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          $ref: "Event.yml"
+    additionalProperties: false
 required:
   - success
 additionalProperties: false

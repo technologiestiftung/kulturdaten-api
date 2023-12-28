@@ -1,8 +1,0 @@
-type: object
-properties:
-  attraction:
-    $ref: "Attraction.yml"
-  events:
-    type: array
-    items:
-      $ref: "Event.yml"
