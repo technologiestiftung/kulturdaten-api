@@ -17,6 +17,17 @@ properties:
             type: array
             items:
               $ref: "Reference.yml"
+  related:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          $ref: "Event.yml"
+      eventsReferences:
+        type: array
+        items:
+          $ref: "Reference.yml"
 required:
   - success
 additionalProperties: false

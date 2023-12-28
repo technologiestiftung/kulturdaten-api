@@ -4,6 +4,7 @@ export class SuccessResponseBuilder<T extends Response> {
 	private success: boolean = true;
 	private message?: string;
 	private data?: T["data"];
+	private related?: T["related"];
 
 	setMessage(message: string): SuccessResponseBuilder<T> {
 		this.message = message;
@@ -15,15 +16,22 @@ export class SuccessResponseBuilder<T extends Response> {
 		return this;
 	}
 
-	okResponse(data?: T["data"]): SuccessResponseBuilder<T> {
-		this.message = "Operation Successful";
-		this.data = data;
+	setRelated(related: T["related"]): SuccessResponseBuilder<T> {
+		this.related = related;
 		return this;
 	}
 
-	createdResponse(data?: T["data"]): SuccessResponseBuilder<T> {
+	okResponse(data?: T["data"], related?: T["related"]): SuccessResponseBuilder<T> {
+		this.message = "Operation Successful";
+		this.data = data;
+		this.related = related;
+		return this;
+	}
+
+	createdResponse(data?: T["data"], related?: T["related"]): SuccessResponseBuilder<T> {
 		this.message = "Resource Created";
 		this.data = data;
+		this.related = related;
 		return this;
 	}
 
@@ -32,6 +40,7 @@ export class SuccessResponseBuilder<T extends Response> {
 			success: this.success,
 			message: this.message,
 			data: this.data,
+			related: this.related,
 		} as T;
 	}
 }

@@ -72,6 +72,7 @@ export class MongoDBConnector {
 
 		const attractions = await this.attractions();
 		await attractions.createIndex({ identifier: 1 }, { name: "id_index" });
+		await attractions.createIndex({ "attractions.referenceId": 1 }, { name: "attractions_referenceId_index" });
 
 		const tags = await this.tags();
 		await tags.createIndex({ identifier: 1 }, { name: "id_index" });

@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
@@ -18,38 +18,86 @@ import { AttractionsService } from "../services/AttractionsService";
 import { ResourcePermissionController } from "../../auth/controllers/ResourcePermissionController";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
-import { Params } from "../../../common/parameters/Params";
+import { AttractionParams } from "../../../common/parameters/Params";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
+import { EventsService } from "../../events/services/EventsService";
+import { Event } from "../../../generated/models/Event.generated";
 
 @Service()
 export class AttractionsController implements ResourcePermissionController {
-	constructor(public attractionsService: AttractionsService) {}
+	constructor(
+		public attractionsService: AttractionsService,
+		public eventsService: EventsService,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
+	) {}
 
-	async listAttractions(res: Response, pagination: Pagination, params?: Params) {
+	async listAttractions(res: Response, pagination: Pagination, params?: AttractionParams) {
 		const filter: Filter = this.getAttractionsFilter(params);
 		const totalCount = await this.attractionsService.countAttractions(filter);
 
-		const sendAttractionsResponse = (data: { attractions?: Attraction[]; attractionsReferences?: Reference[] }) => {
-			res.status(200).send(
-				new SuccessResponseBuilder<GetAttractionsResponse>()
-					.okResponse({
+		const { data, related } = await this.getListAttractionsData(pagination, filter, params);
+		this.sendAttractionsResponse(res, totalCount, pagination, data, related);
+	}
+	private async getListAttractionsData(
+		pagination: Pagination,
+		filter: Filter,
+		params?: AttractionParams,
+	): Promise<{ data: any; related: any }> {
+		if (params?.asReference) {
+			const attractionsReferences = await this.attractionsService.listAsReferences(pagination, filter);
+			const eventsReferences = params?.withEvents ? await this.getEventsReferences(attractionsReferences) : undefined;
+			return {
+				data: { attractionsReferences: attractionsReferences },
+				related: { eventsReferences: eventsReferences },
+			};
+		} else {
+			const attractions = await this.attractionsService.list(pagination, filter);
+			const events = params?.withEvents ? await this.getEvents(attractions) : undefined;
+			return {
+				data: { attractions: attractions },
+				related: { events: events },
+			};
+		}
+	}
+
+	private async getEventsReferences(attractionsReferences: Reference[]): Promise<Reference[]> {
+		const attractionIdentifiers = attractionsReferences.map((ref) => ref.referenceId);
+		return this.eventsService.listAsReferences(undefined, {
+			"attractions.referenceId": { $in: attractionIdentifiers },
+		});
+	}
+
+	private async getEvents(attractions: Attraction[]): Promise<Event[]> {
+		const attractionIdentifiers = attractions.map((attraction) => attraction.identifier);
+		return this.eventsService.list(undefined, {
+			"attractions.referenceId": { $in: attractionIdentifiers },
+		});
+	}
+
+	private sendAttractionsResponse(
+		res: Response,
+		totalCount: number,
+		pagination: Pagination,
+		data: { attractions?: Attraction[]; attractionsReferences?: Reference[] },
+		related?: { events?: Event[]; eventsReferences?: Reference[] },
+	) {
+		console.log("data", data);
+
+		res.status(200).send(
+			new SuccessResponseBuilder<GetAttractionsResponse>()
+				.okResponse(
+					{
 						page: pagination.page,
 						pageSize: pagination.pageSize,
 						totalCount: totalCount,
 						...data,
-					})
-					.build(),
-			);
-		};
-
-		if (params?.asReference) {
-			const attractionsReferences = await this.attractionsService.listAsReferences(pagination, filter);
-			sendAttractionsResponse({ attractionsReferences });
-		} else {
-			const attractions = await this.attractionsService.list(pagination, filter);
-			sendAttractionsResponse({ attractions });
-		}
+					},
+					{ ...related },
+				)
+				.build(),
+		);
 	}
 
 	async listAttractionsForAdmins(res: Response, pagination: Pagination) {
@@ -127,30 +175,47 @@ export class AttractionsController implements ResourcePermissionController {
 		res.status(201).send(new SuccessResponseBuilder().okResponse({ attractions: aR }).build());
 	}
 
-	async getAttractionById(res: Response, identifier: string) {
-		const attraction = await this.attractionsService.readById(identifier);
-		if (attraction) {
-			res
-				.status(200)
-				.send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ attraction: attraction }).build());
+	async getAttractionById(res: Response, identifier: string, params?: AttractionParams) {
+		const { data, related } = await this.getAttractionByIdData(identifier, params);
+		if (data) {
+			this.sendAttractionResponse(res, data, related);
 		} else {
 			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
 		}
 	}
 
-	async getAttractionReferenceById(res: Response, identifier: string) {
-		const attractionReference = await this.attractionsService.readReferenceById(identifier);
-		if (attractionReference) {
-			res
-				.status(200)
-				.send(
-					new SuccessResponseBuilder<GetAttractionResponse>()
-						.okResponse({ attractionReference: attractionReference })
-						.build(),
-				);
+	private async getAttractionByIdData(
+		identifier: string,
+		params?: AttractionParams,
+	): Promise<{ data: any; related: any }> {
+		if (params?.asReference) {
+			const attractionReference = await this.attractionsService.readReferenceById(identifier);
+			if (!attractionReference) {
+				return { data: null, related: null };
+			}
+			const eventsReferences = params?.withEvents ? await this.getEventsReferences([attractionReference]) : undefined;
+			return { data: { attractionReference: attractionReference }, related: { eventsReferences: eventsReferences } };
 		} else {
-			res.status(404).send(new ErrorResponseBuilder().notFoundResponse("Attraction not found").build());
+			const attraction = await this.attractionsService.readById(identifier);
+			if (!attraction) {
+				return { data: null, related: null };
+			}
+			const events = params?.withEvents ? await this.getEvents([attraction]) : undefined;
+			return { data: { attraction: attraction }, related: { events: events } };
 		}
+	}
+
+	private sendAttractionResponse(
+		res: Response,
+		data: { attraction?: Attraction; attractionReference: Reference },
+		related?: { events?: Event[]; eventsReferences?: Reference[] },
+	) {
+		console.log(data);
+		console.log(related);
+
+		res
+			.status(200)
+			.send(new SuccessResponseBuilder<GetAttractionResponse>().okResponse({ ...data }, { ...related }).build());
 	}
 
 	async getAttractionByIdForAdmins(res: Response, identifier: string) {
@@ -253,12 +318,14 @@ export class AttractionsController implements ResourcePermissionController {
 		return curatedBy ? { "curator.referenceId": curatedBy } : {};
 	}
 
-	private getAttractionsFilter(params?: Params): Filter {
-		const filter: Filter = {
+	private getAttractionsFilter(params?: AttractionParams): Filter {
+		let filter: Filter = {
 			...this.getCuratedByFilter(params?.curatedBy),
 			...getEditableByFilter(params?.editableBy),
 		};
-
+		const anyTagsFilter = this.filterFactory.createAnyMatchFilter("tags", params?.anyTags);
+		const allTagsFilter = this.filterFactory.createAllMatchFilter("tags", params?.allTags);
+		filter = this.filterFactory.combineWithAnd([filter, anyTagsFilter, allTagsFilter]);
 		return filter;
 	}
 }

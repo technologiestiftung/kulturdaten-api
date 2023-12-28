@@ -203,6 +203,7 @@ describe("Search events", () => {
 			new FindEventsByLocationAccessibilityTagsFilterStrategy(env.eventsRepository, env.locationsRepository),
 			findInTheFutureStrategy,
 		];
+		console.log("Search events setup done " + env.eventsService.filterStrategies);
 	});
 
 	afterEach(async () => {
