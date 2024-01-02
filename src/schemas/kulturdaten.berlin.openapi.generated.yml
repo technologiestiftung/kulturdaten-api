@@ -499,6 +499,18 @@ paths:
             charge status.
           schema:
             type: boolean
+        - name: withAttractions
+          description: >-
+            Specifies whether to include a list of all related attractions in
+            the response. When set to true, the response will contain an
+            additional property `related`, under which all attractions
+            associated with the event are listed in an array under
+            `related.attractions`.
+          in: query
+          required: false
+          example: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK

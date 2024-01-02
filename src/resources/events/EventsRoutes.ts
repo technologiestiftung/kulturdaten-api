@@ -43,6 +43,7 @@ export class EventsRoutes {
 					inFuture: parseBooleanParameter(req, "inFuture"),
 					startDate: req.query.startDate as string,
 					endDate: req.query.endDate as string,
+					withAttractions: parseBooleanParameter(req, "withAttractions"),
 				};
 
 				this.eventsController.listEvents(res, pagination, params);

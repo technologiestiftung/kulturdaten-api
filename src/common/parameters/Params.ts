@@ -20,6 +20,7 @@ export type EventParams = Params & {
 	inFuture?: boolean;
 	startDate?: string;
 	endDate?: string;
+	withAttractions?: boolean;
 };
 
 export type LocationParams = Params & {
