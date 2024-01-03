@@ -37,10 +37,10 @@ export class SuccessResponseBuilder<T extends Response> {
 
 	build(): T {
 		return {
-			success: this.success,
-			message: this.message,
-			data: this.data,
-			related: this.related,
+			...(this.success != null ? { success: this.success } : {}),
+			...(this.message != null ? { message: this.message } : {}),
+			...(this.data != null ? { data: this.data } : {}),
+			...(this.related != null ? { related: this.related } : {}),
 		} as T;
 	}
 }
