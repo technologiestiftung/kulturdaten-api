@@ -36,9 +36,7 @@ export class EventsService {
 	async search(
 		searchEventsRequest: SearchEventsRequest,
 		pagination?: Pagination,
-	): Promise<{ events: Event[]; pagination?: Pagination; totalCount: number }> {
-		console.log(this.filterStrategies);
-		
+	): Promise<{ events: Event[]; pagination?: Pagination; totalCount: number }> {		
 		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}

@@ -162,6 +162,16 @@ paths:
               type: string
           style: form
           explode: true
+        - name: identifiers
+          in: query
+          required: false
+          description: Returns the attractions with the corresponding identifiers
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: OK

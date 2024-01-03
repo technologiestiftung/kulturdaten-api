@@ -7,6 +7,7 @@ export type AttractionParams = Params & {
 	editableBy?: string;
 	anyTags?: string[];
 	allTags?: string[];
+	identifiers?: string[];
 	withEvents?: boolean;
 };
 

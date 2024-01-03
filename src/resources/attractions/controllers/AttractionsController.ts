@@ -325,7 +325,8 @@ export class AttractionsController implements ResourcePermissionController {
 		};
 		const anyTagsFilter = this.filterFactory.createAnyMatchFilter("tags", params?.anyTags);
 		const allTagsFilter = this.filterFactory.createAllMatchFilter("tags", params?.allTags);
-		filter = this.filterFactory.combineWithAnd([filter, anyTagsFilter, allTagsFilter]);
+		const identifiersFilter = this.filterFactory.createAnyMatchFilter("identifier", params?.identifiers);
+		filter = this.filterFactory.combineWithAnd([filter, anyTagsFilter, allTagsFilter, identifiersFilter]);
 		return filter;
 	}
 }

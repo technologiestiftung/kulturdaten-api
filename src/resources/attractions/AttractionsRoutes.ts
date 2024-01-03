@@ -29,12 +29,14 @@ export class AttractionsRoutes {
 			.get(AttractionsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const anyTags: string[] | undefined = extractArrayQueryParam(req, "anyTags");
 				const allTags: string[] | undefined = extractArrayQueryParam(req, "allTags");
+				const identifiers: string[] | undefined = extractArrayQueryParam(req, "identifiers");
 				const params: AttractionParams = {
 					asReference: req.query.asReference as string,
 					curatedBy: req.query.curatedBy as string,
 					editableBy: req.query.editableBy as string,
 					anyTags: anyTags,
 					allTags: allTags,
+					identifiers: identifiers,
 					withEvents: parseBooleanParameter(req, "withEvents"),
 				};
 				const pagination: Pagination = getPagination(req, params.withEvents);
