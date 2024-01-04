@@ -37,6 +37,30 @@ export class OrganizationsController implements ResourcePermissionController {
 		@Inject("FilterFactory") public filterFactory: FilterFactory,
 	) {}
 
+	private sendOrganizationsResponse = (
+		res: express.Response,
+		pagination: Pagination,
+		data: {
+			organizations?: Organization[];
+			organizationsReferences?: Reference[];
+		},
+	) => {
+		res.status(200).send(
+			new SuccessResponseBuilder<GetOrganizationsResponse>()
+				.okResponse({
+					page: pagination.page,
+					pageSize: pagination.pageSize,
+					totalCount: pagination.totalCount,
+					...data,
+				})
+				.build(),
+		);
+	};
+
+	async getOrganizations(res: express.Response, params?: OrganizationParams) {
+		throw new Error("Method not implemented.");
+	}
+
 	async listOrganizations(res: express.Response, pagination: Pagination, params?: OrganizationParams) {
 		const filter: Filter = this.getOrganizationsFilter(params);
 		const totalCount = await this.organizationsService.countOrganizations(filter);
