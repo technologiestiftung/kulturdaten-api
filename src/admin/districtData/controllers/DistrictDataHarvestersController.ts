@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { Service } from "typedi";
-import { SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
+import { SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { DistrictDataService } from "../services/DistrictDataService";
 import { HarvestResponse } from "../../../generated/models/HarvestResponse.generated";

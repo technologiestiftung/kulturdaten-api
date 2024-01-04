@@ -2,7 +2,7 @@ import debug from "debug";
 import express from "express";
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
-import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
+import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../../generated/models/AddEventLocationRequest.generated";
 import { RemoveEventAttractionRequest } from "../../../generated/models/RemoveEventAttractionRequest.generated";

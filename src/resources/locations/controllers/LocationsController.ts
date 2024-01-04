@@ -3,7 +3,7 @@ import express from "express";
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { Location } from "../../../generated/models/Location.generated";
-import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
+import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { ClaimLocationRequest } from "../../../generated/models/ClaimLocationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { SearchLocationsRequest } from "../../../generated/models/SearchLocationsRequest.generated";

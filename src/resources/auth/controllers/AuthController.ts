@@ -2,7 +2,7 @@ import debug from "debug";
 import express from "express";
 import jwt from "jsonwebtoken";
 import { Service } from "typedi";
-import { SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
+import { SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { UsersService } from "../../users/services/UsersService";
 import { AccessToken } from "../../../generated/models/AccessToken.generated";
 import { User } from "../../../generated/models/User.generated";

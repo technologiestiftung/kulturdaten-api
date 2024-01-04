@@ -1,3 +1,5 @@
+import express from "express";
+
 export type Params = {
 	[key: string]: string | string[] | boolean | undefined;
 };
@@ -36,3 +38,10 @@ export type OrganizationParams = Params & {
 	asReference?: string;
 	editableBy?: string;
 };
+
+export function getOrganizationParams(req: express.Request): OrganizationParams {
+	return {
+		asReference: req.query.asReference as string,
+		editableBy: req.query.editableBy as string,
+	};
+}

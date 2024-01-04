@@ -2,7 +2,7 @@ import debug from "debug";
 import express from "express";
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
-import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
+import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { SearchOrganizationsRequest } from "../../../generated/models/SearchOrganizationsRequest.generated";
@@ -58,7 +58,13 @@ export class OrganizationsController implements ResourcePermissionController {
 	};
 
 	async getOrganizations(res: express.Response, params?: OrganizationParams) {
-		throw new Error("Method not implemented.");
+		const { pagination, data, related, error} = await this.organizationsService.getOrganizations(params);
+
+		if(error) {
+
+		}
+
+		this.sendOrganizationsResponse(res, pagination, data);
 	}
 
 	async listOrganizations(res: express.Response, pagination: Pagination, params?: OrganizationParams) {

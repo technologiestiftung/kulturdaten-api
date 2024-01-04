@@ -11,7 +11,7 @@ import { getPagination } from "../../utils/RequestUtil";
 import { Permit } from "../auth/middleware/Permit";
 import { OrganizationsController } from "./controllers/OrganizationsController";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
-import { OrganizationParams } from "../../common/parameters/Params";
+import { OrganizationParams, getOrganizationParams } from "../../common/parameters/Params";
 
 @Service()
 export class OrganizationsRoutes {
@@ -25,10 +25,7 @@ export class OrganizationsRoutes {
 		router
 			.get(OrganizationsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
 				const pagination: Pagination = getPagination(req);
-				const params: OrganizationParams = {
-					asReference: req.query.asReference as string,
-					editableBy: req.query.editableBy as string,
-				};
+				const params: OrganizationParams = getOrganizationParams(req);
 
 				this.organizationsController.listOrganizations(res, pagination, params);
 			})

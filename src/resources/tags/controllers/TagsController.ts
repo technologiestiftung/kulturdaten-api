@@ -1,6 +1,6 @@
 import express from "express";
 import { Service } from "typedi";
-import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
+import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { CreateTagRequest } from "../../../generated/models/CreateTagRequest.generated";
 import { CreateTagResponse } from "../../../generated/models/CreateTagResponse.generated";
 import { GetTagResponse } from "../../../generated/models/GetTagResponse.generated";

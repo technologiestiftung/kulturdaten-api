@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
-import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
+import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
 import { CreateAttractionResponse } from "../../../generated/models/CreateAttractionResponse.generated";
