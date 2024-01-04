@@ -1,5 +1,4 @@
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { Organization } from "../../../generated/models/Organization.generated";
@@ -9,6 +8,7 @@ import { OrganizationsRepository } from "../repositories/OrganizationsRepository
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { OrganizationParams } from "../../../common/parameters/Params";
 import { Error } from "../../../generated/models/Error.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 // customizedPagination, data, related, error
 
