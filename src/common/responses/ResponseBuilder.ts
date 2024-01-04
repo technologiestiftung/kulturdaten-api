@@ -1,3 +1,4 @@
+import { Error } from "../../generated/models/Error.generated";
 import { Response } from "../../generated/models/Response.generated";
 
 export class SuccessResponseBuilder<T extends Response> {
@@ -51,6 +52,16 @@ export class ErrorResponseBuilder {
 	private errorCode?: number;
 	private errorMessage?: string;
 	private errorDetails?: string;
+
+	constructor(error?: Error) {
+		if (error) {
+			this.success = false;
+			this.message = error.message;
+			this.errorCode = error.code;
+			this.errorMessage = error.message;
+			this.errorDetails = error.details;
+		}
+	}
 
 	setMessage(message: string): ErrorResponseBuilder {
 		this.message = message;

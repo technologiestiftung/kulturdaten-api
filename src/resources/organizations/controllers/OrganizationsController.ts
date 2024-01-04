@@ -37,34 +37,23 @@ export class OrganizationsController implements ResourcePermissionController {
 		@Inject("FilterFactory") public filterFactory: FilterFactory,
 	) {}
 
-	private sendOrganizationsResponse = (
-		res: express.Response,
-		pagination: Pagination,
-		data: {
-			organizations?: Organization[];
-			organizationsReferences?: Reference[];
-		},
-	) => {
-		res.status(200).send(
-			new SuccessResponseBuilder<GetOrganizationsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: pagination.totalCount,
-					...data,
-				})
-				.build(),
+	async getOrganizations(res: express.Response, pagination: Pagination, params?: OrganizationParams) {
+		const { customizedPagination, data, related, error } = await this.organizationsService.getOrganizations(
+			pagination,
+			params,
 		);
-	};
 
-	async getOrganizations(res: express.Response, params?: OrganizationParams) {
-		const { pagination, data, related, error} = await this.organizationsService.getOrganizations(params);
-
-		if(error) {
-
+		if (error) {
+			res.status(error.code ? error.code : 500).send(new ErrorResponseBuilder(error).build());
+		} else {
+			res
+				.status(200)
+				.send(
+					new SuccessResponseBuilder<GetOrganizationsResponse>()
+						.okResponse({ ...customizedPagination, ...data }, { related })
+						.build(),
+				);
 		}
-
-		this.sendOrganizationsResponse(res, pagination, data);
 	}
 
 	async listOrganizations(res: express.Response, pagination: Pagination, params?: OrganizationParams) {

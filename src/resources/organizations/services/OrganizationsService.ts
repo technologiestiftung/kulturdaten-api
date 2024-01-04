@@ -7,9 +7,19 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { UpdateOrganizationRequest } from "../../../generated/models/UpdateOrganizationRequest.generated";
 import { OrganizationsRepository } from "../repositories/OrganizationsRepository";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { OrganizationParams } from "../../../common/parameters/Params";
+import { Error } from "../../../generated/models/Error.generated";
+
+// customizedPagination, data, related, error
 
 @Service()
 export class OrganizationsService {
+	getOrganizations(
+		pagination: Pagination,
+		params?: OrganizationParams,
+	): Promise<{ customizedPagination?: Pagination; data?: Organization[]; related?: Reference[]; error?: Error }> {
+		throw new Error("Method not implemented.");
+	}
 	constructor(@Inject("OrganizationsRepository") public organizationsRepository: OrganizationsRepository) {}
 
 	async list(pagination?: Pagination, searchFilter?: Filter): Promise<Organization[]> {
