@@ -1,5 +1,4 @@
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { Location } from "../../../generated/models/Location.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
@@ -9,6 +8,7 @@ import { LocationsRepository } from "../repositories/LocationsRepository";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { isSuperAdmin } from "../../auth/middleware/PermissionFlag";
 import { CreateLocationRequest } from "../../../generated/models/CreateLocationRequest.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class LocationsService {

@@ -1,11 +1,11 @@
 import debug from "debug";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { User } from "../../../generated/models/User.generated";
 import { Membership } from "../../../generated/models/Membership.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:users-repository");
 

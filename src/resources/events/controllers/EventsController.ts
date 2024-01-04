@@ -1,7 +1,6 @@
 import debug from "debug";
 import express from "express";
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../../generated/models/AddEventLocationRequest.generated";
@@ -26,6 +25,7 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { Event } from "../../../generated/models/Event.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
 import { FilterFactory } from "../../../common/filter/FilterFactory";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:events-controller");
 

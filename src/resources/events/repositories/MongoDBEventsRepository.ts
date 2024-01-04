@@ -1,6 +1,5 @@
 import { MatchKeysAndValues } from "mongodb";
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/MongoDBConnector";
 import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/Config";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
@@ -14,6 +13,7 @@ import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil"
 import { generateEventReference, getEventReferenceProjection } from "../../../utils/ReferenceUtil";
 import { EventsRepository } from "./EventsRepository";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class MongoDBEventsRepository implements EventsRepository {

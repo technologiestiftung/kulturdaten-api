@@ -1,5 +1,4 @@
 import debug from "debug";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { Attraction } from "../../../generated/models/Attraction.generated";
 import { CreateAttractionRequest } from "../../../generated/models/CreateAttractionRequest.generated";
@@ -8,6 +7,7 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { RemoveExternalLinkRequest } from "../../../generated/models/RemoveExternalLinkRequest.generated";
 import { UpdateAttractionRequest } from "../../../generated/models/UpdateAttractionRequest.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:attractions-repository");
 

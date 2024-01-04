@@ -1,5 +1,4 @@
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/MongoDBConnector";
 import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/Config";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
@@ -14,6 +13,7 @@ import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil"
 import { generateAttractionReference, getAttractionReferenceProjection } from "../../../utils/ReferenceUtil";
 import { AttractionsRepository } from "./AttractionsRepository";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class MongoDBAttractionsRepository implements AttractionsRepository {

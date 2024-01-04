@@ -1,7 +1,6 @@
 import debug from "debug";
 import express from "express";
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { Location } from "../../../generated/models/Location.generated";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { ClaimLocationRequest } from "../../../generated/models/ClaimLocationRequest.generated";
@@ -21,6 +20,7 @@ import { LocationParams } from "../../../common/parameters/Params";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
 import { FilterFactory } from "../../../common/filter/FilterFactory";
 import { GetLocationsResponse } from "../../../generated/models/GetLocationsResponse.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:locations-controller");
 

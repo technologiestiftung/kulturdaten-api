@@ -1,5 +1,4 @@
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/MongoDBConnector";
 import { MONGO_DB_DEFAULT_PROJECTION, MONGO_DB_USER_DEFAULT_PROJECTION } from "../../../config/Config";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
@@ -11,6 +10,7 @@ import { UsersRepository } from "./UsersRepository";
 import { Membership } from "../../../generated/models/Membership.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class MongoDBUsersRepository implements UsersRepository {

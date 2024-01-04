@@ -1,0 +1,3 @@
+Filter:
+  type: object
+  additionalProperties: true

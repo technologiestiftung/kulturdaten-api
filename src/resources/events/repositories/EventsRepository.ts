@@ -1,5 +1,4 @@
 import debug from "debug";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { Event } from "../../../generated/models/Event.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
@@ -7,6 +6,7 @@ import { Reference } from "../../../generated/models/Reference.generated";
 import { RescheduleEventRequest } from "../../../generated/models/RescheduleEventRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:events-repository");
 

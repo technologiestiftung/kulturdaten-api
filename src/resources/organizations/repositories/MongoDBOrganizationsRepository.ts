@@ -1,5 +1,4 @@
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { MongoDBConnector } from "../../../common/services/MongoDBConnector";
 import { MONGO_DB_DEFAULT_PROJECTION } from "../../../config/Config";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
@@ -12,6 +11,7 @@ import { createMetadata, getUpdatedMetadata } from "../../../utils/MetadataUtil"
 import { getOrganizationReferenceProjection } from "../../../utils/ReferenceUtil";
 import { OrganizationsRepository } from "./OrganizationsRepository";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class MongoDBOrganizationsRepository implements OrganizationsRepository {

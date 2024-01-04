@@ -2,7 +2,6 @@ import argon2 from "argon2";
 import debug from "debug";
 import express from "express";
 import { Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/ResponseBuilder";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { CreateUserResponse } from "../../../generated/models/CreateUserResponse.generated";
@@ -10,6 +9,7 @@ import { GetUsersResponse } from "../../../generated/models/GetUsersResponse.gen
 import { UpdateUserPasswordRequest } from "../../../generated/models/UpdateUserPasswordRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { UsersService } from "../services/UsersService";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:users-controller");
 

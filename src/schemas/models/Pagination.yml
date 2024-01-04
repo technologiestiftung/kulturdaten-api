@@ -13,3 +13,6 @@ properties:
     type: number
     description: The total number of items
     example: 105
+required:
+  - page
+  - pageSize

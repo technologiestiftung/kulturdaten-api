@@ -1,5 +1,4 @@
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { AddExternalLinkRequest } from "../../../generated/models/AddExternalLinkRequest.generated";
 import { AdminAttraction } from "../../../generated/models/AdminAttraction.generated";
 import { Attraction } from "../../../generated/models/Attraction.generated";
@@ -12,6 +11,7 @@ import { EventsRepository } from "../../events/repositories/EventsRepository";
 import { AttractionsRepository } from "../repositories/AttractionsRepository";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { isSuperAdmin } from "../../auth/middleware/PermissionFlag";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class AttractionsService {

@@ -1,5 +1,4 @@
 import Container, { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../../generated/models/AddEventLocationRequest.generated";
 import { Event } from "../../../generated/models/Event.generated";
@@ -18,6 +17,7 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { isSuperAdmin } from "../../auth/middleware/PermissionFlag";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { log } from "winston";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class EventsService {
@@ -36,7 +36,7 @@ export class EventsService {
 	async search(
 		searchEventsRequest: SearchEventsRequest,
 		pagination?: Pagination,
-	): Promise<{ events: Event[]; pagination?: Pagination; totalCount: number }> {		
+	): Promise<{ events: Event[]; pagination?: Pagination; totalCount: number }> {
 		if (!this.filterStrategies) {
 			this.filterStrategies = Container.getMany(EventFilterStrategyToken);
 		}

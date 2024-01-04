@@ -14,13 +14,18 @@ import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class OrganizationsService {
+	constructor(@Inject("OrganizationsRepository") public organizationsRepository: OrganizationsRepository) {}
+
 	getOrganizations(
 		pagination: Pagination,
 		params?: OrganizationParams,
 	): Promise<{ customizedPagination?: Pagination; data?: Organization[]; related?: Reference[]; error?: Error }> {
+
+
+		
+
 		throw new Error("Method not implemented.");
 	}
-	constructor(@Inject("OrganizationsRepository") public organizationsRepository: OrganizationsRepository) {}
 
 	async list(pagination?: Pagination, searchFilter?: Filter): Promise<Organization[]> {
 		return this.organizationsRepository.getOrganizations(pagination, searchFilter);

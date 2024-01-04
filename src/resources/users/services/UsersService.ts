@@ -1,5 +1,4 @@
 import { Inject, Service } from "typedi";
-import { Pagination } from "../../../common/parameters/Pagination";
 import { CreateUserRequest } from "../../../generated/models/CreateUserRequest.generated";
 import { UpdateUserRequest } from "../../../generated/models/UpdateUserRequest.generated";
 import { UsersRepository } from "../repositories/UsersRepository";
@@ -11,6 +10,7 @@ import {
 } from "../../../utils/MembershipUtil";
 import { OrganizationMembership } from "../../../generated/models/OrganizationMembership.generated";
 import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
+import { Pagination } from "../../../generated/models/Pagination.generated";
 
 @Service()
 export class UsersService {
