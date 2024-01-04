@@ -2,7 +2,6 @@ import debug from "debug";
 import express, { Router } from "express";
 import passport from "passport";
 import { Service } from "typedi";
-import { Pagination } from "../../common/parameters/Pagination";
 import { ClaimLocationRequest } from "../../generated/models/ClaimLocationRequest.generated";
 import { SearchLocationsRequest } from "../../generated/models/SearchLocationsRequest.generated";
 import { SetLocationManagerRequest } from "../../generated/models/SetLocationManagerRequest.generated";
@@ -13,6 +12,7 @@ import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { CreateLocationRequest } from "../../generated/models/CreateLocationRequest.generated";
 import { LocationParams } from "../../common/parameters/Params";
+import { Pagination } from "../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:locations-routes");
 

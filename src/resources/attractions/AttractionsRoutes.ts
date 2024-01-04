@@ -2,7 +2,6 @@ import debug from "debug";
 import express, { Router } from "express";
 import passport from "passport";
 import { Service } from "typedi";
-import { Pagination } from "../../common/parameters/Pagination";
 import { AddExternalLinkRequest } from "../../generated/models/AddExternalLinkRequest.generated";
 import { CreateAttractionRequest } from "../../generated/models/CreateAttractionRequest.generated";
 import { RemoveExternalLinkRequest } from "../../generated/models/RemoveExternalLinkRequest.generated";
@@ -13,6 +12,7 @@ import { AttractionsController } from "./controllers/AttractionsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { AttractionParams } from "../../common/parameters/Params";
+import { Pagination } from "../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:attractions-routes");
 

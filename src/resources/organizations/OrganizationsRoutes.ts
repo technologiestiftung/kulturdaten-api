@@ -1,7 +1,6 @@
 import express, { Router } from "express";
 import passport from "passport";
 import { Service } from "typedi";
-import { Pagination } from "../../common/parameters/Pagination";
 import { CreateMembershipRequest } from "../../generated/models/CreateMembershipRequest.generated";
 import { CreateOrganizationRequest } from "../../generated/models/CreateOrganizationRequest.generated";
 import { SearchOrganizationsRequest } from "../../generated/models/SearchOrganizationsRequest.generated";
@@ -12,6 +11,7 @@ import { Permit } from "../auth/middleware/Permit";
 import { OrganizationsController } from "./controllers/OrganizationsController";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { OrganizationParams, getOrganizationParams } from "../../common/parameters/Params";
+import { Pagination } from "../../generated/models/Pagination.generated";
 
 @Service()
 export class OrganizationsRoutes {

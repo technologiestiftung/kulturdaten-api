@@ -2,7 +2,6 @@ import debug from "debug";
 import express, { Router } from "express";
 import passport from "passport";
 import { Service } from "typedi";
-import { Pagination } from "../../common/parameters/Pagination";
 import { CreateUserRequest } from "../../generated/models/CreateUserRequest.generated";
 import { UpdateUserPasswordRequest } from "../../generated/models/UpdateUserPasswordRequest.generated";
 import { UpdateUserRequest } from "../../generated/models/UpdateUserRequest.generated";
@@ -11,6 +10,7 @@ import { Permit } from "../auth/middleware/Permit";
 import { UsersController } from "./controllers/UsersController";
 import { CheckUsers } from "./middleware/CheckUsers";
 import { UsersService } from "./services/UsersService";
+import { Pagination } from "../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:users-routes");
 

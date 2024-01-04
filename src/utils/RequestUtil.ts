@@ -1,7 +1,7 @@
 import debug from "debug";
 import express from "express";
-import { Pagination } from "../common/parameters/Pagination";
 import { pagination } from "../config/Config";
+import { Pagination } from "../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:request-utils");
 
@@ -12,7 +12,7 @@ export function getPagination(req: express.Request, complexRequest?: boolean): P
 	page = adjust(page, 1);
 	pageSize = adjust(pageSize, 1, complexRequest ? pagination.maxComplexRequestPageSize : pagination.maxPageSize);
 
-	return new Pagination(page, pageSize);
+	return { page: page, pageSize: pageSize };
 }
 
 function extractFromQuery(value: any, defaultValue: number): number {

@@ -2,7 +2,6 @@ import debug from "debug";
 import express, { Router } from "express";
 import passport from "passport";
 import { Service } from "typedi";
-import { Pagination } from "../../common/parameters/Pagination";
 import { AddEventAttractionRequest } from "../../generated/models/AddEventAttractionRequest.generated";
 import { AddEventLocationRequest } from "../../generated/models/AddEventLocationRequest.generated";
 import { RemoveEventAttractionRequest } from "../../generated/models/RemoveEventAttractionRequest.generated";
@@ -17,6 +16,7 @@ import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { CreateEventRequest } from "../../generated/models/CreateEventRequest.generated";
 import { EventParams } from "../../common/parameters/Params";
+import { Pagination } from "../../generated/models/Pagination.generated";
 
 const log: debug.IDebugger = debug("app:events-routes");
 

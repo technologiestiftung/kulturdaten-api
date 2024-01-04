@@ -3576,10 +3576,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 organizations:
@@ -3979,10 +3975,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 organizations:
@@ -4385,10 +4377,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 attractions:
@@ -5030,10 +5018,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 attractions:
@@ -6059,10 +6043,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 locations:
@@ -6641,10 +6621,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 locations:
@@ -7459,10 +7435,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 events:
@@ -8264,10 +8236,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 events:
@@ -9584,10 +9552,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               properties:
                 users:
@@ -10541,10 +10505,6 @@ components:
                   type: number
                   description: The total number of items
                   example: 105
-              required:
-                - page
-                - pageSize
-                - totalCount
             - type: object
               required:
                 - attractions
