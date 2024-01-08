@@ -1,4 +1,4 @@
-import { Inject, Service } from "typedi";
+import Container, { Inject, Service } from "typedi";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
 import { Filter } from "../../../generated/models/Filter.generated";
 import { Organization } from "../../../generated/models/Organization.generated";
@@ -9,29 +9,57 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 import { OrganizationParams } from "../../../common/parameters/Params";
 import { Error } from "../../../generated/models/Error.generated";
 import { Pagination } from "../../../generated/models/Pagination.generated";
-
-// customizedPagination, data, related, error
+import {
+	OrganizationsServiceGetStrategyParameter,
+	OrganizationsServiceGetStrategyToken,
+} from "./strategies/OrganizationsServiceGetStrategy";
 
 @Service()
 export class OrganizationsService {
 	constructor(@Inject("OrganizationsRepository") public organizationsRepository: OrganizationsRepository) {}
 
-	getOrganizations(
+	async getOrganizations(
 		pagination: Pagination,
 		params?: OrganizationParams,
-	): Promise<{ customizedPagination?: Pagination; data?: Organization[]; related?: Reference[]; error?: Error }> {
+		authUser?: AuthUser,
+	): Promise<{
+		customizedPagination?: Pagination;
+		data?: { organizations?: Organization[]; organizationsReferences?: Reference[] };
+		error?: Error;
+	}> {
+		let strategyParameter: OrganizationsServiceGetStrategyParameter = {
+			pagination,
+			params,
+			authUser,
+		};
 
+		for (const s of Container.getMany(OrganizationsServiceGetStrategyToken)) {
+			if (s.isExecutable(strategyParameter)) strategyParameter = s.execute(strategyParameter);
+		}
 
-		
+		const data: Organization[] = await this.organizationsRepository.getOrganizations<Organization>(
+			strategyParameter.pagination,
+			strategyParameter.filter,
+			strategyParameter.projection,
+		);
 
-		throw new Error("Method not implemented.");
+		if (strategyParameter.params?.asReference) {
+			return Promise.resolve({
+				customizedPagination: strategyParameter.pagination,
+				data: { organizationsReferences: data as unknown as Reference[] },
+			});
+		}
+		return Promise.resolve({
+			customizedPagination: strategyParameter.pagination,
+			data: { organizations: data as unknown as Organization[] },
+		});
 	}
 
 	async list(pagination?: Pagination, searchFilter?: Filter): Promise<Organization[]> {
 		return this.organizationsRepository.getOrganizations(pagination, searchFilter);
 	}
 
-	async listAsReferences(pagination?: Pagination, searchFilter?: Filter) {
+	async listAsReferences(pagination?: Pagination, searchFilter?: Filter): Promise<Reference[]> {
 		return this.organizationsRepository.getOrganizationsAsReferences(pagination, searchFilter);
 	}
 

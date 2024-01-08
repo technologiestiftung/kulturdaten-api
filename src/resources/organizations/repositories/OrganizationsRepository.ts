@@ -10,7 +10,7 @@ import { Pagination } from "../../../generated/models/Pagination.generated";
 const log: debug.IDebugger = debug("app:organizations-repository");
 
 export interface OrganizationsRepository {
-	getOrganizations(pagination?: Pagination, filter?: Filter): Promise<Organization[]>;
+	getOrganizations<T>(pagination?: Pagination, filter?: Filter): Promise<T[]>;
 
 	getOrganizationsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]>;
 
