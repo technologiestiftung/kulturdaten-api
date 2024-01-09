@@ -9,10 +9,13 @@ export class CoordinatesToLocationsController {
 	constructor(public service: CoordinatesToLocationsService) {}
 
 	async enrichData(res: Response, locationsIDs: string[]) {
+
+		const enrichedLocations = await this.service.enrichData(locationsIDs);
+
 		res.status(200).send(
 			new SuccessResponseBuilder<CoordinatesToLocationsResponse>()
 				.okResponse({
-					enrichedLocations: locationsIDs,
+					enrichedLocations: enrichedLocations,
 				})
 				.build(),
 		);
