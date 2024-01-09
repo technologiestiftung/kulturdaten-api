@@ -6,6 +6,7 @@ import { AttractionsController } from "../resources/attractions/controllers/Attr
 import { Permit } from "../resources/auth/middleware/Permit";
 import { getPagination } from "../utils/RequestUtil";
 import { DistrictDataHarvestersController } from "./districtData/controllers/DistrictDataHarvestersController";
+import { CoordinatesToLocationsController } from "./dataEnrichment/controllers/CoordinatesToLocationsController";
 
 const log: debug.IDebugger = debug("app:admin-routes");
 
@@ -13,6 +14,7 @@ const log: debug.IDebugger = debug("app:admin-routes");
 export class AdminRoutes {
 	constructor(
 		public districtDataHarvestersController: DistrictDataHarvestersController,
+		public coordinatesToLocationsController: CoordinatesToLocationsController,
 		public attractionsController: AttractionsController,
 	) {}
 
@@ -34,8 +36,8 @@ export class AdminRoutes {
 				passport.authenticate("authenticated-user", { session: false }),
 				Permit.authorizesAsAdmin(),
 				(req: express.Request, res: express.Response) => {
-					const calendarIDs = req.body as string[];
-					this.districtDataHarvestersController.harvest(res, calendarIDs);
+					const locationsIDs = req.body as string[];
+					this.coordinatesToLocationsController.enrichData(res, locationsIDs);
 				},
 			);
 
