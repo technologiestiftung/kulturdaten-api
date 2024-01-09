@@ -19,15 +19,25 @@ export class AdminRoutes {
 	public getRouter(): Router {
 		const router = express.Router();
 
-		router.post(
-			"/harvest/baevents-bezirkskalender",
-			passport.authenticate("authenticated-user", { session: false }),
-			Permit.authorizesAsAdmin(),
-			(req: express.Request, res: express.Response) => {
-				const calendarIDs = req.body as string[];
-				this.districtDataHarvestersController.harvest(res, calendarIDs);
-			},
-		);
+		router
+			.post(
+				"/harvest/baevents-bezirkskalender",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesAsAdmin(),
+				(req: express.Request, res: express.Response) => {
+					const calendarIDs = req.body as string[];
+					this.districtDataHarvestersController.harvest(res, calendarIDs);
+				},
+			)
+			.post(
+				"/data-enrichment/coordinates-to-locations",
+				passport.authenticate("authenticated-user", { session: false }),
+				Permit.authorizesAsAdmin(),
+				(req: express.Request, res: express.Response) => {
+					const calendarIDs = req.body as string[];
+					this.districtDataHarvestersController.harvest(res, calendarIDs);
+				},
+			);
 
 		router
 			.get(
