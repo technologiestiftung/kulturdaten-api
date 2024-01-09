@@ -10,9 +10,9 @@ import { AuthUser } from "../../../generated/models/AuthUser.generated";
 const log: debug.IDebugger = debug("app:organizations-repository");
 
 export interface OrganizationsRepository {
-	getOrganizations(pagination?: Pagination): Promise<Organization[]>;
+	getOrganizations(pagination?: Pagination, filter?: Filter): Promise<Organization[]>;
 
-	getOrganizationsAsReferences(pagination?: Pagination): Promise<Reference[]>;
+	getOrganizationsAsReferences(pagination?: Pagination, filter?: Filter): Promise<Reference[]>;
 
 	searchOrganizations(filter?: Filter, pagination?: Pagination): Promise<Organization[]>;
 

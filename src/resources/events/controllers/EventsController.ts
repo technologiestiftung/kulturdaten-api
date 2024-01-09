@@ -1,6 +1,6 @@
 import debug from "debug";
 import express from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
@@ -13,7 +13,6 @@ import { SearchEventsResponse } from "../../../generated/models/SearchEventsResp
 import { SetEventOrganizerRequest } from "../../../generated/models/SetEventOrganizerRequest.generated";
 import { UpdateEventRequest } from "../../../generated/models/UpdateEventRequest.generated";
 import { EventsService } from "../services/EventsService";
-import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
 import { CreateEventResponse } from "../../../generated/models/CreateEventResponse.generated";
 import { DuplicateEventResponse } from "../../../generated/models/DuplicateEventResponse.generated";
 import { GetEventResponse } from "../../../generated/models/GetEventResponse.generated";
@@ -21,30 +20,66 @@ import { ResourcePermissionController } from "../../auth/controllers/ResourcePer
 import { Filter } from "../../../generated/models/Filter.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { EventParams } from "../../../common/parameters/Params";
+import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
+import { Reference } from "../../../generated/models/Reference.generated";
+import { Event } from "../../../generated/models/Event.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
 @Service()
 export class EventsController implements ResourcePermissionController {
-	constructor(public eventsService: EventsService) {}
+	constructor(
+		public eventsService: EventsService,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
+	) {}
 
-	getOrganizedByFilter(organizedBy?: string) {
-		return organizedBy ? { "organizer.referenceId": organizedBy } : undefined;
-	}
-
-	async listEvents(res: express.Response, pagination: Pagination, organizedBy?: string) {
-		const events = await this.eventsService.list(pagination, this.getOrganizedByFilter(organizedBy));
-		const totalCount = await this.eventsService.countEvents(this.getOrganizedByFilter(organizedBy));
-		res.status(200).send(
-			new SuccessResponseBuilder<GetEventsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					events: events,
-				})
-				.build(),
+	async listEvents(res: express.Response, pagination: Pagination, params?: EventParams) {
+		let filter: Filter = this.getEventsFilter(params);
+		let isFreeOfChargeFilter = undefined;
+		if (params?.isFreeOfCharge === true) {
+			isFreeOfChargeFilter = this.filterFactory.createExactMatchFilter(
+				"admission.ticketType",
+				"ticketType.freeOfCharge",
+			);
+		}
+		let inFutureFilter = undefined;
+		if (params?.inFuture === true) {
+			inFutureFilter = this.filterFactory.createFutureDateFilter("schedule.startDate");
+		}
+		const dateRangeFilter = this.filterFactory.createDateRangeFilter(
+			"schedule.startDate",
+			"schedule.endDate",
+			params?.startDate,
+			params?.endDate,
 		);
+
+		filter = this.filterFactory.combineWithAnd([filter, isFreeOfChargeFilter, inFutureFilter, dateRangeFilter]);
+
+		const totalCount = await this.eventsService.countEvents(filter);
+
+		const sendEventsResponse = (data: { events?: Event[]; eventsReferences?: Reference[] }) => {
+			res.status(200).send(
+				new SuccessResponseBuilder<GetEventsResponse>()
+					.okResponse({
+						page: pagination.page,
+						pageSize: pagination.pageSize,
+						totalCount: totalCount,
+						...data,
+					})
+					.build(),
+			);
+		};
+
+		if (params?.asReference) {
+			const eventsReferences = await this.eventsService.listAsReferences(pagination, filter);
+			sendEventsResponse({ eventsReferences });
+		} else {
+			const events = await this.eventsService.list(pagination, filter);
+			sendEventsResponse({ events });
+		}
 	}
 
 	async listEventsAsReference(res: express.Response, pagination: Pagination, organizedBy?: string) {
@@ -300,5 +335,35 @@ export class EventsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to reschedule the event").build());
 		}
+	}
+
+	private getOrganizedByFilter(organizedBy?: string) {
+		return organizedBy ? { "organizer.referenceId": organizedBy } : {};
+	}
+
+	private getByLocationFilter(byLocation?: string) {
+		return byLocation
+			? {
+					"locations.referenceId": byLocation,
+			  }
+			: {};
+	}
+
+	private getByAttractionFilter(byAttraction?: string) {
+		return byAttraction
+			? {
+					"attractions.referenceId": byAttraction,
+			  }
+			: {};
+	}
+
+	private getEventsFilter(params?: EventParams): Filter {
+		const filter: Filter = {
+			...this.getOrganizedByFilter(params?.organizedBy),
+			...getEditableByFilter(params?.editableBy),
+			...this.getByLocationFilter(params?.byLocation),
+			...this.getByAttractionFilter(params?.byAttraction),
+		};
+		return filter;
 	}
 }

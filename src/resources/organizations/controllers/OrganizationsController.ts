@@ -1,6 +1,6 @@
 import debug from "debug";
 import express from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { CreateOrganizationRequest } from "../../../generated/models/CreateOrganizationRequest.generated";
@@ -22,6 +22,10 @@ import { GetOrganizationMembershipsResponse } from "../../../generated/models/Ge
 import { UpdateOrganizationMembershipRequest } from "../../../generated/models/UpdateOrganizationMembershipRequest.generated";
 import { GetOrganizationMembershipResponse } from "../../../generated/models/GetOrganizationMembershipResponse.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
+import { OrganizationParams } from "../../../common/parameters/Params";
+import { Organization } from "../../../generated/models/Organization.generated";
+import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
 
 const log: debug.IDebugger = debug("app:organizations-controller");
 
@@ -30,38 +34,36 @@ export class OrganizationsController implements ResourcePermissionController {
 	constructor(
 		public organizationsService: OrganizationsService,
 		public userService: UsersService,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
 	) {}
 
-	async listOrganizations(res: express.Response, pagination: Pagination) {
-		const organizations = await this.organizationsService.list(pagination);
-		const totalCount = await this.organizationsService.countOrganizations();
+	async listOrganizations(res: express.Response, pagination: Pagination, params?: OrganizationParams) {
+		const filter: Filter = this.getOrganizationsFilter(params);
+		const totalCount = await this.organizationsService.countOrganizations(filter);
 
-		res.status(200).send(
-			new SuccessResponseBuilder<GetOrganizationsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					organizations: organizations,
-				})
-				.build(),
-		);
-	}
+		const sendOrganizationsResponse = (data: {
+			organizations?: Organization[];
+			organizationsReferences?: Reference[];
+		}) => {
+			res.status(200).send(
+				new SuccessResponseBuilder<GetOrganizationsResponse>()
+					.okResponse({
+						page: pagination.page,
+						pageSize: pagination.pageSize,
+						totalCount: totalCount,
+						...data,
+					})
+					.build(),
+			);
+		};
 
-	async listOrganizationsAsReference(res: express.Response, pagination: Pagination) {
-		const organizationsReferences = await this.organizationsService.listAsReferences(pagination);
-		const totalCount = await this.organizationsService.countOrganizations();
-
-		res.status(200).send(
-			new SuccessResponseBuilder<GetOrganizationsResponse>()
-				.okResponse({
-					page: pagination.page,
-					pageSize: pagination.pageSize,
-					totalCount: totalCount,
-					organizationsReferences: organizationsReferences,
-				})
-				.build(),
-		);
+		if (params?.asReference) {
+			const organizationsReferences = await this.organizationsService.listAsReferences(pagination, filter);
+			sendOrganizationsResponse({ organizationsReferences });
+		} else {
+			const organizations = await this.organizationsService.list(pagination, filter);
+			sendOrganizationsResponse({ organizations });
+		}
 	}
 
 	async searchOrganizations(
@@ -338,5 +340,13 @@ export class OrganizationsController implements ResourcePermissionController {
 		} else {
 			res.status(400).send(new ErrorResponseBuilder().badRequestResponse("Failed to update the membership").build());
 		}
+	}
+
+	private getOrganizationsFilter(params?: OrganizationParams): Filter {
+		const filter: Filter = {
+			...getEditableByFilter(params?.editableBy),
+		};
+
+		return filter;
 	}
 }

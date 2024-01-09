@@ -7,11 +7,12 @@ import { ClaimLocationRequest } from "../../generated/models/ClaimLocationReques
 import { SearchLocationsRequest } from "../../generated/models/SearchLocationsRequest.generated";
 import { SetLocationManagerRequest } from "../../generated/models/SetLocationManagerRequest.generated";
 import { UpdateLocationRequest } from "../../generated/models/UpdateLocationRequest.generated";
-import { getPagination } from "../../utils/RequestUtil";
+import { extractArrayQueryParam, getPagination } from "../../utils/RequestUtil";
 import { LocationsController } from "./controllers/LocationsController";
 import { Permit } from "../auth/middleware/Permit";
 import { AuthUser } from "../../generated/models/AuthUser.generated";
 import { CreateLocationRequest } from "../../generated/models/CreateLocationRequest.generated";
+import { LocationParams } from "../../common/parameters/Params";
 
 const log: debug.IDebugger = debug("app:locations-routes");
 
@@ -26,15 +27,18 @@ export class LocationsRoutes {
 
 		router
 			.get(LocationsRoutes.basePath + "/", (req: express.Request, res: express.Response) => {
-				const asReference = req.query.asReference;
 				const pagination: Pagination = getPagination(req);
-				const managedBy = req.query.managedBy as string;
+				const anyAccessibilities: string[] | undefined = extractArrayQueryParam(req, "anyAccessibilities");
+				const allAccessibilities: string[] | undefined = extractArrayQueryParam(req, "allAccessibilities");
+				const params: LocationParams = {
+					asReference: req.query.asReference as string,
+					managedBy: req.query.managedBy as string,
+					editableBy: req.query.editableBy as string,
+					anyAccessibilities: anyAccessibilities,
+					allAccessibilities: allAccessibilities,
+				};
 
-				if (asReference) {
-					this.locationsController.listLocationsAsReference(res, pagination, managedBy);
-				} else {
-					this.locationsController.listLocations(res, pagination, managedBy);
-				}
+				this.locationsController.listLocations(res, pagination, params);
 			})
 			.post(
 				LocationsRoutes.basePath + "/",

@@ -90,6 +90,32 @@ paths:
           description: Returns only the Attractions curated by the entered Organization-ID
           schema:
             type: string
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the Attractions editable by the entered Organization-ID
+          schema:
+            type: string
+        - name: anyTags
+          in: query
+          required: false
+          description: Returns only the Attractions that match any of the specified tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: allTags
+          in: query
+          required: false
+          description: Returns only the Attractions that match all of the specified tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: OK
@@ -162,29 +188,26 @@ paths:
                 summary: "Filter by Tags"
                 description: "This example filters attractions by the tags 'Lectures' or 'Music'."
                 value:
-                  searchFilter: 
-                    { tags: { "$in": ["attraction.category.Lectures", "attraction.category.Music"] }}
+                  searchFilter: { tags: { "$in": ["attraction.category.Lectures", "attraction.category.Music"] } }
               filterByStatus:
                 summary: "Filter by Status"
                 description: "This example filters attractions by their published status."
                 value:
-                  searchFilter: 
-                    { status: "attraction.published" }
+                  searchFilter: { status: "attraction.published" }
               filterByAvailableLanguages:
                 summary: "Filter by Available Languages"
                 description: "This example filters attractions that are available in both German and English."
                 value:
-                  searchFilter: 
-                    { inLanguages: { "$all": ["de", "en"] }}
+                  searchFilter: { inLanguages: { "$all": ["de", "en"] } }
               combinedSearch:
                 summary: "Combined Search"
                 description: "This example combines multiple filters."
                 value:
-                  searchFilter: 
-                    { 
+                  searchFilter:
+                    {
                       status: "attraction.published",
                       tags: { "$in": ["attraction.category.Exhibitions"] },
-                      inLanguages: { "$all": ["de", "en"] }
+                      inLanguages: { "$all": ["de", "en"] },
                     }
       responses:
         "200":
@@ -193,7 +216,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SearchAttractionsResponse"
-
 
   /attractions/{identifier}:
     get:
@@ -345,12 +367,67 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: inFuture
+          in: query
+          required: false
+          description: |
+            Filters the events based on their occurrence in the future.
+            When set to true, returns only events that are scheduled to occur in the future.
+            When set to false, returns events regardless of their scheduled date.
+          schema:
+            type: boolean
+            default: true
+        - name: startDate
+          in: query
+          required: false
+          description: The start date of the range for filtering events. Events on or after this date will be included. The date should be in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: "2023-01-01"
+        - name: endDate
+          in: query
+          required: false
+          description: The end date of the range for filtering events. Events on or before this date will be included. The date should be in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: "2023-12-31"
         - name: organizedBy
           in: query
           required: false
           description: Returns only the events organized by the entered Organization-ID
           schema:
             type: string
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the events editable by the entered Organization-ID
+          schema:
+            type: string
+        - name: byLocation
+          in: query
+          required: false
+          description: Returns only the events occurring at the specified Location-ID
+          schema:
+            type: string
+        - name: byAttraction
+          in: query
+          required: false
+          description: Returns only the events that include the specified Attraction-ID
+          schema:
+            type: string
+        - name: isFreeOfCharge
+          in: query
+          required: false
+          description: |
+            Filters the events based on the admission charge. 
+            When set to true, returns only the events that are free of charge. 
+            When set to false, returns events regardless of their admission charge status.
+            If not provided, all events are returned irrespective of their admission charge status.
+          schema:
+            type: boolean
+
       responses:
         "200":
           description: OK
@@ -729,6 +806,32 @@ paths:
           description: Returns only the locations managed by the entered Organization-ID
           schema:
             type: string
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the locations editable by the entered Organization-ID
+          schema:
+            type: string
+        - name: anyAccessibilities
+          in: query
+          required: false
+          description: Returns only the Locations that match any of the specified accessibility tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: allAccessibilities
+          in: query
+          required: false
+          description: Returns only the Locations that match all of the specified accessibility tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: OK
@@ -953,7 +1056,6 @@ paths:
         "200":
           description: OK
 
-
   /locations/{identifier}/publish:
     post:
       tags:
@@ -986,7 +1088,6 @@ paths:
         "200":
           description: Unpublished
 
-
   /locations/{identifier}/claim:
     post:
       tags:
@@ -1016,6 +1117,12 @@ paths:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pageSize"
         - $ref: "#/components/parameters/asReference"
+        - name: editableBy
+          in: query
+          required: false
+          description: Returns only the organizations editable by the entered Organization-ID
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -1203,7 +1310,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string 
+            type: string
       responses:
         "200":
           description: OK
@@ -1230,7 +1337,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string 
+            type: string
       requestBody:
         content:
           application/json:
@@ -1268,7 +1375,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/NotFoundError"
-
 
   /organizations/{identifier}/activate:
     post:
@@ -1333,7 +1439,7 @@ paths:
       responses:
         "200":
           description: OK
-  
+
   /organizations/{identifier}/unpublish:
     post:
       tags:
@@ -1724,7 +1830,7 @@ components:
         type: number
     pageSize:
       name: pageSize
-      description: Default value is 30
+      description: Default value is 30. Max value is 500.
       in: query
       required: false
       example: 30
@@ -1938,7 +2044,7 @@ components:
 
     HarvestResponse:
       $ref: models/HarvestResponse.yml
-    
+
     GetOrganizationMembershipsResponse:
       $ref: models/GetOrganizationMembershipsResponse.yml
 
