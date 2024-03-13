@@ -18,7 +18,7 @@
 		},
 		"curator": {
 			"referenceType": "type.Organization",
-		  	"referenceId": "O_org_1",
+			"referenceId": "O_org_1",
 			"referenceLabel": {
 				"de": "sdf"
 			}
@@ -67,7 +67,7 @@
 		},
 		"curator": {
 			"referenceType": "type.Organization",
-		  	"referenceId": "O_org_1"
+			"referenceId": "O_org_1"
 		},
 		"description": {
 			"en": "The Temporal Cultural Gateway is a mesmerizing attraction where visitors can experience different cultures across time and space. Travel to ancient civilizations, explore futuristic societies, and even communicate with interstellar beings. A collaboration with the Time-Traveling Cultural Exchange Organization from the year 2350.",
@@ -118,7 +118,7 @@
 		},
 		"curator": {
 			"referenceType": "type.Organization",
-		  	"referenceId": "O_org_2"
+			"referenceId": "O_org_2"
 		},
 		"website": "https://berlin-wall-vr-experience.de",
 		"inLanguages": ["en", "de"],
@@ -159,7 +159,7 @@
 		},
 		"curator": {
 			"referenceType": "type.Organization",
-		  	"referenceId": "O_org_2"
+			"referenceId": "O_org_2"
 		},
 		"website": "https://example.com/A_metal-gig-5000",
 		"inLanguages": ["en", "de"],

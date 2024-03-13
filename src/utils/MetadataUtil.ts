@@ -18,7 +18,7 @@ export function getUpdatedMetadata() {
  */
 export function createMetadata(creator?: Creator, existingMetadata?: Partial<Metadata>): Metadata {
 	const currentTimestamp = getCurrentTimestamp();
-	const editableBy = [];
+	const editableBy = existingMetadata?.editableBy || [];
 	if (creator?.organizationIdentifier) {
 		editableBy.push(creator.organizationIdentifier);
 	}

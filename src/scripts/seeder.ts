@@ -15,7 +15,7 @@ import accessibilityTagsJSON from "../seed/accessibility.json";
 import organizationTagsJSON from "../seed/organizationTags.json";
 
 import tagsJSON from "../seed/tags.json";
-import { generateID, generateOrganizationID } from "../utils/IDUtil";
+import { generateID, getBoroughOfficeOrganizationID } from "../utils/IDUtil";
 import { createMetadata } from "../utils/MetadataUtil";
 import { Borough, schemaForBorough } from "../generated/models/Borough.generated";
 
@@ -219,7 +219,7 @@ async function addAdmin(email: string, password: string, boroughOrganizationIden
 }
 
 async function addBoroughOrganization(borough: Borough) {
-	const boroughOrganizationIdentifier = generateOrganizationID();
+	const boroughOrganizationIdentifier = getBoroughOfficeOrganizationID(borough);
 	const metadata = createMetadata();
 	const organizations = await mongoDBConnector.organizations();
 	const organization: Organization = {

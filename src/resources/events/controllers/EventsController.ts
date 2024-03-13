@@ -1,6 +1,6 @@
 import debug from "debug";
 import express from "express";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { Pagination } from "../../../common/parameters/Pagination";
 import { ErrorResponseBuilder, SuccessResponseBuilder } from "../../../common/responses/SuccessResponseBuilder";
 import { AddEventAttractionRequest } from "../../../generated/models/AddEventAttractionRequest.generated";
@@ -20,20 +20,44 @@ import { ResourcePermissionController } from "../../auth/controllers/ResourcePer
 import { Filter } from "../../../generated/models/Filter.generated";
 import { CreateEventRequest } from "../../../generated/models/CreateEventRequest.generated";
 import { AuthUser } from "../../../generated/models/AuthUser.generated";
-import { Params } from "../../../common/parameters/Params";
+import { EventParams } from "../../../common/parameters/Params";
 import { GetEventsResponse } from "../../../generated/models/GetEventsResponse.generated";
 import { Reference } from "../../../generated/models/Reference.generated";
 import { Event } from "../../../generated/models/Event.generated";
 import { getEditableByFilter } from "../../../utils/MetadataUtil";
+import { FilterFactory } from "../../../common/filter/FilterFactory";
 
 const log: debug.IDebugger = debug("app:events-controller");
 
 @Service()
 export class EventsController implements ResourcePermissionController {
-	constructor(public eventsService: EventsService) {}
+	constructor(
+		public eventsService: EventsService,
+		@Inject("FilterFactory") public filterFactory: FilterFactory,
+	) {}
 
-	async listEvents(res: express.Response, pagination: Pagination, params?: Params) {
-		const filter: Filter = this.getEventsFilter(params);
+	async listEvents(res: express.Response, pagination: Pagination, params?: EventParams) {
+		let filter: Filter = this.getEventsFilter(params);
+		let isFreeOfChargeFilter = undefined;
+		if (params?.isFreeOfCharge === true) {
+			isFreeOfChargeFilter = this.filterFactory.createExactMatchFilter(
+				"admission.ticketType",
+				"ticketType.freeOfCharge",
+			);
+		}
+		let inFutureFilter = undefined;
+		if (params?.inFuture === true) {
+			inFutureFilter = this.filterFactory.createFutureDateFilter("schedule.startDate");
+		}
+		const dateRangeFilter = this.filterFactory.createDateRangeFilter(
+			"schedule.startDate",
+			"schedule.endDate",
+			params?.startDate,
+			params?.endDate,
+		);
+
+		filter = this.filterFactory.combineWithAnd([filter, isFreeOfChargeFilter, inFutureFilter, dateRangeFilter]);
+
 		const totalCount = await this.eventsService.countEvents(filter);
 
 		const sendEventsResponse = (data: { events?: Event[]; eventsReferences?: Reference[] }) => {
@@ -333,14 +357,13 @@ export class EventsController implements ResourcePermissionController {
 			: {};
 	}
 
-	private getEventsFilter(params?: Params): Filter {
+	private getEventsFilter(params?: EventParams): Filter {
 		const filter: Filter = {
 			...this.getOrganizedByFilter(params?.organizedBy),
 			...getEditableByFilter(params?.editableBy),
 			...this.getByLocationFilter(params?.byLocation),
 			...this.getByAttractionFilter(params?.byAttraction),
 		};
-
 		return filter;
 	}
 }

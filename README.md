@@ -14,26 +14,22 @@ On the one hand, the internet offers many ways to find out about Berlin’s dive
 
 kulturdaten.berlin is a project of the Technologiestiftung Berlin (<https://www.technologiestiftung-berlin.de>), funded by the Senate Department for Culture and Social Cohesion.
 
-
 ## Links
 
 - [ReadMe API Docs](https://kulturdaten.readme.io)
 - [Swagger API Docs](https://api-v2.kulturdaten.berlin/api/docs/)
 - [OpenAPI YML file](https://github.com/technologiestiftung/kulturdaten-api/blob/main/src/schemas/kulturdaten.berlin.openapi.generated.yml)
 
-
 ## Prerequisites
 
 - Install a Node version according to the version specified in `.nvmrc` (e.g. with `nvm install` or `nvm use`)
 - Install [MongoDB Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/)
-
 
 ## Installation
 
 1. Install packages with `npm install`
 2. Generate OpenAPI schema files in `/src/generated` with `npm run generate`
 3. Create an `.env` in the root directory and fill it with values (see `.env.example` for inspiration)
-
 
 ## Development
 
@@ -44,7 +40,6 @@ npm run dev
 # Local development server in debug mode
 npm run debug
 ```
-
 
 ## More commands
 
@@ -65,7 +60,6 @@ npm run lint-openapi
 npm run typecheck
 ```
 
-
 ## Tests
 
 Run all tests with Vitest (incl. hot reload when run locally):
@@ -74,13 +68,11 @@ Run all tests with Vitest (incl. hot reload when run locally):
 npm test
 ```
 
-
 ## Production Build
 
 ```shell
 npm start
 ```
-
 
 ## Initializing an empty database
 
@@ -92,11 +84,9 @@ npm run seed -- --tags --boroughs password123 --admin admin@example.com:password
 
 Note: The script only populates empty collections to avoid duplicates and unintended overwrites, especially important for admin user creation.
 
-
 ## Contributing
 
 Before you create a pull request, write an issue so we can discuss your changes.
-
 
 ## Contributors
 
@@ -123,11 +113,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-
 ## Content Licensing
 
 Text and content available as [CC BY](https://creativecommons.org/licenses/by/3.0/de/).
-
 
 ## Credits
 
