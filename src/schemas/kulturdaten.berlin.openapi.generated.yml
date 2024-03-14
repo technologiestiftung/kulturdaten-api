@@ -421,9 +421,6 @@ paths:
 
             When set to false, returns events regardless of their scheduled
             date.
-
-            If not provided, the default behavior is to return only events in
-            the future.
           schema:
             type: boolean
             default: true
@@ -1812,6 +1809,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HarvestResponse"
+  /admin/data-enrichment/coordinates-to-locations:
+    post:
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              default: []
+              items:
+                type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoordinatesToLocationsResponse"
 components:
   securitySchemes:
     bearerAuth:
@@ -9890,4 +9908,21 @@ components:
             - unassigned
       required:
         - role
+      additionalProperties: false
+    CoordinatesToLocationsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            enrichedLocations:
+              type: array
+              items:
+                type: string
+      required:
+        - success
       additionalProperties: false

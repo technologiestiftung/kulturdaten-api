@@ -68,6 +68,10 @@ export class MongoDBFilterFactory implements FilterFactory {
 		return { [propertyName]: { $gte: currentDate } };
 	}
 
+	createNotExistsFilter(propertyName: string): Filter | undefined {
+		return { [propertyName]: { $exists: false } };
+	}
+
 	createDateRangeFilter(
 		startDateProperty: string,
 		endDateProperty: string,
